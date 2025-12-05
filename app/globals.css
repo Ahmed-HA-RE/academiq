@@ -118,3 +118,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+@font-face {
+  font-family: 'UAESymbol';
+  src: , url('/fonts/uae.symbol.ttf') format('truetype');
+}
+
+.dirham-symbol {
+  font-family: 'UAESymbol', sans-serif;
+  font-size: inherit;
+  color: inherit;
+}
