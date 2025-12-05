@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
 import './globals.css';
-import { APP_NAME, SERVER_URL } from 'app/lib/constants';
+import { APP_NAME, SERVER_URL } from '@/lib/constants';
+import { ThemeProvider } from './components/ui/theme-provider';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -31,8 +32,17 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang='en'>
-      <body className={outfit.className}>{children}</body>
+    <html lang='en' suppressHydrationWarning>
+      <body className={outfit.className}>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 };
