@@ -3,6 +3,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@layer utilities {
+  .btn-hover-affect {
+    @apply from-primary via-primary/60 to-primary bg-transparent bg-gradient-to-r [background-size:200%_auto] hover:bg-transparent hover:bg-[99%_center];
+  }
+
+  .link-affect {
+    @apply after:bg-primary relative !no-underline after:absolute after:bottom-2 after:h-px after:w-2/3 after:origin-bottom-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100;
+  }
+  .container {
+    @apply flex-grow max-w-7xl mx-auto p-6 lg:px-6 w-full;
+  }
+}
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

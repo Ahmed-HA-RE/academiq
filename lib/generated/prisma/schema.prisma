@@ -19,6 +19,7 @@ model Course {
   title       String
   description String
   price       Decimal  @db.Decimal(10, 2)
+  salePrice   Decimal? @db.Decimal(10, 2)
   isFeatured  Boolean  @default(false)
   image       String
   language    String

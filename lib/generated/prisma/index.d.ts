@@ -876,12 +876,14 @@ export namespace Prisma {
 
   export type CourseAvgAggregateOutputType = {
     price: Decimal | null
+    salePrice: Decimal | null
     rating: Decimal | null
     numReviews: number | null
   }
 
   export type CourseSumAggregateOutputType = {
     price: Decimal | null
+    salePrice: Decimal | null
     rating: Decimal | null
     numReviews: number | null
   }
@@ -892,6 +894,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     price: Decimal | null
+    salePrice: Decimal | null
     isFeatured: boolean | null
     image: string | null
     language: string | null
@@ -907,6 +910,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     price: Decimal | null
+    salePrice: Decimal | null
     isFeatured: boolean | null
     image: string | null
     language: string | null
@@ -922,6 +926,7 @@ export namespace Prisma {
     title: number
     description: number
     price: number
+    salePrice: number
     isFeatured: number
     image: number
     language: number
@@ -935,12 +940,14 @@ export namespace Prisma {
 
   export type CourseAvgAggregateInputType = {
     price?: true
+    salePrice?: true
     rating?: true
     numReviews?: true
   }
 
   export type CourseSumAggregateInputType = {
     price?: true
+    salePrice?: true
     rating?: true
     numReviews?: true
   }
@@ -951,6 +958,7 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
+    salePrice?: true
     isFeatured?: true
     image?: true
     language?: true
@@ -966,6 +974,7 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
+    salePrice?: true
     isFeatured?: true
     image?: true
     language?: true
@@ -981,6 +990,7 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
+    salePrice?: true
     isFeatured?: true
     image?: true
     language?: true
@@ -1083,6 +1093,7 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal
+    salePrice: Decimal | null
     isFeatured: boolean
     image: string
     language: string
@@ -1117,6 +1128,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    salePrice?: boolean
     isFeatured?: boolean
     image?: boolean
     language?: boolean
@@ -1132,6 +1144,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    salePrice?: boolean
     isFeatured?: boolean
     image?: boolean
     language?: boolean
@@ -1147,6 +1160,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    salePrice?: boolean
     isFeatured?: boolean
     image?: boolean
     language?: boolean
@@ -1162,6 +1176,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    salePrice?: boolean
     isFeatured?: boolean
     image?: boolean
     language?: boolean
@@ -1171,7 +1186,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "isFeatured" | "image" | "language" | "rating" | "numReviews" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "salePrice" | "isFeatured" | "image" | "language" | "rating" | "numReviews" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
 
   export type $CoursePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Course"
@@ -1182,6 +1197,7 @@ export namespace Prisma {
       title: string
       description: string
       price: Prisma.Decimal
+      salePrice: Prisma.Decimal | null
       isFeatured: boolean
       image: string
       language: string
@@ -1617,6 +1633,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Course", 'String'>
     readonly description: FieldRef<"Course", 'String'>
     readonly price: FieldRef<"Course", 'Decimal'>
+    readonly salePrice: FieldRef<"Course", 'Decimal'>
     readonly isFeatured: FieldRef<"Course", 'Boolean'>
     readonly image: FieldRef<"Course", 'String'>
     readonly language: FieldRef<"Course", 'String'>
@@ -2010,6 +2027,7 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     price: 'price',
+    salePrice: 'salePrice',
     isFeatured: 'isFeatured',
     image: 'image',
     language: 'language',
@@ -2036,6 +2054,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -2132,6 +2158,7 @@ export namespace Prisma {
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
+    salePrice?: DecimalNullableFilter<"Course"> | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFilter<"Course"> | boolean
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
@@ -2147,6 +2174,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    salePrice?: SortOrderInput | SortOrder
     isFeatured?: SortOrder
     image?: SortOrder
     language?: SortOrder
@@ -2165,6 +2193,7 @@ export namespace Prisma {
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
+    salePrice?: DecimalNullableFilter<"Course"> | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFilter<"Course"> | boolean
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
@@ -2180,6 +2209,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    salePrice?: SortOrderInput | SortOrder
     isFeatured?: SortOrder
     image?: SortOrder
     language?: SortOrder
@@ -2203,6 +2233,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Course"> | string
     description?: StringWithAggregatesFilter<"Course"> | string
     price?: DecimalWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string
+    salePrice?: DecimalNullableWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolWithAggregatesFilter<"Course"> | boolean
     image?: StringWithAggregatesFilter<"Course"> | string
     language?: StringWithAggregatesFilter<"Course"> | string
@@ -2218,6 +2249,7 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
+    salePrice?: Decimal | DecimalJsLike | number | string | null
     isFeatured?: boolean
     image: string
     language: string
@@ -2233,6 +2265,7 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
+    salePrice?: Decimal | DecimalJsLike | number | string | null
     isFeatured?: boolean
     image: string
     language: string
@@ -2248,6 +2281,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
@@ -2263,6 +2297,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
@@ -2278,6 +2313,7 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
+    salePrice?: Decimal | DecimalJsLike | number | string | null
     isFeatured?: boolean
     image: string
     language: string
@@ -2293,6 +2329,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
@@ -2308,6 +2345,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
@@ -2343,6 +2381,17 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -2370,12 +2419,18 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type CourseCountOrderByAggregateInput = {
     id?: SortOrder
     slug?: SortOrder
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    salePrice?: SortOrder
     isFeatured?: SortOrder
     image?: SortOrder
     language?: SortOrder
@@ -2387,6 +2442,7 @@ export namespace Prisma {
 
   export type CourseAvgOrderByAggregateInput = {
     price?: SortOrder
+    salePrice?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
   }
@@ -2397,6 +2453,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    salePrice?: SortOrder
     isFeatured?: SortOrder
     image?: SortOrder
     language?: SortOrder
@@ -2412,6 +2469,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    salePrice?: SortOrder
     isFeatured?: SortOrder
     image?: SortOrder
     language?: SortOrder
@@ -2423,6 +2481,7 @@ export namespace Prisma {
 
   export type CourseSumOrderByAggregateInput = {
     price?: SortOrder
+    salePrice?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
   }
@@ -2459,6 +2518,22 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter<$PrismaModel>
     _min?: NestedDecimalFilter<$PrismaModel>
     _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -2511,6 +2586,14 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
@@ -2550,6 +2633,17 @@ export namespace Prisma {
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -2610,6 +2704,33 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter<$PrismaModel>
     _min?: NestedDecimalFilter<$PrismaModel>
     _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
