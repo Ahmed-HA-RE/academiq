@@ -2,12 +2,21 @@ import Header from '../components/header/Header';
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='flex flex-col min-h-screen'>
-      <div className='relative h-full w-full bg-black'>
-        <div className='absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]'></div>
-        <div className='absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)] hidden dark:block'></div>
-      </div>
-
+    <div className='min-h-screen flex flex-col  w-full relative'>
+      {/* Midnight Radial Glow Background */}
+      <div
+        className='absolute inset-0 z-0 hidden dark:block'
+        style={{
+          background: `
+        radial-gradient(circle at 50% 50%, 
+          rgba(226, 232, 240, 0.2) 0%, 
+          rgba(226, 232, 240, 0.1) 25%, 
+          rgba(226, 232, 240, 0.05) 35%, 
+          transparent 50%
+        )
+      `,
+        }}
+      />
       <Header />
       <main className='container'>{children}</main>
     </div>

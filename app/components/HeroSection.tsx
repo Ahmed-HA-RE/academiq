@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const HeroSection = () => {
   return (
-    <section className='overflow-hidden'>
+    <section className='overflow-hidden pb-10 '>
       <div className='relative grid gap-12 lg:grid-cols-5'>
         <div className='flex flex-col gap-6 lg:col-span-3'>
           <MotionPreset
@@ -77,7 +77,7 @@ const HeroSection = () => {
                   width={0}
                   height={0}
                   sizes='100vw'
-                  className='w-23 opacity-50 object-cover dark:hidden'
+                  className='w-20 opacity-50 object-cover dark:hidden'
                 />
                 <Image
                   src='https://res.cloudinary.com/ahmed--dev/image/upload/v1765042923/book-white_kh0nzr.svg'
@@ -85,7 +85,7 @@ const HeroSection = () => {
                   width={0}
                   height={0}
                   sizes='100vw'
-                  className='w-23 opacity-50 object-cover dark:block hidden'
+                  className='w-20 opacity-50 object-cover dark:block hidden'
                 />
               </div>
             </MotionPreset>
@@ -116,7 +116,7 @@ const HeroSection = () => {
                   width={0}
                   height={0}
                   sizes='100vw'
-                  className='w-25 opacity-50 object-cover dark:hidden'
+                  className='w-20 opacity-50 object-cover dark:hidden'
                 />
                 <Image
                   src='https://res.cloudinary.com/ahmed--dev/image/upload/v1765042923/teacher-white_asuicc.svg'
@@ -124,7 +124,7 @@ const HeroSection = () => {
                   width={0}
                   height={0}
                   sizes='100vw'
-                  className='w-25 opacity-50 object-cover dark:block hidden'
+                  className='w-20 opacity-50 object-cover dark:block hidden'
                 />
               </div>
             </MotionPreset>
@@ -147,7 +147,7 @@ const HeroSection = () => {
                   width={0}
                   height={0}
                   sizes='100vw'
-                  className='w-25 opacity-50 object-cover dark:hidden'
+                  className='w-20 opacity-50 object-cover dark:hidden'
                 />
                 <Image
                   src='https://res.cloudinary.com/ahmed--dev/image/upload/v1765044087/computer-svgrepo-com_nzu8bg.svg'
@@ -155,7 +155,7 @@ const HeroSection = () => {
                   width={0}
                   height={0}
                   sizes='100vw'
-                  className='w-25 opacity-50  object-cover dark:block hidden'
+                  className='w-20 opacity-50  object-cover dark:block hidden'
                 />
               </div>
             </MotionPreset>
