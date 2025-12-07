@@ -1,4 +1,4 @@
-import ProfileDropdown from '@/app/components/header/ProdileDropdown';
+import ProfileDropdown from '@/app/components/header/ProfileDropdown';
 import MenuSheet from './MenuSheet';
 import { APP_NAME } from '@/lib/constants';
 import Link from 'next/link';
@@ -10,14 +10,14 @@ import { Button } from '../ui/button';
 
 const Header = () => {
   const baseNavigationMenu = [
-    { href: '/', title: 'Courses' },
+    { href: '/courses', title: 'Courses' },
     { href: '/prices', title: 'Prices' },
     { href: '/about', title: 'About ' },
     { href: '/contact', title: 'Contact ' },
   ];
 
   return (
-    <header className='bg-background sticky top-0 z-50'>
+    <header className='bg-transparent z-10'>
       <div className='mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-7 lg:px-6'>
         <div className='flex items-center lg:gap-10'>
           <MenuSheet navigationData={baseNavigationMenu} logoName={APP_NAME} />

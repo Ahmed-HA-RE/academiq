@@ -19,8 +19,8 @@ const DesktopNavMenu = ({ navigationData }: DesktopNavMenuProps) => {
   const pathname = usePathname();
 
   return (
-    <NavigationMenu viewport={false} className='hidden md:block'>
-      <NavigationMenuList className='gap-4'>
+    <NavigationMenu viewport={false} className='hidden lg:block'>
+      <NavigationMenuList className=''>
         {navigationData.map((menu) => (
           <NavigationMenuItem key={menu.title} className=''>
             <NavigationMenuLink
