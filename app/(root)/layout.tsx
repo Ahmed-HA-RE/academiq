@@ -3,7 +3,7 @@ import Header from '../components/header/Header';
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='min-h-screen flex flex-col w-full relative z-40'>
+    <div className='min-h-screen flex flex-col w-full relative'>
       {/* Midnight Radial Glow Background */}
       <div
         className='absolute inset-0 z-0 hidden dark:block'

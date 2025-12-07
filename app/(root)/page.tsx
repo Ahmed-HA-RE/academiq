@@ -1,4 +1,5 @@
 import FeaturedCourses from '../components/FeaturedCourses';
+import Features from '../components/Features';
 import HeroSection from '../components/HeroSection';
 
 const HomePage = () => {
@@ -6,6 +7,7 @@ const HomePage = () => {
     <>
       <HeroSection />
       <FeaturedCourses />
+      <Features />
     </>
   );
 };
