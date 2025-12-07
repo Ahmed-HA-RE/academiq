@@ -53,8 +53,8 @@ const rightSection = [
 
 const Features = () => {
   return (
-    <section className='py-10'>
-      <div className='flex flex-col gap-16'>
+    <section className='pb-10'>
+      <div className='flex flex-col gap-16 container'>
         {/* Top content */}
         <div className='space-y-4 text-center'>
           <MotionPreset

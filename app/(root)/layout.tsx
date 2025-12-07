@@ -19,7 +19,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         }}
       />
       <Header />
-      <main className='container z-10'>{children}</main>
+      <main className='w-full flex-grow z-10'>{children}</main>
       <Footer />
     </div>
   );

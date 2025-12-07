@@ -26,6 +26,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
+    "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.556.0",
     "motion": "^12.23.25",
@@ -36,7 +37,7 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-icons": "^5.5.0",
-    "react-loader-spinner": "^8.0.0",
+    "react-spinners": "^0.17.0",
     "react-use": "^17.6.0",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.1.13"
