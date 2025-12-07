@@ -896,6 +896,7 @@ export namespace Prisma {
     price: Decimal | null
     salePrice: Decimal | null
     isFeatured: boolean | null
+    isSaved: boolean | null
     image: string | null
     language: string | null
     rating: Decimal | null
@@ -912,6 +913,7 @@ export namespace Prisma {
     price: Decimal | null
     salePrice: Decimal | null
     isFeatured: boolean | null
+    isSaved: boolean | null
     image: string | null
     language: string | null
     rating: Decimal | null
@@ -928,6 +930,7 @@ export namespace Prisma {
     price: number
     salePrice: number
     isFeatured: number
+    isSaved: number
     image: number
     language: number
     rating: number
@@ -960,6 +963,7 @@ export namespace Prisma {
     price?: true
     salePrice?: true
     isFeatured?: true
+    isSaved?: true
     image?: true
     language?: true
     rating?: true
@@ -976,6 +980,7 @@ export namespace Prisma {
     price?: true
     salePrice?: true
     isFeatured?: true
+    isSaved?: true
     image?: true
     language?: true
     rating?: true
@@ -992,6 +997,7 @@ export namespace Prisma {
     price?: true
     salePrice?: true
     isFeatured?: true
+    isSaved?: true
     image?: true
     language?: true
     rating?: true
@@ -1095,6 +1101,7 @@ export namespace Prisma {
     price: Decimal
     salePrice: Decimal | null
     isFeatured: boolean
+    isSaved: boolean
     image: string
     language: string
     rating: Decimal
@@ -1130,6 +1137,7 @@ export namespace Prisma {
     price?: boolean
     salePrice?: boolean
     isFeatured?: boolean
+    isSaved?: boolean
     image?: boolean
     language?: boolean
     rating?: boolean
@@ -1146,6 +1154,7 @@ export namespace Prisma {
     price?: boolean
     salePrice?: boolean
     isFeatured?: boolean
+    isSaved?: boolean
     image?: boolean
     language?: boolean
     rating?: boolean
@@ -1162,6 +1171,7 @@ export namespace Prisma {
     price?: boolean
     salePrice?: boolean
     isFeatured?: boolean
+    isSaved?: boolean
     image?: boolean
     language?: boolean
     rating?: boolean
@@ -1178,6 +1188,7 @@ export namespace Prisma {
     price?: boolean
     salePrice?: boolean
     isFeatured?: boolean
+    isSaved?: boolean
     image?: boolean
     language?: boolean
     rating?: boolean
@@ -1186,7 +1197,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "salePrice" | "isFeatured" | "image" | "language" | "rating" | "numReviews" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "salePrice" | "isFeatured" | "isSaved" | "image" | "language" | "rating" | "numReviews" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
 
   export type $CoursePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Course"
@@ -1199,6 +1210,7 @@ export namespace Prisma {
       price: Prisma.Decimal
       salePrice: Prisma.Decimal | null
       isFeatured: boolean
+      isSaved: boolean
       image: string
       language: string
       rating: Prisma.Decimal
@@ -1635,6 +1647,7 @@ export namespace Prisma {
     readonly price: FieldRef<"Course", 'Decimal'>
     readonly salePrice: FieldRef<"Course", 'Decimal'>
     readonly isFeatured: FieldRef<"Course", 'Boolean'>
+    readonly isSaved: FieldRef<"Course", 'Boolean'>
     readonly image: FieldRef<"Course", 'String'>
     readonly language: FieldRef<"Course", 'String'>
     readonly rating: FieldRef<"Course", 'Decimal'>
@@ -2029,6 +2042,7 @@ export namespace Prisma {
     price: 'price',
     salePrice: 'salePrice',
     isFeatured: 'isFeatured',
+    isSaved: 'isSaved',
     image: 'image',
     language: 'language',
     rating: 'rating',
@@ -2160,6 +2174,7 @@ export namespace Prisma {
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     salePrice?: DecimalNullableFilter<"Course"> | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFilter<"Course"> | boolean
+    isSaved?: BoolFilter<"Course"> | boolean
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
     rating?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
@@ -2176,6 +2191,7 @@ export namespace Prisma {
     price?: SortOrder
     salePrice?: SortOrderInput | SortOrder
     isFeatured?: SortOrder
+    isSaved?: SortOrder
     image?: SortOrder
     language?: SortOrder
     rating?: SortOrder
@@ -2195,6 +2211,7 @@ export namespace Prisma {
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     salePrice?: DecimalNullableFilter<"Course"> | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFilter<"Course"> | boolean
+    isSaved?: BoolFilter<"Course"> | boolean
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
     rating?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
@@ -2211,6 +2228,7 @@ export namespace Prisma {
     price?: SortOrder
     salePrice?: SortOrderInput | SortOrder
     isFeatured?: SortOrder
+    isSaved?: SortOrder
     image?: SortOrder
     language?: SortOrder
     rating?: SortOrder
@@ -2235,6 +2253,7 @@ export namespace Prisma {
     price?: DecimalWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string
     salePrice?: DecimalNullableWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolWithAggregatesFilter<"Course"> | boolean
+    isSaved?: BoolWithAggregatesFilter<"Course"> | boolean
     image?: StringWithAggregatesFilter<"Course"> | string
     language?: StringWithAggregatesFilter<"Course"> | string
     rating?: DecimalWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string
@@ -2251,6 +2270,7 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     salePrice?: Decimal | DecimalJsLike | number | string | null
     isFeatured?: boolean
+    isSaved?: boolean
     image: string
     language: string
     rating?: Decimal | DecimalJsLike | number | string
@@ -2267,6 +2287,7 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     salePrice?: Decimal | DecimalJsLike | number | string | null
     isFeatured?: boolean
+    isSaved?: boolean
     image: string
     language: string
     rating?: Decimal | DecimalJsLike | number | string
@@ -2283,6 +2304,7 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isSaved?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -2299,6 +2321,7 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isSaved?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -2315,6 +2338,7 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     salePrice?: Decimal | DecimalJsLike | number | string | null
     isFeatured?: boolean
+    isSaved?: boolean
     image: string
     language: string
     rating?: Decimal | DecimalJsLike | number | string
@@ -2331,6 +2355,7 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isSaved?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -2347,6 +2372,7 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isSaved?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -2432,6 +2458,7 @@ export namespace Prisma {
     price?: SortOrder
     salePrice?: SortOrder
     isFeatured?: SortOrder
+    isSaved?: SortOrder
     image?: SortOrder
     language?: SortOrder
     rating?: SortOrder
@@ -2455,6 +2482,7 @@ export namespace Prisma {
     price?: SortOrder
     salePrice?: SortOrder
     isFeatured?: SortOrder
+    isSaved?: SortOrder
     image?: SortOrder
     language?: SortOrder
     rating?: SortOrder
@@ -2471,6 +2499,7 @@ export namespace Prisma {
     price?: SortOrder
     salePrice?: SortOrder
     isFeatured?: SortOrder
+    isSaved?: SortOrder
     image?: SortOrder
     language?: SortOrder
     rating?: SortOrder

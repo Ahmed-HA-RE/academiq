@@ -21,6 +21,7 @@ model Course {
   price       Decimal  @db.Decimal(10, 2)
   salePrice   Decimal? @db.Decimal(10, 2)
   isFeatured  Boolean  @default(false)
+  isSaved     Boolean  @default(false)
   image       String
   language    String
   rating      Decimal  @default(0) @db.Decimal(2, 1)

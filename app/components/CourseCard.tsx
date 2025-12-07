@@ -21,12 +21,12 @@ const CourseCard = ({ course }: { course: Course }) => {
               width={0}
               height={0}
               sizes='100vw'
-              className='w-full max-h-[200px] object-cover'
+              className='w-full max-h-[250px] object-cover'
             />
           </Link>
           <CheckboxPrimitive.Root
             data-slot='checkbox'
-            className='group focus-visible:ring-ring/50 p-2 outline-none focus-visible:ring-3 absolute top-3 right-2.5 rounded-full border border-white/50 text-white cursor-pointer'
+            className='group focus-visible:ring-ring/50 p-2 outline-none focus-visible:ring-3 absolute top-3 right-2.5 rounded-full border border-white/70 text-white cursor-pointer'
             aria-label='Heart icon'
           >
             <span className='group-data-[state=checked]:hidden'>

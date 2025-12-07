@@ -7,4 +7,24 @@ dotenv.config();
 const connectionString = `${process.env.DATABASE_URL}`;
 
 const adapter = new PrismaNeon({ connectionString });
-export const prisma = new PrismaClient({ adapter });
+export const prisma = new PrismaClient({ adapter }).$extends({
+  result: {
+    course: {
+      price: {
+        compute(data) {
+          return data.price.toString();
+        },
+      },
+      rating: {
+        compute(data) {
+          return data.rating.toString();
+        },
+      },
+      salePrice: {
+        compute(data) {
+          return data.salePrice?.toString();
+        },
+      },
+    },
+  },
+});
