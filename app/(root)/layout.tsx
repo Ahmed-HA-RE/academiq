@@ -1,8 +1,9 @@
+import Footer from '../components/Footer';
 import Header from '../components/header/Header';
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='min-h-screen flex flex-col  w-full relative'>
+    <div className='min-h-screen flex flex-col w-full relative z-40'>
       {/* Midnight Radial Glow Background */}
       <div
         className='absolute inset-0 z-0 hidden dark:block'
@@ -18,7 +19,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         }}
       />
       <Header />
-      <main className='container'>{children}</main>
+      <main className='container z-10'>{children}</main>
+      <Footer />
     </div>
   );
 };
