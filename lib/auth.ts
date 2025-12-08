@@ -16,13 +16,6 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 6,
-    requireEmailVerification: true,
-  },
-
-  emailVerification: {
-    autoSignInAfterVerification: true,
-    sendOnSignUp: true,
-    expiresIn: 900, // 15 minutes
   },
 
   plugins: [
@@ -40,6 +33,8 @@ export const auth = betterAuth({
           });
         }
       },
+      expiresIn: 900, // 15 minutes
+      sendVerificationOnSignUp: true,
     }),
   ],
   session: {
@@ -51,6 +46,11 @@ export const auth = betterAuth({
       role: {
         type: 'string',
         defaultValue: 'user',
+        input: false,
+      },
+      status: {
+        type: 'string',
+        defaultValue: 'online',
         input: false,
       },
     },

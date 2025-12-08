@@ -2441,6 +2441,7 @@ export namespace Prisma {
     image: string | null
     role: string | null
     paymentMethod: string | null
+    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2453,6 +2454,7 @@ export namespace Prisma {
     image: string | null
     role: string | null
     paymentMethod: string | null
+    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2467,6 +2469,7 @@ export namespace Prisma {
     shippingAddress: number
     paymentMethod: number
     paymentDetails: number
+    status: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2481,6 +2484,7 @@ export namespace Prisma {
     image?: true
     role?: true
     paymentMethod?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2493,6 +2497,7 @@ export namespace Prisma {
     image?: true
     role?: true
     paymentMethod?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2507,6 +2512,7 @@ export namespace Prisma {
     shippingAddress?: true
     paymentMethod?: true
     paymentDetails?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2594,6 +2600,7 @@ export namespace Prisma {
     shippingAddress: JsonValue | null
     paymentMethod: string | null
     paymentDetails: JsonValue | null
+    status: string
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -2625,6 +2632,7 @@ export namespace Prisma {
     shippingAddress?: boolean
     paymentMethod?: boolean
     paymentDetails?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -2642,6 +2650,7 @@ export namespace Prisma {
     shippingAddress?: boolean
     paymentMethod?: boolean
     paymentDetails?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2656,6 +2665,7 @@ export namespace Prisma {
     shippingAddress?: boolean
     paymentMethod?: boolean
     paymentDetails?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2670,11 +2680,12 @@ export namespace Prisma {
     shippingAddress?: boolean
     paymentMethod?: boolean
     paymentDetails?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "shippingAddress" | "paymentMethod" | "paymentDetails" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "shippingAddress" | "paymentMethod" | "paymentDetails" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -2699,6 +2710,7 @@ export namespace Prisma {
       shippingAddress: Prisma.JsonValue | null
       paymentMethod: string | null
       paymentDetails: Prisma.JsonValue | null
+      status: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -3135,6 +3147,7 @@ export namespace Prisma {
     readonly shippingAddress: FieldRef<"User", 'Json'>
     readonly paymentMethod: FieldRef<"User", 'String'>
     readonly paymentDetails: FieldRef<"User", 'Json'>
+    readonly status: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -6902,6 +6915,7 @@ export namespace Prisma {
     shippingAddress: 'shippingAddress',
     paymentMethod: 'paymentMethod',
     paymentDetails: 'paymentDetails',
+    status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -7206,6 +7220,7 @@ export namespace Prisma {
     shippingAddress?: JsonNullableFilter<"User">
     paymentMethod?: StringNullableFilter<"User"> | string | null
     paymentDetails?: JsonNullableFilter<"User">
+    status?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
@@ -7222,6 +7237,7 @@ export namespace Prisma {
     shippingAddress?: SortOrderInput | SortOrder
     paymentMethod?: SortOrderInput | SortOrder
     paymentDetails?: SortOrderInput | SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sessions?: SessionOrderByRelationAggregateInput
@@ -7241,6 +7257,7 @@ export namespace Prisma {
     shippingAddress?: JsonNullableFilter<"User">
     paymentMethod?: StringNullableFilter<"User"> | string | null
     paymentDetails?: JsonNullableFilter<"User">
+    status?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
@@ -7257,6 +7274,7 @@ export namespace Prisma {
     shippingAddress?: SortOrderInput | SortOrder
     paymentMethod?: SortOrderInput | SortOrder
     paymentDetails?: SortOrderInput | SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -7277,6 +7295,7 @@ export namespace Prisma {
     shippingAddress?: JsonNullableWithAggregatesFilter<"User">
     paymentMethod?: StringNullableWithAggregatesFilter<"User"> | string | null
     paymentDetails?: JsonNullableWithAggregatesFilter<"User">
+    status?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -7632,6 +7651,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -7648,6 +7668,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -7664,6 +7685,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -7680,6 +7702,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -7696,6 +7719,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7710,6 +7734,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7724,6 +7749,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8268,6 +8294,7 @@ export namespace Prisma {
     shippingAddress?: SortOrder
     paymentMethod?: SortOrder
     paymentDetails?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8280,6 +8307,7 @@ export namespace Prisma {
     image?: SortOrder
     role?: SortOrder
     paymentMethod?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8292,6 +8320,7 @@ export namespace Prisma {
     image?: SortOrder
     role?: SortOrder
     paymentMethod?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9030,6 +9059,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -9045,6 +9075,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -9076,6 +9107,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -9091,6 +9123,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -9106,6 +9139,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -9121,6 +9155,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -9152,6 +9187,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -9167,6 +9203,7 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
     paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput

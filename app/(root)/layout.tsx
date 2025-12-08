@@ -1,7 +1,14 @@
+import { headers } from 'next/headers';
 import Footer from '../components/Footer';
 import Header from '../components/header/Header';
+import VerificationBanner from '../components/VerificationBanner';
+import { auth } from '@/lib/auth';
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   return (
     <div className='min-h-screen flex flex-col w-full relative'>
       {/* Midnight Radial Glow Background */}
@@ -18,6 +25,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       `,
         }}
       />
+      {!session?.user.emailVerified && <VerificationBanner />}
       <Header />
       <main className='w-full flex-grow z-10'>{children}</main>
       <Footer />

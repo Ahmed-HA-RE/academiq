@@ -7,14 +7,20 @@ import DesktopNavMenu from './DesktopNavMenu';
 import Theme from '../Theme';
 import { ShoppingCart } from 'lucide-react';
 import { Button } from '../ui/button';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
-const Header = () => {
+const Header = async () => {
   const baseNavigationMenu = [
     { href: '/courses', title: 'Courses' },
     { href: '/prices', title: 'Prices' },
     { href: '/about', title: 'About ' },
     { href: '/contact', title: 'Contact ' },
   ];
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   return (
     <header className='bg-transparent z-10'>
@@ -38,7 +44,7 @@ const Header = () => {
             <Theme />
           </div>
           {/* User menu */}
-          <ProfileDropdown />
+          <ProfileDropdown session={session} />
         </div>
       </div>
     </header>

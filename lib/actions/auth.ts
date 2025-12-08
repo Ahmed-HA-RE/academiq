@@ -19,7 +19,7 @@ export const registerUser = async (data: RegisterFormData) => {
         name,
         email,
         password,
-        callbackURL: `${SERVER_URL}/verify-email`,
+        callbackURL: `${SERVER_URL}/verified`,
       },
       headers: await headers(),
     });

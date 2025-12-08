@@ -40,6 +40,7 @@ model User {
   shippingAddress Json?     @db.Json
   paymentMethod   String?
   paymentDetails  Json?     @db.Json
+  status          String    @default("online")
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   sessions        Session[]

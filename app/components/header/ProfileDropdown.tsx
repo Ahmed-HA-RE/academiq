@@ -10,11 +10,7 @@ import {
 
 import { cn } from '@/lib/utils';
 
-import {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-} from '@/app/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,23 +21,18 @@ import {
   DropdownMenuTrigger,
 } from '@/app/components/ui/dropdown-menu';
 import { Button } from '../ui/button';
-import { useState } from 'react';
 import Link from 'next/link';
+import { auth } from '@/lib/auth';
+import { Suspense } from 'react';
+import Image from 'next/image';
 
-type User = {
-  role: 'admin' | 'user';
-  status: 'online' | 'offline';
-};
-
-const ProfileDropdown = () => {
-  const fakeUser: User = {
-    role: 'admin',
-    status: 'offline',
-  };
-  const [user, setUser] = useState<User | null>(null);
-
+const ProfileDropdown = ({
+  session,
+}: {
+  session: typeof auth.$Infer.Session | null;
+}) => {
   const adminLinks =
-    user?.role === 'admin'
+    session && session.user.role === 'admin'
       ? [{ icon: ShieldUser, title: 'Admin Dashboard', href: '/admin' }]
       : [];
 
@@ -53,7 +44,7 @@ const ProfileDropdown = () => {
 
   const links = [...userLinks, ...adminLinks];
 
-  return !user ? (
+  return !session ? (
     <Button className='btn-hover-affect' asChild>
       <Link href='/login'>Login</Link>
     </Button>
@@ -65,41 +56,62 @@ const ProfileDropdown = () => {
           className='h-full gap-3 p-0 hover:bg-transparent dark:hover:bg-transparent focus-visible:ring-0 sm:pr-1 cursor-pointer'
         >
           <Avatar className='size-9 rounded-full'>
-            <AvatarImage src='' />
-            <AvatarFallback>AH</AvatarFallback>
+            <Suspense
+              fallback={
+                <AvatarFallback>
+                  {session.user.name.slice(0, 2).toUpperCase()}
+                </AvatarFallback>
+              }
+            ></Suspense>
+            <Image
+              src={session.user.image!}
+              alt='Logo'
+              width={50}
+              height={50}
+            />
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-75' align={'end'}>
         <DropdownMenuLabel className='flex items-center gap-4 px-4 py-2.5 font-normal'>
           <div className='relative'>
-            <Avatar className='size-10'>
-              <AvatarImage
-                src='https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png'
-                alt='John Doe'
+            <Avatar className='size-12 rounded-full'>
+              <Suspense
+                fallback={
+                  <AvatarFallback>
+                    {session.user.name.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                }
+              ></Suspense>
+              <Image
+                src={session.user.image!}
+                alt='Logo'
+                width={90}
+                height={90}
               />
-              <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <span
               className={cn(
                 'ring-card',
                 'absolute',
-                'right-0',
+                'right-1',
                 'bottom-0',
                 'block',
                 'size-2',
                 'rounded-full',
-                user.status === 'online' ? 'bg-green-600' : 'bg-red-600',
+                session.user.status === 'online'
+                  ? 'bg-green-600'
+                  : 'bg-red-600',
                 'ring-2'
               )}
             />
           </div>
           <div className='flex flex-1 flex-col items-start'>
             <span className='text-foreground text-lg font-semibold'>
-              John Doe
+              {session.user.name.slice(0, 20)}
             </span>
             <span className='text-muted-foreground text-base'>
-              john.doe@example.com
+              {session.user.email}
             </span>
           </div>
         </DropdownMenuLabel>
