@@ -28,3 +28,32 @@ export const baseCourseSchema = z.object({
     .string({ error: 'Invalid language' })
     .min(1, 'Language is required'),
 });
+
+// Auth schemas
+export const registerSchema = z
+  .object({
+    name: z
+      .string({ error: 'Invalid name' })
+      .min(3, 'Name is required')
+      .max(50, 'Name is too long'),
+    email: z.email({ error: 'Invalid email address' }),
+    rememberMe: z.boolean(),
+    password: z
+      .string({ error: 'Invalid password' })
+      .min(6, 'Password must be at least 6 characters long')
+      .max(100, 'Password is too long'),
+    confirmPassword: z
+      .string({ error: 'Invalid confirm password' })
+      .min(6, 'Confirm Password must be at least 6 characters long')
+      .max(100, 'Confirm Password is too long'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ['confirmPassword'],
+    error: "Passwords don't match",
+  });
+
+export const loginSchema = registerSchema.pick({
+  email: true,
+  password: true,
+  rememberMe: true,
+});
