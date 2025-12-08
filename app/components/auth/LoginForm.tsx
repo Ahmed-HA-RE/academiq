@@ -10,12 +10,16 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Spinner } from '../ui/spinner';
 import { toast } from 'sonner';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { LoginFormData } from '@/types';
 import { loginSchema } from '@/schema';
 import Link from 'next/link';
+import { loginUser } from '@/lib/actions/auth';
 
 const LoginForm = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const callbackUrl = useSearchParams().get('callbackUrl') || '/';
+  const router = useRouter();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -28,7 +32,14 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    console.log(data);
+    const res = await loginUser(data);
+
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+    toast.success(res.message);
+    router.push(callbackUrl);
   };
 
   return (
@@ -125,9 +136,28 @@ const LoginForm = () => {
           </Link>
         </div>
 
-        <Button className='w-full' type='submit'>
-          Sign in
+        <Button
+          disabled={form.formState.isSubmitting}
+          className='w-full cursor-pointer'
+          type='submit'
+        >
+          {form.formState.isSubmitting ? (
+            <Spinner className='size-6' />
+          ) : (
+            'Sign in'
+          )}
         </Button>
+        <p className='text-muted-foreground text-center'>
+          Don&apos;t have an account?{' '}
+          <Link
+            href={
+              callbackUrl ? `/register?callbackUrl=${callbackUrl}` : '/register'
+            }
+            className='text-card-foreground hover:underline'
+          >
+            Register
+          </Link>
+        </p>
       </FieldGroup>
     </form>
   );

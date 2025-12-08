@@ -7,11 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from '../components/ui/card';
-import Image from 'next/image';
 import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';
 import { ArrowLeftIcon } from 'lucide-react';
 import { APP_NAME } from '@/lib/constants';
+import { FaMicrosoft } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
+import Image from 'next/image';
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -39,23 +41,13 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
         <CardContent>
           <div className='mb-6 flex items-center gap-2.5'>
-            <Button variant='outline' className='grow' asChild>
-              <Image
-                src={'/images/google.png'}
-                alt='Google'
-                width={35}
-                height={35}
-                className='object-contain'
-              />
+            <Button variant='outline' className='grow cursor-pointer'>
+              <FaMicrosoft aria-hidden='true' size={16} />
+              Login with Microsoft
             </Button>
-            <Button variant='outline' className='grow' asChild>
-              <Image
-                src={'/images/microsoft.png'}
-                alt='Microsoft'
-                width={35}
-                height={35}
-                className='object-contain'
-              />
+            <Button variant='outline' className='grow cursor-pointer'>
+              <FcGoogle aria-hidden='true' size={16} />
+              Login with Google
             </Button>
           </div>
 
@@ -66,16 +58,6 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
 
           {children}
-
-          <p className='text-muted-foreground mt-4 text-center'>
-            New on our platform?{' '}
-            <Link
-              href='/register'
-              className='text-card-foreground hover:underline'
-            >
-              Create an account
-            </Link>
-          </p>
         </CardContent>
       </Card>
       <Button variant='ghost' className='group absolute top-4 left-4' asChild>

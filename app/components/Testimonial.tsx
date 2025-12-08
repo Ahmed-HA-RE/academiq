@@ -16,6 +16,7 @@ import { Rating } from './ui/rating';
 import { testimonials } from '@/lib/constants';
 import Image from 'next/image';
 import { Suspense } from 'react';
+import { MotionPreset } from './ui/motion-preset';
 
 const Testimonial = () => {
   const [api, setApi] = useState<CarouselApi>();
@@ -36,7 +37,14 @@ const Testimonial = () => {
 
   return (
     <section className='bg-gray-50 dark:bg-accent py-4'>
-      <div className='container space-y-10'>
+      <MotionPreset
+        component='div'
+        className='container space-y-10'
+        fade
+        slide={{ direction: 'up', offset: 50 }}
+        blur
+        transition={{ duration: 0.8 }}
+      >
         {/* Header Content */}
         <div className='space-y-4 text-center'>
           <h2 className='text-2xl font-semibold md:text-3xl lg:text-4xl'>
@@ -168,7 +176,7 @@ const Testimonial = () => {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </MotionPreset>
     </section>
   );
 };

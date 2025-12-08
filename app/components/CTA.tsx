@@ -1,12 +1,20 @@
 import { Card, CardContent } from '@/app/components/ui/card';
 import { Button } from './ui/button';
 import Link from 'next/link';
+import { MotionPreset } from './ui/motion-preset';
 
 const CTA = () => {
   return (
-    <section className='bg-blue-50 dark:bg-zinc-700 mb-10'>
-      <div className='container'>
-        <Card className='rounded-3xl border-none py-8 shadow-lg sm:py-16 lg:py-24'>
+    <section className='my-10 mb-12'>
+      <MotionPreset
+        component='div'
+        className='container'
+        fade
+        slide={{ direction: 'right', offset: 50 }}
+        blur
+        transition={{ duration: 0.8 }}
+      >
+        <Card className='rounded-3xl border-none py-8 shadow-lg sm:py-16 lg:py-24 bg-muted'>
           <CardContent className='flex flex-wrap items-center justify-between gap-8 px-8 sm:flex-nowrap sm:px-16 lg:px-24'>
             <div className='max-w-xs lg:max-w-lg'>
               <h2 className='mb-4 text-3xl font-bold'>
@@ -32,7 +40,7 @@ const CTA = () => {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </MotionPreset>
     </section>
   );
 };
