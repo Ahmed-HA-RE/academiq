@@ -16,7 +16,6 @@ import { Rating } from './ui/rating';
 import { testimonials } from '@/lib/constants';
 import Image from 'next/image';
 import { Suspense } from 'react';
-import Autoplay from 'embla-carousel-autoplay';
 
 const Testimonial = () => {
   const [api, setApi] = useState<CarouselApi>();
@@ -56,12 +55,6 @@ const Testimonial = () => {
             align: 'center',
             loop: true,
           }}
-          plugins={[
-            Autoplay({
-              delay: 2000,
-              stopOnMouseEnter: true,
-            }),
-          ]}
           className='relative flex items-center justify-center gap-6'
         >
           {/* Carousel Previous Button */}

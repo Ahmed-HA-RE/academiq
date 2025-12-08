@@ -1,3 +1,4 @@
+import CTA from '../components/CTA';
 import FeaturedCourses from '../components/FeaturedCourses';
 import Features from '../components/Features';
 import HeroSection from '../components/HeroSection';
@@ -10,6 +11,7 @@ const HomePage = () => {
       <FeaturedCourses />
       <Features />
       <Testimonial />
+      <CTA />
     </>
   );
 };

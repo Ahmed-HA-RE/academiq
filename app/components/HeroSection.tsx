@@ -172,7 +172,7 @@ const HeroSection = () => {
             className='relative flex items-center md:items-start justify-center  lg:col-span-2'
           >
             <Image
-              src='https://res.cloudinary.com/ahmed--dev/image/upload/v1765042924/student_wvzij1.jpg'
+              src='https://res.cloudinary.com/ahmed--dev/image/upload/v1765132080/hero_fskl0d.jpg'
               alt='student'
               width={0}
               height={0}

@@ -5,7 +5,7 @@ const FeaturedCourses = async () => {
   const courses = await getFeaturedCourses();
 
   return (
-    <section className='py-10'>
+    <section className='my-10'>
       <div className='container'>
         <h2 className='text-2xl md:text-3xl font-bold mb-6 dark:text-white'>
           Featured Courses

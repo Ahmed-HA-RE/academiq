@@ -53,7 +53,7 @@ const rightSection = [
 
 const Features = () => {
   return (
-    <section className='pb-10'>
+    <section className='mb-10'>
       <div className='flex flex-col gap-16 container'>
         {/* Top content */}
         <div className='space-y-4 text-center'>
@@ -132,7 +132,7 @@ const Features = () => {
             transition={{ duration: 0.9 }}
           >
             <Image
-              src='/images/kid-studying.jpg'
+              src='https://res.cloudinary.com/ahmed--dev/image/upload/v1765132165/kid_1_ri2lbc.jpg'
               alt='kid studying'
               width={0}
               height={0}
