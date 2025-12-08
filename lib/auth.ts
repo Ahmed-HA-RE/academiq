@@ -12,10 +12,18 @@ export const auth = betterAuth({
     minPasswordLength: 6,
     requireEmailVerification: true,
   },
+
+  emailVerification: {
+    autoSignInAfterVerification: true,
+    sendOnSignUp: true,
+    expiresIn: 900, // 15 minutes
+  },
+
   plugins: [nextCookies()],
   session: {
     expiresIn: 60 * 60 * 24 * 30, // 30 days
   },
+
   user: {
     additionalFields: {
       role: {
