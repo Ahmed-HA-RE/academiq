@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import AuthLines from '../components/auth/auth-lines';
 import {
@@ -14,8 +16,23 @@ import { APP_NAME } from '@/lib/constants';
 import { FaMicrosoft } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+type AuthLayoutProps = {
+  children: React.ReactNode;
+};
+
+const AuthLayout = ({ children }: AuthLayoutProps) => {
+  const pathname = usePathname();
+
+  let title = 'Welcome back';
+  let description: string = 'Please sign in to your account to continue.';
+
+  if (pathname === '/register') {
+    title = 'Create an account';
+    description = 'Please enter your credentials to create a new account.';
+  }
+
   return (
     <div className='bg-muted flex h-auto min-h-screen items-center justify-center px-4 py-10 relative'>
       <Card className='relative w-full max-w-md overflow-hidden border-none pt-12 shadow-lg'>
@@ -24,17 +41,14 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         <AuthLines className='pointer-events-none absolute inset-x-0 top-0' />
 
         <CardHeader className='justify-center gap-5 text-center'>
-          <Link
-            className='flex flex-row items-center justify-center gap-1'
-            href='/'
-          >
+          <div className='flex flex-row items-center justify-center gap-1'>
             <Image src={'/images/logo.png'} alt='Logo' width={35} height={35} />
             <span className='font-bold text-xl'>{APP_NAME}</span>
-          </Link>
+          </div>
           <div>
-            <CardTitle className='mb-1.5 text-2xl'>Welcome Back</CardTitle>
+            <CardTitle className='mb-1.5 text-2xl'>{title}</CardTitle>
             <CardDescription className='text-base'>
-              Please enter your credentials to sign in
+              {description}
             </CardDescription>
           </div>
         </CardHeader>
@@ -51,7 +65,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
             </Button>
           </div>
 
-          <div className='mb-6 flex items-center gap-4'>
+          <div className='mb-2 flex items-center gap-4'>
             <Separator className='flex-1' />
             <p>or</p>
             <Separator className='flex-1' />

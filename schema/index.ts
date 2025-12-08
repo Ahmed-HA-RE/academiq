@@ -37,7 +37,6 @@ export const registerSchema = z
       .min(3, 'Name is required')
       .max(50, 'Name is too long'),
     email: z.email({ error: 'Invalid email address' }),
-    rememberMe: z.boolean(),
     password: z
       .string({ error: 'Invalid password' })
       .min(6, 'Password must be at least 6 characters long')
@@ -52,8 +51,8 @@ export const registerSchema = z
     error: "Passwords don't match",
   });
 
-export const loginSchema = registerSchema.pick({
-  email: true,
-  password: true,
-  rememberMe: true,
+export const loginSchema = z.object({
+  email: registerSchema.shape.email,
+  password: registerSchema.shape.password,
+  rememberMe: z.boolean(),
 });
