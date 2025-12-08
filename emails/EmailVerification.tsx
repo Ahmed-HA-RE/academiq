@@ -29,14 +29,10 @@ const baseImageUrl =
     : `${process.env.NEXT_PUBLIC_DEV_Email_URL}/static`;
 
 type EmailVerificationProps = {
-  userName: string;
   verficationCode: string;
 };
 
-const EmailVerification = ({
-  userName = 'Ahmed Haitham',
-  verficationCode = '123',
-}: EmailVerificationProps) => (
+const EmailVerification = ({ verficationCode }: EmailVerificationProps) => (
   <Tailwind config={{ presets: [pixelBasedPreset] }}>
     <Html>
       <Head>
@@ -63,7 +59,6 @@ const EmailVerification = ({
           <Heading className='text-[#1d1c1d] text-4xl font-bold my-[30px] mt-[10px] mx-0 p-0 leading-[42px]'>
             Confirm your email address
           </Heading>
-          <Text className='font-semibold text-2xl'>Dear {userName},</Text>
           <Text className='text-xl mb-7.5'>
             Your confirmation code is below - enter it in your open browser
             window and we&apos;ll help you get signed in.
