@@ -29,6 +29,7 @@ type AuthLayoutProps = {
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
   let title = 'Welcome back';
   let description: string = 'Please sign in to your account to continue.';
@@ -40,8 +41,6 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
     title = 'Verify your email';
     description = 'Please enter the verification code sent to your email.';
   }
-
-  const [isPending, startTransition] = useTransition();
 
   const handleResend = () => {
     startTransition(async () => {

@@ -1,10 +1,9 @@
 'use server';
 
 import type { LoginFormData, RegisterFormData } from '@/types';
-import { loginSchema, registerSchema } from '@/schema';
+import { loginSchema, registerSchema, verifyOTPSchema } from '@/schema';
 import { auth } from '../auth';
 import { headers } from 'next/headers';
-import { SERVER_URL } from '../constants';
 import { APIError } from 'better-auth';
 
 export const registerUser = async (data: RegisterFormData) => {
@@ -57,6 +56,23 @@ export const loginUser = async (data: LoginFormData) => {
   }
 };
 
+export const logoutUser = async () => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) throw new Error('No active user found');
+
+    await auth.api.signOut({
+      headers: await headers(),
+    });
+    return { success: true, message: 'Logged out successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
 export const sendEmailVerificationOTP = async () => {
   try {
     const session = await auth.api.getSession({
@@ -90,6 +106,10 @@ export const verifyEmail = async (otp: string) => {
 
     if (session.user.emailVerified)
       throw new Error('Email is already verified');
+
+    const validatedData = verifyOTPSchema.safeParse({ code: otp });
+
+    if (!validatedData.success) throw new Error('Invalid OTP code');
 
     await auth.api.verifyEmailOTP({
       body: {

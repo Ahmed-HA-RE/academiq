@@ -74,7 +74,7 @@ const EmailVerification = ({ verificationCode }: EmailVerificationProps) => (
             If you didn&apos;t request this email, there&apos;s nothing to worry
             about, you can safely ignore it.
           </Text>
-          <Text>Note: This code will expire in 15 minutes.</Text>
+          <Text>Note: This code will expire in 2 hours.</Text>
 
           <Section>
             <Row className='mb-8 pl-2 pr-2'>

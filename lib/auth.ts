@@ -31,7 +31,7 @@ export const auth = betterAuth({
           });
         }
       },
-      expiresIn: 900, // 15 minutes
+      expiresIn: 7200, // 120 minutes
       sendVerificationOnSignUp: true,
       allowedAttempts: 3,
     }),
