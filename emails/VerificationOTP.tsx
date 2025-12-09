@@ -30,9 +30,15 @@ const baseImageUrl =
 
 type EmailVerificationProps = {
   verificationCode: string;
+  title: string;
+  description: string;
 };
 
-const EmailVerification = ({ verificationCode }: EmailVerificationProps) => (
+const VerificationOTP = ({
+  verificationCode,
+  title,
+  description,
+}: EmailVerificationProps) => (
   <Tailwind config={{ presets: [pixelBasedPreset] }}>
     <Html>
       <Head>
@@ -45,7 +51,7 @@ const EmailVerification = ({ verificationCode }: EmailVerificationProps) => (
         </style>
       </Head>
       <Body className='bg-white font-slack mx-auto my-0'>
-        <Preview>Confirm your email address</Preview>
+        <Preview>{title}</Preview>
         <Container className='mx-auto my-0 py-0 px-5'>
           <Section className='mt-8'>
             <Img
@@ -57,12 +63,9 @@ const EmailVerification = ({ verificationCode }: EmailVerificationProps) => (
             />
           </Section>
           <Heading className='text-[#1d1c1d] text-4xl font-bold my-[30px] mt-[10px] mx-0 p-0 leading-[42px]'>
-            Confirm your email address
+            {title}
           </Heading>
-          <Text className='text-xl mb-7.5'>
-            Your confirmation code is below - enter it in your open browser
-            window and we&apos;ll help you get signed in.
-          </Text>
+          <Text className='text-xl mb-7.5'>{description}</Text>
 
           <Section className='bg-[rgb(245,244,245)] rounded mb-[30px] py-10 px-[10px]'>
             <Text className='text-3xl leading-[24px] text-center align-middle'>
@@ -147,4 +150,4 @@ const EmailVerification = ({ verificationCode }: EmailVerificationProps) => (
     </Html>
   </Tailwind>
 );
-export default EmailVerification;
+export default VerificationOTP;

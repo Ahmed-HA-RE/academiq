@@ -40,6 +40,9 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
   } else if (pathname === '/verify-email') {
     title = 'Verify your email';
     description = 'Please enter the verification code sent to your email.';
+  } else if (pathname === '/forgot-password') {
+    title = 'Forgot your password?';
+    description = 'Enter your email to receive a verification code.';
   }
 
   const handleResend = () => {
@@ -107,7 +110,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
 
             {children}
           </CardContent>
-          {pathname === '/verify-email' || pathname === '/reset-password' ? (
+          {pathname === '/verify-email' ? (
             <CardFooter className='items-center justify-center'>
               <p className='text-muted-foreground'>
                 Didn&apos;t receive the code?{' '}
@@ -123,9 +126,17 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
           ) : null}
         </Card>
         <Button variant='ghost' className='group absolute top-4 left-4' asChild>
-          <Link href={'/'}>
+          <Link
+            href={
+              pathname === '/forgot-password' || pathname === '/reset-password'
+                ? '/login'
+                : '/'
+            }
+          >
             <ArrowLeftIcon className='transition-transform duration-200 group-hover:-translate-x-0.5' />
-            Back to Home
+            {pathname === '/forgot-password' || pathname === '/reset-password'
+              ? 'Back to Login'
+              : 'Back to Home'}
           </Link>
         </Button>
       </div>

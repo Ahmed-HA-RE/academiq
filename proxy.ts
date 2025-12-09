@@ -20,8 +20,12 @@ export const proxy = async (req: NextRequest) => {
   if (pathname === '/verify-email' && session?.user.emailVerified) {
     return NextResponse.redirect(new URL('/', req.url));
   }
+
+  if (pathname === '/forgot-password' && session) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
 };
 
 export const config = {
-  matcher: ['/login', '/register', '/verify-email'],
+  matcher: ['/login', '/register', '/verify-email', '/forgot-password'],
 };

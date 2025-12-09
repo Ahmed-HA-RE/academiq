@@ -1,5 +1,6 @@
 import {
   baseCourseSchema,
+  forgotPasswordSchema,
   loginSchema,
   registerSchema,
   verifyOTPSchema,
@@ -18,3 +19,4 @@ export type Course = z.infer<typeof baseCourseSchema> & {
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type VerifyOTPFormData = z.infer<typeof verifyOTPSchema>;
+export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
