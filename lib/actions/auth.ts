@@ -56,3 +56,44 @@ export const loginUser = async (data: LoginFormData) => {
     return { success: false, message: (error as Error).message };
   }
 };
+
+export const sendEmailVerificationOTP = async () => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) throw new Error('No active user found');
+
+    await auth.api.sendVerificationOTP({
+      body: {
+        type: 'email-verification',
+        email: session.user.email,
+      },
+    });
+
+    return { success: true, message: 'Verification code sent successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+export const verifyEmail = async (otp: string) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) throw new Error('No active user found');
+
+    await auth.api.verifyEmailOTP({
+      body: {
+        email: session.user.email,
+        otp,
+      },
+    });
+    return { success: true, message: 'Email verified successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
