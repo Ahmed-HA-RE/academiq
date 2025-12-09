@@ -38,7 +38,7 @@ export const auth = betterAuth({
           await resend.emails.send({
             from: `${APP_NAME} <support@${domain}>`,
             to: email,
-            subject: 'Verify your email address',
+            subject: 'Reset your password',
             react: VerificationOTP({
               verificationCode: otp,
               title: 'Reset your password',

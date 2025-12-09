@@ -1,7 +1,12 @@
 'use server';
 
 import type { LoginFormData, RegisterFormData } from '@/types';
-import { loginSchema, registerSchema, verifyOTPSchema } from '@/schema';
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+  verifyOTPSchema,
+} from '@/schema';
 import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { APIError } from 'better-auth';
@@ -125,6 +130,30 @@ export const verifyEmail = async (otp: string) => {
         message: 'OTP has expired or is invalid. Please request a new one.',
       };
     }
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+export const sendPasswordResetOTP = async (email: string) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (session) throw new Error('You are already logged in');
+
+    const validatedData = forgotPasswordSchema.safeParse({ email });
+
+    if (!validatedData.success) throw new Error('Invalid email address');
+
+    await auth.api.forgetPasswordEmailOTP({
+      body: {
+        email,
+      },
+    });
+
+    return { success: true, message: 'Password reset code sent successfully' };
+  } catch (error) {
     return { success: false, message: (error as Error).message };
   }
 };

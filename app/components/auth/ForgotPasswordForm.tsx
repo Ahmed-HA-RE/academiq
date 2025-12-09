@@ -9,7 +9,10 @@ import { forgotPasswordSchema } from '@/schema';
 import { ForgotPasswordFormData } from '@/types';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { sendPasswordResetOTP } from '@/lib/actions/auth';
 const ForgotPasswordForm = () => {
+  const router = useRouter();
+
   const form = useForm<ForgotPasswordFormData>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
@@ -18,7 +21,17 @@ const ForgotPasswordForm = () => {
     mode: 'onSubmit',
   });
 
-  const onSubmit = async (data: ForgotPasswordFormData) => {};
+  const onSubmit = async (data: ForgotPasswordFormData) => {
+    const res = await sendPasswordResetOTP(data.email);
+
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+
+    toast.success(res.message);
+    setTimeout(() => router.push('/reset-password'), 1500);
+  };
 
   return (
     <form className='mt-4' onSubmit={form.handleSubmit(onSubmit)}>
