@@ -31,6 +31,9 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
   if (pathname === '/register') {
     title = 'Create an account';
     description = 'Please enter your credentials to create a new account.';
+  } else if (pathname === '/verify-email') {
+    title = 'Verify your email';
+    description = 'Please enter the verification code sent to your email.';
   }
 
   return (
@@ -54,22 +57,27 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
         </CardHeader>
 
         <CardContent>
-          <div className='mb-6 flex items-center gap-2.5'>
-            <Button variant='outline' className='grow cursor-pointer'>
-              <FaMicrosoft aria-hidden='true' size={16} />
-              Login with Microsoft
-            </Button>
-            <Button variant='outline' className='grow cursor-pointer'>
-              <FcGoogle aria-hidden='true' size={16} />
-              Login with Google
-            </Button>
-          </div>
+          {pathname === '/login' ||
+            (pathname === '/register' && (
+              <>
+                <div className='mb-6 flex items-center gap-2.5'>
+                  <Button variant='outline' className='grow cursor-pointer'>
+                    <FaMicrosoft aria-hidden='true' size={16} />
+                    Login with Microsoft
+                  </Button>
+                  <Button variant='outline' className='grow cursor-pointer'>
+                    <FcGoogle aria-hidden='true' size={16} />
+                    Login with Google
+                  </Button>
+                </div>
 
-          <div className='mb-2 flex items-center gap-4'>
-            <Separator className='flex-1' />
-            <p>or</p>
-            <Separator className='flex-1' />
-          </div>
+                <div className='mb-2 flex items-center gap-4'>
+                  <Separator className='flex-1' />
+                  <p>or</p>
+                  <Separator className='flex-1' />
+                </div>
+              </>
+            ))}
 
           {children}
         </CardContent>

@@ -3,9 +3,9 @@ import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { prisma } from './prisma';
 import { nextCookies } from 'better-auth/next-js';
 import { emailOTP } from 'better-auth/plugins';
-import resend from './resend';
 import { APP_NAME } from './constants';
 import EmailVerification from '@/emails/EmailVerification';
+import resend from './resend';
 
 const domain = process.env.RESEND_DOMAIN;
 
@@ -27,9 +27,7 @@ export const auth = betterAuth({
             from: `${APP_NAME} <support@${domain}>`,
             to: email,
             subject: 'Verify your email address',
-            react: EmailVerification({
-              verficationCode: otp,
-            }),
+            react: EmailVerification({ verificationCode: otp }),
           });
         }
       },

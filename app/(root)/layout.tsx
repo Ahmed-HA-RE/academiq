@@ -10,7 +10,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   });
 
   return (
-    <div className='min-h-screen flex flex-col w-full relative'>
+    <div className='min-h-screen flex flex-col w-full relative overflow-hidden'>
       {/* Midnight Radial Glow Background */}
       <div
         className='absolute inset-0 z-0 hidden dark:block'

@@ -94,7 +94,6 @@ const Footer = () => {
 
           <Image src='/images/stripe.png' alt='Stripe' width={70} height={70} />
           <Image src='/images/visa.png' alt='Visa' width={50} height={50} />
-          <Image src='/images/paypal.png' alt='Paypal' width={40} height={40} />
           <Image
             src='/images/master-card.png'
             alt='Mastercard'

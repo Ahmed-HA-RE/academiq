@@ -26,13 +26,13 @@ const baseUrl =
 const baseImageUrl =
   process.env.NODE_ENV === 'production'
     ? `${process.env.NEXT_PUBLIC_PROD_URL}/images`
-    : `${process.env.NEXT_PUBLIC_DEV_Email_URL}/static`;
+    : `${process.env.NEXT_PUBLIC_DEV_EMAIL_URL}/static`;
 
 type EmailVerificationProps = {
-  verficationCode: string;
+  verificationCode: string;
 };
 
-const EmailVerification = ({ verficationCode }: EmailVerificationProps) => (
+const EmailVerification = ({ verificationCode }: EmailVerificationProps) => (
   <Tailwind config={{ presets: [pixelBasedPreset] }}>
     <Html>
       <Head>
@@ -66,7 +66,7 @@ const EmailVerification = ({ verficationCode }: EmailVerificationProps) => (
 
           <Section className='bg-[rgb(245,244,245)] rounded mb-[30px] py-10 px-[10px]'>
             <Text className='text-3xl leading-[24px] text-center align-middle'>
-              {verficationCode}
+              {verificationCode}
             </Text>
           </Section>
 
