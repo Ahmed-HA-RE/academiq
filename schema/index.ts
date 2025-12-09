@@ -56,3 +56,7 @@ export const loginSchema = z.object({
   password: registerSchema.shape.password,
   rememberMe: z.boolean(),
 });
+
+export const verifyOTPSchema = z.object({
+  code: z.string({ error: 'Invalid code' }).length(6, 'Code must be 6 digits'),
+});

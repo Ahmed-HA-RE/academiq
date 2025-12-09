@@ -1,4 +1,9 @@
-import { baseCourseSchema, loginSchema, registerSchema } from '@/schema';
+import {
+  baseCourseSchema,
+  loginSchema,
+  registerSchema,
+  verifyOTPSchema,
+} from '@/schema';
 import z from 'zod';
 
 export type Course = z.infer<typeof baseCourseSchema> & {
@@ -12,3 +17,4 @@ export type Course = z.infer<typeof baseCourseSchema> & {
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;
+export type VerifyOTPFormData = z.infer<typeof verifyOTPSchema>;

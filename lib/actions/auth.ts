@@ -5,6 +5,7 @@ import { loginSchema, registerSchema } from '@/schema';
 import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { SERVER_URL } from '../constants';
+import { APIError } from 'better-auth';
 
 export const registerUser = async (data: RegisterFormData) => {
   try {
@@ -19,7 +20,6 @@ export const registerUser = async (data: RegisterFormData) => {
         name,
         email,
         password,
-        callbackURL: `${SERVER_URL}/verified`,
       },
       headers: await headers(),
     });
@@ -64,6 +64,8 @@ export const sendEmailVerificationOTP = async () => {
     });
 
     if (!session) throw new Error('No active user found');
+    if (session.user.emailVerified)
+      throw new Error('Email is already verified');
 
     await auth.api.sendVerificationOTP({
       body: {
@@ -86,6 +88,9 @@ export const verifyEmail = async (otp: string) => {
 
     if (!session) throw new Error('No active user found');
 
+    if (session.user.emailVerified)
+      throw new Error('Email is already verified');
+
     await auth.api.verifyEmailOTP({
       body: {
         email: session.user.email,
@@ -94,6 +99,12 @@ export const verifyEmail = async (otp: string) => {
     });
     return { success: true, message: 'Email verified successfully' };
   } catch (error) {
+    if (error instanceof APIError) {
+      return {
+        success: false,
+        message: 'OTP has expired or is invalid. Please request a new one.',
+      };
+    }
     return { success: false, message: (error as Error).message };
   }
 };

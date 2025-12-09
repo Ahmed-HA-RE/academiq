@@ -1,8 +1,15 @@
-import type { SVGAttributes } from 'react'
+import type { SVGAttributes } from 'react';
 
 const AuthLines = (props: SVGAttributes<SVGElement>) => {
   return (
-    <svg width='520' height='209' viewBox='0 0 520 209' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
+    <svg
+      width='520'
+      height='209'
+      viewBox='0 0 520 209'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+      {...props}
+    >
       <line
         x1='26.25'
         y1='1.07096e-08'
@@ -506,7 +513,7 @@ const AuthLines = (props: SVGAttributes<SVGElement>) => {
         </linearGradient>
       </defs>
     </svg>
-  )
-}
+  );
+};
 
-export default AuthLines
+export default AuthLines;
