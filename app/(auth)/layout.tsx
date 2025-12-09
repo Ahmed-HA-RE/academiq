@@ -43,6 +43,9 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
   } else if (pathname === '/forgot-password') {
     title = 'Forgot your password?';
     description = 'Enter your email to receive a verification code.';
+  } else if (pathname === '/reset-password') {
+    title = 'Reset your password';
+    description = 'Enter your new password to reset your current password.';
   }
 
   const handleResend = () => {

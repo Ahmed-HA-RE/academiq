@@ -17,7 +17,7 @@ import { Spinner } from '../ui/spinner';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 
-const OTPVerificationForm = ({ type }: { type: 'email' | 'password' }) => {
+const OTPVerificationForm = () => {
   const router = useRouter();
   const callbackUrl = useSearchParams().get('callbackUrl') || '/';
 
@@ -29,16 +29,14 @@ const OTPVerificationForm = ({ type }: { type: 'email' | 'password' }) => {
   });
 
   const onSubmit = async (data: VerifyOTPFormData) => {
-    if (type === 'email') {
-      const res = await verifyEmail(data.code);
+    const res = await verifyEmail(data.code);
 
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-      router.push(callbackUrl);
+    if (!res.success) {
+      toast.error(res.message);
+      return;
     }
+    toast.success(res.message);
+    router.push(callbackUrl);
   };
 
   return (

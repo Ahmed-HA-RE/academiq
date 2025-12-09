@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const VerifyEmailPage = () => {
-  return <OTPVerificationForm type={'email'} />;
+  return <OTPVerificationForm />;
 };
 
 export default VerifyEmailPage;

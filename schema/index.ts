@@ -62,3 +62,13 @@ export const verifyOTPSchema = z.object({
 });
 
 export const forgotPasswordSchema = registerSchema.pick({ email: true });
+
+export const resetPasswordSchema = z
+  .object({
+    newPassword: registerSchema.shape.password,
+    confirmPassword: registerSchema.shape.confirmPassword,
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    path: ['confirmPassword'],
+    error: "Passwords don't match",
+  });

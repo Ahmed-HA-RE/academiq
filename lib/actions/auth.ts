@@ -10,6 +10,7 @@ import {
 import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { APIError } from 'better-auth';
+import { SERVER_URL } from '../constants';
 
 export const registerUser = async (data: RegisterFormData) => {
   try {
@@ -134,7 +135,7 @@ export const verifyEmail = async (otp: string) => {
   }
 };
 
-export const sendPasswordResetOTP = async (email: string) => {
+export const sendPasswordResetLink = async (email: string) => {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -146,13 +147,14 @@ export const sendPasswordResetOTP = async (email: string) => {
 
     if (!validatedData.success) throw new Error('Invalid email address');
 
-    await auth.api.forgetPasswordEmailOTP({
+    await auth.api.requestPasswordReset({
       body: {
         email,
+        redirectTo: `${SERVER_URL}/reset-password`,
       },
     });
 
-    return { success: true, message: 'Password reset code sent successfully' };
+    return { success: true, message: 'Password reset link sent successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

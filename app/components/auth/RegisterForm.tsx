@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
@@ -17,7 +15,6 @@ import { registerUser } from '@/lib/actions/auth';
 import { SERVER_URL } from '@/lib/constants';
 
 const RegisterForm = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const callbackUrl = useSearchParams().get('callbackUrl') || '/';
   const router = useRouter();
 
@@ -97,28 +94,15 @@ const RegisterForm = () => {
               <FieldLabel className='leading-5' htmlFor={field.name}>
                 Password
               </FieldLabel>
-              <div className='relative'>
-                <Input
-                  type={isVisible ? 'text' : 'password'}
-                  id={field.name}
-                  placeholder='Enter your password'
-                  aria-invalid={fieldState.invalid}
-                  className='input pr-9'
-                  {...field}
-                />
-                <Button
-                  variant='ghost'
-                  size='icon'
-                  type='button'
-                  onClick={() => setIsVisible((prevState) => !prevState)}
-                  className=' absolute inset-y-0 right-0 rounded-l-none hover:bg-0 dark:hover:bg-0 cursor-pointer'
-                >
-                  {isVisible ? <EyeOffIcon /> : <EyeIcon />}
-                  <span className='sr-only'>
-                    {isVisible ? 'Hide password' : 'Show password'}
-                  </span>
-                </Button>
-              </div>
+              <Input
+                type='password'
+                id={field.name}
+                placeholder='Enter your password'
+                aria-invalid={fieldState.invalid}
+                className='input pr-9'
+                {...field}
+              />
+
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
@@ -132,28 +116,15 @@ const RegisterForm = () => {
               <FieldLabel className='leading-5' htmlFor={field.name}>
                 Confirm Password
               </FieldLabel>
-              <div className='relative'>
-                <Input
-                  type={isVisible ? 'text' : 'password'}
-                  id={field.name}
-                  placeholder='Enter your password'
-                  aria-invalid={fieldState.invalid}
-                  className='input pr-9'
-                  {...field}
-                />
-                <Button
-                  variant='ghost'
-                  size='icon'
-                  type='button'
-                  onClick={() => setIsVisible((prevState) => !prevState)}
-                  className=' absolute inset-y-0 right-0 rounded-l-none hover:bg-0 dark:hover:bg-0 cursor-pointer'
-                >
-                  {isVisible ? <EyeOffIcon /> : <EyeIcon />}
-                  <span className='sr-only'>
-                    {isVisible ? 'Hide password' : 'Show password'}
-                  </span>
-                </Button>
-              </div>
+              <Input
+                type='password'
+                id={field.name}
+                placeholder='Enter your password'
+                aria-invalid={fieldState.invalid}
+                className='input pr-9'
+                {...field}
+              />
+
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}

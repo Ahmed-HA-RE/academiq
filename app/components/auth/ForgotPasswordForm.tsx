@@ -9,7 +9,7 @@ import { forgotPasswordSchema } from '@/schema';
 import { ForgotPasswordFormData } from '@/types';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { sendPasswordResetOTP } from '@/lib/actions/auth';
+import { sendPasswordResetLink } from '@/lib/actions/auth';
 const ForgotPasswordForm = () => {
   const router = useRouter();
 
@@ -22,7 +22,7 @@ const ForgotPasswordForm = () => {
   });
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
-    const res = await sendPasswordResetOTP(data.email);
+    const res = await sendPasswordResetLink(data.email);
 
     if (!res.success) {
       toast.error(res.message);
@@ -30,7 +30,7 @@ const ForgotPasswordForm = () => {
     }
 
     toast.success(res.message);
-    setTimeout(() => router.push('/reset-password'), 1500);
+    setTimeout(() => router.push(`/login`), 1500);
   };
 
   return (

@@ -6,6 +6,7 @@ import { emailOTP } from 'better-auth/plugins';
 import { APP_NAME } from './constants';
 import resend from './resend';
 import VerificationOTP from '@/emails/VerificationOTP';
+import ResetPasswordEmail from '@/emails/ResetPassword';
 
 const domain = process.env.RESEND_DOMAIN;
 
@@ -16,6 +17,18 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 6,
+    sendResetPassword: async ({ user, url }) => {
+      await resend.emails.send({
+        from: `${APP_NAME} <support@${domain}>`,
+        to: user.email,
+        subject: 'Reset your password',
+        react: ResetPasswordEmail({
+          userName: user.name,
+          resetPasswordLink: url,
+        }),
+      });
+    },
+    resetPasswordTokenExpiresIn: 3600, // 60 minutes
   },
 
   plugins: [
@@ -32,18 +45,6 @@ export const auth = betterAuth({
               title: 'Confirm your email address',
               description:
                 'Please use the following code to verify your email address.',
-            }),
-          });
-        } else if (type === 'forget-password') {
-          await resend.emails.send({
-            from: `${APP_NAME} <support@${domain}>`,
-            to: email,
-            subject: 'Reset your password',
-            react: VerificationOTP({
-              verificationCode: otp,
-              title: 'Reset your password',
-              description:
-                'Please use the following code to reset your password.',
             }),
           });
         }

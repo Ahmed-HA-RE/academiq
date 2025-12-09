@@ -45,7 +45,7 @@ const MenuSheet = ({ logoName, navigationData }: MenuSheetProps) => {
         <Button
           variant='ghost'
           size='icon'
-          className='inline-flex lg:hidden text-black dark:text-white cursor-pointer'
+          className='inline-flex lg:hidden text-black dark:text-white cursor-pointer mr-1'
         >
           <MenuIcon />
           <span className='sr-only'>Menu</span>
