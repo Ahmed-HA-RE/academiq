@@ -25,4 +25,8 @@ export type VerifyOTPFormData = z.infer<typeof verifyOTPSchema>;
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 export type CartItem = z.infer<typeof cartItemsSchema>;
-export type Cart = z.infer<typeof cartSchema>;
+export type Cart = z.infer<typeof cartSchema> & {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
