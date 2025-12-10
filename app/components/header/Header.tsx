@@ -5,10 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import DesktopNavMenu from './DesktopNavMenu';
 import Theme from '../Theme';
-import { ShoppingCart } from 'lucide-react';
-import { Button } from '../ui/button';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
+import Cart from '../Cart';
 
 const Header = async () => {
   const baseNavigationMenu = [
@@ -37,9 +36,7 @@ const Header = async () => {
         <div className='flex items-center gap-2 md:gap-3'>
           <div>
             {/* Cart */}
-            <Button variant='ghost' size='icon' className='cursor-pointer'>
-              <ShoppingCart size={20} />
-            </Button>
+            <Cart />
             {/* Theme */}
             <Theme />
           </div>

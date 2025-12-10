@@ -53,7 +53,7 @@ const rightSection = [
 
 const Features = () => {
   return (
-    <section className='mb-10'>
+    <section className='my-16 md:my-25'>
       <div className='flex flex-col gap-16 container'>
         {/* Top content */}
         <div className='space-y-4 text-center'>
