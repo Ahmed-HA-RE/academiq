@@ -9,8 +9,19 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { MotionPreset } from './ui/motion-preset';
+import { addToCart } from '@/lib/actions/cart';
 
 const CourseCard = ({ course }: { course: Course }) => {
+  const handleAddToCart = async () => {
+    const res = await addToCart({
+      courseId: course.id,
+      image: course.image,
+      name: course.title,
+      price: course.salePrice ? course.salePrice : course.price,
+    });
+    console.log(res);
+  };
+
   return (
     <MotionPreset
       component='div'
@@ -86,7 +97,12 @@ const CourseCard = ({ course }: { course: Course }) => {
           >
             <Link href={`/course/${course.slug}`}>Read More</Link>
           </Button>
-          <Button className='cursor-pointer' size={'sm'} variant={'outline'}>
+          <Button
+            onClick={handleAddToCart}
+            className='cursor-pointer'
+            size={'sm'}
+            variant={'outline'}
+          >
             Enroll Now
           </Button>
         </CardFooter>

@@ -14,21 +14,20 @@ datasource db {
 }
 
 model Course {
-  id          String     @id @default(uuid())
-  slug        String     @unique
+  id          String   @id @default(uuid())
+  slug        String   @unique
   title       String
   description String
-  price       Decimal    @db.Decimal(10, 2)
-  salePrice   Decimal?   @db.Decimal(10, 2)
-  isFeatured  Boolean    @default(false)
-  isSaved     Boolean    @default(false)
+  price       Decimal  @db.Decimal(10, 2)
+  salePrice   Decimal? @db.Decimal(10, 2)
+  isFeatured  Boolean  @default(false)
+  isSaved     Boolean  @default(false)
   image       String
   language    String
-  rating      Decimal    @default(0) @db.Decimal(2, 1)
-  numReviews  Int        @default(0)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  cartItems   CartItem[]
+  rating      Decimal  @default(0) @db.Decimal(2, 1)
+  numReviews  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model User {
@@ -101,28 +100,14 @@ model Verification {
 }
 
 model Cart {
-  id         String     @id @default(uuid())
+  id         String   @id @default(uuid())
   userId     String?
-  user       User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sessionId  String     @db.Uuid
-  cartItems  CartItem[]
-  itemsPrice Decimal    @db.Decimal(10, 2)
-  totalPrice Decimal    @db.Decimal(10, 2)
-  taxPrice   Decimal    @db.Decimal(10, 2)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-}
-
-model CartItem {
-  id        String   @id @default(uuid())
-  sessionId String
-  courseId  String
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  name      String
-  image     String
-  price     Decimal  @db.Decimal(10, 2)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  cart      Cart     @relation(fields: [cartId], references: [id])
-  cartId    String
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId  String   @db.Uuid
+  cartItems  Json[]   @db.Json
+  itemsPrice Decimal  @db.Decimal(10, 2)
+  totalPrice Decimal  @db.Decimal(10, 2)
+  taxPrice   Decimal  @db.Decimal(10, 2)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

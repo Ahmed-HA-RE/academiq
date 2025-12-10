@@ -26,5 +26,22 @@ export const prisma = new PrismaClient({ adapter }).$extends({
         },
       },
     },
+    cart: {
+      itemsPrice: {
+        compute(data) {
+          return data.itemsPrice.toString();
+        },
+      },
+      taxPrice: {
+        compute(data) {
+          return data.taxPrice.toString();
+        },
+      },
+      totalPrice: {
+        compute(data) {
+          return data.totalPrice.toString();
+        },
+      },
+    },
   },
 });
