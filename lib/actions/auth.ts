@@ -159,3 +159,15 @@ export const sendPasswordResetLink = async (email: string) => {
     return { success: false, message: (error as Error).message };
   }
 };
+
+export const signInWithProviders = async (provider: 'google') => {
+  const result = await auth.api.signInSocial({
+    body: {
+      provider: provider,
+      errorCallbackURL: `${SERVER_URL}`,
+    },
+  });
+  if (result.url) {
+    return { success: true, url: result.url };
+  }
+};

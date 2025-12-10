@@ -14,14 +14,17 @@ import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';
 import { ArrowLeftIcon } from 'lucide-react';
 import { APP_NAME } from '@/lib/constants';
-import { FaMicrosoft } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
+import { FaGoogle } from 'react-icons/fa';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { sendEmailVerificationOTP } from '@/lib/actions/auth';
+import {
+  sendEmailVerificationOTP,
+  signInWithProviders,
+} from '@/lib/actions/auth';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 import ScreenSpinner from '../components/ScreenSpinner';
+import { useRouter } from 'next/navigation';
 
 type AuthLayoutProps = {
   children: React.ReactNode;
@@ -30,6 +33,7 @@ type AuthLayoutProps = {
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   let title = 'Welcome back';
   let description: string = 'Please sign in to your account to continue.';
@@ -58,6 +62,15 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
           return;
         }
         toast.success(res.message);
+      }
+    });
+  };
+
+  const handleSocialSignIn = async (provider: 'google') => {
+    startTransition(async () => {
+      const res = await signInWithProviders(provider);
+      if (res && res.success) {
+        router.push(res.url);
       }
     });
   };
@@ -92,13 +105,14 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
           <CardContent>
             {pathname === '/login' || pathname === '/register' ? (
               <>
-                <div className='mb-6 flex items-center gap-2.5'>
-                  <Button variant='outline' className='grow cursor-pointer'>
-                    <FaMicrosoft aria-hidden='true' size={16} />
-                    Login with Microsoft
-                  </Button>
-                  <Button variant='outline' className='grow cursor-pointer'>
-                    <FcGoogle aria-hidden='true' size={16} />
+                <div className='mb-4 flex items-center'>
+                  <Button
+                    className='bg-[#DB4437] text-white text-base hover:bg-[#DB4437]/90 cursor-pointer w-full'
+                    onClick={() => handleSocialSignIn('google')}
+                  >
+                    <span className=''>
+                      <FaGoogle aria-hidden='true' className='opacity-70' />
+                    </span>
                     Login with Google
                   </Button>
                 </div>

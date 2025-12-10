@@ -5,7 +5,7 @@ import { MotionPreset } from './ui/motion-preset';
 
 const CTA = () => {
   return (
-    <section className='my-10 mb-12'>
+    <section className='my-10 mb-16'>
       <MotionPreset
         component='div'
         className='container'
