@@ -1,8 +1,11 @@
+import { getMyCart } from '@/lib/actions/cart';
 import CourseCard from './CourseCard';
 import { getFeaturedCourses } from '@/lib/actions/course';
+import { CartItems } from '@/types';
 
 const FeaturedCourses = async () => {
   const courses = await getFeaturedCourses();
+  const cart = await getMyCart();
 
   return (
     <section className='my-10'>
@@ -12,7 +15,11 @@ const FeaturedCourses = async () => {
         </h2>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {courses.map((course) => (
-            <CourseCard key={course.title} course={course} />
+            <CourseCard
+              key={course.title}
+              course={course}
+              cartItems={cart?.cartItems as CartItems[]}
+            />
           ))}
         </div>
       </div>

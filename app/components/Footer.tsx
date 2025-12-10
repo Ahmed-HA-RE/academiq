@@ -92,13 +92,29 @@ const Footer = () => {
             Payment
           </Badge>
 
-          <Image src='/images/stripe.png' alt='Stripe' width={70} height={70} />
-          <Image src='/images/visa.png' alt='Visa' width={50} height={50} />
+          <Image
+            src='/images/stripe.png'
+            alt='Stripe'
+            width={70}
+            height={70}
+            loading='eager'
+            className='w-auto h-auto'
+          />
+          <Image
+            src='/images/visa.png'
+            alt='Visa'
+            width={50}
+            height={50}
+            loading='eager'
+            className='w-auto h-auto'
+          />
           <Image
             src='/images/master-card.png'
             alt='Mastercard'
             width={50}
             height={50}
+            loading='eager'
+            className='w-auto h-auto'
           />
         </div>
       </div>

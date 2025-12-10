@@ -1,11 +1,13 @@
 'use server';
 
-import { CartItems, Cart } from '@/types';
-import { cartSchema, cartItemsSchema } from '@/schema';
+import { CartItems } from '@/types';
+import { cartItemsSchema } from '@/schema';
 import { prisma } from '../prisma';
 import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { cookies } from 'next/headers';
+import { convertToPlainObject } from '../utils';
+import { revalidatePath } from 'next/cache';
 
 const calculatePrices = (cartItems: CartItems[]) => {
   const itemsPrice = cartItems.reduce((acc, c) => acc + Number(c.price), 0);
@@ -54,6 +56,7 @@ export const addToCart = async (data: CartItems) => {
           cartItems: [validateData.data],
         },
       });
+      revalidatePath('/', 'layout');
     } else {
       // check if course already in cart
       const existingCourse = (cart.cartItems as CartItems[]).find(
@@ -78,6 +81,7 @@ export const addToCart = async (data: CartItems) => {
         },
       });
     }
+    revalidatePath('/', 'layout');
     return { success: true, message: 'Course added to cart' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
@@ -107,5 +111,39 @@ export const getMyCart = async () => {
   });
   if (!cart) return null;
 
-  return cart;
+  return convertToPlainObject(cart);
+};
+
+export const removeFromCart = async (courseId: string) => {
+  try {
+    const course = await prisma.course.findFirst({
+      where: { id: courseId },
+    });
+
+    if (!course) throw new Error('Course not found');
+
+    const cart = await getMyCart();
+
+    if (!cart) throw new Error('No cart found');
+
+    const updatedCart = (cart.cartItems as CartItems[]).filter(
+      (item) => item.courseId !== courseId
+    );
+
+    const { itemsPrice, taxPrice, totalPrice } = calculatePrices(updatedCart);
+
+    await prisma.cart.update({
+      where: { id: cart.id },
+      data: {
+        itemsPrice: itemsPrice.toFixed(2),
+        taxPrice: taxPrice.toFixed(2),
+        totalPrice: totalPrice.toFixed(2),
+        cartItems: updatedCart as CartItems[],
+      },
+    });
+    revalidatePath('/', 'layout');
+    return { success: true, message: 'Course removed from cart' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
 };

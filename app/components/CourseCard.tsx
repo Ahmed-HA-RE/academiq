@@ -9,17 +9,45 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { MotionPreset } from './ui/motion-preset';
-import { addToCart } from '@/lib/actions/cart';
+import { addToCart, removeFromCart } from '@/lib/actions/cart';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { Spinner } from './ui/spinner';
+import { useTransition } from 'react';
+import { CartItems } from '@/types';
 
-const CourseCard = ({ course }: { course: Course }) => {
+type CourseCardProps = {
+  course: Course;
+  cartItems: CartItems[];
+};
+
+const CourseCard = ({ course, cartItems }: CourseCardProps) => {
+  const [isPending, startTransition] = useTransition();
+
+  const isCourseInCart = cartItems.find((item) => item.courseId === course.id);
+
   const handleAddToCart = async () => {
-    const res = await addToCart({
-      courseId: course.id,
-      image: course.image,
-      name: course.title,
-      price: course.salePrice ? course.salePrice : course.price,
+    startTransition(async () => {
+      const res = await addToCart({
+        courseId: course.id,
+        image: course.image,
+        name: course.title,
+        price: course.salePrice ? course.salePrice : course.price,
+      });
+
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
     });
-    console.log(res);
+  };
+
+  const handleRemoveFromCart = async () => {
+    startTransition(async () => {
+      const res = await removeFromCart(course.id);
+      toast.success(res.message);
+    });
   };
 
   return (
@@ -30,7 +58,6 @@ const CourseCard = ({ course }: { course: Course }) => {
       blur
       transition={{ duration: 0.5 }}
       delay={0.4}
-      className=''
     >
       <Card className='h-full shadow-none gap-4 py-0 pt-6 pb-4'>
         <CardContent className='flex flex-1 flex-col gap-6'>
@@ -42,6 +69,7 @@ const CourseCard = ({ course }: { course: Course }) => {
                 width={0}
                 height={0}
                 sizes='100vw'
+                loading='eager'
                 className='w-full max-h-[250px] object-cover'
               />
             </Link>
@@ -58,7 +86,7 @@ const CourseCard = ({ course }: { course: Course }) => {
               </span>
             </CheckboxPrimitive.Root>
           </div>
-          <div className='flex flex-1 flex-col gap-0'>
+          <div className='flex flex-col gap-0'>
             <div className='flex flex-1 flex-col gap-4'>
               <h3 className='text-xl font-medium'>{course.title}</h3>
               <div className='flex items-center gap-3'>
@@ -97,14 +125,27 @@ const CourseCard = ({ course }: { course: Course }) => {
           >
             <Link href={`/course/${course.slug}`}>Read More</Link>
           </Button>
-          <Button
-            onClick={handleAddToCart}
-            className='cursor-pointer'
-            size={'sm'}
-            variant={'outline'}
-          >
-            Enroll Now
-          </Button>
+          {isCourseInCart ? (
+            <Button
+              onClick={handleRemoveFromCart}
+              className='cursor-pointer w-24 bg-destructive text-white hover:bg-destructive/70'
+              size={'sm'}
+              variant={'default'}
+              disabled={isPending}
+            >
+              {isPending ? <Spinner className='size-6' /> : 'Remove'}
+            </Button>
+          ) : (
+            <Button
+              onClick={handleAddToCart}
+              className='cursor-pointer min-w-24'
+              size={'sm'}
+              variant={'outline'}
+              disabled={isPending}
+            >
+              {isPending ? <Spinner className='size-6' /> : 'Enroll Now'}
+            </Button>
+          )}
         </CardFooter>
       </Card>
     </MotionPreset>

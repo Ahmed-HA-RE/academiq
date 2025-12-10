@@ -137,6 +137,7 @@ const Features = () => {
               width={0}
               height={0}
               sizes='100vw'
+              loading='eager'
               className='mx-auto size-110 md:h-147.5 rounded-2xl object-cover'
             />
           </MotionPreset>
