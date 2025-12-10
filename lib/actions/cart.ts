@@ -12,12 +12,13 @@ import { revalidatePath } from 'next/cache';
 const calculatePrices = (cartItems: CartItems[]) => {
   const itemsPrice = cartItems.reduce((acc, c) => acc + Number(c.price), 0);
   const taxPrice = itemsPrice * 0.05; // 5% tax rate
+  console.log(taxPrice);
   const totalPrice = itemsPrice + taxPrice;
 
   return {
-    itemsPrice,
-    taxPrice,
-    totalPrice,
+    itemsPrice: itemsPrice.toFixed(2),
+    taxPrice: taxPrice.toFixed(2),
+    totalPrice: totalPrice.toFixed(2),
   };
 };
 
@@ -48,9 +49,9 @@ export const addToCart = async (data: CartItems) => {
     if (!cart) {
       await prisma.cart.create({
         data: {
-          itemsPrice: itemsPrice.toFixed(2),
-          taxPrice: taxPrice.toFixed(2),
-          totalPrice: totalPrice.toFixed(2),
+          itemsPrice,
+          taxPrice,
+          totalPrice,
           userId: session?.user.id,
           sessionId: sessionId,
           cartItems: [validateData.data],
@@ -74,9 +75,9 @@ export const addToCart = async (data: CartItems) => {
       await prisma.cart.update({
         where: { id: cart.id },
         data: {
-          itemsPrice: itemsPrice.toFixed(2),
-          taxPrice: taxPrice.toFixed(2),
-          totalPrice: totalPrice.toFixed(2),
+          itemsPrice,
+          taxPrice,
+          totalPrice,
           cartItems: cart.cartItems as CartItems[],
         },
       });
@@ -109,9 +110,12 @@ export const getMyCart = async () => {
       ],
     },
   });
-  if (!cart) return null;
+  if (!cart) return undefined;
 
-  return convertToPlainObject(cart);
+  return convertToPlainObject({
+    ...cart,
+    cartItems: cart.cartItems as CartItems[],
+  });
 };
 
 export const removeFromCart = async (courseId: string) => {
@@ -135,9 +139,9 @@ export const removeFromCart = async (courseId: string) => {
     await prisma.cart.update({
       where: { id: cart.id },
       data: {
-        itemsPrice: itemsPrice.toFixed(2),
-        taxPrice: taxPrice.toFixed(2),
-        totalPrice: totalPrice.toFixed(2),
+        itemsPrice,
+        taxPrice,
+        totalPrice,
         cartItems: updatedCart as CartItems[],
       },
     });

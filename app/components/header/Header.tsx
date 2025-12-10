@@ -7,7 +7,8 @@ import DesktopNavMenu from './DesktopNavMenu';
 import Theme from '../Theme';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
-import Cart from '../Cart';
+import { getMyCart } from '@/lib/actions/cart';
+import CartSheet from '../Cart';
 
 const Header = async () => {
   const baseNavigationMenu = [
@@ -21,6 +22,8 @@ const Header = async () => {
     headers: await headers(),
   });
 
+  const cart = await getMyCart();
+
   return (
     <header className='bg-transparent z-10'>
       <div className='mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-7 lg:px-6'>
@@ -33,13 +36,11 @@ const Header = async () => {
           <DesktopNavMenu navigationData={baseNavigationMenu} />
         </div>
 
-        <div className='flex items-center gap-2 md:gap-3'>
-          <div>
-            {/* Cart */}
-            <Cart />
-            {/* Theme */}
-            <Theme />
-          </div>
+        <div className='flex items-center '>
+          {/* Cart */}
+          <CartSheet cart={cart} />
+          {/* Theme */}
+          <Theme />
           {/* User menu */}
           <ProfileDropdown session={session} />
         </div>

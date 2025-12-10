@@ -15,7 +15,7 @@ const Theme = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger className='mr-2' asChild>
         <Button
           className='cursor-pointer focus-visible:ring-0'
           variant='ghost'

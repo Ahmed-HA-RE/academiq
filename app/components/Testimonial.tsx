@@ -36,7 +36,7 @@ const Testimonial = () => {
   }, [api]);
 
   return (
-    <section className='bg-gray-50 dark:bg-accent py-4'>
+    <section className='bg-gray-50 dark:bg-accent py-4 my-16 md:my-25'>
       <MotionPreset
         component='div'
         className='container space-y-10'
@@ -88,8 +88,8 @@ const Testimonial = () => {
                           ? index === testimonials.length - 1 ||
                             current + 1 === index
                           : current === testimonials.length - 1
-                          ? current - 1 === index || index === 0
-                          : current - 1 === index || current + 1 === index,
+                            ? current - 1 === index || index === 0
+                            : current - 1 === index || current + 1 === index,
                     }
                   )}
                 >

@@ -4,27 +4,26 @@ import { Card, CardContent, CardFooter } from './ui/card';
 import Link from 'next/link';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Badge } from './ui/badge';
-import { Course } from '@/types';
+import { Cart, Course } from '@/types';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { MotionPreset } from './ui/motion-preset';
 import { addToCart, removeFromCart } from '@/lib/actions/cart';
-import { useState } from 'react';
 import { toast } from 'sonner';
 import { Spinner } from './ui/spinner';
 import { useTransition } from 'react';
-import { CartItems } from '@/types';
 
 type CourseCardProps = {
   course: Course;
-  cartItems: CartItems[];
+  cart: Cart | undefined;
 };
 
-const CourseCard = ({ course, cartItems }: CourseCardProps) => {
+const CourseCard = ({ course, cart }: CourseCardProps) => {
   const [isPending, startTransition] = useTransition();
 
-  const isCourseInCart = cartItems.find((item) => item.courseId === course.id);
+  const isCourseInCart =
+    cart && cart.cartItems.find((item) => item.courseId === course.id);
 
   const handleAddToCart = async () => {
     startTransition(async () => {

@@ -91,7 +91,7 @@ export const cartSchema = z.object({
   sessionId: z
     .uuid({ error: 'Invalid session id' })
     .min(1, 'Session id is required'),
-  userId: z.string({ error: 'Invalid user id' }).optional(),
+  userId: z.string({ error: 'Invalid user id' }).optional().nullable(),
   cartItems: z.array(cartItemsSchema).min(1, 'Cart items cannot be empty'),
   itemsPrice: moneyAmount,
   taxPrice: moneyAmount,
