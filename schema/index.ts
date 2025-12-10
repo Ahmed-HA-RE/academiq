@@ -72,3 +72,28 @@ export const resetPasswordSchema = z
     path: ['confirmPassword'],
     error: "Passwords don't match",
   });
+
+// Cart schema
+export const cartItemsSchema = z.object({
+  courseId: z
+    .uuid({ error: 'Invalid course id' })
+    .min(1, 'Course id is required'),
+  name: z
+    .string({ error: 'Invalid course name' })
+    .min(1, 'Course name is required'),
+  image: z
+    .string({ error: 'Invalid course image' })
+    .min(1, 'Course image is required'),
+  price: moneyAmount,
+});
+
+export const cartSchema = z.object({
+  sessionId: z
+    .uuid({ error: 'Invalid session id' })
+    .min(1, 'Session id is required'),
+  userId: z.string({ error: 'Invalid user id' }).optional(),
+  cartItems: z.array(cartItemsSchema).min(1, 'Cart items cannot be empty'),
+  itemsPrice: moneyAmount,
+  taxPrice: moneyAmount,
+  totalPrice: moneyAmount,
+});

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from './lib/auth';
 import { headers } from 'next/headers';
+import { cookies } from 'next/headers';
 
 export const proxy = async (req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
@@ -30,6 +31,17 @@ export const proxy = async (req: NextRequest) => {
   if (pathname === '/reset-password' && (session || Invalid_Token)) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
+
+  // Add cart session id in the cookies
+  if (!req.cookies.get('sessionId')) {
+    const sessionId = crypto.randomUUID();
+    const response = NextResponse.next();
+    response.cookies.set('sessionId', sessionId, {
+      httpOnly: true,
+    });
+
+    return response;
+  }
 };
 
 export const config = {
@@ -39,5 +51,6 @@ export const config = {
     '/verify-email',
     '/forgot-password',
     '/reset-password',
+    '/((?!api|_next/static|_next/image|.*\\.png$).*)',
   ],
 };
