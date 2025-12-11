@@ -1,5 +1,5 @@
 import CTA from '../components/CTA';
-import FeaturedCourses from '../components/FeaturedCourses';
+import FeaturedCourses from '../components/courses/FeaturedCourses';
 import Features from '../components/Features';
 import HeroSection from '../components/HeroSection';
 import Testimonial from '../components/Testimonial';

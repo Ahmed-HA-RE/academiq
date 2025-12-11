@@ -1319,12 +1319,14 @@ export namespace Prisma {
   export type UserCountOutputType = {
     sessions: number
     accounts: number
+    courses: number
     carts: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
+    courses?: boolean | UserCountOutputTypeCountCoursesArgs
     carts?: boolean | UserCountOutputTypeCountCartsArgs
   }
 
@@ -1356,6 +1358,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountCoursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CourseWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountCartsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CartWhereInput
   }
@@ -1380,6 +1389,7 @@ export namespace Prisma {
   export type CourseAvgAggregateOutputType = {
     price: Decimal | null
     salePrice: Decimal | null
+    duration: number | null
     rating: Decimal | null
     numReviews: number | null
   }
@@ -1387,6 +1397,7 @@ export namespace Prisma {
   export type CourseSumAggregateOutputType = {
     price: Decimal | null
     salePrice: Decimal | null
+    duration: number | null
     rating: Decimal | null
     numReviews: number | null
   }
@@ -1399,13 +1410,16 @@ export namespace Prisma {
     price: Decimal | null
     salePrice: Decimal | null
     isFeatured: boolean | null
-    isSaved: boolean | null
     image: string | null
     language: string | null
+    duration: number | null
+    difficulty: string | null
+    prequisites: string | null
     rating: Decimal | null
     numReviews: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    userId: string | null
   }
 
   export type CourseMaxAggregateOutputType = {
@@ -1416,13 +1430,16 @@ export namespace Prisma {
     price: Decimal | null
     salePrice: Decimal | null
     isFeatured: boolean | null
-    isSaved: boolean | null
     image: string | null
     language: string | null
+    duration: number | null
+    difficulty: string | null
+    prequisites: string | null
     rating: Decimal | null
     numReviews: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    userId: string | null
   }
 
   export type CourseCountAggregateOutputType = {
@@ -1433,13 +1450,16 @@ export namespace Prisma {
     price: number
     salePrice: number
     isFeatured: number
-    isSaved: number
     image: number
     language: number
+    duration: number
+    difficulty: number
+    prequisites: number
     rating: number
     numReviews: number
     createdAt: number
     updatedAt: number
+    userId: number
     _all: number
   }
 
@@ -1447,6 +1467,7 @@ export namespace Prisma {
   export type CourseAvgAggregateInputType = {
     price?: true
     salePrice?: true
+    duration?: true
     rating?: true
     numReviews?: true
   }
@@ -1454,6 +1475,7 @@ export namespace Prisma {
   export type CourseSumAggregateInputType = {
     price?: true
     salePrice?: true
+    duration?: true
     rating?: true
     numReviews?: true
   }
@@ -1466,13 +1488,16 @@ export namespace Prisma {
     price?: true
     salePrice?: true
     isFeatured?: true
-    isSaved?: true
     image?: true
     language?: true
+    duration?: true
+    difficulty?: true
+    prequisites?: true
     rating?: true
     numReviews?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
   }
 
   export type CourseMaxAggregateInputType = {
@@ -1483,13 +1508,16 @@ export namespace Prisma {
     price?: true
     salePrice?: true
     isFeatured?: true
-    isSaved?: true
     image?: true
     language?: true
+    duration?: true
+    difficulty?: true
+    prequisites?: true
     rating?: true
     numReviews?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
   }
 
   export type CourseCountAggregateInputType = {
@@ -1500,13 +1528,16 @@ export namespace Prisma {
     price?: true
     salePrice?: true
     isFeatured?: true
-    isSaved?: true
     image?: true
     language?: true
+    duration?: true
+    difficulty?: true
+    prequisites?: true
     rating?: true
     numReviews?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
     _all?: true
   }
 
@@ -1604,13 +1635,16 @@ export namespace Prisma {
     price: Decimal
     salePrice: Decimal | null
     isFeatured: boolean
-    isSaved: boolean
     image: string
     language: string
+    duration: number
+    difficulty: string
+    prequisites: string
     rating: Decimal
     numReviews: number
     createdAt: Date
     updatedAt: Date
+    userId: string | null
     _count: CourseCountAggregateOutputType | null
     _avg: CourseAvgAggregateOutputType | null
     _sum: CourseSumAggregateOutputType | null
@@ -1640,13 +1674,17 @@ export namespace Prisma {
     price?: boolean
     salePrice?: boolean
     isFeatured?: boolean
-    isSaved?: boolean
     image?: boolean
     language?: boolean
+    duration?: boolean
+    difficulty?: boolean
+    prequisites?: boolean
     rating?: boolean
     numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | Course$userArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1657,13 +1695,17 @@ export namespace Prisma {
     price?: boolean
     salePrice?: boolean
     isFeatured?: boolean
-    isSaved?: boolean
     image?: boolean
     language?: boolean
+    duration?: boolean
+    difficulty?: boolean
+    prequisites?: boolean
     rating?: boolean
     numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | Course$userArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1674,13 +1716,17 @@ export namespace Prisma {
     price?: boolean
     salePrice?: boolean
     isFeatured?: boolean
-    isSaved?: boolean
     image?: boolean
     language?: boolean
+    duration?: boolean
+    difficulty?: boolean
+    prequisites?: boolean
     rating?: boolean
     numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | Course$userArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectScalar = {
@@ -1691,20 +1737,34 @@ export namespace Prisma {
     price?: boolean
     salePrice?: boolean
     isFeatured?: boolean
-    isSaved?: boolean
     image?: boolean
     language?: boolean
+    duration?: boolean
+    difficulty?: boolean
+    prequisites?: boolean
     rating?: boolean
     numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "salePrice" | "isFeatured" | "isSaved" | "image" | "language" | "rating" | "numReviews" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "salePrice" | "isFeatured" | "image" | "language" | "duration" | "difficulty" | "prequisites" | "rating" | "numReviews" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["course"]>
+  export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | Course$userArgs<ExtArgs>
+  }
+  export type CourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | Course$userArgs<ExtArgs>
+  }
+  export type CourseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | Course$userArgs<ExtArgs>
+  }
 
   export type $CoursePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Course"
-    objects: {}
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       slug: string
@@ -1713,13 +1773,16 @@ export namespace Prisma {
       price: Prisma.Decimal
       salePrice: Prisma.Decimal | null
       isFeatured: boolean
-      isSaved: boolean
       image: string
       language: string
+      duration: number
+      difficulty: string
+      prequisites: string
       rating: Prisma.Decimal
       numReviews: number
       createdAt: Date
       updatedAt: Date
+      userId: string | null
     }, ExtArgs["result"]["course"]>
     composites: {}
   }
@@ -2114,6 +2177,7 @@ export namespace Prisma {
    */
   export interface Prisma__CourseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends Course$userArgs<ExtArgs> = {}>(args?: Subset<T, Course$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2150,13 +2214,16 @@ export namespace Prisma {
     readonly price: FieldRef<"Course", 'Decimal'>
     readonly salePrice: FieldRef<"Course", 'Decimal'>
     readonly isFeatured: FieldRef<"Course", 'Boolean'>
-    readonly isSaved: FieldRef<"Course", 'Boolean'>
     readonly image: FieldRef<"Course", 'String'>
     readonly language: FieldRef<"Course", 'String'>
+    readonly duration: FieldRef<"Course", 'Int'>
+    readonly difficulty: FieldRef<"Course", 'String'>
+    readonly prequisites: FieldRef<"Course", 'String'>
     readonly rating: FieldRef<"Course", 'Decimal'>
     readonly numReviews: FieldRef<"Course", 'Int'>
     readonly createdAt: FieldRef<"Course", 'DateTime'>
     readonly updatedAt: FieldRef<"Course", 'DateTime'>
+    readonly userId: FieldRef<"Course", 'String'>
   }
     
 
@@ -2173,6 +2240,10 @@ export namespace Prisma {
      * Omit specific fields from the Course
      */
     omit?: CourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
     /**
      * Filter, which Course to fetch.
      */
@@ -2192,6 +2263,10 @@ export namespace Prisma {
      */
     omit?: CourseOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
+    /**
      * Filter, which Course to fetch.
      */
     where: CourseWhereUniqueInput
@@ -2209,6 +2284,10 @@ export namespace Prisma {
      * Omit specific fields from the Course
      */
     omit?: CourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
     /**
      * Filter, which Course to fetch.
      */
@@ -2258,6 +2337,10 @@ export namespace Prisma {
      */
     omit?: CourseOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
+    /**
      * Filter, which Course to fetch.
      */
     where?: CourseWhereInput
@@ -2306,6 +2389,10 @@ export namespace Prisma {
      */
     omit?: CourseOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
+    /**
      * Filter, which Courses to fetch.
      */
     where?: CourseWhereInput
@@ -2349,6 +2436,10 @@ export namespace Prisma {
      */
     omit?: CourseOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
+    /**
      * The data needed to create a Course.
      */
     data: XOR<CourseCreateInput, CourseUncheckedCreateInput>
@@ -2382,6 +2473,10 @@ export namespace Prisma {
      */
     data: CourseCreateManyInput | CourseCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2396,6 +2491,10 @@ export namespace Prisma {
      * Omit specific fields from the Course
      */
     omit?: CourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
     /**
      * The data needed to update a Course.
      */
@@ -2448,6 +2547,10 @@ export namespace Prisma {
      * Limit how many Courses to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2462,6 +2565,10 @@ export namespace Prisma {
      * Omit specific fields from the Course
      */
     omit?: CourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
     /**
      * The filter to search for the Course to update in case it exists.
      */
@@ -2489,6 +2596,10 @@ export namespace Prisma {
      */
     omit?: CourseOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
+    /**
      * Filter which Course to delete.
      */
     where: CourseWhereUniqueInput
@@ -2509,6 +2620,25 @@ export namespace Prisma {
   }
 
   /**
+   * Course.user
+   */
+  export type Course$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * Course without action
    */
   export type CourseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2520,6 +2650,10 @@ export namespace Prisma {
      * Omit specific fields from the Course
      */
     omit?: CourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
   }
 
 
@@ -2737,6 +2871,7 @@ export namespace Prisma {
     updatedAt?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
+    courses?: boolean | User$coursesArgs<ExtArgs>
     carts?: boolean | User$cartsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -2790,6 +2925,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
+    courses?: boolean | User$coursesArgs<ExtArgs>
     carts?: boolean | User$cartsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -2801,6 +2937,7 @@ export namespace Prisma {
     objects: {
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
+      courses: Prisma.$CoursePayload<ExtArgs>[]
       carts: Prisma.$CartPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -3212,6 +3349,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    courses<T extends User$coursesArgs<ExtArgs> = {}>(args?: Subset<T, User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     carts<T extends User$cartsArgs<ExtArgs> = {}>(args?: Subset<T, User$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3687,6 +3825,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
+  }
+
+  /**
+   * User.courses
+   */
+  export type User$coursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Course
+     */
+    select?: CourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Course
+     */
+    omit?: CourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
+    where?: CourseWhereInput
+    orderBy?: CourseOrderByWithRelationInput | CourseOrderByWithRelationInput[]
+    cursor?: CourseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CourseScalarFieldEnum | CourseScalarFieldEnum[]
   }
 
   /**
@@ -7195,7 +7357,7 @@ export namespace Prisma {
   export type CartGroupByOutputType = {
     id: string
     userId: string | null
-    sessionId: string
+    sessionId: string | null
     cartItems: JsonValue[]
     itemsPrice: Decimal
     totalPrice: Decimal
@@ -7293,7 +7455,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string | null
-      sessionId: string
+      sessionId: string | null
       cartItems: Prisma.JsonValue[]
       itemsPrice: Prisma.Decimal
       totalPrice: Prisma.Decimal
@@ -8188,13 +8350,16 @@ export namespace Prisma {
     price: 'price',
     salePrice: 'salePrice',
     isFeatured: 'isFeatured',
-    isSaved: 'isSaved',
     image: 'image',
     language: 'language',
+    duration: 'duration',
+    difficulty: 'difficulty',
+    prequisites: 'prequisites',
     rating: 'rating',
     numReviews: 'numReviews',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    userId: 'userId'
   };
 
   export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
@@ -8436,13 +8601,17 @@ export namespace Prisma {
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     salePrice?: DecimalNullableFilter<"Course"> | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFilter<"Course"> | boolean
-    isSaved?: BoolFilter<"Course"> | boolean
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
+    duration?: IntFilter<"Course"> | number
+    difficulty?: StringFilter<"Course"> | string
+    prequisites?: StringFilter<"Course"> | string
     rating?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     numReviews?: IntFilter<"Course"> | number
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
+    userId?: StringNullableFilter<"Course"> | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type CourseOrderByWithRelationInput = {
@@ -8453,13 +8622,17 @@ export namespace Prisma {
     price?: SortOrder
     salePrice?: SortOrderInput | SortOrder
     isFeatured?: SortOrder
-    isSaved?: SortOrder
     image?: SortOrder
     language?: SortOrder
+    duration?: SortOrder
+    difficulty?: SortOrder
+    prequisites?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
   }
 
   export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -8473,13 +8646,17 @@ export namespace Prisma {
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     salePrice?: DecimalNullableFilter<"Course"> | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFilter<"Course"> | boolean
-    isSaved?: BoolFilter<"Course"> | boolean
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
+    duration?: IntFilter<"Course"> | number
+    difficulty?: StringFilter<"Course"> | string
+    prequisites?: StringFilter<"Course"> | string
     rating?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     numReviews?: IntFilter<"Course"> | number
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
+    userId?: StringNullableFilter<"Course"> | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id" | "slug">
 
   export type CourseOrderByWithAggregationInput = {
@@ -8490,13 +8667,16 @@ export namespace Prisma {
     price?: SortOrder
     salePrice?: SortOrderInput | SortOrder
     isFeatured?: SortOrder
-    isSaved?: SortOrder
     image?: SortOrder
     language?: SortOrder
+    duration?: SortOrder
+    difficulty?: SortOrder
+    prequisites?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrderInput | SortOrder
     _count?: CourseCountOrderByAggregateInput
     _avg?: CourseAvgOrderByAggregateInput
     _max?: CourseMaxOrderByAggregateInput
@@ -8515,13 +8695,16 @@ export namespace Prisma {
     price?: DecimalWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string
     salePrice?: DecimalNullableWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolWithAggregatesFilter<"Course"> | boolean
-    isSaved?: BoolWithAggregatesFilter<"Course"> | boolean
     image?: StringWithAggregatesFilter<"Course"> | string
     language?: StringWithAggregatesFilter<"Course"> | string
+    duration?: IntWithAggregatesFilter<"Course"> | number
+    difficulty?: StringWithAggregatesFilter<"Course"> | string
+    prequisites?: StringWithAggregatesFilter<"Course"> | string
     rating?: DecimalWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string
     numReviews?: IntWithAggregatesFilter<"Course"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
+    userId?: StringNullableWithAggregatesFilter<"Course"> | string | null
   }
 
   export type UserWhereInput = {
@@ -8542,6 +8725,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
+    courses?: CourseListRelationFilter
     carts?: CartListRelationFilter
   }
 
@@ -8560,6 +8744,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
+    courses?: CourseOrderByRelationAggregateInput
     carts?: CartOrderByRelationAggregateInput
   }
 
@@ -8581,6 +8766,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
+    courses?: CourseListRelationFilter
     carts?: CartListRelationFilter
   }, "id" | "email">
 
@@ -8848,7 +9034,7 @@ export namespace Prisma {
     NOT?: CartWhereInput | CartWhereInput[]
     id?: StringFilter<"Cart"> | string
     userId?: StringNullableFilter<"Cart"> | string | null
-    sessionId?: UuidFilter<"Cart"> | string
+    sessionId?: UuidNullableFilter<"Cart"> | string | null
     cartItems?: JsonNullableListFilter<"Cart">
     itemsPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
@@ -8861,7 +9047,7 @@ export namespace Prisma {
   export type CartOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
-    sessionId?: SortOrder
+    sessionId?: SortOrderInput | SortOrder
     cartItems?: SortOrder
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
@@ -8873,11 +9059,11 @@ export namespace Prisma {
 
   export type CartWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    sessionId?: string
     AND?: CartWhereInput | CartWhereInput[]
     OR?: CartWhereInput[]
     NOT?: CartWhereInput | CartWhereInput[]
     userId?: StringNullableFilter<"Cart"> | string | null
-    sessionId?: UuidFilter<"Cart"> | string
     cartItems?: JsonNullableListFilter<"Cart">
     itemsPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
@@ -8885,12 +9071,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Cart"> | Date | string
     updatedAt?: DateTimeFilter<"Cart"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-  }, "id">
+  }, "id" | "sessionId">
 
   export type CartOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
-    sessionId?: SortOrder
+    sessionId?: SortOrderInput | SortOrder
     cartItems?: SortOrder
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
@@ -8910,7 +9096,7 @@ export namespace Prisma {
     NOT?: CartScalarWhereWithAggregatesInput | CartScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Cart"> | string
     userId?: StringNullableWithAggregatesFilter<"Cart"> | string | null
-    sessionId?: UuidWithAggregatesFilter<"Cart"> | string
+    sessionId?: UuidNullableWithAggregatesFilter<"Cart"> | string | null
     cartItems?: JsonNullableListFilter<"Cart">
     itemsPrice?: DecimalWithAggregatesFilter<"Cart"> | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalWithAggregatesFilter<"Cart"> | Decimal | DecimalJsLike | number | string
@@ -8927,13 +9113,16 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     salePrice?: Decimal | DecimalJsLike | number | string | null
     isFeatured?: boolean
-    isSaved?: boolean
     image: string
     language: string
+    duration: number
+    difficulty: string
+    prequisites: string
     rating?: Decimal | DecimalJsLike | number | string
     numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutCoursesInput
   }
 
   export type CourseUncheckedCreateInput = {
@@ -8944,13 +9133,16 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     salePrice?: Decimal | DecimalJsLike | number | string | null
     isFeatured?: boolean
-    isSaved?: boolean
     image: string
     language: string
+    duration: number
+    difficulty: string
+    prequisites: string
     rating?: Decimal | DecimalJsLike | number | string
     numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId?: string | null
   }
 
   export type CourseUpdateInput = {
@@ -8961,13 +9153,16 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isSaved?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    difficulty?: StringFieldUpdateOperationsInput | string
+    prequisites?: StringFieldUpdateOperationsInput | string
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutCoursesNestedInput
   }
 
   export type CourseUncheckedUpdateInput = {
@@ -8978,13 +9173,16 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isSaved?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    difficulty?: StringFieldUpdateOperationsInput | string
+    prequisites?: StringFieldUpdateOperationsInput | string
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CourseCreateManyInput = {
@@ -8995,13 +9193,16 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     salePrice?: Decimal | DecimalJsLike | number | string | null
     isFeatured?: boolean
-    isSaved?: boolean
     image: string
     language: string
+    duration: number
+    difficulty: string
+    prequisites: string
     rating?: Decimal | DecimalJsLike | number | string
     numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId?: string | null
   }
 
   export type CourseUpdateManyMutationInput = {
@@ -9012,9 +9213,11 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isSaved?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    difficulty?: StringFieldUpdateOperationsInput | string
+    prequisites?: StringFieldUpdateOperationsInput | string
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9029,13 +9232,16 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isSaved?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    difficulty?: StringFieldUpdateOperationsInput | string
+    prequisites?: StringFieldUpdateOperationsInput | string
     rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCreateInput = {
@@ -9053,6 +9259,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
     carts?: CartCreateNestedManyWithoutUserInput
   }
 
@@ -9071,6 +9278,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -9089,6 +9297,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
   }
 
@@ -9107,6 +9316,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -9407,7 +9617,7 @@ export namespace Prisma {
 
   export type CartCreateInput = {
     id?: string
-    sessionId: string
+    sessionId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -9420,7 +9630,7 @@ export namespace Prisma {
   export type CartUncheckedCreateInput = {
     id?: string
     userId?: string | null
-    sessionId: string
+    sessionId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -9431,7 +9641,7 @@ export namespace Prisma {
 
   export type CartUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -9444,7 +9654,7 @@ export namespace Prisma {
   export type CartUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
-    sessionId?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -9456,7 +9666,7 @@ export namespace Prisma {
   export type CartCreateManyInput = {
     id?: string
     userId?: string | null
-    sessionId: string
+    sessionId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -9467,7 +9677,7 @@ export namespace Prisma {
 
   export type CartUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -9479,7 +9689,7 @@ export namespace Prisma {
   export type CartUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
-    sessionId?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -9552,6 +9762,26 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -9565,18 +9795,22 @@ export namespace Prisma {
     price?: SortOrder
     salePrice?: SortOrder
     isFeatured?: SortOrder
-    isSaved?: SortOrder
     image?: SortOrder
     language?: SortOrder
+    duration?: SortOrder
+    difficulty?: SortOrder
+    prequisites?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
   }
 
   export type CourseAvgOrderByAggregateInput = {
     price?: SortOrder
     salePrice?: SortOrder
+    duration?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
   }
@@ -9589,13 +9823,16 @@ export namespace Prisma {
     price?: SortOrder
     salePrice?: SortOrder
     isFeatured?: SortOrder
-    isSaved?: SortOrder
     image?: SortOrder
     language?: SortOrder
+    duration?: SortOrder
+    difficulty?: SortOrder
+    prequisites?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
   }
 
   export type CourseMinOrderByAggregateInput = {
@@ -9606,18 +9843,22 @@ export namespace Prisma {
     price?: SortOrder
     salePrice?: SortOrder
     isFeatured?: SortOrder
-    isSaved?: SortOrder
     image?: SortOrder
     language?: SortOrder
+    duration?: SortOrder
+    difficulty?: SortOrder
+    prequisites?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
   }
 
   export type CourseSumOrderByAggregateInput = {
     price?: SortOrder
     salePrice?: SortOrder
+    duration?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
   }
@@ -9709,6 +9950,24 @@ export namespace Prisma {
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -9733,21 +9992,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type SessionListRelationFilter = {
     every?: SessionWhereInput
     some?: SessionWhereInput
@@ -9758,6 +10002,12 @@ export namespace Prisma {
     every?: AccountWhereInput
     some?: AccountWhereInput
     none?: AccountWhereInput
+  }
+
+  export type CourseListRelationFilter = {
+    every?: CourseWhereInput
+    some?: CourseWhereInput
+    none?: CourseWhereInput
   }
 
   export type CartListRelationFilter = {
@@ -9771,6 +10021,10 @@ export namespace Prisma {
   }
 
   export type AccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CourseOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9843,24 +10097,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -10001,16 +10237,16 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type UuidFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+  export type UuidNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedUuidFilter<$PrismaModel> | string
+    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
   export type JsonNullableListFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -10025,11 +10261,6 @@ export namespace Prisma {
     hasEvery?: InputJsonValue[] | ListJsonFieldRefInput<$PrismaModel>
     hasSome?: InputJsonValue[] | ListJsonFieldRefInput<$PrismaModel>
     isEmpty?: boolean
-  }
-
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
   }
 
   export type CartCountOrderByAggregateInput = {
@@ -10078,19 +10309,25 @@ export namespace Prisma {
     taxPrice?: SortOrder
   }
 
-  export type UuidWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type UserCreateNestedOneWithoutCoursesInput = {
+    create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCoursesInput
+    connect?: UserWhereUniqueInput
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -10129,6 +10366,20 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type UserUpdateOneWithoutCoursesNestedInput = {
+    create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCoursesInput
+    upsert?: UserUpsertWithoutCoursesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCoursesInput, UserUpdateWithoutCoursesInput>, UserUncheckedUpdateWithoutCoursesInput>
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -10141,6 +10392,13 @@ export namespace Prisma {
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
     createMany?: AccountCreateManyUserInputEnvelope
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+  }
+
+  export type CourseCreateNestedManyWithoutUserInput = {
+    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
+    createMany?: CourseCreateManyUserInputEnvelope
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
   }
 
   export type CartCreateNestedManyWithoutUserInput = {
@@ -10164,15 +10422,18 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
+  export type CourseUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
+    createMany?: CourseCreateManyUserInputEnvelope
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+  }
+
   export type CartUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<CartCreateWithoutUserInput, CartUncheckedCreateWithoutUserInput> | CartCreateWithoutUserInput[] | CartUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CartCreateOrConnectWithoutUserInput | CartCreateOrConnectWithoutUserInput[]
     createMany?: CartCreateManyUserInputEnvelope
     connect?: CartWhereUniqueInput | CartWhereUniqueInput[]
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -10201,6 +10462,20 @@ export namespace Prisma {
     update?: AccountUpdateWithWhereUniqueWithoutUserInput | AccountUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AccountUpdateManyWithWhereWithoutUserInput | AccountUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
+  }
+
+  export type CourseUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
+    upsert?: CourseUpsertWithWhereUniqueWithoutUserInput | CourseUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CourseCreateManyUserInputEnvelope
+    set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    update?: CourseUpdateWithWhereUniqueWithoutUserInput | CourseUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CourseUpdateManyWithWhereWithoutUserInput | CourseUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
   }
 
   export type CartUpdateManyWithoutUserNestedInput = {
@@ -10243,6 +10518,20 @@ export namespace Prisma {
     update?: AccountUpdateWithWhereUniqueWithoutUserInput | AccountUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AccountUpdateManyWithWhereWithoutUserInput | AccountUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
+  }
+
+  export type CourseUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
+    upsert?: CourseUpsertWithWhereUniqueWithoutUserInput | CourseUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CourseCreateManyUserInputEnvelope
+    set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    update?: CourseUpdateWithWhereUniqueWithoutUserInput | CourseUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CourseUpdateManyWithWhereWithoutUserInput | CourseUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
   }
 
   export type CartUncheckedUpdateManyWithoutUserNestedInput = {
@@ -10379,6 +10668,20 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -10488,7 +10791,7 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -10499,7 +10802,10 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -10523,23 +10829,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -10567,29 +10856,117 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedUuidFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+  export type NestedUuidNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidFilter<$PrismaModel> | string
+    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedUuidWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+  export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type UserCreateWithoutCoursesInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string
+    role?: string
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    paymentMethod?: string | null
+    paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    carts?: CartCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCoursesInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string
+    role?: string
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    paymentMethod?: string | null
+    paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    carts?: CartUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCoursesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
+  }
+
+  export type UserUpsertWithoutCoursesInput = {
+    update: XOR<UserUpdateWithoutCoursesInput, UserUncheckedUpdateWithoutCoursesInput>
+    create: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCoursesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCoursesInput, UserUncheckedUpdateWithoutCoursesInput>
+  }
+
+  export type UserUpdateWithoutCoursesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    carts?: CartUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCoursesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    carts?: CartUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -10662,9 +11039,57 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CourseCreateWithoutUserInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    price: Decimal | DecimalJsLike | number | string
+    salePrice?: Decimal | DecimalJsLike | number | string | null
+    isFeatured?: boolean
+    image: string
+    language: string
+    duration: number
+    difficulty: string
+    prequisites: string
+    rating?: Decimal | DecimalJsLike | number | string
+    numReviews?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CourseUncheckedCreateWithoutUserInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    price: Decimal | DecimalJsLike | number | string
+    salePrice?: Decimal | DecimalJsLike | number | string | null
+    isFeatured?: boolean
+    image: string
+    language: string
+    duration: number
+    difficulty: string
+    prequisites: string
+    rating?: Decimal | DecimalJsLike | number | string
+    numReviews?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CourseCreateOrConnectWithoutUserInput = {
+    where: CourseWhereUniqueInput
+    create: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput>
+  }
+
+  export type CourseCreateManyUserInputEnvelope = {
+    data: CourseCreateManyUserInput | CourseCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CartCreateWithoutUserInput = {
     id?: string
-    sessionId: string
+    sessionId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -10675,7 +11100,7 @@ export namespace Prisma {
 
   export type CartUncheckedCreateWithoutUserInput = {
     id?: string
-    sessionId: string
+    sessionId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -10759,6 +11184,45 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Account"> | Date | string
   }
 
+  export type CourseUpsertWithWhereUniqueWithoutUserInput = {
+    where: CourseWhereUniqueInput
+    update: XOR<CourseUpdateWithoutUserInput, CourseUncheckedUpdateWithoutUserInput>
+    create: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput>
+  }
+
+  export type CourseUpdateWithWhereUniqueWithoutUserInput = {
+    where: CourseWhereUniqueInput
+    data: XOR<CourseUpdateWithoutUserInput, CourseUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CourseUpdateManyWithWhereWithoutUserInput = {
+    where: CourseScalarWhereInput
+    data: XOR<CourseUpdateManyMutationInput, CourseUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CourseScalarWhereInput = {
+    AND?: CourseScalarWhereInput | CourseScalarWhereInput[]
+    OR?: CourseScalarWhereInput[]
+    NOT?: CourseScalarWhereInput | CourseScalarWhereInput[]
+    id?: StringFilter<"Course"> | string
+    slug?: StringFilter<"Course"> | string
+    title?: StringFilter<"Course"> | string
+    description?: StringFilter<"Course"> | string
+    price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
+    salePrice?: DecimalNullableFilter<"Course"> | Decimal | DecimalJsLike | number | string | null
+    isFeatured?: BoolFilter<"Course"> | boolean
+    image?: StringFilter<"Course"> | string
+    language?: StringFilter<"Course"> | string
+    duration?: IntFilter<"Course"> | number
+    difficulty?: StringFilter<"Course"> | string
+    prequisites?: StringFilter<"Course"> | string
+    rating?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
+    numReviews?: IntFilter<"Course"> | number
+    createdAt?: DateTimeFilter<"Course"> | Date | string
+    updatedAt?: DateTimeFilter<"Course"> | Date | string
+    userId?: StringNullableFilter<"Course"> | string | null
+  }
+
   export type CartUpsertWithWhereUniqueWithoutUserInput = {
     where: CartWhereUniqueInput
     update: XOR<CartUpdateWithoutUserInput, CartUncheckedUpdateWithoutUserInput>
@@ -10781,7 +11245,7 @@ export namespace Prisma {
     NOT?: CartScalarWhereInput | CartScalarWhereInput[]
     id?: StringFilter<"Cart"> | string
     userId?: StringNullableFilter<"Cart"> | string | null
-    sessionId?: UuidFilter<"Cart"> | string
+    sessionId?: UuidNullableFilter<"Cart"> | string | null
     cartItems?: JsonNullableListFilter<"Cart">
     itemsPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
@@ -10804,6 +11268,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
     carts?: CartCreateNestedManyWithoutUserInput
   }
 
@@ -10821,6 +11286,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -10854,6 +11320,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
   }
 
@@ -10871,6 +11338,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -10888,6 +11356,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
     carts?: CartCreateNestedManyWithoutUserInput
   }
 
@@ -10905,6 +11374,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -10938,6 +11408,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
   }
 
@@ -10955,6 +11426,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -10973,6 +11445,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCartsInput = {
@@ -10990,6 +11463,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCartsInput = {
@@ -11023,6 +11497,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartsInput = {
@@ -11040,6 +11515,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SessionCreateManyUserInput = {
@@ -11067,9 +11543,28 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type CourseCreateManyUserInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    price: Decimal | DecimalJsLike | number | string
+    salePrice?: Decimal | DecimalJsLike | number | string | null
+    isFeatured?: boolean
+    image: string
+    language: string
+    duration: number
+    difficulty: string
+    prequisites: string
+    rating?: Decimal | DecimalJsLike | number | string
+    numReviews?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CartCreateManyUserInput = {
     id?: string
-    sessionId: string
+    sessionId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -11153,9 +11648,66 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CourseUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    difficulty?: StringFieldUpdateOperationsInput | string
+    prequisites?: StringFieldUpdateOperationsInput | string
+    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    numReviews?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CourseUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    difficulty?: StringFieldUpdateOperationsInput | string
+    prequisites?: StringFieldUpdateOperationsInput | string
+    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    numReviews?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CourseUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    difficulty?: StringFieldUpdateOperationsInput | string
+    prequisites?: StringFieldUpdateOperationsInput | string
+    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    numReviews?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CartUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -11166,7 +11718,7 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -11177,7 +11729,7 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string

@@ -11,6 +11,7 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { APIError } from 'better-auth';
 import { SERVER_URL } from '../constants';
+import { cookies } from 'next/headers';
 
 export const registerUser = async (data: RegisterFormData) => {
   try {
@@ -73,6 +74,10 @@ export const logoutUser = async () => {
     await auth.api.signOut({
       headers: await headers(),
     });
+
+    // Clear sessionId cookie
+    (await cookies()).delete('sessionId');
+
     return { success: true, message: 'Logged out successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
@@ -160,11 +165,15 @@ export const sendPasswordResetLink = async (email: string) => {
   }
 };
 
-export const signInWithProviders = async (provider: 'google') => {
+export const signInWithProviders = async (
+  provider: 'google',
+  callbackURL: string
+) => {
   const result = await auth.api.signInSocial({
     body: {
       provider: provider,
       errorCallbackURL: `${SERVER_URL}`,
+      callbackURL: callbackURL,
     },
   });
   if (result.url) {

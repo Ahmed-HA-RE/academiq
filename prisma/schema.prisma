@@ -21,13 +21,16 @@ model Course {
   price       Decimal  @db.Decimal(10, 2)
   salePrice   Decimal? @db.Decimal(10, 2)
   isFeatured  Boolean  @default(false)
-  isSaved     Boolean  @default(false)
   image       String
   language    String
+  duration    Int
+  difficulty  String
+  prequisites String   @db.Text
   rating      Decimal  @default(0) @db.Decimal(2, 1)
   numReviews  Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  users       User[]
 }
 
 model User {
@@ -45,6 +48,7 @@ model User {
   updatedAt       DateTime  @updatedAt
   sessions        Session[]
   accounts        Account[]
+  courses         Course[]
   carts           Cart[]
 
   @@unique([email])
@@ -103,7 +107,7 @@ model Cart {
   id         String   @id @default(uuid())
   userId     String?
   user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sessionId  String   @db.Uuid
+  sessionId  String?  @unique @db.Uuid()
   cartItems  Json[]   @db.Json
   itemsPrice Decimal  @db.Decimal(10, 2)
   totalPrice Decimal  @db.Decimal(10, 2)

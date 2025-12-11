@@ -1,7 +1,7 @@
 'use server';
 
 import { CartItems } from '@/types';
-import { cartItemsSchema } from '@/schema';
+import { cartItemsSchema, cartSchema } from '@/schema';
 import { prisma } from '../prisma';
 import { auth } from '../auth';
 import { headers } from 'next/headers';
@@ -12,7 +12,6 @@ import { revalidatePath } from 'next/cache';
 const calculatePrices = (cartItems: CartItems[]) => {
   const itemsPrice = cartItems.reduce((acc, c) => acc + Number(c.price), 0);
   const taxPrice = itemsPrice * 0.05; // 5% tax rate
-  console.log(taxPrice);
   const totalPrice = itemsPrice + taxPrice;
 
   return {
@@ -30,11 +29,8 @@ export const addToCart = async (data: CartItems) => {
 
     const validateData = cartItemsSchema.safeParse(data);
 
-    const cart = await getMyCart();
-
     const sessionId = (await cookies()).get('sessionId')?.value;
-
-    if (!sessionId) throw new Error('No session ID found');
+    const cart = await getMyCart();
 
     const { itemsPrice, taxPrice, totalPrice } = calculatePrices([data]);
 
@@ -47,17 +43,29 @@ export const addToCart = async (data: CartItems) => {
     if (!validateData.success) throw new Error('Invalid data');
 
     if (!cart) {
-      await prisma.cart.create({
-        data: {
-          itemsPrice,
-          taxPrice,
-          totalPrice,
-          userId: session?.user.id,
-          sessionId: sessionId,
-          cartItems: [validateData.data],
-        },
+      const newCart = cartSchema.safeParse({
+        cartItems: [validateData.data],
+        itemsPrice,
+        taxPrice,
+        totalPrice,
+        userId: session?.user.id,
+        sessionId: sessionId,
       });
-      revalidatePath('/', 'layout');
+
+      if (newCart.success) {
+        await prisma.cart.create({
+          data: {
+            itemsPrice: newCart.data.itemsPrice,
+            taxPrice: newCart.data.taxPrice,
+            totalPrice: newCart.data.totalPrice,
+            userId: session?.user.id,
+            sessionId: newCart.data.sessionId,
+            cartItems: newCart.data.cartItems,
+          },
+        });
+
+        revalidatePath('/', 'layout');
+      }
     } else {
       // check if course already in cart
       const existingCourse = (cart.cartItems as CartItems[]).find(
@@ -96,20 +104,17 @@ export const getMyCart = async () => {
 
   const sessionId = (await cookies()).get('sessionId')?.value;
 
-  if (!sessionId) throw new Error('No session ID found');
-
   const cart = await prisma.cart.findFirst({
     where: {
       OR: [
         {
           userId: session?.user.id,
         },
-        {
-          sessionId: sessionId,
-        },
+        { sessionId: sessionId || undefined },
       ],
     },
   });
+
   if (!cart) return undefined;
 
   return convertToPlainObject({

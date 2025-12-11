@@ -24,8 +24,15 @@ import { Cart } from '@/types';
 import DeleteDialog from './shared/DeleteDialog';
 import { removeFromCart } from '@/lib/actions/cart';
 import { toast } from 'sonner';
+import { auth } from '@/lib/auth';
+import { SERVER_URL } from '@/lib/constants';
 
-const CartSheet = ({ cart }: { cart: Cart | undefined }) => {
+type CartSheetProps = {
+  cart: Cart | undefined;
+  session: typeof auth.$Infer.Session | null;
+};
+
+const CartSheet = ({ cart, session }: CartSheetProps) => {
   const [open, setOpen] = useState(false);
 
   const handleDeleteCourse = async (courseId: string) => {
@@ -76,7 +83,7 @@ const CartSheet = ({ cart }: { cart: Cart | undefined }) => {
             cart.cartItems.map((item) => (
               <div
                 key={item.name}
-                className='flex border-b pt-4 pb-7 max-sm:flex-col max-sm:gap-y-2 sm:items-center'
+                className='flex border-b pt-4 pb-7  max-sm:gap-y-2 flex-col '
               >
                 <div className='flex grow items-center gap-4'>
                   <div className='size-18.5 overflow-hidden rounded-lg border '>
@@ -107,55 +114,65 @@ const CartSheet = ({ cart }: { cart: Cart | undefined }) => {
             ))
           )}
         </div>
-        <SheetFooter className='p-0'>
-          <div className='space-y-3'>
-            {/* items price */}
-            <div className='flex items-center justify-between gap-2.5 '>
-              <p className='text-muted-foreground'>Price</p>
-              <div className='flex flex-row items-center gap-1 font-semibold'>
-                <span className='dirham-symbol !text-lg'>&#xea;</span>
-                <span className='font-semibold text-lg'>
-                  {cart && cart.itemsPrice}
-                </span>
+        {cart && cart.cartItems.length > 0 && (
+          <SheetFooter className='p-0'>
+            <div className='space-y-3'>
+              {/* items price */}
+              <div className='flex items-center justify-between gap-2.5 '>
+                <p className='text-muted-foreground'>Price</p>
+                <div className='flex flex-row items-center gap-1 font-semibold'>
+                  <span className='dirham-symbol !text-lg'>&#xea;</span>
+                  <span className='font-semibold text-lg'>
+                    {cart && cart.itemsPrice}
+                  </span>
+                </div>
+              </div>
+              {/* tax price */}
+              <div className='flex items-center justify-between gap-2.5'>
+                <p className='text-muted-foreground'>Tax</p>
+                <div className='flex flex-row items-center gap-1 font-semibold'>
+                  <span className='dirham-symbol !text-lg'>&#xea;</span>
+                  <span className='font-semibold text-lg'>
+                    {cart && cart.taxPrice}
+                  </span>
+                </div>
+              </div>
+              <Separator />
+              {/* total price */}
+              <div className='flex items-center justify-between gap-2.5'>
+                <h5 className='grow text-lg font-semibold'>Total</h5>
+                <div className='flex flex-row items-center gap-1 font-semibold'>
+                  <span className='dirham-symbol !text-lg'>&#xea;</span>
+                  <span className='font-semibold text-lg'>
+                    {cart && cart.totalPrice}
+                  </span>
+                </div>
               </div>
             </div>
-            {/* tax price */}
-            <div className='flex items-center justify-between gap-2.5'>
-              <p className='text-muted-foreground'>Tax</p>
-              <div className='flex flex-row items-center gap-1 font-semibold'>
-                <span className='dirham-symbol !text-lg'>&#xea;</span>
-                <span className='font-semibold text-lg'>
-                  {cart && cart.taxPrice}
-                </span>
-              </div>
-            </div>
-            <Separator />
-            {/* total price */}
-            <div className='flex items-center justify-between gap-2.5'>
-              <h5 className='grow text-lg font-semibold'>Total</h5>
-              <div className='flex flex-row items-center gap-1 font-semibold'>
-                <span className='dirham-symbol !text-lg'>&#xea;</span>
-                <span className='font-semibold text-lg'>
-                  {cart && cart.totalPrice}
-                </span>
-              </div>
-            </div>
-          </div>
 
-          <div className='mt-6 flex flex-col gap-2'>
-            <Button asChild size='lg' className='w-full rounded-lg'>
-              <Link href='/checkout'>Checkout</Link>
-            </Button>
-            <Button
-              onClick={() => setOpen(!open)}
-              size='lg'
-              variant='outline'
-              className='w-full rounded-lg cursor-pointer'
-            >
-              Cancel
-            </Button>
-          </div>
-        </SheetFooter>
+            <div className='mt-6 flex flex-col gap-2'>
+              <Button asChild size='lg' className='w-full rounded-lg'>
+                <Link
+                  href={
+                    session?.user
+                      ? `/checkout`
+                      : `/login?callbackUrl=${SERVER_URL}/checkout`
+                  }
+                >
+                  Checkout
+                </Link>
+              </Button>
+              <Button
+                onClick={() => setOpen(!open)}
+                size='lg'
+                variant='outline'
+                className='w-full rounded-lg cursor-pointer'
+              >
+                Cancel
+              </Button>
+            </div>
+          </SheetFooter>
+        )}
       </SheetContent>
     </Sheet>
   );

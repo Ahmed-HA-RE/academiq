@@ -27,6 +27,15 @@ export const baseCourseSchema = z.object({
   language: z
     .string({ error: 'Invalid language' })
     .min(1, 'Language is required'),
+  duration: z
+    .number({ error: 'Invalid duration' })
+    .min(1, 'Duration is required'),
+  difficulty: z
+    .string({ error: 'Invalid difficulty' })
+    .min(1, 'Difficulty is required'),
+  prequisites: z
+    .string({ error: 'Invalid prequisites' })
+    .min(1, 'Prequisites is required'),
 });
 
 // Auth schemas
@@ -90,7 +99,9 @@ export const cartItemsSchema = z.object({
 export const cartSchema = z.object({
   sessionId: z
     .uuid({ error: 'Invalid session id' })
-    .min(1, 'Session id is required'),
+    .min(1, 'Session id is required')
+    .optional()
+    .nullable(),
   userId: z.string({ error: 'Invalid user id' }).optional().nullable(),
   cartItems: z.array(cartItemsSchema).min(1, 'Cart items cannot be empty'),
   itemsPrice: moneyAmount,

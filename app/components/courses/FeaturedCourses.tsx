@@ -1,7 +1,6 @@
 import { getMyCart } from '@/lib/actions/cart';
 import CourseCard from './CourseCard';
 import { getFeaturedCourses } from '@/lib/actions/course';
-import { CartItems } from '@/types';
 
 const FeaturedCourses = async () => {
   const courses = await getFeaturedCourses();

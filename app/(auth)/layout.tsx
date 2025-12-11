@@ -16,7 +16,7 @@ import { ArrowLeftIcon } from 'lucide-react';
 import { APP_NAME } from '@/lib/constants';
 import { FaGoogle } from 'react-icons/fa';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import {
   sendEmailVerificationOTP,
   signInWithProviders,
@@ -34,6 +34,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const callbackUrl = useSearchParams().get('callbackUrl') || '/';
 
   let title = 'Welcome back';
   let description: string = 'Please sign in to your account to continue.';
@@ -68,7 +69,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
 
   const handleSocialSignIn = async (provider: 'google') => {
     startTransition(async () => {
-      const res = await signInWithProviders(provider);
+      const res = await signInWithProviders(provider, callbackUrl);
       if (res && res.success) {
         router.push(res.url);
       }

@@ -37,6 +37,7 @@ export const proxy = async (req: NextRequest) => {
     const response = NextResponse.next();
     response.cookies.set('sessionId', sessionId, {
       httpOnly: true,
+      maxAge: 60 * 60 * 24 * 30, // 30 days
     });
 
     return response;

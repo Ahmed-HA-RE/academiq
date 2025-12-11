@@ -1,17 +1,17 @@
 'use client';
 import { HeartIcon, StarIcon } from 'lucide-react';
-import { Card, CardContent, CardFooter } from './ui/card';
+import { Card, CardContent, CardFooter } from '../ui/card';
 import Link from 'next/link';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
-import { Badge } from './ui/badge';
+import { Badge } from '../ui/badge';
 import { Cart, Course } from '@/types';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
-import { MotionPreset } from './ui/motion-preset';
+import { Button } from '../ui/button';
+import { MotionPreset } from '../ui/motion-preset';
 import { addToCart, removeFromCart } from '@/lib/actions/cart';
 import { toast } from 'sonner';
-import { Spinner } from './ui/spinner';
+import { Spinner } from '../ui/spinner';
 import { useTransition } from 'react';
 
 type CourseCardProps = {
@@ -45,6 +45,10 @@ const CourseCard = ({ course, cart }: CourseCardProps) => {
   const handleRemoveFromCart = async () => {
     startTransition(async () => {
       const res = await removeFromCart(course.id);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
       toast.success(res.message);
     });
   };

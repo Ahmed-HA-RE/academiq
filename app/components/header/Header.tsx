@@ -38,7 +38,7 @@ const Header = async () => {
 
         <div className='flex items-center '>
           {/* Cart */}
-          <CartSheet cart={cart} />
+          <CartSheet cart={cart} session={session} />
           {/* Theme */}
           <Theme />
           {/* User menu */}
