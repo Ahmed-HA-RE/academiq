@@ -21,12 +21,12 @@ const CourseCard = ({ course, cart }: CourseCardProps) => {
     <MotionPreset
       component='div'
       fade
-      slide={{ direction: 'down', offset: 50 }}
+      slide={{ direction: 'up', offset: 50 }}
       blur
-      transition={{ duration: 0.5 }}
-      delay={0.4}
+      transition={{ duration: 0.4 }}
+      delay={0.3}
     >
-      <Card className='h-full shadow-none gap-4 py-0 pt-6 pb-4'>
+      <Card className='h-full shadow-none gap-4 py-0 pt-6 pb-4 relative'>
         <CardContent className='flex flex-1 flex-col gap-6'>
           <div className='relative shrink-0 overflow-hidden rounded-md'>
             <Link href={`/course/${course.slug}`}>
@@ -37,7 +37,7 @@ const CourseCard = ({ course, cart }: CourseCardProps) => {
                 height={0}
                 sizes='100vw'
                 loading='eager'
-                className='w-full max-h-[200px] object-cover'
+                className='w-full max-h-[200px] object-cover hover:scale-105 transition duration-300 ease-in-out'
               />
             </Link>
             <CheckboxPrimitive.Root
@@ -53,6 +53,9 @@ const CourseCard = ({ course, cart }: CourseCardProps) => {
               </span>
             </CheckboxPrimitive.Root>
           </div>
+          <Badge className='absolute top-4 left-3 rounded-sm bg-emerald-500 text-white focus-visible:ring-emerald-600/20 focus-visible:outline-none dark:bg-emerald-500/60 dark:focus-visible:ring-emerald-500/40'>
+            {course.difficulty}
+          </Badge>
           <div className='flex flex-col gap-0'>
             <div className='flex flex-1 flex-col gap-4'>
               <h3 className='text-xl font-medium'>{course.title}</h3>

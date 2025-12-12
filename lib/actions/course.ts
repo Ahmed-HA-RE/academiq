@@ -1,9 +1,29 @@
+import { Prisma } from '../generated/prisma';
 import { prisma } from '../prisma';
 import { convertToPlainObject } from '../utils';
 
 // Get all courses
-export const getAllCourses = async () => {
-  const courses = await prisma.course.findMany();
+export const getAllCourses = async ({
+  q,
+  rating,
+  priceMin,
+  priceMax,
+  difficulty,
+}: {
+  q?: string;
+  rating?: number;
+  priceMin?: number;
+  priceMax?: number;
+  difficulty?: string[];
+}) => {
+  const filterQuery: Prisma.CourseWhereInput = q
+    ? { title: { contains: q, mode: 'insensitive' } }
+    : {};
+
+  const courses = await prisma.course.findMany({
+    where: { ...filterQuery },
+    orderBy: { createdAt: 'desc' },
+  });
   if (!courses) throw new Error('No courses found');
   return convertToPlainObject(courses);
 };

@@ -78,7 +78,7 @@ export const coursesSample = [
     price: 99.99,
     isFeatured: false,
     image:
-      'https://res.cloudinary.com/ahmed--dev/image/upload/v1764955097/course-7_y0e936.png',
+      'https://res.cloudinary.com/ahmed--dev/image/upload/v1765550009/bootstrap-course_zfazwo.webp',
     language: 'English',
     prequisites: 'HTML & CSS basics',
     difficulty: 'BEGINNER',
@@ -94,7 +94,7 @@ export const coursesSample = [
     price: 119.99,
     isFeatured: true,
     image:
-      'https://res.cloudinary.com/ahmed--dev/image/upload/v1764955097/course-3_gctwb8.webp',
+      'https://res.cloudinary.com/ahmed--dev/image/upload/v1765549332/tailwind-course_fdlmix.png',
     language: 'English',
     prequisites: 'HTML, CSS basics',
     difficulty: 'INTERMEDIATE',
