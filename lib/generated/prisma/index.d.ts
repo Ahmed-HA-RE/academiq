@@ -1313,6 +1313,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type CourseCountOutputType
+   */
+
+  export type CourseCountOutputType = {
+    users: number
+  }
+
+  export type CourseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | CourseCountOutputTypeCountUsersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CourseCountOutputType without action
+   */
+  export type CourseCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseCountOutputType
+     */
+    select?: CourseCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CourseCountOutputType without action
+   */
+  export type CourseCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
+  }
+
+
+  /**
    * Count Type UserCountOutputType
    */
 
@@ -1419,7 +1450,6 @@ export namespace Prisma {
     numReviews: number | null
     createdAt: Date | null
     updatedAt: Date | null
-    userId: string | null
   }
 
   export type CourseMaxAggregateOutputType = {
@@ -1439,7 +1469,6 @@ export namespace Prisma {
     numReviews: number | null
     createdAt: Date | null
     updatedAt: Date | null
-    userId: string | null
   }
 
   export type CourseCountAggregateOutputType = {
@@ -1459,7 +1488,6 @@ export namespace Prisma {
     numReviews: number
     createdAt: number
     updatedAt: number
-    userId: number
     _all: number
   }
 
@@ -1497,7 +1525,6 @@ export namespace Prisma {
     numReviews?: true
     createdAt?: true
     updatedAt?: true
-    userId?: true
   }
 
   export type CourseMaxAggregateInputType = {
@@ -1517,7 +1544,6 @@ export namespace Prisma {
     numReviews?: true
     createdAt?: true
     updatedAt?: true
-    userId?: true
   }
 
   export type CourseCountAggregateInputType = {
@@ -1537,7 +1563,6 @@ export namespace Prisma {
     numReviews?: true
     createdAt?: true
     updatedAt?: true
-    userId?: true
     _all?: true
   }
 
@@ -1644,7 +1669,6 @@ export namespace Prisma {
     numReviews: number
     createdAt: Date
     updatedAt: Date
-    userId: string | null
     _count: CourseCountAggregateOutputType | null
     _avg: CourseAvgAggregateOutputType | null
     _sum: CourseSumAggregateOutputType | null
@@ -1683,8 +1707,8 @@ export namespace Prisma {
     numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userId?: boolean
-    user?: boolean | Course$userArgs<ExtArgs>
+    users?: boolean | Course$usersArgs<ExtArgs>
+    _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1704,8 +1728,6 @@ export namespace Prisma {
     numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userId?: boolean
-    user?: boolean | Course$userArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1725,8 +1747,6 @@ export namespace Prisma {
     numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userId?: boolean
-    user?: boolean | Course$userArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectScalar = {
@@ -1746,24 +1766,20 @@ export namespace Prisma {
     numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "salePrice" | "isFeatured" | "image" | "language" | "duration" | "difficulty" | "prequisites" | "rating" | "numReviews" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "salePrice" | "isFeatured" | "image" | "language" | "duration" | "difficulty" | "prequisites" | "rating" | "numReviews" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Course$userArgs<ExtArgs>
+    users?: boolean | Course$usersArgs<ExtArgs>
+    _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type CourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Course$userArgs<ExtArgs>
-  }
-  export type CourseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Course$userArgs<ExtArgs>
-  }
+  export type CourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type CourseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $CoursePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Course"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs> | null
+      users: Prisma.$UserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1782,7 +1798,6 @@ export namespace Prisma {
       numReviews: number
       createdAt: Date
       updatedAt: Date
-      userId: string | null
     }, ExtArgs["result"]["course"]>
     composites: {}
   }
@@ -2177,7 +2192,7 @@ export namespace Prisma {
    */
   export interface Prisma__CourseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends Course$userArgs<ExtArgs> = {}>(args?: Subset<T, Course$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    users<T extends Course$usersArgs<ExtArgs> = {}>(args?: Subset<T, Course$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2223,7 +2238,6 @@ export namespace Prisma {
     readonly numReviews: FieldRef<"Course", 'Int'>
     readonly createdAt: FieldRef<"Course", 'DateTime'>
     readonly updatedAt: FieldRef<"Course", 'DateTime'>
-    readonly userId: FieldRef<"Course", 'String'>
   }
     
 
@@ -2473,10 +2487,6 @@ export namespace Prisma {
      */
     data: CourseCreateManyInput | CourseCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CourseIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2547,10 +2557,6 @@ export namespace Prisma {
      * Limit how many Courses to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CourseIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2620,9 +2626,9 @@ export namespace Prisma {
   }
 
   /**
-   * Course.user
+   * Course.users
    */
-  export type Course$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Course$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the User
      */
@@ -2636,6 +2642,11 @@ export namespace Prisma {
      */
     include?: UserInclude<ExtArgs> | null
     where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
@@ -8358,8 +8369,7 @@ export namespace Prisma {
     rating: 'rating',
     numReviews: 'numReviews',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    userId: 'userId'
+    updatedAt: 'updatedAt'
   };
 
   export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
@@ -8610,8 +8620,7 @@ export namespace Prisma {
     numReviews?: IntFilter<"Course"> | number
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
-    userId?: StringNullableFilter<"Course"> | string | null
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    users?: UserListRelationFilter
   }
 
   export type CourseOrderByWithRelationInput = {
@@ -8631,8 +8640,7 @@ export namespace Prisma {
     numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userId?: SortOrderInput | SortOrder
-    user?: UserOrderByWithRelationInput
+    users?: UserOrderByRelationAggregateInput
   }
 
   export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -8655,8 +8663,7 @@ export namespace Prisma {
     numReviews?: IntFilter<"Course"> | number
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
-    userId?: StringNullableFilter<"Course"> | string | null
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    users?: UserListRelationFilter
   }, "id" | "slug">
 
   export type CourseOrderByWithAggregationInput = {
@@ -8676,7 +8683,6 @@ export namespace Prisma {
     numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userId?: SortOrderInput | SortOrder
     _count?: CourseCountOrderByAggregateInput
     _avg?: CourseAvgOrderByAggregateInput
     _max?: CourseMaxOrderByAggregateInput
@@ -8704,7 +8710,6 @@ export namespace Prisma {
     numReviews?: IntWithAggregatesFilter<"Course"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
-    userId?: StringNullableWithAggregatesFilter<"Course"> | string | null
   }
 
   export type UserWhereInput = {
@@ -9122,7 +9127,7 @@ export namespace Prisma {
     numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    user?: UserCreateNestedOneWithoutCoursesInput
+    users?: UserCreateNestedManyWithoutCoursesInput
   }
 
   export type CourseUncheckedCreateInput = {
@@ -9142,7 +9147,7 @@ export namespace Prisma {
     numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
+    users?: UserUncheckedCreateNestedManyWithoutCoursesInput
   }
 
   export type CourseUpdateInput = {
@@ -9162,7 +9167,7 @@ export namespace Prisma {
     numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneWithoutCoursesNestedInput
+    users?: UserUpdateManyWithoutCoursesNestedInput
   }
 
   export type CourseUncheckedUpdateInput = {
@@ -9182,7 +9187,7 @@ export namespace Prisma {
     numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UserUncheckedUpdateManyWithoutCoursesNestedInput
   }
 
   export type CourseCreateManyInput = {
@@ -9202,7 +9207,6 @@ export namespace Prisma {
     numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
   }
 
   export type CourseUpdateManyMutationInput = {
@@ -9241,7 +9245,6 @@ export namespace Prisma {
     numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCreateInput = {
@@ -9259,7 +9262,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
   }
 
@@ -9278,7 +9281,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -9297,7 +9300,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
   }
 
@@ -9316,7 +9319,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -9762,29 +9765,19 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
   }
 
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type CourseCountOrderByAggregateInput = {
@@ -9804,7 +9797,6 @@ export namespace Prisma {
     numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userId?: SortOrder
   }
 
   export type CourseAvgOrderByAggregateInput = {
@@ -9832,7 +9824,6 @@ export namespace Prisma {
     numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userId?: SortOrder
   }
 
   export type CourseMinOrderByAggregateInput = {
@@ -9852,7 +9843,6 @@ export namespace Prisma {
     numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userId?: SortOrder
   }
 
   export type CourseSumOrderByAggregateInput = {
@@ -9950,24 +9940,6 @@ export namespace Prisma {
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -9990,6 +9962,21 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type SessionListRelationFilter = {
@@ -10097,6 +10084,24 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -10263,6 +10268,11 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
   export type CartCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -10324,10 +10334,16 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type UserCreateNestedOneWithoutCoursesInput = {
-    create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCoursesInput
-    connect?: UserWhereUniqueInput
+  export type UserCreateNestedManyWithoutCoursesInput = {
+    create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput> | UserCreateWithoutCoursesInput[] | UserUncheckedCreateWithoutCoursesInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutCoursesInput | UserCreateOrConnectWithoutCoursesInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutCoursesInput = {
+    create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput> | UserCreateWithoutCoursesInput[] | UserUncheckedCreateWithoutCoursesInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutCoursesInput | UserCreateOrConnectWithoutCoursesInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -10366,18 +10382,30 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type UserUpdateOneWithoutCoursesNestedInput = {
-    create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCoursesInput
-    upsert?: UserUpsertWithoutCoursesInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCoursesInput, UserUpdateWithoutCoursesInput>, UserUncheckedUpdateWithoutCoursesInput>
+  export type UserUpdateManyWithoutCoursesNestedInput = {
+    create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput> | UserCreateWithoutCoursesInput[] | UserUncheckedCreateWithoutCoursesInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutCoursesInput | UserCreateOrConnectWithoutCoursesInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutCoursesInput | UserUpsertWithWhereUniqueWithoutCoursesInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutCoursesInput | UserUpdateWithWhereUniqueWithoutCoursesInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutCoursesInput | UserUpdateManyWithWhereWithoutCoursesInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
+  export type UserUncheckedUpdateManyWithoutCoursesNestedInput = {
+    create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput> | UserCreateWithoutCoursesInput[] | UserUncheckedCreateWithoutCoursesInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutCoursesInput | UserCreateOrConnectWithoutCoursesInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutCoursesInput | UserUpsertWithWhereUniqueWithoutCoursesInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutCoursesInput | UserUpdateWithWhereUniqueWithoutCoursesInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutCoursesInput | UserUpdateManyWithWhereWithoutCoursesInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -10394,10 +10422,9 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type CourseCreateNestedManyWithoutUserInput = {
-    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
-    createMany?: CourseCreateManyUserInputEnvelope
+  export type CourseCreateNestedManyWithoutUsersInput = {
+    create?: XOR<CourseCreateWithoutUsersInput, CourseUncheckedCreateWithoutUsersInput> | CourseCreateWithoutUsersInput[] | CourseUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUsersInput | CourseCreateOrConnectWithoutUsersInput[]
     connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
   }
 
@@ -10422,10 +10449,9 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type CourseUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
-    createMany?: CourseCreateManyUserInputEnvelope
+  export type CourseUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<CourseCreateWithoutUsersInput, CourseUncheckedCreateWithoutUsersInput> | CourseCreateWithoutUsersInput[] | CourseUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUsersInput | CourseCreateOrConnectWithoutUsersInput[]
     connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
   }
 
@@ -10434,6 +10460,10 @@ export namespace Prisma {
     connectOrCreate?: CartCreateOrConnectWithoutUserInput | CartCreateOrConnectWithoutUserInput[]
     createMany?: CartCreateManyUserInputEnvelope
     connect?: CartWhereUniqueInput | CartWhereUniqueInput[]
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -10464,17 +10494,16 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type CourseUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
-    upsert?: CourseUpsertWithWhereUniqueWithoutUserInput | CourseUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CourseCreateManyUserInputEnvelope
+  export type CourseUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<CourseCreateWithoutUsersInput, CourseUncheckedCreateWithoutUsersInput> | CourseCreateWithoutUsersInput[] | CourseUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUsersInput | CourseCreateOrConnectWithoutUsersInput[]
+    upsert?: CourseUpsertWithWhereUniqueWithoutUsersInput | CourseUpsertWithWhereUniqueWithoutUsersInput[]
     set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
     disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
     delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
     connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    update?: CourseUpdateWithWhereUniqueWithoutUserInput | CourseUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CourseUpdateManyWithWhereWithoutUserInput | CourseUpdateManyWithWhereWithoutUserInput[]
+    update?: CourseUpdateWithWhereUniqueWithoutUsersInput | CourseUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: CourseUpdateManyWithWhereWithoutUsersInput | CourseUpdateManyWithWhereWithoutUsersInput[]
     deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
   }
 
@@ -10520,17 +10549,16 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type CourseUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
-    upsert?: CourseUpsertWithWhereUniqueWithoutUserInput | CourseUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CourseCreateManyUserInputEnvelope
+  export type CourseUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<CourseCreateWithoutUsersInput, CourseUncheckedCreateWithoutUsersInput> | CourseCreateWithoutUsersInput[] | CourseUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUsersInput | CourseCreateOrConnectWithoutUsersInput[]
+    upsert?: CourseUpsertWithWhereUniqueWithoutUsersInput | CourseUpsertWithWhereUniqueWithoutUsersInput[]
     set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
     disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
     delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
     connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    update?: CourseUpdateWithWhereUniqueWithoutUserInput | CourseUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CourseUpdateManyWithWhereWithoutUserInput | CourseUpdateManyWithWhereWithoutUserInput[]
+    update?: CourseUpdateWithWhereUniqueWithoutUsersInput | CourseUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: CourseUpdateManyWithWhereWithoutUsersInput | CourseUpdateManyWithWhereWithoutUsersInput[]
     deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
   }
 
@@ -10668,20 +10696,6 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -10791,7 +10805,7 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -10802,10 +10816,7 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -10829,6 +10840,23 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -10922,51 +10950,38 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
   }
 
-  export type UserUpsertWithoutCoursesInput = {
+  export type UserUpsertWithWhereUniqueWithoutCoursesInput = {
+    where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutCoursesInput, UserUncheckedUpdateWithoutCoursesInput>
     create: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
-    where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutCoursesInput = {
-    where?: UserWhereInput
+  export type UserUpdateWithWhereUniqueWithoutCoursesInput = {
+    where: UserWhereUniqueInput
     data: XOR<UserUpdateWithoutCoursesInput, UserUncheckedUpdateWithoutCoursesInput>
   }
 
-  export type UserUpdateWithoutCoursesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: StringFieldUpdateOperationsInput | string
-    role?: StringFieldUpdateOperationsInput | string
-    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
-    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentDetails?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    carts?: CartUpdateManyWithoutUserNestedInput
+  export type UserUpdateManyWithWhereWithoutCoursesInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutCoursesInput>
   }
 
-  export type UserUncheckedUpdateWithoutCoursesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: StringFieldUpdateOperationsInput | string
-    role?: StringFieldUpdateOperationsInput | string
-    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
-    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentDetails?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    carts?: CartUncheckedUpdateManyWithoutUserNestedInput
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    name?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    emailVerified?: BoolFilter<"User"> | boolean
+    image?: StringFilter<"User"> | string
+    role?: StringFilter<"User"> | string
+    shippingAddress?: JsonNullableFilter<"User">
+    paymentMethod?: StringNullableFilter<"User"> | string | null
+    paymentDetails?: JsonNullableFilter<"User">
+    status?: StringFilter<"User"> | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -11039,7 +11054,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type CourseCreateWithoutUserInput = {
+  export type CourseCreateWithoutUsersInput = {
     id?: string
     slug: string
     title: string
@@ -11058,7 +11073,7 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type CourseUncheckedCreateWithoutUserInput = {
+  export type CourseUncheckedCreateWithoutUsersInput = {
     id?: string
     slug: string
     title: string
@@ -11077,14 +11092,9 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type CourseCreateOrConnectWithoutUserInput = {
+  export type CourseCreateOrConnectWithoutUsersInput = {
     where: CourseWhereUniqueInput
-    create: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput>
-  }
-
-  export type CourseCreateManyUserInputEnvelope = {
-    data: CourseCreateManyUserInput | CourseCreateManyUserInput[]
-    skipDuplicates?: boolean
+    create: XOR<CourseCreateWithoutUsersInput, CourseUncheckedCreateWithoutUsersInput>
   }
 
   export type CartCreateWithoutUserInput = {
@@ -11184,20 +11194,20 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Account"> | Date | string
   }
 
-  export type CourseUpsertWithWhereUniqueWithoutUserInput = {
+  export type CourseUpsertWithWhereUniqueWithoutUsersInput = {
     where: CourseWhereUniqueInput
-    update: XOR<CourseUpdateWithoutUserInput, CourseUncheckedUpdateWithoutUserInput>
-    create: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput>
+    update: XOR<CourseUpdateWithoutUsersInput, CourseUncheckedUpdateWithoutUsersInput>
+    create: XOR<CourseCreateWithoutUsersInput, CourseUncheckedCreateWithoutUsersInput>
   }
 
-  export type CourseUpdateWithWhereUniqueWithoutUserInput = {
+  export type CourseUpdateWithWhereUniqueWithoutUsersInput = {
     where: CourseWhereUniqueInput
-    data: XOR<CourseUpdateWithoutUserInput, CourseUncheckedUpdateWithoutUserInput>
+    data: XOR<CourseUpdateWithoutUsersInput, CourseUncheckedUpdateWithoutUsersInput>
   }
 
-  export type CourseUpdateManyWithWhereWithoutUserInput = {
+  export type CourseUpdateManyWithWhereWithoutUsersInput = {
     where: CourseScalarWhereInput
-    data: XOR<CourseUpdateManyMutationInput, CourseUncheckedUpdateManyWithoutUserInput>
+    data: XOR<CourseUpdateManyMutationInput, CourseUncheckedUpdateManyWithoutUsersInput>
   }
 
   export type CourseScalarWhereInput = {
@@ -11220,7 +11230,6 @@ export namespace Prisma {
     numReviews?: IntFilter<"Course"> | number
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
-    userId?: StringNullableFilter<"Course"> | string | null
   }
 
   export type CartUpsertWithWhereUniqueWithoutUserInput = {
@@ -11268,7 +11277,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
   }
 
@@ -11286,7 +11295,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -11320,7 +11329,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
   }
 
@@ -11338,7 +11347,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -11356,7 +11365,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
   }
 
@@ -11374,7 +11383,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -11408,7 +11417,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
   }
 
@@ -11426,7 +11435,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -11445,7 +11454,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutCartsInput = {
@@ -11463,7 +11472,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type UserCreateOrConnectWithoutCartsInput = {
@@ -11497,7 +11506,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartsInput = {
@@ -11515,7 +11524,58 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UserUpdateWithoutCoursesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    carts?: CartUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCoursesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    carts?: CartUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutCoursesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentDetails?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionCreateManyUserInput = {
@@ -11539,25 +11599,6 @@ export namespace Prisma {
     refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
     password?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type CourseCreateManyUserInput = {
-    id?: string
-    slug: string
-    title: string
-    description: string
-    price: Decimal | DecimalJsLike | number | string
-    salePrice?: Decimal | DecimalJsLike | number | string | null
-    isFeatured?: boolean
-    image: string
-    language: string
-    duration: number
-    difficulty: string
-    prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11648,7 +11689,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CourseUpdateWithoutUserInput = {
+  export type CourseUpdateWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -11667,7 +11708,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CourseUncheckedUpdateWithoutUserInput = {
+  export type CourseUncheckedUpdateWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -11686,7 +11727,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CourseUncheckedUpdateManyWithoutUserInput = {
+  export type CourseUncheckedUpdateManyWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string

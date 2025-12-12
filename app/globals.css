@@ -18,6 +18,16 @@
     @apply focus-visible:ring-blue-400 focus-visible:border-blue-400 dark:focus-visible:ring-blue-400 dark:focus-visible:border-blue-400 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive;
   }
 }
+
+@theme {
+  --color-instructor-dialog-gradient: linear-gradient(
+    to bottom,
+    #2980b9,
+    #6dd5fa,
+    #ffffff
+  );
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -136,7 +146,9 @@
 
 @font-face {
   font-family: 'UAESymbol';
-  src: , url('/fonts/uae.symbol.ttf') format('truetype');
+  src:
+    ,
+    url('/fonts/uae.symbol.ttf') format('truetype');
 }
 
 .dirham-symbol {

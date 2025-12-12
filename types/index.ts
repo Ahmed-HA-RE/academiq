@@ -3,6 +3,7 @@ import {
   cartItemsSchema,
   cartSchema,
   forgotPasswordSchema,
+  instructorSchema,
   loginSchema,
   registerSchema,
   resetPasswordSchema,
@@ -12,6 +13,7 @@ import z from 'zod';
 
 export type Course = z.infer<typeof baseCourseSchema> & {
   id: string;
+  // instructorId: string;
   rating: string;
   numReviews: number;
   createdAt: Date;
@@ -29,4 +31,9 @@ export type Cart = z.infer<typeof cartSchema> & {
   createdAt: Date;
   updatedAt: Date;
   cartItems: CartItems[];
+};
+export type Instructor = z.infer<typeof instructorSchema> & {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

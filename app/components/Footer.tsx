@@ -95,24 +95,24 @@ const Footer = () => {
           <Image
             src='/images/stripe.png'
             alt='Stripe'
-            width={70}
-            height={70}
+            width={50}
+            height={50}
             loading='eager'
             className='w-auto h-auto'
           />
           <Image
             src='/images/visa.png'
             alt='Visa'
-            width={50}
-            height={50}
+            width={45}
+            height={45}
             loading='eager'
             className='w-auto h-auto'
           />
           <Image
             src='/images/master-card.png'
             alt='Mastercard'
-            width={50}
-            height={50}
+            width={40}
+            height={40}
             loading='eager'
             className='w-auto h-auto'
           />

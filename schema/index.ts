@@ -108,3 +108,47 @@ export const cartSchema = z.object({
   taxPrice: moneyAmount,
   totalPrice: moneyAmount,
 });
+
+//  name: 'Dania Haitham Rehan',
+//     bio: 'Dania is a senior full-stack instructor with over 8 years of experience teaching modern web technologies. She specializes in JavaScript, React, and scalable backend systems, and is known for her clear teaching style and hands-on project-driven curriculum.',
+//     job: 'Senior Full Stack Instructor',
+//     address: 'Dubai, UAE',
+//     avatar:
+//       'https://res.cloudinary.com/ahmed--dev/image/upload/v1765463809/dania_klajug.avif',
+//     email: 'dania@example.com',
+//     phone: '+971525418274',
+//     birthDate: '1993-06-14T00:00:00.000Z',
+//     socialLinks: {
+//       instagram: 'https://instagram.com/daniarehan',
+//       linkedin: 'https://linkedin.com/in/dania-rehan',
+//     },
+//     courses: [],
+//   },
+
+export const instructorSchema = z.object({
+  name: z.string({ error: 'Invalid name' }).min(3, 'Name is required'),
+  bio: z
+    .string({ error: 'Invalid bio' })
+    .min(1, 'Bio is required')
+    .max(500, 'Bio is too long'),
+  job: z.string({ error: 'Invalid job' }).min(4, 'Job is required'),
+  address: z.string({ error: 'Invalid address' }).min(5, 'Address is required'),
+  avatar: z.string({ error: 'Invalid avatar' }).min(1, 'Avatar is required'),
+  email: z.email({ error: 'Invalid email address' }),
+  phone: z
+    .string({ error: 'Invalid phone number' })
+    .regex(/^(?:\+971|971|0)?[0-9]{9}$/, 'Invalid UAE phone number'),
+  birthDate: z
+    .string({ error: 'Invalid birth date' })
+    .min(1, 'Birth date is required'),
+  socialLinks: z
+    .object({
+      whatsapp: z.url({ error: 'Invalid WhatsApp URL' }).optional(),
+      instagram: z.url({ error: 'Invalid Instagram URL' }).optional(),
+      linkedin: z.url({ error: 'Invalid LinkedIn URL' }).optional(),
+    })
+    .partial(),
+  coursesId: z
+    .array(z.uuid({ error: 'Invalid course id' }))
+    .min(1, 'At least one course id is required'),
+});

@@ -31,7 +31,25 @@ model Course {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   users       User[]
+  // instructor   Instructor @relation(fields: [instructorId], references: [id])
+  // instructorId String
 }
+
+// model Instructor {
+//   id          String   @id @default(uuid())
+//   name        String
+//   bio         String   @db.Text
+//   job         String
+//   address     String
+//   avatar      String
+//   email       String   @unique
+//   phone       String
+//   birthDate   DateTime
+//   socialLinks Json?    @db.Json
+//   courses     Course[]
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
 
 model User {
   id              String    @id

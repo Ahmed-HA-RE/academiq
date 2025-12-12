@@ -9,10 +9,7 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { MotionPreset } from '../ui/motion-preset';
-import { addToCart, removeFromCart } from '@/lib/actions/cart';
-import { toast } from 'sonner';
-import { Spinner } from '../ui/spinner';
-import { useTransition } from 'react';
+import EnrollCourseBtn from '../shared/EnrollCourseBtn';
 
 type CourseCardProps = {
   course: Course;
@@ -20,39 +17,6 @@ type CourseCardProps = {
 };
 
 const CourseCard = ({ course, cart }: CourseCardProps) => {
-  const [isPending, startTransition] = useTransition();
-
-  const isCourseInCart =
-    cart && cart.cartItems.find((item) => item.courseId === course.id);
-
-  const handleAddToCart = async () => {
-    startTransition(async () => {
-      const res = await addToCart({
-        courseId: course.id,
-        image: course.image,
-        name: course.title,
-        price: course.salePrice ? course.salePrice : course.price,
-      });
-
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
-  const handleRemoveFromCart = async () => {
-    startTransition(async () => {
-      const res = await removeFromCart(course.id);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
   return (
     <MotionPreset
       component='div'
@@ -128,27 +92,7 @@ const CourseCard = ({ course, cart }: CourseCardProps) => {
           >
             <Link href={`/course/${course.slug}`}>Read More</Link>
           </Button>
-          {isCourseInCart ? (
-            <Button
-              onClick={handleRemoveFromCart}
-              className='cursor-pointer w-24 bg-destructive text-white hover:bg-destructive/70'
-              size={'sm'}
-              variant={'default'}
-              disabled={isPending}
-            >
-              {isPending ? <Spinner className='size-6' /> : 'Remove'}
-            </Button>
-          ) : (
-            <Button
-              onClick={handleAddToCart}
-              className='cursor-pointer min-w-24'
-              size={'sm'}
-              variant={'outline'}
-              disabled={isPending}
-            >
-              {isPending ? <Spinner className='size-6' /> : 'Enroll Now'}
-            </Button>
-          )}
+          <EnrollCourseBtn course={course} cart={cart} />
         </CardFooter>
       </Card>
     </MotionPreset>

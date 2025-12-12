@@ -1,9 +1,31 @@
-export const sampleData = [
+export const sampleInstructors = [
+  {
+    id: '1221d4f1c3e8-7b9a-4a2f-8b67-1f2c9d5e6aqw',
+    name: 'Dania Haitham Rehan',
+    bio: 'Dania is a senior full-stack instructor with over 8 years of experience teaching modern web technologies. She specializes in JavaScript, React, and scalable backend systems, and is known for her clear teaching style and hands-on project-driven curriculum.',
+    job: 'Senior Full Stack Instructor',
+    address: 'Dubai, UAE',
+    avatar:
+      'https://res.cloudinary.com/ahmed--dev/image/upload/v1765463809/dania_klajug.avif',
+    email: 'dania@example.com',
+    phone: '+971525418274',
+    birthDate: '1993-06-14T00:00:00.000Z',
+    socialLinks: {
+      instagram: 'https://www.instagram.com',
+      linkedin: 'https://www.linkedin.com',
+    },
+    coursesId: ['1', '2', '3'],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+];
+
+export const coursesSample = [
   {
     slug: 'nextjs-complete-guide',
     title: 'Next.js Complete Guide',
     description:
-      'Learn how to build production-ready web apps with Next.js, covering SSR, SSG, API routes, and deployment.',
+      'This comprehensive Next.js course takes you from the fundamentals to building real-world, production-ready applications. You will learn everything from file-based routing, layouts, and dynamic routes to advanced rendering strategies such as Server-Side Rendering (SSR), Static Site Generation (SSG), and Incremental Static Regeneration (ISR). The course also covers API Routes, middlewares, SEO optimization, deployment best practices, image optimization, and server actions. By the end, you will have the skills to confidently architect scalable full-stack applications with Next.js and modern frontend patterns.',
     price: 199.99,
     isFeatured: true,
     image:
@@ -15,28 +37,12 @@ export const sampleData = [
     numReviews: 120,
     duration: 70,
     salePrice: 149.99,
-    // sections: [
-    //   {
-    //     title: 'Introduction',
-    //     lessons: [
-    //       { title: 'What is Next.js?', duration: 10 },
-    //       { title: 'Project Setup', duration: 15 },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Routing & Data Fetching',
-    //     lessons: [
-    //       { title: 'Pages & Layouts', duration: 20 },
-    //       { title: 'SSR & SSG', duration: 25 },
-    //     ],
-    //   },
-    // ],
   },
   {
     slug: 'react-modern-course',
     title: 'React Modern Course',
     description:
-      'Master React with hooks, context, and advanced component patterns to build interactive UIs efficiently.',
+      'A complete deep dive into modern React, focusing on practical patterns and best practices used by today’s top companies. You will start with foundational concepts like components, props, and state, then progressively move into advanced topics including hooks, context, performance optimization, memoization, custom hooks, reusable patterns, and scalable application structure. The course emphasizes building maintainable code, thinking in components, and mastering real-world workflows used in professional React development.',
     price: 149.99,
     isFeatured: true,
     image:
@@ -47,28 +53,12 @@ export const sampleData = [
     rating: 4.5,
     duration: 90,
     numReviews: 95,
-    // sections: [
-    //   {
-    //     title: 'React Fundamentals',
-    //     lessons: [
-    //       { title: 'JSX & Components', duration: 10 },
-    //       { title: 'State & Props', duration: 20 },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Advanced Patterns',
-    //     lessons: [
-    //       { title: 'Context API', duration: 25 },
-    //       { title: 'Hooks in Depth', duration: 35 },
-    //     ],
-    //   },
-    // ],
   },
   {
     slug: 'nodejs-api-development',
     title: 'Node.js API Development',
     description:
-      'Create RESTful APIs and backend services using Node.js, Express, and MongoDB for full-stack applications.',
+      'Learn how to build secure, scalable, and flexible backend APIs using Node.js and Express. This course guides you through setting up servers, handling routing, interacting with databases, implementing authentication and authorization, designing RESTful architectures, and adding middleware for logging, validation, and error handling. You will also work with MongoDB to build persistent data models and learn how to deploy your API to production cloud environments. Perfect for anyone aiming to master backend development.',
     price: 129.99,
     isFeatured: false,
     image:
@@ -78,30 +68,13 @@ export const sampleData = [
     difficulty: 'INTERMEDIATE',
     rating: 4.6,
     duration: 70,
-
     numReviews: 80,
-    // sections: [
-    //   {
-    //     title: 'Server Basics',
-    //     lessons: [
-    //       { title: 'Node.js Introduction', duration: 10 },
-    //       { title: 'Express Setup', duration: 15 },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Building APIs',
-    //     lessons: [
-    //       { title: 'REST API Endpoints', duration: 25 },
-    //       { title: 'Middleware & Error Handling', duration: 20 },
-    //     ],
-    //   },
-    // ],
   },
   {
     slug: 'bootstrap-responsive-design',
     title: 'Bootstrap Responsive Design',
     description:
-      'Build mobile-first websites quickly with Bootstrap 5, responsive grids, and components for modern UIs.',
+      'This course teaches you how to design beautiful, responsive websites using Bootstrap 5. You will master the grid system, flex utilities, spacing utilities, and pre-built components to rapidly build professional layouts. The course also covers best practices for mobile-first development, reusable design patterns, and customizing Bootstrap to match brand identity. You will build real-world UI components, landing pages, and responsive layouts suitable for modern web applications.',
     price: 99.99,
     isFeatured: false,
     image:
@@ -112,28 +85,12 @@ export const sampleData = [
     rating: 4.3,
     duration: 35,
     numReviews: 50,
-    // sections: [
-    //   {
-    //     title: 'Getting Started',
-    //     lessons: [
-    //       { title: 'Bootstrap Grid', duration: 6 },
-    //       { title: 'Components Overview', duration: 7 },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Responsive Design',
-    //     lessons: [
-    //       { title: 'Media Queries', duration: 12 },
-    //       { title: 'Utility Classes', duration: 10 },
-    //     ],
-    //   },
-    // ],
   },
   {
     slug: 'tailwindcss-masterclass',
     title: 'Tailwind CSS Masterclass',
     description:
-      'Design beautiful and highly responsive websites fast using Tailwind CSS and utility-first styling.',
+      'A complete guide to using Tailwind CSS for building stunning, responsive, and highly customizable interfaces. This course walks you through utility-first styling, responsive design patterns, typography, spacing, colors, and component structure. You will learn how to rapidly prototype designs and then build complete UIs with production-quality code. Advanced topics include customizing themes, using Tailwind plugins, optimizing for performance, and integrating Tailwind into frameworks like Next.js.',
     price: 119.99,
     isFeatured: true,
     image:
@@ -145,28 +102,12 @@ export const sampleData = [
     numReviews: 110,
     duration: 70,
     salePrice: 59.99,
-    // sections: [
-    //   {
-    //     title: 'Setup & Basics',
-    //     lessons: [
-    //       { title: 'Installing Tailwind', duration: 10 },
-    //       { title: 'Utility Classes', duration: 15 },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Advanced Styling',
-    //     lessons: [
-    //       { title: 'Responsive Design', duration: 20 },
-    //       { title: 'Custom Themes', duration: 25 },
-    //     ],
-    //   },
-    // ],
   },
   {
     slug: 'javascript-basics-to-advanced',
     title: 'JavaScript Basics to Advanced',
     description:
-      'From fundamentals to advanced concepts, learn JavaScript to build dynamic web applications effectively.',
+      'A full JavaScript journey from foundational concepts to advanced programming techniques. You will begin with variables, functions, arrays, loops, and DOM manipulation before moving into ES6+ features like modules, async/await, classes, and modern syntax. The advanced section covers closures, prototypes, event loop internals, promises, and functional programming patterns. By the end, you will be equipped to write clean, modern JavaScript and understand the language deeply.',
     price: 139.99,
     isFeatured: false,
     image:
@@ -177,28 +118,12 @@ export const sampleData = [
     rating: 4.4,
     duration: 70,
     numReviews: 75,
-    // sections: [
-    //   {
-    //     title: 'JavaScript Fundamentals',
-    //     lessons: [
-    //       { title: 'Variables & Data Types', duration: 10 },
-    //       { title: 'Functions & Loops', duration: 15 },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Advanced JS',
-    //     lessons: [
-    //       { title: 'ES6+ Features', duration: 20 },
-    //       { title: 'Async & Promises', duration: 25 },
-    //     ],
-    //   },
-    // ],
   },
   {
     slug: 'mongodb-database',
     title: 'MongoDB Database',
     description:
-      'Learn MongoDB from scratch and integrate it with Node.js to create scalable and flexible database solutions.',
+      'Learn how to work with MongoDB, one of the most popular NoSQL databases used in modern applications. This course covers essentials like collections, documents, indexing, querying, and schema design. You will also integrate MongoDB with Node.js to build fully functioning CRUD systems. Advanced topics include aggregation pipelines, performance optimization, relationships in NoSQL data models, and deploying MongoDB in cloud environments. Ideal for developers building data-driven applications.',
     price: 129.99,
     isFeatured: false,
     image:
@@ -209,21 +134,5 @@ export const sampleData = [
     rating: 4.6,
     duration: 60,
     numReviews: 60,
-    // sections: [
-    //   {
-    //     title: 'Introduction',
-    //     lessons: [
-    //       { title: 'MongoDB Basics', duration: 15 },
-    //       { title: 'Collections & Documents', duration: 20 },
-    //     ],
-    //   },
-    //   {
-    //     title: 'Integrations',
-    //     lessons: [
-    //       { title: 'Node.js & MongoDB', duration: 15 },
-    //       { title: 'Schema Design', duration: 10 },
-    //     ],
-    //   },
-    // ],
   },
 ];
