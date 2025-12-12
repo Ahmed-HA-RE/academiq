@@ -37,19 +37,19 @@ const CourseCard = ({ course, cart }: CourseCardProps) => {
                 height={0}
                 sizes='100vw'
                 loading='eager'
-                className='w-full max-h-[250px] object-cover'
+                className='w-full max-h-[200px] object-cover'
               />
             </Link>
             <CheckboxPrimitive.Root
               data-slot='checkbox'
-              className='group focus-visible:ring-ring/50 p-2 outline-none focus-visible:ring-3 absolute top-3 right-2.5 rounded-full border border-white/70 text-white cursor-pointer'
+              className='group focus-visible:ring-ring/50 p-2 outline-none focus-visible:ring-2 absolute top-3 right-2.5 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white cursor-pointer hover:bg-white/30 hover:scale-110 transition-all duration-200 ease-in-out'
               aria-label='Heart icon'
             >
               <span className='group-data-[state=checked]:hidden'>
-                <HeartIcon className='size-4' />
+                <HeartIcon className='size-4 hover:scale-110 transition-transform' />
               </span>
               <span className='group-data-[state=unchecked]:hidden'>
-                <HeartIcon className='fill-destructive stroke-destructive size-4' />
+                <HeartIcon className='fill-red-500 stroke-red-500 size-4' />
               </span>
             </CheckboxPrimitive.Root>
           </div>

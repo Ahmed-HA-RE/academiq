@@ -12,6 +12,7 @@ import {
   ClipboardClock,
   TimerIcon,
   Users,
+  UserStar,
 } from 'lucide-react';
 import { Separator } from '@/app/components/ui/separator';
 import EnrollCourseBtn from '@/app/components/shared/EnrollCourseBtn';
@@ -46,37 +47,23 @@ const CourseDetailsPage = async ({
           {/* Left side */}
           <div className='md:col-span-3'>
             {/* image */}
-            <div className='relative'>
-              <Image
-                src={course.image}
-                alt={course.title}
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='w-full max-h-[400px] rounded-2xl object-cover'
-              />
-              {/* rating + num reviews */}
-              <div className='absolute bottom-4 right-5 z-10 flex flex-col items-start gap-1'>
-                <p className='text-white text-sm font-semibold'>
-                  {course.numReviews} reviews
-                </p>
-                <Rating
-                  value={Number(course.rating)}
-                  precision={0.5}
-                  readOnly
-                  variant='yellow'
-                />
-              </div>
-            </div>
+            <Image
+              src={course.image}
+              alt={course.title}
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='w-full max-h-[400px] rounded-2xl object-cover'
+            />
             {/* course info */}
             <div className='space-y-6 mt-10'>
-              <h3 className='text-3xl md:text-4xl max-w-md font-medium '>
+              <h3 className='text-3xl md:text-4xl max-w-xl font-medium '>
                 {course.title}
               </h3>
               <p className='text-gray-600 dark:text-gray-300 max-w-2xl'>
                 {course.description}
               </p>
-              {/* Sections & Lessons */}
+              {/* Sections & Lessons Accordion */}
             </div>
             <Separator
               orientation='horizontal'
@@ -91,6 +78,20 @@ const CourseDetailsPage = async ({
               <span className='text-3xl md:text-4xl'>
                 {course.salePrice ? course.salePrice : course.price}
               </span>
+            </div>
+            {/* rating + num reviews */}
+            <div className='flex flex-row items-center gap-3 text-sm'>
+              <UserStar size={18} />
+              <p className='text-sm font-semibold shadow-2xl'>
+                {course.numReviews} reviews
+              </p>
+              <Rating
+                value={Number(course.rating)}
+                precision={0.5}
+                size={18}
+                readOnly
+                variant='yellow'
+              />
             </div>
             <div className='flex flex-row items-center gap-3 text-sm'>
               <ClipboardClock size={18} />

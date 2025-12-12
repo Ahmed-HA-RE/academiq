@@ -1,6 +1,13 @@
 import { prisma } from '../prisma';
 import { convertToPlainObject } from '../utils';
 
+// Get all courses
+export const getAllCourses = async () => {
+  const courses = await prisma.course.findMany();
+  if (!courses) throw new Error('No courses found');
+  return convertToPlainObject(courses);
+};
+
 // Get featured courses
 export const getFeaturedCourses = async () => {
   const courses = await prisma.course.findMany({
