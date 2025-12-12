@@ -1,182 +1,176 @@
 'use client';
+import { Badge } from '@/app/components/ui/badge';
 
+import { MotionPreset } from '@/app/components/ui/motion-preset';
 import { useEffect, useState } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Card, CardContent } from './ui/card';
 import {
   Carousel,
+  CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
-} from './ui/carousel';
-import { cn } from '@/lib/utils';
-import { Rating } from './ui/rating';
+} from '@/app/components/ui/carousel';
 import { testimonials } from '@/lib/constants';
+import { Card, CardContent } from '@/app/components/ui/card';
 import Image from 'next/image';
-import { Suspense } from 'react';
-import { MotionPreset } from './ui/motion-preset';
+import { Separator } from '@/app/components/ui/separator';
+import { Rating } from '@/app/components/ui/rating';
+import { cn } from '@/lib/utils';
 
 const Testimonial = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (!api) {
       return;
     }
 
+    const handleResize = () => {
+      setCount(api.scrollSnapList().length);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
     // ignore  eslint-disable-next-line react-hooks/exhaustive-deps
     setCurrent(api.selectedScrollSnap());
 
     api.on('select', () => {
       setCurrent(api.selectedScrollSnap());
     });
-  }, [api]);
 
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [api]);
   return (
-    <section className='bg-gray-50 dark:bg-accent py-4 my-16 md:my-25'>
-      <MotionPreset
-        component='div'
-        className='container space-y-10'
-        fade
-        slide={{ direction: 'up', offset: 50 }}
-        blur
-        transition={{ duration: 0.8 }}
-      >
-        {/* Header Content */}
+    <section className='bg-gray-50 dark:bg-accent py-4 mt-16'>
+      <div className='container space-y-10 md:space-y-16 lg:space-y-24 lg:px-8'>
+        {/* Left Content */}
         <div className='space-y-4 text-center'>
-          <h2 className='text-2xl font-semibold md:text-3xl lg:text-4xl'>
-            {' '}
+          <MotionPreset
+            fade
+            blur
+            slide={{ direction: 'down', offset: 50 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Badge variant='outline' className='text-sm font-normal'>
+              Student Feedback
+            </Badge>
+          </MotionPreset>
+
+          <MotionPreset
+            component='h2'
+            className='text-2xl font-semibold sm:text-3xl lg:text-4xl'
+            fade
+            blur
+            delay={0.2}
+            slide={{ direction: 'down', offset: 50 }}
+            transition={{ duration: 0.6 }}
+          >
             What Our Students Say
-          </h2>
-          <p className='text-muted-foreground text-xl'>
+          </MotionPreset>
+
+          <MotionPreset
+            component='p'
+            className='text-muted-foreground text-xl'
+            fade
+            blur
+            delay={0.4}
+            slide={{ direction: 'down', offset: 50 }}
+            transition={{ duration: 0.6 }}
+          >
             Read experiences from students who have learned, grown, and
             succeeded with our courses.
-          </p>
+          </MotionPreset>
         </div>
-        {/* Users Carousel */}
-        <Carousel
-          setApi={setApi}
-          opts={{
-            align: 'center',
-            loop: true,
-          }}
-          className='relative flex items-center justify-center gap-6'
+
+        <MotionPreset
+          delay={0.8}
+          slide={{ direction: 'down', offset: 50 }}
+          fade
+          blur
+          transition={{ duration: 0.6 }}
         >
-          {/* Carousel Previous Button */}
-          <CarouselPrevious
-            variant='ghost'
-            className='static size-9 translate-y-0'
-          />
-
-          {/* Carousel Content */}
-          <CarouselContent className='ml-0 h-18 items-center'>
-            {testimonials.map((testimonial, index) => (
-              <CarouselItem
-                key={index}
-                className='flex basis-1/2 justify-center pl-0'
-              >
-                <Avatar
-                  className={cn(
-                    'size-13 rounded-lg transition-all duration-300',
-                    {
-                      'size-18': current === index,
-                      'size-15.5':
-                        current === 0
-                          ? index === testimonials.length - 1 ||
-                            current + 1 === index
-                          : current === testimonials.length - 1
-                            ? current - 1 === index || index === 0
-                            : current - 1 === index || current + 1 === index,
-                    }
-                  )}
-                >
-                  <Suspense
-                    fallback={
-                      <AvatarFallback className='rounded-lg text-sm'>
-                        {testimonial.name
-                          .split(' ', 2)
-                          .map((n) => n[0])
-                          .join('')}
-                      </AvatarFallback>
-                    }
-                  >
-                    <Image
-                      width={80}
-                      height={80}
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className='object-cover'
-                    />
-                  </Suspense>
-                  <AvatarImage />
-                </Avatar>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-
-          {/* Carousel Next Button */}
-          <CarouselNext
-            variant='ghost'
-            className='static size-9 translate-y-0'
-          />
-        </Carousel>
-
-        {/* Testimonial Details */}
-        <Card className='shadow-none'>
-          <CardContent className='flex gap-6 max-sm:flex-col sm:items-center'>
-            <Avatar className='size-44 rounded-lg'>
-              <Suspense
-                fallback={
-                  <AvatarFallback className='rounded-lg'>
-                    {testimonials[current].name
-                      .split(' ', 2)
-                      .map((n) => n[0])
-                      .join('')}
-                  </AvatarFallback>
-                }
-              ></Suspense>
-              <Image
-                src={testimonials[current].image}
-                alt={testimonials[current].name}
-                width={176}
-                height={176}
-                className='object-cover'
+          <div className='space-y-10'>
+            <Carousel
+              opts={{
+                align: 'start',
+              }}
+              setApi={setApi}
+            >
+              <CarouselContent className='sm:-ml-6'>
+                {testimonials.map((testimonial, index) => (
+                  <CarouselItem key={index} className='sm:pl-6 lg:basis-1/2'>
+                    <Card className='h-full rounded-lg shadow-none'>
+                      <CardContent className='flex items-center gap-6 max-sm:flex-col lg:max-xl:flex-col'>
+                        <Image
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          width={0}
+                          height={0}
+                          sizes='100vw'
+                          className='size-63.5 rounded-md object-cover'
+                        />
+                        <div className='flex-1 space-y-4'>
+                          <div className='space-y-1'>
+                            <h4 className='font-semibold'>
+                              {testimonial.name}
+                            </h4>
+                            <p className='text-muted-foreground text-sm'>
+                              {testimonial.role} at{' '}
+                              <span className='text-card-foreground font-semibold'>
+                                {testimonial.company}
+                              </span>
+                            </p>
+                          </div>
+                          <Separator />
+                          <div className='space-y-2'>
+                            <Rating
+                              readOnly
+                              variant='yellow'
+                              size={24}
+                              value={testimonial.rating}
+                              precision={0.5}
+                            />
+                            <p className='text-muted-foreground'>
+                              {testimonial.description}
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious
+                variant='default'
+                className='disabled:bg-secondary disabled:text-primary absolute top-1/2 left-0 size-9 -translate-y-1/2 cursor-pointer rounded-full disabled:opacity-100 md:-left-4'
               />
-            </Avatar>
-            <div className='flex-1 space-y-4'>
-              <h3 className='text-xl font-semibold'>
-                {testimonials[current].title}
-              </h3>
-              <p className='text-muted-foreground'>
-                {testimonials[current].description}
-              </p>
-              <hr className='w-20' />
-              <div className='flex items-center justify-between gap-6'>
-                <div className='space-y-3'>
-                  <h4 className='font-medium'>{testimonials[current].name}</h4>
-                  <p className='text-muted-foreground text-sm'>
-                    {testimonials[current].role} at{' '}
-                    <span className='text-card-foreground font-medium'>
-                      {testimonials[current].company}
-                    </span>
-                  </p>
-                </div>
+              <CarouselNext
+                variant='default'
+                className='disabled:bg-secondary disabled:text-primary absolute top-1/2 right-0 size-9 -translate-y-1/2 cursor-pointer rounded-full disabled:opacity-100 md:-right-4'
+              />
+            </Carousel>
 
-                <Rating
-                  readOnly
-                  variant='yellow'
-                  size={24}
-                  value={testimonials[current].rating}
-                  precision={0.5}
+            <div className='flex items-center justify-center gap-1'>
+              {Array.from({ length: count }).map((_, index) => (
+                <button
+                  key={index}
+                  className={cn(
+                    'size-2.5 cursor-pointer rounded-full transition-colors',
+                    index === current ? 'bg-primary' : 'bg-primary/20'
+                  )}
+                  onClick={() => api?.scrollTo(index)}
+                  aria-label={`Go to slide ${index + 1}`}
                 />
-              </div>
+              ))}
             </div>
-          </CardContent>
-        </Card>
-      </MotionPreset>
+          </div>
+        </MotionPreset>
+      </div>
     </section>
   );
 };
