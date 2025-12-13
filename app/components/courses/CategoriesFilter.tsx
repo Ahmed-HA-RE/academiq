@@ -1,10 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import { FilterIcon, SearchIcon, TriangleAlertIcon } from 'lucide-react';
 import { useMedia } from 'react-use';
-
 import { Button } from '@/app/components/ui/button';
 import {
   Card,
@@ -13,11 +11,6 @@ import {
   CardTitle,
 } from '@/app/components/ui/card';
 import { Checkbox } from '@/app/components/ui/checkbox';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/app/components/ui/collapsible';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { Separator } from '@/app/components/ui/separator';
@@ -29,7 +22,7 @@ import {
   SheetTrigger,
 } from '@/app/components/ui/sheet';
 import { Slider } from '@/app/components/ui/slider';
-import { cn, PRICE_RANGE } from '@/lib/utils';
+import { cn, DIFFICULTY_LEVELS, PRICE_RANGE } from '@/lib/utils';
 import CourseCard from './CourseCard';
 import { Cart, Course } from '@/types';
 import { Alert, AlertTitle } from '../ui/alert';
@@ -50,16 +43,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
-
-const brandItems = [
-  'Apple',
-  'Samsung',
-  'Xiaomi',
-  'Blackberry',
-  'Realme',
-  'Poco',
-  'Huawei',
-];
 
 type CategoryFilterProps = {
   courses: Course[];
@@ -90,8 +73,6 @@ const FilterContent = () => {
     }
   );
 
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(false);
   const [selectedBatteries, setSelectedBatteries] = useState<string[]>([
     '> 6000 mAh',
     '5000 - 6000 mAh',
@@ -186,60 +167,32 @@ const FilterContent = () => {
 
       <Separator />
 
-      {/* Brand */}
+      {/* Difficulty */}
       <div className='space-y-4 px-4'>
-        <Label className='text-xl font-medium'>Brand</Label>
-
-        {brandItems.slice(0, 3).map((brand) => (
-          <div key={brand} className='flex items-center gap-2'>
+        <Label className='text-xl font-medium'>Difficulty</Label>
+        {DIFFICULTY_LEVELS.map((level) => (
+          <div key={level.value} className='flex items-center gap-2'>
             <Checkbox
-              id={brand}
+              id={level.value}
               className='size-5'
-              checked={selectedBrands.includes(brand)}
+              checked={filters.difficulty.includes(level.value)}
               onCheckedChange={(checked) => {
                 if (checked) {
-                  setSelectedBrands([...selectedBrands, brand]);
+                  setFilters({
+                    difficulty: [...filters.difficulty, level.value],
+                  });
                 } else {
-                  setSelectedBrands(selectedBrands.filter((b) => b !== brand));
+                  setFilters({
+                    difficulty: filters.difficulty.filter(
+                      (lvl) => lvl !== level.value
+                    ),
+                  });
                 }
               }}
             />
-            <Label htmlFor={brand}>{brand}</Label>
+            <Label htmlFor={level.value}>{level.label}</Label>
           </div>
         ))}
-
-        <Collapsible
-          open={isTrackOrderOpen}
-          onOpenChange={setIsTrackOrderOpen}
-          className='space-y-2'
-        >
-          <CollapsibleContent className='space-y-4'>
-            {brandItems.slice(3, brandItems.length).map((brand) => (
-              <div key={brand} className='flex items-center gap-2'>
-                <Checkbox
-                  id={brand}
-                  className='size-5'
-                  checked={selectedBrands.includes(brand)}
-                  onCheckedChange={(checked) => {
-                    if (checked) {
-                      setSelectedBrands([...selectedBrands, brand]);
-                    } else {
-                      setSelectedBrands(
-                        selectedBrands.filter((b) => b !== brand)
-                      );
-                    }
-                  }}
-                />
-                <Label htmlFor={brand}>{brand}</Label>
-              </div>
-            ))}
-          </CollapsibleContent>
-          <CollapsibleTrigger>
-            <span className='font-medium underline'>
-              {isTrackOrderOpen ? 'See less' : 'See more'}
-            </span>
-          </CollapsibleTrigger>
-        </Collapsible>
       </div>
 
       <Separator />

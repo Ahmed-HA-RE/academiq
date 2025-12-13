@@ -37,3 +37,9 @@ export const PRICE_RANGE = [
   { label: '200-500 AED', value: '200-500' },
   { label: 'Above 1000 AED', value: '1000' },
 ];
+
+export const DIFFICULTY_LEVELS = [
+  { label: 'Beginner', value: 'BEGINNER' },
+  { label: 'Intermediate', value: 'INTERMEDIATE' },
+  { label: 'Advanced', value: 'ADVANCED' },
+];

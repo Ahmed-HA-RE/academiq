@@ -42,8 +42,20 @@ export const getAllCourses = async ({
           }
         : {};
 
+  const difficultyFilter: Prisma.CourseWhereInput =
+    difficulty && difficulty.length > 0
+      ? {
+          difficulty: { in: difficulty },
+        }
+      : {};
+
   const courses = await prisma.course.findMany({
-    where: { ...filterQuery, ...ratingFilter, ...priceFilter },
+    where: {
+      ...filterQuery,
+      ...ratingFilter,
+      ...priceFilter,
+      ...difficultyFilter,
+    },
     orderBy: { createdAt: 'desc' },
   });
   if (!courses) throw new Error('No courses found');
