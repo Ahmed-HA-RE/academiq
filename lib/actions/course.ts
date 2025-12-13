@@ -11,7 +11,7 @@ export const getAllCourses = async ({
   difficulty,
 }: {
   q?: string;
-  rating?: number;
+  rating?: number[] | null;
   priceMin?: number;
   priceMax?: number;
   difficulty?: string[];
@@ -20,8 +20,18 @@ export const getAllCourses = async ({
     ? { title: { contains: q, mode: 'insensitive' } }
     : {};
 
+  const ratingFilter: Prisma.CourseWhereInput =
+    rating && rating.length > 0
+      ? {
+          rating: {
+            lte: rating[1],
+            gte: rating[0],
+          },
+        }
+      : {};
+
   const courses = await prisma.course.findMany({
-    where: { ...filterQuery },
+    where: { ...filterQuery, ...ratingFilter },
     orderBy: { createdAt: 'desc' },
   });
   if (!courses) throw new Error('No courses found');

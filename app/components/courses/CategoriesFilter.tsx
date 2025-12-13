@@ -8,7 +8,7 @@ import {
   StarIcon,
   TriangleAlertIcon,
 } from 'lucide-react';
-import { useMedia, useSearchParam } from 'react-use';
+import { useMedia } from 'react-use';
 
 import { Button } from '@/app/components/ui/button';
 import {
@@ -45,7 +45,7 @@ import {
   throttle,
   useQueryStates,
 } from 'nuqs';
-import { useSearchParams } from 'next/navigation';
+import { IoStarSharp } from 'react-icons/io5';
 
 const brandItems = [
   'Apple',
@@ -70,7 +70,12 @@ const FilterContent = () => {
       q: parseAsString
         .withDefault('')
         .withOptions({ limitUrlUpdates: throttle(500) }),
-      rating: parseAsInteger.withDefault(0),
+      rating: parseAsArrayOf(parseAsInteger, '-')
+        .withDefault([1, 5])
+        .withOptions({
+          limitUrlUpdates: throttle(500),
+          clearOnDefault: false,
+        }),
       priceMin: parseAsInteger
         .withDefault(0)
         .withOptions({ limitUrlUpdates: throttle(500) }),
@@ -117,8 +122,8 @@ const FilterContent = () => {
         <Label className='text-xl font-medium'>Rating</Label>
         <div>
           <Slider
-            // value={value}
-            // onValueChange={setValue}
+            value={filters.rating!}
+            onValueChange={(e) => setFilters({ rating: e })}
             min={1}
             max={5}
             aria-label='Rating slider'
@@ -128,19 +133,19 @@ const FilterContent = () => {
             aria-hidden='true'
           >
             <span className='flex items-center gap-1'>
-              1 <StarIcon className='size-4 text-amber-400' />
+              1 <IoStarSharp className='size-4 text-amber-400' />
             </span>
             <span className='flex items-center gap-1'>
-              2 <StarIcon className='size-4 text-amber-400' />
+              2 <IoStarSharp className='size-4 text-amber-400' />
             </span>
             <span className='flex items-center gap-1'>
-              3 <StarIcon className='size-4 text-amber-400' />
+              3 <IoStarSharp className='size-4 text-amber-400' />
             </span>
             <span className='flex items-center gap-1'>
-              4 <StarIcon className='size-4 text-amber-400' />
+              4 <IoStarSharp className='size-4 text-amber-400' />
             </span>
             <span className='flex items-center gap-1'>
-              5 <StarIcon className='size-4 text-amber-400' />
+              5 <IoStarSharp className='size-4 text-amber-400' />
             </span>
           </span>
         </div>
@@ -297,17 +302,32 @@ const CategoriesFilter = ({ courses, cart }: CategoryFilterProps) => {
               Filter
             </Button>
           </SheetTrigger>
+
           <SheetContent
             side='left'
             className='w-[300px] gap-6 overflow-y-auto sm:w-[400px]'
           >
             <SheetHeader className='pb-0'>
-              <SheetTitle className='text-2xl'>Filter</SheetTitle>
+              <SheetTitle className='text-xl flex flex-row justify-between items-center mt-10'>
+                <p>Filter</p>
+                <Button
+                  onClick={() => setFilters(null)}
+                  variant='link'
+                  className='p-0 text-base cursor-pointer'
+                  disabled={
+                    filters.q === '' &&
+                    filters.rating === 0 &&
+                    filters.priceMin === 0 &&
+                    filters.priceMax === 0 &&
+                    filters.difficulty.length === 0
+                  }
+                >
+                  Clear All
+                </Button>
+              </SheetTitle>
             </SheetHeader>
-            <div>
-              <div className='space-y-6 px-0'>
-                <FilterContent />
-              </div>
+            <div className='space-y-6 px-0'>
+              <FilterContent />
             </div>
           </SheetContent>
         </Sheet>

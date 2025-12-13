@@ -70,10 +70,11 @@ const MenuSheet = ({ logoName, navigationData }: MenuSheetProps) => {
               key={navItem.title}
               href={navItem.href}
               className={cn(
-                'hover:bg-accent flex',
+                'flex',
                 'items-center',
                 'duration-300',
-                'hover:bg-blue-50',
+                'hover:bg-accent-foreground',
+                'hover:text-black',
                 'gap-2',
                 'px-4',
                 'py-2',
