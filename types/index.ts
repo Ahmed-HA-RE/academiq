@@ -18,6 +18,7 @@ export type Course = z.infer<typeof baseCourseSchema> & {
   numReviews: number;
   createdAt: Date;
   updatedAt: Date;
+  totalPages?: number;
 };
 
 export type RegisterFormData = z.infer<typeof registerSchema>;

@@ -9,12 +9,16 @@ export const getAllCourses = async ({
   price,
   difficulty,
   sortBy,
+  page = 1,
+  limit = 5,
 }: {
   q?: string;
   rating?: number[];
   price?: string;
   difficulty?: string[];
   sortBy?: string;
+  page?: number;
+  limit?: number;
 }) => {
   // Query Filter
   const filterQuery: Prisma.CourseWhereInput = q
@@ -55,7 +59,7 @@ export const getAllCourses = async ({
         }
       : {};
 
-  // Sorting
+  // Sorting Filter
   const sortingFilter: Prisma.CourseOrderByWithRelationInput =
     sortBy === 'newest'
       ? { createdAt: 'asc' }
@@ -75,9 +79,24 @@ export const getAllCourses = async ({
       ...difficultyFilter,
     },
     orderBy: { ...sortingFilter },
+    take: limit,
+    skip: (page - 1) * limit,
   });
+
+  const totalCount = await prisma.course.count({
+    where: {
+      ...filterQuery,
+      ...ratingFilter,
+      ...priceFilter,
+      ...difficultyFilter,
+    },
+  });
+
+  const totalPages = Math.ceil(totalCount / limit);
+
   if (!courses) throw new Error('No courses found');
-  return convertToPlainObject(courses);
+
+  return convertToPlainObject({ courses, totalPages });
 };
 
 // Get featured courses

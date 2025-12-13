@@ -1,4 +1,5 @@
 import CategoriesFilter from '@/app/components/courses/CategoriesFilter';
+import CoursesPagination from '@/app/components/courses/CoursesPagination';
 import { getMyCart } from '@/lib/actions/cart';
 import { getAllCourses } from '@/lib/actions/course';
 import { loadSearchParams } from '@/lib/searchParams';
@@ -9,15 +10,16 @@ const CoursesPage = async ({
 }: {
   searchParams: Promise<SearchParams>;
 }) => {
-  const { q, rating, price, difficulty, sortBy } =
+  const { q, rating, price, difficulty, sortBy, page } =
     await loadSearchParams(searchParams);
 
-  const courses = await getAllCourses({
+  const { courses, totalPages } = await getAllCourses({
     q,
     rating,
     price,
     difficulty,
     sortBy,
+    page,
   });
   const cart = await getMyCart();
 
@@ -28,6 +30,9 @@ const CoursesPage = async ({
           <h1 className='text-3xl font-bold'>Courses</h1>
         </div>
         <CategoriesFilter courses={courses} cart={cart} />
+        {totalPages && totalPages > 1 && (
+          <CoursesPagination totalPages={totalPages} />
+        )}
       </div>
     </section>
   );

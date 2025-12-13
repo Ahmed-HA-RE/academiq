@@ -13,6 +13,7 @@ export const coursesfilteredParams = {
   price: parseAsString.withDefault(''),
   difficulty: parseAsArrayOf(parseAsString).withDefault([]),
   sortBy: parseAsString.withDefault(''),
+  page: parseAsInteger.withDefault(1),
 };
 
 export const loadSearchParams = createLoader(coursesfilteredParams);
