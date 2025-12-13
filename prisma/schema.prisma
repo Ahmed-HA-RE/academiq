@@ -54,22 +54,21 @@ model Course {
 // }
 
 model User {
-  id              String    @id
-  name            String
-  email           String
-  emailVerified   Boolean   @default(false)
-  image           String    @default("https://res.cloudinary.com/ahmed--dev/image/upload/v1755243182/default_avatar_7541d4c434.webp")
-  role            String    @default("user")
-  shippingAddress Json?     @db.Json
-  paymentMethod   String?
-  paymentDetails  Json?     @db.Json
-  status          String    @default("online")
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  sessions        Session[]
-  accounts        Account[]
-  courses         Course[]
-  carts           Cart[]
+  id             String    @id
+  name           String
+  email          String
+  emailVerified  Boolean   @default(false)
+  image          String    @default("https://res.cloudinary.com/ahmed--dev/image/upload/v1755243182/default_avatar_7541d4c434.webp")
+  role           String    @default("user")
+  paymentResults Json?     @db.Json
+  billingInfo    Json?     @db.Json
+  status         String    @default("online")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  sessions       Session[]
+  accounts       Account[]
+  courses        Course[]
+  carts          Cart[]
 
   @@unique([email])
   @@map("user")

@@ -17,6 +17,24 @@ import {
 import { Separator } from '@/app/components/ui/separator';
 import EnrollCourseBtn from '@/app/components/shared/EnrollCourseBtn';
 import { getMyCart } from '@/lib/actions/cart';
+import { Metadata, ResolvingMetadata } from 'next';
+import { APP_NAME } from '@/lib/constants';
+
+export const generateMetadata = async (
+  params: Promise<{ slug: string }>,
+  parent: ResolvingMetadata
+): Promise<Metadata> => {
+  const slug = (await params).slug;
+
+  const course = await getCourseBySlug(slug);
+
+  if (!course) return { title: `${APP_NAME}` };
+
+  return {
+    title: course.title,
+    description: course.description,
+  };
+};
 
 const CourseDetailsPage = async ({
   params,
