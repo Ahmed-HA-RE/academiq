@@ -8,16 +8,20 @@ export const getAllCourses = async ({
   rating,
   price,
   difficulty,
+  sortBy,
 }: {
   q?: string;
   rating?: number[];
   price?: string;
   difficulty?: string[];
+  sortBy?: string;
 }) => {
+  // Query Filter
   const filterQuery: Prisma.CourseWhereInput = q
     ? { title: { contains: q, mode: 'insensitive' } }
     : {};
 
+  // Rating Filter
   const ratingFilter: Prisma.CourseWhereInput =
     rating && rating.length > 0
       ? {
@@ -28,6 +32,7 @@ export const getAllCourses = async ({
         }
       : {};
 
+  // Price Filter
   const priceFilter: Prisma.CourseWhereInput =
     price && price.includes('-')
       ? {
@@ -42,12 +47,25 @@ export const getAllCourses = async ({
           }
         : {};
 
+  // Difficulty Filter
   const difficultyFilter: Prisma.CourseWhereInput =
     difficulty && difficulty.length > 0
       ? {
           difficulty: { in: difficulty },
         }
       : {};
+
+  // Sorting
+  const sortingFilter: Prisma.CourseOrderByWithRelationInput =
+    sortBy === 'newest'
+      ? { createdAt: 'asc' }
+      : sortBy === 'oldest'
+        ? { createdAt: 'desc' }
+        : sortBy === 'price-asc'
+          ? { currentPrice: 'asc' }
+          : sortBy === 'price-desc'
+            ? { currentPrice: 'desc' }
+            : {};
 
   const courses = await prisma.course.findMany({
     where: {
@@ -56,7 +74,7 @@ export const getAllCourses = async ({
       ...priceFilter,
       ...difficultyFilter,
     },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { ...sortingFilter },
   });
   if (!courses) throw new Error('No courses found');
   return convertToPlainObject(courses);

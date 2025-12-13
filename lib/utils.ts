@@ -43,3 +43,10 @@ export const DIFFICULTY_LEVELS = [
   { label: 'Intermediate', value: 'INTERMEDIATE' },
   { label: 'Advanced', value: 'ADVANCED' },
 ];
+
+export const SORTING_OPTIONS = [
+  { label: 'Newest', value: 'newest' },
+  { label: 'Oldest', value: 'oldest' },
+  { label: 'Price: Low to High', value: 'price-asc' },
+  { label: 'Price: High to Low', value: 'price-desc' },
+];

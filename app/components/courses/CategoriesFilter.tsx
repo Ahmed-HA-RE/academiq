@@ -1,7 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FilterIcon, SearchIcon, TriangleAlertIcon } from 'lucide-react';
+import {
+  ArrowUpDown,
+  FilterIcon,
+  SearchIcon,
+  TriangleAlertIcon,
+} from 'lucide-react';
 import { useMedia } from 'react-use';
 import { Button } from '@/app/components/ui/button';
 import {
@@ -22,7 +27,12 @@ import {
   SheetTrigger,
 } from '@/app/components/ui/sheet';
 import { Slider } from '@/app/components/ui/slider';
-import { cn, DIFFICULTY_LEVELS, PRICE_RANGE } from '@/lib/utils';
+import {
+  cn,
+  DIFFICULTY_LEVELS,
+  PRICE_RANGE,
+  SORTING_OPTIONS,
+} from '@/lib/utils';
 import CourseCard from './CourseCard';
 import { Cart, Course } from '@/types';
 import { Alert, AlertTitle } from '../ui/alert';
@@ -49,34 +59,31 @@ type CategoryFilterProps = {
   cart: Cart | undefined;
 };
 
-const batteryItems = ['> 6000 mAh', '5000 - 6000 mAh', '4000 - 5000 mAh'];
-
 const FilterContent = () => {
   const [filters, setFilters] = useQueryStates(
     {
       q: parseAsString
         .withDefault('')
-        .withOptions({ limitUrlUpdates: throttle(500) }),
+        .withOptions({ limitUrlUpdates: throttle(300) }),
       rating: parseAsArrayOf(parseAsInteger, '-')
         .withDefault([1, 5])
         .withOptions({
-          limitUrlUpdates: throttle(500),
+          limitUrlUpdates: throttle(300),
           clearOnDefault: false,
         }),
       price: parseAsString
         .withDefault('')
-        .withOptions({ limitUrlUpdates: throttle(500) }),
+        .withOptions({ limitUrlUpdates: throttle(300) }),
       difficulty: parseAsArrayOf(parseAsString).withDefault([]),
+      sortBy: parseAsString
+        .withDefault('')
+        .withOptions({ limitUrlUpdates: throttle(300) }),
     },
     {
       shallow: false,
     }
   );
 
-  const [selectedBatteries, setSelectedBatteries] = useState<string[]>([
-    '> 6000 mAh',
-    '5000 - 6000 mAh',
-  ]);
   return (
     <>
       {/* Search */}
@@ -198,28 +205,34 @@ const FilterContent = () => {
       <Separator />
 
       {/* Battery */}
-      <div className='space-y-4 px-4'>
-        <Label className='text-xl font-medium'>Battery</Label>
+      <div className='w-full space-y-2 px-4'>
+        <Select
+          value={filters.sortBy}
+          onValueChange={(value) => setFilters({ sortBy: value })}
+        >
+          <Label className='text-xl font-medium'>Sort By</Label>
 
-        {batteryItems.map((battery) => (
-          <div key={battery} className='flex items-center gap-2'>
-            <Checkbox
-              id={battery}
-              className='size-5'
-              checked={selectedBatteries.includes(battery)}
-              onCheckedChange={(checked) => {
-                if (checked) {
-                  setSelectedBatteries([...selectedBatteries, battery]);
-                } else {
-                  setSelectedBatteries(
-                    selectedBatteries.filter((b) => b !== battery)
-                  );
-                }
-              }}
-            />
-            <Label htmlFor={battery}>{battery}</Label>
-          </div>
-        ))}
+          <SelectTrigger
+            id={'sortBy'}
+            className='relative w-full pl-9 input cursor-pointer'
+          >
+            <div className='text-muted-foreground/80 pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 group-has-[select[disabled]]:opacity-50'>
+              <ArrowUpDown size={16} aria-hidden='true' />
+            </div>
+            <SelectValue placeholder='Sort By' />
+          </SelectTrigger>
+          <SelectContent>
+            {SORTING_OPTIONS.map((option) => (
+              <SelectItem
+                className='cursor-pointer'
+                key={option.value}
+                value={option.value}
+              >
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
     </>
   );
@@ -240,12 +253,15 @@ const CategoriesFilter = ({ courses, cart }: CategoryFilterProps) => {
     {
       q: parseAsString
         .withDefault('')
-        .withOptions({ limitUrlUpdates: throttle(500) }),
+        .withOptions({ limitUrlUpdates: throttle(300) }),
       rating: parseAsInteger.withDefault(0),
       price: parseAsString
         .withDefault('')
-        .withOptions({ limitUrlUpdates: throttle(500) }),
+        .withOptions({ limitUrlUpdates: throttle(300) }),
       difficulty: parseAsArrayOf(parseAsString).withDefault([]),
+      sortBy: parseAsString
+        .withDefault('')
+        .withOptions({ limitUrlUpdates: throttle(300) }),
     },
     {
       shallow: false,
@@ -282,7 +298,8 @@ const CategoriesFilter = ({ courses, cart }: CategoryFilterProps) => {
                     filters.q === '' &&
                     filters.rating === 0 &&
                     filters.price === '' &&
-                    filters.difficulty.length === 0
+                    filters.difficulty.length === 0 &&
+                    filters.sortBy === ''
                   }
                 >
                   Clear All
@@ -317,7 +334,8 @@ const CategoriesFilter = ({ courses, cart }: CategoryFilterProps) => {
                   filters.q === '' &&
                   filters.rating === 0 &&
                   filters.price === '' &&
-                  filters.difficulty.length === 0
+                  filters.difficulty.length === 0 &&
+                  filters.sortBy === ''
                 }
               >
                 Clear All
