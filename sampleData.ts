@@ -37,6 +37,7 @@ export const coursesSample = [
     numReviews: 120,
     duration: 70,
     salePrice: 149.99,
+    currentPrice: 149.99,
   },
   {
     slug: 'react-modern-course',
@@ -53,6 +54,7 @@ export const coursesSample = [
     rating: 4.5,
     duration: 90,
     numReviews: 95,
+    currentPrice: 149.99,
   },
   {
     slug: 'nodejs-api-development',
@@ -69,6 +71,7 @@ export const coursesSample = [
     rating: 4.6,
     duration: 70,
     numReviews: 80,
+    currentPrice: 129.99,
   },
   {
     slug: 'bootstrap-responsive-design',
@@ -85,6 +88,7 @@ export const coursesSample = [
     rating: 4.3,
     duration: 35,
     numReviews: 50,
+    currentPrice: 99.99,
   },
   {
     slug: 'tailwindcss-masterclass',
@@ -102,6 +106,7 @@ export const coursesSample = [
     numReviews: 110,
     duration: 70,
     salePrice: 59.99,
+    currentPrice: 59.99,
   },
   {
     slug: 'javascript-basics-to-advanced',
@@ -118,6 +123,7 @@ export const coursesSample = [
     rating: 4.4,
     duration: 70,
     numReviews: 75,
+    currentPrice: 139.99,
   },
   {
     slug: 'mongodb-database',
@@ -134,5 +140,6 @@ export const coursesSample = [
     rating: 4.6,
     duration: 60,
     numReviews: 60,
+    currentPrice: 129.99,
   },
 ];

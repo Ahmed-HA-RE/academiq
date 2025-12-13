@@ -9,14 +9,12 @@ const CoursesPage = async ({
 }: {
   searchParams: Promise<SearchParams>;
 }) => {
-  const { q, rating, priceMin, priceMax, difficulty } =
-    await loadSearchParams(searchParams);
+  const { q, rating, price, difficulty } = await loadSearchParams(searchParams);
 
   const courses = await getAllCourses({
     q,
     rating,
-    priceMin,
-    priceMax,
+    price,
     difficulty,
   });
   const cart = await getMyCart();

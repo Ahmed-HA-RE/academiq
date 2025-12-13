@@ -6,14 +6,12 @@ import { convertToPlainObject } from '../utils';
 export const getAllCourses = async ({
   q,
   rating,
-  priceMin,
-  priceMax,
+  price,
   difficulty,
 }: {
   q?: string;
-  rating?: number[] | null;
-  priceMin?: number;
-  priceMax?: number;
+  rating?: number[];
+  price?: string;
   difficulty?: string[];
 }) => {
   const filterQuery: Prisma.CourseWhereInput = q
@@ -30,8 +28,22 @@ export const getAllCourses = async ({
         }
       : {};
 
+  const priceFilter: Prisma.CourseWhereInput =
+    price && price.includes('-')
+      ? {
+          currentPrice: {
+            lte: Number(price.split('-')[1]),
+            gte: Number(price.split('-')[0]),
+          },
+        }
+      : price
+        ? {
+            currentPrice: { gte: Number(price) },
+          }
+        : {};
+
   const courses = await prisma.course.findMany({
-    where: { ...filterQuery, ...ratingFilter },
+    where: { ...filterQuery, ...ratingFilter, ...priceFilter },
     orderBy: { createdAt: 'desc' },
   });
   if (!courses) throw new Error('No courses found');

@@ -14,26 +14,27 @@ datasource db {
 }
 
 model Course {
-  id          String    @id @default(uuid())
-  slug        String    @unique
-  title       String
-  description String
-  price       Decimal   @db.Decimal(10, 2)
-  salePrice   Decimal?  @db.Decimal(10, 2)
-  isFeatured  Boolean   @default(false)
-  image       String
-  language    String
-  duration    Int
-  difficulty  String
-  prequisites String    @db.Text
-  rating      Decimal   @default(0) @db.Decimal(2, 1)
-  numReviews  Int       @default(0)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  users       User[]
+  id           String    @id @default(uuid())
+  slug         String    @unique
+  title        String
+  description  String
+  price        Decimal   @db.Decimal(10, 2)
+  salePrice    Decimal?  @db.Decimal(10, 2)
+  currentPrice Decimal   @db.Decimal(10, 2)
+  isFeatured   Boolean   @default(false)
+  image        String
+  language     String
+  duration     Int
+  difficulty   String
+  prequisites  String    @db.Text
+  rating       Decimal   @default(0) @db.Decimal(2, 1)
+  numReviews   Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  users        User[]
   // instructor   Instructor @relation(fields: [instructorId], references: [id])
   // instructorId String
-  sections    Section[]
+  sections     Section[]
 }
 
 // model Instructor {

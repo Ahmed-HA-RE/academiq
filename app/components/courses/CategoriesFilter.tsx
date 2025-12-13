@@ -2,12 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import {
-  FilterIcon,
-  SearchIcon,
-  StarIcon,
-  TriangleAlertIcon,
-} from 'lucide-react';
+import { FilterIcon, SearchIcon, TriangleAlertIcon } from 'lucide-react';
 import { useMedia } from 'react-use';
 
 import { Button } from '@/app/components/ui/button';
@@ -34,7 +29,7 @@ import {
   SheetTrigger,
 } from '@/app/components/ui/sheet';
 import { Slider } from '@/app/components/ui/slider';
-import { cn } from '@/lib/utils';
+import { cn, PRICE_RANGE } from '@/lib/utils';
 import CourseCard from './CourseCard';
 import { Cart, Course } from '@/types';
 import { Alert, AlertTitle } from '../ui/alert';
@@ -46,6 +41,15 @@ import {
   useQueryStates,
 } from 'nuqs';
 import { IoStarSharp } from 'react-icons/io5';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 
 const brandItems = [
   'Apple',
@@ -76,11 +80,8 @@ const FilterContent = () => {
           limitUrlUpdates: throttle(500),
           clearOnDefault: false,
         }),
-      priceMin: parseAsInteger
-        .withDefault(0)
-        .withOptions({ limitUrlUpdates: throttle(500) }),
-      priceMax: parseAsInteger
-        .withDefault(0)
+      price: parseAsString
+        .withDefault('')
         .withOptions({ limitUrlUpdates: throttle(500) }),
       difficulty: parseAsArrayOf(parseAsString).withDefault([]),
     },
@@ -122,7 +123,7 @@ const FilterContent = () => {
         <Label className='text-xl font-medium'>Rating</Label>
         <div>
           <Slider
-            value={filters.rating!}
+            value={filters.rating}
             onValueChange={(e) => setFilters({ rating: e })}
             min={1}
             max={5}
@@ -155,19 +156,32 @@ const FilterContent = () => {
 
       {/* Price Range */}
       <div className='space-y-4 px-4'>
-        <Label className='text-xl font-medium'>Price</Label>
-        <Input
-          type='text'
-          placeholder='Min'
-          className='w-full'
-          defaultValue={10000}
-        />
-        <Input
-          type='text'
-          placeholder='Max'
-          className='w-full'
-          defaultValue={22000}
-        />
+        <Select
+          value={filters.price}
+          onValueChange={(value) => setFilters({ price: value })}
+        >
+          <Label className='text-xl font-medium'>Price</Label>
+          <SelectTrigger
+            id={'priceRange'}
+            className='w-full cursor-pointer input'
+          >
+            <SelectValue placeholder='Select a price range' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Price</SelectLabel>
+              {PRICE_RANGE.map((price) => (
+                <SelectItem
+                  key={price.label}
+                  value={price.value}
+                  className='cursor-pointer'
+                >
+                  {price.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
 
       <Separator />
@@ -275,11 +289,8 @@ const CategoriesFilter = ({ courses, cart }: CategoryFilterProps) => {
         .withDefault('')
         .withOptions({ limitUrlUpdates: throttle(500) }),
       rating: parseAsInteger.withDefault(0),
-      priceMin: parseAsInteger
-        .withDefault(0)
-        .withOptions({ limitUrlUpdates: throttle(500) }),
-      priceMax: parseAsInteger
-        .withDefault(0)
+      price: parseAsString
+        .withDefault('')
         .withOptions({ limitUrlUpdates: throttle(500) }),
       difficulty: parseAsArrayOf(parseAsString).withDefault([]),
     },
@@ -317,8 +328,7 @@ const CategoriesFilter = ({ courses, cart }: CategoryFilterProps) => {
                   disabled={
                     filters.q === '' &&
                     filters.rating === 0 &&
-                    filters.priceMin === 0 &&
-                    filters.priceMax === 0 &&
+                    filters.price === '' &&
                     filters.difficulty.length === 0
                   }
                 >
@@ -353,8 +363,7 @@ const CategoriesFilter = ({ courses, cart }: CategoryFilterProps) => {
                 disabled={
                   filters.q === '' &&
                   filters.rating === 0 &&
-                  filters.priceMin === 0 &&
-                  filters.priceMax === 0 &&
+                  filters.price === '' &&
                   filters.difficulty.length === 0
                 }
               >

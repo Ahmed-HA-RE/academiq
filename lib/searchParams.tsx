@@ -7,11 +7,10 @@ import {
 
 export const coursesfilteredParams = {
   q: parseAsString.withDefault(''),
-  rating: parseAsArrayOf(parseAsInteger, '-').withOptions({
+  rating: parseAsArrayOf(parseAsInteger, '-').withDefault([1, 5]).withOptions({
     clearOnDefault: false,
   }),
-  priceMin: parseAsInteger.withDefault(0),
-  priceMax: parseAsInteger.withDefault(0),
+  price: parseAsString.withDefault(''),
   difficulty: parseAsArrayOf(parseAsString).withDefault([]),
 };
 
