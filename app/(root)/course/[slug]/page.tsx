@@ -93,9 +93,7 @@ const CourseDetailsPage = async ({
             {/* Price */}
             <div className='flex flex-row items-center justify-start gap-1 font-semibold mb-8'>
               <span className='dirham-symbol !text-3xl '>&#xea;</span>
-              <span className='text-3xl md:text-4xl'>
-                {course.salePrice ? course.salePrice : course.price}
-              </span>
+              <span className='text-3xl md:text-4xl'>{course.price}</span>
             </div>
             {/* rating + num reviews */}
             <div className='flex flex-row items-center gap-3 text-sm'>

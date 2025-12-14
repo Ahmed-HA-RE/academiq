@@ -20,11 +20,6 @@ export const prisma = new PrismaClient({ adapter }).$extends({
           return data.rating.toString();
         },
       },
-      salePrice: {
-        compute(data) {
-          return data.salePrice?.toString();
-        },
-      },
     },
     cart: {
       itemsPrice: {

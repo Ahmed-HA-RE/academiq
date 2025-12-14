@@ -50,3 +50,13 @@ export const SORTING_OPTIONS = [
   { label: 'Price: Low to High', value: 'price-asc' },
   { label: 'Price: High to Low', value: 'price-desc' },
 ];
+
+export const CITY_OPTIONS = [
+  { label: 'Abu Dhabi', value: 'abu-dhabi' },
+  { label: 'Dubai', value: 'dubai' },
+  { label: 'Sharjah', value: 'sharjah' },
+  { label: 'Ajman', value: 'ajman' },
+  { label: 'Fujairah', value: 'fujairah' },
+  { label: 'Ras Al Khaimah', value: 'ras-al-khaimah' },
+  { label: 'Umm Al Quwain', value: 'umm-al-quwain' },
+];

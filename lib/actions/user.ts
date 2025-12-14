@@ -17,4 +17,6 @@ export const getUserById = async () => {
   });
 
   if (!user) return notFound();
+
+  return user;
 };

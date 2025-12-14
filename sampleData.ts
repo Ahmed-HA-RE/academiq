@@ -36,7 +36,6 @@ export const coursesSample = [
     rating: 4.7,
     numReviews: 120,
     duration: 70,
-    salePrice: 149.99,
     currentPrice: 149.99,
   },
   {
@@ -105,7 +104,6 @@ export const coursesSample = [
     rating: 4.8,
     numReviews: 110,
     duration: 70,
-    salePrice: 59.99,
     currentPrice: 59.99,
   },
   {

@@ -17,13 +17,13 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { MenuIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { APP_NAME } from '@/lib/constants';
 
 type MenuSheetProps = {
-  logoName: string;
   navigationData: { title: string; href: string }[];
 };
 
-const MenuSheet = ({ logoName, navigationData }: MenuSheetProps) => {
+const MenuSheet = ({ navigationData }: MenuSheetProps) => {
   const [open, setOpen] = useState(false);
   const isMobile = useMedia('(max-width: 767px)', false);
   const pathname = usePathname();
@@ -32,7 +32,7 @@ const MenuSheet = ({ logoName, navigationData }: MenuSheetProps) => {
     setOpen(false);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // ignore eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!isMobile) {
       setOpen(false);
@@ -61,7 +61,7 @@ const MenuSheet = ({ logoName, navigationData }: MenuSheetProps) => {
             className='self-start flex items-center mt-4'
           >
             <Image src={'/images/logo.png'} alt='Logo' width={30} height={30} />
-            <span className='ml-2.5 text-xl font-semibold'>{logoName}</span>
+            <span className='ml-2.5 text-xl font-semibold'>{APP_NAME}</span>
           </Link>
         </SheetHeader>
         <div className='overflow-y-auto space-y-2'>

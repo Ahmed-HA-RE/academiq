@@ -1,5 +1,6 @@
 import {
   baseCourseSchema,
+  billingInfoSchema,
   cartItemsSchema,
   cartSchema,
   forgotPasswordSchema,
@@ -37,4 +38,15 @@ export type Instructor = z.infer<typeof instructorSchema> & {
   id: string;
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type BillingInfo = z.infer<typeof billingInfoSchema>;
+export type PaymentResults = {
+  id: string;
+  email: string;
+  status: string;
+  country: string;
+  cardBrand: string;
+  cardLast4: string;
+  amount: number;
 };

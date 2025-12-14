@@ -1,3 +1,4 @@
+import { CITY_OPTIONS } from '@/lib/utils';
 import z from 'zod';
 
 // Decimal validation
@@ -151,4 +152,17 @@ export const instructorSchema = z.object({
   coursesId: z
     .array(z.uuid({ error: 'Invalid course id' }))
     .min(1, 'At least one course id is required'),
+});
+
+export const billingInfoSchema = z.object({
+  fullName: z
+    .string({ error: 'Invalid full name' })
+    .min(1, 'Full name is required'),
+  email: z.email({ error: 'Invalid email address' }),
+  phone: instructorSchema.shape.phone,
+  address: z.string({ error: 'Invalid address' }).min(1, 'Address is required'),
+  city: z.enum(
+    CITY_OPTIONS.map((option) => option.value),
+    { error: 'Invalid city' }
+  ),
 });

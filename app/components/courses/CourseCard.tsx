@@ -6,7 +6,6 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Badge } from '../ui/badge';
 import { Cart, Course } from '@/types';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { MotionPreset } from '../ui/motion-preset';
 import EnrollCourseBtn from '../shared/EnrollCourseBtn';
@@ -71,18 +70,8 @@ const CourseCard = ({ course, cart }: CourseCardProps) => {
             </div>
 
             <div className='flex flex-row items-center gap-1 font-semibold mt-4'>
-              <span className='dirham-symbol !text-xl '>&#xea;</span>
-              <span
-                className={cn(
-                  'text-2xl',
-                  course.salePrice && 'opacity-30 line-through'
-                )}
-              >
-                {course.price}
-              </span>
-              {course.salePrice && (
-                <span className='text-2xl'>/ {course.salePrice}</span>
-              )}
+              <span className='dirham-symbol !text-xl'>&#xea;</span>
+              <span className='text-2xl'>{course.price}</span>
             </div>
           </div>
         </CardContent>

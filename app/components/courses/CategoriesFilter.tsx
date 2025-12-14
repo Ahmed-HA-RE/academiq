@@ -349,7 +349,7 @@ const CategoriesFilter = ({ courses, cart }: CategoryFilterProps) => {
         {courses.length === 0 ? (
           <Alert
             variant='destructive'
-            className='border-destructive col-span-7 md:col-span-5 mx-auto max-w-sm my-10 md:my-0 '
+            className='border-destructive col-span-7 md:col-span-4 lg:col-span-5 mx-auto md:max-w-sm my-10 md:my-0 '
           >
             <TriangleAlertIcon />
             <AlertTitle>No courses found.</AlertTitle>

@@ -15,8 +15,7 @@ import {
   SheetFooter,
 } from '@/app/components/ui/sheet';
 import { Separator } from '@/app/components/ui/separator';
-
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Avatar, AvatarFallback } from './ui/avatar';
 import { Badge } from './ui/badge';
@@ -34,6 +33,7 @@ type CartSheetProps = {
 
 const CartSheet = ({ cart, session }: CartSheetProps) => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const handleDeleteCourse = async (courseId: string) => {
     const res = await removeFromCart(courseId);
@@ -151,16 +151,19 @@ const CartSheet = ({ cart, session }: CartSheetProps) => {
             </div>
 
             <div className='mt-6 flex flex-col gap-2'>
-              <Button asChild size='lg' className='w-full rounded-lg'>
-                <Link
-                  href={
+              <Button
+                onClick={() => {
+                  router.push(
                     session?.user
                       ? `/checkout`
                       : `/login?callbackUrl=${SERVER_URL}/checkout`
-                  }
-                >
-                  Checkout
-                </Link>
+                  );
+                  setOpen(false);
+                }}
+                size='lg'
+                className='w-full rounded-lg cursor-pointer'
+              >
+                Checkout
               </Button>
               <Button
                 onClick={() => setOpen(!open)}
