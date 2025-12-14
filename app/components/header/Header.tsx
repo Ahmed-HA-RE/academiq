@@ -27,7 +27,7 @@ const Header = async () => {
   const cart = await getMyCart();
 
   return (
-    <header className='bg-transparent z-10'>
+    <header className='bg-transparent z-30'>
       <div className='mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-7 lg:px-6'>
         <div className='flex items-center lg:gap-10'>
           <MenuSheet navigationData={baseNavigationMenu} />

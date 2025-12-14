@@ -14,6 +14,7 @@ import { Cart } from '@/types';
 import Image from 'next/image';
 import DeleteDialog from '@/app/components/shared/DeleteDialog';
 import { removeFromCart } from '@/lib/actions/cart';
+import { applyDiscountToCart } from '@/lib/actions/discount';
 import { toast } from 'sonner';
 import { Alert, AlertTitle } from '@/app/components/ui/alert';
 import { TriangleAlertIcon } from 'lucide-react';
@@ -21,14 +22,31 @@ import Link from 'next/link';
 import { auth } from '@/lib/auth';
 import { SERVER_URL } from '@/lib/constants';
 import { Input } from '@/app/components/ui/input';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Discount } from '@/types';
+import ScreenSpinner from './ScreenSpinner';
+import { Field, FieldError, FieldGroup } from './ui/field';
+import { applyDiscountSchema } from '@/schema';
+import z from 'zod';
 
 const CartDetails = ({
   cart,
   session,
+  discount,
 }: {
   cart: Cart | undefined;
   session: typeof auth.$Infer.Session | null;
+  discount: Discount | undefined;
 }) => {
+  const form = useForm<z.infer<typeof applyDiscountSchema>>({
+    resolver: zodResolver(applyDiscountSchema),
+    defaultValues: {
+      code: discount?.code || '',
+    },
+    mode: 'onSubmit',
+  });
+
   const handleDeleteCourse = async (courseId: string) => {
     const res = await removeFromCart(courseId);
     if (!res.success) {
@@ -39,8 +57,21 @@ const CartDetails = ({
     toast.success(res.message);
   };
 
+  const onSubmit = async (data: z.infer<typeof applyDiscountSchema>) => {
+    const res = await applyDiscountToCart(data.code);
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+
+    console.log(res);
+
+    toast.success(res.message);
+  };
+
   return (
     <section className='mb-10'>
+      {form.formState.isSubmitting && <ScreenSpinner mutate />}
       <div className='container'>
         {!cart || cart.cartItems.length === 0 ? (
           <div className='min-h-[50vh] mt-14'>
@@ -112,20 +143,35 @@ const CartDetails = ({
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form>
-                    <div className='flex grow gap-3'>
-                      <Input
-                        type='text'
-                        placeholder='Coupon Code'
-                        className='w-full max-w-xs input'
+                  <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <FieldGroup className='flex-row gap-0 md:gap-2'>
+                      <Controller
+                        name='code'
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                          <Field data-invalid={fieldState.invalid}>
+                            <Input
+                              type='text'
+                              placeholder='Coupon Code'
+                              className='w-full max-w-xs input'
+                              aria-invalid={fieldState.invalid}
+                              disabled={!!discount}
+                              {...field}
+                            />
+                            {fieldState.invalid && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
                       />
                       <Button
                         className='rounded-lg cursor-pointer'
                         type='submit'
+                        disabled={form.formState.isSubmitting || !!discount}
                       >
                         Apply
                       </Button>
-                    </div>
+                    </FieldGroup>
                   </form>
                 </CardContent>
               </Card>
@@ -147,9 +193,6 @@ const CartDetails = ({
                             </span>
                           </div>
                         </div>
-
-                        {/* Discount if applicable */}
-
                         <div className='flex items-center justify-between'>
                           <span className='text-muted-foreground'>Tax</span>
                           <div className='flex flex-row items-center gap-1 font-medium'>
@@ -159,6 +202,28 @@ const CartDetails = ({
                             </span>
                           </div>
                         </div>
+
+                        {/* Discount if applicable */}
+                        {discount && (
+                          <div className='flex items-center justify-between'>
+                            <span className='text-muted-foreground'>
+                              Discount ({discount.code})
+                            </span>
+                            {discount.type === 'percentage' ? (
+                              <p className='font-semibold'>
+                                -{discount.amount}%
+                              </p>
+                            ) : (
+                              <div className='flex flex-row items-center gap-1 font-medium'>
+                                <span className='dirham-symbol'>-&#xea;</span>
+                                <span className='font-semibold'>
+                                  {discount.amount}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
                         <Separator />
                         <div className='flex items-center justify-between'>
                           <span className='text-lg font-semibold'>Total</span>
