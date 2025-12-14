@@ -14,27 +14,27 @@ datasource db {
 }
 
 model Course {
-  id           String    @id @default(uuid())
-  slug         String    @unique
+  id           String       @id @default(uuid())
+  slug         String       @unique
   title        String
   description  String
-  price        Decimal   @db.Decimal(10, 2)
-  salePrice    Decimal?  @db.Decimal(10, 2)
-  currentPrice Decimal   @db.Decimal(10, 2)
-  isFeatured   Boolean   @default(false)
+  price        Decimal      @db.Decimal(10, 2)
+  currentPrice Decimal      @db.Decimal(10, 2)
+  isFeatured   Boolean      @default(false)
   image        String
   language     String
   duration     Int
   difficulty   String
-  prequisites  String    @db.Text
-  rating       Decimal   @default(0) @db.Decimal(2, 1)
-  numReviews   Int       @default(0)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  prequisites  String       @db.Text
+  rating       Decimal      @default(0) @db.Decimal(2, 1)
+  numReviews   Int          @default(0)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
   users        User[]
   // instructor   Instructor @relation(fields: [instructorId], references: [id])
   // instructorId String
   sections     Section[]
+  orderItems   orderItems[]
 }
 
 // model Instructor {
@@ -69,6 +69,7 @@ model User {
   accounts       Account[]
   courses        Course[]
   carts          Cart[]
+  orders         Order[]
 
   @@unique([email])
   @@map("user")
@@ -154,4 +155,46 @@ model Lesson {
   section   Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id             String       @id @default(uuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderItems     orderItems[]
+  itemsPrice     Decimal      @db.Decimal(10, 2)
+  totalPrice     Decimal      @db.Decimal(10, 2)
+  taxPrice       Decimal      @db.Decimal(10, 2)
+  billingDetails Json         @db.Json
+  paymentResult  Json         @db.Json
+  isPaid         Boolean      @default(false)
+  paidAt         DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  discount       Discount?    @relation(fields: [discountId], references: [id])
+  discountId     String?
+}
+
+model orderItems {
+  id       String
+  order    Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId  String
+  name     String
+  price    Decimal @db.Decimal(10, 2)
+  image    String
+  course   Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String
+
+  @@id([id, courseId])
+}
+
+model Discount {
+  id         String   @id @default(uuid())
+  code       String   @unique
+  type       String // percentage or fixed
+  amount     Decimal  @db.Decimal(10, 2)
+  validUntil DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  orders     Order[]
 }

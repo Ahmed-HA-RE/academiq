@@ -31,7 +31,8 @@ export const coursesSample = [
     image:
       'https://res.cloudinary.com/ahmed--dev/image/upload/v1764955258/Z1_3cpbqstJ98iN__a-complete-guide-to-next-js-a-react-js-framework_vtgjcl.avif',
     language: 'English',
-    prequisites: 'Basic HTML, CSS, JavaScript',
+    prequisites:
+      'Students should have a solid understanding of modern JavaScript (ES6+) including variables, functions, arrays, objects, and asynchronous concepts such as promises and async/await. Prior experience with React is required, including knowledge of components, props, state, hooks, and basic component composition. Familiarity with HTML5 and CSS3 is expected, along with a basic understanding of Git and npm/yarn workflows. No prior Next.js experience is required, but experience building small React applications will help you progress faster.',
     difficulty: 'INTERMEDIATE',
     rating: 4.7,
     numReviews: 120,
@@ -48,7 +49,8 @@ export const coursesSample = [
     image:
       'https://res.cloudinary.com/ahmed--dev/image/upload/v1764955097/course-2_iqntfn.png',
     language: 'English',
-    prequisites: 'JavaScript basics',
+    prequisites:
+      'A basic understanding of JavaScript fundamentals is required, including variables, functions, arrays, objects, and control flow. Learners should be comfortable with HTML and CSS basics, such as semantic markup and basic styling. No prior React experience is required, as the course starts from the fundamentals and gradually builds toward advanced concepts. Familiarity with ES6 syntax (arrow functions, destructuring, modules) is helpful but not mandatory.',
     difficulty: 'BEGINNER',
     rating: 4.5,
     duration: 90,
@@ -65,7 +67,8 @@ export const coursesSample = [
     image:
       'https://res.cloudinary.com/ahmed--dev/image/upload/v1764955099/course-5_wd74k2.png',
     language: 'English',
-    prequisites: 'JavaScript and basic Node.js',
+    prequisites:
+      'Students should have a good grasp of JavaScript fundamentals and be comfortable working with functions, objects, arrays, and asynchronous code. Basic knowledge of Node.js concepts such as npm, modules, and running scripts is recommended. Familiarity with HTTP concepts (requests, responses, status codes) and REST principles will be helpful. Prior experience with frontend development or consuming APIs is a plus but not required.',
     difficulty: 'INTERMEDIATE',
     rating: 4.6,
     duration: 70,
@@ -82,7 +85,8 @@ export const coursesSample = [
     image:
       'https://res.cloudinary.com/ahmed--dev/image/upload/v1765550009/bootstrap-course_zfazwo.webp',
     language: 'English',
-    prequisites: 'HTML & CSS basics',
+    prequisites:
+      'Learners should have a basic understanding of HTML structure and CSS fundamentals, including classes, selectors, and basic layout concepts. No prior experience with Bootstrap is required. Familiarity with responsive design concepts such as mobile-first layouts and breakpoints will be helpful, but everything needed to follow along will be explained throughout the course.',
     difficulty: 'BEGINNER',
     rating: 4.3,
     duration: 35,
@@ -99,7 +103,8 @@ export const coursesSample = [
     image:
       'https://res.cloudinary.com/ahmed--dev/image/upload/v1765549332/tailwind-course_fdlmix.png',
     language: 'English',
-    prequisites: 'HTML, CSS basics',
+    prequisites:
+      'Students should be comfortable with HTML and CSS fundamentals, including layout concepts such as flexbox or grid. Prior experience building simple web pages is recommended. No previous Tailwind CSS experience is required. Familiarity with modern frontend workflows and frameworks like React or Next.js is helpful but not mandatory.',
     difficulty: 'INTERMEDIATE',
     rating: 4.8,
     numReviews: 110,
@@ -116,7 +121,8 @@ export const coursesSample = [
     image:
       'https://res.cloudinary.com/ahmed--dev/image/upload/v1764955096/course-4_hmumxz.jpg',
     language: 'English',
-    prequisites: 'None',
+    prequisites:
+      'No prior programming experience is required. This course starts from the very basics and gradually progresses to advanced JavaScript concepts. A basic understanding of how websites work and familiarity with HTML is helpful but not required. This course is suitable for absolute beginners as well as developers who want to strengthen their JavaScript foundations.',
     difficulty: 'BEGINNER',
     rating: 4.4,
     duration: 70,
@@ -133,7 +139,8 @@ export const coursesSample = [
     image:
       'https://res.cloudinary.com/ahmed--dev/image/upload/v1764955096/course-1_fcyso6.jpg',
     language: 'English',
-    prequisites: 'JavaScript and basic Node.js',
+    prequisites:
+      'Students should have a basic understanding of JavaScript and some experience with Node.js. Familiarity with backend concepts such as APIs and data persistence is recommended. No prior database experience is required, but knowledge of basic CRUD operations and JSON data structures will help learners grasp concepts more quickly.',
     difficulty: 'INTERMEDIATE',
     rating: 4.6,
     duration: 60,

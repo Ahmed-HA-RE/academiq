@@ -25,7 +25,8 @@ const EnrollCourseBtn = ({
         courseId: course.id,
         image: course.image,
         name: course.title,
-        price: course.salePrice ? course.salePrice : course.price,
+        price: course.price,
+        slug: course.slug,
       });
 
       if (!res.success) {

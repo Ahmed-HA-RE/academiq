@@ -6,6 +6,8 @@ import {
   forgotPasswordSchema,
   instructorSchema,
   loginSchema,
+  orderBaseSchema,
+  orderItemSchema,
   registerSchema,
   resetPasswordSchema,
   verifyOTPSchema,
@@ -49,4 +51,13 @@ export type PaymentResults = {
   cardBrand: string;
   cardLast4: string;
   amount: number;
+};
+
+export type OrderItems = z.infer<typeof orderItemSchema> & {
+  id: string;
+};
+
+export type Order = z.infer<typeof orderBaseSchema> & {
+  id: string;
+  orderItems: OrderItems[];
 };

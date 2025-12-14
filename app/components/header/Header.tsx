@@ -7,8 +7,10 @@ import Theme from '../Theme';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { getMyCart } from '@/lib/actions/cart';
-import CartSheet from '../Cart';
 import { APP_NAME } from '@/lib/constants';
+import { Badge } from '../ui/badge';
+import { ShoppingCartIcon } from 'lucide-react';
+import { Avatar, AvatarFallback } from '../ui/avatar';
 
 const Header = async () => {
   const baseNavigationMenu = [
@@ -38,7 +40,20 @@ const Header = async () => {
 
         <div className='flex items-center '>
           {/* Cart */}
-          <CartSheet cart={cart} session={session} />
+          <div className='relative w-fit cursor-pointer'>
+            <Link href='/cart'>
+              <Avatar className='size-9 rounded-sm'>
+                <AvatarFallback className='rounded-sm bg-0 hover:bg-accent dark:hover:bg-accent/80 transition'>
+                  <ShoppingCartIcon className='size-5' />
+                </AvatarFallback>
+              </Avatar>
+              {cart && cart.cartItems.length > 0 ? (
+                <Badge className='absolute top-0 right-0 h-4 min-w-5 px-1 rounded-full'>
+                  {cart.cartItems.length > 0 && cart.cartItems.length}
+                </Badge>
+              ) : null}
+            </Link>
+          </div>
           {/* Theme */}
           <Theme />
           {/* User menu */}

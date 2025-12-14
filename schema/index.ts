@@ -20,7 +20,6 @@ export const baseCourseSchema = z.object({
     .min(5, 'Course description is required')
     .max(100, 'Course description is too long'),
   price: moneyAmount,
-  salePrice: moneyAmount.optional().nullable(),
   isFeatured: z.boolean().default(false),
   image: z
     .string({ error: 'Invalid image URL' })
@@ -88,6 +87,9 @@ export const cartItemsSchema = z.object({
   courseId: z
     .uuid({ error: 'Invalid course id' })
     .min(1, 'Course id is required'),
+  slug: z
+    .string({ error: 'Invalid course slug' })
+    .min(1, 'Course slug is required'),
   name: z
     .string({ error: 'Invalid course name' })
     .min(1, 'Course name is required'),
@@ -165,4 +167,39 @@ export const billingInfoSchema = z.object({
     CITY_OPTIONS.map((option) => option.value),
     { error: 'Invalid city' }
   ),
+});
+
+export const discountSchema = z.object({
+  code: z
+    .string({ error: 'Invalid discount code' })
+    .min(1, 'Discount code is required'),
+  type: z.enum(['percentage', 'fixed'], { error: 'Invalid discount type' }),
+  amount: moneyAmount,
+  validUntil: z
+    .string({ error: 'Invalid valid until date' })
+    .min(1, 'Valid until date is required'),
+});
+
+export const orderBaseSchema = z.object({
+  userId: z.string({ error: 'Invalid user id' }).min(1, 'User id is required'),
+  itemsPrice: moneyAmount,
+  taxPrice: moneyAmount,
+  totalPrice: moneyAmount,
+  billingDetails: billingInfoSchema,
+  isPaid: z.boolean().default(false),
+  paidAt: z.string().optional().nullable(),
+  discountId: z.string().optional().nullable(),
+});
+
+export const orderItemSchema = z.object({
+  name: z
+    .string({ error: 'Invalid course name' })
+    .min(1, 'Course name is required'),
+  price: moneyAmount,
+  image: z
+    .string({ error: 'Invalid course image' })
+    .min(1, 'Course image is required'),
+  courseId: z
+    .string({ error: 'Invalid course id' })
+    .min(1, 'Course id is required'),
 });
