@@ -82,6 +82,19 @@ export const resetPasswordSchema = z
     error: "Passwords don't match",
   });
 
+export const discountSchema = z.object({
+  code: z
+    .string({ error: 'Invalid discount code' })
+    .min(1, 'Discount code is required'),
+  type: z.enum(['percentage', 'fixed'], { error: 'Invalid discount type' }),
+  amount: z.coerce
+    .number<number>()
+    .min(1, 'Discount amount must be at least 1'),
+  validUntil: z
+    .date({ error: 'Invalid valid until date' })
+    .min(new Date(), 'Validation date must be in the future'),
+});
+
 // Cart schema
 export const cartItemsSchema = z.object({
   courseId: z
@@ -106,6 +119,7 @@ export const cartSchema = z.object({
     .optional()
     .nullable(),
   userId: z.string({ error: 'Invalid user id' }).optional().nullable(),
+  discountId: z.string({ error: 'Invalid discount id' }).optional().nullable(),
   cartItems: z.array(cartItemsSchema).min(1, 'Cart items cannot be empty'),
   itemsPrice: moneyAmount,
   taxPrice: moneyAmount,
@@ -167,17 +181,6 @@ export const billingInfoSchema = z.object({
     CITY_OPTIONS.map((option) => option.value),
     { error: 'Invalid city' }
   ),
-});
-
-export const discountSchema = z.object({
-  code: z
-    .string({ error: 'Invalid discount code' })
-    .min(1, 'Discount code is required'),
-  type: z.enum(['percentage', 'fixed'], { error: 'Invalid discount type' }),
-  amount: moneyAmount,
-  validUntil: z
-    .string({ error: 'Invalid valid until date' })
-    .min(1, 'Valid until date is required'),
 });
 
 export const orderBaseSchema = z.object({

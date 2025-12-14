@@ -124,16 +124,18 @@ model Verification {
 }
 
 model Cart {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   userId     String?
-  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sessionId  String?  @unique @db.Uuid()
-  cartItems  Json[]   @db.Json
-  itemsPrice Decimal  @db.Decimal(10, 2)
-  totalPrice Decimal  @db.Decimal(10, 2)
-  taxPrice   Decimal  @db.Decimal(10, 2)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId  String?   @unique @db.Uuid()
+  discount   Discount? @relation(fields: [discountId], references: [id], onDelete: Cascade)
+  discountId String?
+  cartItems  Json[]    @db.Json
+  itemsPrice Decimal   @db.Decimal(10, 2)
+  totalPrice Decimal   @db.Decimal(10, 2)
+  taxPrice   Decimal   @db.Decimal(10, 2)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Section {
@@ -171,7 +173,7 @@ model Order {
   paidAt         DateTime?
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  discount       Discount?    @relation(fields: [discountId], references: [id])
+  discount       Discount?    @relation(fields: [discountId], references: [id], onDelete: Cascade)
   discountId     String?
 }
 
@@ -192,9 +194,10 @@ model Discount {
   id         String   @id @default(uuid())
   code       String   @unique
   type       String // percentage or fixed
-  amount     Decimal  @db.Decimal(10, 2)
+  amount     Int
   validUntil DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   orders     Order[]
+  carts      Cart[]
 }

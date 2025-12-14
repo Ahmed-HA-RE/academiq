@@ -27,7 +27,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       />
       {session && !session?.user.emailVerified && <VerificationBanner />}
       <Header />
-      <main className='w-full flex-grow z-10'>{children}</main>
+      <main className='w-full flex-grow '>{children}</main>
       <Footer />
     </div>
   );

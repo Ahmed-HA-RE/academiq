@@ -10,7 +10,7 @@ const CheckoutPage = async () => {
     headers: await headers(),
   });
 
-  if (!cart || cart.cartItems.length === 0 || !session)
+  if (!cart || cart.cartItems.length === 0)
     redirect('/login?callbackUrl=/checkout');
 
   return <CheckoutDetails cart={cart} />;

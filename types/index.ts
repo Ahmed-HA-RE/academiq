@@ -3,6 +3,7 @@ import {
   billingInfoSchema,
   cartItemsSchema,
   cartSchema,
+  discountSchema,
   forgotPasswordSchema,
   instructorSchema,
   loginSchema,
@@ -52,6 +53,8 @@ export type PaymentResults = {
   cardLast4: string;
   amount: number;
 };
+
+export type Discount = z.infer<typeof discountSchema>;
 
 export type OrderItems = z.infer<typeof orderItemSchema> & {
   id: string;

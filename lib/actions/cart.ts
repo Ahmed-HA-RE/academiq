@@ -7,6 +7,8 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { cookies } from 'next/headers';
 import { convertToPlainObject } from '../utils';
+import { discountSchema } from '@/schema';
+import { Discount } from '@/types';
 import { revalidatePath } from 'next/cache';
 
 const calculatePrices = (cartItems: CartItems[]) => {
@@ -104,6 +106,8 @@ export const getMyCart = async () => {
 
   const sessionId = (await cookies()).get('sessionId')?.value;
 
+  console.log(sessionId);
+
   const cart = await prisma.cart.findFirst({
     where: {
       OR: [
@@ -152,6 +156,59 @@ export const removeFromCart = async (courseId: string) => {
     });
     revalidatePath('/', 'layout');
     return { success: true, message: 'Course removed from cart' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+export const applyDiscountToCart = async (code: string) => {
+  try {
+    const currentTime = new Date();
+
+    const validateCode = discountSchema.safeParse(code);
+
+    if (!validateCode.success) throw new Error('Invalid discount code');
+
+    const discount = await prisma.discount.findFirst({
+      where: { code: validateCode.data.code },
+    });
+
+    if (!discount || discount.validUntil < currentTime)
+      throw new Error('Discount code not found');
+
+    const cart = await getMyCart();
+
+    if (!cart) throw new Error('No cart found');
+
+    if (cart.discountId === discount.id)
+      throw new Error('Discount code already applied');
+
+    if (discount.type === 'percentage') {
+      const discountAmount = (Number(cart.totalPrice) * discount.amount) / 100;
+      const newTotalPrice = Number(cart.totalPrice) - discountAmount;
+
+      await prisma.cart.update({
+        where: { id: cart.id },
+        data: {
+          totalPrice: newTotalPrice.toFixed(2),
+          discountId: discount.id,
+        },
+      });
+    } else if (discount.type === 'fixed') {
+      const newTotalPrice = Number(cart.totalPrice) - discount.amount;
+
+      await prisma.cart.update({
+        where: { id: cart.id },
+        data: {
+          totalPrice: newTotalPrice.toFixed(2),
+          discountId: discount.id,
+        },
+      });
+    }
+
+    revalidatePath('/cart', 'page');
+    revalidatePath('/checkout', 'page');
+    return { success: true, message: 'Discount applied successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

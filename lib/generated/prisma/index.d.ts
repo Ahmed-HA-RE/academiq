@@ -1951,10 +1951,12 @@ export namespace Prisma {
 
   export type DiscountCountOutputType = {
     orders: number
+    carts: number
   }
 
   export type DiscountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orders?: boolean | DiscountCountOutputTypeCountOrdersArgs
+    carts?: boolean | DiscountCountOutputTypeCountCartsArgs
   }
 
   // Custom InputTypes
@@ -1973,6 +1975,13 @@ export namespace Prisma {
    */
   export type DiscountCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderWhereInput
+  }
+
+  /**
+   * DiscountCountOutputType without action
+   */
+  export type DiscountCountOutputTypeCountCartsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CartWhereInput
   }
 
 
@@ -7846,6 +7855,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     sessionId: string | null
+    discountId: string | null
     itemsPrice: Decimal | null
     totalPrice: Decimal | null
     taxPrice: Decimal | null
@@ -7857,6 +7867,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     sessionId: string | null
+    discountId: string | null
     itemsPrice: Decimal | null
     totalPrice: Decimal | null
     taxPrice: Decimal | null
@@ -7868,6 +7879,7 @@ export namespace Prisma {
     id: number
     userId: number
     sessionId: number
+    discountId: number
     cartItems: number
     itemsPrice: number
     totalPrice: number
@@ -7894,6 +7906,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     sessionId?: true
+    discountId?: true
     itemsPrice?: true
     totalPrice?: true
     taxPrice?: true
@@ -7905,6 +7918,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     sessionId?: true
+    discountId?: true
     itemsPrice?: true
     totalPrice?: true
     taxPrice?: true
@@ -7916,6 +7930,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     sessionId?: true
+    discountId?: true
     cartItems?: true
     itemsPrice?: true
     totalPrice?: true
@@ -8015,6 +8030,7 @@ export namespace Prisma {
     id: string
     userId: string | null
     sessionId: string | null
+    discountId: string | null
     cartItems: JsonValue[]
     itemsPrice: Decimal
     totalPrice: Decimal
@@ -8046,6 +8062,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     sessionId?: boolean
+    discountId?: boolean
     cartItems?: boolean
     itemsPrice?: boolean
     totalPrice?: boolean
@@ -8053,12 +8070,14 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | Cart$userArgs<ExtArgs>
+    discount?: boolean | Cart$discountArgs<ExtArgs>
   }, ExtArgs["result"]["cart"]>
 
   export type CartSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
     sessionId?: boolean
+    discountId?: boolean
     cartItems?: boolean
     itemsPrice?: boolean
     totalPrice?: boolean
@@ -8066,12 +8085,14 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | Cart$userArgs<ExtArgs>
+    discount?: boolean | Cart$discountArgs<ExtArgs>
   }, ExtArgs["result"]["cart"]>
 
   export type CartSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
     sessionId?: boolean
+    discountId?: boolean
     cartItems?: boolean
     itemsPrice?: boolean
     totalPrice?: boolean
@@ -8079,12 +8100,14 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | Cart$userArgs<ExtArgs>
+    discount?: boolean | Cart$discountArgs<ExtArgs>
   }, ExtArgs["result"]["cart"]>
 
   export type CartSelectScalar = {
     id?: boolean
     userId?: boolean
     sessionId?: boolean
+    discountId?: boolean
     cartItems?: boolean
     itemsPrice?: boolean
     totalPrice?: boolean
@@ -8093,26 +8116,31 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CartOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "sessionId" | "cartItems" | "itemsPrice" | "totalPrice" | "taxPrice" | "createdAt" | "updatedAt", ExtArgs["result"]["cart"]>
+  export type CartOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "sessionId" | "discountId" | "cartItems" | "itemsPrice" | "totalPrice" | "taxPrice" | "createdAt" | "updatedAt", ExtArgs["result"]["cart"]>
   export type CartInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Cart$userArgs<ExtArgs>
+    discount?: boolean | Cart$discountArgs<ExtArgs>
   }
   export type CartIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Cart$userArgs<ExtArgs>
+    discount?: boolean | Cart$discountArgs<ExtArgs>
   }
   export type CartIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Cart$userArgs<ExtArgs>
+    discount?: boolean | Cart$discountArgs<ExtArgs>
   }
 
   export type $CartPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Cart"
     objects: {
       user: Prisma.$UserPayload<ExtArgs> | null
+      discount: Prisma.$DiscountPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string | null
       sessionId: string | null
+      discountId: string | null
       cartItems: Prisma.JsonValue[]
       itemsPrice: Prisma.Decimal
       totalPrice: Prisma.Decimal
@@ -8514,6 +8542,7 @@ export namespace Prisma {
   export interface Prisma__CartClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends Cart$userArgs<ExtArgs> = {}>(args?: Subset<T, Cart$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    discount<T extends Cart$discountArgs<ExtArgs> = {}>(args?: Subset<T, Cart$discountArgs<ExtArgs>>): Prisma__DiscountClient<$Result.GetResult<Prisma.$DiscountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8546,6 +8575,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Cart", 'String'>
     readonly userId: FieldRef<"Cart", 'String'>
     readonly sessionId: FieldRef<"Cart", 'String'>
+    readonly discountId: FieldRef<"Cart", 'String'>
     readonly cartItems: FieldRef<"Cart", 'Json[]'>
     readonly itemsPrice: FieldRef<"Cart", 'Decimal'>
     readonly totalPrice: FieldRef<"Cart", 'Decimal'>
@@ -8964,6 +8994,25 @@ export namespace Prisma {
      */
     include?: UserInclude<ExtArgs> | null
     where?: UserWhereInput
+  }
+
+  /**
+   * Cart.discount
+   */
+  export type Cart$discountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Discount
+     */
+    select?: DiscountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Discount
+     */
+    omit?: DiscountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscountInclude<ExtArgs> | null
+    where?: DiscountWhereInput
   }
 
   /**
@@ -13557,18 +13606,18 @@ export namespace Prisma {
   }
 
   export type DiscountAvgAggregateOutputType = {
-    amount: Decimal | null
+    amount: number | null
   }
 
   export type DiscountSumAggregateOutputType = {
-    amount: Decimal | null
+    amount: number | null
   }
 
   export type DiscountMinAggregateOutputType = {
     id: string | null
     code: string | null
     type: string | null
-    amount: Decimal | null
+    amount: number | null
     validUntil: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -13578,7 +13627,7 @@ export namespace Prisma {
     id: string | null
     code: string | null
     type: string | null
-    amount: Decimal | null
+    amount: number | null
     validUntil: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -13725,7 +13774,7 @@ export namespace Prisma {
     id: string
     code: string
     type: string
-    amount: Decimal
+    amount: number
     validUntil: Date
     createdAt: Date
     updatedAt: Date
@@ -13759,6 +13808,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     orders?: boolean | Discount$ordersArgs<ExtArgs>
+    carts?: boolean | Discount$cartsArgs<ExtArgs>
     _count?: boolean | DiscountCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["discount"]>
 
@@ -13795,6 +13845,7 @@ export namespace Prisma {
   export type DiscountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "type" | "amount" | "validUntil" | "createdAt" | "updatedAt", ExtArgs["result"]["discount"]>
   export type DiscountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orders?: boolean | Discount$ordersArgs<ExtArgs>
+    carts?: boolean | Discount$cartsArgs<ExtArgs>
     _count?: boolean | DiscountCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type DiscountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -13804,12 +13855,13 @@ export namespace Prisma {
     name: "Discount"
     objects: {
       orders: Prisma.$OrderPayload<ExtArgs>[]
+      carts: Prisma.$CartPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       code: string
       type: string
-      amount: Prisma.Decimal
+      amount: number
       validUntil: Date
       createdAt: Date
       updatedAt: Date
@@ -14208,6 +14260,7 @@ export namespace Prisma {
   export interface Prisma__DiscountClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     orders<T extends Discount$ordersArgs<ExtArgs> = {}>(args?: Subset<T, Discount$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    carts<T extends Discount$cartsArgs<ExtArgs> = {}>(args?: Subset<T, Discount$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14240,7 +14293,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Discount", 'String'>
     readonly code: FieldRef<"Discount", 'String'>
     readonly type: FieldRef<"Discount", 'String'>
-    readonly amount: FieldRef<"Discount", 'Decimal'>
+    readonly amount: FieldRef<"Discount", 'Int'>
     readonly validUntil: FieldRef<"Discount", 'DateTime'>
     readonly createdAt: FieldRef<"Discount", 'DateTime'>
     readonly updatedAt: FieldRef<"Discount", 'DateTime'>
@@ -14656,6 +14709,30 @@ export namespace Prisma {
   }
 
   /**
+   * Discount.carts
+   */
+  export type Discount$cartsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cart
+     */
+    select?: CartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cart
+     */
+    omit?: CartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartInclude<ExtArgs> | null
+    where?: CartWhereInput
+    orderBy?: CartOrderByWithRelationInput | CartOrderByWithRelationInput[]
+    cursor?: CartWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CartScalarFieldEnum | CartScalarFieldEnum[]
+  }
+
+  /**
    * Discount without action
    */
   export type DiscountDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14776,6 +14853,7 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     sessionId: 'sessionId',
+    discountId: 'discountId',
     cartItems: 'cartItems',
     itemsPrice: 'itemsPrice',
     totalPrice: 'totalPrice',
@@ -15452,6 +15530,7 @@ export namespace Prisma {
     id?: StringFilter<"Cart"> | string
     userId?: StringNullableFilter<"Cart"> | string | null
     sessionId?: UuidNullableFilter<"Cart"> | string | null
+    discountId?: StringNullableFilter<"Cart"> | string | null
     cartItems?: JsonNullableListFilter<"Cart">
     itemsPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
@@ -15459,12 +15538,14 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Cart"> | Date | string
     updatedAt?: DateTimeFilter<"Cart"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    discount?: XOR<DiscountNullableScalarRelationFilter, DiscountWhereInput> | null
   }
 
   export type CartOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
     sessionId?: SortOrderInput | SortOrder
+    discountId?: SortOrderInput | SortOrder
     cartItems?: SortOrder
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
@@ -15472,6 +15553,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    discount?: DiscountOrderByWithRelationInput
   }
 
   export type CartWhereUniqueInput = Prisma.AtLeast<{
@@ -15481,6 +15563,7 @@ export namespace Prisma {
     OR?: CartWhereInput[]
     NOT?: CartWhereInput | CartWhereInput[]
     userId?: StringNullableFilter<"Cart"> | string | null
+    discountId?: StringNullableFilter<"Cart"> | string | null
     cartItems?: JsonNullableListFilter<"Cart">
     itemsPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
@@ -15488,12 +15571,14 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Cart"> | Date | string
     updatedAt?: DateTimeFilter<"Cart"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    discount?: XOR<DiscountNullableScalarRelationFilter, DiscountWhereInput> | null
   }, "id" | "sessionId">
 
   export type CartOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
     sessionId?: SortOrderInput | SortOrder
+    discountId?: SortOrderInput | SortOrder
     cartItems?: SortOrder
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
@@ -15514,6 +15599,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Cart"> | string
     userId?: StringNullableWithAggregatesFilter<"Cart"> | string | null
     sessionId?: UuidNullableWithAggregatesFilter<"Cart"> | string | null
+    discountId?: StringNullableWithAggregatesFilter<"Cart"> | string | null
     cartItems?: JsonNullableListFilter<"Cart">
     itemsPrice?: DecimalWithAggregatesFilter<"Cart"> | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalWithAggregatesFilter<"Cart"> | Decimal | DecimalJsLike | number | string
@@ -15818,11 +15904,12 @@ export namespace Prisma {
     id?: StringFilter<"Discount"> | string
     code?: StringFilter<"Discount"> | string
     type?: StringFilter<"Discount"> | string
-    amount?: DecimalFilter<"Discount"> | Decimal | DecimalJsLike | number | string
+    amount?: IntFilter<"Discount"> | number
     validUntil?: DateTimeFilter<"Discount"> | Date | string
     createdAt?: DateTimeFilter<"Discount"> | Date | string
     updatedAt?: DateTimeFilter<"Discount"> | Date | string
     orders?: OrderListRelationFilter
+    carts?: CartListRelationFilter
   }
 
   export type DiscountOrderByWithRelationInput = {
@@ -15834,6 +15921,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     orders?: OrderOrderByRelationAggregateInput
+    carts?: CartOrderByRelationAggregateInput
   }
 
   export type DiscountWhereUniqueInput = Prisma.AtLeast<{
@@ -15843,11 +15931,12 @@ export namespace Prisma {
     OR?: DiscountWhereInput[]
     NOT?: DiscountWhereInput | DiscountWhereInput[]
     type?: StringFilter<"Discount"> | string
-    amount?: DecimalFilter<"Discount"> | Decimal | DecimalJsLike | number | string
+    amount?: IntFilter<"Discount"> | number
     validUntil?: DateTimeFilter<"Discount"> | Date | string
     createdAt?: DateTimeFilter<"Discount"> | Date | string
     updatedAt?: DateTimeFilter<"Discount"> | Date | string
     orders?: OrderListRelationFilter
+    carts?: CartListRelationFilter
   }, "id" | "code">
 
   export type DiscountOrderByWithAggregationInput = {
@@ -15872,7 +15961,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Discount"> | string
     code?: StringWithAggregatesFilter<"Discount"> | string
     type?: StringWithAggregatesFilter<"Discount"> | string
-    amount?: DecimalWithAggregatesFilter<"Discount"> | Decimal | DecimalJsLike | number | string
+    amount?: IntWithAggregatesFilter<"Discount"> | number
     validUntil?: DateTimeWithAggregatesFilter<"Discount"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Discount"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Discount"> | Date | string
@@ -16401,12 +16490,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutCartsInput
+    discount?: DiscountCreateNestedOneWithoutCartsInput
   }
 
   export type CartUncheckedCreateInput = {
     id?: string
     userId?: string | null
     sessionId?: string | null
+    discountId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -16425,12 +16516,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutCartsNestedInput
+    discount?: DiscountUpdateOneWithoutCartsNestedInput
   }
 
   export type CartUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    discountId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -16443,6 +16536,7 @@ export namespace Prisma {
     id?: string
     userId?: string | null
     sessionId?: string | null
+    discountId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -16466,6 +16560,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    discountId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -16774,51 +16869,55 @@ export namespace Prisma {
     id?: string
     code: string
     type: string
-    amount: Decimal | DecimalJsLike | number | string
+    amount: number
     validUntil: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderCreateNestedManyWithoutDiscountInput
+    carts?: CartCreateNestedManyWithoutDiscountInput
   }
 
   export type DiscountUncheckedCreateInput = {
     id?: string
     code: string
     type: string
-    amount: Decimal | DecimalJsLike | number | string
+    amount: number
     validUntil: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderUncheckedCreateNestedManyWithoutDiscountInput
+    carts?: CartUncheckedCreateNestedManyWithoutDiscountInput
   }
 
   export type DiscountUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUpdateManyWithoutDiscountNestedInput
+    carts?: CartUpdateManyWithoutDiscountNestedInput
   }
 
   export type DiscountUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUncheckedUpdateManyWithoutDiscountNestedInput
+    carts?: CartUncheckedUpdateManyWithoutDiscountNestedInput
   }
 
   export type DiscountCreateManyInput = {
     id?: string
     code: string
     type: string
-    amount: Decimal | DecimalJsLike | number | string
+    amount: number
     validUntil: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16828,7 +16927,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16838,7 +16937,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17416,10 +17515,16 @@ export namespace Prisma {
     isNot?: UserWhereInput | null
   }
 
+  export type DiscountNullableScalarRelationFilter = {
+    is?: DiscountWhereInput | null
+    isNot?: DiscountWhereInput | null
+  }
+
   export type CartCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     sessionId?: SortOrder
+    discountId?: SortOrder
     cartItems?: SortOrder
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
@@ -17438,6 +17543,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     sessionId?: SortOrder
+    discountId?: SortOrder
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
     taxPrice?: SortOrder
@@ -17449,6 +17555,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     sessionId?: SortOrder
+    discountId?: SortOrder
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
     taxPrice?: SortOrder
@@ -17580,11 +17687,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type DiscountNullableScalarRelationFilter = {
-    is?: DiscountWhereInput | null
-    isNot?: DiscountWhereInput | null
   }
 
   export type OrderCountOrderByAggregateInput = {
@@ -18151,6 +18253,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type DiscountCreateNestedOneWithoutCartsInput = {
+    create?: XOR<DiscountCreateWithoutCartsInput, DiscountUncheckedCreateWithoutCartsInput>
+    connectOrCreate?: DiscountCreateOrConnectWithoutCartsInput
+    connect?: DiscountWhereUniqueInput
+  }
+
   export type CartUpdatecartItemsInput = {
     set?: InputJsonValue[]
     push?: InputJsonValue | InputJsonValue[]
@@ -18164,6 +18272,16 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCartsInput, UserUpdateWithoutCartsInput>, UserUncheckedUpdateWithoutCartsInput>
+  }
+
+  export type DiscountUpdateOneWithoutCartsNestedInput = {
+    create?: XOR<DiscountCreateWithoutCartsInput, DiscountUncheckedCreateWithoutCartsInput>
+    connectOrCreate?: DiscountCreateOrConnectWithoutCartsInput
+    upsert?: DiscountUpsertWithoutCartsInput
+    disconnect?: DiscountWhereInput | boolean
+    delete?: DiscountWhereInput | boolean
+    connect?: DiscountWhereUniqueInput
+    update?: XOR<XOR<DiscountUpdateToOneWithWhereWithoutCartsInput, DiscountUpdateWithoutCartsInput>, DiscountUncheckedUpdateWithoutCartsInput>
   }
 
   export type CourseCreateNestedOneWithoutSectionsInput = {
@@ -18343,11 +18461,25 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
+  export type CartCreateNestedManyWithoutDiscountInput = {
+    create?: XOR<CartCreateWithoutDiscountInput, CartUncheckedCreateWithoutDiscountInput> | CartCreateWithoutDiscountInput[] | CartUncheckedCreateWithoutDiscountInput[]
+    connectOrCreate?: CartCreateOrConnectWithoutDiscountInput | CartCreateOrConnectWithoutDiscountInput[]
+    createMany?: CartCreateManyDiscountInputEnvelope
+    connect?: CartWhereUniqueInput | CartWhereUniqueInput[]
+  }
+
   export type OrderUncheckedCreateNestedManyWithoutDiscountInput = {
     create?: XOR<OrderCreateWithoutDiscountInput, OrderUncheckedCreateWithoutDiscountInput> | OrderCreateWithoutDiscountInput[] | OrderUncheckedCreateWithoutDiscountInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutDiscountInput | OrderCreateOrConnectWithoutDiscountInput[]
     createMany?: OrderCreateManyDiscountInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type CartUncheckedCreateNestedManyWithoutDiscountInput = {
+    create?: XOR<CartCreateWithoutDiscountInput, CartUncheckedCreateWithoutDiscountInput> | CartCreateWithoutDiscountInput[] | CartUncheckedCreateWithoutDiscountInput[]
+    connectOrCreate?: CartCreateOrConnectWithoutDiscountInput | CartCreateOrConnectWithoutDiscountInput[]
+    createMany?: CartCreateManyDiscountInputEnvelope
+    connect?: CartWhereUniqueInput | CartWhereUniqueInput[]
   }
 
   export type OrderUpdateManyWithoutDiscountNestedInput = {
@@ -18364,6 +18496,20 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type CartUpdateManyWithoutDiscountNestedInput = {
+    create?: XOR<CartCreateWithoutDiscountInput, CartUncheckedCreateWithoutDiscountInput> | CartCreateWithoutDiscountInput[] | CartUncheckedCreateWithoutDiscountInput[]
+    connectOrCreate?: CartCreateOrConnectWithoutDiscountInput | CartCreateOrConnectWithoutDiscountInput[]
+    upsert?: CartUpsertWithWhereUniqueWithoutDiscountInput | CartUpsertWithWhereUniqueWithoutDiscountInput[]
+    createMany?: CartCreateManyDiscountInputEnvelope
+    set?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    disconnect?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    delete?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    connect?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    update?: CartUpdateWithWhereUniqueWithoutDiscountInput | CartUpdateWithWhereUniqueWithoutDiscountInput[]
+    updateMany?: CartUpdateManyWithWhereWithoutDiscountInput | CartUpdateManyWithWhereWithoutDiscountInput[]
+    deleteMany?: CartScalarWhereInput | CartScalarWhereInput[]
+  }
+
   export type OrderUncheckedUpdateManyWithoutDiscountNestedInput = {
     create?: XOR<OrderCreateWithoutDiscountInput, OrderUncheckedCreateWithoutDiscountInput> | OrderCreateWithoutDiscountInput[] | OrderUncheckedCreateWithoutDiscountInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutDiscountInput | OrderCreateOrConnectWithoutDiscountInput[]
@@ -18376,6 +18522,20 @@ export namespace Prisma {
     update?: OrderUpdateWithWhereUniqueWithoutDiscountInput | OrderUpdateWithWhereUniqueWithoutDiscountInput[]
     updateMany?: OrderUpdateManyWithWhereWithoutDiscountInput | OrderUpdateManyWithWhereWithoutDiscountInput[]
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type CartUncheckedUpdateManyWithoutDiscountNestedInput = {
+    create?: XOR<CartCreateWithoutDiscountInput, CartUncheckedCreateWithoutDiscountInput> | CartCreateWithoutDiscountInput[] | CartUncheckedCreateWithoutDiscountInput[]
+    connectOrCreate?: CartCreateOrConnectWithoutDiscountInput | CartCreateOrConnectWithoutDiscountInput[]
+    upsert?: CartUpsertWithWhereUniqueWithoutDiscountInput | CartUpsertWithWhereUniqueWithoutDiscountInput[]
+    createMany?: CartCreateManyDiscountInputEnvelope
+    set?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    disconnect?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    delete?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    connect?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    update?: CartUpdateWithWhereUniqueWithoutDiscountInput | CartUpdateWithWhereUniqueWithoutDiscountInput[]
+    updateMany?: CartUpdateManyWithWhereWithoutDiscountInput | CartUpdateManyWithWhereWithoutDiscountInput[]
+    deleteMany?: CartScalarWhereInput | CartScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -18957,11 +19117,13 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    discount?: DiscountCreateNestedOneWithoutCartsInput
   }
 
   export type CartUncheckedCreateWithoutUserInput = {
     id?: string
     sessionId?: string | null
+    discountId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -19146,6 +19308,7 @@ export namespace Prisma {
     id?: StringFilter<"Cart"> | string
     userId?: StringNullableFilter<"Cart"> | string | null
     sessionId?: UuidNullableFilter<"Cart"> | string | null
+    discountId?: StringNullableFilter<"Cart"> | string | null
     cartItems?: JsonNullableListFilter<"Cart">
     itemsPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
@@ -19405,6 +19568,33 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutCartsInput, UserUncheckedCreateWithoutCartsInput>
   }
 
+  export type DiscountCreateWithoutCartsInput = {
+    id?: string
+    code: string
+    type: string
+    amount: number
+    validUntil: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orders?: OrderCreateNestedManyWithoutDiscountInput
+  }
+
+  export type DiscountUncheckedCreateWithoutCartsInput = {
+    id?: string
+    code: string
+    type: string
+    amount: number
+    validUntil: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orders?: OrderUncheckedCreateNestedManyWithoutDiscountInput
+  }
+
+  export type DiscountCreateOrConnectWithoutCartsInput = {
+    where: DiscountWhereUniqueInput
+    create: XOR<DiscountCreateWithoutCartsInput, DiscountUncheckedCreateWithoutCartsInput>
+  }
+
   export type UserUpsertWithoutCartsInput = {
     update: XOR<UserUpdateWithoutCartsInput, UserUncheckedUpdateWithoutCartsInput>
     create: XOR<UserCreateWithoutCartsInput, UserUncheckedCreateWithoutCartsInput>
@@ -19450,6 +19640,39 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type DiscountUpsertWithoutCartsInput = {
+    update: XOR<DiscountUpdateWithoutCartsInput, DiscountUncheckedUpdateWithoutCartsInput>
+    create: XOR<DiscountCreateWithoutCartsInput, DiscountUncheckedCreateWithoutCartsInput>
+    where?: DiscountWhereInput
+  }
+
+  export type DiscountUpdateToOneWithWhereWithoutCartsInput = {
+    where?: DiscountWhereInput
+    data: XOR<DiscountUpdateWithoutCartsInput, DiscountUncheckedUpdateWithoutCartsInput>
+  }
+
+  export type DiscountUpdateWithoutCartsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orders?: OrderUpdateManyWithoutDiscountNestedInput
+  }
+
+  export type DiscountUncheckedUpdateWithoutCartsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orders?: OrderUncheckedUpdateManyWithoutDiscountNestedInput
   }
 
   export type CourseCreateWithoutSectionsInput = {
@@ -19728,20 +19951,22 @@ export namespace Prisma {
     id?: string
     code: string
     type: string
-    amount: Decimal | DecimalJsLike | number | string
+    amount: number
     validUntil: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    carts?: CartCreateNestedManyWithoutDiscountInput
   }
 
   export type DiscountUncheckedCreateWithoutOrdersInput = {
     id?: string
     code: string
     type: string
-    amount: Decimal | DecimalJsLike | number | string
+    amount: number
     validUntil: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    carts?: CartUncheckedCreateNestedManyWithoutDiscountInput
   }
 
   export type DiscountCreateOrConnectWithoutOrdersInput = {
@@ -19827,20 +20052,22 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    carts?: CartUpdateManyWithoutDiscountNestedInput
   }
 
   export type DiscountUncheckedUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    carts?: CartUncheckedUpdateManyWithoutDiscountNestedInput
   }
 
   export type OrderCreateWithoutOrderItemsInput = {
@@ -20059,6 +20286,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CartCreateWithoutDiscountInput = {
+    id?: string
+    sessionId?: string | null
+    cartItems?: CartCreatecartItemsInput | InputJsonValue[]
+    itemsPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    taxPrice: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutCartsInput
+  }
+
+  export type CartUncheckedCreateWithoutDiscountInput = {
+    id?: string
+    userId?: string | null
+    sessionId?: string | null
+    cartItems?: CartCreatecartItemsInput | InputJsonValue[]
+    itemsPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    taxPrice: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CartCreateOrConnectWithoutDiscountInput = {
+    where: CartWhereUniqueInput
+    create: XOR<CartCreateWithoutDiscountInput, CartUncheckedCreateWithoutDiscountInput>
+  }
+
+  export type CartCreateManyDiscountInputEnvelope = {
+    data: CartCreateManyDiscountInput | CartCreateManyDiscountInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrderUpsertWithWhereUniqueWithoutDiscountInput = {
     where: OrderWhereUniqueInput
     update: XOR<OrderUpdateWithoutDiscountInput, OrderUncheckedUpdateWithoutDiscountInput>
@@ -20073,6 +20334,22 @@ export namespace Prisma {
   export type OrderUpdateManyWithWhereWithoutDiscountInput = {
     where: OrderScalarWhereInput
     data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutDiscountInput>
+  }
+
+  export type CartUpsertWithWhereUniqueWithoutDiscountInput = {
+    where: CartWhereUniqueInput
+    update: XOR<CartUpdateWithoutDiscountInput, CartUncheckedUpdateWithoutDiscountInput>
+    create: XOR<CartCreateWithoutDiscountInput, CartUncheckedCreateWithoutDiscountInput>
+  }
+
+  export type CartUpdateWithWhereUniqueWithoutDiscountInput = {
+    where: CartWhereUniqueInput
+    data: XOR<CartUpdateWithoutDiscountInput, CartUncheckedUpdateWithoutDiscountInput>
+  }
+
+  export type CartUpdateManyWithWhereWithoutDiscountInput = {
+    where: CartScalarWhereInput
+    data: XOR<CartUpdateManyMutationInput, CartUncheckedUpdateManyWithoutDiscountInput>
   }
 
   export type SectionCreateManyCourseInput = {
@@ -20215,6 +20492,7 @@ export namespace Prisma {
   export type CartCreateManyUserInput = {
     id?: string
     sessionId?: string | null
+    discountId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -20382,11 +20660,13 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    discount?: DiscountUpdateOneWithoutCartsNestedInput
   }
 
   export type CartUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    discountId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -20398,6 +20678,7 @@ export namespace Prisma {
   export type CartUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    discountId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -20532,6 +20813,18 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type CartCreateManyDiscountInput = {
+    id?: string
+    userId?: string | null
+    sessionId?: string | null
+    cartItems?: CartCreatecartItemsInput | InputJsonValue[]
+    itemsPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    taxPrice: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type OrderUpdateWithoutDiscountInput = {
     id?: StringFieldUpdateOperationsInput | string
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -20572,6 +20865,42 @@ export namespace Prisma {
     paymentResult?: JsonNullValueInput | InputJsonValue
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CartUpdateWithoutDiscountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
+    itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutCartsNestedInput
+  }
+
+  export type CartUncheckedUpdateWithoutDiscountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
+    itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CartUncheckedUpdateManyWithoutDiscountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
+    itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
