@@ -23,7 +23,7 @@ const footerSupportLinks = [
 
 const Footer = () => {
   return (
-    <footer className='z-10'>
+    <footer className='z-10 border-t bg-background'>
       <div className='mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:grid-cols-2  lg:grid-cols-4'>
         <div className='flex flex-col items-start gap-4 lg:col-span-2'>
           <Link className='flex flex-row items-center gap-2' href='/'>
@@ -80,10 +80,9 @@ const Footer = () => {
 
       <Separator />
 
-      <div className='mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-6 sm:px-6'>
+      <div className='container flex flex-wrap items-center justify-between gap-3 px-4 py-6 sm:px-6'>
         <p className='font-medium'>
-          {`©${new Date().getFullYear()}`} <a href='#'>Academiq</a>, All rights
-          reserved.
+          {`©${new Date().getFullYear()}`} Academiq, All rights reserved.
         </p>
 
         <div className='flex flex-wrap items-center gap-4'>

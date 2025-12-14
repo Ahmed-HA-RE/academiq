@@ -1,0 +1,221 @@
+'use client';
+import { Button } from '@/app/components/ui/button';
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/app/components/ui/card';
+import { Separator } from '@/app/components/ui/separator';
+import { Cart } from '@/types';
+import Image from 'next/image';
+import DeleteDialog from '@/app/components/shared/DeleteDialog';
+import { removeFromCart } from '@/lib/actions/cart';
+import { toast } from 'sonner';
+import { Alert, AlertTitle } from '@/app/components/ui/alert';
+import { TriangleAlertIcon } from 'lucide-react';
+import Link from 'next/link';
+import { auth } from '@/lib/auth';
+import { SERVER_URL } from '@/lib/constants';
+import { Input } from '@/app/components/ui/input';
+
+const CartDetails = ({
+  cart,
+  session,
+}: {
+  cart: Cart | undefined;
+  session: typeof auth.$Infer.Session | null;
+}) => {
+  const handleDeleteCourse = async (courseId: string) => {
+    const res = await removeFromCart(courseId);
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+
+    toast.success(res.message);
+  };
+
+  return (
+    <section className='mb-10'>
+      <div className='container'>
+        {!cart || cart.cartItems.length === 0 ? (
+          <Alert
+            variant='destructive'
+            className='border-destructive max-w-md mx-auto'
+          >
+            <TriangleAlertIcon />
+            <AlertTitle>
+              Your cart is empty.
+              <Link href='/courses' className='underline ms-1'>
+                Start learning by browsing our courses.
+              </Link>
+            </AlertTitle>
+          </Alert>
+        ) : (
+          <div className='grid grid-cols-1 gap-15 lg:grid-cols-3 items-start'>
+            {/* Left Column - cartItems */}
+            <div className='space-y-3 lg:col-span-2 order-2 lg:order-1'>
+              <div className='flex w-full items-center justify-between'>
+                <div className='text-2xl font-semibold'>Your Cart</div>
+                <div className='text-muted-foreground'>
+                  {cart && cart.cartItems.length} Items in cart
+                </div>
+              </div>
+              {cart.cartItems.map((item) => (
+                <div
+                  key={item.name}
+                  className='flex flex-col sm:flex-row justify-between border-t pt-7 pb-4 sm:items-center  gap-4 '
+                >
+                  <Link
+                    href={`/course/${item.slug}`}
+                    className='flex flex-row items-center gap-4'
+                  >
+                    <div className='size-30'>
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={0}
+                        height={0}
+                        sizes='100vw'
+                        className='rounded-md w-full h-full object-cover'
+                      />
+                    </div>
+                    <h2 className='text-lg font-medium'>{item.name}</h2>
+                  </Link>
+                  <div className='flex items-center justify-end gap-4'>
+                    <div className='flex flex-row items-center gap-1 font-medium text-xl'>
+                      <span className='dirham-symbol'>&#xea;</span>
+                      <span className='font-semibold'>{item.price}</span>
+                    </div>
+                    <DeleteDialog
+                      title='Are you sure you want to delete it?'
+                      description={`This will remove ${item.name} from your cart.`}
+                      action={() => handleDeleteCourse(item.courseId)}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Right Col */}
+            <div className='flex flex-col items-center gap-6 order-1 lg:order-2'>
+              <Card className='w-full max-w-md shadow'>
+                <CardHeader>
+                  <CardTitle className='text-xl'>Apply Coupon</CardTitle>
+                  <CardDescription className='text-base'>
+                    Using a Promo Code ?
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form>
+                    <div className='flex grow gap-3'>
+                      <Input
+                        type='text'
+                        placeholder='Coupon Code'
+                        className='w-full max-w-xs input'
+                      />
+                      <Button
+                        className='rounded-lg cursor-pointer'
+                        type='submit'
+                      >
+                        Apply
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
+              {cart && cart.cartItems.length > 0 && (
+                <Card className='w-full gap-8 shadow order-1 lg:order-2'>
+                  <CardContent>
+                    <div className='space-y-6'>
+                      <h5 className='text-xl font-semibold'> Price Details</h5>
+                      <div className='space-y-5'>
+                        <Separator />
+                        <div className='flex items-center justify-between'>
+                          <span className='text-muted-foreground'>
+                            Subtotal
+                          </span>
+                          <div className='flex flex-row items-center gap-1 font-medium'>
+                            <span className='dirham-symbol'>&#xea;</span>
+                            <span className='font-semibold'>
+                              {cart.itemsPrice}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Discount if applicable */}
+
+                        <div className='flex items-center justify-between'>
+                          <span className='text-muted-foreground'>Tax</span>
+                          <div className='flex flex-row items-center gap-1 font-medium'>
+                            <span className='dirham-symbol'>&#xea;</span>
+                            <span className='font-semibold'>
+                              {cart.taxPrice}
+                            </span>
+                          </div>
+                        </div>
+                        <Separator />
+                        <div className='flex items-center justify-between'>
+                          <span className='text-lg font-semibold'>Total</span>
+                          <div className='flex flex-row items-center gap-1 font-medium'>
+                            <span className='dirham-symbol'>&#xea;</span>
+                            <span className='font-semibold'>
+                              {cart.totalPrice}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter className='flex-col items-start gap-3.5'>
+                    <Button
+                      asChild
+                      type='submit'
+                      className='w-full cursor-pointer'
+                    >
+                      <Link
+                        href={
+                          session
+                            ? `/checkout`
+                            : `/login?callbackUrl=${SERVER_URL}/checkout`
+                        }
+                      >
+                        Proceed to Checkout
+                      </Link>
+                    </Button>
+                    <div className='flex items-center gap-2'>
+                      <p>We Accept:</p>
+                      <div className='flex items-center gap-4'>
+                        <Image
+                          src='/images/visa.png'
+                          alt='Visa'
+                          width={45}
+                          height={45}
+                          loading='eager'
+                          className='w-auto h-auto'
+                        />
+                        <Image
+                          src='/images/master-card.png'
+                          alt='Mastercard'
+                          width={40}
+                          height={40}
+                          loading='eager'
+                          className='w-auto h-auto'
+                        />
+                      </div>
+                    </div>
+                  </CardFooter>
+                </Card>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default CartDetails;
