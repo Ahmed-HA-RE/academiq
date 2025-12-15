@@ -7,7 +7,6 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { cookies } from 'next/headers';
 import { convertToPlainObject } from '../utils';
-import { discountSchema } from '@/schema';
 import { revalidatePath } from 'next/cache';
 
 const calculatePrices = (cartItems: CartItems[]) => {
@@ -117,6 +116,15 @@ export const getMyCart = async () => {
   });
 
   if (!cart) return undefined;
+
+  if (cart.cartItems.length === 0) {
+    await prisma.cart.update({
+      where: { id: cart.id },
+      data: {
+        discountId: null,
+      },
+    });
+  }
 
   return convertToPlainObject({
     ...cart,

@@ -195,8 +195,6 @@ export const orderBaseSchema = z.object({
   taxPrice: moneyAmount,
   totalPrice: moneyAmount,
   billingDetails: billingInfoSchema,
-  isPaid: z.boolean().default(false),
-  paidAt: z.string().optional().nullable(),
   discountId: z.string().optional().nullable(),
 });
 

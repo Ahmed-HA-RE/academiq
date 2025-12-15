@@ -54,22 +54,21 @@ model Course {
 // }
 
 model User {
-  id             String    @id
-  name           String
-  email          String
-  emailVerified  Boolean   @default(false)
-  image          String    @default("https://res.cloudinary.com/ahmed--dev/image/upload/v1755243182/default_avatar_7541d4c434.webp")
-  role           String    @default("user")
-  paymentResults Json?     @db.Json
-  billingInfo    Json?     @db.Json
-  status         String    @default("online")
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  sessions       Session[]
-  accounts       Account[]
-  courses        Course[]
-  carts          Cart[]
-  orders         Order[]
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String    @default("https://res.cloudinary.com/ahmed--dev/image/upload/v1755243182/default_avatar_7541d4c434.webp")
+  role          String    @default("user")
+  billingInfo   Json?     @db.Json
+  status        String    @default("online")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  courses       Course[]
+  carts         Cart[]
+  orders        Order[]
 
   @@unique([email])
   @@map("user")
@@ -168,7 +167,8 @@ model Order {
   totalPrice     Decimal      @db.Decimal(10, 2)
   taxPrice       Decimal      @db.Decimal(10, 2)
   billingDetails Json         @db.Json
-  paymentResult  Json         @db.Json
+  paymentResult  Json?        @db.Json
+  status         String       @default("pending")
   isPaid         Boolean      @default(false)
   paidAt         DateTime?
   createdAt      DateTime     @default(now())
@@ -178,14 +178,14 @@ model Order {
 }
 
 model orderItems {
-  id       String
-  order    Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId  String
+  id       String  @default(uuid())
   name     String
   price    Decimal @db.Decimal(10, 2)
   image    String
   course   Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String
+  courseId String  @default(uuid())
+  order    Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId  String
 
   @@id([id, courseId])
 }

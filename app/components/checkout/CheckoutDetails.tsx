@@ -1,5 +1,4 @@
 'use client';
-
 import { Button } from '@/app/components/ui/button';
 import {
   Card,
@@ -27,6 +26,11 @@ import {
   SelectValue,
 } from '../ui/select';
 import { CITY_OPTIONS } from '@/lib/utils';
+import { createOrder } from '@/lib/actions/order';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { Spinner } from '../ui/spinner';
+
 const CheckoutDetails = ({
   cart,
   discount,
@@ -36,6 +40,8 @@ const CheckoutDetails = ({
   discount: Discount | undefined;
   user: User;
 }) => {
+  const router = useRouter();
+
   const form = useForm<BillingInfo>({
     resolver: zodResolver(billingInfoSchema),
     defaultValues: {
@@ -47,11 +53,19 @@ const CheckoutDetails = ({
     },
   });
 
-  const onSubmit = (data: BillingInfo) => {
-    console.log(data);
-  };
-  const onError: SubmitErrorHandler<BillingInfo> = (data) => {
-    console.log(data);
+  const onSubmit = async (data: BillingInfo) => {
+    const res = await createOrder({
+      billingDetails: data,
+      data: cart,
+    });
+
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+    if (res.redirect) {
+      router.push(res.redirect);
+    }
   };
 
   return (
@@ -145,13 +159,18 @@ const CheckoutDetails = ({
                       <span className='text-lg'>{cart.totalPrice}</span>
                     </div>
                   </div>
-                  <form onSubmit={form.handleSubmit(onSubmit, onError)}>
+                  <form onSubmit={form.handleSubmit(onSubmit)}>
                     <Button
                       type='submit'
                       className='w-full cursor-pointer'
                       size='lg'
+                      disabled={form.formState.isSubmitting}
                     >
-                      Pay Now
+                      {form.formState.isSubmitting ? (
+                        <Spinner className='size-7' />
+                      ) : (
+                        'Pay Now'
+                      )}
                     </Button>
                   </form>
                   <p className='text-muted-foreground'>

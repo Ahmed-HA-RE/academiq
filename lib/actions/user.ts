@@ -3,7 +3,7 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { prisma } from '../prisma';
 import { convertToPlainObject } from '../utils';
-import { BillingInfo, PaymentResults } from '@/types';
+import { BillingInfo } from '@/types';
 
 export const getUserById = async () => {
   const session = await auth.api.getSession({
@@ -23,6 +23,5 @@ export const getUserById = async () => {
   return convertToPlainObject({
     ...user,
     billingInfo: user.billingInfo as BillingInfo,
-    paymentResults: user.paymentResults as PaymentResults,
   });
 };

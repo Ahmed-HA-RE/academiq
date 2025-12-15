@@ -3349,7 +3349,6 @@ export namespace Prisma {
     emailVerified: number
     image: number
     role: number
-    paymentResults: number
     billingInfo: number
     status: number
     createdAt: number
@@ -3389,7 +3388,6 @@ export namespace Prisma {
     emailVerified?: true
     image?: true
     role?: true
-    paymentResults?: true
     billingInfo?: true
     status?: true
     createdAt?: true
@@ -3476,7 +3474,6 @@ export namespace Prisma {
     emailVerified: boolean
     image: string
     role: string
-    paymentResults: JsonValue | null
     billingInfo: JsonValue | null
     status: string
     createdAt: Date
@@ -3507,7 +3504,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     role?: boolean
-    paymentResults?: boolean
     billingInfo?: boolean
     status?: boolean
     createdAt?: boolean
@@ -3527,7 +3523,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     role?: boolean
-    paymentResults?: boolean
     billingInfo?: boolean
     status?: boolean
     createdAt?: boolean
@@ -3541,7 +3536,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     role?: boolean
-    paymentResults?: boolean
     billingInfo?: boolean
     status?: boolean
     createdAt?: boolean
@@ -3555,14 +3549,13 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     role?: boolean
-    paymentResults?: boolean
     billingInfo?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "paymentResults" | "billingInfo" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "billingInfo" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -3590,7 +3583,6 @@ export namespace Prisma {
       emailVerified: boolean
       image: string
       role: string
-      paymentResults: Prisma.JsonValue | null
       billingInfo: Prisma.JsonValue | null
       status: string
       createdAt: Date
@@ -4029,7 +4021,6 @@ export namespace Prisma {
     readonly emailVerified: FieldRef<"User", 'Boolean'>
     readonly image: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'String'>
-    readonly paymentResults: FieldRef<"User", 'Json'>
     readonly billingInfo: FieldRef<"User", 'Json'>
     readonly status: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
@@ -11270,6 +11261,7 @@ export namespace Prisma {
     itemsPrice: Decimal | null
     totalPrice: Decimal | null
     taxPrice: Decimal | null
+    status: string | null
     isPaid: boolean | null
     paidAt: Date | null
     createdAt: Date | null
@@ -11283,6 +11275,7 @@ export namespace Prisma {
     itemsPrice: Decimal | null
     totalPrice: Decimal | null
     taxPrice: Decimal | null
+    status: string | null
     isPaid: boolean | null
     paidAt: Date | null
     createdAt: Date | null
@@ -11298,6 +11291,7 @@ export namespace Prisma {
     taxPrice: number
     billingDetails: number
     paymentResult: number
+    status: number
     isPaid: number
     paidAt: number
     createdAt: number
@@ -11325,6 +11319,7 @@ export namespace Prisma {
     itemsPrice?: true
     totalPrice?: true
     taxPrice?: true
+    status?: true
     isPaid?: true
     paidAt?: true
     createdAt?: true
@@ -11338,6 +11333,7 @@ export namespace Prisma {
     itemsPrice?: true
     totalPrice?: true
     taxPrice?: true
+    status?: true
     isPaid?: true
     paidAt?: true
     createdAt?: true
@@ -11353,6 +11349,7 @@ export namespace Prisma {
     taxPrice?: true
     billingDetails?: true
     paymentResult?: true
+    status?: true
     isPaid?: true
     paidAt?: true
     createdAt?: true
@@ -11454,7 +11451,8 @@ export namespace Prisma {
     totalPrice: Decimal
     taxPrice: Decimal
     billingDetails: JsonValue
-    paymentResult: JsonValue
+    paymentResult: JsonValue | null
+    status: string
     isPaid: boolean
     paidAt: Date | null
     createdAt: Date
@@ -11489,6 +11487,7 @@ export namespace Prisma {
     taxPrice?: boolean
     billingDetails?: boolean
     paymentResult?: boolean
+    status?: boolean
     isPaid?: boolean
     paidAt?: boolean
     createdAt?: boolean
@@ -11508,6 +11507,7 @@ export namespace Prisma {
     taxPrice?: boolean
     billingDetails?: boolean
     paymentResult?: boolean
+    status?: boolean
     isPaid?: boolean
     paidAt?: boolean
     createdAt?: boolean
@@ -11525,6 +11525,7 @@ export namespace Prisma {
     taxPrice?: boolean
     billingDetails?: boolean
     paymentResult?: boolean
+    status?: boolean
     isPaid?: boolean
     paidAt?: boolean
     createdAt?: boolean
@@ -11542,6 +11543,7 @@ export namespace Prisma {
     taxPrice?: boolean
     billingDetails?: boolean
     paymentResult?: boolean
+    status?: boolean
     isPaid?: boolean
     paidAt?: boolean
     createdAt?: boolean
@@ -11549,7 +11551,7 @@ export namespace Prisma {
     discountId?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "itemsPrice" | "totalPrice" | "taxPrice" | "billingDetails" | "paymentResult" | "isPaid" | "paidAt" | "createdAt" | "updatedAt" | "discountId", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "itemsPrice" | "totalPrice" | "taxPrice" | "billingDetails" | "paymentResult" | "status" | "isPaid" | "paidAt" | "createdAt" | "updatedAt" | "discountId", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     orderItems?: boolean | Order$orderItemsArgs<ExtArgs>
@@ -11579,7 +11581,8 @@ export namespace Prisma {
       totalPrice: Prisma.Decimal
       taxPrice: Prisma.Decimal
       billingDetails: Prisma.JsonValue
-      paymentResult: Prisma.JsonValue
+      paymentResult: Prisma.JsonValue | null
+      status: string
       isPaid: boolean
       paidAt: Date | null
       createdAt: Date
@@ -12018,6 +12021,7 @@ export namespace Prisma {
     readonly taxPrice: FieldRef<"Order", 'Decimal'>
     readonly billingDetails: FieldRef<"Order", 'Json'>
     readonly paymentResult: FieldRef<"Order", 'Json'>
+    readonly status: FieldRef<"Order", 'String'>
     readonly isPaid: FieldRef<"Order", 'Boolean'>
     readonly paidAt: FieldRef<"Order", 'DateTime'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
@@ -12502,29 +12506,29 @@ export namespace Prisma {
 
   export type OrderItemsMinAggregateOutputType = {
     id: string | null
-    orderId: string | null
     name: string | null
     price: Decimal | null
     image: string | null
     courseId: string | null
+    orderId: string | null
   }
 
   export type OrderItemsMaxAggregateOutputType = {
     id: string | null
-    orderId: string | null
     name: string | null
     price: Decimal | null
     image: string | null
     courseId: string | null
+    orderId: string | null
   }
 
   export type OrderItemsCountAggregateOutputType = {
     id: number
-    orderId: number
     name: number
     price: number
     image: number
     courseId: number
+    orderId: number
     _all: number
   }
 
@@ -12539,29 +12543,29 @@ export namespace Prisma {
 
   export type OrderItemsMinAggregateInputType = {
     id?: true
-    orderId?: true
     name?: true
     price?: true
     image?: true
     courseId?: true
+    orderId?: true
   }
 
   export type OrderItemsMaxAggregateInputType = {
     id?: true
-    orderId?: true
     name?: true
     price?: true
     image?: true
     courseId?: true
+    orderId?: true
   }
 
   export type OrderItemsCountAggregateInputType = {
     id?: true
-    orderId?: true
     name?: true
     price?: true
     image?: true
     courseId?: true
+    orderId?: true
     _all?: true
   }
 
@@ -12653,11 +12657,11 @@ export namespace Prisma {
 
   export type OrderItemsGroupByOutputType = {
     id: string
-    orderId: string
     name: string
     price: Decimal
     image: string
     courseId: string
+    orderId: string
     _count: OrderItemsCountAggregateOutputType | null
     _avg: OrderItemsAvgAggregateOutputType | null
     _sum: OrderItemsSumAggregateOutputType | null
@@ -12681,73 +12685,73 @@ export namespace Prisma {
 
   export type orderItemsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    orderId?: boolean
     name?: boolean
     price?: boolean
     image?: boolean
     courseId?: boolean
-    order?: boolean | OrderDefaultArgs<ExtArgs>
+    orderId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    order?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderItems"]>
 
   export type orderItemsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    orderId?: boolean
     name?: boolean
     price?: boolean
     image?: boolean
     courseId?: boolean
-    order?: boolean | OrderDefaultArgs<ExtArgs>
+    orderId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    order?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderItems"]>
 
   export type orderItemsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    orderId?: boolean
     name?: boolean
     price?: boolean
     image?: boolean
     courseId?: boolean
-    order?: boolean | OrderDefaultArgs<ExtArgs>
+    orderId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    order?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderItems"]>
 
   export type orderItemsSelectScalar = {
     id?: boolean
-    orderId?: boolean
     name?: boolean
     price?: boolean
     image?: boolean
     courseId?: boolean
+    orderId?: boolean
   }
 
-  export type orderItemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "name" | "price" | "image" | "courseId", ExtArgs["result"]["orderItems"]>
+  export type orderItemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "image" | "courseId" | "orderId", ExtArgs["result"]["orderItems"]>
   export type orderItemsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    order?: boolean | OrderDefaultArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    order?: boolean | OrderDefaultArgs<ExtArgs>
   }
   export type orderItemsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    order?: boolean | OrderDefaultArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    order?: boolean | OrderDefaultArgs<ExtArgs>
   }
   export type orderItemsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    order?: boolean | OrderDefaultArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    order?: boolean | OrderDefaultArgs<ExtArgs>
   }
 
   export type $orderItemsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "orderItems"
     objects: {
-      order: Prisma.$OrderPayload<ExtArgs>
       course: Prisma.$CoursePayload<ExtArgs>
+      order: Prisma.$OrderPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      orderId: string
       name: string
       price: Prisma.Decimal
       image: string
       courseId: string
+      orderId: string
     }, ExtArgs["result"]["orderItems"]>
     composites: {}
   }
@@ -13142,8 +13146,8 @@ export namespace Prisma {
    */
   export interface Prisma__orderItemsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    order<T extends OrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderDefaultArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    order<T extends OrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderDefaultArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13174,11 +13178,11 @@ export namespace Prisma {
    */
   interface orderItemsFieldRefs {
     readonly id: FieldRef<"orderItems", 'String'>
-    readonly orderId: FieldRef<"orderItems", 'String'>
     readonly name: FieldRef<"orderItems", 'String'>
     readonly price: FieldRef<"orderItems", 'Decimal'>
     readonly image: FieldRef<"orderItems", 'String'>
     readonly courseId: FieldRef<"orderItems", 'String'>
+    readonly orderId: FieldRef<"orderItems", 'String'>
   }
     
 
@@ -14794,7 +14798,6 @@ export namespace Prisma {
     emailVerified: 'emailVerified',
     image: 'image',
     role: 'role',
-    paymentResults: 'paymentResults',
     billingInfo: 'billingInfo',
     status: 'status',
     createdAt: 'createdAt',
@@ -14897,6 +14900,7 @@ export namespace Prisma {
     taxPrice: 'taxPrice',
     billingDetails: 'billingDetails',
     paymentResult: 'paymentResult',
+    status: 'status',
     isPaid: 'isPaid',
     paidAt: 'paidAt',
     createdAt: 'createdAt',
@@ -14909,11 +14913,11 @@ export namespace Prisma {
 
   export const OrderItemsScalarFieldEnum: {
     id: 'id',
-    orderId: 'orderId',
     name: 'name',
     price: 'price',
     image: 'image',
-    courseId: 'courseId'
+    courseId: 'courseId',
+    orderId: 'orderId'
   };
 
   export type OrderItemsScalarFieldEnum = (typeof OrderItemsScalarFieldEnum)[keyof typeof OrderItemsScalarFieldEnum]
@@ -15214,7 +15218,6 @@ export namespace Prisma {
     emailVerified?: BoolFilter<"User"> | boolean
     image?: StringFilter<"User"> | string
     role?: StringFilter<"User"> | string
-    paymentResults?: JsonNullableFilter<"User">
     billingInfo?: JsonNullableFilter<"User">
     status?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -15233,7 +15236,6 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     role?: SortOrder
-    paymentResults?: SortOrderInput | SortOrder
     billingInfo?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -15255,7 +15257,6 @@ export namespace Prisma {
     emailVerified?: BoolFilter<"User"> | boolean
     image?: StringFilter<"User"> | string
     role?: StringFilter<"User"> | string
-    paymentResults?: JsonNullableFilter<"User">
     billingInfo?: JsonNullableFilter<"User">
     status?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -15274,7 +15275,6 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     role?: SortOrder
-    paymentResults?: SortOrderInput | SortOrder
     billingInfo?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -15294,7 +15294,6 @@ export namespace Prisma {
     emailVerified?: BoolWithAggregatesFilter<"User"> | boolean
     image?: StringWithAggregatesFilter<"User"> | string
     role?: StringWithAggregatesFilter<"User"> | string
-    paymentResults?: JsonNullableWithAggregatesFilter<"User">
     billingInfo?: JsonNullableWithAggregatesFilter<"User">
     status?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -15743,7 +15742,8 @@ export namespace Prisma {
     totalPrice?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonFilter<"Order">
-    paymentResult?: JsonFilter<"Order">
+    paymentResult?: JsonNullableFilter<"Order">
+    status?: StringFilter<"Order"> | string
     isPaid?: BoolFilter<"Order"> | boolean
     paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
@@ -15761,7 +15761,8 @@ export namespace Prisma {
     totalPrice?: SortOrder
     taxPrice?: SortOrder
     billingDetails?: SortOrder
-    paymentResult?: SortOrder
+    paymentResult?: SortOrderInput | SortOrder
+    status?: SortOrder
     isPaid?: SortOrder
     paidAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -15782,7 +15783,8 @@ export namespace Prisma {
     totalPrice?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonFilter<"Order">
-    paymentResult?: JsonFilter<"Order">
+    paymentResult?: JsonNullableFilter<"Order">
+    status?: StringFilter<"Order"> | string
     isPaid?: BoolFilter<"Order"> | boolean
     paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
@@ -15800,7 +15802,8 @@ export namespace Prisma {
     totalPrice?: SortOrder
     taxPrice?: SortOrder
     billingDetails?: SortOrder
-    paymentResult?: SortOrder
+    paymentResult?: SortOrderInput | SortOrder
+    status?: SortOrder
     isPaid?: SortOrder
     paidAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -15823,7 +15826,8 @@ export namespace Prisma {
     totalPrice?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonWithAggregatesFilter<"Order">
-    paymentResult?: JsonWithAggregatesFilter<"Order">
+    paymentResult?: JsonNullableWithAggregatesFilter<"Order">
+    status?: StringWithAggregatesFilter<"Order"> | string
     isPaid?: BoolWithAggregatesFilter<"Order"> | boolean
     paidAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
@@ -15836,24 +15840,24 @@ export namespace Prisma {
     OR?: orderItemsWhereInput[]
     NOT?: orderItemsWhereInput | orderItemsWhereInput[]
     id?: StringFilter<"orderItems"> | string
-    orderId?: StringFilter<"orderItems"> | string
     name?: StringFilter<"orderItems"> | string
     price?: DecimalFilter<"orderItems"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"orderItems"> | string
     courseId?: StringFilter<"orderItems"> | string
-    order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    orderId?: StringFilter<"orderItems"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
   }
 
   export type orderItemsOrderByWithRelationInput = {
     id?: SortOrder
-    orderId?: SortOrder
     name?: SortOrder
     price?: SortOrder
     image?: SortOrder
     courseId?: SortOrder
-    order?: OrderOrderByWithRelationInput
+    orderId?: SortOrder
     course?: CourseOrderByWithRelationInput
+    order?: OrderOrderByWithRelationInput
   }
 
   export type orderItemsWhereUniqueInput = Prisma.AtLeast<{
@@ -15862,22 +15866,22 @@ export namespace Prisma {
     OR?: orderItemsWhereInput[]
     NOT?: orderItemsWhereInput | orderItemsWhereInput[]
     id?: StringFilter<"orderItems"> | string
-    orderId?: StringFilter<"orderItems"> | string
     name?: StringFilter<"orderItems"> | string
     price?: DecimalFilter<"orderItems"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"orderItems"> | string
     courseId?: StringFilter<"orderItems"> | string
-    order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    orderId?: StringFilter<"orderItems"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
   }, "id_courseId">
 
   export type orderItemsOrderByWithAggregationInput = {
     id?: SortOrder
-    orderId?: SortOrder
     name?: SortOrder
     price?: SortOrder
     image?: SortOrder
     courseId?: SortOrder
+    orderId?: SortOrder
     _count?: orderItemsCountOrderByAggregateInput
     _avg?: orderItemsAvgOrderByAggregateInput
     _max?: orderItemsMaxOrderByAggregateInput
@@ -15890,11 +15894,11 @@ export namespace Prisma {
     OR?: orderItemsScalarWhereWithAggregatesInput[]
     NOT?: orderItemsScalarWhereWithAggregatesInput | orderItemsScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"orderItems"> | string
-    orderId?: StringWithAggregatesFilter<"orderItems"> | string
     name?: StringWithAggregatesFilter<"orderItems"> | string
     price?: DecimalWithAggregatesFilter<"orderItems"> | Decimal | DecimalJsLike | number | string
     image?: StringWithAggregatesFilter<"orderItems"> | string
     courseId?: StringWithAggregatesFilter<"orderItems"> | string
+    orderId?: StringWithAggregatesFilter<"orderItems"> | string
   }
 
   export type DiscountWhereInput = {
@@ -16119,7 +16123,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -16138,7 +16141,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -16157,7 +16159,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16176,7 +16177,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16195,7 +16195,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -16209,7 +16208,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16223,7 +16221,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16703,7 +16700,8 @@ export namespace Prisma {
     totalPrice: Decimal | DecimalJsLike | number | string
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
-    paymentResult: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
     createdAt?: Date | string
@@ -16720,7 +16718,8 @@ export namespace Prisma {
     totalPrice: Decimal | DecimalJsLike | number | string
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
-    paymentResult: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
     createdAt?: Date | string
@@ -16735,7 +16734,8 @@ export namespace Prisma {
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16752,7 +16752,8 @@ export namespace Prisma {
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16768,7 +16769,8 @@ export namespace Prisma {
     totalPrice: Decimal | DecimalJsLike | number | string
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
-    paymentResult: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
     createdAt?: Date | string
@@ -16782,7 +16784,8 @@ export namespace Prisma {
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16796,7 +16799,8 @@ export namespace Prisma {
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16805,21 +16809,21 @@ export namespace Prisma {
   }
 
   export type orderItemsCreateInput = {
-    id: string
+    id?: string
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    course?: CourseCreateNestedOneWithoutOrderItemsInput
     order: OrderCreateNestedOneWithoutOrderItemsInput
-    course: CourseCreateNestedOneWithoutOrderItemsInput
   }
 
   export type orderItemsUncheckedCreateInput = {
-    id: string
-    orderId: string
+    id?: string
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
-    courseId: string
+    courseId?: string
+    orderId: string
   }
 
   export type orderItemsUpdateInput = {
@@ -16827,26 +16831,26 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
-    order?: OrderUpdateOneRequiredWithoutOrderItemsNestedInput
     course?: CourseUpdateOneRequiredWithoutOrderItemsNestedInput
+    order?: OrderUpdateOneRequiredWithoutOrderItemsNestedInput
   }
 
   export type orderItemsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    orderId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
   }
 
   export type orderItemsCreateManyInput = {
-    id: string
-    orderId: string
+    id?: string
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
-    courseId: string
+    courseId?: string
+    orderId: string
   }
 
   export type orderItemsUpdateManyMutationInput = {
@@ -16858,11 +16862,11 @@ export namespace Prisma {
 
   export type orderItemsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    orderId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
   }
 
   export type DiscountCreateInput = {
@@ -17256,7 +17260,6 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     role?: SortOrder
-    paymentResults?: SortOrder
     billingInfo?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -17697,6 +17700,7 @@ export namespace Prisma {
     taxPrice?: SortOrder
     billingDetails?: SortOrder
     paymentResult?: SortOrder
+    status?: SortOrder
     isPaid?: SortOrder
     paidAt?: SortOrder
     createdAt?: SortOrder
@@ -17716,6 +17720,7 @@ export namespace Prisma {
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
     taxPrice?: SortOrder
+    status?: SortOrder
     isPaid?: SortOrder
     paidAt?: SortOrder
     createdAt?: SortOrder
@@ -17729,6 +17734,7 @@ export namespace Prisma {
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
     taxPrice?: SortOrder
+    status?: SortOrder
     isPaid?: SortOrder
     paidAt?: SortOrder
     createdAt?: SortOrder
@@ -17780,11 +17786,11 @@ export namespace Prisma {
 
   export type orderItemsCountOrderByAggregateInput = {
     id?: SortOrder
-    orderId?: SortOrder
     name?: SortOrder
     price?: SortOrder
     image?: SortOrder
     courseId?: SortOrder
+    orderId?: SortOrder
   }
 
   export type orderItemsAvgOrderByAggregateInput = {
@@ -17793,20 +17799,20 @@ export namespace Prisma {
 
   export type orderItemsMaxOrderByAggregateInput = {
     id?: SortOrder
-    orderId?: SortOrder
     name?: SortOrder
     price?: SortOrder
     image?: SortOrder
     courseId?: SortOrder
+    orderId?: SortOrder
   }
 
   export type orderItemsMinOrderByAggregateInput = {
     id?: SortOrder
-    orderId?: SortOrder
     name?: SortOrder
     price?: SortOrder
     image?: SortOrder
     courseId?: SortOrder
+    orderId?: SortOrder
   }
 
   export type orderItemsSumOrderByAggregateInput = {
@@ -18426,24 +18432,16 @@ export namespace Prisma {
     deleteMany?: orderItemsScalarWhereInput | orderItemsScalarWhereInput[]
   }
 
-  export type OrderCreateNestedOneWithoutOrderItemsInput = {
-    create?: XOR<OrderCreateWithoutOrderItemsInput, OrderUncheckedCreateWithoutOrderItemsInput>
-    connectOrCreate?: OrderCreateOrConnectWithoutOrderItemsInput
-    connect?: OrderWhereUniqueInput
-  }
-
   export type CourseCreateNestedOneWithoutOrderItemsInput = {
     create?: XOR<CourseCreateWithoutOrderItemsInput, CourseUncheckedCreateWithoutOrderItemsInput>
     connectOrCreate?: CourseCreateOrConnectWithoutOrderItemsInput
     connect?: CourseWhereUniqueInput
   }
 
-  export type OrderUpdateOneRequiredWithoutOrderItemsNestedInput = {
+  export type OrderCreateNestedOneWithoutOrderItemsInput = {
     create?: XOR<OrderCreateWithoutOrderItemsInput, OrderUncheckedCreateWithoutOrderItemsInput>
     connectOrCreate?: OrderCreateOrConnectWithoutOrderItemsInput
-    upsert?: OrderUpsertWithoutOrderItemsInput
     connect?: OrderWhereUniqueInput
-    update?: XOR<XOR<OrderUpdateToOneWithWhereWithoutOrderItemsInput, OrderUpdateWithoutOrderItemsInput>, OrderUncheckedUpdateWithoutOrderItemsInput>
   }
 
   export type CourseUpdateOneRequiredWithoutOrderItemsNestedInput = {
@@ -18452,6 +18450,14 @@ export namespace Prisma {
     upsert?: CourseUpsertWithoutOrderItemsInput
     connect?: CourseWhereUniqueInput
     update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutOrderItemsInput, CourseUpdateWithoutOrderItemsInput>, CourseUncheckedUpdateWithoutOrderItemsInput>
+  }
+
+  export type OrderUpdateOneRequiredWithoutOrderItemsNestedInput = {
+    create?: XOR<OrderCreateWithoutOrderItemsInput, OrderUncheckedCreateWithoutOrderItemsInput>
+    connectOrCreate?: OrderCreateOrConnectWithoutOrderItemsInput
+    upsert?: OrderUpsertWithoutOrderItemsInput
+    connect?: OrderWhereUniqueInput
+    update?: XOR<XOR<OrderUpdateToOneWithWhereWithoutOrderItemsInput, OrderUpdateWithoutOrderItemsInput>, OrderUncheckedUpdateWithoutOrderItemsInput>
   }
 
   export type OrderCreateNestedManyWithoutDiscountInput = {
@@ -18817,7 +18823,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -18835,7 +18840,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -18878,7 +18882,7 @@ export namespace Prisma {
   }
 
   export type orderItemsCreateWithoutCourseInput = {
-    id: string
+    id?: string
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -18886,11 +18890,11 @@ export namespace Prisma {
   }
 
   export type orderItemsUncheckedCreateWithoutCourseInput = {
-    id: string
-    orderId: string
+    id?: string
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    orderId: string
   }
 
   export type orderItemsCreateOrConnectWithoutCourseInput = {
@@ -18929,7 +18933,6 @@ export namespace Prisma {
     emailVerified?: BoolFilter<"User"> | boolean
     image?: StringFilter<"User"> | string
     role?: StringFilter<"User"> | string
-    paymentResults?: JsonNullableFilter<"User">
     billingInfo?: JsonNullableFilter<"User">
     status?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -18984,11 +18987,11 @@ export namespace Prisma {
     OR?: orderItemsScalarWhereInput[]
     NOT?: orderItemsScalarWhereInput | orderItemsScalarWhereInput[]
     id?: StringFilter<"orderItems"> | string
-    orderId?: StringFilter<"orderItems"> | string
     name?: StringFilter<"orderItems"> | string
     price?: DecimalFilter<"orderItems"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"orderItems"> | string
     courseId?: StringFilter<"orderItems"> | string
+    orderId?: StringFilter<"orderItems"> | string
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -19148,7 +19151,8 @@ export namespace Prisma {
     totalPrice: Decimal | DecimalJsLike | number | string
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
-    paymentResult: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
     createdAt?: Date | string
@@ -19163,7 +19167,8 @@ export namespace Prisma {
     totalPrice: Decimal | DecimalJsLike | number | string
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
-    paymentResult: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
     createdAt?: Date | string
@@ -19343,7 +19348,8 @@ export namespace Prisma {
     totalPrice?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonFilter<"Order">
-    paymentResult?: JsonFilter<"Order">
+    paymentResult?: JsonNullableFilter<"Order">
+    status?: StringFilter<"Order"> | string
     isPaid?: BoolFilter<"Order"> | boolean
     paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
@@ -19358,7 +19364,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -19376,7 +19381,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -19410,7 +19414,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19428,7 +19431,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19446,7 +19448,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -19464,7 +19465,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -19498,7 +19498,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19516,7 +19515,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19534,7 +19532,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -19552,7 +19549,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -19613,7 +19609,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19631,7 +19626,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19887,7 +19881,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -19905,7 +19898,6 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: string
     role?: string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     createdAt?: Date | string
@@ -19922,19 +19914,19 @@ export namespace Prisma {
   }
 
   export type orderItemsCreateWithoutOrderInput = {
-    id: string
+    id?: string
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
-    course: CourseCreateNestedOneWithoutOrderItemsInput
+    course?: CourseCreateNestedOneWithoutOrderItemsInput
   }
 
   export type orderItemsUncheckedCreateWithoutOrderInput = {
-    id: string
+    id?: string
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
-    courseId: string
+    courseId?: string
   }
 
   export type orderItemsCreateOrConnectWithoutOrderInput = {
@@ -19992,7 +19984,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20010,7 +20001,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20070,41 +20060,6 @@ export namespace Prisma {
     carts?: CartUncheckedUpdateManyWithoutDiscountNestedInput
   }
 
-  export type OrderCreateWithoutOrderItemsInput = {
-    id?: string
-    itemsPrice: Decimal | DecimalJsLike | number | string
-    totalPrice: Decimal | DecimalJsLike | number | string
-    taxPrice: Decimal | DecimalJsLike | number | string
-    billingDetails: JsonNullValueInput | InputJsonValue
-    paymentResult: JsonNullValueInput | InputJsonValue
-    isPaid?: boolean
-    paidAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutOrdersInput
-    discount?: DiscountCreateNestedOneWithoutOrdersInput
-  }
-
-  export type OrderUncheckedCreateWithoutOrderItemsInput = {
-    id?: string
-    userId: string
-    itemsPrice: Decimal | DecimalJsLike | number | string
-    totalPrice: Decimal | DecimalJsLike | number | string
-    taxPrice: Decimal | DecimalJsLike | number | string
-    billingDetails: JsonNullValueInput | InputJsonValue
-    paymentResult: JsonNullValueInput | InputJsonValue
-    isPaid?: boolean
-    paidAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    discountId?: string | null
-  }
-
-  export type OrderCreateOrConnectWithoutOrderItemsInput = {
-    where: OrderWhereUniqueInput
-    create: XOR<OrderCreateWithoutOrderItemsInput, OrderUncheckedCreateWithoutOrderItemsInput>
-  }
-
   export type CourseCreateWithoutOrderItemsInput = {
     id?: string
     slug: string
@@ -20152,45 +20107,41 @@ export namespace Prisma {
     create: XOR<CourseCreateWithoutOrderItemsInput, CourseUncheckedCreateWithoutOrderItemsInput>
   }
 
-  export type OrderUpsertWithoutOrderItemsInput = {
-    update: XOR<OrderUpdateWithoutOrderItemsInput, OrderUncheckedUpdateWithoutOrderItemsInput>
+  export type OrderCreateWithoutOrderItemsInput = {
+    id?: string
+    itemsPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    taxPrice: Decimal | DecimalJsLike | number | string
+    billingDetails: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
+    isPaid?: boolean
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutOrdersInput
+    discount?: DiscountCreateNestedOneWithoutOrdersInput
+  }
+
+  export type OrderUncheckedCreateWithoutOrderItemsInput = {
+    id?: string
+    userId: string
+    itemsPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    taxPrice: Decimal | DecimalJsLike | number | string
+    billingDetails: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
+    isPaid?: boolean
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    discountId?: string | null
+  }
+
+  export type OrderCreateOrConnectWithoutOrderItemsInput = {
+    where: OrderWhereUniqueInput
     create: XOR<OrderCreateWithoutOrderItemsInput, OrderUncheckedCreateWithoutOrderItemsInput>
-    where?: OrderWhereInput
-  }
-
-  export type OrderUpdateToOneWithWhereWithoutOrderItemsInput = {
-    where?: OrderWhereInput
-    data: XOR<OrderUpdateWithoutOrderItemsInput, OrderUncheckedUpdateWithoutOrderItemsInput>
-  }
-
-  export type OrderUpdateWithoutOrderItemsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
-    isPaid?: BoolFieldUpdateOperationsInput | boolean
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutOrdersNestedInput
-    discount?: DiscountUpdateOneWithoutOrdersNestedInput
-  }
-
-  export type OrderUncheckedUpdateWithoutOrderItemsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
-    isPaid?: BoolFieldUpdateOperationsInput | boolean
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    discountId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CourseUpsertWithoutOrderItemsInput = {
@@ -20246,13 +20197,57 @@ export namespace Prisma {
     sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
   }
 
+  export type OrderUpsertWithoutOrderItemsInput = {
+    update: XOR<OrderUpdateWithoutOrderItemsInput, OrderUncheckedUpdateWithoutOrderItemsInput>
+    create: XOR<OrderCreateWithoutOrderItemsInput, OrderUncheckedCreateWithoutOrderItemsInput>
+    where?: OrderWhereInput
+  }
+
+  export type OrderUpdateToOneWithWhereWithoutOrderItemsInput = {
+    where?: OrderWhereInput
+    data: XOR<OrderUpdateWithoutOrderItemsInput, OrderUncheckedUpdateWithoutOrderItemsInput>
+  }
+
+  export type OrderUpdateWithoutOrderItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    billingDetails?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    discount?: DiscountUpdateOneWithoutOrdersNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutOrderItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    billingDetails?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    isPaid?: BoolFieldUpdateOperationsInput | boolean
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    discountId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type OrderCreateWithoutDiscountInput = {
     id?: string
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
-    paymentResult: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
     createdAt?: Date | string
@@ -20268,7 +20263,8 @@ export namespace Prisma {
     totalPrice: Decimal | DecimalJsLike | number | string
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
-    paymentResult: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
     createdAt?: Date | string
@@ -20360,11 +20356,11 @@ export namespace Prisma {
   }
 
   export type orderItemsCreateManyCourseInput = {
-    id: string
-    orderId: string
+    id?: string
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    orderId: string
   }
 
   export type UserUpdateWithoutCoursesInput = {
@@ -20374,7 +20370,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20392,7 +20387,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20410,7 +20404,6 @@ export namespace Prisma {
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    paymentResults?: NullableJsonNullValueInput | InputJsonValue
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20450,18 +20443,18 @@ export namespace Prisma {
 
   export type orderItemsUncheckedUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
-    orderId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
   }
 
   export type orderItemsUncheckedUpdateManyWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
-    orderId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SessionCreateManyUserInput = {
@@ -20507,7 +20500,8 @@ export namespace Prisma {
     totalPrice: Decimal | DecimalJsLike | number | string
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
-    paymentResult: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
     createdAt?: Date | string
@@ -20693,7 +20687,8 @@ export namespace Prisma {
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20708,7 +20703,8 @@ export namespace Prisma {
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20723,7 +20719,8 @@ export namespace Prisma {
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20768,11 +20765,11 @@ export namespace Prisma {
   }
 
   export type orderItemsCreateManyOrderInput = {
-    id: string
+    id?: string
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
-    courseId: string
+    courseId?: string
   }
 
   export type orderItemsUpdateWithoutOrderInput = {
@@ -20806,7 +20803,8 @@ export namespace Prisma {
     totalPrice: Decimal | DecimalJsLike | number | string
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
-    paymentResult: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
     createdAt?: Date | string
@@ -20831,7 +20829,8 @@ export namespace Prisma {
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20847,7 +20846,8 @@ export namespace Prisma {
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20862,7 +20862,8 @@ export namespace Prisma {
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
-    paymentResult?: JsonNullValueInput | InputJsonValue
+    paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

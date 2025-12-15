@@ -44,10 +44,9 @@ export type Instructor = z.infer<typeof instructorSchema> & {
 };
 
 export type BillingInfo = z.infer<typeof billingInfoSchema>;
-export type PaymentResults = {
+export type PaymentResult = {
   id: string;
   email: string;
-  status: string;
   country: string;
   cardBrand: string;
   cardLast4: string;
@@ -56,12 +55,20 @@ export type PaymentResults = {
 
 export type Discount = z.infer<typeof discountSchema>;
 
+export type createOrderItems = z.infer<typeof orderItemSchema>;
+
 export type OrderItems = z.infer<typeof orderItemSchema> & {
   id: string;
 };
 
 export type Order = z.infer<typeof orderBaseSchema> & {
   id: string;
+  paymentResult: PaymentResult | null;
+  isPaid: boolean;
+  paidAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
   orderItems: OrderItems[];
 };
 
@@ -72,7 +79,6 @@ export type User = {
   emailVerified: boolean;
   image: string;
   role: string;
-  paymentResults: PaymentResults | null;
   billingInfo: BillingInfo | null;
   status: string;
   createdAt: Date;

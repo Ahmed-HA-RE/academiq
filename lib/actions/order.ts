@@ -1,0 +1,112 @@
+'use server';
+import { orderBaseSchema } from '@/schema';
+import { auth } from '../auth';
+import { headers } from 'next/headers';
+import { prisma } from '../prisma';
+import { BillingInfo, Cart } from '@/types';
+import { orderItemSchema } from '@/schema';
+import z from 'zod';
+import stripe from '../stripe';
+import { SERVER_URL } from '../constants';
+import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+
+export const createOrder = async ({
+  data,
+  billingDetails,
+}: {
+  data: Cart;
+  billingDetails: BillingInfo;
+}) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      throw new Error('User not authenticated');
+    }
+
+    const validateOrderItems = z
+      .array(orderItemSchema)
+      .safeParse(data.cartItems);
+
+    if (!validateOrderItems.success) throw new Error('Invalid order items');
+
+    const validateOrderData = orderBaseSchema.safeParse({
+      userId: session.user.id,
+      itemsPrice: data.itemsPrice,
+      taxPrice: data.taxPrice,
+      totalPrice: data.totalPrice,
+      billingDetails: billingDetails,
+      discountId: data.discountId,
+    });
+
+    if (!validateOrderData.success) throw new Error('Invalid order data');
+
+    const checkout = await prisma.$transaction(async (tx) => {
+      const order = await tx.order.create({
+        data: validateOrderData.data,
+        include: {
+          orderItems: true,
+        },
+      });
+
+      await tx.orderItems.createMany({
+        data: validateOrderItems.data.map((item) => ({
+          courseId: item.courseId,
+          name: item.name,
+          image: item.image,
+          price: item.price,
+          orderId: order.id,
+        })),
+      });
+
+      await tx.user.update({
+        where: { id: session.user.id },
+        data: {
+          billingInfo: billingDetails,
+        },
+      });
+
+      const checkoutSession = await stripe.checkout.sessions.create({
+        discounts: data.discountId
+          ? [
+              {
+                coupon: 'H8IlLUSk',
+              },
+            ]
+          : undefined,
+        success_url: `${SERVER_URL}/success?orderId=${order.id}`,
+        cancel_url: `${SERVER_URL}/checkout`,
+        mode: 'payment',
+        customer_email: validateOrderData.data.billingDetails.email,
+        metadata: { orderId: order.id },
+        line_items: validateOrderItems.data.map((item) => {
+          const tax = 0.05;
+          const priceWithTax = Number(item.price) * (1 + tax);
+          return {
+            price_data: {
+              product_data: {
+                name: item.name,
+                images: [item.image],
+              },
+              currency: 'aed',
+              unit_amount: Math.round(priceWithTax * 100),
+            },
+            quantity: 1,
+          };
+        }),
+      });
+
+      return checkoutSession.url;
+    });
+    revalidatePath('/', 'layout');
+    return {
+      success: true,
+      redirect: checkout,
+    };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};

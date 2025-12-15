@@ -29,6 +29,9 @@ import ScreenSpinner from './ScreenSpinner';
 import { Field, FieldError, FieldGroup } from './ui/field';
 import { applyDiscountSchema } from '@/schema';
 import z from 'zod';
+import { useTransition } from 'react';
+import { useRouter } from 'next/navigation';
+import { Spinner } from './ui/spinner';
 
 const CartDetails = ({
   cart,
@@ -39,6 +42,9 @@ const CartDetails = ({
   session: typeof auth.$Infer.Session | null;
   discount: Discount | undefined;
 }) => {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof applyDiscountSchema>>({
     resolver: zodResolver(applyDiscountSchema),
     defaultValues: {
@@ -237,19 +243,24 @@ const CartDetails = ({
                   </CardContent>
                   <CardFooter className='flex-col items-start gap-3.5'>
                     <Button
-                      asChild
                       type='submit'
                       className='w-full cursor-pointer'
+                      disabled={isPending}
+                      onClick={() => {
+                        startTransition(() => {
+                          router.push(
+                            session
+                              ? `/checkout`
+                              : `/login?callbackUrl=${SERVER_URL}/checkout`
+                          );
+                        });
+                      }}
                     >
-                      <Link
-                        href={
-                          session
-                            ? `/checkout`
-                            : `/login?callbackUrl=${SERVER_URL}/checkout`
-                        }
-                      >
-                        Proceed to Checkout
-                      </Link>
+                      {isPending ? (
+                        <Spinner className='size-7 ' />
+                      ) : (
+                        'Proceed to Checkout'
+                      )}
                     </Button>
                     <div className='flex items-center gap-2'>
                       <p>We Accept:</p>
