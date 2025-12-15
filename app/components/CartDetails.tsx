@@ -14,7 +14,7 @@ import { Cart } from '@/types';
 import Image from 'next/image';
 import DeleteDialog from '@/app/components/shared/DeleteDialog';
 import { removeFromCart } from '@/lib/actions/cart';
-import { applyDiscountToCart } from '@/lib/actions/discount';
+import { applyDiscount } from '@/lib/actions/discount';
 import { toast } from 'sonner';
 import { Alert, AlertTitle } from '@/app/components/ui/alert';
 import { TriangleAlertIcon } from 'lucide-react';
@@ -58,13 +58,11 @@ const CartDetails = ({
   };
 
   const onSubmit = async (data: z.infer<typeof applyDiscountSchema>) => {
-    const res = await applyDiscountToCart(data.code);
+    const res = await applyDiscount(data.code);
     if (!res.success) {
       toast.error(res.message);
       return;
     }
-
-    console.log(res);
 
     toast.success(res.message);
   };

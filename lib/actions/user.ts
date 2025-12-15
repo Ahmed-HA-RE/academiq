@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { prisma } from '../prisma';
+import { convertToPlainObject } from '../utils';
+import { BillingInfo, PaymentResults } from '@/types';
 
 export const getUserById = async () => {
   const session = await auth.api.getSession({
@@ -18,5 +20,9 @@ export const getUserById = async () => {
 
   if (!user) return notFound();
 
-  return user;
+  return convertToPlainObject({
+    ...user,
+    billingInfo: user.billingInfo as BillingInfo,
+    paymentResults: user.paymentResults as PaymentResults,
+  });
 };

@@ -8,43 +8,63 @@ import {
   CardHeader,
   CardTitle,
 } from '@/app/components/ui/card';
-import { Input } from '@/app/components/ui/input';
 import { Separator } from '@/app/components/ui/separator';
-import { Cart } from '@/types';
+import { BillingInfo, Cart, Discount, User } from '@/types';
 import Image from 'next/image';
+import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
+import { Input } from '../ui/input';
+import { Controller, SubmitErrorHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { billingInfoSchema } from '@/schema';
+import { PhoneInput } from '../ui/phone-input';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
+import { CITY_OPTIONS } from '@/lib/utils';
+const CheckoutDetails = ({
+  cart,
+  discount,
+  user,
+}: {
+  cart: Cart;
+  discount: Discount | undefined;
+  user: User;
+}) => {
+  const form = useForm<BillingInfo>({
+    resolver: zodResolver(billingInfoSchema),
+    defaultValues: {
+      address: user.billingInfo?.address || '',
+      city: user.billingInfo?.city || '',
+      email: user.email || '',
+      fullName: user.billingInfo?.fullName || user.name || '',
+      phone: user.billingInfo?.phone || '',
+    },
+  });
 
-const CheckoutDetails = ({ cart }: { cart: Cart }) => {
-  const discount = 9.0;
+  const onSubmit = (data: BillingInfo) => {
+    console.log(data);
+  };
+  const onError: SubmitErrorHandler<BillingInfo> = (data) => {
+    console.log(data);
+  };
 
   return (
     <section className='mb-10'>
       <div className='container'>
         <div className='grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-5'>
           <div className='space-y-6 md:col-span-2 lg:col-span-2'>
-            {/* Coupon Code */}
             <Card className='shadow-none'>
               <CardHeader className='border-b'>
-                <CardTitle className='text-xl'>Coupon Code</CardTitle>
+                <CardTitle className='text-xl'>Checkout Details</CardTitle>
                 <CardDescription className='text-base'>
-                  Enter code to get discount instantly
-                </CardDescription>
-              </CardHeader>
-              <CardContent className='flex gap-3'>
-                <Input
-                  className='input'
-                  type='text'
-                  placeholder='Add discount code'
-                />
-                <Button className='cursor-pointer'>Apply</Button>
-              </CardContent>
-            </Card>
-
-            {/* Shopping Cart */}
-            <Card className='shadow-none'>
-              <CardHeader className='border-b'>
-                <CardTitle className='text-xl'>Shopping Cart</CardTitle>
-                <CardDescription className='text-base'>
-                  You have {cart.cartItems.length} items in your cart
+                  You are about to enroll in {cart.cartItems.length}{' '}
+                  {cart.cartItems.length > 1 ? 'courses' : 'course'}.
                 </CardDescription>
               </CardHeader>
               <CardContent className='space-y-6 px-0'>
@@ -79,7 +99,7 @@ const CheckoutDetails = ({ cart }: { cart: Cart }) => {
 
                 <Separator />
 
-                <div className='space-y-3.5 px-6'>
+                <div className='space-y-6 px-6'>
                   <div className='flex items-center justify-between gap-3'>
                     <span className='text-lg'>Subtotal</span>
                     <div className='flex flex-row items-center gap-1 font-semibold '>
@@ -95,13 +115,24 @@ const CheckoutDetails = ({ cart }: { cart: Cart }) => {
                     </div>
                   </div>
 
-                  <div className='mb-6 flex items-center justify-between gap-3'>
-                    <span className='text-lg'>Discount (-)</span>
-                    <div className='flex flex-row items-center gap-1 font-semibold '>
-                      <span className='dirham-symbol !text-lg'>&#xea;</span>
-                      <span className='text-lg'>{discount}</span>
+                  {/* Discount if applicable */}
+                  {discount && (
+                    <div className='flex items-center justify-between'>
+                      <span className='text-muted-foreground'>
+                        Discount ({discount.code})
+                      </span>
+                      {discount.type === 'percentage' ? (
+                        <p className='font-semibold'>-{discount.amount}%</p>
+                      ) : (
+                        <div className='flex flex-row items-center gap-1 font-medium'>
+                          <span className='dirham-symbol'>-&#xea;</span>
+                          <span className='font-semibold'>
+                            {discount.amount}
+                          </span>
+                        </div>
+                      )}
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 <Separator className='mb-6' />
@@ -114,9 +145,15 @@ const CheckoutDetails = ({ cart }: { cart: Cart }) => {
                       <span className='text-lg'>{cart.totalPrice}</span>
                     </div>
                   </div>
-                  <Button className='w-full cursor-pointer' size='lg'>
-                    Pay Now
-                  </Button>
+                  <form onSubmit={form.handleSubmit(onSubmit, onError)}>
+                    <Button
+                      type='submit'
+                      className='w-full cursor-pointer'
+                      size='lg'
+                    >
+                      Pay Now
+                    </Button>
+                  </form>
                   <p className='text-muted-foreground'>
                     All payments are secure and encrypted.
                   </p>
@@ -128,7 +165,142 @@ const CheckoutDetails = ({ cart }: { cart: Cart }) => {
           {/* Order Summary */}
           <div className='md:col-span-2 lg:col-span-3'>
             <Card className='shadow-none'>
-              <CardContent></CardContent>
+              <CardHeader>
+                <CardTitle className='text-xl'>Billing Information</CardTitle>
+                <CardDescription className='text-base'>
+                  Please provide your billing information.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <FieldGroup className='gap-6'>
+                  {/* Full Name */}
+                  <Controller
+                    name='fullName'
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
+                        <Input
+                          id={field.name}
+                          aria-invalid={fieldState.invalid}
+                          className='input'
+                          placeholder='Enter your full name'
+                          {...field}
+                        />
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                  <FieldGroup className='lg:flex-row'>
+                    {/* Email Address */}
+                    <Controller
+                      name='email'
+                      control={form.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <FieldLabel htmlFor={field.name}>
+                            Email Address
+                          </FieldLabel>
+                          <Input
+                            id={field.name}
+                            aria-invalid={fieldState.invalid}
+                            className='input'
+                            placeholder='Enter your email address'
+                            {...field}
+                          />
+                          {fieldState.invalid && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                    {/* Phone Number */}
+                    <Controller
+                      name='phone'
+                      control={form.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <FieldLabel htmlFor={field.name}>
+                            Phone Number
+                          </FieldLabel>
+                          <PhoneInput
+                            id={field.name}
+                            aria-invalid={fieldState.invalid}
+                            placeholder='Enter your phone number'
+                            defaultCountry='AE'
+                            international
+                            countryCallingCodeEditable={false}
+                            {...field}
+                          />
+                          {fieldState.invalid && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                  </FieldGroup>
+                  {/* Address */}
+                  <Controller
+                    name='address'
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor={field.name}>Address</FieldLabel>
+                        <Input
+                          id={field.name}
+                          aria-invalid={fieldState.invalid}
+                          placeholder='Enter your address'
+                          className='input'
+                          {...field}
+                        />
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                  {/* City */}
+                  <Controller
+                    name='city'
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor={field.name}>City</FieldLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <SelectTrigger
+                            id={field.name}
+                            className='w-full cursor-pointer'
+                          >
+                            <SelectValue placeholder='Select a city' />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>City</SelectLabel>
+                              {CITY_OPTIONS.map((city) => (
+                                <SelectItem
+                                  key={city.value}
+                                  value={city.value}
+                                  className='cursor-pointer'
+                                >
+                                  {city.label}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                </FieldGroup>
+              </CardContent>
             </Card>
           </div>
         </div>

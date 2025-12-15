@@ -64,3 +64,17 @@ export type Order = z.infer<typeof orderBaseSchema> & {
   id: string;
   orderItems: OrderItems[];
 };
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
+  role: string;
+  paymentResults: PaymentResults | null;
+  billingInfo: BillingInfo | null;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+};

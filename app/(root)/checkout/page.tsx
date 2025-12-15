@@ -1,19 +1,23 @@
 import CheckoutDetails from '@/app/components/checkout/CheckoutDetails';
 import { getMyCart } from '@/lib/actions/cart';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
+import { getDiscountById } from '@/lib/actions/discount';
+import { getUserById } from '@/lib/actions/user';
+import { SERVER_URL } from '@/lib/constants';
 import { redirect } from 'next/navigation';
 
 const CheckoutPage = async () => {
   const cart = await getMyCart();
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const userInfo = await getUserById();
+
+  let discount;
+  if (cart?.discountId) {
+    discount = await getDiscountById(cart.discountId);
+  }
 
   if (!cart || cart.cartItems.length === 0)
-    redirect('/login?callbackUrl=/checkout');
+    redirect(`/login?callbackUrl=${SERVER_URL}/checkout`);
 
-  return <CheckoutDetails cart={cart} />;
+  return <CheckoutDetails cart={cart} discount={discount} user={userInfo} />;
 };
 
 export default CheckoutPage;

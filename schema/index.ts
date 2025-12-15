@@ -180,10 +180,12 @@ export const billingInfoSchema = z.object({
     .min(1, 'Full name is required'),
   email: z.email({ error: 'Invalid email address' }),
   phone: instructorSchema.shape.phone,
-  address: z.string({ error: 'Invalid address' }).min(1, 'Address is required'),
+  address: z
+    .string({ error: 'Invalid address' })
+    .min(10, 'Address field should be at least 10 characters long'),
   city: z.enum(
     CITY_OPTIONS.map((option) => option.value),
-    { error: 'Invalid city' }
+    { error: 'City is required' }
   ),
 });
 

@@ -15,7 +15,7 @@ export const getDiscountById = async (id: string) => {
   return discount;
 };
 
-export const applyDiscountToCart = async (code: string) => {
+export const applyDiscount = async (code: string) => {
   try {
     const currentTime = new Date();
 
