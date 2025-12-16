@@ -30,6 +30,8 @@ import { createOrder } from '@/lib/actions/order';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Spinner } from '../ui/spinner';
+import { Alert, AlertTitle } from '../ui/alert';
+import { TriangleAlertIcon } from 'lucide-react';
 
 const CheckoutDetails = ({
   cart,
@@ -80,6 +82,14 @@ const CheckoutDetails = ({
                   You are about to enroll in {cart.cartItems.length}{' '}
                   {cart.cartItems.length > 1 ? 'courses' : 'course'}.
                 </CardDescription>
+                {!user.emailVerified && (
+                  <Alert className='bg-destructive dark:bg-destructive/60 border-none text-white mt-4'>
+                    <TriangleAlertIcon />
+                    <AlertTitle>
+                      Please verify your email to proceed with the checkout.
+                    </AlertTitle>
+                  </Alert>
+                )}
               </CardHeader>
               <CardContent className='space-y-6 px-0'>
                 <div className='flex flex-col gap-9'>
@@ -164,7 +174,9 @@ const CheckoutDetails = ({
                       type='submit'
                       className='w-full cursor-pointer'
                       size='lg'
-                      disabled={form.formState.isSubmitting}
+                      disabled={
+                        form.formState.isSubmitting || !user.emailVerified
+                      }
                     >
                       {form.formState.isSubmitting ? (
                         <Spinner className='size-7' />

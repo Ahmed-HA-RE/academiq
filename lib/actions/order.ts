@@ -26,6 +26,9 @@ export const createOrder = async ({
       throw new Error('User not authenticated');
     }
 
+    if (!session.user.emailVerified)
+      throw new Error('Please verify your email to proceed with the order');
+
     const validateOrderItems = z
       .array(orderItemSchema)
       .safeParse(data.cartItems);

@@ -1,7 +1,12 @@
+'use client';
+
 import { ArrowRightIcon, Mail } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const VerificationBanner = () => {
+  const pathname = usePathname();
+
   return (
     <div className='dark bg-muted px-4 py-3 text-foreground'>
       <div className='flex flex-col justify-between gap-2 md:flex-row max-w-7xl mx-auto  md:px-6'>
@@ -18,7 +23,7 @@ const VerificationBanner = () => {
             </p>
             <Link
               className='group whitespace-nowrap font-medium text-sm'
-              href='/verify-email'
+              href={`/verify-email?callbackUrl=${pathname}`}
             >
               Verify
               <ArrowRightIcon

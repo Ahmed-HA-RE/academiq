@@ -139,7 +139,7 @@ const CartDetails = ({
             </div>
             {/* Right Col */}
             <div className='flex flex-col items-center gap-6 order-1 lg:order-2'>
-              <Card className='w-full max-w-md shadow'>
+              <Card className='w-full shadow'>
                 <CardHeader>
                   <CardTitle className='text-xl'>Apply Coupon</CardTitle>
                   <CardDescription className='text-base'>
@@ -148,7 +148,7 @@ const CartDetails = ({
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <FieldGroup className='flex-row gap-0 md:gap-2'>
+                    <FieldGroup className='flex-row gap-2'>
                       <Controller
                         name='code'
                         control={form.control}
@@ -157,7 +157,7 @@ const CartDetails = ({
                             <Input
                               type='text'
                               placeholder='Coupon Code'
-                              className='w-full max-w-xs input'
+                              className='w-full input flex-1/2'
                               aria-invalid={fieldState.invalid}
                               disabled={!!discount}
                               {...field}
@@ -169,7 +169,7 @@ const CartDetails = ({
                         )}
                       />
                       <Button
-                        className='rounded-lg cursor-pointer'
+                        className='rounded-lg cursor-pointer text-base md:text-sm flex-1/2 md:flex-1/3'
                         type='submit'
                         disabled={form.formState.isSubmitting || !!discount}
                       >
