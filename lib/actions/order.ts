@@ -80,7 +80,7 @@ export const createOrder = async ({
               },
             ]
           : undefined,
-        success_url: `${SERVER_URL}/success?orderId=${order.id}`,
+        success_url: `${SERVER_URL}/success?orderId=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${SERVER_URL}/checkout`,
         mode: 'payment',
         customer_email: validateOrderData.data.billingDetails.email,

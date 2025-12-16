@@ -35,6 +35,10 @@ export const proxy = async (req: NextRequest) => {
     return NextResponse.redirect(new URL('/cart', req.url));
   }
 
+  if (pathname === '/success' && !session) {
+    return NextResponse.redirect(new URL('/cart', req.url));
+  }
+
   // Add cart session id in the cookies
   if (!req.cookies.get('sessionId')) {
     const sessionId = crypto.randomUUID();
@@ -56,6 +60,7 @@ export const config = {
     '/forgot-password',
     '/reset-password',
     '/checkout',
+    '/success',
     '/((?!api|_next/static|_next/image|.*\\.png$).*)',
   ],
 };

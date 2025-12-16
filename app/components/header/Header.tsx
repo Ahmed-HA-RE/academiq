@@ -48,7 +48,7 @@ const Header = async () => {
                 </AvatarFallback>
               </Avatar>
               {cart && cart.cartItems.length > 0 ? (
-                <Badge className='absolute top-0 right-0 h-4 min-w-5 px-1 rounded-full'>
+                <Badge className='absolute -top-1 right-0 h-5 min-w-5 px-1 rounded-full'>
                   {cart.cartItems.length > 0 && cart.cartItems.length}
                 </Badge>
               ) : null}
