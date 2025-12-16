@@ -13620,6 +13620,7 @@ export namespace Prisma {
   export type DiscountMinAggregateOutputType = {
     id: string | null
     code: string | null
+    stripeCouponId: string | null
     type: string | null
     amount: number | null
     validUntil: Date | null
@@ -13630,6 +13631,7 @@ export namespace Prisma {
   export type DiscountMaxAggregateOutputType = {
     id: string | null
     code: string | null
+    stripeCouponId: string | null
     type: string | null
     amount: number | null
     validUntil: Date | null
@@ -13640,6 +13642,7 @@ export namespace Prisma {
   export type DiscountCountAggregateOutputType = {
     id: number
     code: number
+    stripeCouponId: number
     type: number
     amount: number
     validUntil: number
@@ -13660,6 +13663,7 @@ export namespace Prisma {
   export type DiscountMinAggregateInputType = {
     id?: true
     code?: true
+    stripeCouponId?: true
     type?: true
     amount?: true
     validUntil?: true
@@ -13670,6 +13674,7 @@ export namespace Prisma {
   export type DiscountMaxAggregateInputType = {
     id?: true
     code?: true
+    stripeCouponId?: true
     type?: true
     amount?: true
     validUntil?: true
@@ -13680,6 +13685,7 @@ export namespace Prisma {
   export type DiscountCountAggregateInputType = {
     id?: true
     code?: true
+    stripeCouponId?: true
     type?: true
     amount?: true
     validUntil?: true
@@ -13777,6 +13783,7 @@ export namespace Prisma {
   export type DiscountGroupByOutputType = {
     id: string
     code: string
+    stripeCouponId: string
     type: string
     amount: number
     validUntil: Date
@@ -13806,6 +13813,7 @@ export namespace Prisma {
   export type DiscountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     code?: boolean
+    stripeCouponId?: boolean
     type?: boolean
     amount?: boolean
     validUntil?: boolean
@@ -13819,6 +13827,7 @@ export namespace Prisma {
   export type DiscountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     code?: boolean
+    stripeCouponId?: boolean
     type?: boolean
     amount?: boolean
     validUntil?: boolean
@@ -13829,6 +13838,7 @@ export namespace Prisma {
   export type DiscountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     code?: boolean
+    stripeCouponId?: boolean
     type?: boolean
     amount?: boolean
     validUntil?: boolean
@@ -13839,6 +13849,7 @@ export namespace Prisma {
   export type DiscountSelectScalar = {
     id?: boolean
     code?: boolean
+    stripeCouponId?: boolean
     type?: boolean
     amount?: boolean
     validUntil?: boolean
@@ -13846,7 +13857,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type DiscountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "type" | "amount" | "validUntil" | "createdAt" | "updatedAt", ExtArgs["result"]["discount"]>
+  export type DiscountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "stripeCouponId" | "type" | "amount" | "validUntil" | "createdAt" | "updatedAt", ExtArgs["result"]["discount"]>
   export type DiscountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orders?: boolean | Discount$ordersArgs<ExtArgs>
     carts?: boolean | Discount$cartsArgs<ExtArgs>
@@ -13864,6 +13875,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       code: string
+      stripeCouponId: string
       type: string
       amount: number
       validUntil: Date
@@ -14296,6 +14308,7 @@ export namespace Prisma {
   interface DiscountFieldRefs {
     readonly id: FieldRef<"Discount", 'String'>
     readonly code: FieldRef<"Discount", 'String'>
+    readonly stripeCouponId: FieldRef<"Discount", 'String'>
     readonly type: FieldRef<"Discount", 'String'>
     readonly amount: FieldRef<"Discount", 'Int'>
     readonly validUntil: FieldRef<"Discount", 'DateTime'>
@@ -14926,6 +14939,7 @@ export namespace Prisma {
   export const DiscountScalarFieldEnum: {
     id: 'id',
     code: 'code',
+    stripeCouponId: 'stripeCouponId',
     type: 'type',
     amount: 'amount',
     validUntil: 'validUntil',
@@ -15907,6 +15921,7 @@ export namespace Prisma {
     NOT?: DiscountWhereInput | DiscountWhereInput[]
     id?: StringFilter<"Discount"> | string
     code?: StringFilter<"Discount"> | string
+    stripeCouponId?: StringFilter<"Discount"> | string
     type?: StringFilter<"Discount"> | string
     amount?: IntFilter<"Discount"> | number
     validUntil?: DateTimeFilter<"Discount"> | Date | string
@@ -15919,6 +15934,7 @@ export namespace Prisma {
   export type DiscountOrderByWithRelationInput = {
     id?: SortOrder
     code?: SortOrder
+    stripeCouponId?: SortOrder
     type?: SortOrder
     amount?: SortOrder
     validUntil?: SortOrder
@@ -15934,6 +15950,7 @@ export namespace Prisma {
     AND?: DiscountWhereInput | DiscountWhereInput[]
     OR?: DiscountWhereInput[]
     NOT?: DiscountWhereInput | DiscountWhereInput[]
+    stripeCouponId?: StringFilter<"Discount"> | string
     type?: StringFilter<"Discount"> | string
     amount?: IntFilter<"Discount"> | number
     validUntil?: DateTimeFilter<"Discount"> | Date | string
@@ -15946,6 +15963,7 @@ export namespace Prisma {
   export type DiscountOrderByWithAggregationInput = {
     id?: SortOrder
     code?: SortOrder
+    stripeCouponId?: SortOrder
     type?: SortOrder
     amount?: SortOrder
     validUntil?: SortOrder
@@ -15964,6 +15982,7 @@ export namespace Prisma {
     NOT?: DiscountScalarWhereWithAggregatesInput | DiscountScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Discount"> | string
     code?: StringWithAggregatesFilter<"Discount"> | string
+    stripeCouponId?: StringWithAggregatesFilter<"Discount"> | string
     type?: StringWithAggregatesFilter<"Discount"> | string
     amount?: IntWithAggregatesFilter<"Discount"> | number
     validUntil?: DateTimeWithAggregatesFilter<"Discount"> | Date | string
@@ -16872,6 +16891,7 @@ export namespace Prisma {
   export type DiscountCreateInput = {
     id?: string
     code: string
+    stripeCouponId: string
     type: string
     amount: number
     validUntil: Date | string
@@ -16884,6 +16904,7 @@ export namespace Prisma {
   export type DiscountUncheckedCreateInput = {
     id?: string
     code: string
+    stripeCouponId: string
     type: string
     amount: number
     validUntil: Date | string
@@ -16896,6 +16917,7 @@ export namespace Prisma {
   export type DiscountUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16908,6 +16930,7 @@ export namespace Prisma {
   export type DiscountUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16920,6 +16943,7 @@ export namespace Prisma {
   export type DiscountCreateManyInput = {
     id?: string
     code: string
+    stripeCouponId: string
     type: string
     amount: number
     validUntil: Date | string
@@ -16930,6 +16954,7 @@ export namespace Prisma {
   export type DiscountUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16940,6 +16965,7 @@ export namespace Prisma {
   export type DiscountUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17822,6 +17848,7 @@ export namespace Prisma {
   export type DiscountCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
+    stripeCouponId?: SortOrder
     type?: SortOrder
     amount?: SortOrder
     validUntil?: SortOrder
@@ -17836,6 +17863,7 @@ export namespace Prisma {
   export type DiscountMaxOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
+    stripeCouponId?: SortOrder
     type?: SortOrder
     amount?: SortOrder
     validUntil?: SortOrder
@@ -17846,6 +17874,7 @@ export namespace Prisma {
   export type DiscountMinOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
+    stripeCouponId?: SortOrder
     type?: SortOrder
     amount?: SortOrder
     validUntil?: SortOrder
@@ -19567,6 +19596,7 @@ export namespace Prisma {
   export type DiscountCreateWithoutCartsInput = {
     id?: string
     code: string
+    stripeCouponId: string
     type: string
     amount: number
     validUntil: Date | string
@@ -19578,6 +19608,7 @@ export namespace Prisma {
   export type DiscountUncheckedCreateWithoutCartsInput = {
     id?: string
     code: string
+    stripeCouponId: string
     type: string
     amount: number
     validUntil: Date | string
@@ -19650,6 +19681,7 @@ export namespace Prisma {
   export type DiscountUpdateWithoutCartsInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19661,6 +19693,7 @@ export namespace Prisma {
   export type DiscountUncheckedUpdateWithoutCartsInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19942,6 +19975,7 @@ export namespace Prisma {
   export type DiscountCreateWithoutOrdersInput = {
     id?: string
     code: string
+    stripeCouponId: string
     type: string
     amount: number
     validUntil: Date | string
@@ -19953,6 +19987,7 @@ export namespace Prisma {
   export type DiscountUncheckedCreateWithoutOrdersInput = {
     id?: string
     code: string
+    stripeCouponId: string
     type: string
     amount: number
     validUntil: Date | string
@@ -20041,6 +20076,7 @@ export namespace Prisma {
   export type DiscountUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20052,6 +20088,7 @@ export namespace Prisma {
   export type DiscountUncheckedUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string

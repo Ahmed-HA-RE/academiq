@@ -55,6 +55,7 @@ export const config = {
     '/verify-email',
     '/forgot-password',
     '/reset-password',
+    '/checkout',
     '/((?!api|_next/static|_next/image|.*\\.png$).*)',
   ],
 };

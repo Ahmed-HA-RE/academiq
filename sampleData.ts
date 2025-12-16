@@ -1,5 +1,3 @@
-import { Discount } from './types';
-
 export const sampleInstructors = [
   {
     id: '1221d4f1c3e8-7b9a-4a2f-8b67-1f2c9d5e6aqw',
@@ -27,7 +25,8 @@ export const sampleDiscounts = [
     code: 'WINTER26',
     amount: 10,
     type: 'percentage',
-    validUntil: new Date('2025-12-14T22:00:00'),
+    stripeCouponId: 'LmS2SxPT',
+    validUntil: new Date('2025-12-20T22:00:00'),
   },
 ];
 

@@ -4,7 +4,6 @@ import { applyDiscountSchema } from '@/schema';
 import { prisma } from '../prisma';
 import { getMyCart } from './cart';
 import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
 
 export const getDiscountById = async (id: string) => {
   const discount = await prisma.discount.findUnique({
@@ -19,7 +18,6 @@ export const getDiscountById = async (id: string) => {
 export const applyDiscount = async (code: string) => {
   try {
     const currentTime = new Date();
-    const sessionId = (await cookies()).get('sessionId')?.value;
 
     const validateCode = applyDiscountSchema.safeParse({ code });
 

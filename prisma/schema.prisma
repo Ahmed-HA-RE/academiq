@@ -191,13 +191,14 @@ model orderItems {
 }
 
 model Discount {
-  id         String   @id @default(uuid())
-  code       String   @unique
-  type       String // percentage or fixed
-  amount     Int
-  validUntil DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  orders     Order[]
-  carts      Cart[]
+  id             String   @id @default(uuid())
+  code           String   @unique
+  stripeCouponId String
+  type           String // percentage or fixed
+  amount         Int
+  validUntil     DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  orders         Order[]
+  carts          Cart[]
 }

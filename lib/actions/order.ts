@@ -9,7 +9,6 @@ import z from 'zod';
 import stripe from '../stripe';
 import { SERVER_URL } from '../constants';
 import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
 
 export const createOrder = async ({
   data,
@@ -49,6 +48,7 @@ export const createOrder = async ({
         data: validateOrderData.data,
         include: {
           orderItems: true,
+          discount: { select: { stripeCouponId: true } },
         },
       });
 
@@ -73,7 +73,7 @@ export const createOrder = async ({
         discounts: data.discountId
           ? [
               {
-                coupon: 'H8IlLUSk',
+                coupon: order.discount?.stripeCouponId,
               },
             ]
           : undefined,
@@ -81,7 +81,7 @@ export const createOrder = async ({
         cancel_url: `${SERVER_URL}/checkout`,
         mode: 'payment',
         customer_email: validateOrderData.data.billingDetails.email,
-        metadata: { orderId: order.id },
+        metadata: { orderId: order.id, cartId: data.id },
         line_items: validateOrderItems.data.map((item) => {
           const tax = 0.05;
           const priceWithTax = Number(item.price) * (1 + tax);

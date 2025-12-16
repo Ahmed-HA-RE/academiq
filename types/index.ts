@@ -48,8 +48,6 @@ export type PaymentResult = {
   id: string;
   email: string;
   country: string;
-  cardBrand: string;
-  cardLast4: string;
   amount: number;
 };
 

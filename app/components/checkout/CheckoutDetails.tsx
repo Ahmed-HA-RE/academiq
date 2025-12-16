@@ -12,7 +12,7 @@ import { BillingInfo, Cart, Discount, User } from '@/types';
 import Image from 'next/image';
 import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
-import { Controller, SubmitErrorHandler, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { billingInfoSchema } from '@/schema';
 import { PhoneInput } from '../ui/phone-input';
