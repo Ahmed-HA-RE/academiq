@@ -10,7 +10,7 @@ export const convertToPlainObject = <T>(data: T): T => {
 };
 
 // Format date to a more readable format
-export const formatDate = (dateString: string, type: 'date' | 'dateTime') => {
+export const formatDate = (date: Date, type: 'date' | 'dateTime') => {
   if (type === 'dateTime') {
     const dateTime = new Intl.DateTimeFormat('en-US', {
       day: 'numeric',
@@ -18,15 +18,15 @@ export const formatDate = (dateString: string, type: 'date' | 'dateTime') => {
       month: 'numeric',
       year: 'numeric',
       minute: 'numeric',
-    }).format(new Date(dateString));
+    }).format(date);
     return dateTime;
   } else {
-    const date = new Intl.DateTimeFormat('en-US', {
+    const dateOnly = new Intl.DateTimeFormat('en-US', {
       day: 'numeric',
       month: 'numeric',
       year: 'numeric',
-    }).format(new Date(dateString));
-    return date;
+    }).format(date);
+    return dateOnly;
   }
 };
 

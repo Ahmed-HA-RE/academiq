@@ -71,7 +71,7 @@ const InstructorInfoDialog = ({ instructor }: { instructor: Instructor }) => {
               {/* birthDate */}
               <span className='flex items-center gap-3'>
                 <CalendarDays size={20} />{' '}
-                {formatDate(instructor.birthDate, 'date')}
+                {formatDate(new Date(instructor.birthDate), 'date')}
               </span>
               {/* Phone */}
               <span className='flex items-center gap-3'>

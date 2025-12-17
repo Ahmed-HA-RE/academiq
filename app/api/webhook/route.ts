@@ -1,11 +1,16 @@
 import stripe from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
+import resend from '@/lib/resend';
+import SendReceipt from '@/emails/SendReceipt';
+import { APP_NAME } from '@/lib/constants';
+import { BillingInfo, OrderItems, PaymentResult } from '@/types';
 
 export const POST = async (req: Request) => {
   let event;
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
   const signature = req.headers.get('stripe-signature') as string;
   const payload = await req.text();
+  const domain = process.env.RESEND_DOMAIN;
 
   try {
     event = stripe.webhooks.constructEvent(payload, signature, endpointSecret);
@@ -20,8 +25,8 @@ export const POST = async (req: Request) => {
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
 
-    await prisma.$transaction(async (tx) => {
-      const updatedOrder = await tx.order.update({
+    const updatedOrder = await prisma.$transaction(async (tx) => {
+      const order = await tx.order.update({
         where: { id: session.metadata?.orderId },
         data: {
           isPaid: true,
@@ -37,14 +42,15 @@ export const POST = async (req: Request) => {
         include: {
           orderItems: true,
           user: true,
+          discount: true,
         },
       });
 
       await tx.user.update({
-        where: { id: updatedOrder.user.id },
+        where: { id: order.user.id },
         data: {
           courses: {
-            connect: updatedOrder.orderItems.map((item) => ({
+            connect: order.orderItems.map((item) => ({
               id: item.courseId,
             })),
           },
@@ -52,6 +58,23 @@ export const POST = async (req: Request) => {
       });
 
       await tx.cart.deleteMany({ where: { id: session.metadata?.cartId } });
+
+      return order;
+    });
+
+    await resend.emails.send({
+      from: `${APP_NAME} <noreply@${domain}>`,
+      to: updatedOrder.user.email,
+      subject: `Your receipt from ${APP_NAME}`,
+      react: SendReceipt({
+        order: {
+          ...updatedOrder,
+          orderItems: updatedOrder.orderItems as OrderItems[],
+          billingDetails: updatedOrder.billingDetails as BillingInfo,
+          paymentResult: updatedOrder.paymentResult as PaymentResult,
+        },
+        discount: updatedOrder.discount,
+      }),
     });
   }
   return Response.json({ received: true });

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const NotFoundPage = () => {
   return (
-    <div className='flex min-h-screen flex-col items-center justify-center gap-12 px-8 py-8 sm:py-16 lg:py-24'>
+    <div className='flex min-h-[70vh] flex-col items-center justify-center gap-12 px-8 pb-10'>
       <Error02Illustration className='h-[clamp(300px,50vh,500px)] max-sm:h-75' />
 
       <div className='text-center'>

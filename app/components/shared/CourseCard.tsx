@@ -13,7 +13,7 @@ import EnrollCourseBtn from './EnrollCourseBtn';
 type CourseCardProps = {
   course: Course;
   cart: Cart | undefined;
-  user: User;
+  user: User | undefined;
 };
 
 const CourseCard = ({ course, cart, user }: CourseCardProps) => {

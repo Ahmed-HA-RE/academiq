@@ -57,7 +57,7 @@ import {
 type CategoryFilterProps = {
   courses: Course[];
   cart: Cart | undefined;
-  user: User;
+  user: User | undefined;
 };
 
 const FilterContent = () => {

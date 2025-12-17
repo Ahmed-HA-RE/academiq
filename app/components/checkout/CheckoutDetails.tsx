@@ -40,18 +40,18 @@ const CheckoutDetails = ({
 }: {
   cart: Cart;
   discount: Discount | undefined;
-  user: User;
+  user: User | undefined;
 }) => {
   const router = useRouter();
 
   const form = useForm<BillingInfo>({
     resolver: zodResolver(billingInfoSchema),
     defaultValues: {
-      address: user.billingInfo?.address || '',
-      city: user.billingInfo?.city || '',
-      email: user.email || '',
-      fullName: user.billingInfo?.fullName || user.name || '',
-      phone: user.billingInfo?.phone || '',
+      address: user?.billingInfo?.address || '',
+      city: user?.billingInfo?.city || '',
+      email: user?.email || '',
+      fullName: user?.billingInfo?.fullName || user?.name || '',
+      phone: user?.billingInfo?.phone || '',
     },
   });
 
@@ -82,7 +82,7 @@ const CheckoutDetails = ({
                   You are about to enroll in {cart.cartItems.length}{' '}
                   {cart.cartItems.length > 1 ? 'courses' : 'course'}.
                 </CardDescription>
-                {!user.emailVerified && (
+                {!user?.emailVerified && (
                   <Alert className='bg-destructive dark:bg-destructive/60 border-none text-white mt-4'>
                     <TriangleAlertIcon />
                     <AlertTitle>
@@ -175,7 +175,7 @@ const CheckoutDetails = ({
                       className='w-full cursor-pointer'
                       size='lg'
                       disabled={
-                        form.formState.isSubmitting || !user.emailVerified
+                        form.formState.isSubmitting || !user?.emailVerified
                       }
                     >
                       {form.formState.isSubmitting ? (

@@ -14,14 +14,15 @@ const EnrollCourseBtn = ({
 }: {
   course: Course;
   cart: Cart | undefined;
-  user: User;
+  user: User | undefined;
 }) => {
   const [isPending, startTransition] = useTransition();
 
   const isCourseInCart =
     cart && cart.cartItems.find((item) => item.courseId === course.id);
 
-  const isUserEnrolled = user.courses.some((c) => c.id === course.id);
+  const isUserEnrolled = user && user.courses.some((c) => c.id === course.id);
+  console.log(isUserEnrolled);
 
   const handleAddToCart = async () => {
     startTransition(async () => {
