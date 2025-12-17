@@ -3,11 +3,15 @@ import Footer from '../components/Footer';
 import Header from '../components/header/Header';
 import VerificationBanner from '../components/VerificationBanner';
 import { auth } from '@/lib/auth';
+import CouponBanner from '../components/CouponBanner';
+import { getValidDiscount } from '@/lib/actions/discount';
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+
+  const discount = await getValidDiscount();
 
   return (
     <div className='min-h-screen flex flex-col w-full relative overflow-hidden'>
@@ -29,6 +33,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       <Header />
       <main className='w-full flex-grow z-20'>{children}</main>
       <Footer />
+      {discount && <CouponBanner discount={discount} />}
     </div>
   );
 };

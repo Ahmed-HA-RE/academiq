@@ -56,7 +56,7 @@ const CoursesPage = async ({
   const user = await getUserById();
 
   return (
-    <section>
+    <section className='my-10'>
       <div className='container space-y-8'>
         <div className='space-y-4'>
           <h1 className='text-3xl font-bold'>Courses</h1>

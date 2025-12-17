@@ -67,3 +67,15 @@ export const applyDiscount = async (code: string) => {
     return { success: false, message: (error as Error).message };
   }
 };
+
+export const getValidDiscount = async () => {
+  const discount = await prisma.discount.findFirst({
+    where: {
+      validUntil: { gt: new Date() },
+    },
+  });
+
+  if (!discount) return undefined;
+
+  return discount;
+};

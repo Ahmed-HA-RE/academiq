@@ -28,6 +28,13 @@ export const sampleDiscounts = [
     stripeCouponId: 'LmS2SxPT',
     validUntil: new Date('2025-12-20T22:00:00'),
   },
+  {
+    code: 'WINTER25',
+    amount: 25,
+    type: 'percentage',
+    stripeCouponId: 'VPUFWHST',
+    validUntil: new Date('2050-12-20T22:00:00'),
+  },
 ];
 
 export const coursesSample = [

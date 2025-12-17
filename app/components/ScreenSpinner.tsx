@@ -6,7 +6,7 @@ import { RemoveScroll } from 'react-remove-scroll';
 const ScreenSpinner = ({ mutate }: { mutate?: boolean }) => {
   return mutate ? (
     <RemoveScroll>
-      <div className='fixed z-10 inset-0 backdrop-blur-lg flex items-center justify-center'>
+      <div className='fixed z-50 inset-0 backdrop-blur-lg flex items-center justify-center'>
         <PulseLoader color='currentColor' margin={8} size={27} />
       </div>
     </RemoveScroll>

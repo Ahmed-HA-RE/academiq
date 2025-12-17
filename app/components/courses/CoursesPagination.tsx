@@ -19,7 +19,7 @@ const CoursesPagination = ({ totalPages }: { totalPages: number }) => {
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <Pagination className='my-10'>
+    <Pagination className='mt-10'>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious

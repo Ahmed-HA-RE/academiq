@@ -1,8 +1,7 @@
 'use client';
-import { HeartIcon, StarIcon } from 'lucide-react';
+import { StarIcon } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '../ui/card';
 import Link from 'next/link';
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Badge } from '../ui/badge';
 import { Cart, Course, User } from '@/types';
 import Image from 'next/image';
@@ -40,18 +39,6 @@ const CourseCard = ({ course, cart, user }: CourseCardProps) => {
                 className='w-full max-h-[200px] object-cover hover:scale-105 transition duration-300 ease-in-out'
               />
             </Link>
-            <CheckboxPrimitive.Root
-              data-slot='checkbox'
-              className='group focus-visible:ring-ring/50 p-2 outline-none focus-visible:ring-2 absolute top-3 right-2.5 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white cursor-pointer hover:bg-white/30 hover:scale-110 transition-all duration-200 ease-in-out'
-              aria-label='Heart icon'
-            >
-              <span className='group-data-[state=checked]:hidden'>
-                <HeartIcon className='size-4 hover:scale-110 transition-transform' />
-              </span>
-              <span className='group-data-[state=unchecked]:hidden'>
-                <HeartIcon className='fill-red-500 stroke-red-500 size-4' />
-              </span>
-            </CheckboxPrimitive.Root>
           </div>
           <Badge className='absolute top-4 left-3 rounded-sm bg-emerald-500 text-white focus-visible:ring-emerald-600/20 focus-visible:outline-none dark:bg-emerald-500/60 dark:focus-visible:ring-emerald-500/40'>
             {course.difficulty}
