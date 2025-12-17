@@ -23,6 +23,7 @@ export type Course = z.infer<typeof baseCourseSchema> & {
   createdAt: Date;
   updatedAt: Date;
   totalPages?: number;
+  currentPrice: string;
 };
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
@@ -81,4 +82,5 @@ export type User = {
   status: string;
   createdAt: Date;
   updatedAt: Date;
+  courses: Pick<Course, 'id' | 'title' | 'slug' | 'image'>[];
 };

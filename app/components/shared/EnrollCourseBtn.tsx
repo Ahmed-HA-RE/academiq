@@ -1,6 +1,6 @@
 'use client';
 
-import { Cart, Course } from '@/types';
+import { Cart, Course, User } from '@/types';
 import { useTransition } from 'react';
 import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
@@ -10,14 +10,18 @@ import { toast } from 'sonner';
 const EnrollCourseBtn = ({
   course,
   cart,
+  user,
 }: {
   course: Course;
   cart: Cart | undefined;
+  user: User;
 }) => {
   const [isPending, startTransition] = useTransition();
 
   const isCourseInCart =
     cart && cart.cartItems.find((item) => item.courseId === course.id);
+
+  const isUserEnrolled = user.courses.some((c) => c.id === course.id);
 
   const handleAddToCart = async () => {
     startTransition(async () => {
@@ -57,6 +61,15 @@ const EnrollCourseBtn = ({
       disabled={isPending}
     >
       {isPending ? <Spinner className='size-6' /> : 'Remove'}
+    </Button>
+  ) : isUserEnrolled ? (
+    <Button
+      disabled
+      className='cursor-not-allowed min-w-24'
+      size={'sm'}
+      variant={'outline'}
+    >
+      Enrolled
     </Button>
   ) : (
     <Button

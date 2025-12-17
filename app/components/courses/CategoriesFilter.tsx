@@ -33,8 +33,8 @@ import {
   PRICE_RANGE,
   SORTING_OPTIONS,
 } from '@/lib/utils';
-import CourseCard from './CourseCard';
-import { Cart, Course } from '@/types';
+import CourseCard from '../shared/CourseCard';
+import { Cart, Course, User } from '@/types';
 import { Alert, AlertTitle } from '../ui/alert';
 import {
   parseAsArrayOf,
@@ -57,6 +57,7 @@ import {
 type CategoryFilterProps = {
   courses: Course[];
   cart: Cart | undefined;
+  user: User;
 };
 
 const FilterContent = () => {
@@ -238,7 +239,7 @@ const FilterContent = () => {
   );
 };
 
-const CategoriesFilter = ({ courses, cart }: CategoryFilterProps) => {
+const CategoriesFilter = ({ courses, cart, user }: CategoryFilterProps) => {
   const [open, setOpen] = useState(false);
   const isCompactScreen = useMedia('(max-width: 767px)', false);
 
@@ -357,7 +358,12 @@ const CategoriesFilter = ({ courses, cart }: CategoryFilterProps) => {
         ) : (
           <div className='col-span-7 md:col-span-4 lg:col-span-5 grid grid-cols-1 lg:grid-cols-2 gap-4'>
             {courses.map((course) => (
-              <CourseCard key={course.id} course={course} cart={cart} />
+              <CourseCard
+                key={course.id}
+                course={course}
+                cart={cart}
+                user={user}
+              />
             ))}
           </div>
         )}

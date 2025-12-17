@@ -4,18 +4,19 @@ import { Card, CardContent, CardFooter } from '../ui/card';
 import Link from 'next/link';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Badge } from '../ui/badge';
-import { Cart, Course } from '@/types';
+import { Cart, Course, User } from '@/types';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { MotionPreset } from '../ui/motion-preset';
-import EnrollCourseBtn from '../shared/EnrollCourseBtn';
+import EnrollCourseBtn from './EnrollCourseBtn';
 
 type CourseCardProps = {
   course: Course;
   cart: Cart | undefined;
+  user: User;
 };
 
-const CourseCard = ({ course, cart }: CourseCardProps) => {
+const CourseCard = ({ course, cart, user }: CourseCardProps) => {
   return (
     <MotionPreset
       component='div'
@@ -84,7 +85,7 @@ const CourseCard = ({ course, cart }: CourseCardProps) => {
           >
             <Link href={`/course/${course.slug}`}>Read More</Link>
           </Button>
-          <EnrollCourseBtn course={course} cart={cart} />
+          <EnrollCourseBtn course={course} cart={cart} user={user} />
         </CardFooter>
       </Card>
     </MotionPreset>

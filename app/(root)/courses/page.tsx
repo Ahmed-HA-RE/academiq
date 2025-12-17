@@ -5,6 +5,7 @@ import { getAllCourses } from '@/lib/actions/course';
 import { loadSearchParams } from '@/lib/searchParams';
 import type { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';
+import { getUserById } from '@/lib/actions/user';
 
 export const generateMetadata = async ({
   searchParams,
@@ -52,6 +53,7 @@ const CoursesPage = async ({
     page,
   });
   const cart = await getMyCart();
+  const user = await getUserById();
 
   return (
     <section>
@@ -59,7 +61,7 @@ const CoursesPage = async ({
         <div className='space-y-4'>
           <h1 className='text-3xl font-bold'>Courses</h1>
         </div>
-        <CategoriesFilter courses={courses} cart={cart} />
+        <CategoriesFilter courses={courses} cart={cart} user={user} />
         {totalPages && totalPages > 1 ? (
           <CoursesPagination totalPages={totalPages} />
         ) : null}

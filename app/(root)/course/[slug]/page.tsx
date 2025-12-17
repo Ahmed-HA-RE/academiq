@@ -19,6 +19,7 @@ import EnrollCourseBtn from '@/app/components/shared/EnrollCourseBtn';
 import { getMyCart } from '@/lib/actions/cart';
 import { Metadata, ResolvingMetadata } from 'next';
 import { APP_NAME } from '@/lib/constants';
+import { getUserById } from '@/lib/actions/user';
 
 export const generateMetadata = async (
   params: Promise<{ slug: string }>,
@@ -47,6 +48,7 @@ const CourseDetailsPage = async ({
   if (!course) notFound();
 
   const cart = await getMyCart();
+  const user = await getUserById();
   return (
     <section className='mb-10'>
       <div className='container'>
@@ -133,7 +135,7 @@ const CourseDetailsPage = async ({
               </p>
             </div>
             <div className='flex flex-row items-center gap-3'>
-              <EnrollCourseBtn course={course} cart={cart} />
+              <EnrollCourseBtn course={course} cart={cart} user={user} />
               {/* Instructor */}
               <InstructorInfoDialog instructor={sampleInstructors[0]} />
             </div>

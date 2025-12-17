@@ -1,3 +1,5 @@
+'use server';
+
 import { notFound } from 'next/navigation';
 import { auth } from '../auth';
 import { headers } from 'next/headers';
@@ -16,7 +18,9 @@ export const getUserById = async () => {
 
   const user = await prisma.user.findFirst({
     where: { id: session.user.id },
-    include: { courses: true },
+    include: {
+      courses: { select: { id: true, title: true, slug: true, image: true } },
+    },
   });
 
   if (!user) return notFound();
