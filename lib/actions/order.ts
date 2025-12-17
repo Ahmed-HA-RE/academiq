@@ -3,7 +3,7 @@ import { orderBaseSchema } from '@/schema';
 import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { prisma } from '../prisma';
-import { BillingInfo, Cart } from '@/types';
+import { BillingInfo, Cart, PaymentResult } from '@/types';
 import { orderItemSchema } from '@/schema';
 import z from 'zod';
 import stripe from '../stripe';
@@ -112,4 +112,21 @@ export const createOrder = async ({
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }
+};
+
+export const getOrderById = async (orderId: string) => {
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+    include: {
+      orderItems: true,
+      discount: true,
+    },
+  });
+
+  if (!order) return undefined;
+  return {
+    ...order,
+    billingDetails: order?.billingDetails as BillingInfo,
+    paymentResult: order?.paymentResult as PaymentResult,
+  };
 };

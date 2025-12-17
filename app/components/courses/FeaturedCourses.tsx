@@ -7,7 +7,7 @@ const FeaturedCourses = async () => {
   const cart = await getMyCart();
 
   return (
-    <section className='my-16 md:my-25'>
+    <section className='mb-16 md:mb-25'>
       <div className='container'>
         <h2 className='text-2xl md:text-3xl font-bold mb-6 dark:text-white'>
           Featured Courses
