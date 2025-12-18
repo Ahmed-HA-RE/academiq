@@ -43,7 +43,7 @@ const RootLayout = ({
           disableTransitionOnChange
         >
           <NuqsAdapter>{children}</NuqsAdapter>
-          <Toaster />
+          <Toaster position='top-center' />
         </ThemeProvider>
       </body>
     </html>

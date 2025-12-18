@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { Button } from '../ui/button';
 import { MotionPreset } from '../ui/motion-preset';
 import EnrollCourseBtn from './EnrollCourseBtn';
+import CourseProgression from './CourseProgression';
 
 type CourseCardProps = {
   course: Course;
@@ -16,6 +17,8 @@ type CourseCardProps = {
 };
 
 const CourseCard = ({ course, cart, user }: CourseCardProps) => {
+  const isCourseOwened = user && user.courses.some((c) => c.id === course.id);
+
   return (
     <MotionPreset
       component='div'
@@ -61,6 +64,7 @@ const CourseCard = ({ course, cart, user }: CourseCardProps) => {
               <span className='dirham-symbol !text-xl'>&#xea;</span>
               <span className='text-2xl'>{course.price}</span>
             </div>
+            {isCourseOwened && <CourseProgression />}
           </div>
         </CardContent>
         <CardFooter className='items-end justify-end gap-2'>

@@ -1,4 +1,4 @@
-import ProfileDropdown from '@/app/components/header/ProfileDropdown';
+import ProfileDropdown from '@/app/components/shared/ProfileDropdown';
 import MenuSheet from './MenuSheet';
 import Link from 'next/link';
 import Image from 'next/image';

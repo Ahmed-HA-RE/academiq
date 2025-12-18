@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
 import { addToCart, removeFromCart } from '@/lib/actions/cart';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const EnrollCourseBtn = ({
   course,
@@ -17,6 +18,7 @@ const EnrollCourseBtn = ({
   user: User | undefined;
 }) => {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const isCourseInCart =
     cart && cart.cartItems.find((item) => item.courseId === course.id);
@@ -65,12 +67,14 @@ const EnrollCourseBtn = ({
     </Button>
   ) : isUserEnrolled ? (
     <Button
-      disabled
-      className='cursor-not-allowed min-w-24'
+      className='min-w-24 cursor-pointer'
       size={'sm'}
-      variant={'outline'}
+      variant={'default'}
+      onClick={() => {
+        router.push(`/my-courses/${course.slug}`);
+      }}
     >
-      Enrolled
+      View Course
     </Button>
   ) : (
     <Button
