@@ -6,13 +6,19 @@ import { headers } from 'next/headers';
 import { prisma } from '../prisma';
 import { convertToPlainObject } from '../utils';
 import { BillingInfo } from '@/types';
+import { Prisma } from '../generated/prisma';
 
-export const getUserById = async () => {
+export const getUserById = async (search?: string) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session) return undefined;
+
+  // Seach Filter
+  const searchFilter: Prisma.CourseWhereInput = search
+    ? { title: { contains: search, mode: 'insensitive' } }
+    : {};
 
   const user = await prisma.user.findFirst({
     where: { id: session?.user.id },
@@ -24,6 +30,7 @@ export const getUserById = async () => {
           slug: true,
           image: true,
         },
+        where: { ...searchFilter },
       },
     },
   });

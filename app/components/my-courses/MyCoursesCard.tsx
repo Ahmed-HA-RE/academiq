@@ -46,8 +46,11 @@ const MyCoursesCard = ({
               <h3 className='text-xl font-medium'>{course.title}</h3>
 
               <div className='flex flex-row items-center gap-2'>
-                <div className='bg-blue-300/60 p-1 rounded-full flex items-center justify-center'>
-                  <BookOpenIcon size={20} className='text-blue-500' />
+                <div className='bg-blue-300/60 dark:bg-blue-300/90 p-1 rounded-full flex items-center justify-center'>
+                  <BookOpenIcon
+                    size={20}
+                    className='text-blue-500 dark:text-blue-600'
+                  />
                 </div>
                 <span className='text-muted-foreground'>12 Lessons</span>
               </div>

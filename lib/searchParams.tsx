@@ -14,6 +14,7 @@ export const coursesfilteredParams = {
   difficulty: parseAsArrayOf(parseAsString).withDefault([]),
   sortBy: parseAsString.withDefault(''),
   page: parseAsInteger.withDefault(1),
+  search: parseAsString.withDefault(''),
 };
 
 export const loadSearchParams = createLoader(coursesfilteredParams);

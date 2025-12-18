@@ -44,7 +44,6 @@ const CourseDetailsPage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  console.log('Course page requested slug:', slug);
 
   const course = await getCourseBySlug(slug);
   if (!course) notFound();
