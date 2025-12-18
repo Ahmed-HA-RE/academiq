@@ -17,6 +17,7 @@ const Header = async () => {
     { href: '/courses', title: 'Courses' },
     { href: '/prices', title: 'Prices' },
     { href: '/about', title: 'About ' },
+    { href: '/teach', title: 'Become an Instructor' },
     { href: '/contact', title: 'Contact ' },
   ];
 

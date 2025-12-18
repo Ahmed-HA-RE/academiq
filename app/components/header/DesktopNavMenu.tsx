@@ -20,9 +20,9 @@ const DesktopNavMenu = ({ navigationData }: DesktopNavMenuProps) => {
 
   return (
     <NavigationMenu viewport={false} className='hidden lg:block'>
-      <NavigationMenuList className=''>
+      <NavigationMenuList>
         {navigationData.map((menu) => (
-          <NavigationMenuItem key={menu.title} className=''>
+          <NavigationMenuItem key={menu.title}>
             <NavigationMenuLink
               href={menu.href}
               className={cn(
