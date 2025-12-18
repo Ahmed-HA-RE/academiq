@@ -17,7 +17,14 @@ export const getUserById = async () => {
   const user = await prisma.user.findFirst({
     where: { id: session?.user.id },
     include: {
-      courses: { select: { id: true, title: true, slug: true, image: true } },
+      courses: {
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          image: true,
+        },
+      },
     },
   });
 

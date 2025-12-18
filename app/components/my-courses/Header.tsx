@@ -1,5 +1,4 @@
 import ProfileDropdown from '@/app/components/shared/ProfileDropdown';
-import MenuSheet from '../header/MenuSheet';
 import Link from 'next/link';
 import Image from 'next/image';
 import Theme from '../Theme';
@@ -9,13 +8,6 @@ import { APP_NAME } from '@/lib/constants';
 import Search from './Search';
 
 const Header = async () => {
-  const baseNavigationMenu = [
-    { href: '/courses', title: 'Courses' },
-    { href: '/prices', title: 'Prices' },
-    { href: '/about', title: 'About ' },
-    { href: '/contact', title: 'Contact ' },
-  ];
-
   const session = await auth.api.getSession({
     headers: await headers(),
   });

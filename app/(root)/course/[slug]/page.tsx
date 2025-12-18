@@ -21,11 +21,12 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { APP_NAME } from '@/lib/constants';
 import { getUserById } from '@/lib/actions/user';
 
-export const generateMetadata = async (
-  params: Promise<{ slug: string }>,
-  parent: ResolvingMetadata
-): Promise<Metadata> => {
-  const slug = (await params).slug;
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> => {
+  const { slug } = await params;
 
   const course = await getCourseBySlug(slug);
 
