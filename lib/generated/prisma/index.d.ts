@@ -68,6 +68,11 @@ export type orderItems = $Result.DefaultSelection<Prisma.$orderItemsPayload>
  * 
  */
 export type Discount = $Result.DefaultSelection<Prisma.$DiscountPayload>
+/**
+ * Model IntructorApplication
+ * 
+ */
+export type IntructorApplication = $Result.DefaultSelection<Prisma.$IntructorApplicationPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -295,6 +300,16 @@ export class PrismaClient<
     * ```
     */
   get discount(): Prisma.DiscountDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.intructorApplication`: Exposes CRUD operations for the **IntructorApplication** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more IntructorApplications
+    * const intructorApplications = await prisma.intructorApplication.findMany()
+    * ```
+    */
+  get intructorApplication(): Prisma.IntructorApplicationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -739,7 +754,8 @@ export namespace Prisma {
     Lesson: 'Lesson',
     Order: 'Order',
     orderItems: 'orderItems',
-    Discount: 'Discount'
+    Discount: 'Discount',
+    IntructorApplication: 'IntructorApplication'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -755,7 +771,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "course" | "user" | "session" | "account" | "verification" | "cart" | "section" | "lesson" | "order" | "orderItems" | "discount"
+      modelProps: "course" | "user" | "session" | "account" | "verification" | "cart" | "section" | "lesson" | "order" | "orderItems" | "discount" | "intructorApplication"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1573,6 +1589,80 @@ export namespace Prisma {
           }
         }
       }
+      IntructorApplication: {
+        payload: Prisma.$IntructorApplicationPayload<ExtArgs>
+        fields: Prisma.IntructorApplicationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.IntructorApplicationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IntructorApplicationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.IntructorApplicationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IntructorApplicationPayload>
+          }
+          findFirst: {
+            args: Prisma.IntructorApplicationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IntructorApplicationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.IntructorApplicationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IntructorApplicationPayload>
+          }
+          findMany: {
+            args: Prisma.IntructorApplicationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IntructorApplicationPayload>[]
+          }
+          create: {
+            args: Prisma.IntructorApplicationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IntructorApplicationPayload>
+          }
+          createMany: {
+            args: Prisma.IntructorApplicationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.IntructorApplicationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IntructorApplicationPayload>[]
+          }
+          delete: {
+            args: Prisma.IntructorApplicationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IntructorApplicationPayload>
+          }
+          update: {
+            args: Prisma.IntructorApplicationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IntructorApplicationPayload>
+          }
+          deleteMany: {
+            args: Prisma.IntructorApplicationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.IntructorApplicationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.IntructorApplicationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IntructorApplicationPayload>[]
+          }
+          upsert: {
+            args: Prisma.IntructorApplicationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IntructorApplicationPayload>
+          }
+          aggregate: {
+            args: Prisma.IntructorApplicationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateIntructorApplication>
+          }
+          groupBy: {
+            args: Prisma.IntructorApplicationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<IntructorApplicationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.IntructorApplicationCountArgs<ExtArgs>
+            result: $Utils.Optional<IntructorApplicationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1692,6 +1782,7 @@ export namespace Prisma {
     order?: OrderOmit
     orderItems?: orderItemsOmit
     discount?: DiscountOmit
+    intructorApplication?: IntructorApplicationOmit
   }
 
   /* Types for Logging */
@@ -3513,6 +3604,7 @@ export namespace Prisma {
     courses?: boolean | User$coursesArgs<ExtArgs>
     carts?: boolean | User$cartsArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
+    intructorApplication?: boolean | User$intructorApplicationArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3562,6 +3654,7 @@ export namespace Prisma {
     courses?: boolean | User$coursesArgs<ExtArgs>
     carts?: boolean | User$cartsArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
+    intructorApplication?: boolean | User$intructorApplicationArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3575,6 +3668,7 @@ export namespace Prisma {
       courses: Prisma.$CoursePayload<ExtArgs>[]
       carts: Prisma.$CartPayload<ExtArgs>[]
       orders: Prisma.$OrderPayload<ExtArgs>[]
+      intructorApplication: Prisma.$IntructorApplicationPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3986,6 +4080,7 @@ export namespace Prisma {
     courses<T extends User$coursesArgs<ExtArgs> = {}>(args?: Subset<T, User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     carts<T extends User$cartsArgs<ExtArgs> = {}>(args?: Subset<T, User$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orders<T extends User$ordersArgs<ExtArgs> = {}>(args?: Subset<T, User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    intructorApplication<T extends User$intructorApplicationArgs<ExtArgs> = {}>(args?: Subset<T, User$intructorApplicationArgs<ExtArgs>>): Prisma__IntructorApplicationClient<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4530,6 +4625,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * User.intructorApplication
+   */
+  export type User$intructorApplicationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationInclude<ExtArgs> | null
+    where?: IntructorApplicationWhereInput
   }
 
   /**
@@ -14769,6 +14883,1177 @@ export namespace Prisma {
 
 
   /**
+   * Model IntructorApplication
+   */
+
+  export type AggregateIntructorApplication = {
+    _count: IntructorApplicationCountAggregateOutputType | null
+    _min: IntructorApplicationMinAggregateOutputType | null
+    _max: IntructorApplicationMaxAggregateOutputType | null
+  }
+
+  export type IntructorApplicationMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    bio: string | null
+    job: string | null
+    address: string | null
+    phone: string | null
+    birthDate: Date | null
+    file: string | null
+    email: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IntructorApplicationMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    bio: string | null
+    job: string | null
+    address: string | null
+    phone: string | null
+    birthDate: Date | null
+    file: string | null
+    email: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IntructorApplicationCountAggregateOutputType = {
+    id: number
+    userId: number
+    name: number
+    bio: number
+    job: number
+    address: number
+    phone: number
+    birthDate: number
+    socialLinks: number
+    file: number
+    email: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type IntructorApplicationMinAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    bio?: true
+    job?: true
+    address?: true
+    phone?: true
+    birthDate?: true
+    file?: true
+    email?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IntructorApplicationMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    bio?: true
+    job?: true
+    address?: true
+    phone?: true
+    birthDate?: true
+    file?: true
+    email?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IntructorApplicationCountAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    bio?: true
+    job?: true
+    address?: true
+    phone?: true
+    birthDate?: true
+    socialLinks?: true
+    file?: true
+    email?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type IntructorApplicationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IntructorApplication to aggregate.
+     */
+    where?: IntructorApplicationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IntructorApplications to fetch.
+     */
+    orderBy?: IntructorApplicationOrderByWithRelationInput | IntructorApplicationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: IntructorApplicationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IntructorApplications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IntructorApplications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned IntructorApplications
+    **/
+    _count?: true | IntructorApplicationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: IntructorApplicationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: IntructorApplicationMaxAggregateInputType
+  }
+
+  export type GetIntructorApplicationAggregateType<T extends IntructorApplicationAggregateArgs> = {
+        [P in keyof T & keyof AggregateIntructorApplication]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateIntructorApplication[P]>
+      : GetScalarType<T[P], AggregateIntructorApplication[P]>
+  }
+
+
+
+
+  export type IntructorApplicationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IntructorApplicationWhereInput
+    orderBy?: IntructorApplicationOrderByWithAggregationInput | IntructorApplicationOrderByWithAggregationInput[]
+    by: IntructorApplicationScalarFieldEnum[] | IntructorApplicationScalarFieldEnum
+    having?: IntructorApplicationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: IntructorApplicationCountAggregateInputType | true
+    _min?: IntructorApplicationMinAggregateInputType
+    _max?: IntructorApplicationMaxAggregateInputType
+  }
+
+  export type IntructorApplicationGroupByOutputType = {
+    id: string
+    userId: string
+    name: string
+    bio: string
+    job: string
+    address: string
+    phone: string
+    birthDate: Date
+    socialLinks: JsonValue
+    file: string
+    email: string
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: IntructorApplicationCountAggregateOutputType | null
+    _min: IntructorApplicationMinAggregateOutputType | null
+    _max: IntructorApplicationMaxAggregateOutputType | null
+  }
+
+  type GetIntructorApplicationGroupByPayload<T extends IntructorApplicationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<IntructorApplicationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof IntructorApplicationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], IntructorApplicationGroupByOutputType[P]>
+            : GetScalarType<T[P], IntructorApplicationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type IntructorApplicationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    bio?: boolean
+    job?: boolean
+    address?: boolean
+    phone?: boolean
+    birthDate?: boolean
+    socialLinks?: boolean
+    file?: boolean
+    email?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["intructorApplication"]>
+
+  export type IntructorApplicationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    bio?: boolean
+    job?: boolean
+    address?: boolean
+    phone?: boolean
+    birthDate?: boolean
+    socialLinks?: boolean
+    file?: boolean
+    email?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["intructorApplication"]>
+
+  export type IntructorApplicationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    bio?: boolean
+    job?: boolean
+    address?: boolean
+    phone?: boolean
+    birthDate?: boolean
+    socialLinks?: boolean
+    file?: boolean
+    email?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["intructorApplication"]>
+
+  export type IntructorApplicationSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    bio?: boolean
+    job?: boolean
+    address?: boolean
+    phone?: boolean
+    birthDate?: boolean
+    socialLinks?: boolean
+    file?: boolean
+    email?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type IntructorApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "bio" | "job" | "address" | "phone" | "birthDate" | "socialLinks" | "file" | "email" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["intructorApplication"]>
+  export type IntructorApplicationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type IntructorApplicationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type IntructorApplicationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $IntructorApplicationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "IntructorApplication"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      name: string
+      bio: string
+      job: string
+      address: string
+      phone: string
+      birthDate: Date
+      socialLinks: Prisma.JsonValue
+      file: string
+      email: string
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["intructorApplication"]>
+    composites: {}
+  }
+
+  type IntructorApplicationGetPayload<S extends boolean | null | undefined | IntructorApplicationDefaultArgs> = $Result.GetResult<Prisma.$IntructorApplicationPayload, S>
+
+  type IntructorApplicationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<IntructorApplicationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: IntructorApplicationCountAggregateInputType | true
+    }
+
+  export interface IntructorApplicationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['IntructorApplication'], meta: { name: 'IntructorApplication' } }
+    /**
+     * Find zero or one IntructorApplication that matches the filter.
+     * @param {IntructorApplicationFindUniqueArgs} args - Arguments to find a IntructorApplication
+     * @example
+     * // Get one IntructorApplication
+     * const intructorApplication = await prisma.intructorApplication.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends IntructorApplicationFindUniqueArgs>(args: SelectSubset<T, IntructorApplicationFindUniqueArgs<ExtArgs>>): Prisma__IntructorApplicationClient<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one IntructorApplication that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {IntructorApplicationFindUniqueOrThrowArgs} args - Arguments to find a IntructorApplication
+     * @example
+     * // Get one IntructorApplication
+     * const intructorApplication = await prisma.intructorApplication.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends IntructorApplicationFindUniqueOrThrowArgs>(args: SelectSubset<T, IntructorApplicationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__IntructorApplicationClient<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first IntructorApplication that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IntructorApplicationFindFirstArgs} args - Arguments to find a IntructorApplication
+     * @example
+     * // Get one IntructorApplication
+     * const intructorApplication = await prisma.intructorApplication.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends IntructorApplicationFindFirstArgs>(args?: SelectSubset<T, IntructorApplicationFindFirstArgs<ExtArgs>>): Prisma__IntructorApplicationClient<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first IntructorApplication that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IntructorApplicationFindFirstOrThrowArgs} args - Arguments to find a IntructorApplication
+     * @example
+     * // Get one IntructorApplication
+     * const intructorApplication = await prisma.intructorApplication.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends IntructorApplicationFindFirstOrThrowArgs>(args?: SelectSubset<T, IntructorApplicationFindFirstOrThrowArgs<ExtArgs>>): Prisma__IntructorApplicationClient<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more IntructorApplications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IntructorApplicationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all IntructorApplications
+     * const intructorApplications = await prisma.intructorApplication.findMany()
+     * 
+     * // Get first 10 IntructorApplications
+     * const intructorApplications = await prisma.intructorApplication.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const intructorApplicationWithIdOnly = await prisma.intructorApplication.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends IntructorApplicationFindManyArgs>(args?: SelectSubset<T, IntructorApplicationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a IntructorApplication.
+     * @param {IntructorApplicationCreateArgs} args - Arguments to create a IntructorApplication.
+     * @example
+     * // Create one IntructorApplication
+     * const IntructorApplication = await prisma.intructorApplication.create({
+     *   data: {
+     *     // ... data to create a IntructorApplication
+     *   }
+     * })
+     * 
+     */
+    create<T extends IntructorApplicationCreateArgs>(args: SelectSubset<T, IntructorApplicationCreateArgs<ExtArgs>>): Prisma__IntructorApplicationClient<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many IntructorApplications.
+     * @param {IntructorApplicationCreateManyArgs} args - Arguments to create many IntructorApplications.
+     * @example
+     * // Create many IntructorApplications
+     * const intructorApplication = await prisma.intructorApplication.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends IntructorApplicationCreateManyArgs>(args?: SelectSubset<T, IntructorApplicationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many IntructorApplications and returns the data saved in the database.
+     * @param {IntructorApplicationCreateManyAndReturnArgs} args - Arguments to create many IntructorApplications.
+     * @example
+     * // Create many IntructorApplications
+     * const intructorApplication = await prisma.intructorApplication.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many IntructorApplications and only return the `id`
+     * const intructorApplicationWithIdOnly = await prisma.intructorApplication.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends IntructorApplicationCreateManyAndReturnArgs>(args?: SelectSubset<T, IntructorApplicationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a IntructorApplication.
+     * @param {IntructorApplicationDeleteArgs} args - Arguments to delete one IntructorApplication.
+     * @example
+     * // Delete one IntructorApplication
+     * const IntructorApplication = await prisma.intructorApplication.delete({
+     *   where: {
+     *     // ... filter to delete one IntructorApplication
+     *   }
+     * })
+     * 
+     */
+    delete<T extends IntructorApplicationDeleteArgs>(args: SelectSubset<T, IntructorApplicationDeleteArgs<ExtArgs>>): Prisma__IntructorApplicationClient<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one IntructorApplication.
+     * @param {IntructorApplicationUpdateArgs} args - Arguments to update one IntructorApplication.
+     * @example
+     * // Update one IntructorApplication
+     * const intructorApplication = await prisma.intructorApplication.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends IntructorApplicationUpdateArgs>(args: SelectSubset<T, IntructorApplicationUpdateArgs<ExtArgs>>): Prisma__IntructorApplicationClient<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more IntructorApplications.
+     * @param {IntructorApplicationDeleteManyArgs} args - Arguments to filter IntructorApplications to delete.
+     * @example
+     * // Delete a few IntructorApplications
+     * const { count } = await prisma.intructorApplication.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends IntructorApplicationDeleteManyArgs>(args?: SelectSubset<T, IntructorApplicationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more IntructorApplications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IntructorApplicationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many IntructorApplications
+     * const intructorApplication = await prisma.intructorApplication.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends IntructorApplicationUpdateManyArgs>(args: SelectSubset<T, IntructorApplicationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more IntructorApplications and returns the data updated in the database.
+     * @param {IntructorApplicationUpdateManyAndReturnArgs} args - Arguments to update many IntructorApplications.
+     * @example
+     * // Update many IntructorApplications
+     * const intructorApplication = await prisma.intructorApplication.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more IntructorApplications and only return the `id`
+     * const intructorApplicationWithIdOnly = await prisma.intructorApplication.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends IntructorApplicationUpdateManyAndReturnArgs>(args: SelectSubset<T, IntructorApplicationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one IntructorApplication.
+     * @param {IntructorApplicationUpsertArgs} args - Arguments to update or create a IntructorApplication.
+     * @example
+     * // Update or create a IntructorApplication
+     * const intructorApplication = await prisma.intructorApplication.upsert({
+     *   create: {
+     *     // ... data to create a IntructorApplication
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the IntructorApplication we want to update
+     *   }
+     * })
+     */
+    upsert<T extends IntructorApplicationUpsertArgs>(args: SelectSubset<T, IntructorApplicationUpsertArgs<ExtArgs>>): Prisma__IntructorApplicationClient<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of IntructorApplications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IntructorApplicationCountArgs} args - Arguments to filter IntructorApplications to count.
+     * @example
+     * // Count the number of IntructorApplications
+     * const count = await prisma.intructorApplication.count({
+     *   where: {
+     *     // ... the filter for the IntructorApplications we want to count
+     *   }
+     * })
+    **/
+    count<T extends IntructorApplicationCountArgs>(
+      args?: Subset<T, IntructorApplicationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], IntructorApplicationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a IntructorApplication.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IntructorApplicationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends IntructorApplicationAggregateArgs>(args: Subset<T, IntructorApplicationAggregateArgs>): Prisma.PrismaPromise<GetIntructorApplicationAggregateType<T>>
+
+    /**
+     * Group by IntructorApplication.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IntructorApplicationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends IntructorApplicationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: IntructorApplicationGroupByArgs['orderBy'] }
+        : { orderBy?: IntructorApplicationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, IntructorApplicationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetIntructorApplicationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the IntructorApplication model
+   */
+  readonly fields: IntructorApplicationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for IntructorApplication.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__IntructorApplicationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the IntructorApplication model
+   */
+  interface IntructorApplicationFieldRefs {
+    readonly id: FieldRef<"IntructorApplication", 'String'>
+    readonly userId: FieldRef<"IntructorApplication", 'String'>
+    readonly name: FieldRef<"IntructorApplication", 'String'>
+    readonly bio: FieldRef<"IntructorApplication", 'String'>
+    readonly job: FieldRef<"IntructorApplication", 'String'>
+    readonly address: FieldRef<"IntructorApplication", 'String'>
+    readonly phone: FieldRef<"IntructorApplication", 'String'>
+    readonly birthDate: FieldRef<"IntructorApplication", 'DateTime'>
+    readonly socialLinks: FieldRef<"IntructorApplication", 'Json'>
+    readonly file: FieldRef<"IntructorApplication", 'String'>
+    readonly email: FieldRef<"IntructorApplication", 'String'>
+    readonly status: FieldRef<"IntructorApplication", 'String'>
+    readonly createdAt: FieldRef<"IntructorApplication", 'DateTime'>
+    readonly updatedAt: FieldRef<"IntructorApplication", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * IntructorApplication findUnique
+   */
+  export type IntructorApplicationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationInclude<ExtArgs> | null
+    /**
+     * Filter, which IntructorApplication to fetch.
+     */
+    where: IntructorApplicationWhereUniqueInput
+  }
+
+  /**
+   * IntructorApplication findUniqueOrThrow
+   */
+  export type IntructorApplicationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationInclude<ExtArgs> | null
+    /**
+     * Filter, which IntructorApplication to fetch.
+     */
+    where: IntructorApplicationWhereUniqueInput
+  }
+
+  /**
+   * IntructorApplication findFirst
+   */
+  export type IntructorApplicationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationInclude<ExtArgs> | null
+    /**
+     * Filter, which IntructorApplication to fetch.
+     */
+    where?: IntructorApplicationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IntructorApplications to fetch.
+     */
+    orderBy?: IntructorApplicationOrderByWithRelationInput | IntructorApplicationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IntructorApplications.
+     */
+    cursor?: IntructorApplicationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IntructorApplications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IntructorApplications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IntructorApplications.
+     */
+    distinct?: IntructorApplicationScalarFieldEnum | IntructorApplicationScalarFieldEnum[]
+  }
+
+  /**
+   * IntructorApplication findFirstOrThrow
+   */
+  export type IntructorApplicationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationInclude<ExtArgs> | null
+    /**
+     * Filter, which IntructorApplication to fetch.
+     */
+    where?: IntructorApplicationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IntructorApplications to fetch.
+     */
+    orderBy?: IntructorApplicationOrderByWithRelationInput | IntructorApplicationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IntructorApplications.
+     */
+    cursor?: IntructorApplicationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IntructorApplications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IntructorApplications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IntructorApplications.
+     */
+    distinct?: IntructorApplicationScalarFieldEnum | IntructorApplicationScalarFieldEnum[]
+  }
+
+  /**
+   * IntructorApplication findMany
+   */
+  export type IntructorApplicationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationInclude<ExtArgs> | null
+    /**
+     * Filter, which IntructorApplications to fetch.
+     */
+    where?: IntructorApplicationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IntructorApplications to fetch.
+     */
+    orderBy?: IntructorApplicationOrderByWithRelationInput | IntructorApplicationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing IntructorApplications.
+     */
+    cursor?: IntructorApplicationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IntructorApplications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IntructorApplications.
+     */
+    skip?: number
+    distinct?: IntructorApplicationScalarFieldEnum | IntructorApplicationScalarFieldEnum[]
+  }
+
+  /**
+   * IntructorApplication create
+   */
+  export type IntructorApplicationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a IntructorApplication.
+     */
+    data: XOR<IntructorApplicationCreateInput, IntructorApplicationUncheckedCreateInput>
+  }
+
+  /**
+   * IntructorApplication createMany
+   */
+  export type IntructorApplicationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many IntructorApplications.
+     */
+    data: IntructorApplicationCreateManyInput | IntructorApplicationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * IntructorApplication createManyAndReturn
+   */
+  export type IntructorApplicationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * The data used to create many IntructorApplications.
+     */
+    data: IntructorApplicationCreateManyInput | IntructorApplicationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * IntructorApplication update
+   */
+  export type IntructorApplicationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a IntructorApplication.
+     */
+    data: XOR<IntructorApplicationUpdateInput, IntructorApplicationUncheckedUpdateInput>
+    /**
+     * Choose, which IntructorApplication to update.
+     */
+    where: IntructorApplicationWhereUniqueInput
+  }
+
+  /**
+   * IntructorApplication updateMany
+   */
+  export type IntructorApplicationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update IntructorApplications.
+     */
+    data: XOR<IntructorApplicationUpdateManyMutationInput, IntructorApplicationUncheckedUpdateManyInput>
+    /**
+     * Filter which IntructorApplications to update
+     */
+    where?: IntructorApplicationWhereInput
+    /**
+     * Limit how many IntructorApplications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * IntructorApplication updateManyAndReturn
+   */
+  export type IntructorApplicationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * The data used to update IntructorApplications.
+     */
+    data: XOR<IntructorApplicationUpdateManyMutationInput, IntructorApplicationUncheckedUpdateManyInput>
+    /**
+     * Filter which IntructorApplications to update
+     */
+    where?: IntructorApplicationWhereInput
+    /**
+     * Limit how many IntructorApplications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * IntructorApplication upsert
+   */
+  export type IntructorApplicationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the IntructorApplication to update in case it exists.
+     */
+    where: IntructorApplicationWhereUniqueInput
+    /**
+     * In case the IntructorApplication found by the `where` argument doesn't exist, create a new IntructorApplication with this data.
+     */
+    create: XOR<IntructorApplicationCreateInput, IntructorApplicationUncheckedCreateInput>
+    /**
+     * In case the IntructorApplication was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<IntructorApplicationUpdateInput, IntructorApplicationUncheckedUpdateInput>
+  }
+
+  /**
+   * IntructorApplication delete
+   */
+  export type IntructorApplicationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationInclude<ExtArgs> | null
+    /**
+     * Filter which IntructorApplication to delete.
+     */
+    where: IntructorApplicationWhereUniqueInput
+  }
+
+  /**
+   * IntructorApplication deleteMany
+   */
+  export type IntructorApplicationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IntructorApplications to delete
+     */
+    where?: IntructorApplicationWhereInput
+    /**
+     * Limit how many IntructorApplications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * IntructorApplication without action
+   */
+  export type IntructorApplicationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IntructorApplication
+     */
+    select?: IntructorApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IntructorApplication
+     */
+    omit?: IntructorApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntructorApplicationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -14948,6 +16233,26 @@ export namespace Prisma {
   };
 
   export type DiscountScalarFieldEnum = (typeof DiscountScalarFieldEnum)[keyof typeof DiscountScalarFieldEnum]
+
+
+  export const IntructorApplicationScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    name: 'name',
+    bio: 'bio',
+    job: 'job',
+    address: 'address',
+    phone: 'phone',
+    birthDate: 'birthDate',
+    socialLinks: 'socialLinks',
+    file: 'file',
+    email: 'email',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type IntructorApplicationScalarFieldEnum = (typeof IntructorApplicationScalarFieldEnum)[keyof typeof IntructorApplicationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -15241,6 +16546,7 @@ export namespace Prisma {
     courses?: CourseListRelationFilter
     carts?: CartListRelationFilter
     orders?: OrderListRelationFilter
+    intructorApplication?: XOR<IntructorApplicationNullableScalarRelationFilter, IntructorApplicationWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -15259,6 +16565,7 @@ export namespace Prisma {
     courses?: CourseOrderByRelationAggregateInput
     carts?: CartOrderByRelationAggregateInput
     orders?: OrderOrderByRelationAggregateInput
+    intructorApplication?: IntructorApplicationOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -15280,6 +16587,7 @@ export namespace Prisma {
     courses?: CourseListRelationFilter
     carts?: CartListRelationFilter
     orders?: OrderListRelationFilter
+    intructorApplication?: XOR<IntructorApplicationNullableScalarRelationFilter, IntructorApplicationWhereInput> | null
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -15990,6 +17298,106 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Discount"> | Date | string
   }
 
+  export type IntructorApplicationWhereInput = {
+    AND?: IntructorApplicationWhereInput | IntructorApplicationWhereInput[]
+    OR?: IntructorApplicationWhereInput[]
+    NOT?: IntructorApplicationWhereInput | IntructorApplicationWhereInput[]
+    id?: StringFilter<"IntructorApplication"> | string
+    userId?: StringFilter<"IntructorApplication"> | string
+    name?: StringFilter<"IntructorApplication"> | string
+    bio?: StringFilter<"IntructorApplication"> | string
+    job?: StringFilter<"IntructorApplication"> | string
+    address?: StringFilter<"IntructorApplication"> | string
+    phone?: StringFilter<"IntructorApplication"> | string
+    birthDate?: DateTimeFilter<"IntructorApplication"> | Date | string
+    socialLinks?: JsonFilter<"IntructorApplication">
+    file?: StringFilter<"IntructorApplication"> | string
+    email?: StringFilter<"IntructorApplication"> | string
+    status?: StringFilter<"IntructorApplication"> | string
+    createdAt?: DateTimeFilter<"IntructorApplication"> | Date | string
+    updatedAt?: DateTimeFilter<"IntructorApplication"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type IntructorApplicationOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    bio?: SortOrder
+    job?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    birthDate?: SortOrder
+    socialLinks?: SortOrder
+    file?: SortOrder
+    email?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type IntructorApplicationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    email?: string
+    AND?: IntructorApplicationWhereInput | IntructorApplicationWhereInput[]
+    OR?: IntructorApplicationWhereInput[]
+    NOT?: IntructorApplicationWhereInput | IntructorApplicationWhereInput[]
+    name?: StringFilter<"IntructorApplication"> | string
+    bio?: StringFilter<"IntructorApplication"> | string
+    job?: StringFilter<"IntructorApplication"> | string
+    address?: StringFilter<"IntructorApplication"> | string
+    phone?: StringFilter<"IntructorApplication"> | string
+    birthDate?: DateTimeFilter<"IntructorApplication"> | Date | string
+    socialLinks?: JsonFilter<"IntructorApplication">
+    file?: StringFilter<"IntructorApplication"> | string
+    status?: StringFilter<"IntructorApplication"> | string
+    createdAt?: DateTimeFilter<"IntructorApplication"> | Date | string
+    updatedAt?: DateTimeFilter<"IntructorApplication"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId" | "email">
+
+  export type IntructorApplicationOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    bio?: SortOrder
+    job?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    birthDate?: SortOrder
+    socialLinks?: SortOrder
+    file?: SortOrder
+    email?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: IntructorApplicationCountOrderByAggregateInput
+    _max?: IntructorApplicationMaxOrderByAggregateInput
+    _min?: IntructorApplicationMinOrderByAggregateInput
+  }
+
+  export type IntructorApplicationScalarWhereWithAggregatesInput = {
+    AND?: IntructorApplicationScalarWhereWithAggregatesInput | IntructorApplicationScalarWhereWithAggregatesInput[]
+    OR?: IntructorApplicationScalarWhereWithAggregatesInput[]
+    NOT?: IntructorApplicationScalarWhereWithAggregatesInput | IntructorApplicationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    userId?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    name?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    bio?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    job?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    address?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    phone?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    birthDate?: DateTimeWithAggregatesFilter<"IntructorApplication"> | Date | string
+    socialLinks?: JsonWithAggregatesFilter<"IntructorApplication">
+    file?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    email?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    status?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"IntructorApplication"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"IntructorApplication"> | Date | string
+  }
+
   export type CourseCreateInput = {
     id?: string
     slug: string
@@ -16151,6 +17559,7 @@ export namespace Prisma {
     courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -16169,6 +17578,7 @@ export namespace Prisma {
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -16187,6 +17597,7 @@ export namespace Prisma {
     courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -16205,6 +17616,7 @@ export namespace Prisma {
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -16973,6 +18385,124 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type IntructorApplicationCreateInput = {
+    id?: string
+    name: string
+    bio: string
+    job: string
+    address: string
+    phone: string
+    birthDate: Date | string
+    socialLinks: JsonNullValueInput | InputJsonValue
+    file: string
+    email: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutIntructorApplicationInput
+  }
+
+  export type IntructorApplicationUncheckedCreateInput = {
+    id?: string
+    userId: string
+    name: string
+    bio: string
+    job: string
+    address: string
+    phone: string
+    birthDate: Date | string
+    socialLinks: JsonNullValueInput | InputJsonValue
+    file: string
+    email: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IntructorApplicationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    bio?: StringFieldUpdateOperationsInput | string
+    job?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    socialLinks?: JsonNullValueInput | InputJsonValue
+    file?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutIntructorApplicationNestedInput
+  }
+
+  export type IntructorApplicationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    bio?: StringFieldUpdateOperationsInput | string
+    job?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    socialLinks?: JsonNullValueInput | InputJsonValue
+    file?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IntructorApplicationCreateManyInput = {
+    id?: string
+    userId: string
+    name: string
+    bio: string
+    job: string
+    address: string
+    phone: string
+    birthDate: Date | string
+    socialLinks: JsonNullValueInput | InputJsonValue
+    file: string
+    email: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IntructorApplicationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    bio?: StringFieldUpdateOperationsInput | string
+    job?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    socialLinks?: JsonNullValueInput | InputJsonValue
+    file?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IntructorApplicationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    bio?: StringFieldUpdateOperationsInput | string
+    job?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    socialLinks?: JsonNullValueInput | InputJsonValue
+    file?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -17252,6 +18782,11 @@ export namespace Prisma {
     every?: OrderWhereInput
     some?: OrderWhereInput
     none?: OrderWhereInput
+  }
+
+  export type IntructorApplicationNullableScalarRelationFilter = {
+    is?: IntructorApplicationWhereInput | null
+    isNot?: IntructorApplicationWhereInput | null
   }
 
   export type SortOrderInput = {
@@ -17886,6 +19421,55 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
+  export type IntructorApplicationCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    bio?: SortOrder
+    job?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    birthDate?: SortOrder
+    socialLinks?: SortOrder
+    file?: SortOrder
+    email?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IntructorApplicationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    bio?: SortOrder
+    job?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    birthDate?: SortOrder
+    file?: SortOrder
+    email?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IntructorApplicationMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    bio?: SortOrder
+    job?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    birthDate?: SortOrder
+    file?: SortOrder
+    email?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type UserCreateNestedManyWithoutCoursesInput = {
     create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput> | UserCreateWithoutCoursesInput[] | UserUncheckedCreateWithoutCoursesInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCoursesInput | UserCreateOrConnectWithoutCoursesInput[]
@@ -18070,6 +19654,12 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
+  export type IntructorApplicationCreateNestedOneWithoutUserInput = {
+    create?: XOR<IntructorApplicationCreateWithoutUserInput, IntructorApplicationUncheckedCreateWithoutUserInput>
+    connectOrCreate?: IntructorApplicationCreateOrConnectWithoutUserInput
+    connect?: IntructorApplicationWhereUniqueInput
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -18102,6 +19692,12 @@ export namespace Prisma {
     connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
     createMany?: OrderCreateManyUserInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type IntructorApplicationUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<IntructorApplicationCreateWithoutUserInput, IntructorApplicationUncheckedCreateWithoutUserInput>
+    connectOrCreate?: IntructorApplicationCreateOrConnectWithoutUserInput
+    connect?: IntructorApplicationWhereUniqueInput
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -18173,6 +19769,16 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type IntructorApplicationUpdateOneWithoutUserNestedInput = {
+    create?: XOR<IntructorApplicationCreateWithoutUserInput, IntructorApplicationUncheckedCreateWithoutUserInput>
+    connectOrCreate?: IntructorApplicationCreateOrConnectWithoutUserInput
+    upsert?: IntructorApplicationUpsertWithoutUserInput
+    disconnect?: IntructorApplicationWhereInput | boolean
+    delete?: IntructorApplicationWhereInput | boolean
+    connect?: IntructorApplicationWhereUniqueInput
+    update?: XOR<XOR<IntructorApplicationUpdateToOneWithWhereWithoutUserInput, IntructorApplicationUpdateWithoutUserInput>, IntructorApplicationUncheckedUpdateWithoutUserInput>
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -18240,6 +19846,16 @@ export namespace Prisma {
     update?: OrderUpdateWithWhereUniqueWithoutUserInput | OrderUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: OrderUpdateManyWithWhereWithoutUserInput | OrderUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<IntructorApplicationCreateWithoutUserInput, IntructorApplicationUncheckedCreateWithoutUserInput>
+    connectOrCreate?: IntructorApplicationCreateOrConnectWithoutUserInput
+    upsert?: IntructorApplicationUpsertWithoutUserInput
+    disconnect?: IntructorApplicationWhereInput | boolean
+    delete?: IntructorApplicationWhereInput | boolean
+    connect?: IntructorApplicationWhereUniqueInput
+    update?: XOR<XOR<IntructorApplicationUpdateToOneWithWhereWithoutUserInput, IntructorApplicationUpdateWithoutUserInput>, IntructorApplicationUncheckedUpdateWithoutUserInput>
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -18573,6 +20189,20 @@ export namespace Prisma {
     deleteMany?: CartScalarWhereInput | CartScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutIntructorApplicationInput = {
+    create?: XOR<UserCreateWithoutIntructorApplicationInput, UserUncheckedCreateWithoutIntructorApplicationInput>
+    connectOrCreate?: UserCreateOrConnectWithoutIntructorApplicationInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutIntructorApplicationNestedInput = {
+    create?: XOR<UserCreateWithoutIntructorApplicationInput, UserUncheckedCreateWithoutIntructorApplicationInput>
+    connectOrCreate?: UserCreateOrConnectWithoutIntructorApplicationInput
+    upsert?: UserUpsertWithoutIntructorApplicationInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutIntructorApplicationInput, UserUpdateWithoutIntructorApplicationInput>, UserUncheckedUpdateWithoutIntructorApplicationInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -18860,6 +20490,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     carts?: CartCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -18877,6 +20508,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -19216,6 +20848,43 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type IntructorApplicationCreateWithoutUserInput = {
+    id?: string
+    name: string
+    bio: string
+    job: string
+    address: string
+    phone: string
+    birthDate: Date | string
+    socialLinks: JsonNullValueInput | InputJsonValue
+    file: string
+    email: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IntructorApplicationUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    bio: string
+    job: string
+    address: string
+    phone: string
+    birthDate: Date | string
+    socialLinks: JsonNullValueInput | InputJsonValue
+    file: string
+    email: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IntructorApplicationCreateOrConnectWithoutUserInput = {
+    where: IntructorApplicationWhereUniqueInput
+    create: XOR<IntructorApplicationCreateWithoutUserInput, IntructorApplicationUncheckedCreateWithoutUserInput>
+  }
+
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
     where: SessionWhereUniqueInput
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
@@ -19386,6 +21055,49 @@ export namespace Prisma {
     discountId?: StringNullableFilter<"Order"> | string | null
   }
 
+  export type IntructorApplicationUpsertWithoutUserInput = {
+    update: XOR<IntructorApplicationUpdateWithoutUserInput, IntructorApplicationUncheckedUpdateWithoutUserInput>
+    create: XOR<IntructorApplicationCreateWithoutUserInput, IntructorApplicationUncheckedCreateWithoutUserInput>
+    where?: IntructorApplicationWhereInput
+  }
+
+  export type IntructorApplicationUpdateToOneWithWhereWithoutUserInput = {
+    where?: IntructorApplicationWhereInput
+    data: XOR<IntructorApplicationUpdateWithoutUserInput, IntructorApplicationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type IntructorApplicationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    bio?: StringFieldUpdateOperationsInput | string
+    job?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    socialLinks?: JsonNullValueInput | InputJsonValue
+    file?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IntructorApplicationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    bio?: StringFieldUpdateOperationsInput | string
+    job?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    socialLinks?: JsonNullValueInput | InputJsonValue
+    file?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id: string
     name: string
@@ -19401,6 +21113,7 @@ export namespace Prisma {
     courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -19418,6 +21131,7 @@ export namespace Prisma {
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -19451,6 +21165,7 @@ export namespace Prisma {
     courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -19468,6 +21183,7 @@ export namespace Prisma {
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -19485,6 +21201,7 @@ export namespace Prisma {
     courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -19502,6 +21219,7 @@ export namespace Prisma {
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -19535,6 +21253,7 @@ export namespace Prisma {
     courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -19552,6 +21271,7 @@ export namespace Prisma {
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCartsInput = {
@@ -19569,6 +21289,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUsersInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCartsInput = {
@@ -19586,6 +21307,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCartsInput = {
@@ -19648,6 +21370,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUsersNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartsInput = {
@@ -19665,6 +21388,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type DiscountUpsertWithoutCartsInput = {
@@ -19922,6 +21646,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOrdersInput = {
@@ -19939,6 +21664,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOrdersInput = {
@@ -20027,6 +21753,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -20044,6 +21771,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type orderItemsUpsertWithWhereUniqueWithoutOrderInput = {
@@ -20385,6 +22113,94 @@ export namespace Prisma {
     data: XOR<CartUpdateManyMutationInput, CartUncheckedUpdateManyWithoutDiscountInput>
   }
 
+  export type UserCreateWithoutIntructorApplicationInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string
+    role?: string
+    billingInfo?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUsersInput
+    carts?: CartCreateNestedManyWithoutUserInput
+    orders?: OrderCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutIntructorApplicationInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string
+    role?: string
+    billingInfo?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
+    carts?: CartUncheckedCreateNestedManyWithoutUserInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutIntructorApplicationInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutIntructorApplicationInput, UserUncheckedCreateWithoutIntructorApplicationInput>
+  }
+
+  export type UserUpsertWithoutIntructorApplicationInput = {
+    update: XOR<UserUpdateWithoutIntructorApplicationInput, UserUncheckedUpdateWithoutIntructorApplicationInput>
+    create: XOR<UserCreateWithoutIntructorApplicationInput, UserUncheckedCreateWithoutIntructorApplicationInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutIntructorApplicationInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutIntructorApplicationInput, UserUncheckedUpdateWithoutIntructorApplicationInput>
+  }
+
+  export type UserUpdateWithoutIntructorApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    billingInfo?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUsersNestedInput
+    carts?: CartUpdateManyWithoutUserNestedInput
+    orders?: OrderUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutIntructorApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    billingInfo?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
+    carts?: CartUncheckedUpdateManyWithoutUserNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type SectionCreateManyCourseInput = {
     id?: string
     title: string
@@ -20415,6 +22231,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -20432,6 +22249,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCoursesInput = {

@@ -37,38 +37,23 @@ model Course {
   orderItems   orderItems[]
 }
 
-// model Instructor {
-//   id          String   @id @default(uuid())
-//   name        String
-//   bio         String   @db.Text
-//   job         String
-//   address     String
-//   avatar      String
-//   email       String   @unique
-//   phone       String
-//   birthDate   DateTime
-//   socialLinks Json?    @db.Json
-//   courses     Course[]
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-// }
-
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String    @default("https://res.cloudinary.com/ahmed--dev/image/upload/v1755243182/default_avatar_7541d4c434.webp")
-  role          String    @default("user")
-  billingInfo   Json?     @db.Json
-  status        String    @default("online")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-  courses       Course[]
-  carts         Cart[]
-  orders        Order[]
+  id                   String                @id
+  name                 String
+  email                String
+  emailVerified        Boolean               @default(false)
+  image                String                @default("https://res.cloudinary.com/ahmed--dev/image/upload/v1755243182/default_avatar_7541d4c434.webp")
+  role                 String                @default("user")
+  billingInfo          Json?                 @db.Json
+  status               String                @default("online")
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  sessions             Session[]
+  accounts             Account[]
+  courses              Course[]
+  carts                Cart[]
+  orders               Order[]
+  intructorApplication IntructorApplication?
 
   @@unique([email])
   @@map("user")
@@ -201,4 +186,38 @@ model Discount {
   updatedAt      DateTime @updatedAt
   orders         Order[]
   carts          Cart[]
+}
+
+// model Instructor {
+//   id          String   @id @default(uuid())
+//   name        String
+//   bio         String   @db.Text
+//   job         String
+//   address     String
+//   avatar      String
+//   email       String   @unique
+//   phone       String
+//   birthDate   DateTime
+//   socialLinks Json?    @db.Json
+//   courses     Course[]
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+
+model IntructorApplication {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  bio         String   @db.Text
+  job         String
+  address     String
+  phone       String
+  birthDate   DateTime
+  socialLinks Json     @db.Json
+  file        String
+  email       String   @unique
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
