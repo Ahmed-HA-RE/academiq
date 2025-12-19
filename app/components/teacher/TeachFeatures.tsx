@@ -66,7 +66,7 @@ const tabsData = [
 
 const TeachFeatures = () => {
   return (
-    <section className='my-16'>
+    <section className='section-spacing'>
       <div className='container'>
         <div className='mb-6 flex items-center justify-between gap-9 max-sm:flex-col'>
           <div className='max-w-3xl'>
@@ -112,7 +112,7 @@ const TeachFeatures = () => {
                   alt='brand-logo'
                   width={128}
                   height={128}
-                  className='z-1 size-32 rounded-4xl dark:invert'
+                  className='z-1 size-32 rounded-4xl'
                 />
               </div>
               <div className='absolute inset-0'>

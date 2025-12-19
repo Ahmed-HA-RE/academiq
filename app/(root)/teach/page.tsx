@@ -1,3 +1,4 @@
+import Checklist from '@/app/components/teacher/Checklist';
 import TeacherHero from '@/app/components/teacher/TeacherHero';
 import TeachFeatures from '@/app/components/teacher/TeachFeatures';
 
@@ -6,6 +7,7 @@ const BecomeAnInstructorPage = () => {
     <>
       <TeacherHero />
       <TeachFeatures />
+      <Checklist />
     </>
   );
 };

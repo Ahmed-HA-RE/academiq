@@ -71,7 +71,7 @@ const CheckoutDetails = ({
   };
 
   return (
-    <section className='mb-10'>
+    <section className='section-spacing'>
       <div className='container'>
         <div className='grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-5'>
           <div className='space-y-6 md:col-span-2 lg:col-span-2'>

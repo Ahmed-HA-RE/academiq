@@ -9,10 +9,14 @@
   }
 
   .link-affect {
-    @apply after:bg-primary relative !no-underline after:absolute after:bottom-2 after:h-px after:w-[80%] after:origin-bottom-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100;
+    @apply after:bg-primary relative !no-underline after:absolute after:bottom-2 after:h-px after:w-[70%] after:origin-bottom-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100;
   }
   .container {
     @apply max-w-7xl mx-auto p-6;
+  }
+
+  .section-spacing {
+    @apply py-8 sm:py-16 lg:py-24;
   }
   .input {
     @apply focus-visible:ring-blue-400 focus-visible:border-blue-400 dark:focus-visible:ring-blue-400 dark:focus-visible:border-blue-400 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive;

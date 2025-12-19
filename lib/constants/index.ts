@@ -40,3 +40,26 @@ export const testimonials = [
       'https://res.cloudinary.com/ahmed--dev/image/upload/v1765127342/review-1_dm5bue.jpg',
   },
 ];
+
+export const checklist = [
+  {
+    value: 'Strong Subject Understanding',
+    description:
+      'You have a solid grasp of the topic you want to teach and can break down ideas into clear, easy-to-follow lessons.',
+  },
+  {
+    value: 'Clear Communication Skills',
+    description:
+      'You are able to explain concepts in a structured and understandable way, whether through video, text, or examples.',
+  },
+  {
+    value: 'Commitment to Student Learning',
+    description:
+      'You are willing to support learners by answering questions, updating content when needed, and guiding them through the course.',
+  },
+  {
+    value: 'Professional Responsibility',
+    description:
+      'You agree to follow platform guidelines, respect learners, and maintain a professional and ethical teaching environment.',
+  },
+];

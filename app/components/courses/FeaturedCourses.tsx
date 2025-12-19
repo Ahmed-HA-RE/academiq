@@ -9,7 +9,7 @@ const FeaturedCourses = async () => {
   const user = await getUserById();
 
   return (
-    <section className='mb-16 md:mb-25'>
+    <section className='section-spacing'>
       <div className='container'>
         <h2 className='text-2xl md:text-3xl font-bold mb-6 dark:text-white'>
           Featured Courses

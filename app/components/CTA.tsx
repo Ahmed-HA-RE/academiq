@@ -5,7 +5,7 @@ import { MotionPreset } from './ui/motion-preset';
 
 const CTA = () => {
   return (
-    <section className=' bg-blue-50 dark:bg-zinc-900 py-8'>
+    <section className=' bg-blue-50 dark:bg-zinc-900 section-spacing'>
       <MotionPreset
         component='div'
         className='container'
