@@ -24,6 +24,7 @@ import { Button } from '../ui/button';
 import { TEACHING_CATEGORIES } from '@/lib/constants';
 import MultipleSelector from '../ui/multi-select';
 import { auth } from '@/lib/auth';
+import { applyToTeach } from '@/lib/actions/instructor';
 
 const ApplicationForm = ({
   user,
@@ -49,7 +50,13 @@ const ApplicationForm = ({
   });
 
   const onSubmit = async (data: z.infer<typeof createApplicationSchema>) => {
-    console.log(data);
+    const res = await applyToTeach(data);
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+    toast.success(res.message);
+    setTimeout(() => window.location.reload(), 700);
   };
 
   return (
@@ -123,12 +130,10 @@ const ApplicationForm = ({
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>
-                    Tell us about yourself
-                  </FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Bio</FieldLabel>
                   <Textarea
                     id={field.name}
-                    placeholder='Introduce yourself and your teaching experience'
+                    placeholder='Tell us about yourself'
                     className='field-sizing-content max-h-30 min-h-0 resize-none py-1.75 input'
                     {...field}
                   />

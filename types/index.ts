@@ -92,3 +92,9 @@ export type InstructorApplication = z.infer<typeof createApplicationSchema> & {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type SocialLinks = {
+  whaatsapp?: string;
+  linkedin?: string;
+  instagram?: string;
+};

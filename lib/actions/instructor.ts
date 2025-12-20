@@ -1,0 +1,74 @@
+'use server';
+
+import { auth } from '../auth';
+import { headers } from 'next/headers';
+import { createApplicationSchema } from '@/schema';
+import z from 'zod';
+import cloudinary from '../cloudinary';
+import { UploadApiResponse, UploadStream } from 'cloudinary';
+import { prisma } from '../prisma';
+
+export const applyToTeach = async (
+  data: z.infer<typeof createApplicationSchema>
+) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) throw new Error('Unauthorized');
+
+    const validateData = createApplicationSchema.safeParse(data);
+    if (!validateData.success) throw new Error('Invalid data');
+
+    // Check if user already applied
+
+    const existingApplication = await prisma.intructorApplication.findUnique({
+      where: { userId: session.user.id },
+    });
+
+    if (existingApplication) throw new Error('You have already applied.');
+
+    // Convert the PDF URL to a buffer
+    const arrayBuffer = await validateData.data.file.arrayBuffer();
+    const buffer = new Uint8Array(arrayBuffer);
+
+    // Upload the buffer to Cloudinary
+    const result: UploadApiResponse = await new Promise((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream(
+          {
+            folder: '/academiq/instructors-application-pdf',
+            public_id: `application_${session.user.name}`,
+            overwrite: true,
+          },
+          function (error, result) {
+            if (error) {
+              reject(error);
+              return;
+            }
+            resolve(result as UploadApiResponse);
+          }
+        )
+        .end(buffer);
+    });
+
+    // Save application to the database
+    await prisma.intructorApplication.create({
+      data: {
+        ...validateData.data,
+        userId: session.user.id,
+        file: result.secure_url,
+        socialLinks: {
+          linkedin: `https://www.linkedin.com/in/${validateData.data.socialLinks?.linkedin}`,
+          whatsapp: `https://wa.me/${validateData.data.socialLinks?.whatsapp?.slice(1)}`,
+          instagram: `https://www.instagram.com/${validateData.data.socialLinks?.instagram}`,
+        },
+      },
+    });
+
+    return { success: true, message: 'Application submitted successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};

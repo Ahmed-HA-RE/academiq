@@ -14895,13 +14895,11 @@ export namespace Prisma {
   export type IntructorApplicationMinAggregateOutputType = {
     id: string | null
     userId: string | null
-    name: string | null
     bio: string | null
     address: string | null
     phone: string | null
     birthDate: Date | null
     file: string | null
-    email: string | null
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -14910,13 +14908,11 @@ export namespace Prisma {
   export type IntructorApplicationMaxAggregateOutputType = {
     id: string | null
     userId: string | null
-    name: string | null
     bio: string | null
     address: string | null
     phone: string | null
     birthDate: Date | null
     file: string | null
-    email: string | null
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -14925,7 +14921,6 @@ export namespace Prisma {
   export type IntructorApplicationCountAggregateOutputType = {
     id: number
     userId: number
-    name: number
     bio: number
     expertise: number
     address: number
@@ -14933,7 +14928,6 @@ export namespace Prisma {
     birthDate: number
     socialLinks: number
     file: number
-    email: number
     status: number
     createdAt: number
     updatedAt: number
@@ -14944,13 +14938,11 @@ export namespace Prisma {
   export type IntructorApplicationMinAggregateInputType = {
     id?: true
     userId?: true
-    name?: true
     bio?: true
     address?: true
     phone?: true
     birthDate?: true
     file?: true
-    email?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -14959,13 +14951,11 @@ export namespace Prisma {
   export type IntructorApplicationMaxAggregateInputType = {
     id?: true
     userId?: true
-    name?: true
     bio?: true
     address?: true
     phone?: true
     birthDate?: true
     file?: true
-    email?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -14974,7 +14964,6 @@ export namespace Prisma {
   export type IntructorApplicationCountAggregateInputType = {
     id?: true
     userId?: true
-    name?: true
     bio?: true
     expertise?: true
     address?: true
@@ -14982,7 +14971,6 @@ export namespace Prisma {
     birthDate?: true
     socialLinks?: true
     file?: true
-    email?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -15064,7 +15052,6 @@ export namespace Prisma {
   export type IntructorApplicationGroupByOutputType = {
     id: string
     userId: string
-    name: string
     bio: string
     expertise: string[]
     address: string
@@ -15072,7 +15059,6 @@ export namespace Prisma {
     birthDate: Date
     socialLinks: JsonValue | null
     file: string
-    email: string
     status: string
     createdAt: Date
     updatedAt: Date
@@ -15098,7 +15084,6 @@ export namespace Prisma {
   export type IntructorApplicationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    name?: boolean
     bio?: boolean
     expertise?: boolean
     address?: boolean
@@ -15106,7 +15091,6 @@ export namespace Prisma {
     birthDate?: boolean
     socialLinks?: boolean
     file?: boolean
-    email?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -15116,7 +15100,6 @@ export namespace Prisma {
   export type IntructorApplicationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    name?: boolean
     bio?: boolean
     expertise?: boolean
     address?: boolean
@@ -15124,7 +15107,6 @@ export namespace Prisma {
     birthDate?: boolean
     socialLinks?: boolean
     file?: boolean
-    email?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -15134,7 +15116,6 @@ export namespace Prisma {
   export type IntructorApplicationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    name?: boolean
     bio?: boolean
     expertise?: boolean
     address?: boolean
@@ -15142,7 +15123,6 @@ export namespace Prisma {
     birthDate?: boolean
     socialLinks?: boolean
     file?: boolean
-    email?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -15152,7 +15132,6 @@ export namespace Prisma {
   export type IntructorApplicationSelectScalar = {
     id?: boolean
     userId?: boolean
-    name?: boolean
     bio?: boolean
     expertise?: boolean
     address?: boolean
@@ -15160,13 +15139,12 @@ export namespace Prisma {
     birthDate?: boolean
     socialLinks?: boolean
     file?: boolean
-    email?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type IntructorApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "bio" | "expertise" | "address" | "phone" | "birthDate" | "socialLinks" | "file" | "email" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["intructorApplication"]>
+  export type IntructorApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "bio" | "expertise" | "address" | "phone" | "birthDate" | "socialLinks" | "file" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["intructorApplication"]>
   export type IntructorApplicationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -15185,7 +15163,6 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
-      name: string
       bio: string
       expertise: string[]
       address: string
@@ -15193,7 +15170,6 @@ export namespace Prisma {
       birthDate: Date
       socialLinks: Prisma.JsonValue | null
       file: string
-      email: string
       status: string
       createdAt: Date
       updatedAt: Date
@@ -15623,7 +15599,6 @@ export namespace Prisma {
   interface IntructorApplicationFieldRefs {
     readonly id: FieldRef<"IntructorApplication", 'String'>
     readonly userId: FieldRef<"IntructorApplication", 'String'>
-    readonly name: FieldRef<"IntructorApplication", 'String'>
     readonly bio: FieldRef<"IntructorApplication", 'String'>
     readonly expertise: FieldRef<"IntructorApplication", 'String[]'>
     readonly address: FieldRef<"IntructorApplication", 'String'>
@@ -15631,7 +15606,6 @@ export namespace Prisma {
     readonly birthDate: FieldRef<"IntructorApplication", 'DateTime'>
     readonly socialLinks: FieldRef<"IntructorApplication", 'Json'>
     readonly file: FieldRef<"IntructorApplication", 'String'>
-    readonly email: FieldRef<"IntructorApplication", 'String'>
     readonly status: FieldRef<"IntructorApplication", 'String'>
     readonly createdAt: FieldRef<"IntructorApplication", 'DateTime'>
     readonly updatedAt: FieldRef<"IntructorApplication", 'DateTime'>
@@ -16234,7 +16208,6 @@ export namespace Prisma {
   export const IntructorApplicationScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    name: 'name',
     bio: 'bio',
     expertise: 'expertise',
     address: 'address',
@@ -16242,7 +16215,6 @@ export namespace Prisma {
     birthDate: 'birthDate',
     socialLinks: 'socialLinks',
     file: 'file',
-    email: 'email',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -17300,7 +17272,6 @@ export namespace Prisma {
     NOT?: IntructorApplicationWhereInput | IntructorApplicationWhereInput[]
     id?: StringFilter<"IntructorApplication"> | string
     userId?: StringFilter<"IntructorApplication"> | string
-    name?: StringFilter<"IntructorApplication"> | string
     bio?: StringFilter<"IntructorApplication"> | string
     expertise?: StringNullableListFilter<"IntructorApplication">
     address?: StringFilter<"IntructorApplication"> | string
@@ -17308,7 +17279,6 @@ export namespace Prisma {
     birthDate?: DateTimeFilter<"IntructorApplication"> | Date | string
     socialLinks?: JsonNullableFilter<"IntructorApplication">
     file?: StringFilter<"IntructorApplication"> | string
-    email?: StringFilter<"IntructorApplication"> | string
     status?: StringFilter<"IntructorApplication"> | string
     createdAt?: DateTimeFilter<"IntructorApplication"> | Date | string
     updatedAt?: DateTimeFilter<"IntructorApplication"> | Date | string
@@ -17318,7 +17288,6 @@ export namespace Prisma {
   export type IntructorApplicationOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    name?: SortOrder
     bio?: SortOrder
     expertise?: SortOrder
     address?: SortOrder
@@ -17326,7 +17295,6 @@ export namespace Prisma {
     birthDate?: SortOrder
     socialLinks?: SortOrderInput | SortOrder
     file?: SortOrder
-    email?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17336,11 +17304,9 @@ export namespace Prisma {
   export type IntructorApplicationWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     userId?: string
-    email?: string
     AND?: IntructorApplicationWhereInput | IntructorApplicationWhereInput[]
     OR?: IntructorApplicationWhereInput[]
     NOT?: IntructorApplicationWhereInput | IntructorApplicationWhereInput[]
-    name?: StringFilter<"IntructorApplication"> | string
     bio?: StringFilter<"IntructorApplication"> | string
     expertise?: StringNullableListFilter<"IntructorApplication">
     address?: StringFilter<"IntructorApplication"> | string
@@ -17352,12 +17318,11 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"IntructorApplication"> | Date | string
     updatedAt?: DateTimeFilter<"IntructorApplication"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "userId" | "email">
+  }, "id" | "userId">
 
   export type IntructorApplicationOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    name?: SortOrder
     bio?: SortOrder
     expertise?: SortOrder
     address?: SortOrder
@@ -17365,7 +17330,6 @@ export namespace Prisma {
     birthDate?: SortOrder
     socialLinks?: SortOrderInput | SortOrder
     file?: SortOrder
-    email?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17380,7 +17344,6 @@ export namespace Prisma {
     NOT?: IntructorApplicationScalarWhereWithAggregatesInput | IntructorApplicationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"IntructorApplication"> | string
     userId?: StringWithAggregatesFilter<"IntructorApplication"> | string
-    name?: StringWithAggregatesFilter<"IntructorApplication"> | string
     bio?: StringWithAggregatesFilter<"IntructorApplication"> | string
     expertise?: StringNullableListFilter<"IntructorApplication">
     address?: StringWithAggregatesFilter<"IntructorApplication"> | string
@@ -17388,7 +17351,6 @@ export namespace Prisma {
     birthDate?: DateTimeWithAggregatesFilter<"IntructorApplication"> | Date | string
     socialLinks?: JsonNullableWithAggregatesFilter<"IntructorApplication">
     file?: StringWithAggregatesFilter<"IntructorApplication"> | string
-    email?: StringWithAggregatesFilter<"IntructorApplication"> | string
     status?: StringWithAggregatesFilter<"IntructorApplication"> | string
     createdAt?: DateTimeWithAggregatesFilter<"IntructorApplication"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"IntructorApplication"> | Date | string
@@ -18383,7 +18345,6 @@ export namespace Prisma {
 
   export type IntructorApplicationCreateInput = {
     id?: string
-    name: string
     bio: string
     expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
@@ -18391,7 +18352,6 @@ export namespace Prisma {
     birthDate: Date | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file: string
-    email: string
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18401,7 +18361,6 @@ export namespace Prisma {
   export type IntructorApplicationUncheckedCreateInput = {
     id?: string
     userId: string
-    name: string
     bio: string
     expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
@@ -18409,7 +18368,6 @@ export namespace Prisma {
     birthDate: Date | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file: string
-    email: string
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18417,7 +18375,6 @@ export namespace Prisma {
 
   export type IntructorApplicationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
@@ -18425,7 +18382,6 @@ export namespace Prisma {
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18435,7 +18391,6 @@ export namespace Prisma {
   export type IntructorApplicationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
@@ -18443,7 +18398,6 @@ export namespace Prisma {
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18452,7 +18406,6 @@ export namespace Prisma {
   export type IntructorApplicationCreateManyInput = {
     id?: string
     userId: string
-    name: string
     bio: string
     expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
@@ -18460,7 +18413,6 @@ export namespace Prisma {
     birthDate: Date | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file: string
-    email: string
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18468,7 +18420,6 @@ export namespace Prisma {
 
   export type IntructorApplicationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
@@ -18476,7 +18427,6 @@ export namespace Prisma {
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18485,7 +18435,6 @@ export namespace Prisma {
   export type IntructorApplicationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
@@ -18493,7 +18442,6 @@ export namespace Prisma {
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19428,7 +19376,6 @@ export namespace Prisma {
   export type IntructorApplicationCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    name?: SortOrder
     bio?: SortOrder
     expertise?: SortOrder
     address?: SortOrder
@@ -19436,7 +19383,6 @@ export namespace Prisma {
     birthDate?: SortOrder
     socialLinks?: SortOrder
     file?: SortOrder
-    email?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -19445,13 +19391,11 @@ export namespace Prisma {
   export type IntructorApplicationMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    name?: SortOrder
     bio?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
     file?: SortOrder
-    email?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -19460,13 +19404,11 @@ export namespace Prisma {
   export type IntructorApplicationMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    name?: SortOrder
     bio?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
     file?: SortOrder
-    email?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -20861,7 +20803,6 @@ export namespace Prisma {
 
   export type IntructorApplicationCreateWithoutUserInput = {
     id?: string
-    name: string
     bio: string
     expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
@@ -20869,7 +20810,6 @@ export namespace Prisma {
     birthDate: Date | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file: string
-    email: string
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20877,7 +20817,6 @@ export namespace Prisma {
 
   export type IntructorApplicationUncheckedCreateWithoutUserInput = {
     id?: string
-    name: string
     bio: string
     expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
@@ -20885,7 +20824,6 @@ export namespace Prisma {
     birthDate: Date | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file: string
-    email: string
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21079,7 +21017,6 @@ export namespace Prisma {
 
   export type IntructorApplicationUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
@@ -21087,7 +21024,6 @@ export namespace Prisma {
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21095,7 +21031,6 @@ export namespace Prisma {
 
   export type IntructorApplicationUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
@@ -21103,7 +21038,6 @@ export namespace Prisma {
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
