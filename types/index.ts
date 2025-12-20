@@ -3,6 +3,7 @@ import {
   billingInfoSchema,
   cartItemsSchema,
   cartSchema,
+  createApplicationSchema,
   discountSchema,
   forgotPasswordSchema,
   instructorSchema,
@@ -83,4 +84,11 @@ export type User = {
   createdAt: Date;
   updatedAt: Date;
   courses: Pick<Course, 'id' | 'title' | 'slug' | 'image'>[];
+};
+
+export type InstructorApplication = z.infer<typeof createApplicationSchema> & {
+  id: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

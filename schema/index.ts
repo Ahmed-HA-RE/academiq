@@ -11,6 +11,11 @@ const moneyAmount = z
     message: 'Money amount must be greater than 0',
   });
 
+const fileSchema = z
+  .file({ error: 'File is required' })
+  .max(8_000_000, { error: 'Max file size is 8MB' })
+  .mime(['application/pdf'], { error: 'Only PDF file format is allowed' });
+
 // Courses schema
 export const baseCourseSchema = z.object({
   slug: z.string({ error: 'Invalid slug' }).min(1, 'Slug is required'),
@@ -130,29 +135,18 @@ export const cartSchema = z.object({
   totalPrice: moneyAmount,
 });
 
-//  name: 'Dania Haitham Rehan',
-//     bio: 'Dania is a senior full-stack instructor with over 8 years of experience teaching modern web technologies. She specializes in JavaScript, React, and scalable backend systems, and is known for her clear teaching style and hands-on project-driven curriculum.',
-//     job: 'Senior Full Stack Instructor',
-//     address: 'Dubai, UAE',
-//     avatar:
-//       'https://res.cloudinary.com/ahmed--dev/image/upload/v1765463809/dania_klajug.avif',
-//     email: 'dania@example.com',
-//     phone: '+971525418274',
-//     birthDate: '1993-06-14T00:00:00.000Z',
-//     socialLinks: {
-//       instagram: 'https://instagram.com/daniarehan',
-//       linkedin: 'https://linkedin.com/in/dania-rehan',
-//     },
-//     courses: [],
-//   },
-
 export const instructorSchema = z.object({
   name: z.string({ error: 'Invalid name' }).min(3, 'Name is required'),
   bio: z
     .string({ error: 'Invalid bio' })
     .min(1, 'Bio is required')
     .max(500, 'Bio is too long'),
-  job: z.string({ error: 'Invalid job' }).min(4, 'Job is required'),
+  expertise: z
+    .array(
+      z.string({ error: 'Invalid expertise' }),
+      'Please seperate with commas'
+    )
+    .min(1, 'Expertise is required'),
   address: z.string({ error: 'Invalid address' }).min(5, 'Address is required'),
   avatar: z.string({ error: 'Invalid avatar' }).min(1, 'Avatar is required'),
   email: z.email({ error: 'Invalid email address' }),
@@ -160,13 +154,14 @@ export const instructorSchema = z.object({
     .string({ error: 'Invalid phone number' })
     .regex(/^(?:\+971|971|0)?[0-9]{9}$/, 'Invalid UAE phone number'),
   birthDate: z
-    .string({ error: 'Invalid birth date' })
-    .min(1, 'Birth date is required'),
+    .date({ error: ' Invalid birth date' })
+    .min(new Date('1940-01-01'), 'Too old!')
+    .max(new Date('2006-01-01'), 'Too young!'),
   socialLinks: z
     .object({
-      whatsapp: z.url({ error: 'Invalid WhatsApp URL' }).optional(),
-      instagram: z.url({ error: 'Invalid Instagram URL' }).optional(),
-      linkedin: z.url({ error: 'Invalid LinkedIn URL' }).optional(),
+      whatsapp: z.url({ error: 'Invalid WhatsApp URL' }),
+      instagram: z.url({ error: 'Invalid Instagram URL' }),
+      linkedin: z.url({ error: 'Invalid LinkedIn URL' }),
     })
     .partial(),
   coursesId: z
@@ -210,3 +205,18 @@ export const orderItemSchema = z.object({
     .string({ error: 'Invalid course id' })
     .min(1, 'Course id is required'),
 });
+
+export const createApplicationSchema = instructorSchema
+  .pick({
+    name: true,
+    bio: true,
+    expertise: true,
+    address: true,
+    phone: true,
+    birthDate: true,
+    socialLinks: true,
+    email: true,
+  })
+  .extend({
+    file: fileSchema,
+  });

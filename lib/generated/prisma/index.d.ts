@@ -360,8 +360,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.1.0
-   * Query Engine version: ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba
+   * Prisma Client JS version: 7.2.0
+   * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
    */
   export type PrismaVersion = {
     client: string
@@ -14897,7 +14897,6 @@ export namespace Prisma {
     userId: string | null
     name: string | null
     bio: string | null
-    job: string | null
     address: string | null
     phone: string | null
     birthDate: Date | null
@@ -14913,7 +14912,6 @@ export namespace Prisma {
     userId: string | null
     name: string | null
     bio: string | null
-    job: string | null
     address: string | null
     phone: string | null
     birthDate: Date | null
@@ -14929,7 +14927,7 @@ export namespace Prisma {
     userId: number
     name: number
     bio: number
-    job: number
+    expertise: number
     address: number
     phone: number
     birthDate: number
@@ -14948,7 +14946,6 @@ export namespace Prisma {
     userId?: true
     name?: true
     bio?: true
-    job?: true
     address?: true
     phone?: true
     birthDate?: true
@@ -14964,7 +14961,6 @@ export namespace Prisma {
     userId?: true
     name?: true
     bio?: true
-    job?: true
     address?: true
     phone?: true
     birthDate?: true
@@ -14980,7 +14976,7 @@ export namespace Prisma {
     userId?: true
     name?: true
     bio?: true
-    job?: true
+    expertise?: true
     address?: true
     phone?: true
     birthDate?: true
@@ -15070,11 +15066,11 @@ export namespace Prisma {
     userId: string
     name: string
     bio: string
-    job: string
+    expertise: string[]
     address: string
     phone: string
     birthDate: Date
-    socialLinks: JsonValue
+    socialLinks: JsonValue | null
     file: string
     email: string
     status: string
@@ -15104,7 +15100,7 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     bio?: boolean
-    job?: boolean
+    expertise?: boolean
     address?: boolean
     phone?: boolean
     birthDate?: boolean
@@ -15122,7 +15118,7 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     bio?: boolean
-    job?: boolean
+    expertise?: boolean
     address?: boolean
     phone?: boolean
     birthDate?: boolean
@@ -15140,7 +15136,7 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     bio?: boolean
-    job?: boolean
+    expertise?: boolean
     address?: boolean
     phone?: boolean
     birthDate?: boolean
@@ -15158,7 +15154,7 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     bio?: boolean
-    job?: boolean
+    expertise?: boolean
     address?: boolean
     phone?: boolean
     birthDate?: boolean
@@ -15170,7 +15166,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type IntructorApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "bio" | "job" | "address" | "phone" | "birthDate" | "socialLinks" | "file" | "email" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["intructorApplication"]>
+  export type IntructorApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "bio" | "expertise" | "address" | "phone" | "birthDate" | "socialLinks" | "file" | "email" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["intructorApplication"]>
   export type IntructorApplicationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -15191,11 +15187,11 @@ export namespace Prisma {
       userId: string
       name: string
       bio: string
-      job: string
+      expertise: string[]
       address: string
       phone: string
       birthDate: Date
-      socialLinks: Prisma.JsonValue
+      socialLinks: Prisma.JsonValue | null
       file: string
       email: string
       status: string
@@ -15629,7 +15625,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"IntructorApplication", 'String'>
     readonly name: FieldRef<"IntructorApplication", 'String'>
     readonly bio: FieldRef<"IntructorApplication", 'String'>
-    readonly job: FieldRef<"IntructorApplication", 'String'>
+    readonly expertise: FieldRef<"IntructorApplication", 'String[]'>
     readonly address: FieldRef<"IntructorApplication", 'String'>
     readonly phone: FieldRef<"IntructorApplication", 'String'>
     readonly birthDate: FieldRef<"IntructorApplication", 'DateTime'>
@@ -16240,7 +16236,7 @@ export namespace Prisma {
     userId: 'userId',
     name: 'name',
     bio: 'bio',
-    job: 'job',
+    expertise: 'expertise',
     address: 'address',
     phone: 'phone',
     birthDate: 'birthDate',
@@ -17306,11 +17302,11 @@ export namespace Prisma {
     userId?: StringFilter<"IntructorApplication"> | string
     name?: StringFilter<"IntructorApplication"> | string
     bio?: StringFilter<"IntructorApplication"> | string
-    job?: StringFilter<"IntructorApplication"> | string
+    expertise?: StringNullableListFilter<"IntructorApplication">
     address?: StringFilter<"IntructorApplication"> | string
     phone?: StringFilter<"IntructorApplication"> | string
     birthDate?: DateTimeFilter<"IntructorApplication"> | Date | string
-    socialLinks?: JsonFilter<"IntructorApplication">
+    socialLinks?: JsonNullableFilter<"IntructorApplication">
     file?: StringFilter<"IntructorApplication"> | string
     email?: StringFilter<"IntructorApplication"> | string
     status?: StringFilter<"IntructorApplication"> | string
@@ -17324,11 +17320,11 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     bio?: SortOrder
-    job?: SortOrder
+    expertise?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
-    socialLinks?: SortOrder
+    socialLinks?: SortOrderInput | SortOrder
     file?: SortOrder
     email?: SortOrder
     status?: SortOrder
@@ -17346,11 +17342,11 @@ export namespace Prisma {
     NOT?: IntructorApplicationWhereInput | IntructorApplicationWhereInput[]
     name?: StringFilter<"IntructorApplication"> | string
     bio?: StringFilter<"IntructorApplication"> | string
-    job?: StringFilter<"IntructorApplication"> | string
+    expertise?: StringNullableListFilter<"IntructorApplication">
     address?: StringFilter<"IntructorApplication"> | string
     phone?: StringFilter<"IntructorApplication"> | string
     birthDate?: DateTimeFilter<"IntructorApplication"> | Date | string
-    socialLinks?: JsonFilter<"IntructorApplication">
+    socialLinks?: JsonNullableFilter<"IntructorApplication">
     file?: StringFilter<"IntructorApplication"> | string
     status?: StringFilter<"IntructorApplication"> | string
     createdAt?: DateTimeFilter<"IntructorApplication"> | Date | string
@@ -17363,11 +17359,11 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     bio?: SortOrder
-    job?: SortOrder
+    expertise?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
-    socialLinks?: SortOrder
+    socialLinks?: SortOrderInput | SortOrder
     file?: SortOrder
     email?: SortOrder
     status?: SortOrder
@@ -17386,11 +17382,11 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"IntructorApplication"> | string
     name?: StringWithAggregatesFilter<"IntructorApplication"> | string
     bio?: StringWithAggregatesFilter<"IntructorApplication"> | string
-    job?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    expertise?: StringNullableListFilter<"IntructorApplication">
     address?: StringWithAggregatesFilter<"IntructorApplication"> | string
     phone?: StringWithAggregatesFilter<"IntructorApplication"> | string
     birthDate?: DateTimeWithAggregatesFilter<"IntructorApplication"> | Date | string
-    socialLinks?: JsonWithAggregatesFilter<"IntructorApplication">
+    socialLinks?: JsonNullableWithAggregatesFilter<"IntructorApplication">
     file?: StringWithAggregatesFilter<"IntructorApplication"> | string
     email?: StringWithAggregatesFilter<"IntructorApplication"> | string
     status?: StringWithAggregatesFilter<"IntructorApplication"> | string
@@ -18389,11 +18385,11 @@ export namespace Prisma {
     id?: string
     name: string
     bio: string
-    job: string
+    expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
     phone: string
     birthDate: Date | string
-    socialLinks: JsonNullValueInput | InputJsonValue
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file: string
     email: string
     status?: string
@@ -18407,11 +18403,11 @@ export namespace Prisma {
     userId: string
     name: string
     bio: string
-    job: string
+    expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
     phone: string
     birthDate: Date | string
-    socialLinks: JsonNullValueInput | InputJsonValue
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file: string
     email: string
     status?: string
@@ -18423,11 +18419,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
-    job?: StringFieldUpdateOperationsInput | string
+    expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    socialLinks?: JsonNullValueInput | InputJsonValue
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -18441,11 +18437,11 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
-    job?: StringFieldUpdateOperationsInput | string
+    expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    socialLinks?: JsonNullValueInput | InputJsonValue
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -18458,11 +18454,11 @@ export namespace Prisma {
     userId: string
     name: string
     bio: string
-    job: string
+    expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
     phone: string
     birthDate: Date | string
-    socialLinks: JsonNullValueInput | InputJsonValue
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file: string
     email: string
     status?: string
@@ -18474,11 +18470,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
-    job?: StringFieldUpdateOperationsInput | string
+    expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    socialLinks?: JsonNullValueInput | InputJsonValue
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -18491,11 +18487,11 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
-    job?: StringFieldUpdateOperationsInput | string
+    expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    socialLinks?: JsonNullValueInput | InputJsonValue
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -19421,12 +19417,20 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type IntructorApplicationCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     name?: SortOrder
     bio?: SortOrder
-    job?: SortOrder
+    expertise?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
@@ -19443,7 +19447,6 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     bio?: SortOrder
-    job?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
@@ -19459,7 +19462,6 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     bio?: SortOrder
-    job?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
@@ -20189,10 +20191,19 @@ export namespace Prisma {
     deleteMany?: CartScalarWhereInput | CartScalarWhereInput[]
   }
 
+  export type IntructorApplicationCreateexpertiseInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedOneWithoutIntructorApplicationInput = {
     create?: XOR<UserCreateWithoutIntructorApplicationInput, UserUncheckedCreateWithoutIntructorApplicationInput>
     connectOrCreate?: UserCreateOrConnectWithoutIntructorApplicationInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type IntructorApplicationUpdateexpertiseInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type UserUpdateOneRequiredWithoutIntructorApplicationNestedInput = {
@@ -20852,11 +20863,11 @@ export namespace Prisma {
     id?: string
     name: string
     bio: string
-    job: string
+    expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
     phone: string
     birthDate: Date | string
-    socialLinks: JsonNullValueInput | InputJsonValue
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file: string
     email: string
     status?: string
@@ -20868,11 +20879,11 @@ export namespace Prisma {
     id?: string
     name: string
     bio: string
-    job: string
+    expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
     phone: string
     birthDate: Date | string
-    socialLinks: JsonNullValueInput | InputJsonValue
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file: string
     email: string
     status?: string
@@ -21070,11 +21081,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
-    job?: StringFieldUpdateOperationsInput | string
+    expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    socialLinks?: JsonNullValueInput | InputJsonValue
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -21086,11 +21097,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
-    job?: StringFieldUpdateOperationsInput | string
+    expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    socialLinks?: JsonNullValueInput | InputJsonValue
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
     file?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string

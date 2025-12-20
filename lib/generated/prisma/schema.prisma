@@ -210,11 +210,11 @@ model IntructorApplication {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   name        String
   bio         String   @db.Text
-  job         String
+  expertise   String[]
   address     String
   phone       String
   birthDate   DateTime
-  socialLinks Json     @db.Json
+  socialLinks Json?    @db.Json
   file        String
   email       String   @unique
   status      String   @default("pending")
