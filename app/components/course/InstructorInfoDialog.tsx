@@ -41,7 +41,7 @@ const InstructorInfoDialog = ({ instructor }: { instructor: Instructor }) => {
           <div className='border-4 border-white rounded-full overflow-hidden'>
             <Image
               src={instructor.avatar}
-              alt={`${instructor.name}'s avatar`}
+              alt={`${instructor.phone}'s avatar`}
               width={100}
               height={100}
               className='rounded-full '
@@ -54,7 +54,7 @@ const InstructorInfoDialog = ({ instructor }: { instructor: Instructor }) => {
               {/* Name */}
               <h3 className='text-xl font-medium'>{instructor.name}</h3>
               {/* Job */}
-              <h4>{instructor.job}</h4>
+              <h4>{instructor.expertise.join(', ')}</h4>
             </div>
             {/* Address */}
             <p className='flex items-center gap-2 '>

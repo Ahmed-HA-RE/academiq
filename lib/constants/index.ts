@@ -1,3 +1,5 @@
+import { Option } from '@/app/components/ui/multi-select';
+
 export const SERVER_URL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_PUBLIC_PROD_URL
@@ -96,3 +98,42 @@ export const faqItems = [
       'Simply press the button below to be directed to the application form. Be sure to enter valid data, and our team will review your application within 24 hours. You will receive a response with the next steps.',
   },
 ];
+
+export const TEACHING_CATEGORIES: Option[] = [
+  {
+    value: 'Web Development',
+    label: 'Web Development',
+    disable: true,
+  },
+  {
+    value: 'Frontend Development',
+    label: 'Frontend Development',
+  },
+  {
+    value: 'Backend Development',
+    label: 'Backend Development',
+  },
+  {
+    value: 'Mobile Development',
+    label: 'Mobile Development',
+  },
+  {
+    value: 'Business',
+    label: 'Business',
+    disable: true,
+  },
+  {
+    value: 'Enterpreneurship',
+    label: 'Enterpreneurship',
+  },
+  {
+    value: 'Marketing',
+    label: 'Marketing',
+  },
+  {
+    value: 'Project Management',
+    label: 'Project Management',
+  },
+];
+
+export const validCountryPhones = ['AE', 'SA', 'KW', 'QA', 'OM', 'BH'];

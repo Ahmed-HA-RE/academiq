@@ -21,22 +21,29 @@ import { Textarea } from '../ui/textarea';
 import { Calendar } from '../ui/calendar';
 import FileUpload from '../FileUpload';
 import { Button } from '../ui/button';
+import { TEACHING_CATEGORIES } from '@/lib/constants';
+import MultipleSelector from '../ui/multi-select';
+import { auth } from '@/lib/auth';
 
-const ApplicationForm = () => {
+const ApplicationForm = ({
+  user,
+}: {
+  user: typeof auth.$Infer.Session.user;
+}) => {
   const form = useForm<z.infer<typeof createApplicationSchema>>({
     resolver: zodResolver(createApplicationSchema),
     defaultValues: {
-      name: '',
+      userId: user.id,
       bio: '',
       expertise: [],
       address: '',
       phone: '',
-      email: '',
       socialLinks: {
         instagram: '',
         linkedin: '',
         whatsapp: '',
       },
+
       birthDate: new Date(),
     },
   });
@@ -56,70 +63,29 @@ const ApplicationForm = () => {
         </FieldDescription>
         <FieldGroup className='gap-6'>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-            {/* Name */}
-            <Controller
-              name='name'
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel className='leading-5' htmlFor={field.name}>
-                    Full Name
-                  </FieldLabel>
-                  <Input
-                    type='text'
-                    id={field.name}
-                    placeholder='Enter your full name'
-                    aria-invalid={fieldState.invalid}
-                    className='input'
-                    {...field}
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
             {/* Expertise */}
             <Controller
               name='expertise'
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel className='leading-5' htmlFor={field.name}>
-                    Expertise
-                  </FieldLabel>
-                  <Input
-                    type='text'
-                    id={field.name}
-                    placeholder='Web Development, Data Science, etc.'
-                    aria-invalid={fieldState.invalid}
-                    className='input'
-                    {...field}
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-          </div>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-            {/* Email */}
-            <Controller
-              name='email'
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel className='leading-5' htmlFor={field.name}>
-                    Email address
-                  </FieldLabel>
-                  <Input
-                    type='email'
-                    id={field.name}
-                    placeholder='Enter your email address'
-                    aria-invalid={fieldState.invalid}
-                    className='input'
-                    {...field}
+                  <FieldLabel htmlFor={field.name}>Expertise</FieldLabel>
+                  <MultipleSelector
+                    commandProps={{
+                      label: 'Select categories',
+                    }}
+                    value={TEACHING_CATEGORIES.filter((option) =>
+                      field.value.includes(option.value)
+                    )}
+                    onChange={(options) =>
+                      field.onChange(options.map((opt) => opt.value))
+                    }
+                    defaultOptions={TEACHING_CATEGORIES}
+                    placeholder='Select categories'
+                    emptyIndicator={
+                      <p className='text-center text-sm'>No results found</p>
+                    }
+                    className='w-full'
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />

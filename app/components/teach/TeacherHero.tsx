@@ -1,7 +1,6 @@
 'use client';
 import { useRef } from 'react';
 import {
-  ArrowRightIcon,
   CodeXmlIcon,
   Users,
   LayoutDashboardIcon,
@@ -9,13 +8,10 @@ import {
   GraduationCap,
   TvMinimalPlay,
 } from 'lucide-react';
-import { Button } from '@/app/components/ui/button';
 import { Badge } from '@/app/components/ui/badge';
 import Image from 'next/image';
 
 import { AnimatedBeam } from '@/app/components/ui/animated-beam';
-import Link from 'next/link';
-
 const TeacherHeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const iconRef1 = useRef<HTMLDivElement>(null);
@@ -36,14 +32,14 @@ const TeacherHeroSection = () => {
 
   return (
     <section className='flex-1 overflow-hidden py-4'>
-      <div className='container flex-col items-center gap-8 px-4 sm:gap-16'>
+      <div className='container flex-col items-center gap-8 px-4 sm:gap-16 space-y-10'>
         {/* Hero Content */}
-        <div className='flex flex-col items-center gap-4 text-center mb-5 sm:mb-0'>
+        <div className='flex flex-col items-center gap-4 text-center'>
           <Badge variant='outline' className='text-sm font-normal'>
             Trusted by Educators
           </Badge>
 
-          <h1 className='text-3xl font-semibold sm:text-4xl lg:text-5xl lg:font-bold'>
+          <h1 className='text-3xl font-semibold sm:text-4xl lg:text-5xl lg:font-bold mb-2'>
             Launch Classes{' '}
             <span className='underline underline-offset-3'>Effortlessly</span>
           </h1>
@@ -53,17 +49,6 @@ const TeacherHeroSection = () => {
             <br className='max-lg:hidden' /> Use ready-made modules for seamless
             course creation and delivery.
           </p>
-
-          <Button
-            size='lg'
-            className='group relative w-fit overflow-hidden rounded-lg text-base before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:transition-[background-position_0s_ease] before:duration-1000 hover:before:bg-[position:-100%_0,0_0] has-[>svg]:px-6 dark:before:bg-[linear-gradient(45deg,transparent_25%,rgba(0,0,0,0.2)_50%,transparent_75%,transparent_100%)]'
-            asChild
-          >
-            <Link href='/teach/apply'>
-              Apply Now{' '}
-              <ArrowRightIcon className='transition-transform duration-200 group-hover:translate-x-0.5' />
-            </Link>
-          </Button>
         </div>
         <div
           ref={containerRef}

@@ -1,5 +1,7 @@
 import { CITY_OPTIONS } from '@/lib/utils';
+import parsePhoneNumberFromString, { CountryCode } from 'libphonenumber-js';
 import z from 'zod';
+import { validCountryPhones } from '@/lib/constants';
 
 // Decimal validation
 const moneyAmount = z
@@ -11,11 +13,24 @@ const moneyAmount = z
     message: 'Money amount must be greater than 0',
   });
 
+// File validation
 const fileSchema = z
   .file({ error: 'File is required' })
   .max(8_000_000, { error: 'Max file size is 8MB' })
   .mime(['application/pdf'], { error: 'Only PDF file format is allowed' });
 
+// Phone number validation
+const phoneSchema = z.string().refine(
+  (val) => {
+    for (const country of validCountryPhones) {
+      const phone = parsePhoneNumberFromString(val, country as CountryCode);
+      if (phone?.isValid()) return true;
+    }
+  },
+  {
+    error: 'Invalid phone number',
+  }
+);
 // Courses schema
 export const baseCourseSchema = z.object({
   slug: z.string({ error: 'Invalid slug' }).min(1, 'Slug is required'),
@@ -136,32 +151,34 @@ export const cartSchema = z.object({
 });
 
 export const instructorSchema = z.object({
-  name: z.string({ error: 'Invalid name' }).min(3, 'Name is required'),
+  name: z
+    .string({ error: 'Invalid name' })
+    .min(1, 'Name is required')
+    .max(100, 'Name is too long'),
+  email: z.email({ error: 'Invalid email address' }),
   bio: z
     .string({ error: 'Invalid bio' })
     .min(1, 'Bio is required')
     .max(500, 'Bio is too long'),
   expertise: z
-    .array(
-      z.string({ error: 'Invalid expertise' }),
-      'Please seperate with commas'
-    )
-    .min(1, 'Expertise is required'),
+    .array(z.string({ error: 'Invalid expertise' }))
+    .min(1, 'At least one expertise is required'),
   address: z.string({ error: 'Invalid address' }).min(5, 'Address is required'),
   avatar: z.string({ error: 'Invalid avatar' }).min(1, 'Avatar is required'),
-  email: z.email({ error: 'Invalid email address' }),
-  phone: z
-    .string({ error: 'Invalid phone number' })
-    .regex(/^(?:\+971|971|0)?[0-9]{9}$/, 'Invalid UAE phone number'),
+  phone: phoneSchema,
   birthDate: z
     .date({ error: ' Invalid birth date' })
     .min(new Date('1940-01-01'), 'Too old!')
     .max(new Date('2006-01-01'), 'Too young!'),
   socialLinks: z
     .object({
-      whatsapp: z.url({ error: 'Invalid WhatsApp URL' }),
-      instagram: z.url({ error: 'Invalid Instagram URL' }),
-      linkedin: z.url({ error: 'Invalid LinkedIn URL' }),
+      whatsapp: phoneSchema,
+      instagram: z
+        .string({ error: 'Invalid instagram username' })
+        .min(3, 'Instagram username is required'),
+      linkedin: z
+        .string({ error: 'Invalid LinkedIn username' })
+        .min(3, 'LinkedIn username is required'),
     })
     .partial(),
   coursesId: z
@@ -174,7 +191,7 @@ export const billingInfoSchema = z.object({
     .string({ error: 'Invalid full name' })
     .min(1, 'Full name is required'),
   email: z.email({ error: 'Invalid email address' }),
-  phone: instructorSchema.shape.phone,
+  phone: phoneSchema,
   address: z
     .string({ error: 'Invalid address' })
     .min(10, 'Address field should be at least 10 characters long'),
@@ -208,15 +225,16 @@ export const orderItemSchema = z.object({
 
 export const createApplicationSchema = instructorSchema
   .pick({
-    name: true,
     bio: true,
     expertise: true,
     address: true,
     phone: true,
     birthDate: true,
     socialLinks: true,
-    email: true,
   })
   .extend({
     file: fileSchema,
+    userId: z
+      .string({ error: 'Invalid user id' })
+      .min(1, 'User id is required'),
   });

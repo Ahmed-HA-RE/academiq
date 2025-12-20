@@ -35,9 +35,7 @@ const FileUpload = ({ onChange }: FileUploadProps) => {
   useEffect(() => {
     if (file) {
       onChange(file.file as File);
-      console.log(file.file);
     } else {
-      console.log(file);
       onChange(undefined);
     }
 

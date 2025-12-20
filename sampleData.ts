@@ -3,13 +3,13 @@ export const sampleInstructors = [
     id: '1221d4f1c3e8-7b9a-4a2f-8b67-1f2c9d5e6aqw',
     name: 'Dania Haitham Rehan',
     bio: 'Dania is a senior full-stack instructor with over 8 years of experience teaching modern web technologies. She specializes in JavaScript, React, and scalable backend systems, and is known for her clear teaching style and hands-on project-driven curriculum.',
-    job: 'Senior Full Stack Instructor',
+    expertise: ['Senior Full Stack Instructor'],
     address: 'Dubai, UAE',
     avatar:
       'https://res.cloudinary.com/ahmed--dev/image/upload/v1765463809/dania_klajug.avif',
     email: 'dania@example.com',
     phone: '+971525418274',
-    birthDate: '1993-06-14T00:00:00.000Z',
+    birthDate: new Date('1990-05-15'),
     socialLinks: {
       instagram: 'https://www.instagram.com',
       linkedin: 'https://www.linkedin.com',

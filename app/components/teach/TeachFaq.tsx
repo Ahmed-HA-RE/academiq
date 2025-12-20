@@ -9,10 +9,11 @@ import {
   CarouselPrevious,
 } from '@/app/components/ui/carousel';
 import { MotionPreset } from '@/app/components/ui/motion-preset';
-import { faqItems } from '@/lib/constants';
+import { faqItems, SERVER_URL } from '@/lib/constants';
 import Link from 'next/link';
+import { User } from '@/types';
 
-const TeachFaq = () => {
+const TeachFaq = ({ user }: { user: User | undefined }) => {
   return (
     <section className='from-primary/10 relative overflow-hidden bg-linear-to-b to-transparent to-90% section-spacing'>
       <div className='relative container'>
@@ -201,7 +202,15 @@ const TeachFaq = () => {
           transition={{ duration: 0.7 }}
         >
           <Button asChild size='lg' className='cursor-pointer'>
-            <Link href={'/teach/apply'}>Apply to Teach</Link>
+            <Link
+              href={
+                !user
+                  ? `/login?callbackUrl=${SERVER_URL}/teach/apply`
+                  : '/teach/apply'
+              }
+            >
+              {!user ? 'Please log in to apply' : 'Apply Now'}
+            </Link>
           </Button>
         </MotionPreset>
       </div>

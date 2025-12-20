@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from './lib/auth';
 import { headers } from 'next/headers';
+import { SERVER_URL } from './lib/constants';
 
 export const proxy = async (req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
+  console.log(pathname);
 
   const Invalid_Token = req.nextUrl.searchParams.get('error');
 
@@ -41,6 +43,15 @@ export const proxy = async (req: NextRequest) => {
 
   if (pathname === '/my-courses' && !session) {
     return NextResponse.redirect(new URL('/', req.url));
+  }
+
+  if (pathname === '/teach/apply' && !session) {
+    return NextResponse.redirect(
+      new URL(
+        `/login?callbackUrl=${SERVER_URL}${req.nextUrl.pathname}`,
+        req.url
+      )
+    );
   }
 
   // Add cart session id in the cookies

@@ -42,7 +42,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
           inputComponent={InputComponent}
           smartCaret={false}
           defaultCountry='AE'
-          countries={['AE']}
+          countries={['AE', 'OM', 'SA', 'KW', 'QA', 'BH']}
           value={value || undefined}
           /**
            * Handles the onChange event.
