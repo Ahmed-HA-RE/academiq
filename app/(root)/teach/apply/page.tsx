@@ -5,7 +5,6 @@ import { headers } from 'next/headers';
 import { getApplicationByUserId } from '@/lib/actions/instructor';
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -13,7 +12,7 @@ import {
 } from '@/app/components/ui/card';
 import Image from 'next/image';
 import { Badge } from '@/app/components/ui/badge';
-import { AlertCircleIcon } from 'lucide-react';
+import { AlertCircleIcon, CheckCircleIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { APP_NAME } from '@/lib/constants';
 import { Button } from '@/app/components/ui/button';
@@ -62,7 +61,14 @@ const ApplyPage = async () => {
                             : 'border-red-600 text-red-600'
                       )}
                     >
-                      <AlertCircleIcon className='size-3' />
+                      {application.status === 'pending' ||
+                      application.status === 'rejected' ? (
+                        <AlertCircleIcon className='size-3' />
+                      ) : (
+                        application.status === 'approved' && (
+                          <CheckCircleIcon className='size-3' />
+                        )
+                      )}
                       {application.status === 'pending'
                         ? 'Under Review'
                         : application.status.charAt(0).toUpperCase() +
@@ -90,14 +96,14 @@ const ApplyPage = async () => {
                           application.status === 'pending'
                             ? '/'
                             : application.status === 'approved'
-                              ? '/teacher-dashboard'
+                              ? '/instructor-dashboard'
                               : '/'
                         }
                       >
                         {application.status === 'pending'
                           ? 'Back To Home'
                           : application.status === 'approved'
-                            ? 'Teacher Dashboard'
+                            ? 'Instructor Dashboard'
                             : 'Back To Home'}
                       </Link>
                     </Button>

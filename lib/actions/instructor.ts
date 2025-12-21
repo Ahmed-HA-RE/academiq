@@ -8,11 +8,16 @@ import cloudinary from '../cloudinary';
 import { UploadApiResponse } from 'cloudinary';
 import { prisma } from '../prisma';
 import { SocialLinks } from '@/types';
+import resend from '../resend';
+import ApplicationSubmitted from '@/emails/ApplicationSubmitted';
+import { APP_NAME } from '../constants';
 
 export const applyToTeach = async (
   data: z.infer<typeof createApplicationSchema>
 ) => {
   try {
+    const domain = process.env.RESEND_DOMAIN;
+
     const session = await auth.api.getSession({
       headers: await headers(),
     });
@@ -54,7 +59,7 @@ export const applyToTeach = async (
     });
 
     // Save application to the database
-    await prisma.intructorApplication.create({
+    const userApplication = await prisma.intructorApplication.create({
       data: {
         ...validateData.data,
         userId: session.user.id,
@@ -65,8 +70,15 @@ export const applyToTeach = async (
           instagram: `https://www.instagram.com/${validateData.data.socialLinks?.instagram}`,
         },
       },
+      include: { user: { select: { name: true, email: true } } },
     });
 
+    await resend.emails.send({
+      from: `${APP_NAME} <support@${domain}>`,
+      to: userApplication.user.email,
+      subject: 'Instructor Application Submitted',
+      react: ApplicationSubmitted({ name: userApplication.user.name }),
+    });
     return { success: true, message: 'Application submitted successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
