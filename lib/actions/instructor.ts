@@ -5,8 +5,9 @@ import { headers } from 'next/headers';
 import { createApplicationSchema } from '@/schema';
 import z from 'zod';
 import cloudinary from '../cloudinary';
-import { UploadApiResponse, UploadStream } from 'cloudinary';
+import { UploadApiResponse } from 'cloudinary';
 import { prisma } from '../prisma';
+import { SocialLinks } from '@/types';
 
 export const applyToTeach = async (
   data: z.infer<typeof createApplicationSchema>
@@ -22,7 +23,6 @@ export const applyToTeach = async (
     if (!validateData.success) throw new Error('Invalid data');
 
     // Check if user already applied
-
     const existingApplication = await prisma.intructorApplication.findUnique({
       where: { userId: session.user.id },
     });
@@ -71,4 +71,23 @@ export const applyToTeach = async (
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }
+};
+
+export const getApplicationByUserId = async (userId: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) throw new Error('Unauthorized');
+
+  const application = await prisma.intructorApplication.findFirst({
+    where: { userId },
+  });
+
+  if (!application) return undefined;
+
+  return {
+    ...application,
+    socialLinks: application.socialLinks as SocialLinks,
+  };
 };

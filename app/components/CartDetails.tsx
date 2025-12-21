@@ -78,7 +78,7 @@ const CartDetails = ({
       {form.formState.isSubmitting && <ScreenSpinner mutate />}
       <div className='container'>
         {!cart || cart.cartItems.length === 0 ? (
-          <div className='min-h-[50vh] mt-14'>
+          <div className='min-h-[50vh]'>
             <Alert
               variant='destructive'
               className='border-destructive max-w-md mx-auto'

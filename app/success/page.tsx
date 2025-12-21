@@ -18,7 +18,7 @@ const SuccessPage = async ({
   return (
     <section className='flex flex-col items-center justify-center min-h-screen space-y-6 px-3'>
       <Image
-        src={'/svg/checkmark.svg'}
+        src={'/svg/approved.svg'}
         alt='Success-logo'
         width={100}
         height={100}
