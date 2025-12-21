@@ -53,6 +53,12 @@ export const proxy = async (req: NextRequest) => {
       )
     );
   }
+  if (
+    pathname.startsWith('/admin-dashboard') &&
+    (!session || session.user.role !== 'admin')
+  ) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
 
   // Add cart session id in the cookies
   if (!req.cookies.get('sessionId')) {
@@ -77,6 +83,7 @@ export const config = {
     '/checkout',
     '/success',
     '/my-courses',
+    '/admin-dashboard/:path*',
     '/((?!api|_next/static|_next/image|.*\\.png$).*)',
   ],
 };

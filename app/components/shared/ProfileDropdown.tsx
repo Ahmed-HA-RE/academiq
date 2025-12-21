@@ -38,7 +38,13 @@ const ProfileDropdown = ({
 }) => {
   const adminLinks =
     session && session.user.role === 'admin'
-      ? [{ icon: ShieldUser, title: 'Admin Dashboard', href: '/admin' }]
+      ? [
+          {
+            icon: ShieldUser,
+            title: 'Admin Dashboard',
+            href: '/admin-dashboard',
+          },
+        ]
       : [];
 
   const userLinks = [

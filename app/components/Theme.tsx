@@ -1,6 +1,7 @@
 'use client';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { usePathname } from 'next/navigation';
 
 import { Button } from './ui/button';
 import {
@@ -12,10 +13,14 @@ import {
 
 const Theme = () => {
   const { setTheme } = useTheme();
+  const pathname = usePathname();
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className='mr-2' asChild>
+      <DropdownMenuTrigger
+        className={pathname === '/admin-dashboard' ? 'mr-0' : 'mr-2'}
+        asChild
+      >
         <Button
           className='cursor-pointer focus-visible:ring-0'
           variant='ghost'

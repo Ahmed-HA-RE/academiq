@@ -35,6 +35,8 @@ model Course {
   // instructorId String
   sections     Section[]
   orderItems   orderItems[]
+  instructor   Instructor?  @relation(fields: [instructorId], references: [id])
+  instructorId String?
 }
 
 model User {
@@ -54,6 +56,7 @@ model User {
   carts                Cart[]
   orders               Order[]
   intructorApplication IntructorApplication?
+  instructor           Instructor?
 
   @@unique([email])
   @@map("user")
@@ -188,21 +191,20 @@ model Discount {
   carts          Cart[]
 }
 
-// model Instructor {
-//   id          String   @id @default(uuid())
-//   name        String
-//   bio         String   @db.Text
-//   job         String
-//   address     String
-//   avatar      String
-//   email       String   @unique
-//   phone       String
-//   birthDate   DateTime
-//   socialLinks Json?    @db.Json
-//   courses     Course[]
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-// }
+model Instructor {
+  id          String   @id @default(uuid())
+  bio         String   @db.Text
+  expertise   String[]
+  address     String
+  phone       String
+  socialLinks Json?    @db.Json
+  birthDate   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @unique
+  courses     Course[]
+}
 
 model IntructorApplication {
   id          String   @id @default(uuid())
@@ -211,9 +213,9 @@ model IntructorApplication {
   bio         String   @db.Text
   expertise   String[]
   address     String
+  socialLinks Json?    @db.Json
   phone       String
   birthDate   DateTime
-  socialLinks Json?    @db.Json
   file        String
   status      String   @default("pending")
   createdAt   DateTime @default(now())

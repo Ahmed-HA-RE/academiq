@@ -5,7 +5,7 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { prisma } from '../prisma';
 import { convertToPlainObject } from '../utils';
-import { BillingInfo } from '@/types';
+import { BillingInfo, SocialLinks } from '@/types';
 import { Prisma } from '../generated/prisma';
 
 export const getUserById = async (search?: string) => {

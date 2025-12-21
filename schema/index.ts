@@ -160,16 +160,6 @@ export const instructorSchema = z.object({
     .string({ error: 'Invalid bio' })
     .min(1, 'Bio is required')
     .max(500, 'Bio is too long'),
-  expertise: z
-    .array(z.string({ error: 'Invalid expertise' }))
-    .min(1, 'At least one expertise is required'),
-  address: z.string({ error: 'Invalid address' }).min(5, 'Address is required'),
-  avatar: z.string({ error: 'Invalid avatar' }).min(1, 'Avatar is required'),
-  phone: phoneSchema,
-  birthDate: z
-    .date({ error: ' Invalid birth date' })
-    .min(new Date('1940-01-01'), 'Too old!')
-    .max(new Date('2006-01-01'), 'Too young!'),
   socialLinks: z
     .object({
       whatsapp: phoneSchema,
@@ -181,6 +171,16 @@ export const instructorSchema = z.object({
         .min(3, 'LinkedIn username is required'),
     })
     .partial(),
+  expertise: z
+    .array(z.string({ error: 'Invalid expertise' }))
+    .min(1, 'At least one expertise is required'),
+  address: z.string({ error: 'Invalid address' }).min(5, 'Address is required'),
+  avatar: z.string({ error: 'Invalid avatar' }).min(1, 'Avatar is required'),
+  phone: phoneSchema,
+  birthDate: z
+    .date({ error: ' Invalid birth date' })
+    .min(new Date('1940-01-01'), 'Too old!')
+    .max(new Date('2006-01-01'), 'Too young!'),
   coursesId: z
     .array(z.uuid({ error: 'Invalid course id' }))
     .min(1, 'At least one course id is required'),
