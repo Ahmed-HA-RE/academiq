@@ -16,7 +16,7 @@ import DeleteDialog from '@/app/components/shared/DeleteDialog';
 import { removeFromCart } from '@/lib/actions/cart';
 import { applyDiscount } from '@/lib/actions/discount';
 import { toast } from 'sonner';
-import { Alert, AlertTitle } from '@/app/components/ui/alert';
+import { Alert, AlertDescription } from '@/app/components/ui/alert';
 import { TriangleAlertIcon } from 'lucide-react';
 import Link from 'next/link';
 import { auth } from '@/lib/auth';
@@ -84,12 +84,12 @@ const CartDetails = ({
               className='border-destructive max-w-md mx-auto'
             >
               <TriangleAlertIcon />
-              <AlertTitle>
+              <AlertDescription className='block'>
                 Your cart is empty.
                 <Link href='/courses' className='underline ms-1'>
                   Start learning by browsing our courses.
                 </Link>
-              </AlertTitle>
+              </AlertDescription>
             </Alert>
           </div>
         ) : (

@@ -143,6 +143,88 @@ export const getTotalSalesAmount = async () => {
     _sum: {
       totalPrice: true,
     },
+    where: {
+      isPaid: true,
+    },
   });
   return totalSales._sum.totalPrice || 0;
+};
+
+export const getMonthlyRevenue = async () => {
+  const currentYear = new Date().getFullYear();
+  const previousYear = currentYear - 1;
+
+  const orders = await prisma.order.findMany({
+    where: {
+      isPaid: true,
+      createdAt: {
+        gte: new Date(`${previousYear}-01-01`),
+        lte: new Date(`${currentYear}-12-31`),
+      },
+    },
+    select: {
+      totalPrice: true,
+      createdAt: true,
+    },
+  });
+
+  const monthlyData = Array.from({ length: 12 }, (_, i) => {
+    const month = new Date(2024, i).toLocaleString('default', {
+      month: 'long',
+    });
+    const currentYearRevenue = orders
+      .filter(
+        (order) =>
+          order.createdAt.getMonth() === i &&
+          order.createdAt.getFullYear() === currentYear
+      )
+      .reduce((sum, order) => sum + Number(order.totalPrice), 0);
+
+    const previousYearRevenue = orders
+      .filter(
+        (order) =>
+          order.createdAt.getMonth() === i &&
+          order.createdAt.getFullYear() === previousYear
+      )
+      .reduce((sum, order) => sum + Number(order.totalPrice), 0);
+
+    return {
+      name: month,
+      pv: Math.round(currentYearRevenue / 100),
+      uv: Math.round(previousYearRevenue / 100),
+      amt: Math.round(currentYearRevenue / 100),
+    };
+  });
+
+  return monthlyData;
+};
+
+export const getTotalRevenueAfter = async () => {
+  const currentYear = new Date().getFullYear();
+
+  const totalRevenue = await prisma.order.aggregate({
+    _sum: { totalPrice: true },
+    where: {
+      isPaid: true,
+      createdAt: {
+        gte: new Date(`${currentYear}`),
+      },
+    },
+  });
+  return Number(totalRevenue._sum.totalPrice) || 0;
+};
+export const getTotalRevenueBefore = async () => {
+  const currentYear = new Date().getFullYear();
+  const previousYear = currentYear - 1;
+
+  const totalRevenue = await prisma.order.aggregate({
+    _sum: { totalPrice: true },
+    where: {
+      isPaid: true,
+      createdAt: {
+        lte: new Date(`${previousYear}-12-31`),
+      },
+    },
+  });
+  return Number(totalRevenue._sum.totalPrice) || 0;
 };

@@ -113,17 +113,14 @@ const AdminDashBoardLayout = async ({
                 <SidebarMenuButton
                   size='lg'
                   className='gap-2.5 !bg-transparent [&>svg]:size-8'
-                  asChild
                 >
-                  <Link href='/admin-dashboard'>
-                    <Image
-                      src='/images/logo.png'
-                      alt='Logo'
-                      width={32}
-                      height={32}
-                    />
-                    <span className='text-xl font-semibold'>Admin</span>
-                  </Link>
+                  <Image
+                    src='/images/logo.png'
+                    alt='Logo'
+                    width={32}
+                    height={32}
+                  />
+                  <span className='text-xl font-semibold'>{APP_NAME}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -152,7 +149,7 @@ const AdminDashBoardLayout = async ({
                 <SidebarMenu>
                   {recipientsItems.map((recipient) => (
                     <SidebarMenuItem
-                      className='flex items-center gap-2 px-2'
+                      className='flex items-center gap-2 px-1'
                       key={recipient.name}
                     >
                       <Avatar className='size-7 rounded-full'>
@@ -191,7 +188,7 @@ const AdminDashBoardLayout = async ({
           </header>
           <main className='mb-6 size-full flex-1'>
             <Card className='h-auto shadow-none'>
-              <CardContent className='h-full grid grid-cols-1 md:grid-cols-3'>
+              <CardContent className='h-full grid grid-cols-1 md:grid-cols-4 gap-6'>
                 {children}
               </CardContent>
             </Card>

@@ -107,10 +107,10 @@ const LoginForm = () => {
             name='rememberMe'
             control={form.control}
             render={({ field, fieldState }) => (
-              <FieldGroup data-slot='checkbox-group'>
+              <FieldGroup className='w-34' data-slot='checkbox-group'>
                 <Field
                   orientation={'horizontal'}
-                  className='items-start justify-start w-35'
+                  className='items-start justify-start'
                   data-invalid={fieldState.invalid}
                 >
                   <Checkbox
@@ -131,7 +131,10 @@ const LoginForm = () => {
             )}
           />
 
-          <Link href='/forgot-password' className='hover:underline flex-1/2 '>
+          <Link
+            href='/forgot-password'
+            className='hover:underline text-sm text-right '
+          >
             Forgot Password?
           </Link>
         </div>

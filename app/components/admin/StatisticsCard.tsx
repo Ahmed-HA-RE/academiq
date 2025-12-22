@@ -79,29 +79,27 @@ const StatisticsCard = async () => {
     },
   ];
   return (
-    <div className='max-w-7xl mx-auto w-full md:col-span-3'>
-      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+    <div className='max-w-7xl mx-auto w-full col-span-4'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
         {StatisticsCardData.map((card, index) => (
           <Card
             key={index}
-            className='gap-4 py-4 hover:shadow-lg transition-shadow duration-300'
+            className='py-4 hover:shadow-lg transition-shadow duration-300 gap-0'
           >
-            <CardHeader className='flex items-center justify-between pb-2'>
-              <Avatar className='size-10 sm:size-11 rounded-md'>
+            <CardHeader className='flex items-center justify-between pb-2 px-4'>
+              <span className='text-lg font-medium'>{card.title}</span>
+              <Avatar className='size-9 rounded-md'>
                 <AvatarFallback
-                  className={`${card.bg} ${card.color} size-10 sm:size-11 shrink-0 rounded-md [&>svg]:size-5`}
+                  className={`${card.bg} ${card.color} size-9 rounded-md [&>svg]:size-5`}
                 >
                   {card.icon}
                 </AvatarFallback>
               </Avatar>
             </CardHeader>
-            <CardContent className='flex flex-1 flex-col justify-between gap-2'>
+            <CardContent className='flex flex-1 flex-col justify-between gap-2 '>
               <p className='flex flex-col gap-1'>
                 <span className='text-xl sm:text-2xl font-bold'>
                   {card.value}
-                </span>
-                <span className='text-sm sm:text-base font-medium text-muted-foreground'>
-                  {card.title}
                 </span>
               </p>
             </CardContent>
