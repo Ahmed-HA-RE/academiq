@@ -118,3 +118,9 @@ export const getCourseBySlug = async (slug: string) => {
   });
   return convertToPlainObject(course);
 };
+
+// Get total courses count
+export const getTotalCoursesCount = async () => {
+  const count = await prisma.course.count();
+  return count;
+};

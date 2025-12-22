@@ -5,7 +5,7 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { prisma } from '../prisma';
 import { convertToPlainObject } from '../utils';
-import { BillingInfo, SocialLinks } from '@/types';
+import { BillingInfo } from '@/types';
 import { Prisma } from '../generated/prisma';
 
 export const getUserById = async (search?: string) => {
@@ -41,4 +41,10 @@ export const getUserById = async (search?: string) => {
     ...user,
     billingInfo: user.billingInfo as BillingInfo,
   });
+};
+
+// Get users count
+export const getUsersCount = async () => {
+  const count = await prisma.user.count();
+  return count;
 };

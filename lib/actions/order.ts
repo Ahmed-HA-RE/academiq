@@ -130,3 +130,19 @@ export const getOrderById = async (orderId: string) => {
     paymentResult: order?.paymentResult as PaymentResult,
   };
 };
+
+// Get total orders count
+export const getOrdersCount = async () => {
+  const count = await prisma.order.count();
+  return count;
+};
+
+// Get total sales amount
+export const getTotalSalesAmount = async () => {
+  const totalSales = await prisma.order.aggregate({
+    _sum: {
+      totalPrice: true,
+    },
+  });
+  return totalSales._sum.totalPrice || 0;
+};

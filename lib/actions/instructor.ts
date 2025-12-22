@@ -103,3 +103,17 @@ export const getApplicationByUserId = async (userId: string) => {
     socialLinks: application.socialLinks as SocialLinks,
   };
 };
+
+// Get total Instructors count
+export const getTotalInstructorsCount = async () => {
+  const count = await prisma.user.count({
+    where: { role: 'instructor' },
+  });
+  return count;
+};
+
+// Get total Instructor Applications count
+export const getInstructorApplicationsCount = async () => {
+  const count = await prisma.intructorApplication.count();
+  return count;
+};

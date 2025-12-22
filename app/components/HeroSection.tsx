@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const HeroSection = () => {
   return (
-    <section className='overflow-hidden min-h-[75vh]'>
+    <section className='overflow-hidden'>
       <div className='container'>
         <div className='relative grid gap-12 lg:grid-cols-5'>
           <div className='flex flex-col gap-6 lg:col-span-3'>

@@ -5,7 +5,6 @@ import { SERVER_URL } from './lib/constants';
 
 export const proxy = async (req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
-  console.log(pathname);
 
   const Invalid_Token = req.nextUrl.searchParams.get('error');
 

@@ -191,7 +191,9 @@ const AdminDashBoardLayout = async ({
           </header>
           <main className='mb-6 size-full flex-1'>
             <Card className='h-auto shadow-none'>
-              <CardContent className='h-full'>{children}</CardContent>
+              <CardContent className='h-full grid grid-cols-1 md:grid-cols-3'>
+                {children}
+              </CardContent>
             </Card>
           </main>
 
