@@ -5,8 +5,9 @@ import Image from 'next/image';
 import { BookOpenIcon } from 'lucide-react';
 import CourseProgression from '../shared/CourseProgression';
 import { Button } from '../ui/button';
+import { getUserProgress } from '@/lib/actions/user';
 
-const MyCoursesCard = ({
+const MyCoursesCard = async ({
   course,
 }: {
   course: {
@@ -16,6 +17,8 @@ const MyCoursesCard = ({
     title: string;
   };
 }) => {
+  const userProgress = await getUserProgress(course.id);
+
   return (
     <MotionPreset
       component='div'
@@ -55,7 +58,7 @@ const MyCoursesCard = ({
                 <span className='text-muted-foreground'>12 Lessons</span>
               </div>
             </div>
-            <CourseProgression />
+            <CourseProgression userProgress={userProgress} />
           </div>
         </CardContent>
         <CardFooter className='self-end'>

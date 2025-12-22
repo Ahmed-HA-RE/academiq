@@ -5,6 +5,7 @@ import {
   getTotalRevenueAfter,
   getTotalRevenueBefore,
 } from '@/lib/actions/order';
+import UsersChart from '../components/admin/UsersChart';
 
 const AdminDashboardHomePage = async () => {
   const monthlyRevenueData = await getMonthlyRevenue();
@@ -15,6 +16,11 @@ const AdminDashboardHomePage = async () => {
     <>
       <StatisticsCard />
       <TotalRevenueChart
+        monthlyRevenue={monthlyRevenueData}
+        totalRevenueBefore={totalRevenueBefore}
+        totalRevenueAfter={totalRevenueAfter}
+      />
+      <UsersChart
         monthlyRevenue={monthlyRevenueData}
         totalRevenueBefore={totalRevenueBefore}
         totalRevenueAfter={totalRevenueAfter}

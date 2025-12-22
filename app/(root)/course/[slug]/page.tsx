@@ -17,7 +17,7 @@ import {
 import { Separator } from '@/app/components/ui/separator';
 import EnrollCourseBtn from '@/app/components/shared/EnrollCourseBtn';
 import { getMyCart } from '@/lib/actions/cart';
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 import { APP_NAME } from '@/lib/constants';
 import { getUserById } from '@/lib/actions/user';
 

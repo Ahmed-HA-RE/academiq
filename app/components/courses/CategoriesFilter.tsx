@@ -1,12 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import {
-  ArrowUpDown,
-  FilterIcon,
-  SearchIcon,
-  TriangleAlertIcon,
-} from 'lucide-react';
+import { ArrowUpDown, FilterIcon, SearchIcon } from 'lucide-react';
 import { useMedia } from 'react-use';
 import { Button } from '@/app/components/ui/button';
 import {
@@ -33,9 +28,7 @@ import {
   PRICE_RANGE,
   SORTING_OPTIONS,
 } from '@/lib/utils';
-import CourseCard from '../shared/CourseCard';
 import { Cart, Course, User } from '@/types';
-import { Alert, AlertTitle } from '../ui/alert';
 import {
   parseAsArrayOf,
   parseAsInteger,
@@ -53,12 +46,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
-
-type CategoryFilterProps = {
-  courses: Course[];
-  cart: Cart | undefined;
-  user: User | undefined;
-};
 
 const FilterContent = () => {
   const [filters, setFilters] = useQueryStates(
@@ -239,7 +226,7 @@ const FilterContent = () => {
   );
 };
 
-const CategoriesFilter = ({ courses, cart, user }: CategoryFilterProps) => {
+const CategoriesFilter = () => {
   const [open, setOpen] = useState(false);
   const isCompactScreen = useMedia('(max-width: 767px)', false);
 
@@ -270,9 +257,9 @@ const CategoriesFilter = ({ courses, cart, user }: CategoryFilterProps) => {
   );
 
   return (
-    <section>
+    <>
       {/* Mobile Filter Trigger */}
-      <div className='mb-4 md:hidden'>
+      <div className='mb-4 md:hidden w-full col-span-7'>
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button
@@ -314,13 +301,9 @@ const CategoriesFilter = ({ courses, cart, user }: CategoryFilterProps) => {
         </Sheet>
       </div>
 
-      <div className='grid grid-cols-7 items-start gap-2.5'>
+      <aside className='col-span-3 lg:col-span-2 w-full'>
         {/* Desktop Filter Card */}
-        <Card
-          className={cn(
-            'col-span-3 lg:col-span-2 hidden py-4 shadow-none md:inline-flex'
-          )}
-        >
+        <Card className={cn('w-full hidden py-4 shadow-none md:inline-flex')}>
           <CardHeader className='gap-0 px-4'>
             <CardTitle className='text-2xl flex flex-row items-center justify-between gap-2'>
               <div className='flex flex-row items-center gap-2'>
@@ -347,28 +330,8 @@ const CategoriesFilter = ({ courses, cart, user }: CategoryFilterProps) => {
             <FilterContent />
           </CardContent>
         </Card>
-        {courses.length === 0 ? (
-          <Alert
-            variant='destructive'
-            className='border-destructive col-span-7 md:col-span-4 lg:col-span-5 mx-auto md:max-w-sm my-10 md:my-0 '
-          >
-            <TriangleAlertIcon />
-            <AlertTitle>No courses found.</AlertTitle>
-          </Alert>
-        ) : (
-          <div className='col-span-7 md:col-span-4 lg:col-span-5 grid grid-cols-1 lg:grid-cols-2 gap-4 '>
-            {courses.map((course) => (
-              <CourseCard
-                key={course.id}
-                course={course}
-                cart={cart}
-                user={user}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </section>
+      </aside>
+    </>
   );
 };
 

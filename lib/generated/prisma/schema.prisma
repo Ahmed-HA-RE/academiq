@@ -14,29 +14,30 @@ datasource db {
 }
 
 model Course {
-  id           String       @id @default(uuid())
-  slug         String       @unique
+  id           String        @id @default(uuid())
+  slug         String        @unique
   title        String
   description  String
-  price        Decimal      @db.Decimal(10, 2)
-  currentPrice Decimal      @db.Decimal(10, 2)
-  isFeatured   Boolean      @default(false)
+  price        Decimal       @db.Decimal(10, 2)
+  currentPrice Decimal       @db.Decimal(10, 2)
+  isFeatured   Boolean       @default(false)
   image        String
   language     String
   duration     Int
   difficulty   String
-  prequisites  String       @db.Text
-  rating       Decimal      @default(0) @db.Decimal(2, 1)
-  numReviews   Int          @default(0)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  prequisites  String        @db.Text
+  rating       Decimal       @default(0) @db.Decimal(2, 1)
+  numReviews   Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   users        User[]
   // instructor   Instructor @relation(fields: [instructorId], references: [id])
   // instructorId String
   sections     Section[]
   orderItems   orderItems[]
-  instructor   Instructor?  @relation(fields: [instructorId], references: [id])
+  instructor   Instructor?   @relation(fields: [instructorId], references: [id])
   instructorId String?
+  userProgress UserProgress?
 }
 
 model User {
@@ -57,6 +58,7 @@ model User {
   orders               Order[]
   intructorApplication IntructorApplication?
   instructor           Instructor?
+  userProgress         UserProgress?
 
   @@unique([email])
   @@map("user")
@@ -220,4 +222,14 @@ model IntructorApplication {
   status      String   @default("pending")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model UserProgress {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId  String   @unique
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  progress  Decimal  @default(0) @db.Decimal(5, 2)
+  updatedAt DateTime @updatedAt
 }

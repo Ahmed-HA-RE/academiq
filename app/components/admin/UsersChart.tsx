@@ -14,16 +14,16 @@ import {
 
 const totalEarningChartConfig = {
   uv: {
-    label: (new Date().getFullYear() - 1).toString(),
+    label: 'Active Users',
     color: 'var(--chart-1)',
   },
   pv: {
-    label: new Date().getFullYear(),
+    label: 'New Users',
     color: 'var(--chart-2)',
   },
 } satisfies ChartConfig;
 
-type TotalRevenueChartProps = {
+type UsersChartProps = {
   monthlyRevenue: {
     name: string;
     uv: number;
@@ -34,11 +34,11 @@ type TotalRevenueChartProps = {
   totalRevenueAfter: number;
 };
 
-const TotalRevenueChart = ({
+const UsersChart = ({
   monthlyRevenue,
   totalRevenueBefore,
   totalRevenueAfter,
-}: TotalRevenueChartProps) => {
+}: UsersChartProps) => {
   // Calculate growth percentage
   const growthPercentage =
     totalRevenueBefore === 0
@@ -150,4 +150,4 @@ const TotalRevenueChart = ({
   );
 };
 
-export default TotalRevenueChart;
+export default UsersChart;

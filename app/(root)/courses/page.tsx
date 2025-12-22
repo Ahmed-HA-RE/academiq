@@ -6,6 +6,9 @@ import { loadSearchParams } from '@/lib/searchParams';
 import type { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';
 import { getUserById } from '@/lib/actions/user';
+import { Alert, AlertTitle } from '@/app/components/ui/alert';
+import { TriangleAlertIcon } from 'lucide-react';
+import CourseCard from '@/app/components/shared/CourseCard';
 
 export const generateMetadata = async ({
   searchParams,
@@ -61,7 +64,29 @@ const CoursesPage = async ({
         <div className='space-y-4'>
           <h1 className='text-3xl font-bold'>Courses</h1>
         </div>
-        <CategoriesFilter courses={courses} cart={cart} user={user} />
+        <div className='grid grid-cols-7 items-start gap-2.5'>
+          <CategoriesFilter />
+          {courses.length === 0 ? (
+            <Alert
+              variant='destructive'
+              className='border-destructive col-span-7 md:col-span-4 lg:col-span-5 mx-auto md:max-w-sm my-10 md:my-0 '
+            >
+              <TriangleAlertIcon />
+              <AlertTitle>No courses found.</AlertTitle>
+            </Alert>
+          ) : (
+            <div className='col-span-7 md:col-span-4 lg:col-span-5 grid grid-cols-1 lg:grid-cols-2 gap-4 '>
+              {courses.map((course) => (
+                <CourseCard
+                  key={course.id}
+                  course={course}
+                  cart={cart}
+                  user={user}
+                />
+              ))}
+            </div>
+          )}
+        </div>
         {totalPages && totalPages > 1 ? (
           <CoursesPagination totalPages={totalPages} />
         ) : null}

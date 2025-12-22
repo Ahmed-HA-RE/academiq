@@ -69,5 +69,12 @@ export const prisma = new PrismaClient({ adapter }).$extends({
         },
       },
     },
+    userProgress: {
+      progress: {
+        compute(data) {
+          return data.progress.toString();
+        },
+      },
+    },
   },
 });

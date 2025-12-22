@@ -48,3 +48,19 @@ export const getUsersCount = async () => {
   const count = await prisma.user.count();
   return count;
 };
+
+// Get user's progress in courses
+export const getUserProgress = async (courseId: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) return undefined;
+
+  const progress = await prisma.userProgress.findFirst({
+    where: { userId: session.user.id, courseId: courseId },
+  });
+
+  if (!progress) return undefined;
+  return convertToPlainObject(progress);
+};

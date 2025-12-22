@@ -1,4 +1,3 @@
-'use client';
 import { StarIcon } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '../ui/card';
 import Link from 'next/link';
@@ -9,6 +8,7 @@ import { Button } from '../ui/button';
 import { MotionPreset } from '../ui/motion-preset';
 import EnrollCourseBtn from './EnrollCourseBtn';
 import CourseProgression from './CourseProgression';
+import { getUserProgress } from '@/lib/actions/user';
 
 type CourseCardProps = {
   course: Course;
@@ -16,8 +16,9 @@ type CourseCardProps = {
   user: User | undefined;
 };
 
-const CourseCard = ({ course, cart, user }: CourseCardProps) => {
+const CourseCard = async ({ course, cart, user }: CourseCardProps) => {
   const isCourseOwened = user && user.courses.some((c) => c.id === course.id);
+  const useProgress = await getUserProgress(course.id);
 
   return (
     <MotionPreset
@@ -64,7 +65,7 @@ const CourseCard = ({ course, cart, user }: CourseCardProps) => {
               <span className='dirham-symbol !text-xl'>&#xea;</span>
               <span className='text-2xl'>{course.price}</span>
             </div>
-            {isCourseOwened && <CourseProgression />}
+            {isCourseOwened && <CourseProgression userProgress={useProgress} />}
           </div>
         </CardContent>
         <CardFooter className='items-end justify-end gap-2'>

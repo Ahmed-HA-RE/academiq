@@ -98,3 +98,11 @@ export type SocialLinks = {
   linkedin?: string;
   instagram?: string;
 };
+
+export type UserProgress = {
+  id: string;
+  userId: string;
+  courseId: string;
+  progress: string;
+  updatedAt: Date;
+};
