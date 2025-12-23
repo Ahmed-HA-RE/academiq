@@ -48,7 +48,7 @@ const TotalRevenueChart = ({
         );
 
   return (
-    <Card className='col-span-4 lg:col-span-2 w-full'>
+    <Card className='col-span-4 xl:col-span-2 w-full'>
       <CardHeader className='flex flex-col md:flex-col items-start justify-between gap-4 pb-4'>
         <span className='text-2xl font-semibold'>Total Revenue</span>
         <div className='flex items-center gap-4'>
@@ -100,7 +100,7 @@ const TotalRevenueChart = ({
         >
           <LineChart
             data={monthlyRevenue}
-            margin={{ top: 5, right: 0, left: -4, bottom: 5 }}
+            margin={{ top: 5, right: 10, left: -4, bottom: 5 }}
           >
             <CartesianGrid
               vertical={false}

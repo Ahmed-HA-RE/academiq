@@ -1,8 +1,11 @@
 'use client';
-import { CircleDollarSignIcon, WalletIcon } from 'lucide-react';
-import { Line, LineChart, CartesianGrid, XAxis, YAxis } from 'recharts';
-import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
-import { Card, CardContent, CardHeader } from '@/app/components/ui/card';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/app/components/ui/card';
 import {
   type ChartConfig,
   ChartContainer,
@@ -24,89 +27,57 @@ const totalEarningChartConfig = {
 } satisfies ChartConfig;
 
 type UsersChartProps = {
-  monthlyRevenue: {
+  monthlyUserActivity: {
     name: string;
     uv: number;
     pv: number;
-    amt: number;
   }[];
-  totalRevenueBefore: number;
-  totalRevenueAfter: number;
+  activeUsersCount: number;
+  newUsersCount: number;
 };
 
 const UsersChart = ({
-  monthlyRevenue,
-  totalRevenueBefore,
-  totalRevenueAfter,
+  monthlyUserActivity,
+  newUsersCount,
+  activeUsersCount,
 }: UsersChartProps) => {
-  // Calculate growth percentage
-  const growthPercentage =
-    totalRevenueBefore === 0
-      ? 0
-      : Math.round(
-          (totalRevenueAfter - totalRevenueBefore) / totalRevenueBefore
-        );
+  // Calculate max value for Y-axis domain
+  const maxValue = Math.max(
+    ...monthlyUserActivity.map((d) => Math.max(d.pv, d.uv))
+  );
+  const yAxisMax = Math.ceil(maxValue / 10) * 10 || 100;
 
   return (
-    <Card className='col-span-4 lg:col-span-2 w-full'>
-      <CardHeader className='flex flex-col md:flex-col items-start justify-between gap-4 pb-4'>
-        <span className='text-2xl font-semibold'>Total Revenue</span>
-        <div className='flex items-center gap-4'>
-          {/* Last Year */}
-          <div className='flex items-center gap-2'>
-            <Avatar className='size-9 rounded-sm'>
-              <AvatarFallback className='bg-chart-1/10 text-chart-1 shrink-0 rounded-sm'>
-                <WalletIcon className='size-4' />
-              </AvatarFallback>
-            </Avatar>
-            <div className='flex flex-col gap-0.5'>
-              <span className='text-muted-foreground text-xs'>
-                {new Date().getFullYear() - 1}
-              </span>
-              <div className='flex flex-row items-center gap-1 font-semibold'>
-                <span className='dirham-symbol !text-sm'>&#xea;</span>
-                <span className='text-sm'>{totalRevenueBefore}</span>
-              </div>
-            </div>
-          </div>
-          {/* This Year */}
-          <div className='flex items-center gap-2'>
-            <Avatar className='size-9 rounded-sm'>
-              <AvatarFallback className='bg-chart-2/10 text-chart-2 shrink-0 rounded-sm'>
-                <CircleDollarSignIcon className='size-4' />
-              </AvatarFallback>
-            </Avatar>
-            <div className='flex flex-col items-start gap-0.5'>
-              <span className='text-muted-foreground text-xs'>
-                {new Date().getFullYear()}
-              </span>
-              <div className='flex flex-row items-center gap-1 font-semibold'>
-                <span className='dirham-symbol !text-sm'>&#xea;</span>
-                <span className='text-sm'>{totalRevenueAfter}</span>
-              </div>
-            </div>
-          </div>
-        </div>
+    <Card className='col-span-4 xl:col-span-2 w-full gap-2'>
+      <CardHeader>
+        <CardTitle className='text-2xl font-semibold'>User Activity</CardTitle>
       </CardHeader>
       <CardContent className='pb-4 px-6'>
-        <div className='flex items-center justify-between mb-4'>
-          <span className='text-muted-foreground text-sm'>
-            {growthPercentage}% Company Growth
-          </span>
+        <div className='flex items-center justify-between mb-6'>
+          <div className='flex flex-col gap-1'>
+            <span className='text-sm text-muted-foreground'>Active Users</span>
+            <span className='text-2xl font-bold text-center'>
+              {activeUsersCount}
+            </span>
+          </div>
+          <div className='flex flex-col gap-1 text-right'>
+            <span className='text-sm text-muted-foreground'>New Users</span>
+            <span className='text-2xl font-bold text-center'>
+              {newUsersCount}
+            </span>
+          </div>
         </div>
         <ChartContainer
-          className='min-h-[300px] sm:min-h-[350px] lg:min-h-[400px] w-full'
+          className='min-h-[400px] w-full'
           config={totalEarningChartConfig}
         >
-          <LineChart
-            data={monthlyRevenue}
-            margin={{ top: 5, right: 0, left: -4, bottom: 5 }}
+          <BarChart
+            data={monthlyUserActivity}
+            margin={{ top: 5, right: 0, left: -15, bottom: 5 }}
+            barGap={4}
+            barSize={16}
           >
-            <CartesianGrid
-              vertical={false}
-              stroke='var(--border)'
-              opacity={100}
-            />
+            <CartesianGrid vertical={false} stroke='var(--border)' />
             <XAxis
               dataKey='name'
               tickLine={false}
@@ -116,34 +87,26 @@ const UsersChart = ({
               tick={{ fontSize: 12 }}
             />
             <YAxis
+              domain={[0, yAxisMax]}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => (value === 0 ? '0' : `AED ${value}k`)}
+              tickFormatter={(value) =>
+                value > 999 ? `${value / 1000}k` : value
+              }
               tick={{ fontSize: 12 }}
+              width={50}
             />
             <ChartTooltip
-              cursor={{ strokeDasharray: '3 3' }}
-              content={<ChartTooltipContent indicator='line' />}
+              cursor={false}
+              content={<ChartTooltipContent indicator='dashed' />}
             />
             <ChartLegend
               content={<ChartLegendContent />}
               wrapperStyle={{ paddingTop: '20px' }}
             />
-            <Line
-              type='monotone'
-              dataKey='uv'
-              stroke='var(--chart-1)'
-              strokeWidth={3}
-              dot={false}
-            />
-            <Line
-              type='monotone'
-              dataKey='pv'
-              stroke='var(--chart-2)'
-              strokeWidth={3}
-              dot={false}
-            />
-          </LineChart>
+            <Bar dataKey='uv' fill='var(--chart-1)' radius={[4, 4, 0, 0]} />
+            <Bar dataKey='pv' fill='var(--chart-2)' radius={[4, 4, 0, 0]} />
+          </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>
