@@ -153,3 +153,26 @@ export const getMonthlyUserActivity = async () => {
 
   return monthlyData;
 };
+
+export const getAllUsers = async ({ limit }: { limit?: number }) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== 'admin')
+    throw new Error('Unauthorized');
+
+  const users = await prisma.user.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: limit || undefined,
+  });
+
+  return convertToPlainObject(
+    users.map((user) => {
+      return {
+        ...user,
+        billingInfo: user.billingInfo as BillingInfo,
+      };
+    })
+  );
+};

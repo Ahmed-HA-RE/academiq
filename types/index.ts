@@ -83,7 +83,7 @@ export type User = {
   status: string;
   createdAt: Date;
   updatedAt: Date;
-  courses: Pick<Course, 'id' | 'title' | 'slug' | 'image'>[];
+  courses?: Pick<Course, 'id' | 'title' | 'slug' | 'image'>[];
 };
 
 export type InstructorApplication = z.infer<typeof createApplicationSchema> & {

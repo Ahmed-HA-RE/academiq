@@ -11,8 +11,10 @@ import {
   getActiveUsersCount,
   getNewUsersCount,
   getMonthlyUserActivity,
+  getAllUsers,
 } from '@/lib/actions/user';
 import OrdersChart from '@/app/components/admin/OrdersChart';
+import UserDatatable from '../components/admin/UserDataTable';
 
 const AdminDashboardHomePage = async () => {
   const [
@@ -23,6 +25,7 @@ const AdminDashboardHomePage = async () => {
     activeUsersCount,
     monthlyUserActivity,
     ordersMonthlyRevenue,
+    users,
   ] = await Promise.all([
     await getMonthlyRevenue(),
     await getTotalRevenueBefore(),
@@ -31,6 +34,7 @@ const AdminDashboardHomePage = async () => {
     await getActiveUsersCount(),
     await getMonthlyUserActivity(),
     await getOrdersMonthlyRevenue(),
+    await getAllUsers({ limit: 5 }),
   ]);
 
   return (
@@ -47,6 +51,7 @@ const AdminDashboardHomePage = async () => {
         activeUsersCount={activeUsersCount}
       />
       <OrdersChart ordersMonthlyRevenue={ordersMonthlyRevenue} />
+      <UserDatatable users={users} />
     </>
   );
 };

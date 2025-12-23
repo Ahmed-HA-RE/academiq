@@ -47,7 +47,7 @@ const OrdersChart = ({ ordersMonthlyRevenue }: OrdersChartProps) => {
             <AreaChart
               data={ordersMonthlyRevenue}
               margin={{
-                left: 5,
+                left: 10,
                 right: 12,
                 top: 12,
                 bottom: 12,
@@ -92,7 +92,11 @@ const OrdersChart = ({ ordersMonthlyRevenue }: OrdersChartProps) => {
                 }
                 tickLine={false}
                 axisLine={false}
-                tick={{ fontSize: 12, fill: 'var(--muted-foreground)' }}
+                tick={{
+                  fontSize: 12,
+                  fill: 'var(--muted-foreground)',
+                  width: 100,
+                }}
                 tickMargin={8}
               />
               <ChartTooltip

@@ -1,0 +1,442 @@
+'use client';
+
+import { Suspense, useState } from 'react';
+import Image from 'next/image';
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  EllipsisVerticalIcon,
+  GraduationCap,
+  SearchIcon,
+  ShieldUser,
+  Trash2Icon,
+  User as UserIcon,
+} from 'lucide-react';
+import { User } from '@/types';
+import type { ColumnDef, PaginationState } from '@tanstack/react-table';
+import {
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+
+import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
+import { Badge } from '@/app/components/ui/badge';
+import { Button } from '@/app/components/ui/button';
+import { Checkbox } from '@/app/components/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/app/components/ui/dropdown-menu';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+} from '@/app/components/ui/pagination';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/app/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/app/components/ui/table';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/app/components/ui/tooltip';
+
+import { usePagination } from '@/hooks/use-pagination';
+
+import { cn, formatDate } from '@/lib/utils';
+import { Input } from '../ui/input';
+import { UsersRoles } from '@/lib/constants';
+
+const columns: ColumnDef<User>[] = [
+  {
+    header: 'User',
+    accessorKey: 'user',
+    cell: ({ row }) => (
+      <div className='flex items-center gap-2'>
+        <Avatar className='size-9'>
+          <Suspense
+            fallback={
+              <AvatarFallback className='text-xs font-bold'>
+                {row.original.name.slice(0, 2).toUpperCase()}
+              </AvatarFallback>
+            }
+          >
+            <Image
+              src={row.original.image}
+              alt={row.original.name}
+              width={36}
+              height={36}
+              className='object-cover rounded-full'
+            />
+          </Suspense>
+        </Avatar>
+        <span className='font-medium'>{row.original.name}</span>
+      </div>
+    ),
+    size: 360,
+  },
+  {
+    header: 'Role',
+    accessorKey: 'role',
+    cell: ({ row }) => {
+      const role = row.getValue('role') as string;
+
+      const roles = {
+        admin: (
+          <ShieldUser className='size-4 text-green-600 dark:text-green-400' />
+        ),
+        instructor: <GraduationCap className='size-4 text-orange-500' />,
+        user: <UserIcon className='text-black dark:text-white size-4' />,
+      }[role];
+
+      return (
+        <div className='flex items-center gap-2'>
+          {roles}
+          <span className='capitalize'>{role}</span>
+        </div>
+      );
+    },
+  },
+  {
+    header: 'Email',
+    accessorKey: 'email',
+    cell: ({ row }) => (
+      <span className='text-muted-foreground'>{row.getValue('email')}</span>
+    ),
+  },
+  {
+    header: 'Created At',
+    accessorKey: 'createdAt',
+    cell: ({ row }) => (
+      <span className='text-muted-foreground'>
+        {formatDate(new Date(row.getValue('createdAt')), 'date')}
+      </span>
+    ),
+  },
+  {
+    header: 'Status',
+    accessorKey: 'emailVerified',
+    cell: ({ row }) => {
+      const status = row.getValue('emailVerified') ? 'verified' : 'unverified';
+
+      return (
+        <Badge
+          className={cn(
+            'rounded-full text-xs  border-none capitalize focus-visible:outline-none',
+            status === 'verified'
+              ? 'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400'
+              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive'
+          )}
+        >
+          {row.getValue('emailVerified') ? 'verified' : 'unverified'}
+        </Badge>
+      );
+    },
+  },
+  {
+    id: 'actions',
+    header: () => 'Actions',
+    cell: ({ row }) => <RowActions user={row.original} />,
+    enableHiding: false,
+  },
+];
+
+const UserDatatable = ({ users }: { users: User[] }) => {
+  const pageSize = 5;
+
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: pageSize,
+  });
+
+  const table = useReactTable({
+    data: users,
+    columns,
+    state: {
+      pagination,
+    },
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
+    currentPage: table.getState().pagination.pageIndex + 1,
+    totalPages: table.getPageCount(),
+    paginationItemsToDisplay: 2,
+  });
+
+  return (
+    <div className='w-full col-span-4 border bg-card shadow-sm rounded-lg'>
+      <div className='border-b'>
+        <div className='flex flex-col gap-4 p-6'>
+          <span className='text-2xl font-semibold'>Latest Users</span>
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+            {/* Select Status */}
+            <Select
+            // value={filters.status}
+            // onValueChange={(value) => setFilters({ status: value })}
+            >
+              <SelectTrigger
+                id={'status'}
+                className='w-full cursor-pointer input'
+              >
+                <SelectValue placeholder='Select status' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Status</SelectLabel>
+                  <SelectItem value='all' className='cursor-pointer'>
+                    All
+                  </SelectItem>
+                  <SelectItem value='verified' className='cursor-pointer'>
+                    Verified
+                  </SelectItem>
+                  <SelectItem value='unverified' className='cursor-pointer'>
+                    Unverified
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            {/* Select Role */}
+            <Select
+            // value={filters.price}
+            // onValueChange={(value) => setFilters({ price: value })}
+            >
+              <SelectTrigger
+                id={'priceRange'}
+                className='w-full cursor-pointer input'
+              >
+                <SelectValue placeholder='Select a role' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Role</SelectLabel>
+                  {UsersRoles.map((role) => (
+                    <SelectItem
+                      key={role.label}
+                      value={role.value}
+                      className='cursor-pointer'
+                    >
+                      {role.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            {/* Search Input  */}
+            <div className='relative sm:col-span-2 lg:col-span-1'>
+              <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
+                <SearchIcon className='size-4' />
+                <span className='sr-only'>Search</span>
+              </div>
+              <Input
+                type='text'
+                placeholder='Search...'
+                className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
+              />
+            </div>
+          </div>
+        </div>
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id} className='h-14 border-t'>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      key={header.id}
+                      style={{ width: `${header.getSize()}px` }}
+                      className='text-muted-foreground first:pl-4 last:px-4 last:text-center'
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                  className='hover:bg-transparent'
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className='h-14 first:w-12.5 first:pl-4 last:w-29 last:px-4'
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div className='flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col md:max-lg:flex-col'>
+        <p
+          className='text-muted-foreground text-sm whitespace-nowrap'
+          aria-live='polite'
+        >
+          Showing{' '}
+          <span>
+            {table.getState().pagination.pageIndex *
+              table.getState().pagination.pageSize +
+              1}{' '}
+            page{' '}
+          </span>{' '}
+          of <span>{table.getRowCount().toString()}</span>
+        </p>
+        <div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <Button
+                  className='disabled:pointer-events-none disabled:opacity-50'
+                  variant={'ghost'}
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                  aria-label='Go to previous page'
+                >
+                  <ChevronLeftIcon aria-hidden='true' />
+                  Previous
+                </Button>
+              </PaginationItem>
+
+              {showLeftEllipsis && (
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )}
+
+              {pages.map((page) => {
+                const isActive =
+                  page === table.getState().pagination.pageIndex + 1;
+
+                return (
+                  <PaginationItem key={page}>
+                    <Button
+                      size='icon'
+                      className={`${!isActive && 'bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40'}`}
+                      onClick={() => table.setPageIndex(page - 1)}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      {page}
+                    </Button>
+                  </PaginationItem>
+                );
+              })}
+
+              {showRightEllipsis && (
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )}
+
+              <PaginationItem>
+                <Button
+                  className='disabled:pointer-events-none disabled:opacity-50'
+                  variant={'ghost'}
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                  aria-label='Go to next page'
+                >
+                  Next
+                  <ChevronRightIcon aria-hidden='true' />
+                </Button>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default UserDatatable;
+
+export const RowActions = ({ user }: { user: User }) => {
+  return (
+    <div className='flex items-center justify-center'>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant='ghost'
+            size={'icon'}
+            aria-label='Delete item'
+            className='cursor-pointer'
+          >
+            <Trash2Icon className='size-4.5' />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Delete</p>
+        </TooltipContent>
+      </Tooltip>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <div className='flex'>
+            <Button
+              size='icon'
+              variant='ghost'
+              className='rounded-full p-2 cursor-pointer'
+              aria-label='Edit item'
+            >
+              <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
+            </Button>
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align='start'>
+          <DropdownMenuGroup>
+            <DropdownMenuItem className='cursor-pointer'>
+              <span>Edit</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className='cursor-pointer'>
+              <span>Ban User</span>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+};
