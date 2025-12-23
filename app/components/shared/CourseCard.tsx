@@ -17,7 +17,7 @@ type CourseCardProps = {
 };
 
 const CourseCard = async ({ course, cart, user }: CourseCardProps) => {
-  const isCourseOwened = user && user.courses.some((c) => c.id === course.id);
+  const isCourseOwened = user && user.courses?.some((c) => c.id === course.id);
   const useProgress = await getUserProgress(course.id);
 
   return (

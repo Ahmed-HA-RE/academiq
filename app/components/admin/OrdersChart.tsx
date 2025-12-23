@@ -47,7 +47,7 @@ const OrdersChart = ({ ordersMonthlyRevenue }: OrdersChartProps) => {
             <AreaChart
               data={ordersMonthlyRevenue}
               margin={{
-                left: 10,
+                left: 25,
                 right: 12,
                 top: 12,
                 bottom: 12,

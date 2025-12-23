@@ -23,7 +23,7 @@ const EnrollCourseBtn = ({
   const isCourseInCart =
     cart && cart.cartItems.find((item) => item.courseId === course.id);
 
-  const isUserEnrolled = user && user.courses.some((c) => c.id === course.id);
+  const isUserEnrolled = user && user.courses?.some((c) => c.id === course.id);
 
   const handleAddToCart = async () => {
     startTransition(async () => {

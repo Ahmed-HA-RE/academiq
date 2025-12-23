@@ -1,5 +1,4 @@
 'use client';
-
 import { Suspense, useState } from 'react';
 import Image from 'next/image';
 import {
@@ -65,11 +64,11 @@ import { usePagination } from '@/hooks/use-pagination';
 import { cn, formatDate } from '@/lib/utils';
 import { Input } from '../ui/input';
 import { UsersRoles } from '@/lib/constants';
+import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 
 const columns: ColumnDef<User>[] = [
   {
     header: 'User',
-    accessorKey: 'user',
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
         <Avatar className='size-9'>
@@ -162,6 +161,21 @@ const columns: ColumnDef<User>[] = [
 
 const UserDatatable = ({ users }: { users: User[] }) => {
   const pageSize = 5;
+  const [filters, setFilters] = useQueryStates(
+    {
+      status: parseAsString.withDefault('all').withOptions({
+        limitUrlUpdates: throttle(500),
+      }),
+      role: parseAsString.withDefault('all').withOptions({
+        limitUrlUpdates: throttle(500),
+      }),
+      q: parseAsString
+        .withDefault('')
+        .withOptions({ limitUrlUpdates: throttle(500) }),
+      page: parseAsInteger.withDefault(1),
+    },
+    { shallow: false }
+  );
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -191,8 +205,8 @@ const UserDatatable = ({ users }: { users: User[] }) => {
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
             {/* Select Status */}
             <Select
-            // value={filters.status}
-            // onValueChange={(value) => setFilters({ status: value })}
+              value={filters.status}
+              onValueChange={(value) => setFilters({ status: value })}
             >
               <SelectTrigger
                 id={'status'}
@@ -218,11 +232,11 @@ const UserDatatable = ({ users }: { users: User[] }) => {
 
             {/* Select Role */}
             <Select
-            // value={filters.price}
-            // onValueChange={(value) => setFilters({ price: value })}
+              value={filters.role}
+              onValueChange={(value) => setFilters({ role: value })}
             >
               <SelectTrigger
-                id={'priceRange'}
+                id={'role'}
                 className='w-full cursor-pointer input'
               >
                 <SelectValue placeholder='Select a role' />
@@ -253,6 +267,8 @@ const UserDatatable = ({ users }: { users: User[] }) => {
                 type='text'
                 placeholder='Search...'
                 className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
+                value={filters.q}
+                onChange={(e) => setFilters({ q: e.target.value })}
               />
             </div>
           </div>

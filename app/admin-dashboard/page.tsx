@@ -1,5 +1,6 @@
 import TotalRevenueChart from '../components/admin/TotalRevenueChart';
 import StatisticsCard from '../components/admin/StatisticsCard';
+import { loadSearchParams } from '@/lib/searchParams';
 import {
   getMonthlyRevenue,
   getOrdersMonthlyRevenue,
@@ -15,8 +16,17 @@ import {
 } from '@/lib/actions/user';
 import OrdersChart from '@/app/components/admin/OrdersChart';
 import UserDatatable from '../components/admin/UserDataTable';
+import { SearchParams } from 'nuqs/server';
 
-const AdminDashboardHomePage = async () => {
+type AdminDashboardHomePageProps = {
+  searchParams: Promise<SearchParams>;
+};
+
+const AdminDashboardHomePage = async ({
+  searchParams,
+}: AdminDashboardHomePageProps) => {
+  const { q, role, status } = await loadSearchParams(searchParams);
+
   const [
     monthlyRevenueData,
     totalRevenueBefore,
@@ -34,7 +44,7 @@ const AdminDashboardHomePage = async () => {
     await getActiveUsersCount(),
     await getMonthlyUserActivity(),
     await getOrdersMonthlyRevenue(),
-    await getAllUsers({ limit: 5 }),
+    await getAllUsers({ limit: 5, q, role, status }),
   ]);
 
   return (

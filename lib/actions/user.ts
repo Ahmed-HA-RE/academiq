@@ -154,7 +154,19 @@ export const getMonthlyUserActivity = async () => {
   return monthlyData;
 };
 
-export const getAllUsers = async ({ limit }: { limit?: number }) => {
+type GetAllUsersParams = {
+  limit?: number;
+  q?: string;
+  role?: string;
+  status?: string;
+};
+
+export const getAllUsers = async ({
+  limit,
+  q,
+  role,
+  status,
+}: GetAllUsersParams) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -162,9 +174,43 @@ export const getAllUsers = async ({ limit }: { limit?: number }) => {
   if (!session || session.user.role !== 'admin')
     throw new Error('Unauthorized');
 
+  // Search filter
+  const filterQuery: Prisma.UserWhereInput = q
+    ? {
+        OR: [
+          {
+            name: { contains: q, mode: 'insensitive' },
+          },
+          {
+            email: { contains: q, mode: 'insensitive' },
+          },
+        ],
+      }
+    : {};
+
+  // Role filter
+  const roleFilter: Prisma.UserWhereInput = role
+    ? {
+        role: { equals: role },
+      }
+    : {};
+
+  // Status filter
+  const statusFilter: Prisma.UserWhereInput = status
+    ? {
+        emailVerified:
+          status === 'verified' ? { not: false } : { equals: false },
+      }
+    : {};
+
   const users = await prisma.user.findMany({
     orderBy: { createdAt: 'desc' },
     take: limit || undefined,
+    where: {
+      ...filterQuery,
+      ...roleFilter,
+      ...statusFilter,
+    },
   });
 
   return convertToPlainObject(
