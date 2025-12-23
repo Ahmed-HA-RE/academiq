@@ -50,30 +50,32 @@ const UsersChart = ({
   return (
     <Card className='col-span-4 xl:col-span-2 w-full gap-2'>
       <CardHeader>
-        <CardTitle className='text-2xl font-semibold'>User Activity</CardTitle>
+        <CardTitle className='text-xl sm:text-2xl font-semibold'>
+          User Activity
+        </CardTitle>
       </CardHeader>
       <CardContent className='pb-4 px-6'>
         <div className='flex items-center justify-between mb-6'>
           <div className='flex flex-col gap-1'>
             <span className='text-sm text-muted-foreground'>Active Users</span>
-            <span className='text-2xl font-bold text-center'>
+            <span className='text-xl sm:text-2xl font-bold text-center'>
               {activeUsersCount}
             </span>
           </div>
           <div className='flex flex-col gap-1 text-right'>
             <span className='text-sm text-muted-foreground'>New Users</span>
-            <span className='text-2xl font-bold text-center'>
+            <span className='text-xl sm:text-2xl font-bold text-center'>
               {newUsersCount}
             </span>
           </div>
         </div>
         <ChartContainer
-          className='min-h-[400px] w-full'
+          className='min-h-[200px] max-h-[300px] w-full'
           config={totalEarningChartConfig}
         >
           <BarChart
             data={monthlyUserActivity}
-            margin={{ top: 5, right: 0, left: -15, bottom: 5 }}
+            margin={{ top: 5, right: 0, left: -30, bottom: 5 }}
             barGap={4}
             barSize={16}
           >
@@ -83,7 +85,9 @@ const UsersChart = ({
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value, index) =>
+                index % 2 === 0 ? value.slice(0, 3) : ''
+              }
               tick={{ fontSize: 12 }}
             />
             <YAxis

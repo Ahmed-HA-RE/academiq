@@ -95,7 +95,7 @@ const TotalRevenueChart = ({
           </span>
         </div>
         <ChartContainer
-          className='min-h-[300px] sm:min-h-[350px] lg:min-h-[400px] w-full'
+          className='min-h-[200px] max-h-[300px] w-full'
           config={totalEarningChartConfig}
         >
           <LineChart
@@ -112,7 +112,9 @@ const TotalRevenueChart = ({
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value, index) =>
+                index % 2 === 0 ? value.slice(0, 3) : ''
+              }
               tick={{ fontSize: 12 }}
             />
             <YAxis

@@ -2,6 +2,7 @@ import TotalRevenueChart from '../components/admin/TotalRevenueChart';
 import StatisticsCard from '../components/admin/StatisticsCard';
 import {
   getMonthlyRevenue,
+  getOrdersMonthlyRevenue,
   getTotalRevenueAfter,
   getTotalRevenueBefore,
 } from '@/lib/actions/order';
@@ -11,14 +12,26 @@ import {
   getNewUsersCount,
   getMonthlyUserActivity,
 } from '@/lib/actions/user';
+import OrdersChart from '@/app/components/admin/OrdersChart';
 
 const AdminDashboardHomePage = async () => {
-  const monthlyRevenueData = await getMonthlyRevenue();
-  const totalRevenueBefore = await getTotalRevenueBefore();
-  const totalRevenueAfter = await getTotalRevenueAfter();
-  const newUsersCount = await getNewUsersCount();
-  const activeUsersCount = await getActiveUsersCount();
-  const monthlyUserActivity = await getMonthlyUserActivity();
+  const [
+    monthlyRevenueData,
+    totalRevenueBefore,
+    totalRevenueAfter,
+    newUsersCount,
+    activeUsersCount,
+    monthlyUserActivity,
+    ordersMonthlyRevenue,
+  ] = await Promise.all([
+    await getMonthlyRevenue(),
+    await getTotalRevenueBefore(),
+    await getTotalRevenueAfter(),
+    await getNewUsersCount(),
+    await getActiveUsersCount(),
+    await getMonthlyUserActivity(),
+    await getOrdersMonthlyRevenue(),
+  ]);
 
   return (
     <>
@@ -33,6 +46,7 @@ const AdminDashboardHomePage = async () => {
         newUsersCount={newUsersCount}
         activeUsersCount={activeUsersCount}
       />
+      <OrdersChart ordersMonthlyRevenue={ordersMonthlyRevenue} />
     </>
   );
 };
