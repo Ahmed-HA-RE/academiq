@@ -5,6 +5,7 @@ import { APP_NAME, SERVER_URL } from '@/lib/constants';
 import { ThemeProvider } from './components/ui/theme-provider';
 import { Toaster } from 'sonner';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { CircleCheckBig, CircleX } from 'lucide-react';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -43,7 +44,13 @@ const RootLayout = ({
           disableTransitionOnChange
         >
           <NuqsAdapter>{children}</NuqsAdapter>
-          <Toaster position='top-center' />
+          <Toaster
+            position='top-right'
+            icons={{
+              success: <CircleCheckBig className='text-emerald-500 size-4.5' />,
+              error: <CircleX className='text-red-500 size-4.5' />,
+            }}
+          />
         </ThemeProvider>
       </body>
     </html>

@@ -7,6 +7,7 @@ import { prisma } from '../prisma';
 import { convertToPlainObject } from '../utils';
 import { BillingInfo } from '@/types';
 import { Prisma } from '../generated/prisma';
+import { revalidatePath } from 'next/cache';
 
 export const getUserById = async (search?: string) => {
   const session = await auth.api.getSession({
@@ -221,4 +222,42 @@ export const getAllUsers = async ({
       };
     })
   );
+};
+
+export const deleteUserById = async (userId: string) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to delete users');
+
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+    revalidatePath('/', 'layout');
+    return { success: true, message: 'User deleted successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+export const deleteSelectedUsers = async (userIds: string[]) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to delete users');
+
+    await prisma.user.deleteMany({
+      where: { id: { in: userIds } },
+    });
+    revalidatePath('/', 'layout');
+    return { success: true, message: 'Users deleted successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
 };

@@ -21,17 +21,28 @@ type DeleteDialogProps = {
   title: string;
   description: string;
   action: () => void;
+  disabled?: boolean;
 };
 
-const DeleteDialog = ({ title, description, action }: DeleteDialogProps) => {
+const DeleteDialog = ({
+  title,
+  description,
+  action,
+  disabled,
+}: DeleteDialogProps) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   return (
     <AlertDialog open={openDialog} onOpenChange={setOpenDialog}>
       <AlertDialogTrigger asChild>
-        <Button variant='ghost' size='icon' className='cursor-pointer'>
-          <Trash2Icon className='size-6' />
+        <Button
+          variant='ghost'
+          size='icon'
+          className='cursor-pointer'
+          disabled={disabled}
+        >
+          <Trash2Icon className='size-5' />
           <span className='sr-only'>Delete Item</span>
         </Button>
       </AlertDialogTrigger>

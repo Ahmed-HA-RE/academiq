@@ -8,11 +8,14 @@ import {
   GraduationCap,
   SearchIcon,
   ShieldUser,
-  Trash2Icon,
   User as UserIcon,
 } from 'lucide-react';
 import { User } from '@/types';
-import type { ColumnDef, PaginationState } from '@tanstack/react-table';
+import type {
+  ColumnDef,
+  PaginationState,
+  RowSelectionState,
+} from '@tanstack/react-table';
 import {
   flexRender,
   getCoreRowModel,
@@ -65,8 +68,30 @@ import { cn, formatDate } from '@/lib/utils';
 import { Input } from '../ui/input';
 import { UsersRoles } from '@/lib/constants';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
+import DeleteDialog from '../shared/DeleteDialog';
+import { deleteSelectedUsers, deleteUserById } from '@/lib/actions/user';
+import { toast } from 'sonner';
+import Link from 'next/link';
 
 const columns: ColumnDef<User>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected()}
+        onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
+        aria-label='Select all'
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label='Select row'
+      />
+    ),
+    size: 50,
+  },
   {
     header: 'User',
     cell: ({ row }) => (
@@ -182,12 +207,17 @@ const UserDatatable = ({ users }: { users: User[] }) => {
     pageSize: pageSize,
   });
 
+  const [selectUsers, setSelectUsers] = useState({});
+
   const table = useReactTable({
     data: users,
     columns,
     state: {
       pagination,
+      rowSelection: selectUsers,
     },
+    onRowSelectionChange: setSelectUsers,
+    getRowId: (row) => row.id,
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -197,11 +227,29 @@ const UserDatatable = ({ users }: { users: User[] }) => {
     paginationItemsToDisplay: 2,
   });
 
+  const handleDeleteUsers = async () => {
+    const res = await deleteSelectedUsers(Object.keys(selectUsers));
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+    toast.success(res.message);
+    setSelectUsers({});
+  };
+
   return (
     <div className='w-full col-span-4 border bg-card shadow-sm rounded-lg'>
       <div className='border-b'>
         <div className='flex flex-col gap-4 p-6'>
-          <span className='text-2xl font-semibold'>Latest Users</span>
+          <div className='flex flex-row justify-between items-center'>
+            <span className='text-2xl font-semibold'>Latest Users</span>
+            <DeleteDialog
+              title='Delete Selected Users'
+              description='Are you sure you want to delete the selected users? this action can not be undone.'
+              action={handleDeleteUsers}
+              disabled={Object.keys(selectUsers).length > 0 ? false : true}
+            />
+          </div>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
             {/* Select Status */}
             <Select
@@ -412,18 +460,24 @@ const UserDatatable = ({ users }: { users: User[] }) => {
 export default UserDatatable;
 
 export const RowActions = ({ user }: { user: User }) => {
+  const handleDeleteUser = async () => {
+    const res = await deleteUserById(user.id);
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+    toast.success(res.message);
+  };
+
   return (
     <div className='flex items-center justify-center'>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
-            variant='ghost'
-            size={'icon'}
-            aria-label='Delete item'
-            className='cursor-pointer'
-          >
-            <Trash2Icon className='size-4.5' />
-          </Button>
+          <DeleteDialog
+            title={`Delete ${user.name}?`}
+            description={`Are you sure you want to delete ${user.name}? This action cannot be undone.`}
+            action={handleDeleteUser}
+          />
         </TooltipTrigger>
         <TooltipContent>
           <p>Delete</p>
@@ -436,7 +490,7 @@ export const RowActions = ({ user }: { user: User }) => {
               size='icon'
               variant='ghost'
               className='rounded-full p-2 cursor-pointer'
-              aria-label='Edit item'
+              aria-label='Edit User'
             >
               <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
             </Button>
@@ -444,8 +498,10 @@ export const RowActions = ({ user }: { user: User }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='start'>
           <DropdownMenuGroup>
-            <DropdownMenuItem className='cursor-pointer'>
-              <span>Edit</span>
+            <DropdownMenuItem asChild className='cursor-pointer'>
+              <Link href={`/admin-dashboard/users/${user.id}/edit`}>
+                <span>Edit</span>
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem className='cursor-pointer'>
               <span>Ban User</span>
