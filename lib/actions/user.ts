@@ -5,11 +5,13 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { prisma } from '../prisma';
 import { convertToPlainObject } from '../utils';
-import { BillingInfo } from '@/types';
+import { BillingInfo, UpdateUserAsAdmin } from '@/types';
 import { Prisma } from '../generated/prisma';
 import { revalidatePath } from 'next/cache';
+import { updateUserAsAdminSchema } from '@/schema';
+import cloudinary from '../cloudinary';
 
-export const getUserById = async (search?: string) => {
+export const getCurrentLoggedUser = async (search?: string) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -239,6 +241,19 @@ export const getAllUsers = async ({
   };
 };
 
+export const getUserById = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) return undefined;
+
+  return convertToPlainObject({
+    ...user,
+    billingInfo: user.billingInfo as BillingInfo,
+  });
+};
+
 export const deleteUserById = async (userId: string) => {
   try {
     const session = await auth.api.getSession({
@@ -331,6 +346,83 @@ export const unbanUserAsAdmin = async (userId: string) => {
     });
     revalidatePath('/', 'layout');
     return { success: true, message: 'User unbanned successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+export const updateUserAsAdmin = async (
+  userId: string,
+  data: UpdateUserAsAdmin
+) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to update users');
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) throw new Error('User not found');
+
+    const validatedData = updateUserAsAdminSchema.safeParse(data);
+
+    if (!validatedData.success) throw new Error('Invalid data');
+
+    // Unauthorized to update users with admin role
+    if (
+      user.role === 'admin' &&
+      session.user.id !== user.id &&
+      validatedData.data.role === 'admin'
+    )
+      throw new Error('Cannot update admin users');
+
+    // Upload new avatar if provided to cloudinary
+    let avatarUrl: string | undefined;
+
+    if (validatedData.data.avatar) {
+      const arrayBuffer = await validatedData.data.avatar.arrayBuffer();
+      const buffer = new Uint8Array(arrayBuffer);
+      avatarUrl = await new Promise((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream({ folder: 'avatars' }, function (error, result) {
+            if (error) {
+              reject(error);
+              return;
+            }
+            resolve(result?.secure_url);
+          })
+          .end(buffer);
+      });
+    }
+
+    const updatedBillingInfo = {
+      phone: validatedData.data.phone === '' ? null : validatedData.data.phone,
+      address:
+        validatedData.data.address === '' ? null : validatedData.data.address,
+      city: validatedData.data.city === '' ? null : validatedData.data.city,
+      fullName:
+        validatedData.data.fullName === '' ? null : validatedData.data.fullName,
+    };
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        name: validatedData.data.name,
+        email: validatedData.data.email,
+        role: validatedData.data.role,
+        emailVerified: validatedData.data.status === 'verified' ? true : false,
+        image: avatarUrl || user.image,
+        billingInfo: updatedBillingInfo,
+      },
+    });
+
+    revalidatePath('/', 'layout');
+    return { success: true, message: 'User updated successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }
