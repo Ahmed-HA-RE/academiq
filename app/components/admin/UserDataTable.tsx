@@ -51,7 +51,7 @@ import {
 } from '@/app/components/ui/tooltip';
 import { cn, formatDate } from '@/lib/utils';
 import { Input } from '../ui/input';
-import { UsersRoles } from '@/lib/constants';
+import { USERS_ROLES } from '@/lib/constants';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../shared/DeleteDialog';
 import {
@@ -228,7 +228,11 @@ const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
       <div className='border-b'>
         <div className='flex flex-col gap-4 p-6'>
           <div className='flex flex-row justify-between items-center'>
-            <span className='text-2xl font-semibold'>Latest Users</span>
+            <span className='text-2xl font-semibold'>
+              {pathname === '/admin-dashboard/users'
+                ? 'All Users'
+                : 'Latest Users'}
+            </span>
             <DeleteDialog
               title='Delete Selected Users'
               description='Are you sure you want to delete the selected users? this action can not be undone.'
@@ -279,7 +283,7 @@ const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Role</SelectLabel>
-                    {UsersRoles.map((role) => (
+                    {USERS_ROLES.map((role) => (
                       <SelectItem
                         key={role.label}
                         value={role.value}

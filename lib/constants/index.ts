@@ -138,7 +138,7 @@ export const TEACHING_CATEGORIES: Option[] = [
 
 export const validCountryPhones = ['AE', 'SA', 'KW', 'QA', 'OM', 'BH'];
 
-export const UsersRoles = [
+export const USERS_ROLES = [
   {
     value: 'all',
     label: 'All',

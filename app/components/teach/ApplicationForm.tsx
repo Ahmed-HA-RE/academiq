@@ -19,7 +19,7 @@ import {
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Calendar } from '../ui/calendar';
-import FileUpload from '../FileUpload';
+import PDFFileUpload from '../PDFFileUpload';
 import { Button } from '../ui/button';
 import { TEACHING_CATEGORIES } from '@/lib/constants';
 import MultipleSelector from '../ui/multi-select';
@@ -282,7 +282,7 @@ const ApplicationForm = ({
                   data-invalid={fieldState.invalid}
                 >
                   <FieldLabel>Portfolio</FieldLabel>
-                  <FileUpload onChange={field.onChange} />
+                  <PDFFileUpload onChange={field.onChange} />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}

@@ -19,6 +19,13 @@ const fileSchema = z
   .max(8_000_000, { error: 'Max file size is 8MB' })
   .mime(['application/pdf'], { error: 'Only PDF file format is allowed' });
 
+const avatarSchema = z
+  .file({ error: 'Avatar is required' })
+  .max(5_000_000, { error: 'Max file size is 5MB' })
+  .mime(['image/jpeg', 'image/png'], {
+    error: 'Only JPG/PNG file formats are allowed',
+  });
+
 // Phone number validation
 const phoneSchema = z.string().refine(
   (val) => {
@@ -238,3 +245,17 @@ export const createApplicationSchema = instructorSchema
       .string({ error: 'Invalid user id' })
       .min(1, 'User id is required'),
   });
+
+export const updateUserAsAdminSchema = z.object({
+  name: z
+    .string({ error: 'Invalid name' })
+    .min(3, 'Name is required')
+    .max(50, 'Name is too long'),
+  email: z.email({ error: 'Invalid email address' }),
+  role: z.string({ error: 'Invalid role' }).min(1, 'Role is required'),
+  status: z.string({ error: 'Invalid status' }).min(1, 'Status is required'),
+  phone: phoneSchema.optional(),
+  address: billingInfoSchema.shape.address.optional(),
+  city: billingInfoSchema.shape.city.optional(),
+  avatar: avatarSchema,
+});

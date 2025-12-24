@@ -6,11 +6,11 @@ import { formatBytes, useFileUpload } from '@/hooks/use-file-upload';
 import { Button } from '@/app/components/ui/button';
 import { useEffect } from 'react';
 
-type FileUploadProps = {
+type PDFFileUploadProps = {
   onChange: (file: File | undefined) => void;
 };
 
-const FileUpload = ({ onChange }: FileUploadProps) => {
+const PDFFileUpload = ({ onChange }: PDFFileUploadProps) => {
   const maxSize = 8 * 1024 * 1024; // 8MB default
 
   const [
@@ -112,4 +112,4 @@ const FileUpload = ({ onChange }: FileUploadProps) => {
   );
 };
 
-export default FileUpload;
+export default PDFFileUpload;
