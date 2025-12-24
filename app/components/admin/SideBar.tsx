@@ -1,0 +1,162 @@
+'use client';
+import { Suspense } from 'react';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '../ui/sidebar';
+import Image from 'next/image';
+import {
+  Banknote,
+  Contact,
+  FileUser,
+  HomeIcon,
+  TvMinimalPlay,
+  UsersIcon,
+  Wallet,
+} from 'lucide-react';
+import { APP_NAME } from '@/lib/constants';
+import Link from 'next/link';
+import { Avatar, AvatarFallback } from '../ui/avatar';
+import AdminUserDropdown from './AdminUserDropdown';
+import { User } from '@/types';
+import { useSidebar } from '../ui/sidebar';
+
+const pagesItems = [
+  {
+    icon: HomeIcon,
+    label: 'Home',
+    href: '/admin-dashboard',
+  },
+  {
+    icon: TvMinimalPlay,
+    label: 'Courses',
+    href: '/admin-dashboard/courses',
+  },
+  {
+    icon: Contact,
+    label: 'Instructors',
+    href: '/admin-dashboard/instructors',
+  },
+  {
+    icon: FileUser,
+    label: 'Applications',
+    href: '/admin-dashboard/applications',
+  },
+  {
+    icon: UsersIcon,
+    label: 'Users',
+    href: '/admin-dashboard/users',
+  },
+  {
+    icon: Wallet,
+    label: 'Transactions',
+    href: '/admin-dashboard/transactions',
+  },
+  {
+    icon: Banknote,
+    label: 'Discounts',
+    href: '/admin-dashboard/discounts',
+  },
+];
+
+const recipientsItems = [
+  {
+    name: 'Liam Anderson',
+    avatarSrc:
+      'https://res.cloudinary.com/ahmed--dev/image/upload/v1764700356/avatars/jc5t8yphb1crsomdpyo2.jpg',
+  },
+];
+
+const SideBar = ({ user }: { user: User }) => {
+  const { setOpenMobile } = useSidebar();
+
+  return (
+    <Sidebar
+      variant='floating'
+      collapsible='icon'
+      className='p-6 pr-0 [&>[data-slot=sidebar-inner]]:group-data-[variant=floating]:rounded-xl'
+    >
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              size='lg'
+              className='gap-2.5 !bg-transparent [&>svg]:size-8'
+            >
+              <Image src='/images/logo.png' alt='Logo' width={32} height={32} />
+              <span className='text-xl font-semibold'>{APP_NAME}</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Pages</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {pagesItems.map((item) => (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton
+                    onClick={() => setOpenMobile(false)}
+                    asChild
+                  >
+                    <Link href={item.href}>
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Admins</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {recipientsItems.map((recipient) => (
+                <SidebarMenuItem
+                  className='flex items-center gap-2 px-1'
+                  key={recipient.name}
+                >
+                  <Avatar className='size-7 rounded-full'>
+                    <Suspense
+                      fallback={
+                        <AvatarFallback className='rounded-full'>
+                          {recipient.name.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      }
+                    >
+                      <Image
+                        src={recipient.avatarSrc}
+                        alt={recipient.name}
+                        width={28}
+                        height={28}
+                        className='object-cover'
+                      />
+                    </Suspense>
+                  </Avatar>
+                  <span>{recipient.name}</span>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        {/* Admin User Dropdown */}
+        <AdminUserDropdown user={user} />
+      </SidebarFooter>
+    </Sidebar>
+  );
+};
+
+export default SideBar;

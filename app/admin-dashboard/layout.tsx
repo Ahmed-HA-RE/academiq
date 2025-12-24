@@ -1,93 +1,21 @@
-import { Suspense, type CSSProperties } from 'react';
-import Image from 'next/image';
-
-import {
-  Banknote,
-  Contact,
-  FileUser,
-  HomeIcon,
-  TvMinimalPlay,
-  UsersIcon,
-  Wallet,
-} from 'lucide-react';
-
 import { Card, CardContent } from '@/app/components/ui/card';
-import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/app/components/ui/sidebar';
+import { SidebarProvider, SidebarTrigger } from '@/app/components/ui/sidebar';
 import Link from 'next/link';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { FaInstagram } from 'react-icons/fa6';
-import AdminUserDropdown from '@/app/components/admin/AdminUserDropdown';
 import { APP_NAME } from '@/lib/constants';
 import Theme from '../components/Theme';
-import { getUserById } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user';
 import { notFound } from 'next/navigation';
-
-const pagesItems = [
-  {
-    icon: HomeIcon,
-    label: 'Home',
-    href: '/admin-dashboard',
-  },
-  {
-    icon: TvMinimalPlay,
-    label: 'Courses',
-    href: '/admin-dashboard/courses',
-  },
-  {
-    icon: Contact,
-    label: 'Instructors',
-    href: '/admin-dashboard/instructors',
-  },
-  {
-    icon: FileUser,
-    label: 'Applications',
-    href: '/admin-dashboard/applications',
-  },
-  {
-    icon: UsersIcon,
-    label: 'Users',
-    href: '/admin-dashboard/users',
-  },
-  {
-    icon: Wallet,
-    label: 'Transactions',
-    href: '/admin-dashboard/transactions',
-  },
-  {
-    icon: Banknote,
-    label: 'Discounts',
-    href: '/admin-dashboard/discounts',
-  },
-];
-
-const recipientsItems = [
-  {
-    name: 'Liam Anderson',
-    avatarSrc:
-      'https://res.cloudinary.com/ahmed--dev/image/upload/v1764700356/avatars/jc5t8yphb1crsomdpyo2.jpg',
-  },
-];
+import { CSSProperties } from 'react';
+import SideBar from '../components/admin/SideBar';
 
 const AdminDashBoardLayout = async ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const user = await getUserById();
+  const user = await getCurrentLoggedUser();
 
   if (!user) return notFound();
 
@@ -102,85 +30,7 @@ const AdminDashBoardLayout = async ({
           } as CSSProperties
         }
       >
-        <Sidebar
-          variant='floating'
-          collapsible='icon'
-          className='p-6 pr-0 [&>[data-slot=sidebar-inner]]:group-data-[variant=floating]:rounded-xl'
-        >
-          <SidebarHeader>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  size='lg'
-                  className='gap-2.5 !bg-transparent [&>svg]:size-8'
-                >
-                  <Image
-                    src='/images/logo.png'
-                    alt='Logo'
-                    width={32}
-                    height={32}
-                  />
-                  <span className='text-xl font-semibold'>{APP_NAME}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarHeader>
-          <SidebarContent>
-            <SidebarGroup>
-              <SidebarGroupLabel>Pages</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {pagesItems.map((item) => (
-                    <SidebarMenuItem key={item.label}>
-                      <SidebarMenuButton asChild>
-                        <Link href={item.href}>
-                          <item.icon />
-                          <span>{item.label}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-            <SidebarGroup>
-              <SidebarGroupLabel>Admins</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {recipientsItems.map((recipient) => (
-                    <SidebarMenuItem
-                      className='flex items-center gap-2 px-1'
-                      key={recipient.name}
-                    >
-                      <Avatar className='size-7 rounded-full'>
-                        <Suspense
-                          fallback={
-                            <AvatarFallback className='rounded-full'>
-                              {recipient.name.slice(0, 2).toUpperCase()}
-                            </AvatarFallback>
-                          }
-                        >
-                          <Image
-                            src={recipient.avatarSrc}
-                            alt={recipient.name}
-                            width={28}
-                            height={28}
-                            className='object-cover'
-                          />
-                        </Suspense>
-                      </Avatar>
-                      <span>{recipient.name}</span>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </SidebarContent>
-          <SidebarFooter>
-            {/* Admin User Dropdown */}
-            <AdminUserDropdown user={user} />
-          </SidebarFooter>
-        </Sidebar>
+        <SideBar user={user} />
         <div className='z-1 mx-auto flex size-full max-w-7xl flex-1 flex-col px-4 py-6 sm:px-6'>
           <header className='bg-card mb-6 flex items-center justify-between rounded-xl px-6 py-3.5'>
             <SidebarTrigger className='[&_svg]:!size-5' />

@@ -1,4 +1,3 @@
-import { CITY_OPTIONS } from '@/lib/utils';
 import parsePhoneNumberFromString, { CountryCode } from 'libphonenumber-js';
 import z from 'zod';
 import { validCountryPhones } from '@/lib/constants';
@@ -24,9 +23,10 @@ const avatarSchema = z
   .max(5_000_000, { error: 'Max file size is 5MB' })
   .mime(['image/jpeg', 'image/png'], {
     error: 'Only JPG/PNG file formats are allowed',
-  });
+  })
+  .optional();
 
-// Phone number validation
+// Phone number validation for orders and instructors
 const phoneSchema = z.string().refine(
   (val) => {
     for (const country of validCountryPhones) {
@@ -38,6 +38,24 @@ const phoneSchema = z.string().refine(
     error: 'Invalid phone number',
   }
 );
+
+// Optional phone number validation (for admin updating users)
+const adminForUsersPhoneSchema = z
+  .string()
+  .optional()
+  .refine(
+    (val) => {
+      if (!val) return true; // Optional field
+      for (const country of validCountryPhones) {
+        const phone = parsePhoneNumberFromString(val, country as CountryCode);
+        if (phone?.isValid()) return true;
+      }
+    },
+    {
+      error: 'Invalid phone number',
+    }
+  );
+
 // Courses schema
 export const baseCourseSchema = z.object({
   slug: z.string({ error: 'Invalid slug' }).min(1, 'Slug is required'),
@@ -196,16 +214,13 @@ export const instructorSchema = z.object({
 export const billingInfoSchema = z.object({
   fullName: z
     .string({ error: 'Invalid full name' })
-    .min(1, 'Full name is required'),
+    .min(3, 'Full name is required'),
   email: z.email({ error: 'Invalid email address' }),
   phone: phoneSchema,
   address: z
     .string({ error: 'Invalid address' })
     .min(10, 'Address field should be at least 10 characters long'),
-  city: z.enum(
-    CITY_OPTIONS.map((option) => option.value),
-    { error: 'City is required' }
-  ),
+  city: z.string({ error: 'Invalid city' }).min(5, 'City is required'),
 });
 
 export const orderBaseSchema = z.object({
@@ -254,8 +269,22 @@ export const updateUserAsAdminSchema = z.object({
   email: z.email({ error: 'Invalid email address' }),
   role: z.string({ error: 'Invalid role' }).min(1, 'Role is required'),
   status: z.string({ error: 'Invalid status' }).min(1, 'Status is required'),
-  phone: phoneSchema.optional(),
-  address: billingInfoSchema.shape.address.optional(),
-  city: billingInfoSchema.shape.city.optional(),
+  phone: adminForUsersPhoneSchema,
+  address: z.string({ error: 'Invalid address' }).refine(
+    (val) => {
+      if (!val) return true;
+      return val.length >= 10;
+    },
+    { error: 'Address field should be at least 10 characters long' }
+  ),
+
+  city: z.string({ error: 'Invalid city' }).optional(),
+  fullName: z.string({ error: 'Invalid full name' }).refine(
+    (val) => {
+      if (!val) return true;
+      return val.length >= 3;
+    },
+    { error: 'Full name field should be at least 3 characters long' }
+  ),
   avatar: avatarSchema,
 });

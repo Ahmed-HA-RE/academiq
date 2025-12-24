@@ -5,7 +5,7 @@ import { getAllCourses } from '@/lib/actions/course';
 import { loadSearchParams } from '@/lib/searchParams';
 import type { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';
-import { getUserById } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user';
 import { Alert, AlertTitle } from '@/app/components/ui/alert';
 import { TriangleAlertIcon } from 'lucide-react';
 import CourseCard from '@/app/components/shared/CourseCard';
@@ -56,7 +56,7 @@ const CoursesPage = async ({
     page,
   });
   const cart = await getMyCart();
-  const user = await getUserById();
+  const user = await getCurrentLoggedUser();
 
   return (
     <section className='my-10'>

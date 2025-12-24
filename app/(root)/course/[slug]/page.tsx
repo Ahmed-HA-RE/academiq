@@ -19,7 +19,7 @@ import EnrollCourseBtn from '@/app/components/shared/EnrollCourseBtn';
 import { getMyCart } from '@/lib/actions/cart';
 import { Metadata } from 'next';
 import { APP_NAME } from '@/lib/constants';
-import { getUserById } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user';
 
 export const generateMetadata = async ({
   params,
@@ -49,7 +49,7 @@ const CourseDetailsPage = async ({
   if (!course) notFound();
 
   const cart = await getMyCart();
-  const user = await getUserById();
+  const user = await getCurrentLoggedUser();
   return (
     <section className='mb-10'>
       <div className='container'>

@@ -12,6 +12,7 @@ import {
   orderItemSchema,
   registerSchema,
   resetPasswordSchema,
+  updateUserAsAdminSchema,
   verifyOTPSchema,
 } from '@/schema';
 import z from 'zod';
@@ -107,3 +108,5 @@ export type UserProgress = {
   progress: string;
   updatedAt: Date;
 };
+
+export type UpdateUserAsAdmin = z.infer<typeof updateUserAsAdminSchema>;

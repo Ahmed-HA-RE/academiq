@@ -51,12 +51,19 @@ export const SORTING_OPTIONS = [
   { label: 'Price: High to Low', value: 'price-desc' },
 ];
 
-export const CITY_OPTIONS = [
-  { label: 'Abu Dhabi', value: 'abu-dhabi' },
-  { label: 'Dubai', value: 'dubai' },
-  { label: 'Sharjah', value: 'sharjah' },
-  { label: 'Ajman', value: 'ajman' },
-  { label: 'Fujairah', value: 'fujairah' },
-  { label: 'Ras Al Khaimah', value: 'ras-al-khaimah' },
-  { label: 'Umm Al Quwain', value: 'umm-al-quwain' },
-];
+export const CITY_OPTIONS = {
+  UAE: [
+    'Abu Dhabi',
+    'Dubai',
+    'Sharjah',
+    'Ajman',
+    'Fujairah',
+    'Ras Al Khaimah',
+    'Umm Al Quwain',
+  ],
+  KSA: ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dammam', 'Khobar', 'Tabuk'],
+  KW: ['Al Ahmadi', 'Hawalli', 'Salmiya', 'Jahra', 'Farwaniya'],
+  QA: ['Doha', 'Al Rayyan', 'Umm Salal', 'Al Wakrah', 'Al Khor'],
+  OM: ['Muscat', 'Salalah', 'Sohar', 'Nizwa', 'Sur'],
+  BH: ['Manama', 'Riffa', 'Muharraq', 'Isa Town', 'Hamad Town'],
+};

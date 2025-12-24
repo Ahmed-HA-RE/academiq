@@ -3,7 +3,7 @@ import TeacherHero from '@/app/components/teach/TeacherHero';
 import TeachFaq from '@/app/components/teach/TeachFaq';
 import TeachFeatures from '@/app/components/teach/TeachFeatures';
 import { Metadata } from 'next';
-import { getUserById } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user';
 
 export const metadata: Metadata = {
   title: 'Become an Instructor',
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const BecomeAnInstructorPage = async () => {
-  const user = await getUserById();
+  const user = await getCurrentLoggedUser();
 
   return (
     <>

@@ -1,12 +1,11 @@
 'use client';
 
-import { User } from '@/types';
+import { UpdateUserAsAdmin, User } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Spinner } from '../ui/spinner';
 import { updateUserAsAdminSchema } from '@/schema';
-import z from 'zod';
 import { FieldGroup, FieldError, Field, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
 import {
@@ -15,6 +14,7 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
@@ -22,8 +22,13 @@ import { USERS_ROLES } from '@/lib/constants';
 import { PhoneInput } from '../ui/phone-input';
 import { CITY_OPTIONS } from '@/lib/utils';
 import { Button } from '../ui/button';
+import AvatarUpload from '../AvatarUpload';
+import { updateUserAsAdmin } from '@/lib/actions/user';
+import { useRouter } from 'next/navigation';
 const EditUserForm = ({ user }: { user: User }) => {
-  const form = useForm<z.infer<typeof updateUserAsAdminSchema>>({
+  const router = useRouter();
+
+  const form = useForm<UpdateUserAsAdmin>({
     resolver: zodResolver(updateUserAsAdminSchema),
     defaultValues: {
       name: user.name,
@@ -33,12 +38,18 @@ const EditUserForm = ({ user }: { user: User }) => {
       phone: user.billingInfo?.phone || '',
       address: user.billingInfo?.address || '',
       city: user.billingInfo?.city || '',
+      fullName: user.billingInfo?.fullName || '',
     },
-    mode: 'all',
   });
 
-  const onSubmit = async (data: z.infer<typeof updateUserAsAdminSchema>) => {
-    console.log(data);
+  const onSubmit = async (data: UpdateUserAsAdmin) => {
+    const res = await updateUserAsAdmin(user.id, data);
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+    toast.success('User updated successfully!');
+    router.push('/admin-dashboard/users');
   };
 
   return (
@@ -91,10 +102,10 @@ const EditUserForm = ({ user }: { user: User }) => {
             name='status'
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel>Status</FieldLabel>
+                <FieldLabel htmlFor={field.name}>Status</FieldLabel>
                 <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger
-                    id={'status'}
+                    id={field.name}
                     className='w-full cursor-pointer input'
                     aria-invalid={fieldState.invalid}
                   >
@@ -124,14 +135,14 @@ const EditUserForm = ({ user }: { user: User }) => {
             name='role'
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel>Role</FieldLabel>
+                <FieldLabel htmlFor={field.name}>Role</FieldLabel>
                 <Select
                   aria-invalid={fieldState.invalid}
                   value={field.value}
                   onValueChange={field.onChange}
                 >
                   <SelectTrigger
-                    id={'role'}
+                    id={field.name}
                     className='w-full cursor-pointer input'
                   >
                     <SelectValue placeholder='Select a role' />
@@ -171,8 +182,6 @@ const EditUserForm = ({ user }: { user: User }) => {
                 <PhoneInput
                   id={field.name}
                   aria-invalid={fieldState.invalid}
-                  placeholder='Enter your WhatsApp 
-                    number'
                   defaultCountry='AE'
                   international
                   countryCallingCodeEditable={false}
@@ -204,14 +213,79 @@ const EditUserForm = ({ user }: { user: User }) => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>City</SelectLabel>
-                      {CITY_OPTIONS.map((city) => (
+                      <SelectLabel>United Arab Emirates</SelectLabel>
+                      {CITY_OPTIONS.UAE.map((city) => (
                         <SelectItem
-                          key={city.value}
-                          value={city.value}
+                          key={city}
+                          value={city}
                           className='cursor-pointer'
                         >
-                          {city.label}
+                          {city}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                    <SelectSeparator />
+                    <SelectGroup>
+                      <SelectLabel>Kingdom of Saudi Arabia</SelectLabel>
+                      {CITY_OPTIONS.KSA.map((city) => (
+                        <SelectItem
+                          key={city}
+                          value={city}
+                          className='cursor-pointer'
+                        >
+                          {city}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                    <SelectSeparator />
+                    <SelectGroup>
+                      <SelectLabel>Kuwait</SelectLabel>
+                      {CITY_OPTIONS.KW.map((city) => (
+                        <SelectItem
+                          key={city}
+                          value={city}
+                          className='cursor-pointer'
+                        >
+                          {city}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                    <SelectSeparator />
+                    <SelectGroup>
+                      <SelectLabel>Qatar</SelectLabel>
+                      {CITY_OPTIONS.QA.map((city) => (
+                        <SelectItem
+                          key={city}
+                          value={city}
+                          className='cursor-pointer'
+                        >
+                          {city}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                    <SelectSeparator />
+                    <SelectGroup>
+                      <SelectLabel>Bahrain</SelectLabel>
+                      {CITY_OPTIONS.BH.map((city) => (
+                        <SelectItem
+                          key={city}
+                          value={city}
+                          className='cursor-pointer'
+                        >
+                          {city}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                    <SelectSeparator />
+                    <SelectGroup>
+                      <SelectLabel>Oman</SelectLabel>
+                      {CITY_OPTIONS.OM.map((city) => (
+                        <SelectItem
+                          key={city}
+                          value={city}
+                          className='cursor-pointer'
+                        >
+                          {city}
                         </SelectItem>
                       ))}
                     </SelectGroup>
@@ -225,6 +299,31 @@ const EditUserForm = ({ user }: { user: User }) => {
           />
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          {/* Full Name ( billingInfo ) */}
+          <Controller
+            name='fullName'
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <div className='flex flex-row justify-between items-center'>
+                  <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
+                  <span className='text-muted-foreground text-sm'>
+                    For billing info
+                  </span>
+                </div>
+                <Input
+                  id={field.name}
+                  aria-invalid={fieldState.invalid}
+                  placeholder='Update user full name for billing info'
+                  className='input'
+                  {...field}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
           {/* Address */}
           <Controller
             name='address'
@@ -246,7 +345,30 @@ const EditUserForm = ({ user }: { user: User }) => {
             )}
           />
           {/* Avatar */}
+          <Controller
+            name='avatar'
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}>Avatar</FieldLabel>
+                <div className='flex flex-row items-center gap-4'>
+                  <AvatarUpload
+                    userImage={user.image}
+                    onChange={field.onChange}
+                  />
+                  <span className='text-sm text-muted-foreground'>
+                    Recommended size: 64x64px.{' '}
+                    <span className='block mt-2'>Max size: 5MB.</span>
+                  </span>
+                </div>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
         </div>
+
         <Button
           className='cursor-pointer text-base'
           size={'lg'}
@@ -255,7 +377,7 @@ const EditUserForm = ({ user }: { user: User }) => {
         >
           {form.formState.isSubmitting ? (
             <>
-              Updating <Spinner />{' '}
+              <Spinner className='size-6' /> Updating...
             </>
           ) : (
             'Update'

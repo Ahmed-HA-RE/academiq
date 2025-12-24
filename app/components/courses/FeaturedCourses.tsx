@@ -1,12 +1,12 @@
 import { getMyCart } from '@/lib/actions/cart';
 import CourseCard from '../shared/CourseCard';
 import { getFeaturedCourses } from '@/lib/actions/course';
-import { getUserById } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user';
 
 const FeaturedCourses = async () => {
   const courses = await getFeaturedCourses();
   const cart = await getMyCart();
-  const user = await getUserById();
+  const user = await getCurrentLoggedUser();
 
   return (
     <section className='section-spacing'>

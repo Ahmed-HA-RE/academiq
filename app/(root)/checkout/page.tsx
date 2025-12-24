@@ -1,13 +1,13 @@
 import CheckoutDetails from '@/app/components/checkout/CheckoutDetails';
 import { getMyCart } from '@/lib/actions/cart';
 import { getDiscountById } from '@/lib/actions/discount';
-import { getUserById } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user';
 import { SERVER_URL } from '@/lib/constants';
 import { redirect } from 'next/navigation';
 
 const CheckoutPage = async () => {
   const cart = await getMyCart();
-  const userInfo = await getUserById();
+  const userInfo = await getCurrentLoggedUser();
 
   let discount;
   if (cart?.discountId) {

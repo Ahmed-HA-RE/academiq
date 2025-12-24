@@ -1,7 +1,7 @@
 import { Button } from '../components/ui/button';
 import Link from 'next/link';
 import { ArrowLeftIcon, InfoIcon } from 'lucide-react';
-import { getUserById } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user';
 import { redirect } from 'next/navigation';
 import MyCoursesCard from '../components/my-courses/MyCoursesCard';
 import { Metadata } from 'next';
@@ -20,7 +20,7 @@ const MyCoursesPage = async ({
 }) => {
   const { search } = await loadSearchParams(searchParams);
 
-  const user = await getUserById(search);
+  const user = await getCurrentLoggedUser(search);
 
   if (!user) redirect('/');
 
