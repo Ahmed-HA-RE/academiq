@@ -1,5 +1,5 @@
 import CategoriesFilter from '@/app/components/courses/CategoriesFilter';
-import CoursesPagination from '@/app/components/courses/CoursesPagination';
+import CoursesPagination from '@/app/components/shared/Pagination';
 import { getMyCart } from '@/lib/actions/cart';
 import { getAllCourses } from '@/lib/actions/course';
 import { loadSearchParams } from '@/lib/searchParams';

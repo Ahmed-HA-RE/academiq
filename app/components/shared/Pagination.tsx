@@ -10,7 +10,7 @@ import {
   PaginationPrevious,
 } from '../ui/pagination';
 
-const CoursesPagination = ({ totalPages }: { totalPages: number }) => {
+const DataPagination = ({ totalPages }: { totalPages: number }) => {
   const [currentPage, setCurrentPage] = useQueryState(
     'page',
     parseAsInteger.withOptions({ shallow: false }).withDefault(1)
@@ -19,11 +19,11 @@ const CoursesPagination = ({ totalPages }: { totalPages: number }) => {
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <Pagination className='mt-10'>
+    <Pagination className=''>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={`/courses?page=${currentPage <= 1 ? 1 : currentPage - 1}`}
+            href={`?page=${currentPage <= 1 ? 1 : currentPage - 1}`}
             className={`rounded-none ${currentPage <= 1 ? 'pointer-events-none opacity-50' : undefined}`}
             aria-disabled={currentPage <= 1}
           />
@@ -32,7 +32,7 @@ const CoursesPagination = ({ totalPages }: { totalPages: number }) => {
           {pages.map((page) => (
             <PaginationLink
               key={page}
-              href={`/courses?page=${page}`}
+              href={`?page=${page}`}
               isActive={page === currentPage}
               className={
                 page === currentPage
@@ -46,7 +46,7 @@ const CoursesPagination = ({ totalPages }: { totalPages: number }) => {
         </PaginationItem>
         <PaginationItem>
           <PaginationNext
-            href={`/courses?page=${currentPage >= totalPages ? totalPages : currentPage + 1}`}
+            href={`?page=${currentPage >= totalPages ? totalPages : currentPage + 1}`}
             className={`rounded-none ${currentPage >= totalPages ? 'pointer-events-none opacity-50' : undefined}`}
             aria-disabled={currentPage >= totalPages}
           />
@@ -56,4 +56,4 @@ const CoursesPagination = ({ totalPages }: { totalPages: number }) => {
   );
 };
 
-export default CoursesPagination;
+export default DataPagination;

@@ -160,13 +160,14 @@ type GetAllUsersParams = {
   q?: string;
   role?: string;
   status?: string;
+  page: number;
 };
-
 export const getAllUsers = async ({
   limit,
   q,
   role,
   status,
+  page = 1,
 }: GetAllUsersParams) => {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -207,6 +208,7 @@ export const getAllUsers = async ({
   const users = await prisma.user.findMany({
     orderBy: { createdAt: 'desc' },
     take: limit || undefined,
+    skip: (page - 1) * (limit || 0),
     where: {
       ...filterQuery,
       ...roleFilter,
@@ -214,14 +216,27 @@ export const getAllUsers = async ({
     },
   });
 
-  return convertToPlainObject(
-    users.map((user) => {
-      return {
-        ...user,
-        billingInfo: user.billingInfo as BillingInfo,
-      };
-    })
-  );
+  const totalUsers = await prisma.user.count({
+    where: {
+      ...filterQuery,
+      ...roleFilter,
+      ...statusFilter,
+    },
+  });
+
+  const totalPages = limit ? Math.ceil(totalUsers / limit) : 1;
+
+  return {
+    users: convertToPlainObject(
+      users.map((user) => {
+        return {
+          ...user,
+          billingInfo: user.billingInfo as BillingInfo,
+        };
+      })
+    ),
+    totalPages,
+  };
 };
 
 export const deleteUserById = async (userId: string) => {

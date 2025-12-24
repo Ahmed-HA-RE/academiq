@@ -25,7 +25,7 @@ type AdminDashboardHomePageProps = {
 const AdminDashboardHomePage = async ({
   searchParams,
 }: AdminDashboardHomePageProps) => {
-  const { q, role, status } = await loadSearchParams(searchParams);
+  const { q, role, status, page } = await loadSearchParams(searchParams);
 
   const [
     monthlyRevenueData,
@@ -35,7 +35,7 @@ const AdminDashboardHomePage = async ({
     activeUsersCount,
     monthlyUserActivity,
     ordersMonthlyRevenue,
-    users,
+    { users, totalPages },
   ] = await Promise.all([
     await getMonthlyRevenue(),
     await getTotalRevenueBefore(),
@@ -44,7 +44,7 @@ const AdminDashboardHomePage = async ({
     await getActiveUsersCount(),
     await getMonthlyUserActivity(),
     await getOrdersMonthlyRevenue(),
-    await getAllUsers({ limit: 5, q, role, status }),
+    await getAllUsers({ limit: 5, q, role, status, page }),
   ]);
 
   return (
@@ -61,7 +61,7 @@ const AdminDashboardHomePage = async ({
         activeUsersCount={activeUsersCount}
       />
       <OrdersChart ordersMonthlyRevenue={ordersMonthlyRevenue} />
-      <UserDatatable users={users} />
+      <UserDatatable users={users} totalPages={totalPages} />
     </>
   );
 };

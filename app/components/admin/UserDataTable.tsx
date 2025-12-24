@@ -2,8 +2,6 @@
 import { Suspense, useState, useTransition } from 'react';
 import Image from 'next/image';
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
   EllipsisVerticalIcon,
   GraduationCap,
   SearchIcon,
@@ -11,17 +9,13 @@ import {
   User as UserIcon,
 } from 'lucide-react';
 import { User } from '@/types';
-import type {
-  ColumnDef,
-  PaginationState,
-  RowSelectionState,
-} from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-
+import { usePathname } from 'next/navigation';
 import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
 import { Badge } from '@/app/components/ui/badge';
 import { Button } from '@/app/components/ui/button';
@@ -33,12 +27,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/app/components/ui/dropdown-menu';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-} from '@/app/components/ui/pagination';
 import {
   Select,
   SelectContent,
@@ -61,9 +49,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/app/components/ui/tooltip';
-
-import { usePagination } from '@/hooks/use-pagination';
-
 import { cn, formatDate } from '@/lib/utils';
 import { Input } from '../ui/input';
 import { UsersRoles } from '@/lib/constants';
@@ -78,6 +63,7 @@ import {
 import { toast } from 'sonner';
 import Link from 'next/link';
 import ScreenSpinner from '../ScreenSpinner';
+import DataPagination from '../shared/Pagination';
 
 const columns: ColumnDef<User>[] = [
   {
@@ -190,8 +176,14 @@ const columns: ColumnDef<User>[] = [
   },
 ];
 
-const UserDatatable = ({ users }: { users: User[] }) => {
-  const pageSize = 5;
+type UserDatatableProps = {
+  users: User[];
+  totalPages: number;
+};
+
+const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
+  const pathname = usePathname();
+
   const [filters, setFilters] = useQueryStates(
     {
       status: parseAsString.withDefault('all').withOptions({
@@ -208,29 +200,17 @@ const UserDatatable = ({ users }: { users: User[] }) => {
     { shallow: false }
   );
 
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: pageSize,
-  });
-
   const [selectUsers, setSelectUsers] = useState({});
 
   const table = useReactTable({
     data: users,
     columns,
     state: {
-      pagination,
       rowSelection: selectUsers,
     },
     onRowSelectionChange: setSelectUsers,
     getRowId: (row) => row.id,
     getCoreRowModel: getCoreRowModel(),
-  });
-
-  const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
-    currentPage: table.getState().pagination.pageIndex + 1,
-    totalPages: table.getPageCount(),
-    paginationItemsToDisplay: 2,
   });
 
   const handleDeleteUsers = async () => {
@@ -256,76 +236,78 @@ const UserDatatable = ({ users }: { users: User[] }) => {
               disabled={Object.keys(selectUsers).length > 0 ? false : true}
             />
           </div>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-            {/* Select Status */}
-            <Select
-              value={filters.status}
-              onValueChange={(value) => setFilters({ status: value })}
-            >
-              <SelectTrigger
-                id={'status'}
-                className='w-full cursor-pointer input'
+          {pathname === '/admin-dashboard/users' && (
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+              {/* Select Status */}
+              <Select
+                value={filters.status}
+                onValueChange={(value) => setFilters({ status: value })}
               >
-                <SelectValue placeholder='Select status' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Status</SelectLabel>
-                  <SelectItem value='all' className='cursor-pointer'>
-                    All
-                  </SelectItem>
-                  <SelectItem value='verified' className='cursor-pointer'>
-                    Verified
-                  </SelectItem>
-                  <SelectItem value='unverified' className='cursor-pointer'>
-                    Unverified
-                  </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-
-            {/* Select Role */}
-            <Select
-              value={filters.role}
-              onValueChange={(value) => setFilters({ role: value })}
-            >
-              <SelectTrigger
-                id={'role'}
-                className='w-full cursor-pointer input'
-              >
-                <SelectValue placeholder='Select a role' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Role</SelectLabel>
-                  {UsersRoles.map((role) => (
-                    <SelectItem
-                      key={role.label}
-                      value={role.value}
-                      className='cursor-pointer'
-                    >
-                      {role.label}
+                <SelectTrigger
+                  id={'status'}
+                  className='w-full cursor-pointer input'
+                >
+                  <SelectValue placeholder='Select status' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Status</SelectLabel>
+                    <SelectItem value='all' className='cursor-pointer'>
+                      All
                     </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+                    <SelectItem value='verified' className='cursor-pointer'>
+                      Verified
+                    </SelectItem>
+                    <SelectItem value='unverified' className='cursor-pointer'>
+                      Unverified
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
 
-            {/* Search Input  */}
-            <div className='relative sm:col-span-2 lg:col-span-1'>
-              <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
-                <SearchIcon className='size-4' />
-                <span className='sr-only'>Search</span>
+              {/* Select Role */}
+              <Select
+                value={filters.role}
+                onValueChange={(value) => setFilters({ role: value })}
+              >
+                <SelectTrigger
+                  id={'role'}
+                  className='w-full cursor-pointer input'
+                >
+                  <SelectValue placeholder='Select a role' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Role</SelectLabel>
+                    {UsersRoles.map((role) => (
+                      <SelectItem
+                        key={role.label}
+                        value={role.value}
+                        className='cursor-pointer'
+                      >
+                        {role.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              {/* Search Input  */}
+              <div className='relative sm:col-span-2 lg:col-span-1'>
+                <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
+                  <SearchIcon className='size-4' />
+                  <span className='sr-only'>Search</span>
+                </div>
+                <Input
+                  type='text'
+                  placeholder='Search...'
+                  className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
+                  value={filters.q}
+                  onChange={(e) => setFilters({ q: e.target.value })}
+                />
               </div>
-              <Input
-                type='text'
-                placeholder='Search...'
-                className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
-                value={filters.q}
-                onChange={(e) => setFilters({ q: e.target.value })}
-              />
             </div>
-          </div>
+          )}
         </div>
         <Table>
           <TableHeader>
@@ -383,82 +365,20 @@ const UserDatatable = ({ users }: { users: User[] }) => {
         </Table>
       </div>
 
-      <div className='flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col md:max-lg:flex-col'>
-        <p
-          className='text-muted-foreground text-sm whitespace-nowrap'
-          aria-live='polite'
-        >
-          Showing{' '}
-          <span>
-            {table.getState().pagination.pageIndex *
-              table.getState().pagination.pageSize +
-              1}{' '}
-            page{' '}
-          </span>{' '}
-          of <span>{table.getRowCount().toString()}</span>
-        </p>
-        <div>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <Button
-                  className='disabled:pointer-events-none disabled:opacity-50'
-                  variant={'ghost'}
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
-                  aria-label='Go to previous page'
-                >
-                  <ChevronLeftIcon aria-hidden='true' />
-                  Previous
-                </Button>
-              </PaginationItem>
-
-              {showLeftEllipsis && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-
-              {pages.map((page) => {
-                const isActive =
-                  page === table.getState().pagination.pageIndex + 1;
-
-                return (
-                  <PaginationItem key={page}>
-                    <Button
-                      size='icon'
-                      className={`${!isActive && 'bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40'}`}
-                      onClick={() => table.setPageIndex(page - 1)}
-                      aria-current={isActive ? 'page' : undefined}
-                    >
-                      {page}
-                    </Button>
-                  </PaginationItem>
-                );
-              })}
-
-              {showRightEllipsis && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-
-              <PaginationItem>
-                <Button
-                  className='disabled:pointer-events-none disabled:opacity-50'
-                  variant={'ghost'}
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
-                  aria-label='Go to next page'
-                >
-                  Next
-                  <ChevronRightIcon aria-hidden='true' />
-                </Button>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+      {pathname === '/admin-dashboard/users' && totalPages > 1 ? (
+        <div className='flex items-center justify-between px-6 py-4 max-sm:flex-col md:max-lg:flex-col gap-6'>
+          <p
+            className='text-muted-foreground text-sm whitespace-nowrap'
+            aria-live='polite'
+          >
+            Showing <span>{table.getRowCount().toString()} </span> of{' '}
+            <span>{users.length} users</span>
+          </p>
+          <div>
+            <DataPagination totalPages={totalPages} />
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };
