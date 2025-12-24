@@ -112,19 +112,19 @@ const SendReceipt = ({ order, discount }: SendReceiptProp) => {
                   key={index}
                   className='border-b border-gray-100 py-[12px] items-center'
                 >
-                  <Column className='w-[60px] pr-[12px]'>
+                  <Column className='w-[50px] pr-[12px]'>
                     <Img
                       src={item.image}
                       alt={item.name}
                       className='w-full rounded-md'
                     />
                   </Column>
-                  <Column className='pr-[12px]'>
+                  <Column className='pr-[12px] w-[70px]'>
                     <Text className='text-[15px] text-gray-900 m-0 mb-[4px]'>
                       {item.name}
                     </Text>
                   </Column>
-                  <Column className='w-[80px] text-right'>
+                  <Column className='w-[40px] text-right'>
                     <Text className='text-[15px] font-bold text-gray-900 m-0'>
                       AED {item.price}
                     </Text>
@@ -219,9 +219,6 @@ const SendReceipt = ({ order, discount }: SendReceiptProp) => {
                 <Column>
                   <Text className='text-[12px] text-gray-500 m-0'>
                     ©{new Date().getFullYear()} Academiq, Abu Dhabi, UAE
-                    <br />
-                    If you have any questions about your order, reply to this
-                    email or contact support.
                   </Text>
                 </Column>
               </Row>

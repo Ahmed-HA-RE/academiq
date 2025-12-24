@@ -2,7 +2,7 @@ import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { prisma } from './prisma';
 import { nextCookies } from 'better-auth/next-js';
-import { emailOTP } from 'better-auth/plugins';
+import { emailOTP, admin } from 'better-auth/plugins';
 import { APP_NAME } from './constants';
 import resend from './resend';
 import VerificationOTP from '@/emails/VerificationOTP';
@@ -21,6 +21,7 @@ export const auth = betterAuth({
     sendResetPassword: async ({ user, url }) => {
       await resend.emails.send({
         from: `${APP_NAME} <support@${domain}>`,
+        replyTo: process.env.REPLY_EMAIL,
         to: user.email,
         subject: 'Reset your password',
         react: ResetPasswordEmail({
@@ -48,6 +49,7 @@ export const auth = betterAuth({
           await resend.emails.send({
             from: `${APP_NAME} <support@${domain}>`,
             to: email,
+            replyTo: process.env.REPLY_EMAIL,
             subject: 'Verify your email address',
             react: VerificationOTP({
               verificationCode: otp,
@@ -62,6 +64,7 @@ export const auth = betterAuth({
       sendVerificationOnSignUp: true,
       allowedAttempts: 3,
     }),
+    admin(),
   ],
   session: {
     expiresIn: 60 * 60 * 24 * 30, // 30 days

@@ -2048,12 +2048,14 @@ export namespace Prisma {
     users: number
     sections: number
     orderItems: number
+    userProgress: number
   }
 
   export type CourseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | CourseCountOutputTypeCountUsersArgs
     sections?: boolean | CourseCountOutputTypeCountSectionsArgs
     orderItems?: boolean | CourseCountOutputTypeCountOrderItemsArgs
+    userProgress?: boolean | CourseCountOutputTypeCountUserProgressArgs
   }
 
   // Custom InputTypes
@@ -2088,6 +2090,13 @@ export namespace Prisma {
     where?: orderItemsWhereInput
   }
 
+  /**
+   * CourseCountOutputType without action
+   */
+  export type CourseCountOutputTypeCountUserProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserProgressWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -2099,6 +2108,7 @@ export namespace Prisma {
     courses: number
     carts: number
     orders: number
+    userProgress: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2107,6 +2117,7 @@ export namespace Prisma {
     courses?: boolean | UserCountOutputTypeCountCoursesArgs
     carts?: boolean | UserCountOutputTypeCountCartsArgs
     orders?: boolean | UserCountOutputTypeCountOrdersArgs
+    userProgress?: boolean | UserCountOutputTypeCountUserProgressArgs
   }
 
   // Custom InputTypes
@@ -2153,6 +2164,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUserProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserProgressWhereInput
   }
 
 
@@ -2696,7 +2714,7 @@ export namespace Prisma {
       sections: Prisma.$SectionPayload<ExtArgs>[]
       orderItems: Prisma.$orderItemsPayload<ExtArgs>[]
       instructor: Prisma.$InstructorPayload<ExtArgs> | null
-      userProgress: Prisma.$UserProgressPayload<ExtArgs> | null
+      userProgress: Prisma.$UserProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3114,7 +3132,7 @@ export namespace Prisma {
     sections<T extends Course$sectionsArgs<ExtArgs> = {}>(args?: Subset<T, Course$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orderItems<T extends Course$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Course$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$orderItemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     instructor<T extends Course$instructorArgs<ExtArgs> = {}>(args?: Subset<T, Course$instructorArgs<ExtArgs>>): Prisma__InstructorClient<$Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    userProgress<T extends Course$userProgressArgs<ExtArgs> = {}>(args?: Subset<T, Course$userProgressArgs<ExtArgs>>): Prisma__UserProgressClient<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    userProgress<T extends Course$userProgressArgs<ExtArgs> = {}>(args?: Subset<T, Course$userProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3664,6 +3682,11 @@ export namespace Prisma {
      */
     include?: UserProgressInclude<ExtArgs> | null
     where?: UserProgressWhereInput
+    orderBy?: UserProgressOrderByWithRelationInput | UserProgressOrderByWithRelationInput[]
+    cursor?: UserProgressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserProgressScalarFieldEnum | UserProgressScalarFieldEnum[]
   }
 
   /**
@@ -3705,6 +3728,9 @@ export namespace Prisma {
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    banned: boolean | null
+    banReason: string | null
+    banExpires: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -3717,6 +3743,9 @@ export namespace Prisma {
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    banned: boolean | null
+    banReason: string | null
+    banExpires: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -3730,6 +3759,9 @@ export namespace Prisma {
     status: number
     createdAt: number
     updatedAt: number
+    banned: number
+    banReason: number
+    banExpires: number
     _all: number
   }
 
@@ -3744,6 +3776,9 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    banned?: true
+    banReason?: true
+    banExpires?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -3756,6 +3791,9 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    banned?: true
+    banReason?: true
+    banExpires?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -3769,6 +3807,9 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    banned?: true
+    banReason?: true
+    banExpires?: true
     _all?: true
   }
 
@@ -3855,6 +3896,9 @@ export namespace Prisma {
     status: string
     createdAt: Date
     updatedAt: Date
+    banned: boolean
+    banReason: string | null
+    banExpires: Date | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -3885,6 +3929,9 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     courses?: boolean | User$coursesArgs<ExtArgs>
@@ -3907,6 +3954,9 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3920,6 +3970,9 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -3933,9 +3986,12 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "billingInfo" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "billingInfo" | "status" | "createdAt" | "updatedAt" | "banned" | "banReason" | "banExpires", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -3960,7 +4016,7 @@ export namespace Prisma {
       orders: Prisma.$OrderPayload<ExtArgs>[]
       intructorApplication: Prisma.$IntructorApplicationPayload<ExtArgs> | null
       instructor: Prisma.$InstructorPayload<ExtArgs> | null
-      userProgress: Prisma.$UserProgressPayload<ExtArgs> | null
+      userProgress: Prisma.$UserProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3973,6 +4029,9 @@ export namespace Prisma {
       status: string
       createdAt: Date
       updatedAt: Date
+      banned: boolean
+      banReason: string | null
+      banExpires: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -4374,7 +4433,7 @@ export namespace Prisma {
     orders<T extends User$ordersArgs<ExtArgs> = {}>(args?: Subset<T, User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     intructorApplication<T extends User$intructorApplicationArgs<ExtArgs> = {}>(args?: Subset<T, User$intructorApplicationArgs<ExtArgs>>): Prisma__IntructorApplicationClient<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     instructor<T extends User$instructorArgs<ExtArgs> = {}>(args?: Subset<T, User$instructorArgs<ExtArgs>>): Prisma__InstructorClient<$Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    userProgress<T extends User$userProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$userProgressArgs<ExtArgs>>): Prisma__UserProgressClient<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    userProgress<T extends User$userProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$userProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4414,6 +4473,9 @@ export namespace Prisma {
     readonly status: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly banned: FieldRef<"User", 'Boolean'>
+    readonly banReason: FieldRef<"User", 'String'>
+    readonly banExpires: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -4976,6 +5038,11 @@ export namespace Prisma {
      */
     include?: UserProgressInclude<ExtArgs> | null
     where?: UserProgressWhereInput
+    orderBy?: UserProgressOrderByWithRelationInput | UserProgressOrderByWithRelationInput[]
+    cursor?: UserProgressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserProgressScalarFieldEnum | UserProgressScalarFieldEnum[]
   }
 
   /**
@@ -5016,6 +5083,7 @@ export namespace Prisma {
     ipAddress: string | null
     userAgent: string | null
     userId: string | null
+    impersonatedBy: string | null
   }
 
   export type SessionMaxAggregateOutputType = {
@@ -5027,6 +5095,7 @@ export namespace Prisma {
     ipAddress: string | null
     userAgent: string | null
     userId: string | null
+    impersonatedBy: string | null
   }
 
   export type SessionCountAggregateOutputType = {
@@ -5038,6 +5107,7 @@ export namespace Prisma {
     ipAddress: number
     userAgent: number
     userId: number
+    impersonatedBy: number
     _all: number
   }
 
@@ -5051,6 +5121,7 @@ export namespace Prisma {
     ipAddress?: true
     userAgent?: true
     userId?: true
+    impersonatedBy?: true
   }
 
   export type SessionMaxAggregateInputType = {
@@ -5062,6 +5133,7 @@ export namespace Prisma {
     ipAddress?: true
     userAgent?: true
     userId?: true
+    impersonatedBy?: true
   }
 
   export type SessionCountAggregateInputType = {
@@ -5073,6 +5145,7 @@ export namespace Prisma {
     ipAddress?: true
     userAgent?: true
     userId?: true
+    impersonatedBy?: true
     _all?: true
   }
 
@@ -5157,6 +5230,7 @@ export namespace Prisma {
     ipAddress: string | null
     userAgent: string | null
     userId: string
+    impersonatedBy: string | null
     _count: SessionCountAggregateOutputType | null
     _min: SessionMinAggregateOutputType | null
     _max: SessionMaxAggregateOutputType | null
@@ -5185,6 +5259,7 @@ export namespace Prisma {
     ipAddress?: boolean
     userAgent?: boolean
     userId?: boolean
+    impersonatedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
@@ -5197,6 +5272,7 @@ export namespace Prisma {
     ipAddress?: boolean
     userAgent?: boolean
     userId?: boolean
+    impersonatedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
@@ -5209,6 +5285,7 @@ export namespace Prisma {
     ipAddress?: boolean
     userAgent?: boolean
     userId?: boolean
+    impersonatedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
@@ -5221,9 +5298,10 @@ export namespace Prisma {
     ipAddress?: boolean
     userAgent?: boolean
     userId?: boolean
+    impersonatedBy?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "expiresAt" | "token" | "createdAt" | "updatedAt" | "ipAddress" | "userAgent" | "userId", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "expiresAt" | "token" | "createdAt" | "updatedAt" | "ipAddress" | "userAgent" | "userId" | "impersonatedBy", ExtArgs["result"]["session"]>
   export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -5248,6 +5326,7 @@ export namespace Prisma {
       ipAddress: string | null
       userAgent: string | null
       userId: string
+      impersonatedBy: string | null
     }, ExtArgs["result"]["session"]>
     composites: {}
   }
@@ -5680,6 +5759,7 @@ export namespace Prisma {
     readonly ipAddress: FieldRef<"Session", 'String'>
     readonly userAgent: FieldRef<"Session", 'String'>
     readonly userId: FieldRef<"Session", 'String'>
+    readonly impersonatedBy: FieldRef<"Session", 'String'>
   }
     
 
@@ -18647,7 +18727,10 @@ export namespace Prisma {
     billingInfo: 'billingInfo',
     status: 'status',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    banned: 'banned',
+    banReason: 'banReason',
+    banExpires: 'banExpires'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -18661,7 +18744,8 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     ipAddress: 'ipAddress',
     userAgent: 'userAgent',
-    userId: 'userId'
+    userId: 'userId',
+    impersonatedBy: 'impersonatedBy'
   };
 
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -19007,7 +19091,7 @@ export namespace Prisma {
     sections?: SectionListRelationFilter
     orderItems?: OrderItemsListRelationFilter
     instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
-    userProgress?: XOR<UserProgressNullableScalarRelationFilter, UserProgressWhereInput> | null
+    userProgress?: UserProgressListRelationFilter
   }
 
   export type CourseOrderByWithRelationInput = {
@@ -19032,7 +19116,7 @@ export namespace Prisma {
     sections?: SectionOrderByRelationAggregateInput
     orderItems?: orderItemsOrderByRelationAggregateInput
     instructor?: InstructorOrderByWithRelationInput
-    userProgress?: UserProgressOrderByWithRelationInput
+    userProgress?: UserProgressOrderByRelationAggregateInput
   }
 
   export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -19060,7 +19144,7 @@ export namespace Prisma {
     sections?: SectionListRelationFilter
     orderItems?: OrderItemsListRelationFilter
     instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
-    userProgress?: XOR<UserProgressNullableScalarRelationFilter, UserProgressWhereInput> | null
+    userProgress?: UserProgressListRelationFilter
   }, "id" | "slug">
 
   export type CourseOrderByWithAggregationInput = {
@@ -19125,6 +19209,9 @@ export namespace Prisma {
     status?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    banned?: BoolFilter<"User"> | boolean
+    banReason?: StringNullableFilter<"User"> | string | null
+    banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     courses?: CourseListRelationFilter
@@ -19132,7 +19219,7 @@ export namespace Prisma {
     orders?: OrderListRelationFilter
     intructorApplication?: XOR<IntructorApplicationNullableScalarRelationFilter, IntructorApplicationWhereInput> | null
     instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
-    userProgress?: XOR<UserProgressNullableScalarRelationFilter, UserProgressWhereInput> | null
+    userProgress?: UserProgressListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -19146,6 +19233,9 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    banned?: SortOrder
+    banReason?: SortOrderInput | SortOrder
+    banExpires?: SortOrderInput | SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
     courses?: CourseOrderByRelationAggregateInput
@@ -19153,7 +19243,7 @@ export namespace Prisma {
     orders?: OrderOrderByRelationAggregateInput
     intructorApplication?: IntructorApplicationOrderByWithRelationInput
     instructor?: InstructorOrderByWithRelationInput
-    userProgress?: UserProgressOrderByWithRelationInput
+    userProgress?: UserProgressOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -19170,6 +19260,9 @@ export namespace Prisma {
     status?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    banned?: BoolFilter<"User"> | boolean
+    banReason?: StringNullableFilter<"User"> | string | null
+    banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     courses?: CourseListRelationFilter
@@ -19177,7 +19270,7 @@ export namespace Prisma {
     orders?: OrderListRelationFilter
     intructorApplication?: XOR<IntructorApplicationNullableScalarRelationFilter, IntructorApplicationWhereInput> | null
     instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
-    userProgress?: XOR<UserProgressNullableScalarRelationFilter, UserProgressWhereInput> | null
+    userProgress?: UserProgressListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -19191,6 +19284,9 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    banned?: SortOrder
+    banReason?: SortOrderInput | SortOrder
+    banExpires?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -19210,6 +19306,9 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    banned?: BoolWithAggregatesFilter<"User"> | boolean
+    banReason?: StringNullableWithAggregatesFilter<"User"> | string | null
+    banExpires?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type SessionWhereInput = {
@@ -19224,6 +19323,7 @@ export namespace Prisma {
     ipAddress?: StringNullableFilter<"Session"> | string | null
     userAgent?: StringNullableFilter<"Session"> | string | null
     userId?: StringFilter<"Session"> | string
+    impersonatedBy?: StringNullableFilter<"Session"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -19236,6 +19336,7 @@ export namespace Prisma {
     ipAddress?: SortOrderInput | SortOrder
     userAgent?: SortOrderInput | SortOrder
     userId?: SortOrder
+    impersonatedBy?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -19251,6 +19352,7 @@ export namespace Prisma {
     ipAddress?: StringNullableFilter<"Session"> | string | null
     userAgent?: StringNullableFilter<"Session"> | string | null
     userId?: StringFilter<"Session"> | string
+    impersonatedBy?: StringNullableFilter<"Session"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "token">
 
@@ -19263,6 +19365,7 @@ export namespace Prisma {
     ipAddress?: SortOrderInput | SortOrder
     userAgent?: SortOrderInput | SortOrder
     userId?: SortOrder
+    impersonatedBy?: SortOrderInput | SortOrder
     _count?: SessionCountOrderByAggregateInput
     _max?: SessionMaxOrderByAggregateInput
     _min?: SessionMinOrderByAggregateInput
@@ -19280,6 +19383,7 @@ export namespace Prisma {
     ipAddress?: StringNullableWithAggregatesFilter<"Session"> | string | null
     userAgent?: StringNullableWithAggregatesFilter<"Session"> | string | null
     userId?: StringWithAggregatesFilter<"Session"> | string
+    impersonatedBy?: StringNullableWithAggregatesFilter<"Session"> | string | null
   }
 
   export type AccountWhereInput = {
@@ -20142,7 +20246,7 @@ export namespace Prisma {
     sections?: SectionCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsCreateNestedManyWithoutCourseInput
     instructor?: InstructorCreateNestedOneWithoutCoursesInput
-    userProgress?: UserProgressCreateNestedOneWithoutCourseInput
+    userProgress?: UserProgressCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateInput = {
@@ -20166,7 +20270,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCoursesInput
     sections?: SectionUncheckedCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsUncheckedCreateNestedManyWithoutCourseInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutCourseInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUpdateInput = {
@@ -20190,7 +20294,7 @@ export namespace Prisma {
     sections?: SectionUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUpdateManyWithoutCourseNestedInput
     instructor?: InstructorUpdateOneWithoutCoursesNestedInput
-    userProgress?: UserProgressUpdateOneWithoutCourseNestedInput
+    userProgress?: UserProgressUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateInput = {
@@ -20214,7 +20318,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCoursesNestedInput
     sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUncheckedUpdateManyWithoutCourseNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutCourseNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseCreateManyInput = {
@@ -20287,6 +20391,9 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUsersInput
@@ -20294,7 +20401,7 @@ export namespace Prisma {
     orders?: OrderCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -20308,6 +20415,9 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
@@ -20315,7 +20425,7 @@ export namespace Prisma {
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -20329,6 +20439,9 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUsersNestedInput
@@ -20336,7 +20449,7 @@ export namespace Prisma {
     orders?: OrderUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -20350,6 +20463,9 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
@@ -20357,7 +20473,7 @@ export namespace Prisma {
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -20371,6 +20487,9 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -20384,6 +20503,9 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -20397,6 +20519,9 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SessionCreateInput = {
@@ -20407,6 +20532,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     ipAddress?: string | null
     userAgent?: string | null
+    impersonatedBy?: string | null
     user: UserCreateNestedOneWithoutSessionsInput
   }
 
@@ -20419,6 +20545,7 @@ export namespace Prisma {
     ipAddress?: string | null
     userAgent?: string | null
     userId: string
+    impersonatedBy?: string | null
   }
 
   export type SessionUpdateInput = {
@@ -20429,6 +20556,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutSessionsNestedInput
   }
 
@@ -20441,6 +20569,7 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionCreateManyInput = {
@@ -20452,6 +20581,7 @@ export namespace Prisma {
     ipAddress?: string | null
     userAgent?: string | null
     userId: string
+    impersonatedBy?: string | null
   }
 
   export type SessionUpdateManyMutationInput = {
@@ -20462,6 +20592,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyInput = {
@@ -20473,6 +20604,7 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AccountCreateInput = {
@@ -21469,9 +21601,10 @@ export namespace Prisma {
     isNot?: InstructorWhereInput | null
   }
 
-  export type UserProgressNullableScalarRelationFilter = {
-    is?: UserProgressWhereInput | null
-    isNot?: UserProgressWhereInput | null
+  export type UserProgressListRelationFilter = {
+    every?: UserProgressWhereInput
+    some?: UserProgressWhereInput
+    none?: UserProgressWhereInput
   }
 
   export type SortOrderInput = {
@@ -21488,6 +21621,10 @@ export namespace Prisma {
   }
 
   export type orderItemsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserProgressOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21680,6 +21817,17 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type SessionListRelationFilter = {
     every?: SessionWhereInput
     some?: SessionWhereInput
@@ -21746,6 +21894,9 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    banned?: SortOrder
+    banReason?: SortOrder
+    banExpires?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -21758,6 +21909,9 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    banned?: SortOrder
+    banReason?: SortOrder
+    banExpires?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -21770,6 +21924,9 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    banned?: SortOrder
+    banReason?: SortOrder
+    banExpires?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -21798,6 +21955,20 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -21812,6 +21983,7 @@ export namespace Prisma {
     ipAddress?: SortOrder
     userAgent?: SortOrder
     userId?: SortOrder
+    impersonatedBy?: SortOrder
   }
 
   export type SessionMaxOrderByAggregateInput = {
@@ -21823,6 +21995,7 @@ export namespace Prisma {
     ipAddress?: SortOrder
     userAgent?: SortOrder
     userId?: SortOrder
+    impersonatedBy?: SortOrder
   }
 
   export type SessionMinOrderByAggregateInput = {
@@ -21834,17 +22007,7 @@ export namespace Prisma {
     ipAddress?: SortOrder
     userAgent?: SortOrder
     userId?: SortOrder
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    impersonatedBy?: SortOrder
   }
 
   export type AccountCountOrderByAggregateInput = {
@@ -21893,20 +22056,6 @@ export namespace Prisma {
     password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type VerificationCountOrderByAggregateInput = {
@@ -22451,10 +22600,11 @@ export namespace Prisma {
     connect?: InstructorWhereUniqueInput
   }
 
-  export type UserProgressCreateNestedOneWithoutCourseInput = {
-    create?: XOR<UserProgressCreateWithoutCourseInput, UserProgressUncheckedCreateWithoutCourseInput>
-    connectOrCreate?: UserProgressCreateOrConnectWithoutCourseInput
-    connect?: UserProgressWhereUniqueInput
+  export type UserProgressCreateNestedManyWithoutCourseInput = {
+    create?: XOR<UserProgressCreateWithoutCourseInput, UserProgressUncheckedCreateWithoutCourseInput> | UserProgressCreateWithoutCourseInput[] | UserProgressUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutCourseInput | UserProgressCreateOrConnectWithoutCourseInput[]
+    createMany?: UserProgressCreateManyCourseInputEnvelope
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
   }
 
   export type UserUncheckedCreateNestedManyWithoutCoursesInput = {
@@ -22477,10 +22627,11 @@ export namespace Prisma {
     connect?: orderItemsWhereUniqueInput | orderItemsWhereUniqueInput[]
   }
 
-  export type UserProgressUncheckedCreateNestedOneWithoutCourseInput = {
-    create?: XOR<UserProgressCreateWithoutCourseInput, UserProgressUncheckedCreateWithoutCourseInput>
-    connectOrCreate?: UserProgressCreateOrConnectWithoutCourseInput
-    connect?: UserProgressWhereUniqueInput
+  export type UserProgressUncheckedCreateNestedManyWithoutCourseInput = {
+    create?: XOR<UserProgressCreateWithoutCourseInput, UserProgressUncheckedCreateWithoutCourseInput> | UserProgressCreateWithoutCourseInput[] | UserProgressUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutCourseInput | UserProgressCreateOrConnectWithoutCourseInput[]
+    createMany?: UserProgressCreateManyCourseInputEnvelope
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -22562,14 +22713,18 @@ export namespace Prisma {
     update?: XOR<XOR<InstructorUpdateToOneWithWhereWithoutCoursesInput, InstructorUpdateWithoutCoursesInput>, InstructorUncheckedUpdateWithoutCoursesInput>
   }
 
-  export type UserProgressUpdateOneWithoutCourseNestedInput = {
-    create?: XOR<UserProgressCreateWithoutCourseInput, UserProgressUncheckedCreateWithoutCourseInput>
-    connectOrCreate?: UserProgressCreateOrConnectWithoutCourseInput
-    upsert?: UserProgressUpsertWithoutCourseInput
-    disconnect?: UserProgressWhereInput | boolean
-    delete?: UserProgressWhereInput | boolean
-    connect?: UserProgressWhereUniqueInput
-    update?: XOR<XOR<UserProgressUpdateToOneWithWhereWithoutCourseInput, UserProgressUpdateWithoutCourseInput>, UserProgressUncheckedUpdateWithoutCourseInput>
+  export type UserProgressUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<UserProgressCreateWithoutCourseInput, UserProgressUncheckedCreateWithoutCourseInput> | UserProgressCreateWithoutCourseInput[] | UserProgressUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutCourseInput | UserProgressCreateOrConnectWithoutCourseInput[]
+    upsert?: UserProgressUpsertWithWhereUniqueWithoutCourseInput | UserProgressUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: UserProgressCreateManyCourseInputEnvelope
+    set?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    disconnect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    delete?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    update?: UserProgressUpdateWithWhereUniqueWithoutCourseInput | UserProgressUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: UserProgressUpdateManyWithWhereWithoutCourseInput | UserProgressUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -22617,14 +22772,18 @@ export namespace Prisma {
     deleteMany?: orderItemsScalarWhereInput | orderItemsScalarWhereInput[]
   }
 
-  export type UserProgressUncheckedUpdateOneWithoutCourseNestedInput = {
-    create?: XOR<UserProgressCreateWithoutCourseInput, UserProgressUncheckedCreateWithoutCourseInput>
-    connectOrCreate?: UserProgressCreateOrConnectWithoutCourseInput
-    upsert?: UserProgressUpsertWithoutCourseInput
-    disconnect?: UserProgressWhereInput | boolean
-    delete?: UserProgressWhereInput | boolean
-    connect?: UserProgressWhereUniqueInput
-    update?: XOR<XOR<UserProgressUpdateToOneWithWhereWithoutCourseInput, UserProgressUpdateWithoutCourseInput>, UserProgressUncheckedUpdateWithoutCourseInput>
+  export type UserProgressUncheckedUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<UserProgressCreateWithoutCourseInput, UserProgressUncheckedCreateWithoutCourseInput> | UserProgressCreateWithoutCourseInput[] | UserProgressUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutCourseInput | UserProgressCreateOrConnectWithoutCourseInput[]
+    upsert?: UserProgressUpsertWithWhereUniqueWithoutCourseInput | UserProgressUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: UserProgressCreateManyCourseInputEnvelope
+    set?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    disconnect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    delete?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    update?: UserProgressUpdateWithWhereUniqueWithoutCourseInput | UserProgressUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: UserProgressUpdateManyWithWhereWithoutCourseInput | UserProgressUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -22673,10 +22832,11 @@ export namespace Prisma {
     connect?: InstructorWhereUniqueInput
   }
 
-  export type UserProgressCreateNestedOneWithoutUserInput = {
-    create?: XOR<UserProgressCreateWithoutUserInput, UserProgressUncheckedCreateWithoutUserInput>
-    connectOrCreate?: UserProgressCreateOrConnectWithoutUserInput
-    connect?: UserProgressWhereUniqueInput
+  export type UserProgressCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserProgressCreateWithoutUserInput, UserProgressUncheckedCreateWithoutUserInput> | UserProgressCreateWithoutUserInput[] | UserProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutUserInput | UserProgressCreateOrConnectWithoutUserInput[]
+    createMany?: UserProgressCreateManyUserInputEnvelope
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
   }
 
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
@@ -22725,10 +22885,15 @@ export namespace Prisma {
     connect?: InstructorWhereUniqueInput
   }
 
-  export type UserProgressUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<UserProgressCreateWithoutUserInput, UserProgressUncheckedCreateWithoutUserInput>
-    connectOrCreate?: UserProgressCreateOrConnectWithoutUserInput
-    connect?: UserProgressWhereUniqueInput
+  export type UserProgressUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserProgressCreateWithoutUserInput, UserProgressUncheckedCreateWithoutUserInput> | UserProgressCreateWithoutUserInput[] | UserProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutUserInput | UserProgressCreateOrConnectWithoutUserInput[]
+    createMany?: UserProgressCreateManyUserInputEnvelope
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -22820,14 +22985,18 @@ export namespace Prisma {
     update?: XOR<XOR<InstructorUpdateToOneWithWhereWithoutUserInput, InstructorUpdateWithoutUserInput>, InstructorUncheckedUpdateWithoutUserInput>
   }
 
-  export type UserProgressUpdateOneWithoutUserNestedInput = {
-    create?: XOR<UserProgressCreateWithoutUserInput, UserProgressUncheckedCreateWithoutUserInput>
-    connectOrCreate?: UserProgressCreateOrConnectWithoutUserInput
-    upsert?: UserProgressUpsertWithoutUserInput
-    disconnect?: UserProgressWhereInput | boolean
-    delete?: UserProgressWhereInput | boolean
-    connect?: UserProgressWhereUniqueInput
-    update?: XOR<XOR<UserProgressUpdateToOneWithWhereWithoutUserInput, UserProgressUpdateWithoutUserInput>, UserProgressUncheckedUpdateWithoutUserInput>
+  export type UserProgressUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserProgressCreateWithoutUserInput, UserProgressUncheckedCreateWithoutUserInput> | UserProgressCreateWithoutUserInput[] | UserProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutUserInput | UserProgressCreateOrConnectWithoutUserInput[]
+    upsert?: UserProgressUpsertWithWhereUniqueWithoutUserInput | UserProgressUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserProgressCreateManyUserInputEnvelope
+    set?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    disconnect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    delete?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    update?: UserProgressUpdateWithWhereUniqueWithoutUserInput | UserProgressUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserProgressUpdateManyWithWhereWithoutUserInput | UserProgressUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
   }
 
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
@@ -22919,14 +23088,18 @@ export namespace Prisma {
     update?: XOR<XOR<InstructorUpdateToOneWithWhereWithoutUserInput, InstructorUpdateWithoutUserInput>, InstructorUncheckedUpdateWithoutUserInput>
   }
 
-  export type UserProgressUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<UserProgressCreateWithoutUserInput, UserProgressUncheckedCreateWithoutUserInput>
-    connectOrCreate?: UserProgressCreateOrConnectWithoutUserInput
-    upsert?: UserProgressUpsertWithoutUserInput
-    disconnect?: UserProgressWhereInput | boolean
-    delete?: UserProgressWhereInput | boolean
-    connect?: UserProgressWhereUniqueInput
-    update?: XOR<XOR<UserProgressUpdateToOneWithWhereWithoutUserInput, UserProgressUpdateWithoutUserInput>, UserProgressUncheckedUpdateWithoutUserInput>
+  export type UserProgressUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserProgressCreateWithoutUserInput, UserProgressUncheckedCreateWithoutUserInput> | UserProgressCreateWithoutUserInput[] | UserProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutUserInput | UserProgressCreateOrConnectWithoutUserInput[]
+    upsert?: UserProgressUpsertWithWhereUniqueWithoutUserInput | UserProgressUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserProgressCreateManyUserInputEnvelope
+    set?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    disconnect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    delete?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    update?: UserProgressUpdateWithWhereUniqueWithoutUserInput | UserProgressUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserProgressUpdateManyWithWhereWithoutUserInput | UserProgressUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -22947,10 +23120,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
@@ -23547,6 +23716,17 @@ export namespace Prisma {
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -23569,17 +23749,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -23655,13 +23824,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     carts?: CartCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -23675,13 +23847,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -23791,6 +23966,11 @@ export namespace Prisma {
     create: XOR<UserProgressCreateWithoutCourseInput, UserProgressUncheckedCreateWithoutCourseInput>
   }
 
+  export type UserProgressCreateManyCourseInputEnvelope = {
+    data: UserProgressCreateManyCourseInput | UserProgressCreateManyCourseInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithWhereUniqueWithoutCoursesInput = {
     where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutCoursesInput, UserUncheckedUpdateWithoutCoursesInput>
@@ -23821,6 +24001,9 @@ export namespace Prisma {
     status?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    banned?: BoolFilter<"User"> | boolean
+    banReason?: StringNullableFilter<"User"> | string | null
+    banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
   }
 
   export type SectionUpsertWithWhereUniqueWithoutCourseInput = {
@@ -23915,29 +24098,31 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserProgressUpsertWithoutCourseInput = {
+  export type UserProgressUpsertWithWhereUniqueWithoutCourseInput = {
+    where: UserProgressWhereUniqueInput
     update: XOR<UserProgressUpdateWithoutCourseInput, UserProgressUncheckedUpdateWithoutCourseInput>
     create: XOR<UserProgressCreateWithoutCourseInput, UserProgressUncheckedCreateWithoutCourseInput>
-    where?: UserProgressWhereInput
   }
 
-  export type UserProgressUpdateToOneWithWhereWithoutCourseInput = {
-    where?: UserProgressWhereInput
+  export type UserProgressUpdateWithWhereUniqueWithoutCourseInput = {
+    where: UserProgressWhereUniqueInput
     data: XOR<UserProgressUpdateWithoutCourseInput, UserProgressUncheckedUpdateWithoutCourseInput>
   }
 
-  export type UserProgressUpdateWithoutCourseInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutUserProgressNestedInput
+  export type UserProgressUpdateManyWithWhereWithoutCourseInput = {
+    where: UserProgressScalarWhereInput
+    data: XOR<UserProgressUpdateManyMutationInput, UserProgressUncheckedUpdateManyWithoutCourseInput>
   }
 
-  export type UserProgressUncheckedUpdateWithoutCourseInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type UserProgressScalarWhereInput = {
+    AND?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
+    OR?: UserProgressScalarWhereInput[]
+    NOT?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
+    id?: StringFilter<"UserProgress"> | string
+    userId?: StringFilter<"UserProgress"> | string
+    courseId?: StringFilter<"UserProgress"> | string
+    progress?: DecimalFilter<"UserProgress"> | Decimal | DecimalJsLike | number | string
+    updatedAt?: DateTimeFilter<"UserProgress"> | Date | string
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -23948,6 +24133,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     ipAddress?: string | null
     userAgent?: string | null
+    impersonatedBy?: string | null
   }
 
   export type SessionUncheckedCreateWithoutUserInput = {
@@ -23958,6 +24144,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     ipAddress?: string | null
     userAgent?: string | null
+    impersonatedBy?: string | null
   }
 
   export type SessionCreateOrConnectWithoutUserInput = {
@@ -24030,7 +24217,7 @@ export namespace Prisma {
     sections?: SectionCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsCreateNestedManyWithoutCourseInput
     instructor?: InstructorCreateNestedOneWithoutCoursesInput
-    userProgress?: UserProgressCreateNestedOneWithoutCourseInput
+    userProgress?: UserProgressCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutUsersInput = {
@@ -24053,7 +24240,7 @@ export namespace Prisma {
     instructorId?: string | null
     sections?: SectionUncheckedCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsUncheckedCreateNestedManyWithoutCourseInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutCourseInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutUsersInput = {
@@ -24220,6 +24407,11 @@ export namespace Prisma {
     create: XOR<UserProgressCreateWithoutUserInput, UserProgressUncheckedCreateWithoutUserInput>
   }
 
+  export type UserProgressCreateManyUserInputEnvelope = {
+    data: UserProgressCreateManyUserInput | UserProgressCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
     where: SessionWhereUniqueInput
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
@@ -24248,6 +24440,7 @@ export namespace Prisma {
     ipAddress?: StringNullableFilter<"Session"> | string | null
     userAgent?: StringNullableFilter<"Session"> | string | null
     userId?: StringFilter<"Session"> | string
+    impersonatedBy?: StringNullableFilter<"Session"> | string | null
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -24467,29 +24660,20 @@ export namespace Prisma {
     courses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
   }
 
-  export type UserProgressUpsertWithoutUserInput = {
+  export type UserProgressUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserProgressWhereUniqueInput
     update: XOR<UserProgressUpdateWithoutUserInput, UserProgressUncheckedUpdateWithoutUserInput>
     create: XOR<UserProgressCreateWithoutUserInput, UserProgressUncheckedCreateWithoutUserInput>
-    where?: UserProgressWhereInput
   }
 
-  export type UserProgressUpdateToOneWithWhereWithoutUserInput = {
-    where?: UserProgressWhereInput
+  export type UserProgressUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserProgressWhereUniqueInput
     data: XOR<UserProgressUpdateWithoutUserInput, UserProgressUncheckedUpdateWithoutUserInput>
   }
 
-  export type UserProgressUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    course?: CourseUpdateOneRequiredWithoutUserProgressNestedInput
-  }
-
-  export type UserProgressUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type UserProgressUpdateManyWithWhereWithoutUserInput = {
+    where: UserProgressScalarWhereInput
+    data: XOR<UserProgressUpdateManyMutationInput, UserProgressUncheckedUpdateManyWithoutUserInput>
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -24503,13 +24687,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -24523,13 +24710,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -24559,13 +24749,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -24579,13 +24772,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -24599,13 +24795,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -24619,13 +24818,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -24655,13 +24857,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -24675,13 +24880,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCartsInput = {
@@ -24695,13 +24903,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUsersInput
     orders?: OrderCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCartsInput = {
@@ -24715,13 +24926,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCartsInput = {
@@ -24780,13 +24994,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUsersNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartsInput = {
@@ -24800,13 +25017,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DiscountUpsertWithoutCartsInput = {
@@ -24864,7 +25084,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCoursesInput
     orderItems?: orderItemsCreateNestedManyWithoutCourseInput
     instructor?: InstructorCreateNestedOneWithoutCoursesInput
-    userProgress?: UserProgressCreateNestedOneWithoutCourseInput
+    userProgress?: UserProgressCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutSectionsInput = {
@@ -24887,7 +25107,7 @@ export namespace Prisma {
     instructorId?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCoursesInput
     orderItems?: orderItemsUncheckedCreateNestedManyWithoutCourseInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutCourseInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutSectionsInput = {
@@ -24954,7 +25174,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCoursesNestedInput
     orderItems?: orderItemsUpdateManyWithoutCourseNestedInput
     instructor?: InstructorUpdateOneWithoutCoursesNestedInput
-    userProgress?: UserProgressUpdateOneWithoutCourseNestedInput
+    userProgress?: UserProgressUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutSectionsInput = {
@@ -24977,7 +25197,7 @@ export namespace Prisma {
     instructorId?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCoursesNestedInput
     orderItems?: orderItemsUncheckedUpdateManyWithoutCourseNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutCourseNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type LessonUpsertWithWhereUniqueWithoutSectionInput = {
@@ -25068,13 +25288,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOrdersInput = {
@@ -25088,13 +25311,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOrdersInput = {
@@ -25179,13 +25405,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -25199,13 +25428,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type orderItemsUpsertWithWhereUniqueWithoutOrderInput = {
@@ -25279,7 +25511,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCoursesInput
     sections?: SectionCreateNestedManyWithoutCourseInput
     instructor?: InstructorCreateNestedOneWithoutCoursesInput
-    userProgress?: UserProgressCreateNestedOneWithoutCourseInput
+    userProgress?: UserProgressCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutOrderItemsInput = {
@@ -25302,7 +25534,7 @@ export namespace Prisma {
     instructorId?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCoursesInput
     sections?: SectionUncheckedCreateNestedManyWithoutCourseInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutCourseInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutOrderItemsInput = {
@@ -25378,7 +25610,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCoursesNestedInput
     sections?: SectionUpdateManyWithoutCourseNestedInput
     instructor?: InstructorUpdateOneWithoutCoursesNestedInput
-    userProgress?: UserProgressUpdateOneWithoutCourseNestedInput
+    userProgress?: UserProgressUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutOrderItemsInput = {
@@ -25401,7 +25633,7 @@ export namespace Prisma {
     instructorId?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCoursesNestedInput
     sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutCourseNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type OrderUpsertWithoutOrderItemsInput = {
@@ -25566,13 +25798,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInstructorInput = {
@@ -25586,13 +25821,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInstructorInput = {
@@ -25620,7 +25858,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCoursesInput
     sections?: SectionCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsCreateNestedManyWithoutCourseInput
-    userProgress?: UserProgressCreateNestedOneWithoutCourseInput
+    userProgress?: UserProgressCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutInstructorInput = {
@@ -25643,7 +25881,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCoursesInput
     sections?: SectionUncheckedCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsUncheckedCreateNestedManyWithoutCourseInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutCourseInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutInstructorInput = {
@@ -25678,13 +25916,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInstructorInput = {
@@ -25698,13 +25939,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithWhereUniqueWithoutInstructorInput = {
@@ -25734,13 +25978,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUsersInput
     carts?: CartCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutIntructorApplicationInput = {
@@ -25754,13 +26001,16 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
-    userProgress?: UserProgressUncheckedCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutIntructorApplicationInput = {
@@ -25790,13 +26040,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUsersNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutIntructorApplicationInput = {
@@ -25810,13 +26063,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUserProgressInput = {
@@ -25830,6 +26086,9 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUsersInput
@@ -25850,6 +26109,9 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
@@ -25937,6 +26199,9 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUsersNestedInput
@@ -25957,6 +26222,9 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
@@ -26038,6 +26306,13 @@ export namespace Prisma {
     orderId: string
   }
 
+  export type UserProgressCreateManyCourseInput = {
+    id?: string
+    userId: string
+    progress?: Decimal | DecimalJsLike | number | string
+    updatedAt?: Date | string
+  }
+
   export type UserUpdateWithoutCoursesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -26049,13 +26324,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     carts?: CartUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -26069,13 +26347,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCoursesInput = {
@@ -26089,6 +26370,9 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SectionUpdateWithoutCourseInput = {
@@ -26138,6 +26422,27 @@ export namespace Prisma {
     orderId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type UserProgressUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUserProgressNestedInput
+  }
+
+  export type UserProgressUncheckedUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserProgressUncheckedUpdateManyWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SessionCreateManyUserInput = {
     id: string
     expiresAt: Date | string
@@ -26146,6 +26451,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     ipAddress?: string | null
     userAgent?: string | null
+    impersonatedBy?: string | null
   }
 
   export type AccountCreateManyUserInput = {
@@ -26190,6 +26496,13 @@ export namespace Prisma {
     discountId?: string | null
   }
 
+  export type UserProgressCreateManyUserInput = {
+    id?: string
+    courseId: string
+    progress?: Decimal | DecimalJsLike | number | string
+    updatedAt?: Date | string
+  }
+
   export type SessionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26198,6 +26511,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateWithoutUserInput = {
@@ -26208,6 +26522,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyWithoutUserInput = {
@@ -26218,6 +26533,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -26285,7 +26601,7 @@ export namespace Prisma {
     sections?: SectionUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUpdateManyWithoutCourseNestedInput
     instructor?: InstructorUpdateOneWithoutCoursesNestedInput
-    userProgress?: UserProgressUpdateOneWithoutCourseNestedInput
+    userProgress?: UserProgressUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutUsersInput = {
@@ -26308,7 +26624,7 @@ export namespace Prisma {
     instructorId?: NullableStringFieldUpdateOperationsInput | string | null
     sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUncheckedUpdateManyWithoutCourseNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutCourseNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateManyWithoutUsersInput = {
@@ -26412,6 +26728,27 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     discountId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserProgressUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutUserProgressNestedInput
+  }
+
+  export type UserProgressUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserProgressUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LessonCreateManySectionInput = {
@@ -26631,7 +26968,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCoursesNestedInput
     sections?: SectionUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUpdateManyWithoutCourseNestedInput
-    userProgress?: UserProgressUpdateOneWithoutCourseNestedInput
+    userProgress?: UserProgressUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutInstructorInput = {
@@ -26654,7 +26991,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCoursesNestedInput
     sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUncheckedUpdateManyWithoutCourseNestedInput
-    userProgress?: UserProgressUncheckedUpdateOneWithoutCourseNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateManyWithoutInstructorInput = {

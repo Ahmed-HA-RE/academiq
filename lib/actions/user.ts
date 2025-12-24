@@ -261,3 +261,62 @@ export const deleteSelectedUsers = async (userIds: string[]) => {
     return { success: false, message: (error as Error).message };
   }
 };
+
+// Ban a user as admin
+export const banUserAsAdmin = async (userId: string) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to ban users');
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) throw new Error('User not found');
+
+    await auth.api.banUser({
+      body: {
+        userId: user.id,
+        banReason: 'Violation of terms of service',
+      },
+      headers: await headers(),
+    });
+    revalidatePath('/', 'layout');
+    return { success: true, message: 'User banned successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+// Unban a user as admin
+export const unbanUserAsAdmin = async (userId: string) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to ban users');
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) throw new Error('User not found');
+
+    await auth.api.unbanUser({
+      body: {
+        userId: user.id,
+      },
+      headers: await headers(),
+    });
+    revalidatePath('/', 'layout');
+    return { success: true, message: 'User unbanned successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};

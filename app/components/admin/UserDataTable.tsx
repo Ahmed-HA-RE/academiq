@@ -1,5 +1,5 @@
 'use client';
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useTransition } from 'react';
 import Image from 'next/image';
 import {
   ChevronLeftIcon,
@@ -69,9 +69,15 @@ import { Input } from '../ui/input';
 import { UsersRoles } from '@/lib/constants';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../shared/DeleteDialog';
-import { deleteSelectedUsers, deleteUserById } from '@/lib/actions/user';
+import {
+  banUserAsAdmin,
+  deleteSelectedUsers,
+  deleteUserById,
+  unbanUserAsAdmin,
+} from '@/lib/actions/user';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import ScreenSpinner from '../ScreenSpinner';
 
 const columns: ColumnDef<User>[] = [
   {
@@ -460,55 +466,87 @@ const UserDatatable = ({ users }: { users: User[] }) => {
 export default UserDatatable;
 
 export const RowActions = ({ user }: { user: User }) => {
-  const handleDeleteUser = async () => {
-    const res = await deleteUserById(user.id);
-    if (!res.success) {
-      toast.error(res.message);
-      return;
-    }
-    toast.success(res.message);
+  const [isPending, startTransition] = useTransition();
+
+  const handleDeleteUser = () => {
+    startTransition(async () => {
+      const res = await deleteUserById(user.id);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+    });
+  };
+
+  const handleBanUser = () => {
+    startTransition(async () => {
+      const res = await banUserAsAdmin(user.id);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+    });
+  };
+
+  const handleUnbanUser = () => {
+    startTransition(async () => {
+      const res = await unbanUserAsAdmin(user.id);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+    });
   };
 
   return (
-    <div className='flex items-center justify-center'>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <DeleteDialog
-            title={`Delete ${user.name}?`}
-            description={`Are you sure you want to delete ${user.name}? This action cannot be undone.`}
-            action={handleDeleteUser}
-          />
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Delete</p>
-        </TooltipContent>
-      </Tooltip>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <div className='flex'>
-            <Button
-              size='icon'
-              variant='ghost'
-              className='rounded-full p-2 cursor-pointer'
-              aria-label='Edit User'
-            >
-              <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
-            </Button>
-          </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align='start'>
-          <DropdownMenuGroup>
-            <DropdownMenuItem asChild className='cursor-pointer'>
-              <Link href={`/admin-dashboard/users/${user.id}/edit`}>
-                <span>Edit</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem className='cursor-pointer'>
-              <span>Ban User</span>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    <>
+      {isPending && <ScreenSpinner mutate={true} />}
+      <div className='flex items-center justify-center'>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DeleteDialog
+              title={`Delete ${user.name}?`}
+              description={`Are you sure you want to delete ${user.name}? This action cannot be undone.`}
+              action={handleDeleteUser}
+            />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Delete</p>
+          </TooltipContent>
+        </Tooltip>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className='flex'>
+              <Button
+                size='icon'
+                variant='ghost'
+                className='rounded-full p-2 cursor-pointer'
+                aria-label='Edit User'
+              >
+                <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
+              </Button>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='start'>
+            <DropdownMenuGroup>
+              <DropdownMenuItem asChild className='cursor-pointer'>
+                <Link href={`/admin-dashboard/users/${user.id}/edit`}>
+                  <span>Edit</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={user.banned ? handleUnbanUser : handleBanUser}
+                className='cursor-pointer'
+              >
+                <span>{user.banned ? 'Unban User' : 'Ban User'}</span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </>
   );
 };

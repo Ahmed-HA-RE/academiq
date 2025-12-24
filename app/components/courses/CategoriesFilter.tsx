@@ -28,7 +28,6 @@ import {
   PRICE_RANGE,
   SORTING_OPTIONS,
 } from '@/lib/utils';
-import { Cart, Course, User } from '@/types';
 import {
   parseAsArrayOf,
   parseAsInteger,

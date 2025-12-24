@@ -74,8 +74,9 @@ export const applyToTeach = async (
     });
 
     await resend.emails.send({
-      from: `${APP_NAME} <support@${domain}>`,
+      from: `${APP_NAME} <no-reply@${domain}>`,
       to: userApplication.user.email,
+      replyTo: process.env.REPLY_EMAIL,
       subject: 'Instructor Application Submitted',
       react: ApplicationSubmitted({ name: userApplication.user.name }),
     });

@@ -47,7 +47,7 @@ const OrdersChart = ({ ordersMonthlyRevenue }: OrdersChartProps) => {
             <AreaChart
               data={ordersMonthlyRevenue}
               margin={{
-                left: 25,
+                left: -15,
                 right: 12,
                 top: 12,
                 bottom: 12,
@@ -86,9 +86,7 @@ const OrdersChart = ({ ordersMonthlyRevenue }: OrdersChartProps) => {
               <YAxis
                 domain={[0, Math.ceil(maxRevenue / 1000) * 1000]}
                 tickFormatter={(value) =>
-                  value >= 1000
-                    ? `AED ${(value / 1000).toFixed(1)}k`
-                    : `AED ${value}`
+                  value >= 1000 ? `${(value / 1000).toFixed(1)}k` : `${value}`
                 }
                 tickLine={false}
                 axisLine={false}

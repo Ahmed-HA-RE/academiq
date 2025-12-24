@@ -81,6 +81,7 @@ export type User = {
   role: string;
   billingInfo: BillingInfo | null;
   status: string;
+  banned: boolean;
   createdAt: Date;
   updatedAt: Date;
   courses?: Pick<Course, 'id' | 'title' | 'slug' | 'image'>[];
