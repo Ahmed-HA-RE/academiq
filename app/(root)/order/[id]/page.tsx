@@ -15,6 +15,12 @@ import { auth } from '@/lib/auth';
 import Image from 'next/image';
 import { APP_NAME } from '@/lib/constants';
 import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Order Summary',
+  description: 'View the summary of your order',
+};
 
 const OrderSummaryPage = async ({
   params,

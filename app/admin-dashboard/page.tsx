@@ -17,6 +17,12 @@ import {
 import OrdersChart from '@/app/components/admin/OrdersChart';
 import UserDatatable from '../components/admin/UserDataTable';
 import { SearchParams } from 'nuqs/server';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Admin Dashboard',
+  description: 'Overview of administrative statistics and user management',
+};
 
 type AdminDashboardHomePageProps = {
   searchParams: Promise<SearchParams>;

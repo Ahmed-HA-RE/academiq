@@ -4,6 +4,13 @@ import { getDiscountById } from '@/lib/actions/discount';
 import { getCurrentLoggedUser } from '@/lib/actions/user';
 import { SERVER_URL } from '@/lib/constants';
 import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Checkout',
+  description:
+    'Complete your purchase securely and access your selected courses instantly.',
+};
 
 const CheckoutPage = async () => {
   const cart = await getMyCart();

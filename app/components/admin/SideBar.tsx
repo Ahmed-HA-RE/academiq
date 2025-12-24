@@ -11,10 +11,14 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from '../ui/sidebar';
 import Image from 'next/image';
 import {
   Banknote,
+  ChevronRightIcon,
   Contact,
   FileUser,
   HomeIcon,
@@ -28,6 +32,11 @@ import { Avatar, AvatarFallback } from '../ui/avatar';
 import AdminUserDropdown from './AdminUserDropdown';
 import { User } from '@/types';
 import { useSidebar } from '../ui/sidebar';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '../ui/collapsible';
 
 const pagesItems = [
   {
@@ -52,8 +61,11 @@ const pagesItems = [
   },
   {
     icon: UsersIcon,
-    label: 'Users',
-    href: '/admin-dashboard/users',
+    label: 'Users Management',
+    items: [
+      { label: 'All Users', href: '/admin-dashboard/users' },
+      { label: 'Ban Users', href: '/admin-dashboard/users/ban-users' },
+    ],
   },
   {
     icon: Wallet,
@@ -102,19 +114,51 @@ const SideBar = ({ user }: { user: User }) => {
           <SidebarGroupLabel>Pages</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {pagesItems.map((item) => (
-                <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton
+              {pagesItems.map((item) =>
+                item.items ? (
+                  <Collapsible className='group/collapsible' key={item.label}>
+                    <SidebarMenuItem>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton
+                          tooltip={item.label}
+                          className='truncate'
+                        >
+                          <item.icon />
+                          <span>{item.label}</span>
+                          <ChevronRightIcon className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          {item.items.map((subItem) => (
+                            <SidebarMenuSubItem key={subItem.label}>
+                              <SidebarMenuSubButton
+                                className='justify-between'
+                                asChild
+                                onClick={() => setOpenMobile(false)}
+                              >
+                                <Link href={subItem.href}>{subItem.label}</Link>
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </SidebarMenuItem>
+                  </Collapsible>
+                ) : (
+                  <SidebarMenuItem
                     onClick={() => setOpenMobile(false)}
-                    asChild
+                    key={item.label}
                   >
-                    <Link href={item.href}>
-                      <item.icon />
-                      <span>{item.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                    <SidebarMenuButton tooltip={item.label} asChild>
+                      <Link href={item.href}>
+                        <item.icon />
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

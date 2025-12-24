@@ -1,6 +1,12 @@
 import EditUserForm from '@/app/components/admin/EditUserForm';
 import { getUserById } from '@/lib/actions/user';
 import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Edit User',
+  description: 'Edit user details in the admin dashboard',
+};
 
 const EditUserPage = async ({
   params,

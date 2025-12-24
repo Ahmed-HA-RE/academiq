@@ -2,6 +2,12 @@ import UserDatatable from '@/app/components/admin/UserDataTable';
 import { getAllUsers } from '@/lib/actions/user';
 import { loadSearchParams } from '@/lib/searchParams';
 import { SearchParams } from 'nuqs/server';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Admin Dashboard - Users',
+  description: 'Manage and view all users in the admin dashboard',
+};
 
 type AdminUsersPageProps = {
   searchParams: Promise<SearchParams>;

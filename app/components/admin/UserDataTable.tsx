@@ -231,7 +231,9 @@ const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
             <span className='text-2xl font-semibold'>
               {pathname === '/admin-dashboard/users'
                 ? 'All Users'
-                : 'Latest Users'}
+                : pathname === '/admin-dashboard/users/ban-users'
+                  ? 'Banned Users'
+                  : 'Latest Users'}
             </span>
             <DeleteDialog
               title='Delete Selected Users'
@@ -240,7 +242,7 @@ const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
               disabled={Object.keys(selectUsers).length > 0 ? false : true}
             />
           </div>
-          {pathname === '/admin-dashboard/users' && (
+          {pathname === '/admin-dashboard' ? null : (
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
               {/* Select Status */}
               <Select
@@ -392,15 +394,13 @@ export default UserDatatable;
 export const RowActions = ({ user }: { user: User }) => {
   const [isPending, startTransition] = useTransition();
 
-  const handleDeleteUser = () => {
-    startTransition(async () => {
-      const res = await deleteUserById(user.id);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
+  const handleDeleteUser = async () => {
+    const res = await deleteUserById(user.id);
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+    toast.success(res.message);
   };
 
   const handleBanUser = () => {

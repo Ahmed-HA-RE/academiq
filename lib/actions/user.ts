@@ -263,9 +263,21 @@ export const deleteUserById = async (userId: string) => {
     if (!session || session.user.role !== 'admin')
       throw new Error('Unauthorized to delete users');
 
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) throw new Error('User not found');
+
+    if (user.id === session.user.id)
+      throw new Error('Admin users cannot delete themselves');
+
+    if (user.role === 'admin') throw new Error('Cannot delete admin users');
+
     await prisma.user.delete({
       where: { id: userId },
     });
+
     revalidatePath('/', 'layout');
     return { success: true, message: 'User deleted successfully' };
   } catch (error) {
@@ -426,4 +438,79 @@ export const updateUserAsAdmin = async (
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }
+};
+
+export const getBannedUsers = async ({
+  page,
+  q,
+  limit,
+  status,
+  role,
+}: {
+  limit?: number;
+  q?: string;
+  role?: string;
+  status?: string;
+  page: number;
+}) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== 'admin')
+    throw new Error('Unauthorized to view banned users');
+
+  // Search filter
+  const filterQuery: Prisma.UserWhereInput = q
+    ? {
+        OR: [
+          {
+            name: { contains: q, mode: 'insensitive' },
+          },
+          {
+            email: { contains: q, mode: 'insensitive' },
+          },
+        ],
+        AND: { banned: true },
+      }
+    : { banned: true };
+
+  // Role filter
+  const roleFilter: Prisma.UserWhereInput = role
+    ? {
+        role: { equals: role },
+        AND: { banned: true },
+      }
+    : { banned: true };
+
+  // Status filter
+  const statusFilter: Prisma.UserWhereInput = status
+    ? {
+        emailVerified:
+          status === 'verified' ? { not: false } : { equals: false },
+        AND: { banned: true },
+      }
+    : { banned: true };
+
+  const bannedUsers = await prisma.user.findMany({
+    where: { ...filterQuery, ...roleFilter, ...statusFilter },
+    orderBy: { createdAt: 'desc' },
+    take: limit || undefined,
+    skip: (page - 1) * (limit || 0),
+  });
+  const totalBannedUsers = await prisma.user.count({
+    where: { ...filterQuery, ...roleFilter, ...statusFilter },
+  });
+
+  const totalPages = limit ? Math.ceil(totalBannedUsers / limit) : 1;
+
+  return {
+    users: convertToPlainObject(
+      bannedUsers.map((user) => ({
+        ...user,
+        billingInfo: user.billingInfo as BillingInfo,
+      }))
+    ),
+    totalPages,
+  };
 };
