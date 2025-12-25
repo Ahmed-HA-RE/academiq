@@ -10,12 +10,12 @@ import {
 import { Separator } from '@/app/components/ui/separator';
 import { BillingInfo, Cart, Discount, User } from '@/types';
 import Image from 'next/image';
-import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
-import { Input } from '../ui/input';
+import { Field, FieldError, FieldGroup, FieldLabel } from './ui/field';
+import { Input } from './ui/input';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { billingInfoSchema } from '@/schema';
-import { PhoneInput } from '../ui/phone-input';
+import { PhoneInput } from './ui/phone-input';
 import {
   Select,
   SelectContent,
@@ -25,13 +25,13 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from '../ui/select';
+} from './ui/select';
 import { CITY_OPTIONS } from '@/lib/utils';
 import { createOrder } from '@/lib/actions/order';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { Spinner } from '../ui/spinner';
-import { Alert, AlertTitle } from '../ui/alert';
+import { Spinner } from './ui/spinner';
+import { Alert, AlertTitle } from './ui/alert';
 import { TriangleAlertIcon } from 'lucide-react';
 
 const CheckoutDetails = ({
@@ -97,26 +97,23 @@ const CheckoutDetails = ({
                   {cart.cartItems.map((item) => (
                     <div
                       key={item.name}
-                      className='flex justify-between gap-4 px-6 max-sm:flex-col sm:items-center'
+                      className='flex flex-col justify-between gap-2 px-6'
                     >
-                      <div className='flex h-full items-center gap-4'>
+                      <div className='flex items-center gap-4'>
                         <Image
                           src={item.image}
                           alt={item.name}
                           width={0}
                           height={0}
                           sizes='100vw'
-                          className='size-17 rounded-sm object-cover'
+                          className='w-full rounded-sm max-w-[120px] object-cover'
                         />
-                        <div className='flex flex-col gap-1'>
-                          <p className='font-medium'>{item.name}</p>
-                        </div>
+                        <p className='font-medium'>{item.name}</p>
                       </div>
-                      <div className='sm:text-end'>
-                        <div className='flex flex-row items-center gap-1 font-semibold '>
-                          <span className='dirham-symbol !text-lg'>&#xea;</span>
-                          <span className='text-lg'>{item.price}</span>
-                        </div>
+
+                      <div className='flex flex-row items-center justify-end gap-1 font-semibold '>
+                        <span className='dirham-symbol !text-lg'>&#xea;</span>
+                        <span className='text-lg'>{item.price}</span>
                       </div>
                     </div>
                   ))}

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  ArrowLeft,
   ChevronRightIcon,
   LogOutIcon,
   SettingsIcon,
@@ -39,6 +40,7 @@ const AdminUserDropdown = ({ user }: { user: User }) => {
   const links = [
     { label: 'My Account', icon: UserIcon, href: '/my-account' },
     { label: 'Settings', icon: SettingsIcon, href: '/settings' },
+    { label: 'Back to Main Site', icon: ArrowLeft, href: '/' },
   ];
 
   const handleLogout = () => {

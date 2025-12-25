@@ -1,4 +1,4 @@
-import CheckoutDetails from '@/app/components/checkout/CheckoutDetails';
+import CheckoutDetails from '@/app/components/CheckoutDetails';
 import { getMyCart } from '@/lib/actions/cart';
 import { getDiscountById } from '@/lib/actions/discount';
 import { getCurrentLoggedUser } from '@/lib/actions/user';

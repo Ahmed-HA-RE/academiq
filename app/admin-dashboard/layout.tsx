@@ -5,7 +5,7 @@ import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { FaInstagram } from 'react-icons/fa6';
 import { APP_NAME } from '@/lib/constants';
 import Theme from '../components/Theme';
-import { getCurrentLoggedUser } from '@/lib/actions/user';
+import { getAllAdmins, getCurrentLoggedUser } from '@/lib/actions/user';
 import { notFound } from 'next/navigation';
 import { CSSProperties } from 'react';
 import SideBar from '../components/admin/SideBar';
@@ -19,6 +19,8 @@ const AdminDashBoardLayout = async ({
 
   if (!user) return notFound();
 
+  const admins = await getAllAdmins();
+
   return (
     <div className='bg-muted before:bg-primary relative flex min-h-dvh w-full before:fixed before:inset-x-0 before:top-0 before:h-105'>
       <SidebarProvider
@@ -30,7 +32,7 @@ const AdminDashBoardLayout = async ({
           } as CSSProperties
         }
       >
-        <SideBar user={user} />
+        <SideBar user={user} admins={admins} />
         <div className='z-1 mx-auto flex size-full max-w-7xl flex-1 flex-col px-4 py-6 sm:px-6'>
           <header className='bg-card mb-6 flex items-center justify-between rounded-xl px-6 py-3.5'>
             <SidebarTrigger className='[&_svg]:!size-5 cursor-pointer' />

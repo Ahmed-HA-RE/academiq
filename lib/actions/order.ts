@@ -82,9 +82,14 @@ export const createOrder = async ({
           : undefined,
         success_url: `${SERVER_URL}/success?orderId=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${SERVER_URL}/checkout`,
+        customer_email: billingDetails.email,
         mode: 'payment',
-        customer_email: validateOrderData.data.billingDetails.email,
-        metadata: { orderId: order.id, cartId: data.id },
+        metadata: {
+          orderId: order.id,
+          cartId: data.id,
+          payerName: billingDetails.fullName,
+          payerEmail: billingDetails.email,
+        },
         line_items: validateOrderItems.data.map((item) => {
           const tax = 0.05;
           const priceWithTax = Number(item.price) * (1 + tax);

@@ -34,7 +34,8 @@ export const POST = async (req: Request) => {
           status: session.payment_status,
           paymentResult: {
             id: session.id,
-            email: session.customer_email,
+            payerEmail: session.metadata?.payerEmail,
+            payerName: session.metadata?.payerName,
             country: session.customer_details?.address?.country,
             amount: session.amount_total! / 100,
           },

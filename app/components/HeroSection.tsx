@@ -5,7 +5,13 @@ import { BounceButton } from '@/app/components/ui/bounce-button';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const HeroSection = () => {
+const HeroSection = ({
+  coursesCount,
+  studentsCount,
+}: {
+  coursesCount: number;
+  studentsCount: number;
+}) => {
   return (
     <section className='overflow-hidden'>
       <div className='container'>
@@ -50,11 +56,11 @@ const HeroSection = () => {
                 <Link href='/courses'>View Courses</Link>
               </BounceButton>
               <div className='flex flex-col'>
-                <span className='text-xl font-medium'>6+</span>
+                <span className='text-xl font-medium'>{coursesCount}+</span>
                 <span className='text-muted-foreground'>Courses</span>
               </div>
               <div className='flex flex-col'>
-                <span className='text-xl font-medium'>5K+</span>
+                <span className='text-xl font-medium'>{studentsCount}+</span>
                 <span className='text-muted-foreground'>Students Enrolled</span>
               </div>
             </MotionPreset>

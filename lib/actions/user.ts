@@ -514,3 +514,29 @@ export const getBannedUsers = async ({
     totalPages,
   };
 };
+
+// Get all admins
+export const getAllAdmins = async () => {
+  const admins = await prisma.user.findMany({
+    where: { role: 'admin' },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  return convertToPlainObject(
+    admins.map((user) => ({
+      ...user,
+      billingInfo: user.billingInfo as BillingInfo,
+    }))
+  );
+};
+// Get courses who have students enrolled
+export const getCoursesWithStudents = async () => {
+  const courses = await prisma.user.findMany({
+    where: {
+      courses: {
+        some: {},
+      },
+    },
+  });
+  return courses.length;
+};

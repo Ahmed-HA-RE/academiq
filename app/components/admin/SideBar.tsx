@@ -79,15 +79,7 @@ const pagesItems = [
   },
 ];
 
-const recipientsItems = [
-  {
-    name: 'Liam Anderson',
-    avatarSrc:
-      'https://res.cloudinary.com/ahmed--dev/image/upload/v1764700356/avatars/jc5t8yphb1crsomdpyo2.jpg',
-  },
-];
-
-const SideBar = ({ user }: { user: User }) => {
+const SideBar = ({ user, admins }: { user: User; admins: User[] }) => {
   const { setOpenMobile } = useSidebar();
 
   return (
@@ -165,30 +157,30 @@ const SideBar = ({ user }: { user: User }) => {
         <SidebarGroup>
           <SidebarGroupLabel>Admins</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {recipientsItems.map((recipient) => (
+            <SidebarMenu className='space-y-2'>
+              {admins.map((admin) => (
                 <SidebarMenuItem
                   className='flex items-center gap-2 px-1'
-                  key={recipient.name}
+                  key={admin.id}
                 >
                   <Avatar className='size-7 rounded-full'>
                     <Suspense
                       fallback={
                         <AvatarFallback className='rounded-full'>
-                          {recipient.name.slice(0, 2).toUpperCase()}
+                          {admin.name.slice(0, 2).toUpperCase()}
                         </AvatarFallback>
                       }
                     >
                       <Image
-                        src={recipient.avatarSrc}
-                        alt={recipient.name}
+                        src={admin.image}
+                        alt={admin.name}
                         width={28}
                         height={28}
                         className='object-cover'
                       />
                     </Suspense>
                   </Avatar>
-                  <span>{recipient.name}</span>
+                  <span>{admin.name}</span>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

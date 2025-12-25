@@ -111,20 +111,20 @@ const CartDetails = ({
                     href={`/course/${item.slug}`}
                     className='flex flex-row items-center gap-4'
                   >
-                    <div className='size-30'>
+                    <div className='max-w-[100px]'>
                       <Image
                         src={item.image}
                         alt={item.name}
                         width={0}
                         height={0}
                         sizes='100vw'
-                        className='rounded-md w-full h-full object-cover'
+                        className='rounded-md w-full  object-cover'
                       />
                     </div>
-                    <h2 className='text-lg font-medium'>{item.name}</h2>
+                    <h2 className='text-base font-medium'>{item.name}</h2>
                   </Link>
                   <div className='flex items-center justify-end gap-4'>
-                    <div className='flex flex-row items-center gap-1 font-medium text-xl'>
+                    <div className='flex flex-row items-center gap-1 font-medium text-lg'>
                       <span className='dirham-symbol'>&#xea;</span>
                       <span className='font-semibold'>{item.price}</span>
                     </div>
