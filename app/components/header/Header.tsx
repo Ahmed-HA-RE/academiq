@@ -6,7 +6,7 @@ import DesktopNavMenu from './DesktopNavMenu';
 import Theme from '../Theme';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
-import { getMyCart } from '@/lib/actions/cart';
+import { cleanUpCart, getMyCart } from '@/lib/actions/cart';
 import { APP_NAME } from '@/lib/constants';
 import { Badge } from '../ui/badge';
 import { ShoppingCartIcon } from 'lucide-react';
@@ -20,6 +20,9 @@ const Header = async () => {
     { href: '/teach', title: 'Become an Instructor' },
     { href: '/contact', title: 'Contact ' },
   ];
+
+  // Clear enrolled courses from cart to display correct cart count
+  await cleanUpCart();
 
   const session = await auth.api.getSession({
     headers: await headers(),

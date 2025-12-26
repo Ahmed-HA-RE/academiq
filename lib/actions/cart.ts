@@ -165,3 +165,52 @@ export const removeFromCart = async (courseId: string) => {
     return { success: false, message: (error as Error).message };
   }
 };
+
+// Clean up enrolled courses from cart
+export const cleanUpCart = async () => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) throw new Error('User not authenticated');
+
+    const cart = await getMyCart();
+
+    if (!cart) throw new Error('No cart found');
+
+    // Check if user already enrolled in a course in the cart
+    const currentUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      include: { courses: { select: { id: true } } },
+    });
+
+    if (currentUser) {
+      const enrolledCourseIds = currentUser.courses.map((course) => course.id);
+
+      const removeEnrolledCourses = (cart.cartItems as CartItems[]).filter(
+        (item) => !enrolledCourseIds.includes(item.courseId)
+      );
+
+      const { itemsPrice, taxPrice, totalPrice } = calculatePrices(
+        removeEnrolledCourses
+      );
+
+      await prisma.cart.update({
+        where: {
+          id: cart.id,
+        },
+        data: {
+          itemsPrice,
+          taxPrice,
+          totalPrice,
+          cartItems: removeEnrolledCourses,
+        },
+      });
+    }
+    revalidatePath('/', 'layout');
+    return { success: true, message: 'Cart cleaned successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};

@@ -1,4 +1,5 @@
 import { CreditCardIcon, MailIcon, MapPinIcon, UserIcon } from 'lucide-react';
+import { Badge } from '@/app/components/ui/badge';
 
 import { Button } from '@/app/components/ui/button';
 import {
@@ -16,6 +17,7 @@ import Image from 'next/image';
 import { APP_NAME } from '@/lib/constants';
 import Link from 'next/link';
 import { Metadata } from 'next';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Order Summary',
@@ -34,16 +36,43 @@ const OrderSummaryPage = async ({
 
   const order = await getOrderById(id);
 
-  if (!session || !order || order.userId !== session.user.id) {
+  if (
+    !session ||
+    !order ||
+    (order.userId !== session.user.id && session.user.role !== 'admin')
+  ) {
     redirect('/');
   }
+
+  if (!order.isPaid && session.user.role !== 'admin') redirect('/');
 
   return (
     <section className='mb-14'>
       <div className='container'>
         <Card className='w-full'>
-          <CardHeader>
+          <CardHeader className='flex flex-row justify-between items-center'>
             <CardTitle className='text-2xl'>Order Summary</CardTitle>
+            <Badge
+              className={cn(
+                order.status === 'unpaid'
+                  ? 'bg-destructive/10 text-destructive'
+                  : order.status === 'paid'
+                    ? 'bg-green-600/10 text-green-600'
+                    : 'bg-amber-600/10 text-amber-600'
+              )}
+            >
+              <span
+                className={cn(
+                  'size-1.5 rounded-full',
+                  order.status === 'unpaid'
+                    ? 'bg-destructive'
+                    : order.status === 'paid'
+                      ? 'bg-green-600'
+                      : 'bg-amber-600'
+                )}
+              ></span>
+              {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+            </Badge>
           </CardHeader>
           <CardContent className='grid gap-10 py-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
             <div className='space-y-8'>
@@ -155,17 +184,20 @@ const OrderSummaryPage = async ({
               </div>
             </div>
           </CardContent>
-          <CardFooter className='justify-between gap-6 border-t max-sm:flex-col max-sm:items-start'>
-            <div className='space-y-2.5 text-lg'>
-              <p className='font-medium'>Thank you for shopping with us!</p>
-              <span className='text-muted-foreground font-semibold'>
-                Team {APP_NAME}
-              </span>
-            </div>
-            <Button className='text-base' asChild size='lg'>
-              <Link href='/my-courses'>View your courses</Link>
-            </Button>
-          </CardFooter>
+          {order.status === 'paid' && (
+            <CardFooter className='justify-between gap-6 border-t max-sm:flex-col max-sm:items-start'>
+              <div className='space-y-2.5 text-lg'>
+                <p className='font-medium'>Thank you for shopping with us!</p>
+                <span className='text-muted-foreground font-semibold'>
+                  Team {APP_NAME}
+                </span>
+              </div>
+
+              <Button className='text-base' asChild size='lg'>
+                <Link href='/my-courses'>View your courses</Link>
+              </Button>
+            </CardFooter>
+          )}
         </Card>
       </div>
     </section>

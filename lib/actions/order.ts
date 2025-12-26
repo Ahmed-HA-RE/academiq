@@ -298,3 +298,25 @@ export const getAllOrdersAsAdmin = async () => {
     })
   );
 };
+
+// Delete order by id as admin
+export const deleteOrberByIdAsAdmin = async (orderId: string) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to perform the requested action');
+
+    await prisma.order.delete({
+      where: { id: orderId },
+    });
+
+    revalidatePath('/', 'layout');
+
+    return { success: true, message: 'Order deleted successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};

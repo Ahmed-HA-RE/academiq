@@ -43,6 +43,9 @@ import { usePagination } from '@/hooks/use-pagination';
 import { Order } from '@/types';
 import { cn, formatDate, formatId } from '@/lib/utils';
 import Link from 'next/link';
+import { deleteOrberByIdAsAdmin } from '@/lib/actions/order';
+import { toast } from 'sonner';
+import DeleteDialog from '../shared/DeleteDialog';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -122,7 +125,7 @@ export const columns: ColumnDef<Order>[] = [
   {
     id: 'actions',
     header: () => 'Actions',
-    cell: ({ row }) => <RowActions orderId={row.original.id} />,
+    cell: ({ row }) => <RowActions order={row.original} />,
     size: 60,
     enableHiding: false,
   },
@@ -171,7 +174,7 @@ const OrdersDataTable = ({ orders }: { orders: Order[] }) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className='text-muted-foreground px-6'
+                      className='text-muted-foreground px-6 last:text-center md:last:text-left'
                     >
                       {header.isPlaceholder
                         ? null
@@ -308,34 +311,46 @@ const OrdersDataTable = ({ orders }: { orders: Order[] }) => {
 
 export default OrdersDataTable;
 
-function RowActions({ orderId }: { orderId: string }) {
+function RowActions({ order }: { order: Order }) {
+  const handleDeleteOrder = async () => {
+    const res = await deleteOrberByIdAsAdmin(order.id);
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+    toast.success(res.message);
+  };
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <div className='flex'>
-          <Button
-            size='icon'
-            variant='ghost'
-            className='rounded-full p-2 cursor-pointer'
-            aria-label='Edit item'
-          >
-            <EllipsisVerticalIcon className='size-5' aria-hidden='true' />
-          </Button>
-        </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align='end'>
-        <DropdownMenuGroup>
-          <DropdownMenuItem className='cursor-pointer' asChild>
-            <Link href={`/order/${orderId}`}>View</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem className='cursor-pointer'>
-            <span>Refund</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem className='cursor-pointer' variant='destructive'>
-            <span>Delete</span>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className='flex items-center '>
+      <DeleteDialog
+        action={handleDeleteOrder}
+        title='Delete Order'
+        description='Are you sure you want to delete this order. It can not be undone.'
+      />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <div className='flex'>
+            <Button
+              size='icon'
+              variant='ghost'
+              className='rounded-full p-2 cursor-pointer'
+              aria-label='Edit item'
+            >
+              <EllipsisVerticalIcon className='size-5' aria-hidden='true' />
+            </Button>
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align='end'>
+          <DropdownMenuGroup>
+            <DropdownMenuItem className='cursor-pointer' asChild>
+              <Link href={`/order/${order.id}`}>View</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem className='cursor-pointer'>
+              <span>Refund</span>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }

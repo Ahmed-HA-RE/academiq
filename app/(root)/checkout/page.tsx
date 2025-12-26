@@ -1,5 +1,5 @@
 import CheckoutDetails from '@/app/components/CheckoutDetails';
-import { getMyCart } from '@/lib/actions/cart';
+import { cleanUpCart, getMyCart } from '@/lib/actions/cart';
 import { getDiscountById } from '@/lib/actions/discount';
 import { getCurrentLoggedUser } from '@/lib/actions/user';
 import { SERVER_URL } from '@/lib/constants';
@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 };
 
 const CheckoutPage = async () => {
+  await cleanUpCart();
   const cart = await getMyCart();
   const userInfo = await getCurrentLoggedUser();
 

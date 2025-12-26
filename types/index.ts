@@ -52,6 +52,7 @@ export type PaymentResult = {
   currency: string;
   country: string;
   amount: string;
+  paymentIntentId: string;
 };
 
 export type Discount = z.infer<typeof discountSchema>;

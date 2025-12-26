@@ -77,15 +77,6 @@ export const POST = async (req: Request) => {
         discount: updatedOrder.discount,
       }),
     });
-  } else if (event.type === 'checkout.session.expired') {
-    const session = event.data.object;
-
-    await prisma.order.updateMany({
-      where: { id: session.metadata?.orderId, isPaid: false },
-      data: {
-        status: session.payment_status,
-      },
-    });
   }
   return Response.json({ received: true });
 };
