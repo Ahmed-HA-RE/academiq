@@ -2,7 +2,7 @@ import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { prisma } from './prisma';
 import { nextCookies } from 'better-auth/next-js';
-import { emailOTP, admin } from 'better-auth/plugins';
+import { emailOTP, admin, createAuthMiddleware } from 'better-auth/plugins';
 import { APP_NAME } from './constants';
 import resend from './resend';
 import VerificationOTP from '@/emails/VerificationOTP';
@@ -14,6 +14,14 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
+
+  hooks: {
+    after: createAuthMiddleware(async (ctx) => {
+      const query = ctx.query;
+      if (query && query.error === 'banned')
+        return ctx.redirect(`/banned?error=${query.error_description}`);
+    }),
+  },
 
   emailAndPassword: {
     enabled: true,

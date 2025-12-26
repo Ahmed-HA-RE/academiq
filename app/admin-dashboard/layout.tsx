@@ -38,7 +38,7 @@ const AdminDashBoardLayout = async ({
             <SidebarTrigger className='[&_svg]:!size-5 cursor-pointer' />
             <Theme />
           </header>
-          <main className='mb-6 size-full flex-1'>
+          <main className='mb-6 size-full flex-1 '>
             <Card className='h-auto shadow-none'>
               <CardContent className='h-full grid grid-cols-1 md:grid-cols-4 gap-6'>
                 {children}
