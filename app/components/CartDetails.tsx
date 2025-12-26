@@ -75,7 +75,9 @@ const CartDetails = ({
 
   return (
     <section className='section-spacing'>
-      {form.formState.isSubmitting && <ScreenSpinner mutate />}
+      {form.formState.isSubmitting && (
+        <ScreenSpinner mutate text='Loading checkout…' />
+      )}
       <div className='container'>
         {!cart || cart.cartItems.length === 0 ? (
           <div className='min-h-[50vh]'>

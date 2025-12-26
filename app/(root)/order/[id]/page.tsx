@@ -184,7 +184,7 @@ const OrderSummaryPage = async ({
               </div>
             </div>
           </CardContent>
-          {order.status === 'paid' && (
+          {order.status === 'paid' && session.user.id === order.userId && (
             <CardFooter className='justify-between gap-6 border-t max-sm:flex-col max-sm:items-start'>
               <div className='space-y-2.5 text-lg'>
                 <p className='font-medium'>Thank you for shopping with us!</p>

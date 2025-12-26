@@ -78,7 +78,7 @@ const ProfileDropdown = ({
     </Button>
   ) : (
     <>
-      {isPending && <ScreenSpinner mutate />}
+      {isPending && <ScreenSpinner mutate text='Logging out…' />}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button

@@ -320,3 +320,33 @@ export const deleteOrberByIdAsAdmin = async (orderId: string) => {
     return { success: false, message: (error as Error).message };
   }
 };
+
+// Mark order as expired by id as admin
+export const markOrdersAsExpiredAsAdmin = async () => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to perform the requested action');
+
+    await prisma.order.updateMany({
+      where: {
+        AND: [
+          { isPaid: false },
+          {
+            createdAt: {
+              lt: new Date(Date.now() - 1 * 60 * 1000), // 1 minute
+            },
+          },
+        ],
+      },
+      data: {
+        status: 'expired',
+      },
+    });
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};

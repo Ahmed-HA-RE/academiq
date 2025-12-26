@@ -98,7 +98,7 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => (
       <Badge
         className={cn(
-          row.original.status === 'unpaid'
+          row.original.status === 'expired'
             ? 'bg-destructive/10 text-destructive'
             : row.original.status === 'paid'
               ? 'bg-green-600/10 text-green-600'
@@ -108,7 +108,7 @@ export const columns: ColumnDef<Order>[] = [
         <span
           className={cn(
             'size-1.5 rounded-full',
-            row.original.status === 'unpaid'
+            row.original.status === 'expired'
               ? 'bg-destructive'
               : row.original.status === 'paid'
                 ? 'bg-green-600'

@@ -427,7 +427,7 @@ export const RowActions = ({ user }: { user: User }) => {
 
   return (
     <>
-      {isPending && <ScreenSpinner mutate={true} />}
+      {isPending && <ScreenSpinner mutate={true} text='Applying changes…' />}
       <div className='flex items-center justify-center'>
         <Tooltip>
           <TooltipTrigger asChild>

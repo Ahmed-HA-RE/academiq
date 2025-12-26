@@ -78,7 +78,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
 
   return (
     <>
-      {isPending && <ScreenSpinner mutate />}
+      {isPending && <ScreenSpinner mutate text='Processing…' />}
       <div className='bg-muted flex h-auto min-h-screen items-center justify-center px-4 py-12 relative'>
         <Card className='relative w-full max-w-md overflow-hidden border-none pt-8 gap-3 shadow-lg'>
           <div className='to-primary/10 pointer-events-none absolute top-0 h-52 w-full rounded-t-xl bg-gradient-to-t from-transparent'></div>
