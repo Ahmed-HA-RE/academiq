@@ -155,7 +155,7 @@ model Lesson {
 model Order {
   id             String       @id @default(uuid())
   userId         String
-  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id])
   orderItems     orderItems[]
   itemsPrice     Decimal      @db.Decimal(10, 2)
   totalPrice     Decimal      @db.Decimal(10, 2)

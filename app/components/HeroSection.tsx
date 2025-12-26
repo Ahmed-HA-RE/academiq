@@ -106,7 +106,7 @@ const HeroSection = ({
                 className='bg-muted group relative h-39 overflow-hidden rounded-md p-3'
               >
                 <span className='text-muted-foreground text-xl font-medium'>
-                  Best Certified Teacher
+                  Certified Instructors
                 </span>
                 <div className='text-muted-foreground absolute end-15.5 -bottom-0.5 transition-transform duration-500 group-hover:-translate-y-1.5 group-hover:scale-115 group-hover:drop-shadow-sm'>
                   <div className='relative'>

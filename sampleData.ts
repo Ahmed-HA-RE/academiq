@@ -126,7 +126,7 @@ export const coursesSample = [
     rating: 4.8,
     numReviews: 110,
     duration: 70,
-    currentPrice: 59.99,
+    currentPrice: 119.99,
   },
   {
     slug: 'javascript-basics-to-advanced',

@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
         hostname: 'res.cloudinary.com',
         port: '',
       },
+      // For testing purposes
+      {
+        protocol: 'https',
+        hostname: 'cdn.shadcnstudio.com',
+        port: '',
+      },
       {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',

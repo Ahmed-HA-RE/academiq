@@ -9,6 +9,7 @@ import z from 'zod';
 import stripe from '../stripe';
 import { SERVER_URL } from '../constants';
 import { revalidatePath } from 'next/cache';
+import { convertToPlainObject } from '../utils';
 
 export const createOrder = async ({
   data,
@@ -83,6 +84,7 @@ export const createOrder = async ({
         success_url: `${SERVER_URL}/success?orderId=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${SERVER_URL}/checkout`,
         customer_email: billingDetails.email,
+        expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
         mode: 'payment',
         metadata: {
           orderId: order.id,
@@ -270,4 +272,29 @@ export const getOrdersMonthlyRevenue = async () => {
   });
 
   return monthlyData;
+};
+
+// Get all orders
+export const getAllOrdersAsAdmin = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== 'admin')
+    throw new Error('Unauthorized to get the requested resource');
+
+  const orders = await prisma.order.findMany({
+    include: { orderItems: true },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  return convertToPlainObject(
+    orders.map((order) => {
+      return {
+        ...order,
+        paymentResult: order.paymentResult as PaymentResult,
+        billingDetails: order.billingDetails as BillingInfo,
+      };
+    })
+  );
 };

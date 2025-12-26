@@ -67,3 +67,7 @@ export const CITY_OPTIONS = {
   OM: ['Muscat', 'Salalah', 'Sohar', 'Nizwa', 'Sur'],
   BH: ['Manama', 'Riffa', 'Muharraq', 'Isa Town', 'Hamad Town'],
 };
+
+export const formatId = (id: string) => {
+  return id.slice(id.length - 7);
+};

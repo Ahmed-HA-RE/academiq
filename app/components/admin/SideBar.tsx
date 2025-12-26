@@ -18,6 +18,7 @@ import {
 import Image from 'next/image';
 import {
   Banknote,
+  Box,
   ChevronRightIcon,
   Contact,
   FileUser,
@@ -68,9 +69,9 @@ const pagesItems = [
     ],
   },
   {
-    icon: Wallet,
-    label: 'Transactions',
-    href: '/admin-dashboard/transactions',
+    icon: Box,
+    label: 'Orders',
+    href: '/admin-dashboard/orders',
   },
   {
     icon: Banknote,

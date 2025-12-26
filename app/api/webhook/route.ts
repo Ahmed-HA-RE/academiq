@@ -34,10 +34,10 @@ export const POST = async (req: Request) => {
           status: session.payment_status,
           paymentResult: {
             id: session.id,
-            payerEmail: session.metadata?.payerEmail,
-            payerName: session.metadata?.payerName,
+            currency: session.currency,
             country: session.customer_details?.address?.country,
             amount: session.amount_total! / 100,
+            paymentIntentId: session.payment_intent as string,
           },
         },
         include: {
@@ -76,6 +76,15 @@ export const POST = async (req: Request) => {
         },
         discount: updatedOrder.discount,
       }),
+    });
+  } else if (event.type === 'checkout.session.expired') {
+    const session = event.data.object;
+
+    await prisma.order.updateMany({
+      where: { id: session.metadata?.orderId, isPaid: false },
+      data: {
+        status: session.payment_status,
+      },
     });
   }
   return Response.json({ received: true });

@@ -49,9 +49,9 @@ export type Instructor = z.infer<typeof instructorSchema> & {
 export type BillingInfo = z.infer<typeof billingInfoSchema>;
 export type PaymentResult = {
   id: string;
-  email: string;
+  currency: string;
   country: string;
-  amount: number;
+  amount: string;
 };
 
 export type Discount = z.infer<typeof discountSchema>;
