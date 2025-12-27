@@ -4,8 +4,8 @@ import resend, { domain } from '@/lib/resend';
 import SendReceipt from '@/emails/SendReceipt';
 import { APP_NAME } from '@/lib/constants';
 import { BillingInfo, OrderItems, PaymentResult } from '@/types';
-import RefundOrder from '@/emails/RefundOrder';
 import { formatDate } from '@/lib/utils';
+import RefundOrder from '@/emails/RefundOrder';
 
 export const POST = async (req: Request) => {
   let event;
@@ -90,8 +90,6 @@ export const POST = async (req: Request) => {
       include: { user: true, orderItems: true },
     });
 
-    // Add later send email notification for the related instructor
-
     // Remove user access to the refunded courses
     const itemsCourseIds = refundedOrder.orderItems.map(
       (item) => item.courseId
@@ -118,6 +116,9 @@ export const POST = async (req: Request) => {
     if (!refundedOrder) {
       return Response.json('Order not found', { status: 404 });
     }
+
+    // Add later send email notification for the related instructor
+
     await resend.emails.send({
       from: `${APP_NAME} <support@${domain}>`,
       to: refundedOrder.user.email,
