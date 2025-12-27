@@ -58,7 +58,9 @@ const OrderSummaryPage = async ({
                   ? 'bg-destructive/10 text-destructive'
                   : order.status === 'paid'
                     ? 'bg-green-600/10 text-green-600'
-                    : 'bg-amber-600/10 text-amber-600'
+                    : order.status === 'refunded'
+                      ? 'bg-fuchsia-500/10 text-fuchsia-500'
+                      : 'bg-amber-600/10 text-amber-600'
               )}
             >
               <span
@@ -68,7 +70,9 @@ const OrderSummaryPage = async ({
                     ? 'bg-destructive'
                     : order.status === 'paid'
                       ? 'bg-green-600'
-                      : 'bg-amber-600'
+                      : order.status === 'refunded'
+                        ? 'bg-fuchsia-500'
+                        : 'bg-amber-600'
                 )}
               ></span>
               {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
@@ -118,7 +122,9 @@ const OrderSummaryPage = async ({
             </div>
 
             <div className='space-y-6 sm:col-span-2'>
-              <h5 className='text-lg font-semibold'>Purchased Courses</h5>
+              <h5 className='text-lg font-semibold'>
+                {order.status === 'refunded' ? 'Refunded' : 'Purchased'} Courses
+              </h5>
               {order.orderItems.map((item) => (
                 <div
                   key={item.id}

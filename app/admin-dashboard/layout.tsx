@@ -21,6 +21,7 @@ const AdminDashBoardLayout = async ({
   if (!user) return notFound();
 
   const admins = await getAllAdmins();
+
   await markAsExpiredAndDeleteOrdersAsAdmin();
 
   return (

@@ -1,6 +1,6 @@
 import stripe from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
-import resend from '@/lib/resend';
+import resend, { domain } from '@/lib/resend';
 import SendReceipt from '@/emails/SendReceipt';
 import { APP_NAME } from '@/lib/constants';
 import { BillingInfo, OrderItems, PaymentResult } from '@/types';
@@ -10,7 +10,6 @@ export const POST = async (req: Request) => {
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
   const signature = req.headers.get('stripe-signature') as string;
   const payload = await req.text();
-  const domain = process.env.RESEND_DOMAIN;
 
   try {
     event = stripe.webhooks.constructEvent(payload, signature, endpointSecret);
@@ -64,7 +63,7 @@ export const POST = async (req: Request) => {
     });
 
     await resend.emails.send({
-      from: `${APP_NAME} <noreply@${domain}>`,
+      from: `${APP_NAME} <no-reply@${domain}>`,
       to: updatedOrder.user.email,
       subject: `Your receipt from ${APP_NAME}`,
       react: SendReceipt({

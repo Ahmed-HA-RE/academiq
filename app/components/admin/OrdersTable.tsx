@@ -27,7 +27,7 @@ import {
 import { Order } from '@/types';
 import { cn, formatDate, formatId } from '@/lib/utils';
 import Link from 'next/link';
-import { deleteOrderByIdAsAdmin } from '@/lib/actions/order';
+import { createRefund, deleteOrderByIdAsAdmin } from '@/lib/actions/order';
 import { toast } from 'sonner';
 import DeleteDialog from '../shared/DeleteDialog';
 import DataPagination from '../shared/Pagination';
@@ -42,6 +42,8 @@ import {
   SelectValue,
 } from '../ui/select';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
+import { useState, useTransition } from 'react';
+import ScreenSpinner from '../ScreenSpinner';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -98,7 +100,9 @@ export const columns: ColumnDef<Order>[] = [
             ? 'bg-destructive/10 text-destructive'
             : row.original.status === 'paid'
               ? 'bg-green-600/10 text-green-600'
-              : 'bg-amber-600/10 text-amber-600'
+              : row.original.status === 'refunded'
+                ? 'bg-fuchsia-500/10 text-fuchsia-500'
+                : 'bg-amber-600/10 text-amber-600'
         )}
       >
         <span
@@ -108,7 +112,9 @@ export const columns: ColumnDef<Order>[] = [
               ? 'bg-destructive'
               : row.original.status === 'paid'
                 ? 'bg-green-600'
-                : 'bg-amber-600'
+                : row.original.status === 'refunded'
+                  ? 'bg-fuchsia-500'
+                  : 'bg-amber-600'
           )}
           aria-hidden='true'
         />
@@ -200,10 +206,23 @@ const OrdersDataTable = ({
                       <span className='truncate'>Expired</span>
                     </span>
                   </SelectItem>
+                  <SelectItem value='refunded' className='cursor-pointer'>
+                    <span className='flex items-center gap-2'>
+                      <CircleIcon className='size-2 fill-fuchsia-500 text-fuchsia-500' />
+                      <span className='truncate'>Refunded</span>
+                    </span>
+                  </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
 
+            {/* Paid at calendar */}
+            <Input
+              type='date'
+              className='col-span-1'
+              value={filters.paidAt}
+              onChange={(e) => setFilters({ paidAt: e.target.value })}
+            />
             {/* Search Input  */}
             <div className='relative sm:col-span-2 lg:col-span-1'>
               <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
@@ -218,12 +237,6 @@ const OrdersDataTable = ({
                 onChange={(e) => setFilters({ q: e.target.value })}
               />
             </div>
-            {/* Paid at calendar */}
-            <Input
-              type='date'
-              value={filters.paidAt}
-              onChange={(e) => setFilters({ paidAt: e.target.value })}
-            />
           </div>
         </div>
         <Table>
@@ -299,6 +312,8 @@ const OrdersDataTable = ({
 export default OrdersDataTable;
 
 function RowActions({ order }: { order: Order }) {
+  const [isPending, startTransition] = useTransition();
+
   const handleDeleteOrder = async () => {
     const res = await deleteOrderByIdAsAdmin(order.id);
     if (!res.success) {
@@ -307,8 +322,23 @@ function RowActions({ order }: { order: Order }) {
     }
     toast.success(res.message);
   };
-  return (
-    <div className='flex items-center '>
+
+  const handleRefundOrder = () => {
+    startTransition(async () => {
+      const res = await createRefund(order.id);
+
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+    });
+  };
+
+  return isPending ? (
+    <ScreenSpinner mutate={true} text='Processing refund…' />
+  ) : (
+    <div className='flex items-center'>
       <DeleteDialog
         action={handleDeleteOrder}
         title='Delete Order'
@@ -332,8 +362,12 @@ function RowActions({ order }: { order: Order }) {
             <DropdownMenuItem className='cursor-pointer' asChild>
               <Link href={`/order/${order.id}`}>View</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className='cursor-pointer'>
-              <span>Refund</span>
+            <DropdownMenuItem
+              disabled={order.status === 'refunded'}
+              className='cursor-pointer'
+              onClick={handleRefundOrder}
+            >
+              <span>{order.status === 'refunded' ? 'Refunded' : 'Refund'}</span>
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

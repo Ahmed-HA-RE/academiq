@@ -7,11 +7,13 @@ import { BillingInfo, Cart, PaymentResult } from '@/types';
 import { orderItemSchema } from '@/schema';
 import z from 'zod';
 import stripe from '../stripe';
-import { SERVER_URL } from '../constants';
+import { APP_NAME, SERVER_URL } from '../constants';
 import { revalidatePath } from 'next/cache';
-import { convertToPlainObject } from '../utils';
+import { convertToPlainObject, formatDate } from '../utils';
 import { Prisma } from '../generated/prisma';
 import { endOfDay, startOfDay } from 'date-fns';
+import resend, { domain } from '../resend';
+import RefundOrder from '@/emails/RefundOrder';
 
 export const createOrder = async ({
   data,
@@ -128,6 +130,7 @@ export const getOrderById = async (orderId: string) => {
     include: {
       orderItems: true,
       discount: true,
+      user: { select: { id: true, name: true, email: true } },
     },
   });
 
@@ -370,6 +373,22 @@ export const deleteOrderByIdAsAdmin = async (orderId: string) => {
     if (!session || session.user.role !== 'admin')
       throw new Error('Unauthorized to perform the requested action');
 
+    // Const order before deletion
+    const order = await getOrderById(orderId);
+
+    if (!order) throw new Error('Order not found');
+
+    // Remove user access to the courses in the deleted order if paid
+    await prisma.user.update({
+      where: {
+        id: order.userId,
+      },
+      data: {
+        courses: {
+          disconnect: order.orderItems.map((item) => ({ id: item.courseId })),
+        },
+      },
+    });
     await prisma.order.delete({
       where: { id: orderId },
     });
@@ -418,6 +437,91 @@ export const markAsExpiredAndDeleteOrdersAsAdmin = async () => {
       success: true,
       message: 'Some Orders marked as expired and deleted successfully',
     };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+// Create a refund process for an order
+export const createRefund = async (orderId: string) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session)
+      throw new Error('Unauthorized to perform the requested action');
+
+    const order = await getOrderById(orderId);
+
+    if (!order) throw new Error('Order not found');
+
+    if (!order.isPaid || !order.paymentResult)
+      throw new Error('Cannot refund an unpaid order');
+
+    if (
+      order.paidAt &&
+      order.paidAt <= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) // 30 days
+    )
+      throw new Error('Refund period has expired');
+
+    const userCourseProgress = await prisma.userProgress.findFirst({
+      where: {
+        userId: order.userId,
+        courseId: {
+          in: order.orderItems.map((item) => item.courseId),
+        },
+      },
+    });
+
+    if (userCourseProgress && +userCourseProgress.progress >= 10)
+      throw new Error(
+        'An order cannot be refunded if the course progress is more than 10%'
+      );
+
+    const refund = await stripe.refunds.create({
+      payment_intent: order.paymentResult.paymentIntentId,
+    });
+
+    // Fetch the refrence ARN
+    const ARN = await stripe.refunds.retrieve(refund.id);
+
+    await prisma.order.update({
+      where: { id: orderId },
+      data: { status: 'refunded' },
+    });
+
+    await resend.emails.send({
+      from: `${APP_NAME} <support@${domain}>`,
+      to: order.user.email,
+      subject: 'Your order has been refunded',
+      react: RefundOrder({
+        name: order.user.name,
+        orderId: order.id,
+        refundAmount: (refund.amount / 100).toFixed(2),
+        refundDate: formatDate(new Date(refund.created * 1000), 'date'),
+        refundCode: ARN.destination_details?.card?.reference as string,
+      }),
+    });
+
+    // Add later send email notification for the related instructor
+
+    // Remove user access to the refunded courses
+    const itemsCourseIds = order.orderItems.map((item) => item.courseId);
+    await prisma.user.update({
+      where: {
+        id: order.userId,
+      },
+      data: {
+        courses: {
+          disconnect: itemsCourseIds.map((courseId) => ({ id: courseId })),
+        },
+      },
+    });
+
+    revalidatePath('/', 'layout');
+
+    return { success: true, message: 'Order refunded successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

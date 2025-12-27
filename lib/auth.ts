@@ -7,8 +7,7 @@ import { APP_NAME } from './constants';
 import resend from './resend';
 import VerificationOTP from '@/emails/VerificationOTP';
 import ResetPasswordEmail from '@/emails/ResetPassword';
-
-const domain = process.env.RESEND_DOMAIN;
+import { domain } from './resend';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -28,7 +27,7 @@ export const auth = betterAuth({
     minPasswordLength: 6,
     sendResetPassword: async ({ user, url }) => {
       await resend.emails.send({
-        from: `${APP_NAME} <support@${domain}>`,
+        from: `${APP_NAME} <no-reply@${domain}>`,
         replyTo: process.env.REPLY_EMAIL,
         to: user.email,
         subject: 'Reset your password',

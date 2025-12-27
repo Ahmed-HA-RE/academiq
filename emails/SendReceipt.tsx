@@ -35,7 +35,7 @@ const SendReceipt = ({ order, discount }: SendReceiptProp) => {
         <Head />
         <Body>
           <Preview>Your order receipt - Order #{order.id}</Preview>
-          <Container className='border border-black/30 rounded-lg max-w-[580px] mx-auto p-[32px] sm:p-[40px]'>
+          <Container className='max-w-[580px] mx-auto p-[32px] sm:p-[40px]'>
             {/* Header */}
             <Section className='text-center mb-[28px] px-2'>
               <Img
@@ -157,7 +157,7 @@ const SendReceipt = ({ order, discount }: SendReceiptProp) => {
                   <Column className='text-right'>
                     <Text className='text-[15px] text-gray-900 m-0'>
                       {discount.type === 'percentage'
-                        ? `%${discount.amount}`
+                        ? `- %${discount.amount}`
                         : `- AED ${discount.amount}`}
                     </Text>
                   </Column>

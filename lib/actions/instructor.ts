@@ -8,7 +8,7 @@ import cloudinary from '../cloudinary';
 import { UploadApiResponse } from 'cloudinary';
 import { prisma } from '../prisma';
 import { SocialLinks } from '@/types';
-import resend from '../resend';
+import resend, { domain } from '../resend';
 import ApplicationSubmitted from '@/emails/ApplicationSubmitted';
 import { APP_NAME } from '../constants';
 
@@ -16,8 +16,6 @@ export const applyToTeach = async (
   data: z.infer<typeof createApplicationSchema>
 ) => {
   try {
-    const domain = process.env.RESEND_DOMAIN;
-
     const session = await auth.api.getSession({
       headers: await headers(),
     });
@@ -74,7 +72,7 @@ export const applyToTeach = async (
     });
 
     await resend.emails.send({
-      from: `${APP_NAME} <no-reply@${domain}>`,
+      from: `${APP_NAME} <support@${domain}>`,
       to: userApplication.user.email,
       replyTo: process.env.REPLY_EMAIL,
       subject: 'Instructor Application Submitted',
