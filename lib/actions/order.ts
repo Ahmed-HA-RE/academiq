@@ -10,6 +10,8 @@ import stripe from '../stripe';
 import { SERVER_URL } from '../constants';
 import { revalidatePath } from 'next/cache';
 import { convertToPlainObject } from '../utils';
+import { Prisma } from '../generated/prisma';
+import { endOfDay, startOfDay } from 'date-fns';
 
 export const createOrder = async ({
   data,
@@ -84,7 +86,6 @@ export const createOrder = async ({
         success_url: `${SERVER_URL}/success?orderId=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${SERVER_URL}/checkout`,
         customer_email: billingDetails.email,
-        expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
         mode: 'payment',
         metadata: {
           orderId: order.id,
@@ -275,7 +276,19 @@ export const getOrdersMonthlyRevenue = async () => {
 };
 
 // Get all orders
-export const getAllOrdersAsAdmin = async () => {
+export const getAllOrdersAsAdmin = async ({
+  q,
+  status,
+  paidAt,
+  page = 1,
+  limit = 10,
+}: {
+  q?: string;
+  status?: string;
+  page?: number;
+  paidAt?: string;
+  limit?: number;
+}) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -283,24 +296,72 @@ export const getAllOrdersAsAdmin = async () => {
   if (!session || session.user.role !== 'admin')
     throw new Error('Unauthorized to get the requested resource');
 
+  // Filter query
+  const filterQuery: Prisma.OrderWhereInput = q
+    ? {
+        OR: [
+          { user: { name: { contains: q, mode: 'insensitive' } } },
+          { user: { email: { contains: q, mode: 'insensitive' } } },
+        ],
+      }
+    : {};
+
+  // Status filter
+  const statusFilter: Prisma.OrderWhereInput = status
+    ? {
+        status: status,
+      }
+    : {};
+
+  // Paid At filter
+  const paidAtFilter: Prisma.OrderWhereInput = paidAt
+    ? {
+        AND: [
+          {
+            paidAt: {
+              gte: startOfDay(paidAt),
+              lte: endOfDay(paidAt),
+            },
+          },
+        ],
+      }
+    : {};
+
   const orders = await prisma.order.findMany({
+    where: {
+      ...filterQuery,
+      ...statusFilter,
+      ...paidAtFilter,
+    },
     include: { orderItems: true },
     orderBy: { createdAt: 'desc' },
+    take: limit,
+    skip: (page - 1) * limit,
   });
 
-  return convertToPlainObject(
-    orders.map((order) => {
-      return {
+  const totalOrders = await prisma.order.count({
+    where: {
+      ...filterQuery,
+      ...statusFilter,
+    },
+  });
+
+  const totalPages = Math.ceil(totalOrders / limit);
+
+  return {
+    orders: orders.map((order) =>
+      convertToPlainObject({
         ...order,
-        paymentResult: order.paymentResult as PaymentResult,
         billingDetails: order.billingDetails as BillingInfo,
-      };
-    })
-  );
+        paymentResult: order.paymentResult as PaymentResult,
+      })
+    ),
+    totalPages,
+  };
 };
 
 // Delete order by id as admin
-export const deleteOrberByIdAsAdmin = async (orderId: string) => {
+export const deleteOrderByIdAsAdmin = async (orderId: string) => {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -322,7 +383,7 @@ export const deleteOrberByIdAsAdmin = async (orderId: string) => {
 };
 
 // Mark order as expired by id as admin
-export const markOrdersAsExpiredAsAdmin = async () => {
+export const markAsExpiredAndDeleteOrdersAsAdmin = async () => {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -337,7 +398,7 @@ export const markOrdersAsExpiredAsAdmin = async () => {
           { isPaid: false },
           {
             createdAt: {
-              lt: new Date(Date.now() - 1 * 60 * 1000), // 1 minute
+              lt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day
             },
           },
         ],
@@ -346,6 +407,17 @@ export const markOrdersAsExpiredAsAdmin = async () => {
         status: 'expired',
       },
     });
+
+    await prisma.order.deleteMany({
+      where: { status: 'expired' },
+    });
+
+    revalidatePath('/admin-dashboard', 'layout');
+
+    return {
+      success: true,
+      message: 'Some Orders marked as expired and deleted successfully',
+    };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

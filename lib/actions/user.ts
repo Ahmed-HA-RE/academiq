@@ -178,6 +178,11 @@ export const getAllUsers = async ({
   if (!session || session.user.role !== 'admin')
     throw new Error('Unauthorized');
 
+  const baseFilter: Prisma.UserWhereInput = {
+    NOT: [{ role: 'admin' }],
+    AND: [{ banned: false }],
+  };
+
   // Search filter
   const filterQuery: Prisma.UserWhereInput = q
     ? {
@@ -189,23 +194,32 @@ export const getAllUsers = async ({
             email: { contains: q, mode: 'insensitive' },
           },
         ],
+        ...baseFilter,
       }
-    : {};
+    : {
+        ...baseFilter,
+      };
 
   // Role filter
   const roleFilter: Prisma.UserWhereInput = role
     ? {
         role: { equals: role },
+        ...baseFilter,
       }
-    : {};
+    : {
+        ...baseFilter,
+      };
 
   // Status filter
   const statusFilter: Prisma.UserWhereInput = status
     ? {
         emailVerified:
           status === 'verified' ? { not: false } : { equals: false },
+        ...baseFilter,
       }
-    : {};
+    : {
+        ...baseFilter,
+      };
 
   const users = await prisma.user.findMany({
     orderBy: { createdAt: 'desc' },

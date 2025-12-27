@@ -17,6 +17,7 @@ export const coursesfilteredParams = {
   search: parseAsString.withDefault(''),
   role: parseAsString.withDefault(''),
   status: parseAsString.withDefault(''),
+  paidAt: parseAsString.withDefault(''),
 };
 
 export const loadSearchParams = createLoader(coursesfilteredParams);

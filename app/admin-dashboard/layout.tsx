@@ -9,6 +9,7 @@ import { getAllAdmins, getCurrentLoggedUser } from '@/lib/actions/user';
 import { notFound } from 'next/navigation';
 import { CSSProperties } from 'react';
 import SideBar from '../components/admin/SideBar';
+import { markAsExpiredAndDeleteOrdersAsAdmin } from '@/lib/actions/order';
 
 const AdminDashBoardLayout = async ({
   children,
@@ -20,6 +21,7 @@ const AdminDashBoardLayout = async ({
   if (!user) return notFound();
 
   const admins = await getAllAdmins();
+  await markAsExpiredAndDeleteOrdersAsAdmin();
 
   return (
     <div className='bg-muted before:bg-primary relative flex min-h-dvh w-full before:fixed before:inset-x-0 before:top-0 before:h-105'>

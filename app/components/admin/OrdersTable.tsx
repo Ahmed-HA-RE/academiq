@@ -1,18 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EllipsisVerticalIcon,
-} from 'lucide-react';
-import type { ColumnDef, PaginationState } from '@tanstack/react-table';
+import { CircleIcon, EllipsisVerticalIcon, SearchIcon } from 'lucide-react';
+import type { ColumnDef } from '@tanstack/react-table';
 import {
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import { Badge } from '../ui/badge';
@@ -25,12 +17,6 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-} from '../ui/pagination';
-import {
   Table,
   TableBody,
   TableCell,
@@ -38,14 +24,24 @@ import {
   TableHeader,
   TableRow,
 } from '../ui/table';
-
-import { usePagination } from '@/hooks/use-pagination';
 import { Order } from '@/types';
 import { cn, formatDate, formatId } from '@/lib/utils';
 import Link from 'next/link';
-import { deleteOrberByIdAsAdmin } from '@/lib/actions/order';
+import { deleteOrderByIdAsAdmin } from '@/lib/actions/order';
 import { toast } from 'sonner';
 import DeleteDialog from '../shared/DeleteDialog';
+import DataPagination from '../shared/Pagination';
+import { Input } from '../ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
+import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -131,40 +127,104 @@ export const columns: ColumnDef<Order>[] = [
   },
 ];
 
-const OrdersDataTable = ({ orders }: { orders: Order[] }) => {
-  const pageSize = 5;
-
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: pageSize,
-  });
-
+const OrdersDataTable = ({
+  orders,
+  totalPages,
+}: {
+  orders: Order[];
+  totalPages: number;
+}) => {
   const table = useReactTable({
     data: orders,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onPaginationChange: setPagination,
-    state: {
-      pagination,
-    },
   });
 
-  const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
-    currentPage: table.getState().pagination.pageIndex + 1,
-    totalPages: table.getPageCount(),
-    paginationItemsToDisplay: 2,
-  });
+  const [filters, setFilters] = useQueryStates(
+    {
+      status: parseAsString.withDefault('all').withOptions({
+        limitUrlUpdates: throttle(500),
+      }),
+      q: parseAsString
+        .withDefault('')
+        .withOptions({ limitUrlUpdates: throttle(500) }),
+      paidAt: parseAsString.withDefault('').withOptions({
+        limitUrlUpdates: throttle(500),
+      }),
+      page: parseAsInteger.withDefault(1),
+    },
+    { shallow: false }
+  );
 
   return (
     <div className='w-full col-span-4 border bg-card shadow-sm rounded-lg'>
       <div className='border-b'>
         <div className='flex flex-col gap-4 p-6'>
           <h2 className='text-2xl font-bold'>All Orders</h2>
-          {/* Filters */}
-          <div></div>
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+            {/* Select Status */}
+            <Select
+              value={filters.status}
+              onValueChange={(value) => setFilters({ status: value })}
+            >
+              <SelectTrigger
+                id={'status'}
+                className='w-full cursor-pointer input'
+              >
+                <SelectValue placeholder='Select status' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Status</SelectLabel>
+                  <SelectItem value='all' className='cursor-pointer'>
+                    <span className='flex items-center gap-2'>
+                      <CircleIcon className='size-2 fill-blue-500 text-blue-500' />
+                      <span className='truncate'>All</span>
+                    </span>
+                  </SelectItem>
+                  <SelectItem value='pending' className='cursor-pointer'>
+                    <span className='flex items-center gap-2'>
+                      <CircleIcon className='size-2 fill-amber-400 text-amber-400' />
+                      <span className='truncate'>Pending</span>
+                    </span>
+                  </SelectItem>
+                  <SelectItem value='paid' className='cursor-pointer'>
+                    <span className='flex items-center gap-2'>
+                      <CircleIcon className='size-2 fill-green-600 text-green-600' />
+                      <span className='truncate'>Paid</span>
+                    </span>
+                  </SelectItem>
+                  <SelectItem value='expired' className='cursor-pointer'>
+                    <span className='flex items-center gap-2'>
+                      <CircleIcon className='size-2 fill-destructive text-destructive' />
+                      <span className='truncate'>Expired</span>
+                    </span>
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            {/* Search Input  */}
+            <div className='relative sm:col-span-2 lg:col-span-1'>
+              <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
+                <SearchIcon className='size-4' />
+                <span className='sr-only'>Search</span>
+              </div>
+              <Input
+                type='text'
+                placeholder='Search...'
+                className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
+                value={filters.q}
+                onChange={(e) => setFilters({ q: e.target.value })}
+              />
+            </div>
+            {/* Paid at calendar */}
+            <Input
+              type='date'
+              value={filters.paidAt}
+              onChange={(e) => setFilters({ paidAt: e.target.value })}
+            />
+          </div>
         </div>
         <Table>
           <TableHeader>
@@ -218,93 +278,20 @@ const OrdersDataTable = ({ orders }: { orders: Order[] }) => {
           </TableBody>
         </Table>
       </div>
-
-      <div className='flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col md:max-lg:flex-col'>
-        <p
-          className='text-muted-foreground text-sm whitespace-nowrap'
-          aria-live='polite'
-        >
-          Showing{' '}
-          <span>
-            {table.getState().pagination.pageIndex *
-              table.getState().pagination.pageSize +
-              1}{' '}
-            to{' '}
-            {Math.min(
-              Math.max(
-                table.getState().pagination.pageIndex *
-                  table.getState().pagination.pageSize +
-                  table.getState().pagination.pageSize,
-                0
-              ),
-              table.getRowCount()
-            )}
-          </span>{' '}
-          of <span>{table.getRowCount().toString()} entries</span>
-        </p>
-
-        <div>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <Button
-                  className='disabled:pointer-events-none disabled:opacity-50'
-                  variant={'ghost'}
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
-                  aria-label='Go to previous page'
-                >
-                  <ChevronLeftIcon aria-hidden='true' />
-                  Previous
-                </Button>
-              </PaginationItem>
-
-              {showLeftEllipsis && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-
-              {pages.map((page) => {
-                const isActive =
-                  page === table.getState().pagination.pageIndex + 1;
-
-                return (
-                  <PaginationItem key={page}>
-                    <Button
-                      size='icon'
-                      className={`${!isActive && 'bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40'}`}
-                      onClick={() => table.setPageIndex(page - 1)}
-                      aria-current={isActive ? 'page' : undefined}
-                    >
-                      {page}
-                    </Button>
-                  </PaginationItem>
-                );
-              })}
-
-              {showRightEllipsis && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-
-              <PaginationItem>
-                <Button
-                  className='disabled:pointer-events-none disabled:opacity-50'
-                  variant={'ghost'}
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
-                  aria-label='Go to next page'
-                >
-                  Next
-                  <ChevronRightIcon aria-hidden='true' />
-                </Button>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+      {totalPages > 1 && (
+        <div className='flex items-center justify-between px-6 py-4 max-sm:flex-col md:max-lg:flex-col gap-6'>
+          <p
+            className='text-muted-foreground text-sm whitespace-nowrap'
+            aria-live='polite'
+          >
+            Showing <span>{table.getRowCount().toString()} </span> of{' '}
+            <span>{orders.length} orders</span>
+          </p>
+          <div>
+            <DataPagination totalPages={totalPages} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
@@ -313,7 +300,7 @@ export default OrdersDataTable;
 
 function RowActions({ order }: { order: Order }) {
   const handleDeleteOrder = async () => {
-    const res = await deleteOrberByIdAsAdmin(order.id);
+    const res = await deleteOrderByIdAsAdmin(order.id);
     if (!res.success) {
       toast.error(res.message);
       return;

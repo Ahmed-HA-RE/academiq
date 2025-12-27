@@ -25,7 +25,6 @@ import {
   HomeIcon,
   TvMinimalPlay,
   UsersIcon,
-  Wallet,
 } from 'lucide-react';
 import { APP_NAME } from '@/lib/constants';
 import Link from 'next/link';
@@ -65,7 +64,7 @@ const pagesItems = [
     label: 'Users Management',
     items: [
       { label: 'All Users', href: '/admin-dashboard/users' },
-      { label: 'Ban Users', href: '/admin-dashboard/users/ban-users' },
+      { label: 'Banned Users', href: '/admin-dashboard/users/banned-users' },
     ],
   },
   {
@@ -160,29 +159,33 @@ const SideBar = ({ user, admins }: { user: User; admins: User[] }) => {
           <SidebarGroupContent>
             <SidebarMenu className='space-y-2'>
               {admins.map((admin) => (
-                <SidebarMenuItem
-                  className='flex items-center gap-2 px-1'
+                <Link
+                  className='py-1 hover:bg-muted transition rounded-md'
+                  href={`/admin-dashboard/users/${admin.id}/edit`}
+                  onClick={() => setOpenMobile(false)}
                   key={admin.id}
                 >
-                  <Avatar className='size-7 rounded-full'>
-                    <Suspense
-                      fallback={
-                        <AvatarFallback className='rounded-full'>
-                          {admin.name.slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      }
-                    >
-                      <Image
-                        src={admin.image}
-                        alt={admin.name}
-                        width={28}
-                        height={28}
-                        className='object-cover'
-                      />
-                    </Suspense>
-                  </Avatar>
-                  <span>{admin.name}</span>
-                </SidebarMenuItem>
+                  <SidebarMenuItem className='flex items-center gap-2 px-1  cursor-pointer'>
+                    <Avatar className='size-7 rounded-full'>
+                      <Suspense
+                        fallback={
+                          <AvatarFallback className='rounded-full'>
+                            {admin.name.slice(0, 2).toUpperCase()}
+                          </AvatarFallback>
+                        }
+                      >
+                        <Image
+                          src={admin.image}
+                          alt={admin.name}
+                          width={28}
+                          height={28}
+                          className='object-cover'
+                        />
+                      </Suspense>
+                    </Avatar>
+                    <span>{admin.name}</span>
+                  </SidebarMenuItem>
+                </Link>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
