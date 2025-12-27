@@ -4,6 +4,8 @@ import resend, { domain } from '@/lib/resend';
 import SendReceipt from '@/emails/SendReceipt';
 import { APP_NAME } from '@/lib/constants';
 import { BillingInfo, OrderItems, PaymentResult } from '@/types';
+import RefundOrder from '@/emails/RefundOrder';
+import { formatDate } from '@/lib/utils';
 
 export const POST = async (req: Request) => {
   let event;
@@ -76,6 +78,58 @@ export const POST = async (req: Request) => {
         discount: updatedOrder.discount,
       }),
     });
+    return Response.json({ received: true });
+
+    // Create a refund process for an order
+  } else if (event.type === 'refund.created') {
+    const refund = event.data.object;
+
+    const refundedOrder = await prisma.order.update({
+      where: { id: refund.metadata?.orderId },
+      data: { status: 'refunded' },
+      include: { user: true, orderItems: true },
+    });
+
+    // Add later send email notification for the related instructor
+
+    // Remove user access to the refunded courses
+    const itemsCourseIds = refundedOrder.orderItems.map(
+      (item) => item.courseId
+    );
+    await prisma.user.update({
+      where: {
+        id: refundedOrder.userId,
+      },
+      data: {
+        courses: {
+          disconnect: itemsCourseIds.map((courseId) => ({ id: courseId })),
+        },
+      },
+    });
+    return Response.json('Refund processed successfully', { status: 200 });
+  } else if (event.type === 'refund.updated') {
+    const refund = event.data.object;
+
+    const refundedOrder = await prisma.order.findFirst({
+      where: { id: refund.metadata?.orderId },
+      include: { user: true },
+    });
+
+    if (!refundedOrder) {
+      return Response.json('Order not found', { status: 404 });
+    }
+    await resend.emails.send({
+      from: `${APP_NAME} <support@${domain}>`,
+      to: refundedOrder.user.email,
+      subject: 'Your order has been refunded',
+      react: RefundOrder({
+        name: refundedOrder.user.name,
+        orderId: refundedOrder.id,
+        refundAmount: (refund.amount / 100).toFixed(2),
+        refundDate: formatDate(new Date(refund.created * 1000), 'date'),
+        refundCode: refund.destination_details?.card?.reference as string,
+      }),
+    });
+    return Response.json('Refund update email sent', { status: 200 });
   }
-  return Response.json({ received: true });
 };

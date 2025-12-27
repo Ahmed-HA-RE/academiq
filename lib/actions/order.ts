@@ -7,13 +7,11 @@ import { BillingInfo, Cart, PaymentResult } from '@/types';
 import { orderItemSchema } from '@/schema';
 import z from 'zod';
 import stripe from '../stripe';
-import { APP_NAME, SERVER_URL } from '../constants';
+import { SERVER_URL } from '../constants';
 import { revalidatePath } from 'next/cache';
-import { convertToPlainObject, formatDate } from '../utils';
+import { convertToPlainObject } from '../utils';
 import { Prisma } from '../generated/prisma';
 import { endOfDay, startOfDay } from 'date-fns';
-import resend, { domain } from '../resend';
-import RefundOrder from '@/emails/RefundOrder';
 
 export const createOrder = async ({
   data,
@@ -479,43 +477,10 @@ export const createRefund = async (orderId: string) => {
         'An order cannot be refunded if the course progress is more than 10%'
       );
 
-    const refund = await stripe.refunds.create({
+    await stripe.refunds.create({
       payment_intent: order.paymentResult.paymentIntentId,
-    });
-
-    // Fetch the refrence ARN
-    const ARN = await stripe.refunds.retrieve(refund.id);
-
-    await prisma.order.update({
-      where: { id: orderId },
-      data: { status: 'refunded' },
-    });
-
-    await resend.emails.send({
-      from: `${APP_NAME} <support@${domain}>`,
-      to: order.user.email,
-      subject: 'Your order has been refunded',
-      react: RefundOrder({
-        name: order.user.name,
+      metadata: {
         orderId: order.id,
-        refundAmount: (refund.amount / 100).toFixed(2),
-        refundDate: formatDate(new Date(refund.created * 1000), 'date'),
-        refundCode: ARN.destination_details?.card?.reference as string,
-      }),
-    });
-
-    // Add later send email notification for the related instructor
-
-    // Remove user access to the refunded courses
-    const itemsCourseIds = order.orderItems.map((item) => item.courseId);
-    await prisma.user.update({
-      where: {
-        id: order.userId,
-      },
-      data: {
-        courses: {
-          disconnect: itemsCourseIds.map((courseId) => ({ id: courseId })),
-        },
       },
     });
 
