@@ -4,8 +4,10 @@ import resend, { domain } from '@/lib/resend';
 import SendReceipt from '@/emails/SendReceipt';
 import { APP_NAME } from '@/lib/constants';
 import { BillingInfo, OrderItems, PaymentResult } from '@/types';
-import RefundOrder from '@/emails/RefundOrder';
+import RefundOrder from '@/emails/SuccessRefundOrder';
 import { formatDate } from '@/lib/utils';
+import SuccessRefundOrder from '@/emails/SuccessRefundOrder';
+import ConfirmRefundOrder from '@/emails/ConfirmRefundOrder';
 
 export const POST = async (req: Request) => {
   let event;
@@ -90,6 +92,18 @@ export const POST = async (req: Request) => {
       include: { user: true, orderItems: true },
     });
 
+    await resend.emails.send({
+      from: `${APP_NAME} <support@${domain}>`,
+      to: refundedOrder.user.email,
+      subject: 'Your refund request has been received',
+      react: ConfirmRefundOrder({
+        name: refundedOrder.user.name,
+        orderId: refundedOrder.id,
+        refundAmount: (refund.amount / 100).toFixed(2),
+        refundDate: formatDate(new Date(refund.created * 1000), 'date'),
+      }),
+    });
+
     // Add later send email notification for the related instructor
 
     // Remove user access to the refunded courses
@@ -122,7 +136,7 @@ export const POST = async (req: Request) => {
       from: `${APP_NAME} <support@${domain}>`,
       to: refundedOrder.user.email,
       subject: 'Your order has been refunded',
-      react: RefundOrder({
+      react: SuccessRefundOrder({
         name: refundedOrder.user.name,
         orderId: refundedOrder.id,
         refundAmount: (refund.amount / 100).toFixed(2),

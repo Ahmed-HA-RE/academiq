@@ -25,21 +25,19 @@ const baseImageUrl =
     ? `${process.env.NEXT_PUBLIC_PROD_URL}/images`
     : `${process.env.NEXT_PUBLIC_DEV_EMAIL_URL}/static`;
 
-type RefundOrderProps = {
-  refundCode: string;
+type ConfirmRefundOrderProps = {
   name: string;
   orderId: string;
   refundAmount: string;
   refundDate: string;
 };
 
-const RefundOrder = ({
-  refundCode,
+const ConfirmRefundOrder = ({
   name,
   orderId,
   refundAmount,
   refundDate,
-}: RefundOrderProps) => (
+}: ConfirmRefundOrderProps) => (
   <Tailwind config={{ presets: [pixelBasedPreset] }}>
     <Html>
       <Head>
@@ -52,7 +50,7 @@ const RefundOrder = ({
         </style>
       </Head>
       <Body className='bg-white font-slack mx-auto my-0'>
-        <Preview>Refund Processed — Your Order Has Been Refunded</Preview>
+        <Preview>Your Refund Request Has Been Received</Preview>
         <Container className='mx-auto my-0 py-0 px-5'>
           <Section className='mt-8'>
             <Img
@@ -64,12 +62,13 @@ const RefundOrder = ({
             />
           </Section>
           <Heading className='text-[#1d1c1d] text-3xl font-bold mt-[20px] mb-[25px] mx-0 p-0 leading-[42px]'>
-            Your Refund Has Been Issued
+            Your Refund Request Has Been Received
           </Heading>
           <Text className='text-xl'>Greeting {name},</Text>
           <Text className='text-base mb-7.5'>
-            We wanted to let you know that your refund for Order #{orderId} has
-            been successfully processed.
+            We wanted to let you know that your refund request for Order #
+            {orderId} has been received and is being processed. You will receive
+            another email once the refund is completed.
           </Text>
 
           <Section className='mb-7.5 mt-0'>
@@ -83,24 +82,14 @@ const RefundOrder = ({
             <Text className='text-base ml-4 my-1'>
               • Refund Date: {refundDate}
             </Text>
-            <Text className='text-base ml-4 my-1'>
-              • Refund Reference: {refundCode}
-            </Text>
-          </Section>
-
-          <Section className='bg-[rgb(245,244,245)] rounded mb-[30px] py-10 px-[10px]'>
-            <Text className='text-3xl leading-[24px] text-center align-middle'>
-              {refundCode}
-            </Text>
           </Section>
 
           <Text className='text-black text-base leading-6'>
             You should see the refunded amount reflected in your original
-            payment method within 5-10 business days, depending on your bank.
-          </Text>
-          <Text className='text-base'>
-            If you don&apos;t see the refund after that time, you can contact
-            your bank with the refund reference above to help track it.
+            payment method within 5-10 business days, depending on your bank. If
+            you don&apos;t see the refund after that time, please contact your
+            bank and refer to the ARN once you receive it in the confirmation
+            email we will send after the bank processes the refund.
           </Text>
           <Text className='mt-10 mb-4'>Warm regards, The {APP_NAME} Team.</Text>
           <Hr />
@@ -147,7 +136,7 @@ const RefundOrder = ({
   </Tailwind>
 );
 
-RefundOrder.PreviewProps = {
+ConfirmRefundOrder.PreviewProps = {
   refundCode: 'ABC123DEF456',
   name: 'John Doe',
   orderId: 'ABCDEFGH1234',
@@ -155,4 +144,4 @@ RefundOrder.PreviewProps = {
   refundDate: 'December 27, 2025',
 };
 
-export default RefundOrder;
+export default ConfirmRefundOrder;
