@@ -7,15 +7,15 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
+import { Badge } from '../../ui/badge';
+import { Button } from '../../ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from '../../ui/dropdown-menu';
 import {
   Table,
   TableBody,
@@ -23,15 +23,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../ui/table';
+} from '../../ui/table';
 import { Order } from '@/types';
 import { cn, formatDate, formatId } from '@/lib/utils';
 import Link from 'next/link';
 import { createRefund, deleteOrderByIdAsAdmin } from '@/lib/actions/order';
 import { toast } from 'sonner';
-import DeleteDialog from '../shared/DeleteDialog';
-import DataPagination from '../shared/Pagination';
-import { Input } from '../ui/input';
+import DeleteDialog from '../../shared/DeleteDialog';
+import DataPagination from '../../shared/Pagination';
+import { Input } from '../../ui/input';
 import {
   Select,
   SelectContent,
@@ -40,10 +40,10 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '../ui/select';
+} from '../../ui/select';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import { useState, useTransition } from 'react';
-import ScreenSpinner from '../ScreenSpinner';
+import ScreenSpinner from '../../ScreenSpinner';
 
 export const columns: ColumnDef<Order>[] = [
   {

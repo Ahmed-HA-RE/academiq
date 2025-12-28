@@ -1,8 +1,8 @@
-import UserDatatable from '@/app/components/admin/UserDataTable';
 import { getBannedUsers } from '@/lib/actions/user';
 import { loadSearchParams } from '@/lib/searchParams';
 import { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';
+import UserDatatable from '@/app/components/admin/Users/UserDataTable';
 
 export const metadata: Metadata = {
   title: 'Banned Users',

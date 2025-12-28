@@ -7,8 +7,14 @@ export const metadata: Metadata = {
     'Login to your Academiq account to access your courses and more.',
 };
 
-const LoginPage = () => {
-  return <LoginForm />;
+const LoginPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string }>;
+}) => {
+  const { callbackUrl } = (await searchParams) || '/';
+
+  return <LoginForm callbackUrl={callbackUrl} />;
 };
 
 export default LoginPage;

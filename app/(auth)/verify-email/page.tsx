@@ -6,8 +6,14 @@ export const metadata: Metadata = {
   description: 'Verify your email for your Academiq account.',
 };
 
-const VerifyEmailPage = () => {
-  return <OTPVerificationForm />;
+const VerifyEmailPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string }>;
+}) => {
+  const { callbackUrl } = (await searchParams) || '/';
+
+  return <OTPVerificationForm callbackUrl={callbackUrl} />;
 };
 
 export default VerifyEmailPage;

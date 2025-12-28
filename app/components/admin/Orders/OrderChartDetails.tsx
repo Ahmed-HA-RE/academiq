@@ -19,7 +19,7 @@ const totalIncomeChartConfig = {
   },
 } satisfies ChartConfig;
 
-type OrdersChartProps = {
+type OrderChartDetailsProps = {
   ordersMonthlyRevenue: {
     month: string;
     revenue: number;
@@ -27,7 +27,9 @@ type OrdersChartProps = {
   }[];
 };
 
-const OrdersChart = ({ ordersMonthlyRevenue }: OrdersChartProps) => {
+const OrderChartDetails = ({
+  ordersMonthlyRevenue,
+}: OrderChartDetailsProps) => {
   const maxRevenue = Math.max(...ordersMonthlyRevenue.map((o) => o.totalPrice));
 
   return (
@@ -124,4 +126,4 @@ const OrdersChart = ({ ordersMonthlyRevenue }: OrdersChartProps) => {
   );
 };
 
-export default OrdersChart;
+export default OrderChartDetails;

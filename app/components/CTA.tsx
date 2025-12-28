@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, CardContent } from '@/app/components/ui/card';
 import { Button } from './ui/button';
 import Link from 'next/link';

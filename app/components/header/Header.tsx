@@ -6,9 +6,7 @@ import DesktopNavMenu from './DesktopNavMenu';
 import Theme from '../Theme';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
-import { cleanUpCart, getMyCart } from '@/lib/actions/cart';
 import { APP_NAME } from '@/lib/constants';
-import { Badge } from '../ui/badge';
 import { ShoppingCartIcon } from 'lucide-react';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 
@@ -21,17 +19,12 @@ const Header = async () => {
     { href: '/contact', title: 'Contact ' },
   ];
 
-  // Clear enrolled courses from cart to display correct cart count
-  await cleanUpCart();
-
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  const cart = await getMyCart();
-
   return (
-    <header className='bg-transparent z-30'>
+    <header className='bg-transparent z-20'>
       <div className='mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-7 lg:px-6'>
         <div className='flex items-center lg:gap-10'>
           <MenuSheet navigationData={baseNavigationMenu} />
@@ -51,11 +44,6 @@ const Header = async () => {
                   <ShoppingCartIcon className='size-5' />
                 </AvatarFallback>
               </Avatar>
-              {cart && cart.cartItems.length > 0 ? (
-                <Badge className='absolute -top-1 right-0 h-5 min-w-5 px-1 rounded-full'>
-                  {cart.cartItems.length > 0 && cart.cartItems.length}
-                </Badge>
-              ) : null}
             </Link>
           </div>
           {/* Theme */}

@@ -23,7 +23,7 @@ const totalEarningChartConfig = {
   },
 } satisfies ChartConfig;
 
-type TotalRevenueChartProps = {
+type TotalRevenuChartDetailsProps = {
   monthlyRevenue: {
     name: string;
     uv: number;
@@ -34,11 +34,11 @@ type TotalRevenueChartProps = {
   totalRevenueAfter: number;
 };
 
-const TotalRevenueChart = ({
+const TotalRevenuChartDetails = ({
   monthlyRevenue,
   totalRevenueBefore,
   totalRevenueAfter,
-}: TotalRevenueChartProps) => {
+}: TotalRevenuChartDetailsProps) => {
   // Calculate growth percentage
   const growthPercentage =
     totalRevenueBefore === 0
@@ -152,4 +152,4 @@ const TotalRevenueChart = ({
   );
 };
 
-export default TotalRevenueChart;
+export default TotalRevenuChartDetails;
