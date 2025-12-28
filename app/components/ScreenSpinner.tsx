@@ -15,7 +15,7 @@ const ScreenSpinner = ({
       </div>
     </RemoveScroll>
   ) : (
-    <div className='flex flex-col items-center justify-center h-[100vh] w-screen bg-gray-700'>
+    <div className='flex flex-col items-center justify-center h-[100vh] w-screen bg-gray-700 fixed inset-0 z-50'>
       <div className='loader'></div>
     </div>
   );

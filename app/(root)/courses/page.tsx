@@ -9,6 +9,7 @@ import { getCurrentLoggedUser } from '@/lib/actions/user';
 import { Alert, AlertTitle } from '@/app/components/ui/alert';
 import { TriangleAlertIcon } from 'lucide-react';
 import CourseCard from '@/app/components/shared/CourseCard';
+import { Suspense } from 'react';
 
 export const generateMetadata = async ({
   searchParams,
@@ -47,16 +48,18 @@ const CoursesPage = async ({
   const { q, rating, price, difficulty, sortBy, page } =
     await loadSearchParams(searchParams);
 
-  const { courses, totalPages } = await getAllCourses({
-    q,
-    rating,
-    price,
-    difficulty,
-    sortBy,
-    page,
-  });
-  const cart = await getMyCart();
-  const user = await getCurrentLoggedUser();
+  const [{ courses, totalPages }, cart, user] = await Promise.all([
+    getAllCourses({
+      q,
+      rating,
+      price,
+      difficulty,
+      sortBy,
+      page,
+    }),
+    getMyCart(),
+    getCurrentLoggedUser(),
+  ]);
 
   return (
     <section className='my-10'>

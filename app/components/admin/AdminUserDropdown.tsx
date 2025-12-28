@@ -26,13 +26,14 @@ import {
 } from '@/app/components/ui/dropdown-menu';
 import { toast } from 'sonner';
 import { logoutUser } from '@/lib/actions/auth';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { User } from '@/types';
 
 const AdminUserDropdown = ({ user }: { user: User }) => {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const links = [
     { label: 'My Account', icon: UserIcon, href: '/my-account' },
@@ -41,6 +42,7 @@ const AdminUserDropdown = ({ user }: { user: User }) => {
   ];
 
   const handleLogout = async () => {
+    setOpenMobile(false);
     const res = await logoutUser();
 
     if (!res.success) {
@@ -55,7 +57,7 @@ const AdminUserDropdown = ({ user }: { user: User }) => {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
+        <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size='lg'
@@ -121,7 +123,14 @@ const AdminUserDropdown = ({ user }: { user: User }) => {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               {links.map((link) => (
-                <DropdownMenuItem className='cursor-pointer' key={link.label}>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setOpen(false);
+                    setOpenMobile(false);
+                  }}
+                  className='cursor-pointer'
+                  key={link.label}
+                >
                   <Link href={link.href} className='flex items-center gap-2'>
                     <link.icon />
 

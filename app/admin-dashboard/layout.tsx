@@ -16,13 +16,13 @@ const AdminDashBoardLayout = async ({
 }: {
   children: React.ReactNode;
 }) => {
-  const user = await getCurrentLoggedUser();
+  const [user, admins] = await Promise.all([
+    getCurrentLoggedUser(),
+    getAllAdmins(),
+    markAsExpiredAndDeleteOrdersAsAdmin(),
+  ]);
 
   if (!user) return notFound();
-
-  const admins = await getAllAdmins();
-
-  await markAsExpiredAndDeleteOrdersAsAdmin();
 
   return (
     <div className='bg-muted before:bg-primary relative flex min-h-dvh w-full before:fixed before:inset-x-0 before:top-0 before:h-105'>

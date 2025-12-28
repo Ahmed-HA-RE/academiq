@@ -26,7 +26,7 @@ const totalEarningChartConfig = {
   },
 } satisfies ChartConfig;
 
-type UsersChartProps = {
+type UsersChartDetailsProps = {
   monthlyUserActivity: {
     name: string;
     uv: number;
@@ -36,11 +36,11 @@ type UsersChartProps = {
   newUsersCount: number;
 };
 
-const UsersChart = ({
+const UsersChartDetails = ({
   monthlyUserActivity,
   newUsersCount,
   activeUsersCount,
-}: UsersChartProps) => {
+}: UsersChartDetailsProps) => {
   // Calculate max value for Y-axis domain
   const maxValue = Math.max(
     ...monthlyUserActivity.map((d) => Math.max(d.pv, d.uv))
@@ -117,4 +117,4 @@ const UsersChart = ({
   );
 };
 
-export default UsersChart;
+export default UsersChartDetails;

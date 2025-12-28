@@ -1,7 +1,7 @@
-import EditUserForm from '@/app/components/admin/EditUserForm';
 import { getUserById } from '@/lib/actions/user';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
+import EditUserForm from '@/app/components/admin/Users/EditUserForm';
 
 export const metadata: Metadata = {
   title: 'Edit User',

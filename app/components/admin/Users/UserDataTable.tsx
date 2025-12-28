@@ -50,10 +50,10 @@ import {
   TooltipTrigger,
 } from '@/app/components/ui/tooltip';
 import { cn, formatDate } from '@/lib/utils';
-import { Input } from '../ui/input';
+import { Input } from '../../ui/input';
 import { USERS_ROLES } from '@/lib/constants';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
-import DeleteDialog from '../shared/DeleteDialog';
+import DeleteDialog from '../../shared/DeleteDialog';
 import {
   banUserAsAdmin,
   deleteSelectedUsers,
@@ -62,8 +62,8 @@ import {
 } from '@/lib/actions/user';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import ScreenSpinner from '../ScreenSpinner';
-import DataPagination from '../shared/Pagination';
+import ScreenSpinner from '../../ScreenSpinner';
+import DataPagination from '../../shared/Pagination';
 
 const columns: ColumnDef<User>[] = [
   {

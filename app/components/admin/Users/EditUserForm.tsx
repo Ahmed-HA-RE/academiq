@@ -4,10 +4,10 @@ import { UpdateUserAsAdmin, User } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'sonner';
-import { Spinner } from '../ui/spinner';
+import { Spinner } from '../../ui/spinner';
 import { updateUserAsAdminSchema } from '@/schema';
-import { FieldGroup, FieldError, Field, FieldLabel } from '../ui/field';
-import { Input } from '../ui/input';
+import { FieldGroup, FieldError, Field, FieldLabel } from '../../ui/field';
+import { Input } from '../../ui/input';
 import {
   Select,
   SelectContent,
@@ -17,12 +17,12 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from '../ui/select';
+} from '../../ui/select';
 import { USERS_ROLES } from '@/lib/constants';
-import { PhoneInput } from '../ui/phone-input';
+import { PhoneInput } from '../../ui/phone-input';
 import { CITY_OPTIONS } from '@/lib/utils';
-import { Button } from '../ui/button';
-import AvatarUpload from '../AvatarUpload';
+import { Button } from '../../ui/button';
+import AvatarUpload from '../../AvatarUpload';
 import { updateUserAsAdmin } from '@/lib/actions/user';
 import { useRouter } from 'next/navigation';
 const EditUserForm = ({ user }: { user: User }) => {

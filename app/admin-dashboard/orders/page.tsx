@@ -1,4 +1,4 @@
-import OrdersDataTable from '@/app/components/admin/OrdersTable';
+import OrdersDataTable from '@/app/components/admin/Orders/OrdersTable';
 import { getAllOrdersAsAdmin } from '@/lib/actions/order';
 import { loadSearchParams } from '@/lib/searchParams';
 import { Metadata } from 'next';
