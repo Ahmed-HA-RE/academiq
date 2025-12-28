@@ -6,8 +6,14 @@ export const metadata: Metadata = {
   description: 'Create an Academiq account to access your courses and more.',
 };
 
-const RegisterPage = () => {
-  return <RegisterForm />;
+const RegisterPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string }>;
+}) => {
+  const { callbackUrl } = (await searchParams) || '/';
+
+  return <RegisterForm callbackUrl={callbackUrl} />;
 };
 
 export default RegisterPage;

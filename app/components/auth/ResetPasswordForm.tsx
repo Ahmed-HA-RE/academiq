@@ -4,19 +4,15 @@ import { FieldGroup, Field, FieldError, FieldLabel } from '../ui/field';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { Spinner } from '../ui/spinner';
-import { notFound, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { resetPasswordSchema } from '@/schema';
 import { ResetPasswordFormData } from '@/types';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { useSearchParams } from 'next/navigation';
 import { authClient } from '@/lib/authClient';
 
-const ResetPasswordForm = () => {
+const ResetPasswordForm = ({ token }: { token: string }) => {
   const router = useRouter();
-  const token = useSearchParams().get('token');
-
-  if (!token) notFound();
 
   const form = useForm<ResetPasswordFormData>({
     resolver: zodResolver(resetPasswordSchema),
