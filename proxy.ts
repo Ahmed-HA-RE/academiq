@@ -1,50 +1,48 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from './lib/auth';
-import { headers } from 'next/headers';
+
 import { SERVER_URL } from './lib/constants';
+import { getCurrentLoggedUser } from './lib/actions/user';
 
 export const proxy = async (req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
 
   const Invalid_Token = req.nextUrl.searchParams.get('error');
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const user = await getCurrentLoggedUser();
 
-  if (pathname === '/login' && session) {
+  if (pathname === '/login' && user) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  if (pathname === '/register' && session) {
+  if (pathname === '/register' && user) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  if (pathname === '/verify-email' && session?.user.emailVerified) {
+  if (pathname === '/verify-email' && user?.emailVerified) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  if (pathname === '/forgot-password' && session) {
+  if (pathname === '/forgot-password' && user) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  if (pathname === '/reset-password' && (session || Invalid_Token)) {
+  if (pathname === '/reset-password' && (user || Invalid_Token)) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  if (pathname === '/checkout' && !session) {
+  if (pathname === '/checkout' && !user) {
     return NextResponse.redirect(new URL('/cart', req.url));
   }
 
-  if (pathname === '/success' && !session) {
+  if (pathname === '/success' && !user) {
     return NextResponse.redirect(new URL('/cart', req.url));
   }
 
-  if (pathname === '/my-courses' && !session) {
+  if (pathname === '/my-courses' && !user) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  if (pathname === '/teach/apply' && !session) {
+  if (pathname === '/teach/apply' && !user) {
     return NextResponse.redirect(
       new URL(
         `/login?callbackUrl=${SERVER_URL}${req.nextUrl.pathname}`,
@@ -54,16 +52,16 @@ export const proxy = async (req: NextRequest) => {
   }
   if (
     pathname.startsWith('/admin-dashboard') &&
-    (!session || session.user.role !== 'admin')
+    (!user || user.role !== 'admin')
   ) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  // Add cart session id in the cookies
-  if (!req.cookies.get('sessionId')) {
-    const sessionId = crypto.randomUUID();
+  // Add cart user id in the cookies
+  if (!req.cookies.get('userId')) {
+    const userId = crypto.randomUUID();
     const response = NextResponse.next();
-    response.cookies.set('sessionId', sessionId, {
+    response.cookies.set('userId', userId, {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * 30, // 30 days
     });

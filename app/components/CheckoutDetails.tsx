@@ -22,11 +22,10 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from './ui/select';
-import { CITY_OPTIONS } from '@/lib/utils';
+import { LIST_COUNTRIES } from '@/lib/utils';
 import { createOrder } from '@/lib/actions/order';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -304,79 +303,14 @@ const CheckoutDetails = ({
                         >
                           <SelectTrigger
                             id={field.name}
-                            className='w-full cursor-pointer'
+                            className='w-full cursor-pointer input'
                           >
                             <SelectValue placeholder='Select a city' />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
                               <SelectLabel>United Arab Emirates</SelectLabel>
-                              {CITY_OPTIONS.UAE.map((city) => (
-                                <SelectItem
-                                  key={city}
-                                  value={city}
-                                  className='cursor-pointer'
-                                >
-                                  {city}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                            <SelectSeparator />
-                            <SelectGroup>
-                              <SelectLabel>Kingdom of Saudi Arabia</SelectLabel>
-                              {CITY_OPTIONS.KSA.map((city) => (
-                                <SelectItem
-                                  key={city}
-                                  value={city}
-                                  className='cursor-pointer'
-                                >
-                                  {city}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                            <SelectSeparator />
-                            <SelectGroup>
-                              <SelectLabel>Kuwait</SelectLabel>
-                              {CITY_OPTIONS.KW.map((city) => (
-                                <SelectItem
-                                  key={city}
-                                  value={city}
-                                  className='cursor-pointer'
-                                >
-                                  {city}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                            <SelectSeparator />
-                            <SelectGroup>
-                              <SelectLabel>Qatar</SelectLabel>
-                              {CITY_OPTIONS.QA.map((city) => (
-                                <SelectItem
-                                  key={city}
-                                  value={city}
-                                  className='cursor-pointer'
-                                >
-                                  {city}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                            <SelectSeparator />
-                            <SelectGroup>
-                              <SelectLabel>Bahrain</SelectLabel>
-                              {CITY_OPTIONS.BH.map((city) => (
-                                <SelectItem
-                                  key={city}
-                                  value={city}
-                                  className='cursor-pointer'
-                                >
-                                  {city}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                            <SelectSeparator />
-                            <SelectGroup>
-                              <SelectLabel>Oman</SelectLabel>
-                              {CITY_OPTIONS.OM.map((city) => (
+                              {LIST_COUNTRIES.map((city) => (
                                 <SelectItem
                                   key={city}
                                   value={city}

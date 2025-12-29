@@ -44,6 +44,7 @@
     "cloudinary": "^2.8.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "country-list": "^2.4.1",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
     "embla-carousel-autoplay": "^8.6.0",
@@ -78,6 +79,7 @@
   "devDependencies": {
     "@react-email/preview-server": "^5.0.6",
     "@tailwindcss/postcss": "^4",
+    "@types/country-list": "^2.1.4",
     "@types/node": "^20",
     "@types/pg": "^8.15.6",
     "@types/react": "^19",

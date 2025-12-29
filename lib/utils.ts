@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { getNames } from 'country-list';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -51,22 +52,9 @@ export const SORTING_OPTIONS = [
   { label: 'Price: High to Low', value: 'price-desc' },
 ];
 
-export const CITY_OPTIONS = {
-  UAE: [
-    'Abu Dhabi',
-    'Dubai',
-    'Sharjah',
-    'Ajman',
-    'Fujairah',
-    'Ras Al Khaimah',
-    'Umm Al Quwain',
-  ],
-  KSA: ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dammam', 'Khobar', 'Tabuk'],
-  KW: ['Al Ahmadi', 'Hawalli', 'Salmiya', 'Jahra', 'Farwaniya'],
-  QA: ['Doha', 'Al Rayyan', 'Umm Salal', 'Al Wakrah', 'Al Khor'],
-  OM: ['Muscat', 'Salalah', 'Sohar', 'Nizwa', 'Sur'],
-  BH: ['Manama', 'Riffa', 'Muharraq', 'Isa Town', 'Hamad Town'],
-};
+export const LIST_COUNTRIES = getNames().filter(
+  (country) => country !== 'Israel' && country !== 'Christmas Island'
+);
 
 export const formatId = (id: string) => {
   return id.slice(id.length - 7);

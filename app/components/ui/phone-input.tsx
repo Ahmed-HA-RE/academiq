@@ -42,7 +42,6 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
           inputComponent={InputComponent}
           smartCaret={false}
           defaultCountry='AE'
-          countries={['AE', 'OM', 'SA', 'KW', 'QA', 'BH']}
           value={value || undefined}
           /**
            * Handles the onChange event.
@@ -91,6 +90,28 @@ const CountrySelect = ({
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const [searchValue, setSearchValue] = React.useState('');
   const [isOpen, setIsOpen] = React.useState(false);
+
+  // Exclude specific country codes from the list
+  const excluded = new Set<RPNInput.Country>(['IL', 'CX']);
+  let filteredCountries = countryList.filter(({ value }) =>
+    value ? !excluded.has(value) : false
+  );
+
+  // Ensure selected country remains present (don't drop the currently selected value)
+  if (
+    selectedCountry &&
+    !filteredCountries.some((c) => c.value === selectedCountry)
+  ) {
+    const selectedEntry = countryList.find((c) => c.value === selectedCountry);
+    if (selectedEntry) {
+      filteredCountries = [selectedEntry, ...filteredCountries];
+    } else {
+      filteredCountries = [
+        { value: selectedCountry, label: selectedCountry },
+        ...filteredCountries,
+      ];
+    }
+  }
 
   return (
     <Popover
@@ -143,7 +164,7 @@ const CountrySelect = ({
             <ScrollArea ref={scrollAreaRef} className='h-72'>
               <CommandEmpty>No country found.</CommandEmpty>
               <CommandGroup>
-                {countryList.map(({ value, label }) =>
+                {filteredCountries.map(({ value, label }) =>
                   value ? (
                     <CountrySelectOption
                       key={value}

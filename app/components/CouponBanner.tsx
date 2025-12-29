@@ -21,7 +21,7 @@ const CouponBanner = ({ discount }: { discount: Discount | undefined }) => {
   if (!isVisible) return null;
 
   return (
-    <div className='w-full p-4 overflow-hidden bg-gradient-to-r from-purple-600 to-indigo-500 shadow-lg fixed bottom-0 right-0 left-0 z-20'>
+    <div className='w-full p-4 overflow-hidden bg-gradient-to-r from-purple-600 to-indigo-500 shadow-lg fixed bottom-0 right-0 left-0 z-30'>
       <div className='max-w-7xl mx-auto'>
         {/* Animated background elements */}
         <div className='absolute inset-0 overflow-hidden'>

@@ -29,10 +29,8 @@ const avatarSchema = z
 // Phone number validation for orders and instructors
 const phoneSchema = z.string().refine(
   (val) => {
-    for (const country of validCountryPhones) {
-      const phone = parsePhoneNumberFromString(val, country as CountryCode);
-      if (phone?.isValid()) return true;
-    }
+    const phone = parsePhoneNumberFromString(val);
+    if (phone?.isValid()) return true;
   },
   {
     error: 'Invalid phone number',

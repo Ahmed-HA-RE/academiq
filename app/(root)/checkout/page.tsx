@@ -13,9 +13,11 @@ export const metadata: Metadata = {
 };
 
 const CheckoutPage = async () => {
-  await cleanUpCart();
-  const cart = await getMyCart();
-  const userInfo = await getCurrentLoggedUser();
+  const [, cart, userInfo] = await Promise.all([
+    cleanUpCart(),
+    getMyCart(),
+    getCurrentLoggedUser(),
+  ]);
 
   let discount;
   if (cart?.discountId) {

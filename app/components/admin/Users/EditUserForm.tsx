@@ -20,7 +20,7 @@ import {
 } from '../../ui/select';
 import { USERS_ROLES } from '@/lib/constants';
 import { PhoneInput } from '../../ui/phone-input';
-import { CITY_OPTIONS } from '@/lib/utils';
+import { LIST_COUNTRIES } from '@/lib/utils';
 import { Button } from '../../ui/button';
 import AvatarUpload from '../../AvatarUpload';
 import { updateUserAsAdmin } from '@/lib/actions/user';
@@ -203,83 +203,18 @@ const EditUserForm = ({ user }: { user: User }) => {
                 <Select
                   aria-invalid={fieldState.invalid}
                   onValueChange={field.onChange}
-                  value={field.value}
+                  value={field.value || ''}
                 >
                   <SelectTrigger
                     id={field.name}
-                    className='w-full cursor-pointer'
+                    className='w-full cursor-pointer input'
                   >
                     <SelectValue placeholder='Select a city' />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>United Arab Emirates</SelectLabel>
-                      {CITY_OPTIONS.UAE.map((city) => (
-                        <SelectItem
-                          key={city}
-                          value={city}
-                          className='cursor-pointer'
-                        >
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                    <SelectSeparator />
-                    <SelectGroup>
-                      <SelectLabel>Kingdom of Saudi Arabia</SelectLabel>
-                      {CITY_OPTIONS.KSA.map((city) => (
-                        <SelectItem
-                          key={city}
-                          value={city}
-                          className='cursor-pointer'
-                        >
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                    <SelectSeparator />
-                    <SelectGroup>
-                      <SelectLabel>Kuwait</SelectLabel>
-                      {CITY_OPTIONS.KW.map((city) => (
-                        <SelectItem
-                          key={city}
-                          value={city}
-                          className='cursor-pointer'
-                        >
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                    <SelectSeparator />
-                    <SelectGroup>
-                      <SelectLabel>Qatar</SelectLabel>
-                      {CITY_OPTIONS.QA.map((city) => (
-                        <SelectItem
-                          key={city}
-                          value={city}
-                          className='cursor-pointer'
-                        >
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                    <SelectSeparator />
-                    <SelectGroup>
-                      <SelectLabel>Bahrain</SelectLabel>
-                      {CITY_OPTIONS.BH.map((city) => (
-                        <SelectItem
-                          key={city}
-                          value={city}
-                          className='cursor-pointer'
-                        >
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                    <SelectSeparator />
-                    <SelectGroup>
-                      <SelectLabel>Oman</SelectLabel>
-                      {CITY_OPTIONS.OM.map((city) => (
+                      {LIST_COUNTRIES.map((city) => (
                         <SelectItem
                           key={city}
                           value={city}

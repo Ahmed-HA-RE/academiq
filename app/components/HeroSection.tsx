@@ -1,17 +1,16 @@
-'use client';
 import { MotionPreset } from '@/app/components/ui/motion-preset';
 import { BounceButton } from '@/app/components/ui/bounce-button';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { getTotalCoursesCount } from '@/lib/actions/course';
+import { getCoursesWithStudents } from '@/lib/actions/user';
 
-const HeroSection = ({
-  coursesCount,
-  studentsCount,
-}: {
-  coursesCount: number;
-  studentsCount: number;
-}) => {
+const HeroSection = async () => {
+  const [coursesCount, studentsCount] = await Promise.all([
+    getTotalCoursesCount(),
+    getCoursesWithStudents(),
+  ]);
   return (
     <section className='overflow-hidden'>
       <div className='container'>
