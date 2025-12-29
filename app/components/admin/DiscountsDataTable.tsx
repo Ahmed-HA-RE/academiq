@@ -1,0 +1,579 @@
+'use client';
+
+import { useId, useMemo, useState, useTransition } from 'react';
+import Papa from 'papaparse';
+import * as XLSX from 'xlsx';
+import { Discount } from '@/types';
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  EllipsisVerticalIcon,
+  FileSpreadsheetIcon,
+  FileTextIcon,
+  PlusIcon,
+  SearchIcon,
+  UploadIcon,
+} from 'lucide-react';
+
+import type {
+  Column,
+  ColumnDef,
+  ColumnFiltersState,
+  PaginationState,
+  RowData,
+} from '@tanstack/react-table';
+import {
+  flexRender,
+  getCoreRowModel,
+  getFacetedMinMaxValues,
+  getFacetedRowModel,
+  getPaginationRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+
+import { Badge } from '@/app/components/ui/badge';
+import { Button } from '@/app/components/ui/button';
+import { Checkbox } from '@/app/components/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/app/components/ui/dropdown-menu';
+import { Input } from '@/app/components/ui/input';
+import { Label } from '@/app/components/ui/label';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+} from '@/app/components/ui/pagination';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/app/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/app/components/ui/table';
+
+import { usePagination } from '@/hooks/use-pagination';
+
+import { cn, formatDate, formatId } from '@/lib/utils';
+import ScreenSpinner from '../ScreenSpinner';
+import { deleteDiscountById } from '@/lib/actions/discount';
+import { toast } from 'sonner';
+import Link from 'next/link';
+
+declare module '@tanstack/react-table' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface ColumnMeta<TData extends RowData, TValue> {
+    filterVariant?: 'text' | 'range' | 'select';
+  }
+}
+
+const columns: ColumnDef<Discount>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        className='mr-0.5'
+        checked={table.getIsAllPageRowsSelected()}
+        onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
+        aria-label='Select all'
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label='Select row'
+      />
+    ),
+    size: 50,
+  },
+  {
+    header: 'ID',
+    accessorKey: 'id',
+    cell: ({ row }) => (
+      <span className='text-muted-foreground'>{`#${formatId(row.original.id)}`}</span>
+    ),
+    size: 260,
+  },
+  {
+    header: 'Name',
+    accessorKey: 'code',
+    cell: ({ row }) => {
+      return <span className='text-muted-foreground'>{row.original.code}</span>;
+    },
+    size: 180,
+  },
+  {
+    header: 'Type',
+    accessorKey: 'type',
+    cell: ({ row }) => <span className='capitalize'>{row.original.type}</span>,
+  },
+  {
+    header: 'Amount',
+    accessorKey: 'amount',
+    cell: ({ row }) => {
+      return row.original.type === 'percentage' ? (
+        <p className='text-base text-center md:text-left'>
+          {row.original.amount}%
+        </p>
+      ) : (
+        <div className='flex flex-row items-center justify-center md:justify-start gap-1 '>
+          <span className='dirham-symbol !text-base'>&#xea;</span>
+          <span className='text-base'>{row.original.amount}</span>
+        </div>
+      );
+    },
+  },
+
+  {
+    header: 'Status',
+    accessorKey: 'status',
+    cell: ({ row }) => {
+      return (
+        <Badge
+          className={cn(
+            'rounded-sm border-none capitalize focus-visible:outline-none',
+            row.original.validUntil > new Date()
+              ? 'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400 dark:focus-visible:ring-green-400/40 [a&]:hover:bg-green-600/5 dark:[a&]:hover:bg-green-400/5'
+              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive'
+          )}
+        >
+          {row.original.validUntil > new Date() ? 'active' : 'expired'}
+        </Badge>
+      );
+    },
+  },
+  {
+    header: 'Expiry Date',
+    accessorKey: 'validUntil',
+    cell: ({ row }) => (
+      <span className='capitalize'>
+        {formatDate(row.original.validUntil, 'dateTime')}
+      </span>
+    ),
+  },
+  {
+    id: 'actions',
+    header: () => 'Actions',
+    cell: ({ row }) => (
+      <div>
+        <RowActions id={row.original.id} />
+      </div>
+    ),
+    size: 60,
+    enableHiding: false,
+  },
+];
+
+const DiscountsDataTable = ({
+  discounts,
+}: {
+  discounts: Discount[] | undefined;
+}) => {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  const pageSize = 5;
+
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: pageSize,
+  });
+
+  const table = useReactTable({
+    data: discounts!,
+    columns,
+    state: {
+      columnFilters,
+      pagination,
+    },
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+    getFacetedMinMaxValues: getFacetedMinMaxValues(),
+    enableSortingRemoval: false,
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
+  });
+
+  const exportToCSV = () => {
+    const selectedRows = table.getSelectedRowModel().rows;
+
+    const dataToExport =
+      selectedRows.length > 0
+        ? selectedRows.map((row) => row.original)
+        : table.getFilteredRowModel().rows.map((row) => row.original);
+
+    const csv = Papa.unparse(dataToExport, {
+      header: true,
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute(
+      'download',
+      `payments-export-${new Date().toISOString().split('T')[0]}.csv`
+    );
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportToExcel = () => {
+    const selectedRows = table.getSelectedRowModel().rows;
+
+    const dataToExport =
+      selectedRows.length > 0
+        ? selectedRows.map((row) => row.original)
+        : table.getFilteredRowModel().rows.map((row) => row.original);
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Discounts');
+
+    const cols = [
+      { wch: 10 },
+      { wch: 20 },
+      { wch: 15 },
+      { wch: 25 },
+      { wch: 15 },
+    ];
+
+    worksheet['!cols'] = cols;
+
+    XLSX.writeFile(
+      workbook,
+      `discounts-export-${new Date().toISOString().split('T')[0]}.xlsx`
+    );
+  };
+
+  const exportToJSON = () => {
+    const selectedRows = table.getSelectedRowModel().rows;
+
+    const dataToExport =
+      selectedRows.length > 0
+        ? selectedRows.map((row) => row.original)
+        : table.getFilteredRowModel().rows.map((row) => row.original);
+
+    const json = JSON.stringify(dataToExport, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute(
+      'download',
+      `discounts-export-${new Date().toISOString().split('T')[0]}.json`
+    );
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
+    currentPage: table.getState().pagination.pageIndex + 1,
+    totalPages: table.getPageCount(),
+    paginationItemsToDisplay: 2,
+  });
+
+  return (
+    <div className='w-full col-span-4'>
+      <div className='border-b'>
+        <div className='flex flex-col gap-6 border-b pb-6'>
+          <span className='text-2xl font-semibold'>Discounts</span>
+          <div className='grid grid-cols-1 gap-6 max-md:*:last:col-span-full sm:grid-cols-2 md:grid-cols-3'>
+            {/* Filters */}
+          </div>
+        </div>
+        <div className='flex gap-4 py-6 flex-col md:flex-row md:items-center md:justify-between'>
+          {/* Filter */}
+          <div className='flex flex-row items-center justify-start gap-4 '>
+            <div className='flex items-center gap-2'>
+              <Label htmlFor='#rowSelect' className='sr-only'>
+                Show
+              </Label>
+              <Select
+                value={table.getState().pagination.pageSize.toString()}
+                onValueChange={(value) => {
+                  table.setPageSize(Number(value));
+                }}
+              >
+                <SelectTrigger
+                  id='rowSelect'
+                  className='w-fit whitespace-nowrap cursor-pointer'
+                >
+                  <SelectValue placeholder='Select number of results' />
+                </SelectTrigger>
+                <SelectContent className='[&_*[role=option]]:pr-8 [&_*[role=option]]:pl-2 [&_*[role=option]>span]:right-2 [&_*[role=option]>span]:left-auto '>
+                  {[1, 5, 10, 50].map((pageSize) => (
+                    <SelectItem
+                      key={pageSize}
+                      value={pageSize.toString()}
+                      className='cursor-pointer'
+                    >
+                      {pageSize}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className='bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40 cursor-pointer'>
+                  <UploadIcon />
+                  Export
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align='end'>
+                <DropdownMenuItem
+                  className='cursor-pointer'
+                  onClick={exportToCSV}
+                >
+                  <FileTextIcon className='mr-2 size-4' />
+                  Export as CSV
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className='cursor-pointer'
+                  onClick={exportToExcel}
+                >
+                  <FileSpreadsheetIcon className='mr-2 size-4' />
+                  Export as Excel
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className='cursor-pointer'
+                  onClick={exportToJSON}
+                >
+                  <FileTextIcon className='mr-2 size-4' />
+                  Export as JSON
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Button asChild>
+              <Link href='/admin/discounts/new'>
+                <PlusIcon />
+                Add Discount
+              </Link>
+            </Button>
+          </div>
+        </div>
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id} className='h-14 border-t '>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      key={header.id}
+                      style={{ width: `${header.getSize()}px` }}
+                      className='text-muted-foreground first:pl-0'
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                  className='hover:bg-transparent'
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className='h-16 last:w-29 last:px-4 first:pl-0'
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div className='flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col'>
+        <p
+          className='text-muted-foreground text-sm whitespace-nowrap'
+          aria-live='polite'
+        >
+          Showing{' '}
+          <span>
+            {table.getState().pagination.pageIndex *
+              table.getState().pagination.pageSize +
+              1}{' '}
+            to{' '}
+            {Math.min(
+              Math.max(
+                table.getState().pagination.pageIndex *
+                  table.getState().pagination.pageSize +
+                  table.getState().pagination.pageSize,
+                0
+              ),
+              table.getRowCount()
+            )}
+          </span>{' '}
+          of <span>{table.getRowCount().toString()} entries</span>
+        </p>
+
+        <div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <Button
+                  className='disabled:pointer-events-none disabled:opacity-50'
+                  variant={'ghost'}
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                  aria-label='Go to previous page'
+                >
+                  <ChevronLeftIcon aria-hidden='true' />
+                  <span className='max-sm:hidden'>Previous</span>
+                </Button>
+              </PaginationItem>
+
+              {showLeftEllipsis && (
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )}
+
+              {pages.map((page) => {
+                const isActive =
+                  page === table.getState().pagination.pageIndex + 1;
+
+                return (
+                  <PaginationItem key={page}>
+                    <Button
+                      size='icon'
+                      className={`${!isActive && 'bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40'}`}
+                      onClick={() => table.setPageIndex(page - 1)}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      {page}
+                    </Button>
+                  </PaginationItem>
+                );
+              })}
+
+              {showRightEllipsis && (
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )}
+
+              <PaginationItem>
+                <Button
+                  className='disabled:pointer-events-none disabled:opacity-50'
+                  variant={'ghost'}
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                  aria-label='Go to next page'
+                >
+                  <span className='max-sm:hidden'>Next</span>
+                  <ChevronRightIcon aria-hidden='true' />
+                </Button>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DiscountsDataTable;
+
+function RowActions({ id }: { id: string }) {
+  const [isPending, startTransition] = useTransition();
+
+  const handleDeleteDiscount = () => {
+    startTransition(async () => {
+      const res = await deleteDiscountById(id);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+    });
+  };
+
+  return isPending ? (
+    <ScreenSpinner mutate={true} text='Processing...' />
+  ) : (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className='flex'>
+          <Button
+            size='icon'
+            variant='ghost'
+            className='rounded-full p-2 cursor-pointer'
+            aria-label='Edit item'
+          >
+            <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
+          </Button>
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align='start'>
+        <DropdownMenuGroup>
+          <DropdownMenuItem className='cursor-pointer'>
+            <span>Edit</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            variant='destructive'
+            className='cursor-pointer'
+            onClick={handleDeleteDiscount}
+          >
+            <span>Delete</span>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}

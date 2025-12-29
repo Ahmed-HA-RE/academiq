@@ -55,7 +55,11 @@ export type PaymentResult = {
   paymentIntentId: string;
 };
 
-export type Discount = z.infer<typeof discountSchema>;
+export type Discount = z.infer<typeof discountSchema> & {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 export type createOrderItems = z.infer<typeof orderItemSchema>;
 

@@ -4,6 +4,8 @@ import { applyDiscountSchema } from '@/schema';
 import { prisma } from '../prisma';
 import { getMyCart } from './cart';
 import { revalidatePath } from 'next/cache';
+import { auth } from '../auth';
+import { headers } from 'next/headers';
 
 export const getDiscountById = async (id: string) => {
   const discount = await prisma.discount.findUnique({
@@ -78,4 +80,39 @@ export const getValidDiscount = async () => {
   if (!discount) return undefined;
 
   return discount;
+};
+
+// Get all discounts as admin
+export const getAllDiscounts = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== 'admin')
+    throw new Error('Unauthorized to access discounts');
+
+  const discounts = await prisma.discount.findMany({});
+
+  if (!discounts) return undefined;
+  return discounts;
+};
+
+// Delete discount by id as admin
+export const deleteDiscountById = async (id: string) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to delete discount');
+
+    await prisma.discount.delete({
+      where: { id },
+    });
+    revalidatePath('/', 'layout');
+    return { success: true, message: 'Discount deleted successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
 };
