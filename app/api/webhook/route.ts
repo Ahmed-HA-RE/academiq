@@ -132,5 +132,24 @@ export const POST = async (req: Request) => {
       }),
     });
     return Response.json('Refund update email sent', { status: 200 });
+  } else if (event.type === 'coupon.created') {
+    const coupon = event.data.object;
+
+    const discount = await prisma.discount.findFirst({
+      where: { id: coupon.metadata?.discountId as string },
+    });
+
+    if (!discount) {
+      return Response.json('Discount not found', { status: 404 });
+    }
+
+    await prisma.discount.update({
+      where: { id: discount.id },
+      data: {
+        stripeCouponId: coupon.id,
+      },
+    });
+
+    return Response.json('Coupon id added successfully', { status: 200 });
   }
 };

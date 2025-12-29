@@ -136,9 +136,6 @@ export const discountSchema = z.object({
   validUntil: z
     .date({ error: 'Invalid valid until date' })
     .min(new Date(), 'Validation date must be in the future'),
-  stripeCouponId: z
-    .string({ error: 'Invalid stripe discount id' })
-    .min(1, 'Stripe Discount id is required'),
 });
 
 export const applyDiscountSchema = z.object({

@@ -14309,7 +14309,7 @@ export namespace Prisma {
   export type DiscountGroupByOutputType = {
     id: string
     code: string
-    stripeCouponId: string
+    stripeCouponId: string | null
     type: string
     amount: number
     validUntil: Date
@@ -14401,7 +14401,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       code: string
-      stripeCouponId: string
+      stripeCouponId: string | null
       type: string
       amount: number
       validUntil: Date
@@ -19923,7 +19923,7 @@ export namespace Prisma {
     NOT?: DiscountWhereInput | DiscountWhereInput[]
     id?: StringFilter<"Discount"> | string
     code?: StringFilter<"Discount"> | string
-    stripeCouponId?: StringFilter<"Discount"> | string
+    stripeCouponId?: StringNullableFilter<"Discount"> | string | null
     type?: StringFilter<"Discount"> | string
     amount?: IntFilter<"Discount"> | number
     validUntil?: DateTimeFilter<"Discount"> | Date | string
@@ -19936,7 +19936,7 @@ export namespace Prisma {
   export type DiscountOrderByWithRelationInput = {
     id?: SortOrder
     code?: SortOrder
-    stripeCouponId?: SortOrder
+    stripeCouponId?: SortOrderInput | SortOrder
     type?: SortOrder
     amount?: SortOrder
     validUntil?: SortOrder
@@ -19952,7 +19952,7 @@ export namespace Prisma {
     AND?: DiscountWhereInput | DiscountWhereInput[]
     OR?: DiscountWhereInput[]
     NOT?: DiscountWhereInput | DiscountWhereInput[]
-    stripeCouponId?: StringFilter<"Discount"> | string
+    stripeCouponId?: StringNullableFilter<"Discount"> | string | null
     type?: StringFilter<"Discount"> | string
     amount?: IntFilter<"Discount"> | number
     validUntil?: DateTimeFilter<"Discount"> | Date | string
@@ -19965,7 +19965,7 @@ export namespace Prisma {
   export type DiscountOrderByWithAggregationInput = {
     id?: SortOrder
     code?: SortOrder
-    stripeCouponId?: SortOrder
+    stripeCouponId?: SortOrderInput | SortOrder
     type?: SortOrder
     amount?: SortOrder
     validUntil?: SortOrder
@@ -19984,7 +19984,7 @@ export namespace Prisma {
     NOT?: DiscountScalarWhereWithAggregatesInput | DiscountScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Discount"> | string
     code?: StringWithAggregatesFilter<"Discount"> | string
-    stripeCouponId?: StringWithAggregatesFilter<"Discount"> | string
+    stripeCouponId?: StringNullableWithAggregatesFilter<"Discount"> | string | null
     type?: StringWithAggregatesFilter<"Discount"> | string
     amount?: IntWithAggregatesFilter<"Discount"> | number
     validUntil?: DateTimeWithAggregatesFilter<"Discount"> | Date | string
@@ -21176,7 +21176,7 @@ export namespace Prisma {
   export type DiscountCreateInput = {
     id?: string
     code: string
-    stripeCouponId: string
+    stripeCouponId?: string | null
     type: string
     amount: number
     validUntil: Date | string
@@ -21189,7 +21189,7 @@ export namespace Prisma {
   export type DiscountUncheckedCreateInput = {
     id?: string
     code: string
-    stripeCouponId: string
+    stripeCouponId?: string | null
     type: string
     amount: number
     validUntil: Date | string
@@ -21202,7 +21202,7 @@ export namespace Prisma {
   export type DiscountUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    stripeCouponId?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21215,7 +21215,7 @@ export namespace Prisma {
   export type DiscountUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    stripeCouponId?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21228,7 +21228,7 @@ export namespace Prisma {
   export type DiscountCreateManyInput = {
     id?: string
     code: string
-    stripeCouponId: string
+    stripeCouponId?: string | null
     type: string
     amount: number
     validUntil: Date | string
@@ -21239,7 +21239,7 @@ export namespace Prisma {
   export type DiscountUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    stripeCouponId?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21250,7 +21250,7 @@ export namespace Prisma {
   export type DiscountUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    stripeCouponId?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24946,7 +24946,7 @@ export namespace Prisma {
   export type DiscountCreateWithoutCartsInput = {
     id?: string
     code: string
-    stripeCouponId: string
+    stripeCouponId?: string | null
     type: string
     amount: number
     validUntil: Date | string
@@ -24958,7 +24958,7 @@ export namespace Prisma {
   export type DiscountUncheckedCreateWithoutCartsInput = {
     id?: string
     code: string
-    stripeCouponId: string
+    stripeCouponId?: string | null
     type: string
     amount: number
     validUntil: Date | string
@@ -25043,7 +25043,7 @@ export namespace Prisma {
   export type DiscountUpdateWithoutCartsInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    stripeCouponId?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25055,7 +25055,7 @@ export namespace Prisma {
   export type DiscountUncheckedUpdateWithoutCartsInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    stripeCouponId?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25357,7 +25357,7 @@ export namespace Prisma {
   export type DiscountCreateWithoutOrdersInput = {
     id?: string
     code: string
-    stripeCouponId: string
+    stripeCouponId?: string | null
     type: string
     amount: number
     validUntil: Date | string
@@ -25369,7 +25369,7 @@ export namespace Prisma {
   export type DiscountUncheckedCreateWithoutOrdersInput = {
     id?: string
     code: string
-    stripeCouponId: string
+    stripeCouponId?: string | null
     type: string
     amount: number
     validUntil: Date | string
@@ -25470,7 +25470,7 @@ export namespace Prisma {
   export type DiscountUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    stripeCouponId?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25482,7 +25482,7 @@ export namespace Prisma {
   export type DiscountUncheckedUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    stripeCouponId?: StringFieldUpdateOperationsInput | string
+    stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string

@@ -11,13 +11,13 @@ export const metadata: Metadata = {
 };
 
 const CartPage = async () => {
-  // Clear any enrolled courses from the cart
-  await cleanUpCart();
-
-  const cart = await getMyCart();
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const [_, cart, session] = await Promise.all([
+    cleanUpCart(), // Clear any enrolled courses from the cart
+    getMyCart(),
+    auth.api.getSession({
+      headers: await headers(),
+    }),
+  ]);
 
   let discount;
 

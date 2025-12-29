@@ -1,11 +1,13 @@
 'use server';
 
-import { applyDiscountSchema } from '@/schema';
+import { applyDiscountSchema, discountSchema } from '@/schema';
 import { prisma } from '../prisma';
 import { getMyCart } from './cart';
 import { revalidatePath } from 'next/cache';
 import { auth } from '../auth';
 import { headers } from 'next/headers';
+import { CreateDiscount } from '@/types';
+import stripe from '../stripe';
 
 export const getDiscountById = async (id: string) => {
   const discount = await prisma.discount.findUnique({
@@ -29,7 +31,11 @@ export const applyDiscount = async (code: string) => {
       where: { code: validateCode.data.code },
     });
 
-    if (!discount || discount.validUntil < currentTime)
+    if (
+      !discount ||
+      discount.validUntil < currentTime ||
+      !discount.stripeCouponId
+    )
       throw new Error('Discount code not found');
 
     const cart = await getMyCart();
@@ -112,6 +118,51 @@ export const deleteDiscountById = async (id: string) => {
     });
     revalidatePath('/', 'layout');
     return { success: true, message: 'Discount deleted successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+// Create discount as admin
+export const createDiscount = async (data: CreateDiscount) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to create discount');
+
+    const isDiscountExist = await prisma.discount.findFirst({
+      where: { code: data.code },
+    });
+
+    if (isDiscountExist)
+      throw new Error('Discount with this code already exists');
+
+    const validateDiscountData = discountSchema.safeParse(data);
+
+    if (!validateDiscountData.success) throw new Error('Invalid discount data');
+
+    const newDiscount = await prisma.discount.create({
+      data,
+    });
+
+    await stripe.coupons.create({
+      duration: 'repeating',
+      name: newDiscount.code,
+      duration_in_months: newDiscount.validUntil.getMonth(),
+      percent_off:
+        newDiscount.type === 'percentage' ? newDiscount.amount : undefined,
+      amount_off: newDiscount.type === 'fixed' ? newDiscount.amount : undefined,
+      metadata: {
+        discountId: newDiscount.id,
+      },
+    });
+
+    revalidatePath('/admin-dashboard/discounts', 'page');
+
+    return { success: true, message: 'Discount created successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

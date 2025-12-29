@@ -155,7 +155,7 @@ model Lesson {
 model Order {
   id             String       @id @default(uuid())
   userId         String
-  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id])
   orderItems     orderItems[]
   itemsPrice     Decimal      @db.Decimal(10, 2)
   totalPrice     Decimal      @db.Decimal(10, 2)
@@ -187,7 +187,7 @@ model orderItems {
 model Discount {
   id             String   @id @default(uuid())
   code           String   @unique
-  stripeCouponId String
+  stripeCouponId String?
   type           String // percentage or fixed
   amount         Int
   validUntil     DateTime

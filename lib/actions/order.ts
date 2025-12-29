@@ -76,13 +76,14 @@ export const createOrder = async ({
       });
 
       const checkoutSession = await stripe.checkout.sessions.create({
-        discounts: data.discountId
-          ? [
-              {
-                coupon: order.discount?.stripeCouponId,
-              },
-            ]
-          : undefined,
+        discounts:
+          order.discountId && order.discount?.stripeCouponId
+            ? [
+                {
+                  coupon: order.discount.stripeCouponId,
+                },
+              ]
+            : undefined,
         success_url: `${SERVER_URL}/success?orderId=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${SERVER_URL}/checkout`,
         customer_email: billingDetails.email,

@@ -187,7 +187,7 @@ model orderItems {
 model Discount {
   id             String   @id @default(uuid())
   code           String   @unique
-  stripeCouponId String
+  stripeCouponId String?
   type           String // percentage or fixed
   amount         Int
   validUntil     DateTime

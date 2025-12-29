@@ -59,7 +59,9 @@ export type Discount = z.infer<typeof discountSchema> & {
   id: string;
   createdAt: Date;
   updatedAt: Date;
+  stripeCouponId: string | null;
 };
+export type CreateDiscount = z.infer<typeof discountSchema>;
 
 export type createOrderItems = z.infer<typeof orderItemSchema>;
 
