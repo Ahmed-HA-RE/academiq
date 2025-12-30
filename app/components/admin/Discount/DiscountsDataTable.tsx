@@ -1,11 +1,8 @@
 'use client';
-
-import { useState, useTransition } from 'react';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import { Discount } from '@/types';
 import {
-  EllipsisVerticalIcon,
   FileSpreadsheetIcon,
   FileTextIcon,
   PlusIcon,
@@ -13,21 +10,10 @@ import {
   UploadIcon,
 } from 'lucide-react';
 
-import type {
-  ColumnDef,
-  ColumnFiltersState,
-  PaginationState,
-  RowData,
-} from '@tanstack/react-table';
+import type { ColumnDef, RowData } from '@tanstack/react-table';
 import {
   flexRender,
   getCoreRowModel,
-  getFacetedMinMaxValues,
-  getFacetedRowModel,
-  getPaginationRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 
@@ -37,7 +23,6 @@ import { Checkbox } from '@/app/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -47,7 +32,9 @@ import { Label } from '@/app/components/ui/label';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/app/components/ui/select';
@@ -61,12 +48,18 @@ import {
 } from '@/app/components/ui/table';
 
 import { cn, formatDate, formatId } from '@/lib/utils';
-import ScreenSpinner from '../../ScreenSpinner';
 import { deleteDiscountById } from '@/lib/actions/discount';
 import { toast } from 'sonner';
 import Link from 'next/link';
 import DataPagination from '../../shared/Pagination';
 import DeleteDialog from '../../shared/DeleteDialog';
+import {
+  parseAsInteger,
+  parseAsString,
+  parseAsStringLiteral,
+  throttle,
+  useQueryStates,
+} from 'nuqs';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -175,36 +168,32 @@ const columns: ColumnDef<Discount>[] = [
 
 const DiscountsDataTable = ({
   discounts,
+  totalPages,
 }: {
-  discounts: Discount[] | undefined;
+  discounts: Discount[];
+  totalPages: number;
 }) => {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
-  const pageSize = 5;
-
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: pageSize,
-  });
-
   const table = useReactTable({
     data: discounts,
     columns,
-    state: {
-      columnFilters,
-      pagination,
-    },
-    onColumnFiltersChange: setColumnFilters,
+    // onRowSelectionChange: setSelectUsers,
+    getRowId: (row) => row.id,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-    getFacetedMinMaxValues: getFacetedMinMaxValues(),
-    enableSortingRemoval: false,
-    getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
   });
+
+  const [filters, setFilters] = useQueryStates(
+    {
+      search: parseAsString.withDefault('').withOptions({
+        limitUrlUpdates: throttle(500),
+      }),
+      type: parseAsStringLiteral(['percentage', 'fixed', 'all']).withDefault(
+        'all'
+      ),
+      expiry: parseAsString.withDefault(''),
+      limit: parseAsInteger.withDefault(10),
+    },
+    { shallow: false }
+  );
 
   const exportToCSV = () => {
     const selectedRows = table.getSelectedRowModel().rows;
@@ -291,8 +280,58 @@ const DiscountsDataTable = ({
       <div className='border-b'>
         <div className='flex flex-col gap-6 border-b pb-6'>
           <span className='text-2xl font-semibold'>Discounts</span>
-          <div className='grid grid-cols-1 gap-6 max-md:*:last:col-span-full sm:grid-cols-2 md:grid-cols-3'>
-            {/* Filters */}
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 w-full '>
+            {/* Select Status */}
+            <Select
+              value={filters.type}
+              onValueChange={(value) =>
+                setFilters({ type: value as 'percentage' | 'fixed' | 'all' })
+              }
+            >
+              <SelectTrigger
+                id={'status'}
+                className='w-full cursor-pointer input'
+              >
+                <SelectValue placeholder='Select status' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Code Type</SelectLabel>
+                  <SelectItem value='all' className='cursor-pointer'>
+                    All
+                  </SelectItem>
+                  <SelectItem value='percentage' className='cursor-pointer'>
+                    Percentage (%)
+                  </SelectItem>
+                  <SelectItem value='fixed' className='cursor-pointer'>
+                    Fixed Amount (AED)
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            {/* Expiry calendar */}
+            <Input
+              type='date'
+              className='cursor-pointer input'
+              value={filters.expiry}
+              onChange={(e) => setFilters({ expiry: e.target.value })}
+            />
+
+            {/* Search Input  */}
+            <div className='relative sm:col-span-2 md:col-span-1'>
+              <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
+                <SearchIcon className='size-4' />
+                <span className='sr-only'>Search</span>
+              </div>
+              <Input
+                type='text'
+                placeholder='Search Code '
+                className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
+                value={filters.search}
+                onChange={(e) => setFilters({ search: e.target.value })}
+              />
+            </div>
           </div>
         </div>
         <div className='flex gap-4 py-6 flex-col md:flex-row md:items-center md:justify-between'>
@@ -303,10 +342,8 @@ const DiscountsDataTable = ({
                 Show
               </Label>
               <Select
-                value={table.getState().pagination.pageSize.toString()}
-                onValueChange={(value) => {
-                  table.setPageSize(Number(value));
-                }}
+                value={filters.limit.toString()}
+                onValueChange={(value) => setFilters({ limit: Number(value) })}
               >
                 <SelectTrigger
                   id='rowSelect'
@@ -423,16 +460,20 @@ const DiscountsDataTable = ({
         </Table>
       </div>
 
-      <div className='flex items-center justify-between px-6 py-4 max-sm:flex-col md:max-lg:flex-col gap-6'>
-        <p
-          className='text-muted-foreground text-sm whitespace-nowrap'
-          aria-live='polite'
-        >
-          Showing <span>{table.getRowCount().toString()} </span> of{' '}
-          <span>{discounts && discounts.length} discounts</span>
-        </p>
-        <div>{/* <DataPagination totalPages={totalPages} /> */}</div>
-      </div>
+      {totalPages > 1 && (
+        <div className='flex items-center justify-between px-6 py-4 max-sm:flex-col md:max-lg:flex-col gap-6'>
+          <p
+            className='text-muted-foreground text-sm whitespace-nowrap'
+            aria-live='polite'
+          >
+            Showing <span>{table.getRowCount().toString()} </span> of{' '}
+            <span>{discounts && discounts.length} discounts</span>
+          </p>
+          <div>
+            <DataPagination totalPages={totalPages} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -133,7 +133,7 @@ export const columns: ColumnDef<Order>[] = [
   },
 ];
 
-const OrdersDataTable = ({
+const OrderDataTable = ({
   orders,
   totalPages,
 }: {
@@ -309,7 +309,7 @@ const OrdersDataTable = ({
   );
 };
 
-export default OrdersDataTable;
+export default OrderDataTable;
 
 function RowActions({ order }: { order: Order }) {
   const [isPending, startTransition] = useTransition();

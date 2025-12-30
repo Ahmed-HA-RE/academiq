@@ -17,7 +17,7 @@ const AdminUsersPage = async ({ searchParams }: AdminUsersPageProps) => {
   const { q, page, role, status } = await loadSearchParams(searchParams);
 
   const { users, totalPages } = await getAllUsers({
-    limit: 20,
+    limit: 10,
     page,
     q: q,
     role: role,

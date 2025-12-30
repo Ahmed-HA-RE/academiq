@@ -9,6 +9,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '../ui/pagination';
+import { Button } from '../ui/button';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 const DataPagination = ({ totalPages }: { totalPages: number }) => {
   const [currentPage, setCurrentPage] = useQueryState(
@@ -22,34 +24,48 @@ const DataPagination = ({ totalPages }: { totalPages: number }) => {
     <Pagination className=''>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious
-            href={`?page=${currentPage <= 1 ? 1 : currentPage - 1}`}
-            className={`rounded-none ${currentPage <= 1 ? 'pointer-events-none opacity-50' : undefined}`}
+          <Button
+            variant={'ghost'}
+            onClick={() =>
+              setCurrentPage(currentPage <= 1 ? currentPage : currentPage - 1)
+            }
+            className={`rounded-md ${currentPage <= 1 ? 'pointer-events-none opacity-50' : undefined} cursor-pointer hover:bg-accent`}
             aria-disabled={currentPage <= 1}
-          />
+          >
+            <ChevronLeftIcon />
+            <span className='hidden md:block'>Previous</span>
+          </Button>
         </PaginationItem>
         <PaginationItem>
           {pages.map((page) => (
-            <PaginationLink
+            <Button
               key={page}
-              href={`?page=${page}`}
-              isActive={page === currentPage}
+              variant={'ghost'}
+              onClick={() => setCurrentPage(page)}
               className={
                 page === currentPage
                   ? `border-primary! rounded-none border-0 border-b-2 bg-transparent! !shadow-none`
-                  : 'rounded-none'
+                  : 'rounded-none  cursor-pointer'
               }
             >
               {page}
-            </PaginationLink>
+            </Button>
           ))}
         </PaginationItem>
         <PaginationItem>
-          <PaginationNext
-            href={`?page=${currentPage >= totalPages ? totalPages : currentPage + 1}`}
-            className={`rounded-none ${currentPage >= totalPages ? 'pointer-events-none opacity-50' : undefined}`}
+          <Button
+            variant={'ghost'}
+            onClick={() =>
+              setCurrentPage(
+                currentPage >= totalPages ? totalPages : currentPage + 1
+              )
+            }
+            className={`rounded-md ${currentPage >= totalPages ? 'pointer-events-none opacity-50' : undefined} cursor-pointer hover:bg-accent`}
             aria-disabled={currentPage >= totalPages}
-          />
+          >
+            <span className='hidden md:block'>Next</span>
+            <ChevronRightIcon />
+          </Button>
         </PaginationItem>
       </PaginationContent>
     </Pagination>

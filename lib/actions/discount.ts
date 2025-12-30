@@ -8,6 +8,8 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { CreateDiscount } from '@/types';
 import stripe from '../stripe';
+import { Prisma } from '../generated/prisma';
+import { endOfDay, startOfDay } from 'date-fns';
 
 export const getDiscountById = async (id: string) => {
   const discount = await prisma.discount.findUnique({
@@ -92,7 +94,19 @@ export const getValidDiscount = async () => {
 };
 
 // Get all discounts as admin
-export const getAllDiscounts = async () => {
+export const getAllDiscounts = async ({
+  page = 1,
+  limit,
+  search,
+  type,
+  expiry,
+}: {
+  page?: number;
+  limit: number;
+  search?: string;
+  type?: 'percentage' | 'fixed' | 'all';
+  expiry?: string;
+}) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -100,10 +114,53 @@ export const getAllDiscounts = async () => {
   if (!session || session.user.role !== 'admin')
     throw new Error('Unauthorized to access discounts');
 
-  const discounts = await prisma.discount.findMany({});
+  // Search Filter
+  const searchFilter: Prisma.DiscountWhereInput = search
+    ? {
+        code: { contains: search, mode: 'insensitive' },
+      }
+    : {};
 
-  if (!discounts) return undefined;
-  return discounts;
+  // Type Filter
+  const typeFilter: Prisma.DiscountWhereInput =
+    type && type !== 'all'
+      ? {
+          type: type,
+        }
+      : {};
+
+  // Expiry Filter
+  const expiryFilter: Prisma.DiscountWhereInput = expiry
+    ? {
+        validUntil: {
+          gte: startOfDay(expiry),
+          lte: endOfDay(expiry),
+        },
+      }
+    : {};
+
+  const discounts = await prisma.discount.findMany({
+    where: {
+      ...searchFilter,
+      ...typeFilter,
+      ...expiryFilter,
+    },
+    take: limit,
+    skip: (page - 1) * limit,
+    orderBy: { createdAt: 'desc' },
+  });
+
+  const totalDiscounts = await prisma.discount.count({
+    where: {
+      ...searchFilter,
+      ...typeFilter,
+      ...expiryFilter,
+    },
+  });
+
+  const totalPages = Math.ceil(totalDiscounts / limit);
+
+  return { discounts, totalPages };
 };
 
 // Delete discount by id as admin
@@ -157,27 +214,29 @@ export const createDiscount = async (data: CreateDiscount) => {
 
     if (!validateDiscountData.success) throw new Error('Invalid discount data');
 
-    const newDiscount = await prisma.discount.create({
-      data: {
-        code: validateDiscountData.data.code,
-        type: validateDiscountData.data.type,
-        amount: validateDiscountData.data.amount,
-        validUntil: validateDiscountData.data.validUntil,
-      },
-    });
+    await prisma.$transaction(async (tx) => {
+      const newDiscount = await tx.discount.create({
+        data: {
+          code: validateDiscountData.data.code,
+          type: validateDiscountData.data.type,
+          amount: validateDiscountData.data.amount,
+          validUntil: validateDiscountData.data.validUntil,
+        },
+      });
 
-    await stripe.coupons.create({
-      duration: 'once',
-      name: newDiscount.code,
-      percent_off:
-        newDiscount.type === 'percentage' ? newDiscount.amount : undefined,
-      amount_off:
-        newDiscount.type === 'fixed' ? newDiscount.amount * 100 : undefined,
-      metadata: {
-        discountId: newDiscount.id,
-      },
-      currency: 'aed',
-      redeem_by: Math.floor(newDiscount.validUntil.getTime() / 1000),
+      await stripe.coupons.create({
+        duration: 'once',
+        name: newDiscount.code,
+        percent_off:
+          newDiscount.type === 'percentage' ? newDiscount.amount : undefined,
+        amount_off:
+          newDiscount.type === 'fixed' ? newDiscount.amount * 100 : undefined,
+        metadata: {
+          discountId: newDiscount.id,
+        },
+        currency: 'aed',
+        redeem_by: Math.floor(newDiscount.validUntil.getTime() / 1000),
+      });
     });
 
     revalidatePath('/admin-dashboard/discounts', 'page');

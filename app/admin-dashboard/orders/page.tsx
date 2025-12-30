@@ -1,8 +1,8 @@
-import OrdersDataTable from '@/app/components/admin/Orders/OrdersTable';
-import { getAllOrdersAsAdmin } from '@/lib/actions/order';
+import OrderDataTable from '@/app/components/admin/Orders/OrderDataTable';
 import { loadSearchParams } from '@/lib/searchParams';
 import { Metadata } from 'next';
 import { SearchParams } from 'nuqs/server';
+import { getAllOrdersAsAdmin } from '@/lib/actions/order';
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard - Orders',
@@ -13,17 +13,17 @@ type AdminOrdersPageProps = {
   searchParams: Promise<SearchParams>;
 };
 
-const AdminOrdersPage = async ({ searchParams }: AdminOrdersPageProps) => {
+const AdminOrderPage = async ({ searchParams }: AdminOrdersPageProps) => {
   const { q, status, page, paidAt } = await loadSearchParams(searchParams);
 
   const { orders, totalPages } = await getAllOrdersAsAdmin({
     q,
     status,
-    paidAt,
     page,
+    paidAt,
   });
 
-  return <OrdersDataTable orders={orders} totalPages={totalPages} />;
+  return <OrderDataTable orders={orders} totalPages={totalPages} />;
 };
 
-export default AdminOrdersPage;
+export default AdminOrderPage;

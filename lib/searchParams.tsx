@@ -3,6 +3,7 @@ import {
   parseAsString,
   parseAsArrayOf,
   createLoader,
+  parseAsStringLiteral,
 } from 'nuqs/server';
 
 export const coursesfilteredParams = {
@@ -18,6 +19,9 @@ export const coursesfilteredParams = {
   role: parseAsString.withDefault(''),
   status: parseAsString.withDefault(''),
   paidAt: parseAsString.withDefault(''),
+  type: parseAsStringLiteral(['percentage', 'fixed', 'all']).withDefault('all'),
+  expiry: parseAsString.withDefault(''),
+  limit: parseAsInteger.withDefault(10),
 };
 
 export const loadSearchParams = createLoader(coursesfilteredParams);
