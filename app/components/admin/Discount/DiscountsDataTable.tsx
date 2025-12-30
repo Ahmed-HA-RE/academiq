@@ -1,12 +1,10 @@
 'use client';
 
-import { useId, useMemo, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import { Discount } from '@/types';
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
   EllipsisVerticalIcon,
   FileSpreadsheetIcon,
   FileTextIcon,
@@ -16,7 +14,6 @@ import {
 } from 'lucide-react';
 
 import type {
-  Column,
   ColumnDef,
   ColumnFiltersState,
   PaginationState,
@@ -48,12 +45,6 @@ import {
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-} from '@/app/components/ui/pagination';
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -69,13 +60,13 @@ import {
   TableRow,
 } from '@/app/components/ui/table';
 
-import { usePagination } from '@/hooks/use-pagination';
-
 import { cn, formatDate, formatId } from '@/lib/utils';
-import ScreenSpinner from '../ScreenSpinner';
+import ScreenSpinner from '../../ScreenSpinner';
 import { deleteDiscountById } from '@/lib/actions/discount';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import DataPagination from '../../shared/Pagination';
+import DeleteDialog from '../../shared/DeleteDialog';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -197,7 +188,7 @@ const DiscountsDataTable = ({
   });
 
   const table = useReactTable({
-    data: discounts!,
+    data: discounts,
     columns,
     state: {
       columnFilters,
@@ -295,12 +286,6 @@ const DiscountsDataTable = ({
     document.body.removeChild(link);
   };
 
-  const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
-    currentPage: table.getState().pagination.pageIndex + 1,
-    totalPages: table.getPageCount(),
-    paginationItemsToDisplay: 2,
-  });
-
   return (
     <div className='w-full col-span-4'>
       <div className='border-b'>
@@ -375,7 +360,7 @@ const DiscountsDataTable = ({
               </DropdownMenuContent>
             </DropdownMenu>
             <Button asChild>
-              <Link href='/admin/discounts/new'>
+              <Link href='/admin-dashboard/discounts/create'>
                 <PlusIcon />
                 Add Discount
               </Link>
@@ -438,91 +423,15 @@ const DiscountsDataTable = ({
         </Table>
       </div>
 
-      <div className='flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col'>
+      <div className='flex items-center justify-between px-6 py-4 max-sm:flex-col md:max-lg:flex-col gap-6'>
         <p
           className='text-muted-foreground text-sm whitespace-nowrap'
           aria-live='polite'
         >
-          Showing{' '}
-          <span>
-            {table.getState().pagination.pageIndex *
-              table.getState().pagination.pageSize +
-              1}{' '}
-            to{' '}
-            {Math.min(
-              Math.max(
-                table.getState().pagination.pageIndex *
-                  table.getState().pagination.pageSize +
-                  table.getState().pagination.pageSize,
-                0
-              ),
-              table.getRowCount()
-            )}
-          </span>{' '}
-          of <span>{table.getRowCount().toString()} entries</span>
+          Showing <span>{table.getRowCount().toString()} </span> of{' '}
+          <span>{discounts && discounts.length} discounts</span>
         </p>
-
-        <div>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <Button
-                  className='disabled:pointer-events-none disabled:opacity-50'
-                  variant={'ghost'}
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
-                  aria-label='Go to previous page'
-                >
-                  <ChevronLeftIcon aria-hidden='true' />
-                  <span className='max-sm:hidden'>Previous</span>
-                </Button>
-              </PaginationItem>
-
-              {showLeftEllipsis && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-
-              {pages.map((page) => {
-                const isActive =
-                  page === table.getState().pagination.pageIndex + 1;
-
-                return (
-                  <PaginationItem key={page}>
-                    <Button
-                      size='icon'
-                      className={`${!isActive && 'bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40'}`}
-                      onClick={() => table.setPageIndex(page - 1)}
-                      aria-current={isActive ? 'page' : undefined}
-                    >
-                      {page}
-                    </Button>
-                  </PaginationItem>
-                );
-              })}
-
-              {showRightEllipsis && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-
-              <PaginationItem>
-                <Button
-                  className='disabled:pointer-events-none disabled:opacity-50'
-                  variant={'ghost'}
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
-                  aria-label='Go to next page'
-                >
-                  <span className='max-sm:hidden'>Next</span>
-                  <ChevronRightIcon aria-hidden='true' />
-                </Button>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
+        <div>{/* <DataPagination totalPages={totalPages} /> */}</div>
       </div>
     </div>
   );
@@ -531,49 +440,20 @@ const DiscountsDataTable = ({
 export default DiscountsDataTable;
 
 function RowActions({ id }: { id: string }) {
-  const [isPending, startTransition] = useTransition();
-
-  const handleDeleteDiscount = () => {
-    startTransition(async () => {
-      const res = await deleteDiscountById(id);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
+  const handleDeleteDiscount = async () => {
+    const res = await deleteDiscountById(id);
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+    toast.success(res.message);
   };
 
-  return isPending ? (
-    <ScreenSpinner mutate={true} text='Processing...' />
-  ) : (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <div className='flex'>
-          <Button
-            size='icon'
-            variant='ghost'
-            className='rounded-full p-2 cursor-pointer'
-            aria-label='Edit item'
-          >
-            <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
-          </Button>
-        </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align='start'>
-        <DropdownMenuGroup>
-          <DropdownMenuItem className='cursor-pointer'>
-            <span>Edit</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            variant='destructive'
-            className='cursor-pointer'
-            onClick={handleDeleteDiscount}
-          >
-            <span>Delete</span>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+  return (
+    <DeleteDialog
+      action={handleDeleteDiscount}
+      title='Delete Discount Code'
+      description='This action will permanently delete the discount code. It will no longer be available for future purchases and cannot be restored. Existing orders will not be affected.'
+    />
   );
 }

@@ -3,14 +3,24 @@ import z from 'zod';
 import { validCountryPhones } from '@/lib/constants';
 import { isAfter } from 'date-fns';
 
-// Decimal validation
+// Decimal validation for courses
+const positiveMoney = z
+  .string()
+  .regex(/^(0|[1-9]\d*)\.\d{2}$/, {
+    error: 'Must be a number with exactly 2 decimal places',
+  })
+  .refine((val) => parseFloat(val) > 0, {
+    error: 'Money amount must be greater than 0',
+  });
+
+// Decimal validation for orders and cart (can be zero)
 const moneyAmount = z
   .string()
   .regex(/^(0|[1-9]\d*)\.\d{2}$/, {
-    message: 'Must be a number with exactly 2 decimal places',
+    error: 'Must be a number with exactly 2 decimal places',
   })
-  .refine((val) => parseFloat(val) > 0, {
-    message: 'Money amount must be greater than 0',
+  .refine((val) => parseFloat(val) >= 0, {
+    error: 'Money amount must be greater than or equal to 0',
   });
 
 // File validation
@@ -63,7 +73,7 @@ export const baseCourseSchema = z.object({
     .string({ error: 'Invalid description' })
     .min(5, 'Course description is required')
     .max(100, 'Course description is too long'),
-  price: moneyAmount,
+  price: positiveMoney,
   isFeatured: z.boolean().default(false),
   image: z
     .string({ error: 'Invalid image URL' })
@@ -126,18 +136,28 @@ export const resetPasswordSchema = z
     error: "Passwords don't match",
   });
 
-export const discountSchema = z.object({
-  code: z
-    .string({ error: 'Invalid discount code' })
-    .min(1, 'Discount code is required'),
-  type: z.enum(['percentage', 'fixed'], { error: 'Invalid discount type' }),
-  amount: z.coerce
-    .number<number>()
-    .min(1, 'Discount amount must be at least 1'),
-  validUntil: z.date().refine((val) => isAfter(val, new Date()), {
-    error: 'Must be a future date',
-  }),
-});
+export const discountSchema = z
+  .object({
+    code: z
+      .string({ error: 'Invalid discount code' })
+      .min(1, 'Discount code is required'),
+    type: z.enum(['percentage', 'fixed'], { error: 'Invalid discount type' }),
+    amount: z.coerce
+      .number<number>()
+      .min(1, 'Discount amount must be at least 1'),
+    validUntil: z.date().refine((val) => isAfter(val, new Date()), {
+      error: 'Must be a future date',
+    }),
+  })
+  .refine(
+    (data) =>
+      (data.type === 'percentage' && data.amount <= 100) ||
+      data.type === 'fixed',
+    {
+      error: 'Percentage discount cannot exceed 100',
+      path: ['amount'],
+    }
+  );
 
 export const applyDiscountSchema = z.object({
   code: discountSchema.shape.code,
@@ -157,7 +177,7 @@ export const cartItemsSchema = z.object({
   image: z
     .string({ error: 'Invalid course image' })
     .min(1, 'Course image is required'),
-  price: moneyAmount,
+  price: positiveMoney,
 });
 
 export const cartSchema = z.object({
@@ -169,8 +189,8 @@ export const cartSchema = z.object({
   userId: z.string({ error: 'Invalid user id' }).optional().nullable(),
   discountId: z.string({ error: 'Invalid discount id' }).optional().nullable(),
   cartItems: z.array(cartItemsSchema).min(1, 'Cart items cannot be empty'),
-  itemsPrice: moneyAmount,
-  taxPrice: moneyAmount,
+  itemsPrice: positiveMoney,
+  taxPrice: positiveMoney,
   totalPrice: moneyAmount,
 });
 
@@ -224,8 +244,8 @@ export const billingInfoSchema = z.object({
 
 export const orderBaseSchema = z.object({
   userId: z.string({ error: 'Invalid user id' }).min(1, 'User id is required'),
-  itemsPrice: moneyAmount,
-  taxPrice: moneyAmount,
+  itemsPrice: positiveMoney,
+  taxPrice: positiveMoney,
   totalPrice: moneyAmount,
   billingDetails: billingInfoSchema,
   discountId: z.string().optional().nullable(),

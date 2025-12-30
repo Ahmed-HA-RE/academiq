@@ -1,6 +1,6 @@
 'use client';
 import { Controller, useForm } from 'react-hook-form';
-import { CreateDiscount, Discount } from '@/types';
+import { CreateDiscount } from '@/types';
 import { discountSchema } from '@/schema';
 import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -28,31 +28,17 @@ import { createDiscount } from '@/lib/actions/discount';
 import { useRouter } from 'next/navigation';
 import ScreenSpinner from '../../ScreenSpinner';
 
-const CreateUpdateDiscountForm = ({
-  type,
-  discount,
-}: {
-  type: string;
-  discount?: Discount;
-}) => {
+const CreateDiscountForm = () => {
   const router = useRouter();
 
   const form = useForm<CreateDiscount>({
     resolver: zodResolver(discountSchema),
-    defaultValues:
-      type === 'edit' && discount
-        ? {
-            code: discount.code,
-            type: discount.type,
-            amount: discount.amount,
-            validUntil: new Date(discount.validUntil),
-          }
-        : {
-            code: '',
-            type: 'percentage',
-            amount: 0,
-            validUntil: new Date(),
-          },
+    defaultValues: {
+      code: '',
+      type: 'percentage',
+      amount: 0,
+      validUntil: new Date(),
+    },
     mode: 'onSubmit',
   });
 
@@ -70,18 +56,13 @@ const CreateUpdateDiscountForm = ({
   return (
     <>
       {form.formState.isSubmitting && (
-        <ScreenSpinner
-          mutate={true}
-          text={type === 'create' ? 'Creating...' : 'Updating...'}
-        />
+        <ScreenSpinner mutate={true} text='Creating...' />
       )}
       <form onSubmit={form.handleSubmit(onSuccess)} className='col-span-4'>
         <FieldGroup className='gap-6'>
           <FieldSet>
             <FieldLegend className='text-center !text-2xl uppercase font-semibold'>
-              {type === 'create'
-                ? 'Create Discount Code'
-                : 'Edit Discount Code'}
+              Create Discount Code
             </FieldLegend>
           </FieldSet>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
@@ -158,7 +139,6 @@ const CreateUpdateDiscountForm = ({
                     className='input'
                     placeholder='Enter amount'
                     min={0}
-                    step={0.25}
                     type='number'
                     aria-invalid={fieldState.invalid}
                     {...field}
@@ -190,7 +170,7 @@ const CreateUpdateDiscountForm = ({
             />
           </div>
           <Button className='w-full cursor-pointer rounded-full text-base h-11 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white'>
-            {type === 'create' ? 'Create Discount' : 'Update Discount'}
+            Create Discount
           </Button>
         </FieldGroup>
       </form>
@@ -198,4 +178,4 @@ const CreateUpdateDiscountForm = ({
   );
 };
 
-export default CreateUpdateDiscountForm;
+export default CreateDiscountForm;

@@ -38,22 +38,24 @@ const Header = async () => {
 
         <div className='flex items-center '>
           {/* Cart */}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className='relative w-fit cursor-pointer'>
-                <Link href='/cart'>
-                  <Avatar className='size-9 rounded-sm'>
-                    <AvatarFallback className='rounded-sm bg-0 hover:bg-accent dark:hover:bg-accent/80 transition'>
-                      <ShoppingCartIcon className='size-5' />
-                    </AvatarFallback>
-                  </Avatar>
-                </Link>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Cart</p>
-            </TooltipContent>
-          </Tooltip>
+          {session?.user && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className='relative w-fit cursor-pointer'>
+                  <Link href='/cart'>
+                    <Avatar className='size-9 rounded-sm'>
+                      <AvatarFallback className='rounded-sm bg-0 hover:bg-accent dark:hover:bg-accent/80 transition'>
+                        <ShoppingCartIcon className='size-5' />
+                      </AvatarFallback>
+                    </Avatar>
+                  </Link>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Cart</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
           {/* Theme */}
           <Theme />
           {/* User menu */}

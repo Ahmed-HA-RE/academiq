@@ -51,7 +51,7 @@ const AdminUserDropdown = ({ user }: { user: User }) => {
     }
 
     toast.success(res.message);
-    router.push('/login');
+    router.push('/');
   };
 
   return (

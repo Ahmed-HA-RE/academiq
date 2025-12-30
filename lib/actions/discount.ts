@@ -57,12 +57,14 @@ export const applyDiscount = async (code: string) => {
         },
       });
     } else if (discount.type === 'fixed') {
-      const newTotalPrice = Number(cart.totalPrice) + discount.amount;
+      const newTotalPrice = Number(cart.totalPrice) - discount.amount;
+
+      console.log(newTotalPrice);
 
       await prisma.cart.update({
         where: { id: cart.id },
         data: {
-          totalPrice: newTotalPrice.toFixed(2),
+          totalPrice: newTotalPrice,
           discountId: discount.id,
         },
       });
@@ -81,6 +83,7 @@ export const getValidDiscount = async () => {
     where: {
       validUntil: { gt: new Date() },
     },
+    orderBy: { createdAt: 'desc' },
   });
 
   if (!discount) return undefined;
@@ -113,10 +116,20 @@ export const deleteDiscountById = async (id: string) => {
     if (!session || session.user.role !== 'admin')
       throw new Error('Unauthorized to delete discount');
 
-    await prisma.discount.delete({
+    const discount = await prisma.discount.findUnique({
       where: { id },
     });
-    revalidatePath('/', 'layout');
+
+    if (!discount) throw new Error('Discount not found');
+
+    await prisma.discount.delete({
+      where: { id: discount.id },
+    });
+
+    await stripe.coupons.del(discount.stripeCouponId as string);
+
+    revalidatePath('/admin-dashboard/discounts', 'page');
+
     return { success: true, message: 'Discount deleted successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
@@ -163,6 +176,7 @@ export const createDiscount = async (data: CreateDiscount) => {
       metadata: {
         discountId: newDiscount.id,
       },
+      currency: 'aed',
       redeem_by: Math.floor(newDiscount.validUntil.getTime() / 1000),
     });
 

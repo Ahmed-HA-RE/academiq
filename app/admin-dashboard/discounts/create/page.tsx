@@ -1,4 +1,4 @@
-import CreateUpdateDiscountForm from '@/app/components/admin/Discount/CreateUpdateDiscountForm';
+import CreateUpdateDiscountForm from '@/app/components/admin/Discount/CreateDiscountForm';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const CreateDiscountPage = () => {
-  return <CreateUpdateDiscountForm type='create' />;
+  return <CreateUpdateDiscountForm />;
 };
 
 export default CreateDiscountPage;

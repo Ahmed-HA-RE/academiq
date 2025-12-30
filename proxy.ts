@@ -30,12 +30,16 @@ export const proxy = async (req: NextRequest) => {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
+  if (pathname === '/cart' && !user) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+
   if (pathname === '/checkout' && !user) {
-    return NextResponse.redirect(new URL('/cart', req.url));
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
   if (pathname === '/success' && !user) {
-    return NextResponse.redirect(new URL('/cart', req.url));
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
   if (pathname === '/my-courses' && !user) {
@@ -56,18 +60,6 @@ export const proxy = async (req: NextRequest) => {
   ) {
     return NextResponse.redirect(new URL('/', req.url));
   }
-
-  // Add cart user id in the cookies
-  if (!req.cookies.get('userId')) {
-    const userId = crypto.randomUUID();
-    const response = NextResponse.next();
-    response.cookies.set('userId', userId, {
-      httpOnly: true,
-      maxAge: 60 * 60 * 24 * 30, // 30 days
-    });
-
-    return response;
-  }
 };
 
 export const config = {
@@ -77,6 +69,7 @@ export const config = {
     '/verify-email',
     '/forgot-password',
     '/reset-password',
+    '/cart',
     '/checkout',
     '/success',
     '/my-courses',

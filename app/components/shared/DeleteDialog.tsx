@@ -65,6 +65,7 @@ const DeleteDialog = ({
               startTransition(() => {
                 action();
                 setOpenDialog(false);
+                window.scrollTo(0, 0);
               });
             }}
             className='bg-destructive dark:bg-destructive/60 hover:bg-destructive focus-visible:ring-destructive text-white cursor-pointer min-w-20'

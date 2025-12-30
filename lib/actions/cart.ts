@@ -76,9 +76,23 @@ export const addToCart = async (data: CartItems) => {
 
       cart.cartItems.push(validateData.data);
 
-      const { itemsPrice, taxPrice, totalPrice } = calculatePrices(
+      const { itemsPrice, taxPrice } = calculatePrices(
         cart.cartItems as CartItems[]
       );
+
+      let totalPrice = Number(itemsPrice) + Number(taxPrice);
+      // if there is discount and there are items in cart recalculate total price with discount
+      if (cart && cart.discount && cart.cartItems.length > 0) {
+        if (cart.discount.type === 'fixed') {
+          const newTotalPrice = Number(totalPrice) - cart.discount.amount;
+          totalPrice = newTotalPrice;
+        } else if (cart.discount.type === 'percentage') {
+          const discountAmount =
+            (Number(totalPrice) * cart.discount.amount) / 100;
+          const newTotalPrice = Number(totalPrice) - discountAmount;
+          totalPrice = newTotalPrice;
+        }
+      }
 
       await prisma.cart.update({
         where: { id: cart.id },
@@ -102,17 +116,15 @@ export const getMyCart = async () => {
     headers: await headers(),
   });
 
-  const sessionId = (await cookies()).get('sessionId')?.value;
-
   const cart = await prisma.cart.findFirst({
     where: {
       OR: [
         {
           userId: session?.user.id,
         },
-        { sessionId: sessionId || undefined },
       ],
     },
+    include: { discount: true },
   });
 
   if (!cart) return undefined;
@@ -148,68 +160,33 @@ export const removeFromCart = async (courseId: string) => {
       (item) => item.courseId !== courseId
     );
 
-    const { itemsPrice, taxPrice, totalPrice } = calculatePrices(updatedCart);
+    const { itemsPrice, taxPrice } = calculatePrices(updatedCart);
+    let totalPrice = Number(itemsPrice) + Number(taxPrice);
+
+    // if there is discount and there are items in cart recalculate total price with discount
+    if (cart.discount && updatedCart.length > 0) {
+      if (cart.discount.type === 'fixed') {
+        const newTotalPrice = Number(totalPrice) - cart.discount.amount;
+        totalPrice = newTotalPrice;
+      } else if (cart.discount.type === 'percentage') {
+        const discountAmount =
+          (Number(totalPrice) * cart.discount.amount) / 100;
+        const newTotalPrice = Number(totalPrice) - discountAmount;
+        totalPrice = newTotalPrice;
+      }
+    }
 
     await prisma.cart.update({
       where: { id: cart.id },
       data: {
         itemsPrice,
         taxPrice,
-        totalPrice,
+        totalPrice: totalPrice < 0 ? 0 : totalPrice.toFixed(2),
         cartItems: updatedCart as CartItems[],
       },
     });
     revalidatePath('/', 'layout');
     return { success: true, message: 'Course removed from cart' };
-  } catch (error) {
-    return { success: false, message: (error as Error).message };
-  }
-};
-
-// Clean up enrolled courses from cart
-export const cleanUpCart = async () => {
-  try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session) throw new Error('User not authenticated');
-
-    const cart = await getMyCart();
-
-    if (!cart) throw new Error('No cart found');
-
-    // Check if user already enrolled in a course in the cart
-    const currentUser = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      include: { courses: { select: { id: true } } },
-    });
-
-    if (currentUser) {
-      const enrolledCourseIds = currentUser.courses.map((course) => course.id);
-
-      const removeEnrolledCourses = (cart.cartItems as CartItems[]).filter(
-        (item) => !enrolledCourseIds.includes(item.courseId)
-      );
-
-      const { itemsPrice, taxPrice, totalPrice } = calculatePrices(
-        removeEnrolledCourses
-      );
-
-      await prisma.cart.update({
-        where: {
-          id: cart.id,
-        },
-        data: {
-          itemsPrice,
-          taxPrice,
-          totalPrice,
-          cartItems: removeEnrolledCourses,
-        },
-      });
-    }
-    revalidatePath('/', 'layout');
-    return { success: true, message: 'Cart cleaned successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

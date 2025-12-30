@@ -6,7 +6,8 @@ import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
 import { addToCart, removeFromCart } from '@/lib/actions/cart';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { SERVER_URL } from '@/lib/constants';
 
 const EnrollCourseBtn = ({
   course,
@@ -19,6 +20,8 @@ const EnrollCourseBtn = ({
 }) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const pathname = usePathname();
+  const callbackUrl = `${SERVER_URL}${pathname}`;
 
   const isCourseInCart =
     cart && cart.cartItems.find((item) => item.courseId === course.id);
@@ -26,21 +29,24 @@ const EnrollCourseBtn = ({
   const isUserEnrolled = user && user.courses?.some((c) => c.id === course.id);
 
   const handleAddToCart = async () => {
-    startTransition(async () => {
-      const res = await addToCart({
-        courseId: course.id,
-        image: course.image,
-        name: course.title,
-        price: course.price,
-        slug: course.slug,
-      });
+    if (!user) {
+      router.push(`/login?callbackUrl=${callbackUrl}`);
+    } else
+      startTransition(async () => {
+        const res = await addToCart({
+          courseId: course.id,
+          image: course.image,
+          name: course.title,
+          price: course.price,
+          slug: course.slug,
+        });
 
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
+        if (!res.success) {
+          toast.error(res.message);
+          return;
+        }
+        toast.success(res.message);
+      });
   };
 
   const handleRemoveFromCart = async () => {
