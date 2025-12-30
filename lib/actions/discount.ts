@@ -145,19 +145,25 @@ export const createDiscount = async (data: CreateDiscount) => {
     if (!validateDiscountData.success) throw new Error('Invalid discount data');
 
     const newDiscount = await prisma.discount.create({
-      data,
+      data: {
+        code: validateDiscountData.data.code,
+        type: validateDiscountData.data.type,
+        amount: validateDiscountData.data.amount,
+        validUntil: validateDiscountData.data.validUntil,
+      },
     });
 
     await stripe.coupons.create({
-      duration: 'repeating',
+      duration: 'once',
       name: newDiscount.code,
-      duration_in_months: newDiscount.validUntil.getMonth(),
       percent_off:
         newDiscount.type === 'percentage' ? newDiscount.amount : undefined,
-      amount_off: newDiscount.type === 'fixed' ? newDiscount.amount : undefined,
+      amount_off:
+        newDiscount.type === 'fixed' ? newDiscount.amount * 100 : undefined,
       metadata: {
         discountId: newDiscount.id,
       },
+      redeem_by: Math.floor(newDiscount.validUntil.getTime() / 1000),
     });
 
     revalidatePath('/admin-dashboard/discounts', 'page');

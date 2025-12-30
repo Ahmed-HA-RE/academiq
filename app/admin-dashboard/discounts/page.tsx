@@ -1,4 +1,4 @@
-import DiscountsDataTable from '@/app/components/admin/DiscountsDataTable';
+import DiscountsDataTable from '@/app/components/admin/Discount/DiscountsDataTable';
 import { getAllDiscounts } from '@/lib/actions/discount';
 import { Metadata } from 'next';
 

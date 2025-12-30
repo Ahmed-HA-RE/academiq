@@ -6,6 +6,7 @@ import { APP_NAME } from '@/lib/constants';
 import { BillingInfo, OrderItems, PaymentResult } from '@/types';
 import { formatDate } from '@/lib/utils';
 import RefundOrder from '@/emails/RefundOrder';
+import { revalidatePath } from 'next/cache';
 
 export const POST = async (req: Request) => {
   let event;
@@ -104,6 +105,9 @@ export const POST = async (req: Request) => {
         },
       },
     });
+
+    revalidatePath('/admin-dashboard', 'layout');
+
     return Response.json('Refund processed successfully', { status: 200 });
   } else if (event.type === 'refund.updated') {
     const refund = event.data.object;

@@ -1,6 +1,7 @@
 import parsePhoneNumberFromString, { CountryCode } from 'libphonenumber-js';
 import z from 'zod';
 import { validCountryPhones } from '@/lib/constants';
+import { isAfter } from 'date-fns';
 
 // Decimal validation
 const moneyAmount = z
@@ -129,13 +130,13 @@ export const discountSchema = z.object({
   code: z
     .string({ error: 'Invalid discount code' })
     .min(1, 'Discount code is required'),
-  type: z.string({ error: 'Invalid discount type' }),
+  type: z.enum(['percentage', 'fixed'], { error: 'Invalid discount type' }),
   amount: z.coerce
     .number<number>()
     .min(1, 'Discount amount must be at least 1'),
-  validUntil: z
-    .date({ error: 'Invalid valid until date' })
-    .min(new Date(), 'Validation date must be in the future'),
+  validUntil: z.date().refine((val) => isAfter(val, new Date()), {
+    error: 'Must be a future date',
+  }),
 });
 
 export const applyDiscountSchema = z.object({

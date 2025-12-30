@@ -85,6 +85,23 @@ export type IntructorApplication = $Result.DefaultSelection<Prisma.$IntructorApp
 export type UserProgress = $Result.DefaultSelection<Prisma.$UserProgressPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const type: {
+  percentage: 'percentage',
+  fixed: 'fixed'
+};
+
+export type type = (typeof type)[keyof typeof type]
+
+}
+
+export type type = $Enums.type
+
+export const type: typeof $Enums.type
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -14147,7 +14164,7 @@ export namespace Prisma {
     id: string | null
     code: string | null
     stripeCouponId: string | null
-    type: string | null
+    type: $Enums.type | null
     amount: number | null
     validUntil: Date | null
     createdAt: Date | null
@@ -14158,7 +14175,7 @@ export namespace Prisma {
     id: string | null
     code: string | null
     stripeCouponId: string | null
-    type: string | null
+    type: $Enums.type | null
     amount: number | null
     validUntil: Date | null
     createdAt: Date | null
@@ -14310,7 +14327,7 @@ export namespace Prisma {
     id: string
     code: string
     stripeCouponId: string | null
-    type: string
+    type: $Enums.type
     amount: number
     validUntil: Date
     createdAt: Date
@@ -14402,7 +14419,7 @@ export namespace Prisma {
       id: string
       code: string
       stripeCouponId: string | null
-      type: string
+      type: $Enums.type
       amount: number
       validUntil: Date
       createdAt: Date
@@ -14835,7 +14852,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Discount", 'String'>
     readonly code: FieldRef<"Discount", 'String'>
     readonly stripeCouponId: FieldRef<"Discount", 'String'>
-    readonly type: FieldRef<"Discount", 'String'>
+    readonly type: FieldRef<"Discount", 'type'>
     readonly amount: FieldRef<"Discount", 'Int'>
     readonly validUntil: FieldRef<"Discount", 'DateTime'>
     readonly createdAt: FieldRef<"Discount", 'DateTime'>
@@ -19050,6 +19067,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'type'
+   */
+  export type EnumtypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'type'>
+    
+
+
+  /**
+   * Reference to a field of type 'type[]'
+   */
+  export type ListEnumtypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'type[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -19924,7 +19955,7 @@ export namespace Prisma {
     id?: StringFilter<"Discount"> | string
     code?: StringFilter<"Discount"> | string
     stripeCouponId?: StringNullableFilter<"Discount"> | string | null
-    type?: StringFilter<"Discount"> | string
+    type?: EnumtypeFilter<"Discount"> | $Enums.type
     amount?: IntFilter<"Discount"> | number
     validUntil?: DateTimeFilter<"Discount"> | Date | string
     createdAt?: DateTimeFilter<"Discount"> | Date | string
@@ -19953,7 +19984,7 @@ export namespace Prisma {
     OR?: DiscountWhereInput[]
     NOT?: DiscountWhereInput | DiscountWhereInput[]
     stripeCouponId?: StringNullableFilter<"Discount"> | string | null
-    type?: StringFilter<"Discount"> | string
+    type?: EnumtypeFilter<"Discount"> | $Enums.type
     amount?: IntFilter<"Discount"> | number
     validUntil?: DateTimeFilter<"Discount"> | Date | string
     createdAt?: DateTimeFilter<"Discount"> | Date | string
@@ -19985,7 +20016,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Discount"> | string
     code?: StringWithAggregatesFilter<"Discount"> | string
     stripeCouponId?: StringNullableWithAggregatesFilter<"Discount"> | string | null
-    type?: StringWithAggregatesFilter<"Discount"> | string
+    type?: EnumtypeWithAggregatesFilter<"Discount"> | $Enums.type
     amount?: IntWithAggregatesFilter<"Discount"> | number
     validUntil?: DateTimeWithAggregatesFilter<"Discount"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Discount"> | Date | string
@@ -21177,7 +21208,7 @@ export namespace Prisma {
     id?: string
     code: string
     stripeCouponId?: string | null
-    type: string
+    type: $Enums.type
     amount: number
     validUntil: Date | string
     createdAt?: Date | string
@@ -21190,7 +21221,7 @@ export namespace Prisma {
     id?: string
     code: string
     stripeCouponId?: string | null
-    type: string
+    type: $Enums.type
     amount: number
     validUntil: Date | string
     createdAt?: Date | string
@@ -21203,7 +21234,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumtypeFieldUpdateOperationsInput | $Enums.type
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21216,7 +21247,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumtypeFieldUpdateOperationsInput | $Enums.type
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21229,7 +21260,7 @@ export namespace Prisma {
     id?: string
     code: string
     stripeCouponId?: string | null
-    type: string
+    type: $Enums.type
     amount: number
     validUntil: Date | string
     createdAt?: Date | string
@@ -21240,7 +21271,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumtypeFieldUpdateOperationsInput | $Enums.type
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21251,7 +21282,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumtypeFieldUpdateOperationsInput | $Enums.type
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22417,6 +22448,13 @@ export namespace Prisma {
     price?: SortOrder
   }
 
+  export type EnumtypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.type | EnumtypeFieldRefInput<$PrismaModel>
+    in?: $Enums.type[] | ListEnumtypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.type[] | ListEnumtypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumtypeFilter<$PrismaModel> | $Enums.type
+  }
+
   export type DiscountCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
@@ -22456,6 +22494,16 @@ export namespace Prisma {
 
   export type DiscountSumOrderByAggregateInput = {
     amount?: SortOrder
+  }
+
+  export type EnumtypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.type | EnumtypeFieldRefInput<$PrismaModel>
+    in?: $Enums.type[] | ListEnumtypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.type[] | ListEnumtypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumtypeWithAggregatesFilter<$PrismaModel> | $Enums.type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumtypeFilter<$PrismaModel>
+    _max?: NestedEnumtypeFilter<$PrismaModel>
   }
 
   export type StringNullableListFilter<$PrismaModel = never> = {
@@ -23369,6 +23417,10 @@ export namespace Prisma {
     connect?: CartWhereUniqueInput | CartWhereUniqueInput[]
   }
 
+  export type EnumtypeFieldUpdateOperationsInput = {
+    set?: $Enums.type
+  }
+
   export type OrderUpdateManyWithoutDiscountNestedInput = {
     create?: XOR<OrderCreateWithoutDiscountInput, OrderUncheckedCreateWithoutDiscountInput> | OrderCreateWithoutDiscountInput[] | OrderUncheckedCreateWithoutDiscountInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutDiscountInput | OrderCreateOrConnectWithoutDiscountInput[]
@@ -23811,6 +23863,23 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumtypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.type | EnumtypeFieldRefInput<$PrismaModel>
+    in?: $Enums.type[] | ListEnumtypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.type[] | ListEnumtypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumtypeFilter<$PrismaModel> | $Enums.type
+  }
+
+  export type NestedEnumtypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.type | EnumtypeFieldRefInput<$PrismaModel>
+    in?: $Enums.type[] | ListEnumtypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.type[] | ListEnumtypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumtypeWithAggregatesFilter<$PrismaModel> | $Enums.type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumtypeFilter<$PrismaModel>
+    _max?: NestedEnumtypeFilter<$PrismaModel>
   }
 
   export type UserCreateWithoutCoursesInput = {
@@ -24947,7 +25016,7 @@ export namespace Prisma {
     id?: string
     code: string
     stripeCouponId?: string | null
-    type: string
+    type: $Enums.type
     amount: number
     validUntil: Date | string
     createdAt?: Date | string
@@ -24959,7 +25028,7 @@ export namespace Prisma {
     id?: string
     code: string
     stripeCouponId?: string | null
-    type: string
+    type: $Enums.type
     amount: number
     validUntil: Date | string
     createdAt?: Date | string
@@ -25044,7 +25113,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumtypeFieldUpdateOperationsInput | $Enums.type
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25056,7 +25125,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumtypeFieldUpdateOperationsInput | $Enums.type
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25358,7 +25427,7 @@ export namespace Prisma {
     id?: string
     code: string
     stripeCouponId?: string | null
-    type: string
+    type: $Enums.type
     amount: number
     validUntil: Date | string
     createdAt?: Date | string
@@ -25370,7 +25439,7 @@ export namespace Prisma {
     id?: string
     code: string
     stripeCouponId?: string | null
-    type: string
+    type: $Enums.type
     amount: number
     validUntil: Date | string
     createdAt?: Date | string
@@ -25471,7 +25540,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumtypeFieldUpdateOperationsInput | $Enums.type
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25483,7 +25552,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     stripeCouponId?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumtypeFieldUpdateOperationsInput | $Enums.type
     amount?: IntFieldUpdateOperationsInput | number
     validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

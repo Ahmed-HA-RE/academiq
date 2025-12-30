@@ -485,8 +485,6 @@ export const createRefund = async (orderId: string) => {
       },
     });
 
-    revalidatePath('/', 'layout');
-
     return { success: true, message: 'Order refunded successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };

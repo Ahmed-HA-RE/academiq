@@ -184,11 +184,16 @@ model orderItems {
   @@id([id, courseId])
 }
 
+enum Type {
+  percentage
+  fixed
+}
+
 model Discount {
   id             String   @id @default(uuid())
   code           String   @unique
   stripeCouponId String?
-  type           String // percentage or fixed
+  type           Type
   amount         Int
   validUntil     DateTime
   createdAt      DateTime @default(now())

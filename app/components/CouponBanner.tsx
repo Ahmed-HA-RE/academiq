@@ -13,7 +13,7 @@ const CouponBanner = ({ discount }: { discount: Discount | undefined }) => {
 
   // Handle copy promo code
   const copyPromoCode = () => {
-    navigator.clipboard.writeText('WINTER25');
+    navigator.clipboard.writeText(discount?.code || '');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
