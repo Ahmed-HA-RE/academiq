@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 const RegisterPage = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const { callbackUrl } = (await searchParams) || '/';
+  const { callbackUrl } = await searchParams;
 
-  return <RegisterForm callbackUrl={callbackUrl} />;
+  return <RegisterForm callbackUrl={callbackUrl || '/'} />;
 };
 
 export default RegisterPage;

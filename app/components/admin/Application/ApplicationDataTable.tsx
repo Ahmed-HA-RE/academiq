@@ -1,21 +1,14 @@
 'use client';
 import { Suspense, useState, useTransition } from 'react';
 import Image from 'next/image';
-import {
-  EllipsisVerticalIcon,
-  GraduationCap,
-  SearchIcon,
-  ShieldUser,
-  User as UserIcon,
-} from 'lucide-react';
-import { InstructorApplication, User } from '@/types';
+import { CircleIcon, EllipsisVerticalIcon, SearchIcon } from 'lucide-react';
+import { InstructorApplication } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { usePathname } from 'next/navigation';
 import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
 import { Badge } from '@/app/components/ui/badge';
 import { Button } from '@/app/components/ui/button';
@@ -49,9 +42,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/app/components/ui/tooltip';
-import { cn, formatDate, formatId } from '@/lib/utils';
+import { cn, formatId } from '@/lib/utils';
 import { Input } from '../../ui/input';
-import { USERS_ROLES } from '@/lib/constants';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../../shared/DeleteDialog';
 import { deleteSelectedUsers } from '@/lib/actions/user';
@@ -184,17 +176,15 @@ const ApplicationDataTable = ({
   applications,
   totalPages,
 }: ApplicationDataTableProps) => {
-  const pathname = usePathname();
-
   const [filters, setFilters] = useQueryStates(
     {
       status: parseAsString.withDefault('all').withOptions({
         limitUrlUpdates: throttle(500),
       }),
-      role: parseAsString.withDefault('all').withOptions({
+      submittedAt: parseAsString.withDefault('').withOptions({
         limitUrlUpdates: throttle(500),
       }),
-      q: parseAsString
+      search: parseAsString
         .withDefault('')
         .withOptions({ limitUrlUpdates: throttle(500) }),
       page: parseAsInteger.withDefault(1),
@@ -240,78 +230,68 @@ const ApplicationDataTable = ({
               }
             />
           </div>
-          {pathname === '/admin-dashboard' ? null : (
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-              {/* Select Status */}
-              <Select
-                value={filters.status}
-                onValueChange={(value) => setFilters({ status: value })}
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+            {/* Select Status */}
+            <Select
+              value={filters.status}
+              onValueChange={(value) => setFilters({ status: value })}
+            >
+              <SelectTrigger
+                id={'status'}
+                className='w-full cursor-pointer input'
               >
-                <SelectTrigger
-                  id={'status'}
-                  className='w-full cursor-pointer input'
-                >
-                  <SelectValue placeholder='Select status' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Status</SelectLabel>
-                    <SelectItem value='all' className='cursor-pointer'>
-                      All
-                    </SelectItem>
-                    <SelectItem value='verified' className='cursor-pointer'>
-                      Verified
-                    </SelectItem>
-                    <SelectItem value='unverified' className='cursor-pointer'>
-                      Unverified
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+                <SelectValue placeholder='Select status' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Status</SelectLabel>
+                  <SelectItem value='all' className='cursor-pointer'>
+                    All
+                  </SelectItem>
+                  <SelectItem value='approved' className='cursor-pointer'>
+                    <span className='flex items-center gap-2'>
+                      <CircleIcon className='size-2 fill-green-500 text-green-500' />
+                      <span className='truncate'>Approved</span>
+                    </span>
+                  </SelectItem>
+                  <SelectItem value='rejected' className='cursor-pointer'>
+                    <span className='flex items-center gap-2'>
+                      <CircleIcon className='size-2 fill-destructive text-destructive' />
+                      <span className='truncate'>Rejected</span>
+                    </span>
+                  </SelectItem>
+                  <SelectItem value='pending' className='cursor-pointer'>
+                    <span className='flex items-center gap-2'>
+                      <CircleIcon className='size-2 fill-amber-400 text-amber-400' />
+                      <span className='truncate'>Pending</span>
+                    </span>
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
 
-              {/* Select Role */}
-              <Select
-                value={filters.role}
-                onValueChange={(value) => setFilters({ role: value })}
-              >
-                <SelectTrigger
-                  id={'role'}
-                  className='w-full cursor-pointer input'
-                >
-                  <SelectValue placeholder='Select a role' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Role</SelectLabel>
-                    {USERS_ROLES.map((role) => (
-                      <SelectItem
-                        key={role.label}
-                        value={role.value}
-                        className='cursor-pointer'
-                      >
-                        {role.label}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-
-              {/* Search Input  */}
-              <div className='relative sm:col-span-2 lg:col-span-1'>
-                <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
-                  <SearchIcon className='size-4' />
-                  <span className='sr-only'>Search</span>
-                </div>
-                <Input
-                  type='text'
-                  placeholder='Search...'
-                  className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
-                  value={filters.q}
-                  onChange={(e) => setFilters({ q: e.target.value })}
-                />
+            {/* Paid at calendar */}
+            <Input
+              type='date'
+              className='col-span-1'
+              value={filters.submittedAt}
+              onChange={(e) => setFilters({ submittedAt: e.target.value })}
+            />
+            {/* Search Input  */}
+            <div className='relative sm:col-span-2 lg:col-span-1'>
+              <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
+                <SearchIcon className='size-4' />
+                <span className='sr-only'>Search</span>
               </div>
+              <Input
+                type='text'
+                placeholder='Search...'
+                className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
+                value={filters.search}
+                onChange={(e) => setFilters({ search: e.target.value })}
+              />
             </div>
-          )}
+          </div>
         </div>
         <Table>
           <TableHeader>
@@ -369,20 +349,20 @@ const ApplicationDataTable = ({
         </Table>
       </div>
 
-      {/* {pathname === '/admin-dashboard/users' && totalPages > 1 ? (
+      {totalPages > 1 ? (
         <div className='flex items-center justify-between px-6 py-4 max-sm:flex-col md:max-lg:flex-col gap-6'>
           <p
             className='text-muted-foreground text-sm whitespace-nowrap'
             aria-live='polite'
           >
             Showing <span>{table.getRowCount().toString()} </span> of{' '}
-            <span>{users.length} users</span>
+            <span>{applications.length} applications</span>
           </p>
           <div>
             <DataPagination totalPages={totalPages} />
           </div>
         </div>
-      ) : null} */}
+      ) : null}
     </div>
   );
 };

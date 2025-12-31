@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 const LoginPage = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const { callbackUrl } = (await searchParams) || '/';
+  const { callbackUrl } = await searchParams;
 
-  return <LoginForm callbackUrl={callbackUrl} />;
+  return <LoginForm callbackUrl={callbackUrl || '/'} />;
 };
 
 export default LoginPage;

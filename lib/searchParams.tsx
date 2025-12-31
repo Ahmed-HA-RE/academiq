@@ -22,6 +22,7 @@ export const coursesfilteredParams = {
   type: parseAsStringLiteral(['percentage', 'fixed', 'all']).withDefault('all'),
   expiry: parseAsString.withDefault(''),
   limit: parseAsInteger.withDefault(10),
+  submittedAt: parseAsString.withDefault(''),
 };
 
 export const loadSearchParams = createLoader(coursesfilteredParams);

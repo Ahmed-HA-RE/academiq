@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 const VerifyEmailPage = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const { callbackUrl } = (await searchParams) || '/';
+  const { callbackUrl } = await searchParams;
 
-  return <OTPVerificationForm callbackUrl={callbackUrl} />;
+  return <OTPVerificationForm callbackUrl={callbackUrl || '/'} />;
 };
 
 export default VerifyEmailPage;

@@ -15,6 +15,8 @@ import { revalidatePath } from 'next/cache';
 import { APP_NAME } from '../constants';
 import { domain } from '../resend';
 import ApplicationStatus from '@/emails/ApplicationStatus';
+import { Prisma } from '../generated/prisma';
+import { endOfDay, startOfDay } from 'date-fns';
 
 export const applyToTeach = async (
   data: z.infer<typeof createApplicationSchema>
@@ -31,6 +33,9 @@ export const applyToTeach = async (
 
     if (session.user.role === 'admin')
       throw new Error('Admins cannot apply to be instructors.');
+
+    if (!session.user.emailVerified)
+      throw new Error('Please verify your email before applying.');
 
     // Check if user already applied
     const existingApplication = await prisma.intructorApplication.findUnique({
@@ -125,7 +130,19 @@ export const getInstructorApplicationsCount = async () => {
 };
 
 // Get all applications
-export const getAllInstructorApplications = async () => {
+export const getAllInstructorApplications = async ({
+  page = 1,
+  limit = 10,
+  search,
+  submittedAt,
+  status,
+}: {
+  page: number;
+  limit?: number;
+  search?: string;
+  submittedAt?: string;
+  status?: string;
+}) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -133,10 +150,54 @@ export const getAllInstructorApplications = async () => {
   if (!session || session.user.role !== 'admin')
     throw new Error('Unauthorized to access this resource');
 
+  // Search Filter
+  const searchFilter: Prisma.IntructorApplicationWhereInput = search
+    ? {
+        OR: [
+          { user: { name: { contains: search, mode: 'insensitive' } } },
+          { user: { email: { contains: search, mode: 'insensitive' } } },
+        ],
+      }
+    : {};
+
+  // Submitted At Filter
+  const submittedAtFilter: Prisma.IntructorApplicationWhereInput = submittedAt
+    ? {
+        createdAt: {
+          gte: startOfDay(submittedAt),
+          lte: endOfDay(submittedAt),
+        },
+      }
+    : {};
+
+  // Status Filter
+  const statusFilter: Prisma.IntructorApplicationWhereInput = status
+    ? {
+        status: status,
+      }
+    : {};
+
   const applications = await prisma.intructorApplication.findMany({
     include: { user: { select: { name: true, email: true, image: true } } },
     orderBy: { createdAt: 'desc' },
+    skip: (page - 1) * limit,
+    take: limit,
+    where: {
+      ...searchFilter,
+      ...submittedAtFilter,
+      ...statusFilter,
+    },
   });
+
+  const totalApplications = await prisma.intructorApplication.count({
+    where: {
+      ...searchFilter,
+      ...submittedAtFilter,
+      ...statusFilter,
+    },
+  });
+
+  const totalPages = Math.ceil(totalApplications / limit);
 
   return {
     applications: applications.map((app) =>
@@ -146,6 +207,7 @@ export const getAllInstructorApplications = async () => {
         file: app.file,
       })
     ),
+    totalPages,
   };
 };
 
