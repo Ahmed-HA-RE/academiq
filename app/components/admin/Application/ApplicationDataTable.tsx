@@ -46,7 +46,6 @@ import { cn, formatId } from '@/lib/utils';
 import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../../shared/DeleteDialog';
-import { deleteSelectedUsers } from '@/lib/actions/user';
 import { toast } from 'sonner';
 import Link from 'next/link';
 import ScreenSpinner from '../../ScreenSpinner';
@@ -54,6 +53,7 @@ import DataPagination from '../../shared/Pagination';
 import { format } from 'date-fns';
 import {
   deleteApplicationById,
+  deleteApplicationsByIds,
   updateApplicationStatusById,
 } from '@/lib/actions/instructor';
 
@@ -205,8 +205,8 @@ const ApplicationDataTable = ({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const handleDeleteUsers = async () => {
-    const res = await deleteSelectedUsers(Object.keys(selectApplications));
+  const handleDeleteApplications = async () => {
+    const res = await deleteApplicationsByIds(Object.keys(selectApplications));
     if (!res.success) {
       toast.error(res.message);
       return;
@@ -224,7 +224,7 @@ const ApplicationDataTable = ({
             <DeleteDialog
               title='Delete Selected Applications?'
               description='Are you sure you want to delete the selected applications? this action can not be undone.'
-              action={handleDeleteUsers}
+              action={handleDeleteApplications}
               disabled={
                 Object.keys(selectApplications).length > 0 ? false : true
               }
@@ -428,7 +428,9 @@ export const RowActions = ({
           <DropdownMenuContent align='start'>
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className='cursor-pointer'>
-                <Link href={`/admin-dashboard/users/${application.id}/view`}>
+                <Link
+                  href={`/admin-dashboard/applications/${application.id}/view`}
+                >
                   <span>View</span>
                 </Link>
               </DropdownMenuItem>

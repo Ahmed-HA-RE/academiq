@@ -56,7 +56,8 @@ const ApplicationForm = ({
       return;
     }
     toast.success(res.message);
-    setTimeout(() => window.location.reload(), 700);
+    setTimeout(() => window.scrollTo(0, 0), 300);
+    setTimeout(() => window.location.reload(), 400);
   };
 
   return (

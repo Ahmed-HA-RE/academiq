@@ -119,7 +119,7 @@ export type InstructorApplication = {
 };
 
 export type SocialLinks = {
-  whaatsapp?: string;
+  whatsapp?: string;
   linkedin?: string;
   instagram?: string;
 };

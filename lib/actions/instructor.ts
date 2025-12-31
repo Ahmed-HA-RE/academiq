@@ -17,6 +17,7 @@ import { domain } from '../resend';
 import ApplicationStatus from '@/emails/ApplicationStatus';
 import { Prisma } from '../generated/prisma';
 import { endOfDay, startOfDay } from 'date-fns';
+import { redirect } from 'next/navigation';
 
 export const applyToTeach = async (
   data: z.infer<typeof createApplicationSchema>
@@ -238,7 +239,7 @@ export const deleteApplicationById = async (applicationId: string) => {
 };
 
 // Delete multiple applications by IDs
-export const deleteDicountsByIds = async (applicationIds: string[]) => {
+export const deleteApplicationsByIds = async (applicationIds: string[]) => {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -268,7 +269,7 @@ export const updateApplicationStatusById = async (
     });
 
     if (!session || session.user.role !== 'admin')
-      throw new Error('Unauthorized to update  these applications');
+      throw new Error('Unauthorized to update this application');
 
     const application = await prisma.intructorApplication.findUnique({
       where: { id: applicationId },
@@ -321,4 +322,25 @@ export const updateApplicationStatusById = async (
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }
+};
+
+export const getApplicationById = async (applicationId: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== 'admin')
+    throw new Error('Unauthorized to view the application');
+
+  const application = await prisma.intructorApplication.findUnique({
+    where: { id: applicationId },
+    include: { user: { select: { name: true, email: true, image: true } } },
+  });
+
+  if (!application) redirect('/admin-dashboard/applications');
+
+  return convertToPlainObject({
+    ...application,
+    socialLinks: application.socialLinks as SocialLinks,
+  });
 };
