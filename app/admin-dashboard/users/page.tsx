@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import UserDatatable from '@/app/components/admin/Users/UserDataTable';
 
 export const metadata: Metadata = {
-  title: 'Admin Dashboard - Users',
+  title: 'Users',
   description: 'Manage and view all users in the admin dashboard',
 };
 

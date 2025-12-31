@@ -193,6 +193,42 @@ export const deleteDiscountById = async (id: string) => {
   }
 };
 
+// Delete multiple discounts as admin
+export const deleteMultipleDiscounts = async (ids: string[]) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to delete discounts');
+
+    const discounts = await prisma.discount.findMany({
+      where: { id: { in: ids } },
+    });
+
+    if (discounts.length === 0) throw new Error('No discounts found');
+
+    await prisma.$transaction(async (tx) => {
+      await tx.discount.deleteMany({
+        where: { id: { in: ids } },
+      });
+
+      for (const discount of discounts) {
+        if (discount.stripeCouponId) {
+          await stripe.coupons.del(discount.stripeCouponId);
+        }
+      }
+    });
+
+    revalidatePath('/admin-dashboard/discounts', 'page');
+
+    return { success: true, message: 'Discounts deleted successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
 // Create discount as admin
 export const createDiscount = async (data: CreateDiscount) => {
   try {

@@ -10,6 +10,14 @@ import { notFound } from 'next/navigation';
 import { CSSProperties } from 'react';
 import SideBar from '../components/admin/SideBar';
 import { markAsExpiredAndDeleteOrdersAsAdmin } from '@/lib/actions/order';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Admin Dashboard',
+    template: 'Admin Dashboard - %s',
+  },
+};
 
 const AdminDashBoardLayout = async ({
   children,

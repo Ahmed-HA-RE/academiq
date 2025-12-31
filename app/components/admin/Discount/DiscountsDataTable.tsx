@@ -48,7 +48,10 @@ import {
 } from '@/app/components/ui/table';
 
 import { cn, formatDate, formatId } from '@/lib/utils';
-import { deleteDiscountById } from '@/lib/actions/discount';
+import {
+  deleteDiscountById,
+  deleteMultipleDiscounts,
+} from '@/lib/actions/discount';
 import { toast } from 'sonner';
 import Link from 'next/link';
 import DataPagination from '../../shared/Pagination';
@@ -60,6 +63,7 @@ import {
   throttle,
   useQueryStates,
 } from 'nuqs';
+import { useState } from 'react';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -173,10 +177,15 @@ const DiscountsDataTable = ({
   discounts: Discount[];
   totalPages: number;
 }) => {
+  const [selectDiscounts, setSelectDiscounts] = useState({});
+
   const table = useReactTable({
     data: discounts,
     columns,
-    // onRowSelectionChange: setSelectUsers,
+    state: {
+      rowSelection: selectDiscounts,
+    },
+    onRowSelectionChange: setSelectDiscounts,
     getRowId: (row) => row.id,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -275,11 +284,29 @@ const DiscountsDataTable = ({
     document.body.removeChild(link);
   };
 
+  const handleDeleteDiscounts = async () => {
+    const res = await deleteMultipleDiscounts(Object.keys(selectDiscounts));
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+    toast.success(res.message);
+    setSelectDiscounts({});
+  };
+
   return (
     <div className='w-full col-span-4'>
       <div className='border-b'>
         <div className='flex flex-col gap-6 border-b pb-6'>
-          <span className='text-2xl font-semibold'>Discounts</span>
+          <div className='flex flex-row justify-between items-center'>
+            <span className='text-2xl font-semibold'>Discounts</span>
+            <DeleteDialog
+              title='Delete Selected Discounts'
+              description='Are you sure you want to delete the selected discounts? this action can not be undone.'
+              action={handleDeleteDiscounts}
+              disabled={Object.keys(selectDiscounts).length > 0 ? false : true}
+            />
+          </div>
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 w-full '>
             {/* Select Status */}
             <Select

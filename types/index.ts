@@ -95,11 +95,28 @@ export type User = {
   courses?: Pick<Course, 'id' | 'title' | 'slug' | 'image'>[];
 };
 
-export type InstructorApplication = z.infer<typeof createApplicationSchema> & {
+export type InstructorApplication = {
   id: string;
-  userId: string;
   createdAt: Date;
   updatedAt: Date;
+  status: string;
+  phone: string;
+  address: string;
+  bio: string;
+  socialLinks: {
+    whatsapp?: string | undefined;
+    instagram?: string | undefined;
+    linkedin?: string | undefined;
+  };
+  expertise: string[];
+  birthDate: Date;
+  file: string;
+  userId: string;
+  user: {
+    name: string;
+    email: string;
+    image: string;
+  };
 };
 
 export type SocialLinks = {

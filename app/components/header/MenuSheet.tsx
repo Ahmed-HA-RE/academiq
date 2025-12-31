@@ -73,15 +73,12 @@ const MenuSheet = ({ navigationData }: MenuSheetProps) => {
                 'flex',
                 'items-center',
                 'duration-300',
-                'hover:bg-accent-foreground',
-                'hover:bg-blue-50',
-                'dark:hover:text-black',
+                'hover:bg-accent',
                 'gap-2',
                 'px-4',
                 'py-2',
                 'text-sm',
-                pathname === navItem.href &&
-                  'bg-blue-50 dark:bg-blue-100 text-black hover:bg-0'
+                pathname === navItem.href && 'bg-accent font-medium'
               )}
               onClick={handleLinkClick}
             >

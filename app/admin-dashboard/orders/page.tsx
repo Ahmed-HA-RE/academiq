@@ -5,7 +5,7 @@ import { SearchParams } from 'nuqs/server';
 import { getAllOrdersAsAdmin } from '@/lib/actions/order';
 
 export const metadata: Metadata = {
-  title: 'Admin Dashboard - Orders',
+  title: 'Orders',
   description: 'Manage and review all orders in the admin dashboard.',
 };
 

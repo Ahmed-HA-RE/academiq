@@ -8,7 +8,7 @@ import {
   ShieldUser,
   User as UserIcon,
 } from 'lucide-react';
-import { User } from '@/types';
+import { InstructorApplication, User } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import {
   flexRender,
@@ -49,23 +49,20 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/app/components/ui/tooltip';
-import { cn, formatDate } from '@/lib/utils';
+import { cn, formatDate, formatId } from '@/lib/utils';
 import { Input } from '../../ui/input';
 import { USERS_ROLES } from '@/lib/constants';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../../shared/DeleteDialog';
-import {
-  banUserAsAdmin,
-  deleteSelectedUsers,
-  deleteUserById,
-  unbanUserAsAdmin,
-} from '@/lib/actions/user';
+import { deleteSelectedUsers } from '@/lib/actions/user';
 import { toast } from 'sonner';
 import Link from 'next/link';
 import ScreenSpinner from '../../ScreenSpinner';
 import DataPagination from '../../shared/Pagination';
+import { format } from 'date-fns';
+import { deleteApplicationById } from '@/lib/actions/instructor';
 
-const columns: ColumnDef<User>[] = [
+const columns: ColumnDef<InstructorApplication>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -85,67 +82,53 @@ const columns: ColumnDef<User>[] = [
     size: 50,
   },
   {
+    header: 'ID',
+    accessorKey: 'id',
+    cell: ({ row }) => (
+      <span className='text-muted-foreground'>
+        {`#${formatId(row.getValue('id'))}`}
+      </span>
+    ),
+  },
+  {
     header: 'User',
     cell: ({ row }) => (
-      <div className='flex items-center gap-2'>
+      <div className='flex items-center justify-start gap-2'>
         <Avatar className='size-9'>
           <Suspense
             fallback={
               <AvatarFallback className='text-xs font-bold'>
-                {row.original.name.slice(0, 2).toUpperCase()}
+                {row.original.user.name.slice(0, 2).toUpperCase()}
               </AvatarFallback>
             }
           >
             <Image
-              src={row.original.image}
-              alt={row.original.name}
+              src={row.original.user.image}
+              alt={row.original.user.name}
               width={36}
               height={36}
               className='object-cover rounded-full'
             />
           </Suspense>
         </Avatar>
-
-        <span className='font-medium'>{row.original.name}</span>
+        <span className='font-medium'>{row.original.user.name}</span>
       </div>
     ),
     size: 360,
   },
   {
-    header: 'Role',
-    accessorKey: 'role',
-    cell: ({ row }) => {
-      const role = row.getValue('role') as string;
-
-      const roles = {
-        admin: (
-          <ShieldUser className='size-4 text-green-600 dark:text-green-400' />
-        ),
-        instructor: <GraduationCap className='size-4 text-orange-500' />,
-        user: <UserIcon className='text-black dark:text-white size-4' />,
-      }[role];
-
-      return (
-        <div className='flex items-center gap-2'>
-          {roles}
-          <span className='capitalize'>{role}</span>
-        </div>
-      );
-    },
-  },
-  {
     header: 'Email',
     accessorKey: 'email',
     cell: ({ row }) => (
-      <span className='text-muted-foreground'>{row.getValue('email')}</span>
+      <span className='text-muted-foreground'>{row.original.user.email}</span>
     ),
   },
   {
-    header: 'Created At',
+    header: 'Submitted At',
     accessorKey: 'createdAt',
     cell: ({ row }) => (
       <span className='text-muted-foreground'>
-        {formatDate(new Date(row.getValue('createdAt')), 'date')}
+        {format(row.original.createdAt, 'MM/dd/yyyy')}
       </span>
     ),
   },
@@ -153,18 +136,30 @@ const columns: ColumnDef<User>[] = [
     header: 'Status',
     accessorKey: 'emailVerified',
     cell: ({ row }) => {
-      const status = row.getValue('emailVerified') ? 'verified' : 'unverified';
+      const status = row.original.status;
 
       return (
         <Badge
           className={cn(
-            'rounded-full text-xs  border-none capitalize focus-visible:outline-none',
-            status === 'verified'
-              ? 'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400'
-              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive'
+            status === 'rejected'
+              ? 'bg-destructive/10 text-destructive'
+              : status === 'approved'
+                ? 'bg-green-600/10 text-green-600'
+                : 'bg-amber-600/10 text-amber-600'
           )}
         >
-          {row.getValue('emailVerified') ? 'verified' : 'unverified'}
+          <span
+            className={cn(
+              'size-1.5 rounded-full',
+              status === 'rejected'
+                ? 'bg-destructive'
+                : status === 'approved'
+                  ? 'bg-green-600'
+                  : 'bg-amber-600'
+            )}
+            aria-hidden='true'
+          />
+          {status.charAt(0).toUpperCase() + status.slice(1)}
         </Badge>
       );
     },
@@ -172,17 +167,20 @@ const columns: ColumnDef<User>[] = [
   {
     id: 'actions',
     header: () => 'Actions',
-    cell: ({ row }) => <RowActions user={row.original} />,
+    cell: ({ row }) => <RowActions application={row.original} />,
     enableHiding: false,
   },
 ];
 
-type UserDatatableProps = {
-  users: User[];
+type ApplicationDataTableProps = {
+  applications: InstructorApplication[];
   totalPages: number;
 };
 
-const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
+const ApplicationDataTable = ({
+  applications,
+  totalPages,
+}: ApplicationDataTableProps) => {
   const pathname = usePathname();
 
   const [filters, setFilters] = useQueryStates(
@@ -201,27 +199,27 @@ const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
     { shallow: false }
   );
 
-  const [selectUsers, setSelectUsers] = useState({});
+  const [selectApplications, setSelectApplications] = useState({});
 
   const table = useReactTable({
-    data: users,
+    data: applications,
     columns,
     state: {
-      rowSelection: selectUsers,
+      rowSelection: selectApplications,
     },
-    onRowSelectionChange: setSelectUsers,
+    onRowSelectionChange: setSelectApplications,
     getRowId: (row) => row.id,
     getCoreRowModel: getCoreRowModel(),
   });
 
   const handleDeleteUsers = async () => {
-    const res = await deleteSelectedUsers(Object.keys(selectUsers));
+    const res = await deleteSelectedUsers(Object.keys(selectApplications));
     if (!res.success) {
       toast.error(res.message);
       return;
     }
     toast.success(res.message);
-    setSelectUsers({});
+    setSelectApplications({});
   };
 
   return (
@@ -229,18 +227,14 @@ const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
       <div className='border-b'>
         <div className='flex flex-col gap-4 p-6'>
           <div className='flex flex-row justify-between items-center'>
-            <span className='text-2xl font-semibold'>
-              {pathname === '/admin-dashboard/users'
-                ? 'All Users'
-                : pathname === '/admin-dashboard/users/ban-users'
-                  ? 'Banned Users'
-                  : 'Latest Users'}
-            </span>
+            <span className='text-2xl font-semibold'>Applications</span>
             <DeleteDialog
-              title='Delete Selected Users'
-              description='Are you sure you want to delete the selected users? this action can not be undone.'
+              title='Delete Selected Applications?'
+              description='Are you sure you want to delete the selected applications? this action can not be undone.'
               action={handleDeleteUsers}
-              disabled={Object.keys(selectUsers).length > 0 ? false : true}
+              disabled={
+                Object.keys(selectApplications).length > 0 ? false : true
+              }
             />
           </div>
           {pathname === '/admin-dashboard' ? null : (
@@ -372,7 +366,7 @@ const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
         </Table>
       </div>
 
-      {pathname === '/admin-dashboard/users' && totalPages > 1 ? (
+      {/* {pathname === '/admin-dashboard/users' && totalPages > 1 ? (
         <div className='flex items-center justify-between px-6 py-4 max-sm:flex-col md:max-lg:flex-col gap-6'>
           <p
             className='text-muted-foreground text-sm whitespace-nowrap'
@@ -385,45 +379,27 @@ const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
             <DataPagination totalPages={totalPages} />
           </div>
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };
 
-export default UserDatatable;
+export default ApplicationDataTable;
 
-export const RowActions = ({ user }: { user: User }) => {
+export const RowActions = ({
+  application,
+}: {
+  application: InstructorApplication;
+}) => {
   const [isPending, startTransition] = useTransition();
 
-  const handleDeleteUser = async () => {
-    const res = await deleteUserById(user.id);
+  const handleDeleteApplication = async () => {
+    const res = await deleteApplicationById(application.id);
     if (!res.success) {
       toast.error(res.message);
       return;
     }
     toast.success(res.message);
-  };
-
-  const handleBanUser = () => {
-    startTransition(async () => {
-      const res = await banUserAsAdmin(user.id);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
-  const handleUnbanUser = () => {
-    startTransition(async () => {
-      const res = await unbanUserAsAdmin(user.id);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
   };
 
   return (
@@ -433,9 +409,9 @@ export const RowActions = ({ user }: { user: User }) => {
         <Tooltip>
           <TooltipTrigger asChild>
             <DeleteDialog
-              title={`Delete ${user.name}?`}
-              description={`Are you sure you want to delete ${user.name}? This action cannot be undone.`}
-              action={handleDeleteUser}
+              title={`Delete ${application.user.name} application?`}
+              description={`Are you sure you want to delete ${application.user.name} application? This action cannot be undone.`}
+              action={handleDeleteApplication}
             />
           </TooltipTrigger>
           <TooltipContent>
@@ -458,16 +434,16 @@ export const RowActions = ({ user }: { user: User }) => {
           <DropdownMenuContent align='start'>
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className='cursor-pointer'>
-                <Link href={`/admin-dashboard/users/${user.id}/edit`}>
-                  <span>Edit</span>
+                <Link href={`/admin-dashboard/users/${application.id}/view`}>
+                  <span>View</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem
+              {/* <DropdownMenuItem
                 onClick={user.banned ? handleUnbanUser : handleBanUser}
                 className='cursor-pointer'
               >
                 <span>{user.banned ? 'Unban User' : 'Ban User'}</span>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>

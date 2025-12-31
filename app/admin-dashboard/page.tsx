@@ -1,13 +1,9 @@
 import StatisticsCard from '../components/admin/StatisticsCard';
 import { loadSearchParams } from '@/lib/searchParams';
-import { getOrdersMonthlyRevenue } from '@/lib/actions/order';
 import { getAllUsers } from '@/lib/actions/user';
-import OrdersChart from '@/app/components/admin/Orders/OrderChartDetails';
 
 import { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';
-import ScreenSpinner from '../components/ScreenSpinner';
-import { Suspense } from 'react';
 import TotalRevenueChart from '../components/admin/TotalRevenue/TotalRevenuChart';
 import UserDatatable from '../components/admin/Users/UserDataTable';
 import UsersChart from '../components/admin/Users/UsersChart';

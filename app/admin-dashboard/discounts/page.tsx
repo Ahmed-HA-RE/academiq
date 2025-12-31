@@ -6,7 +6,7 @@ import { SearchParams } from 'nuqs/server';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Admin Dashboard - Discounts',
+  title: 'Discounts',
   description: 'Manage and view all discounts in the admin dashboard',
 };
 
@@ -26,11 +26,7 @@ const DiscountsPage = async ({ searchParams }: DiscountsPageProps) => {
     expiry,
   });
 
-  return (
-    <Suspense fallback={<div>Loading discounts...</div>}>
-      <DiscountsDataTable discounts={discounts} totalPages={totalPages} />
-    </Suspense>
-  );
+  return <DiscountsDataTable discounts={discounts} totalPages={totalPages} />;
 };
 
 export default DiscountsPage;

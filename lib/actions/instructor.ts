@@ -3,7 +3,7 @@
 import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { createApplicationSchema } from '@/schema';
-import z from 'zod';
+import z, { success } from 'zod';
 import cloudinary from '../cloudinary';
 import { UploadApiResponse } from 'cloudinary';
 import { prisma } from '../prisma';
@@ -11,6 +11,8 @@ import { SocialLinks } from '@/types';
 import resend, { domain } from '../resend';
 import ApplicationSubmitted from '@/emails/ApplicationSubmitted';
 import { APP_NAME } from '../constants';
+import { convertToPlainObject } from '../utils';
+import { revalidatePath } from 'next/cache';
 
 export const applyToTeach = async (
   data: z.infer<typeof createApplicationSchema>
@@ -72,7 +74,8 @@ export const applyToTeach = async (
     });
 
     await resend.emails.send({
-      from: `${APP_NAME} <support@${domain}>`,
+      // from: `${APP_NAME} <support@${domain}>`,
+      from: 'Acme <onboarding@resend.dev>',
       to: userApplication.user.email,
       replyTo: process.env.REPLY_EMAIL,
       subject: 'Instructor Application Submitted',
@@ -115,4 +118,101 @@ export const getTotalInstructorsCount = async () => {
 export const getInstructorApplicationsCount = async () => {
   const count = await prisma.intructorApplication.count();
   return count;
+};
+
+// Get all applications
+export const getAllInstructorApplications = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== 'admin')
+    throw new Error('Unauthorized to access this resource');
+
+  const applications = await prisma.intructorApplication.findMany({
+    include: { user: { select: { name: true, email: true, image: true } } },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  return {
+    applications: applications.map((app) =>
+      convertToPlainObject({
+        ...app,
+        socialLinks: app.socialLinks as SocialLinks,
+        file: app.file,
+      })
+    ),
+  };
+};
+
+// Delete application by ID
+export const deleteApplicationById = async (applicationId: string) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to delete this resource');
+
+    const application = await prisma.intructorApplication.findUnique({
+      where: { id: applicationId },
+    });
+
+    if (!application) throw new Error('Application not found');
+
+    await prisma.intructorApplication.delete({
+      where: { id: applicationId },
+    });
+    revalidatePath('/admin-dashboard/applications');
+    return { success: true, message: 'Application deleted successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+// Delete multiple applications by IDs
+export const deleteDicountsByIds = async (applicationIds: string[]) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to delete these resources');
+
+    await prisma.intructorApplication.deleteMany({
+      where: { id: { in: applicationIds } },
+    });
+    revalidatePath('/admin-dashboard/applications');
+    return { success: true, message: 'Applications deleted successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+// Reject application by ID
+export const rejectApplicationById = async (applicationId: string) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to delete these resources');
+
+    const application = await prisma.intructorApplication.findUnique({
+      where: { id: applicationId },
+    });
+    if (!application) throw new Error('Application not found');
+
+    await prisma.intructorApplication.update({
+      where: { id: applicationId },
+      data: { status: 'rejected' },
+    });
+    revalidatePath('/admin-dashboard/applications');
+    return { success: true, message: 'Application rejected successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
 };
