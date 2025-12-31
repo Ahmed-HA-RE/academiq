@@ -3,16 +3,18 @@
 import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { createApplicationSchema } from '@/schema';
-import z, { success } from 'zod';
+import z from 'zod';
 import cloudinary from '../cloudinary';
 import { UploadApiResponse } from 'cloudinary';
 import { prisma } from '../prisma';
 import { SocialLinks } from '@/types';
-import resend, { domain } from '../resend';
+import resend from '../resend';
 import ApplicationSubmitted from '@/emails/ApplicationSubmitted';
-import { APP_NAME } from '../constants';
 import { convertToPlainObject } from '../utils';
 import { revalidatePath } from 'next/cache';
+import { APP_NAME } from '../constants';
+import { domain } from '../resend';
+import ApplicationStatus from '@/emails/ApplicationStatus';
 
 export const applyToTeach = async (
   data: z.infer<typeof createApplicationSchema>
@@ -26,6 +28,9 @@ export const applyToTeach = async (
 
     const validateData = createApplicationSchema.safeParse(data);
     if (!validateData.success) throw new Error('Invalid data');
+
+    if (session.user.role === 'admin')
+      throw new Error('Admins cannot apply to be instructors.');
 
     // Check if user already applied
     const existingApplication = await prisma.intructorApplication.findUnique({
@@ -74,8 +79,7 @@ export const applyToTeach = async (
     });
 
     await resend.emails.send({
-      // from: `${APP_NAME} <support@${domain}>`,
-      from: 'Acme <onboarding@resend.dev>',
+      from: `${APP_NAME} <support@${domain}>`,
       to: userApplication.user.email,
       replyTo: process.env.REPLY_EMAIL,
       subject: 'Instructor Application Submitted',
@@ -191,27 +195,67 @@ export const deleteDicountsByIds = async (applicationIds: string[]) => {
   }
 };
 
-// Reject application by ID
-export const rejectApplicationById = async (applicationId: string) => {
+// Update application status by ID
+export const updateApplicationStatusById = async (
+  applicationId: string,
+  status: string
+) => {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
     });
 
     if (!session || session.user.role !== 'admin')
-      throw new Error('Unauthorized to delete these resources');
+      throw new Error('Unauthorized to update  these applications');
 
     const application = await prisma.intructorApplication.findUnique({
       where: { id: applicationId },
+      include: { user: { select: { name: true, email: true } } },
     });
     if (!application) throw new Error('Application not found');
+    if (application.status === status)
+      throw new Error('Application has already been reviewed.');
 
-    await prisma.intructorApplication.update({
-      where: { id: applicationId },
-      data: { status: 'rejected' },
+    // Create a transaction to update application status and create instructor if approved
+    await prisma.$transaction(async (tx) => {
+      const updatedApplication = await tx.intructorApplication.update({
+        where: { id: applicationId },
+        data: { status: status === 'approved' ? 'approved' : 'rejected' },
+      });
+
+      if (updatedApplication.status === 'approved') {
+        const newInstructor = await tx.instructor.create({
+          data: {
+            bio: updatedApplication.bio,
+            expertise: updatedApplication.expertise,
+            address: updatedApplication.address,
+            phone: updatedApplication.phone,
+            socialLinks: updatedApplication.socialLinks as SocialLinks,
+            birthDate: updatedApplication.birthDate,
+            userId: updatedApplication.userId,
+          },
+        });
+        // Update the role of the user to 'instructor' if approved
+        await tx.user.update({
+          where: { id: newInstructor.userId },
+          data: { role: 'instructor' },
+        });
+      }
+
+      await resend.emails.send({
+        from: `${APP_NAME} <support@${domain}>`,
+        to: application.user.email,
+        replyTo: process.env.REPLY_EMAIL,
+        subject: 'Application Status Updated',
+        react: ApplicationStatus({
+          name: application.user.name,
+          status: status,
+        }),
+      });
     });
+
     revalidatePath('/admin-dashboard/applications');
-    return { success: true, message: 'Application rejected successfully' };
+    return { success: true, message: `Application ${status} successfully` };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

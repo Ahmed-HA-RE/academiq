@@ -3,7 +3,6 @@ import {
   billingInfoSchema,
   cartItemsSchema,
   cartSchema,
-  createApplicationSchema,
   discountSchema,
   forgotPasswordSchema,
   instructorSchema,

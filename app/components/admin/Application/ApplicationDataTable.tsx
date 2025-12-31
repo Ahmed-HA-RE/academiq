@@ -60,7 +60,10 @@ import Link from 'next/link';
 import ScreenSpinner from '../../ScreenSpinner';
 import DataPagination from '../../shared/Pagination';
 import { format } from 'date-fns';
-import { deleteApplicationById } from '@/lib/actions/instructor';
+import {
+  deleteApplicationById,
+  updateApplicationStatusById,
+} from '@/lib/actions/instructor';
 
 const columns: ColumnDef<InstructorApplication>[] = [
   {
@@ -402,6 +405,17 @@ export const RowActions = ({
     toast.success(res.message);
   };
 
+  const handleUpdateStatus = async (status: string) => {
+    startTransition(async () => {
+      const res = await updateApplicationStatusById(application.id, status);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+    });
+  };
+
   return (
     <>
       {isPending && <ScreenSpinner mutate={true} text='Applying changes…' />}
@@ -438,12 +452,28 @@ export const RowActions = ({
                   <span>View</span>
                 </Link>
               </DropdownMenuItem>
-              {/* <DropdownMenuItem
-                onClick={user.banned ? handleUnbanUser : handleBanUser}
+              <DropdownMenuItem
+                onClick={() => handleUpdateStatus('approved')}
                 className='cursor-pointer'
+                variant='success'
+                disabled={
+                  application.status === 'approved' ||
+                  application.status === 'rejected'
+                }
               >
-                <span>{user.banned ? 'Unban User' : 'Ban User'}</span>
-              </DropdownMenuItem> */}
+                <span>Approve</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handleUpdateStatus('rejected')}
+                className='cursor-pointer'
+                variant='destructive'
+                disabled={
+                  application.status === 'approved' ||
+                  application.status === 'rejected'
+                }
+              >
+                <span>Reject</span>
+              </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>

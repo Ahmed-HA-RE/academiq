@@ -42,7 +42,7 @@ import {
   SelectValue,
 } from '../../ui/select';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import ScreenSpinner from '../../ScreenSpinner';
 
 export const columns: ColumnDef<Order>[] = [
