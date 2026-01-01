@@ -55,10 +55,10 @@ import { USERS_ROLES } from '@/lib/constants';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../../shared/DeleteDialog';
 import {
-  banUserAsAdmin,
+  banAsAdmin,
   deleteSelectedUsers,
   deleteUserById,
-  unbanUserAsAdmin,
+  unbanAsAdmin,
 } from '@/lib/actions/user';
 import { toast } from 'sonner';
 import Link from 'next/link';
@@ -406,7 +406,7 @@ export const RowActions = ({ user }: { user: User }) => {
 
   const handleBanUser = () => {
     startTransition(async () => {
-      const res = await banUserAsAdmin(user.id);
+      const res = await banAsAdmin(user.id, user.role);
       if (!res.success) {
         toast.error(res.message);
         return;
@@ -417,7 +417,7 @@ export const RowActions = ({ user }: { user: User }) => {
 
   const handleUnbanUser = () => {
     startTransition(async () => {
-      const res = await unbanUserAsAdmin(user.id);
+      const res = await unbanAsAdmin(user.id, user.role);
       if (!res.success) {
         toast.error(res.message);
         return;

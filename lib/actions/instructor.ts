@@ -2,12 +2,12 @@
 
 import { auth } from '../auth';
 import { headers } from 'next/headers';
-import { createApplicationSchema } from '@/schema';
+import { createApplicationSchema, instructorUpdateSchema } from '@/schema';
 import z from 'zod';
 import cloudinary from '../cloudinary';
 import { UploadApiResponse } from 'cloudinary';
 import { prisma } from '../prisma';
-import { SocialLinks } from '@/types';
+import { InstructorFormData, SocialLinks } from '@/types';
 import resend from '../resend';
 import ApplicationSubmitted from '@/emails/ApplicationSubmitted';
 import { convertToPlainObject } from '../utils';
@@ -366,12 +366,17 @@ export const getAllInstructorsAsAdmin = async ({
   // Search Filter
   const searchFilter: Prisma.InstructorWhereInput = search
     ? {
-        OR: [
-          { user: { name: { contains: search, mode: 'insensitive' } } },
-          { user: { email: { contains: search, mode: 'insensitive' } } },
+        AND: [
+          {
+            OR: [
+              { user: { name: { contains: search, mode: 'insensitive' } } },
+              { user: { email: { contains: search, mode: 'insensitive' } } },
+            ],
+          },
         ],
+        user: { role: 'instructor' },
       }
-    : {};
+    : { user: { role: 'instructor' } };
 
   // Status Filter
   const statusFilter: Prisma.InstructorWhereInput = status
@@ -380,7 +385,7 @@ export const getAllInstructorsAsAdmin = async ({
           banned: status === 'banned' ? true : false,
         },
       }
-    : {};
+    : { user: { role: 'instructor' } };
 
   const instructors = await prisma.instructor.findMany({
     where: {
@@ -389,7 +394,16 @@ export const getAllInstructorsAsAdmin = async ({
     },
     orderBy: { createdAt: 'desc' },
     include: {
-      user: { select: { name: true, email: true, image: true, banned: true } },
+      user: {
+        select: {
+          name: true,
+          email: true,
+          image: true,
+          banned: true,
+          id: true,
+          role: true,
+        },
+      },
       _count: { select: { courses: true } },
     },
     skip: (page - 1) * limit,
@@ -474,7 +488,16 @@ export const getInstructorByIdAsAdmin = async (instructorId: string) => {
   const instructor = await prisma.instructor.findUnique({
     where: { id: instructorId },
     include: {
-      user: { select: { name: true, email: true, image: true, banned: true } },
+      user: {
+        select: {
+          name: true,
+          email: true,
+          image: true,
+          banned: true,
+          role: true,
+          id: true,
+        },
+      },
     },
   });
 
@@ -484,4 +507,79 @@ export const getInstructorByIdAsAdmin = async (instructorId: string) => {
     ...instructor,
     socialLinks: instructor.socialLinks as SocialLinks,
   });
+};
+
+// Update instructor as an admin
+
+export const updateInstructorAsAdmin = async ({
+  data,
+  id,
+}: {
+  data: InstructorFormData;
+  id: string;
+}) => {
+  let imageUrl;
+
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to update the instructor');
+
+    const instructor = await prisma.instructor.findUnique({
+      where: { id },
+      include: { user: { select: { image: true } } },
+    });
+
+    if (!instructor) throw new Error('Instructor not found');
+
+    const validatedData = instructorUpdateSchema.safeParse(data);
+
+    if (!validatedData.success) throw new Error('Invalid data');
+
+    if (validatedData.data.image) {
+      const arrayBuffer = await validatedData.data.image.arrayBuffer();
+      const buffer = new Uint8Array(arrayBuffer);
+      imageUrl = await new Promise((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream({ folder: 'avatars' }, function (error, result) {
+            if (error) {
+              reject(error);
+              return;
+            }
+            resolve(result?.secure_url);
+          })
+          .end(buffer);
+      });
+    }
+
+    await prisma.instructor.update({
+      where: { id },
+      data: {
+        bio: validatedData.data.bio,
+        expertise: validatedData.data.expertise,
+        phone: validatedData.data.phone,
+        socialLinks: {
+          linkedin: `https://www.linkedin.com/in/${validatedData.data.socialLinks?.linkedin}`,
+          whatsapp: `https://wa.me/${validatedData.data.socialLinks?.whatsapp?.slice(1)}`,
+          instagram: `https://www.instagram.com/${validatedData.data.socialLinks?.instagram}`,
+        },
+        user: {
+          update: {
+            name: validatedData.data.name,
+            email: validatedData.data.email,
+            image: imageUrl ? imageUrl : instructor.user.image,
+          },
+        },
+      },
+    });
+
+    revalidatePath('/admin-dashboard');
+
+    return { success: true, message: 'Instructor updated successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
 };

@@ -44,7 +44,7 @@ export type Instructor = z.infer<typeof instructorSchema> & {
   id: string;
   createdAt: Date;
   updatedAt: Date;
-  user: Pick<User, 'name' | 'email' | 'image' | 'banned'>;
+  user: Pick<User, 'name' | 'email' | 'image' | 'banned' | 'role' | 'id'>;
   coursesCount?: number;
 };
 

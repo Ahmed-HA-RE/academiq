@@ -10,7 +10,7 @@ const ScreenSpinner = ({
 }) => {
   return mutate ? (
     <RemoveScroll>
-      <div className='fixed z-50 inset-0 flex items-center justify-center backdrop-blur-lg dark:bg-gray-900/80 text-gray-200'>
+      <div className='fixed z-50 inset-0 flex items-center justify-center backdrop-blur-lg dark:bg-gray-900/80 text-black dark:text-white'>
         <div className='mutate-loader'>{text}</div>
       </div>
     </RemoveScroll>

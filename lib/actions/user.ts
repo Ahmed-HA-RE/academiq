@@ -179,7 +179,7 @@ export const getAllUsers = async ({
     throw new Error('Unauthorized');
 
   const baseFilter: Prisma.UserWhereInput = {
-    NOT: [{ role: 'admin' }],
+    NOT: [{ role: 'admin' }, { role: 'instructor' }],
     AND: [{ banned: false }],
   };
 
@@ -319,7 +319,7 @@ export const deleteSelectedUsers = async (userIds: string[]) => {
 };
 
 // Ban a user as admin
-export const banUserAsAdmin = async (userId: string) => {
+export const banAsAdmin = async (id: string, role: string) => {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -329,7 +329,7 @@ export const banUserAsAdmin = async (userId: string) => {
       throw new Error('Unauthorized to ban users');
 
     const user = await prisma.user.findUnique({
-      where: { id: userId },
+      where: { id },
     });
 
     if (!user) throw new Error('User not found');
@@ -342,14 +342,14 @@ export const banUserAsAdmin = async (userId: string) => {
       headers: await headers(),
     });
     revalidatePath('/', 'layout');
-    return { success: true, message: 'User banned successfully' };
+    return { success: true, message: `${role} banned successfully` };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }
 };
 
 // Unban a user as admin
-export const unbanUserAsAdmin = async (userId: string) => {
+export const unbanAsAdmin = async (id: string, role: string) => {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -359,7 +359,7 @@ export const unbanUserAsAdmin = async (userId: string) => {
       throw new Error('Unauthorized to ban users');
 
     const user = await prisma.user.findUnique({
-      where: { id: userId },
+      where: { id },
     });
 
     if (!user) throw new Error('User not found');
@@ -371,7 +371,7 @@ export const unbanUserAsAdmin = async (userId: string) => {
       headers: await headers(),
     });
     revalidatePath('/', 'layout');
-    return { success: true, message: 'User unbanned successfully' };
+    return { success: true, message: `${role} unbanned successfully` };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

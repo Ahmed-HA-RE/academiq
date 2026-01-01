@@ -148,10 +148,6 @@ export const USERS_ROLES = [
     label: 'User',
   },
   {
-    value: 'instructor',
-    label: 'Instructor',
-  },
-  {
     value: 'admin',
     label: 'Admin',
   },

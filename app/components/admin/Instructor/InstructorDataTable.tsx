@@ -1,7 +1,7 @@
 'use client';
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useTransition } from 'react';
 import Image from 'next/image';
-import { CircleIcon, PencilIcon, SearchIcon } from 'lucide-react';
+import { CircleIcon, EllipsisVerticalIcon, SearchIcon } from 'lucide-react';
 import { Instructor } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import {
@@ -31,11 +31,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/app/components/ui/table';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/app/components/ui/tooltip';
 import { cn, formatId } from '@/lib/utils';
 import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
@@ -48,6 +43,15 @@ import {
   deleteInstructorById,
   deleteInstructorsByIds,
 } from '@/lib/actions/instructor';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../../ui/dropdown-menu';
+import { banAsAdmin, unbanAsAdmin } from '@/lib/actions/user';
+import ScreenSpinner from '../../ScreenSpinner';
 
 const columns: ColumnDef<Instructor>[] = [
   {
@@ -285,7 +289,7 @@ const InstructorDataTable = ({
                     <TableHead
                       key={header.id}
                       style={{ width: `${header.getSize()}px` }}
-                      className='text-muted-foreground px-4 last:text-center md:last:text-left nth-of-type-[2]:pl-3'
+                      className='text-muted-foreground px-4 last:text-center  nth-of-type-[2]:pl-3'
                     >
                       {flexRender(
                         header.column.columnDef.header,
@@ -353,6 +357,9 @@ const InstructorDataTable = ({
 export default InstructorDataTable;
 
 export const RowActions = ({ instructor }: { instructor: Instructor }) => {
+  console.log(instructor.user.id);
+  const [isPending, startTransition] = useTransition();
+
   const handleDeleteInstructor = async () => {
     const res = await deleteInstructorById(instructor.id);
     if (!res.success) {
@@ -362,31 +369,77 @@ export const RowActions = ({ instructor }: { instructor: Instructor }) => {
     toast.success(res.message);
   };
 
+  const handleBanUser = () => {
+    startTransition(async () => {
+      const res = await banAsAdmin(instructor.user.id, instructor.user.role);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+    });
+  };
+
+  const handleUnbanUser = () => {
+    startTransition(async () => {
+      const res = await unbanAsAdmin(instructor.user.id, instructor.user.role);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+    });
+  };
+
   return (
-    <div className='flex items-center justify-center md:justify-start'>
-      <DeleteDialog
-        title={`Delete ${instructor.user.name}?`}
-        description={`Are you sure you want to delete ${instructor.user.name}? This action cannot be undone.`}
-        action={handleDeleteInstructor}
-      />
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <div className='flex'>
-            <Button
-              size='icon'
-              variant='ghost'
-              className='rounded-full p-2 cursor-pointer'
-              aria-label='Edit User'
-              asChild
-            >
-              <Link href={`/admin-dashboard/instructors/${instructor.id}/edit`}>
-                <PencilIcon className='size-4.5' aria-hidden='true' />
-              </Link>
-            </Button>
-          </div>
-        </TooltipTrigger>
-        <TooltipContent>Edit</TooltipContent>
-      </Tooltip>
-    </div>
+    <>
+      {isPending && <ScreenSpinner mutate={true} text='Applying changes…' />}
+
+      <div className='flex items-center justify-center '>
+        <DeleteDialog
+          title={`Delete ${instructor.user.name}?`}
+          description={`Are you sure you want to delete ${instructor.user.name}? This action cannot be undone.`}
+          action={handleDeleteInstructor}
+        />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className='flex'>
+              <Button
+                size='icon'
+                variant='ghost'
+                className='rounded-full p-2 cursor-pointer'
+                aria-label='Edit User'
+              >
+                <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
+              </Button>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='start'>
+            <DropdownMenuGroup>
+              <DropdownMenuItem asChild className='cursor-pointer'>
+                <Link
+                  href={`/admin-dashboard/instructors/${instructor.id}/edit`}
+                >
+                  <span>Edit</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={
+                  instructor.user.banned ? handleUnbanUser : handleBanUser
+                }
+                className='cursor-pointer'
+                variant='destructive'
+              >
+                <span>
+                  {instructor.user.banned
+                    ? 'Unban Instructor'
+                    : 'Ban Instructor'}
+                </span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </>
   );
 };
