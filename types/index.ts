@@ -6,6 +6,7 @@ import {
   discountSchema,
   forgotPasswordSchema,
   instructorSchema,
+  instructorUpdateSchema,
   loginSchema,
   orderBaseSchema,
   orderItemSchema,
@@ -44,8 +45,10 @@ export type Instructor = z.infer<typeof instructorSchema> & {
   createdAt: Date;
   updatedAt: Date;
   user: Pick<User, 'name' | 'email' | 'image' | 'banned'>;
-  coursesCount: number;
+  coursesCount?: number;
 };
+
+export type InstructorFormData = z.infer<typeof instructorUpdateSchema>;
 
 export type BillingInfo = z.infer<typeof billingInfoSchema>;
 export type PaymentResult = {

@@ -222,6 +222,19 @@ export const instructorSchema = z.object({
   userId: z.string({ error: 'Invalid user id' }).min(1, 'User id is required'),
 });
 
+export const instructorUpdateSchema = instructorSchema
+  .pick({
+    bio: true,
+    socialLinks: true,
+    expertise: true,
+    phone: true,
+  })
+  .extend({
+    name: registerSchema.shape.name,
+    email: registerSchema.shape.email,
+    image: avatarSchema,
+  });
+
 export const billingInfoSchema = z.object({
   fullName: z
     .string({ error: 'Invalid full name' })

@@ -462,3 +462,26 @@ export const deleteInstructorsByIds = async (instructorIds: string[]) => {
     return { success: false, message: (error as Error).message };
   }
 };
+
+export const getInstructorByIdAsAdmin = async (instructorId: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== 'admin')
+    throw new Error('Unauthorized to delete this resource');
+
+  const instructor = await prisma.instructor.findUnique({
+    where: { id: instructorId },
+    include: {
+      user: { select: { name: true, email: true, image: true, banned: true } },
+    },
+  });
+
+  if (!instructor) throw new Error('Instructor not found');
+
+  return convertToPlainObject({
+    ...instructor,
+    socialLinks: instructor.socialLinks as SocialLinks,
+  });
+};
