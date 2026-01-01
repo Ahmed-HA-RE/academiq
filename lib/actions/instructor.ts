@@ -304,17 +304,17 @@ export const updateApplicationStatusById = async (
           data: { role: 'instructor' },
         });
       }
+    });
 
-      await resend.emails.send({
-        from: `${APP_NAME} <support@${domain}>`,
-        to: application.user.email,
-        replyTo: process.env.REPLY_EMAIL,
-        subject: 'Application Status Updated',
-        react: ApplicationStatus({
-          name: application.user.name,
-          status: status,
-        }),
-      });
+    await resend.emails.send({
+      from: `${APP_NAME} <support@${domain}>`,
+      to: application.user.email,
+      replyTo: process.env.REPLY_EMAIL,
+      subject: 'Application Status Updated',
+      react: ApplicationStatus({
+        name: application.user.name,
+        status: status,
+      }),
     });
 
     revalidatePath('/admin-dashboard/applications');
@@ -343,4 +343,122 @@ export const getApplicationById = async (applicationId: string) => {
     ...application,
     socialLinks: application.socialLinks as SocialLinks,
   });
+};
+
+export const getAllInstructorsAsAdmin = async ({
+  limit = 10,
+  page = 1,
+  search,
+  status,
+}: {
+  limit?: number;
+  page?: number;
+  search?: string;
+  status?: string;
+}) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== 'admin')
+    throw new Error('Unauthorized to get instructors');
+
+  // Search Filter
+  const searchFilter: Prisma.InstructorWhereInput = search
+    ? {
+        OR: [
+          { user: { name: { contains: search, mode: 'insensitive' } } },
+          { user: { email: { contains: search, mode: 'insensitive' } } },
+        ],
+      }
+    : {};
+
+  // Status Filter
+  const statusFilter: Prisma.InstructorWhereInput = status
+    ? {
+        user: {
+          banned: status === 'banned' ? true : false,
+        },
+      }
+    : {};
+
+  const instructors = await prisma.instructor.findMany({
+    where: {
+      ...searchFilter,
+      ...statusFilter,
+    },
+    orderBy: { createdAt: 'desc' },
+    include: {
+      user: { select: { name: true, email: true, image: true, banned: true } },
+      _count: { select: { courses: true } },
+    },
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+
+  const totalInstructors = await prisma.instructor.count({
+    where: {
+      ...searchFilter,
+      ...statusFilter,
+    },
+  });
+
+  const totalPages = Math.ceil(totalInstructors / limit);
+
+  return {
+    instructors: instructors.map((instructor) =>
+      convertToPlainObject({
+        ...instructor,
+        socialLinks: instructor.socialLinks as SocialLinks,
+        coursesCount: instructor._count.courses,
+      })
+    ),
+    totalPages,
+  };
+};
+
+// Delete instructor by ID
+export const deleteInstructorById = async (instructorId: string) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to delete this resource');
+
+    const instructor = await prisma.instructor.findUnique({
+      where: { id: instructorId },
+    });
+
+    if (!instructor) throw new Error('Instructor not found');
+
+    await prisma.instructor.delete({
+      where: { id: instructor.id },
+    });
+    revalidatePath('/admin-dashboard/instructors');
+    return { success: true, message: 'Instructor deleted successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+// Delete multiple instructors by IDs
+export const deleteInstructorsByIds = async (instructorIds: string[]) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session || session.user.role !== 'admin')
+      throw new Error('Unauthorized to delete these resources');
+
+    await prisma.instructor.deleteMany({
+      where: { id: { in: instructorIds } },
+    });
+    revalidatePath('/admin-dashboard/instructors');
+    return { success: true, message: 'Instructors deleted successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
 };

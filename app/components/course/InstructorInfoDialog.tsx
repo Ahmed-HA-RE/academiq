@@ -40,7 +40,7 @@ const InstructorInfoDialog = ({ instructor }: { instructor: Instructor }) => {
           {/* Image */}
           <div className='border-4 border-white rounded-full overflow-hidden'>
             <Image
-              src={instructor.avatar}
+              src={instructor.user.image}
               alt={`${instructor.phone}'s avatar`}
               width={100}
               height={100}
@@ -52,7 +52,7 @@ const InstructorInfoDialog = ({ instructor }: { instructor: Instructor }) => {
           <div className='space-y-5'>
             <div className='space-y-1'>
               {/* Name */}
-              <h3 className='text-xl font-medium'>{instructor.name}</h3>
+              <h3 className='text-xl font-medium'>{instructor.user.name}</h3>
               {/* Job */}
               <h4>{instructor.expertise.join(', ')}</h4>
             </div>
@@ -66,7 +66,7 @@ const InstructorInfoDialog = ({ instructor }: { instructor: Instructor }) => {
             <div className='space-y-3'>
               {/* Email */}
               <span className='flex items-center gap-3'>
-                <Mail size={20} /> {instructor.email}
+                <Mail size={20} /> {instructor.user.email}
               </span>
               {/* birthDate */}
               <span className='flex items-center gap-3'>

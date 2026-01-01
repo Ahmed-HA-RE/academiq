@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Suspense, useState, useTransition } from 'react';
+import { Suspense, useTransition } from 'react';
 import { formatDate } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -115,7 +115,7 @@ const ViewApplicationDetails = ({
         <div className='space-y-6'>
           {/* Personal Information */}
           <Card>
-            <CardHeader>
+            <CardHeader className='border-b [.border-b]:pb-4 gap-0'>
               <CardTitle className='flex items-center gap-2'>
                 <UserIcon className='size-5' />
                 Personal Information
@@ -161,11 +161,10 @@ const ViewApplicationDetails = ({
 
           {/* Expertise */}
           <Card className='gap-5'>
-            <CardHeader className='gap-0'>
+            <CardHeader className='gap-0 border-b [.border-b]:pb-4'>
               <CardTitle>Expertise</CardTitle>
             </CardHeader>
             <CardContent>
-              {/* TODO: Use application.expertise */}
               <div className='flex flex-wrap gap-2'>
                 {application.expertise.map((skill, index) => (
                   <Badge
@@ -182,14 +181,14 @@ const ViewApplicationDetails = ({
 
           {/* Document */}
           <Card className='gap-6'>
-            <CardHeader className='gap-0'>
+            <CardHeader className='gap-0 border-b [.border-b]:pb-4'>
               <CardTitle className='flex items-center gap-2'>
                 <FileTextIcon className='size-5' />
                 Submitted Document
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className=''>
+              <div>
                 <div className='flex items-center justify-between gap-4'>
                   <div className='flex items-center gap-3 flex-1 min-w-0'>
                     <div className='flex items-center justify-center size-10 rounded-lg bg-red-600/10 shrink-0'>
@@ -217,7 +216,7 @@ const ViewApplicationDetails = ({
         <div className='space-y-6'>
           {/* Bio */}
           <Card className='gap-4'>
-            <CardHeader className='gap-0'>
+            <CardHeader className='gap-0 border-b [.border-b]:pb-4'>
               <CardTitle>Biography</CardTitle>
             </CardHeader>
             <CardContent>
@@ -231,7 +230,7 @@ const ViewApplicationDetails = ({
           {/* Social Links */}
           {application.socialLinks && (
             <Card className='gap-6'>
-              <CardHeader className='gap-0'>
+              <CardHeader className='gap-0 border-b [.border-b]:pb-4'>
                 <CardTitle className='flex items-center gap-2'>
                   <GlobeIcon className='size-5' />
                   Social Links

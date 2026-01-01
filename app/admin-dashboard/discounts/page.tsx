@@ -3,18 +3,19 @@ import { getAllDiscounts } from '@/lib/actions/discount';
 import { loadSearchParams } from '@/lib/searchParams';
 import { Metadata } from 'next';
 import { SearchParams } from 'nuqs/server';
-import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Discounts',
   description: 'Manage and view all discounts in the admin dashboard',
 };
 
-type DiscountsPageProps = {
+type AdminDiscountsPageProps = {
   searchParams: Promise<SearchParams>;
 };
 
-const DiscountsPage = async ({ searchParams }: DiscountsPageProps) => {
+const AdminDiscountsPage = async ({
+  searchParams,
+}: AdminDiscountsPageProps) => {
   const { search, page, limit, type, expiry } =
     await loadSearchParams(searchParams);
 
@@ -29,4 +30,4 @@ const DiscountsPage = async ({ searchParams }: DiscountsPageProps) => {
   return <DiscountsDataTable discounts={discounts} totalPages={totalPages} />;
 };
 
-export default DiscountsPage;
+export default AdminDiscountsPage;

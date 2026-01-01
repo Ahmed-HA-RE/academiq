@@ -1,8 +1,8 @@
 'use client';
-import { Suspense, useState, useTransition } from 'react';
+import { Suspense, useState } from 'react';
 import Image from 'next/image';
-import { CircleIcon, EllipsisVerticalIcon, SearchIcon } from 'lucide-react';
-import { InstructorApplication } from '@/types';
+import { CircleIcon, PencilIcon, SearchIcon } from 'lucide-react';
+import { Instructor } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import {
   flexRender,
@@ -13,13 +13,7 @@ import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
 import { Badge } from '@/app/components/ui/badge';
 import { Button } from '@/app/components/ui/button';
 import { Checkbox } from '@/app/components/ui/checkbox';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/app/components/ui/dropdown-menu';
+
 import {
   Select,
   SelectContent,
@@ -48,16 +42,14 @@ import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../../shared/DeleteDialog';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import ScreenSpinner from '../../ScreenSpinner';
 import DataPagination from '../../shared/Pagination';
-import { format } from 'date-fns';
+import { formatDate } from 'date-fns';
 import {
-  deleteApplicationById,
-  deleteApplicationsByIds,
-  updateApplicationStatusById,
+  deleteInstructorById,
+  deleteInstructorsByIds,
 } from '@/lib/actions/instructor';
 
-const columns: ColumnDef<InstructorApplication>[] = [
+const columns: ColumnDef<Instructor>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -81,14 +73,14 @@ const columns: ColumnDef<InstructorApplication>[] = [
     accessorKey: 'id',
     cell: ({ row }) => (
       <span className='text-muted-foreground'>
-        {`#${formatId(row.getValue('id'))}`}
+        {`#${formatId(row.original.id)}`}
       </span>
     ),
   },
   {
-    header: 'User',
+    header: 'Instructor',
     cell: ({ row }) => (
-      <div className='flex items-center justify-start gap-2'>
+      <div className='flex items-center gap-2'>
         <Avatar className='size-9'>
           <Suspense
             fallback={
@@ -106,11 +98,13 @@ const columns: ColumnDef<InstructorApplication>[] = [
             />
           </Suspense>
         </Avatar>
+
         <span className='font-medium'>{row.original.user.name}</span>
       </div>
     ),
     size: 360,
   },
+
   {
     header: 'Email',
     accessorKey: 'email',
@@ -118,12 +112,28 @@ const columns: ColumnDef<InstructorApplication>[] = [
       <span className='text-muted-foreground'>{row.original.user.email}</span>
     ),
   },
+
   {
-    header: 'Submitted At',
+    header: 'Contact',
+    accessorKey: 'contact',
+    cell: ({ row }) => (
+      <span className='text-muted-foreground'>{row.original.phone}</span>
+    ),
+  },
+  {
+    header: 'Courses',
+    accessorKey: 'coursesCount',
+    cell: ({ row }) => (
+      <span className='text-muted-foreground'>{row.original.coursesCount}</span>
+    ),
+  },
+
+  {
+    header: 'Registered At',
     accessorKey: 'createdAt',
     cell: ({ row }) => (
       <span className='text-muted-foreground'>
-        {format(row.original.createdAt, 'MM/dd/yyyy')}
+        {formatDate(row.original.createdAt, 'MM/dd/yyyy')}
       </span>
     ),
   },
@@ -131,30 +141,18 @@ const columns: ColumnDef<InstructorApplication>[] = [
     header: 'Status',
     accessorKey: 'emailVerified',
     cell: ({ row }) => {
-      const status = row.original.status;
+      const status = row.original.user.banned ? 'Banned' : 'Active';
 
       return (
         <Badge
           className={cn(
-            status === 'rejected'
-              ? 'bg-destructive/10 text-destructive'
-              : status === 'approved'
-                ? 'bg-green-600/10 text-green-600'
-                : 'bg-amber-600/10 text-amber-600'
+            'rounded-full text-xs  border-none capitalize focus-visible:outline-none',
+            status === 'Active'
+              ? 'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400'
+              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive'
           )}
         >
-          <span
-            className={cn(
-              'size-1.5 rounded-full',
-              status === 'rejected'
-                ? 'bg-destructive'
-                : status === 'approved'
-                  ? 'bg-green-600'
-                  : 'bg-amber-600'
-            )}
-            aria-hidden='true'
-          />
-          {status.charAt(0).toUpperCase() + status.slice(1)}
+          {status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}
         </Badge>
       );
     },
@@ -162,26 +160,23 @@ const columns: ColumnDef<InstructorApplication>[] = [
   {
     id: 'actions',
     header: () => 'Actions',
-    cell: ({ row }) => <RowActions application={row.original} />,
+    cell: ({ row }) => <RowActions instructor={row.original} />,
     enableHiding: false,
   },
 ];
 
-type ApplicationDataTableProps = {
-  applications: InstructorApplication[];
+type InstructorDataTableProps = {
+  instructors: Instructor[];
   totalPages: number;
 };
 
-const ApplicationDataTable = ({
-  applications,
+const InstructorDataTable = ({
+  instructors,
   totalPages,
-}: ApplicationDataTableProps) => {
+}: InstructorDataTableProps) => {
   const [filters, setFilters] = useQueryStates(
     {
       status: parseAsString.withDefault('all').withOptions({
-        limitUrlUpdates: throttle(500),
-      }),
-      submittedAt: parseAsString.withDefault('').withOptions({
         limitUrlUpdates: throttle(500),
       }),
       search: parseAsString
@@ -192,27 +187,27 @@ const ApplicationDataTable = ({
     { shallow: false }
   );
 
-  const [selectApplications, setSelectApplications] = useState({});
+  const [selectInstructors, setSelectInstructors] = useState({});
 
   const table = useReactTable({
-    data: applications,
+    data: instructors,
     columns,
     state: {
-      rowSelection: selectApplications,
+      rowSelection: selectInstructors,
     },
-    onRowSelectionChange: setSelectApplications,
+    onRowSelectionChange: setSelectInstructors,
     getRowId: (row) => row.id,
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const handleDeleteApplications = async () => {
-    const res = await deleteApplicationsByIds(Object.keys(selectApplications));
+  const handleDeleteInstructors = async () => {
+    const res = await deleteInstructorsByIds(Object.keys(selectInstructors));
     if (!res.success) {
       toast.error(res.message);
       return;
     }
     toast.success(res.message);
-    setSelectApplications({});
+    setSelectInstructors({});
   };
 
   return (
@@ -220,17 +215,18 @@ const ApplicationDataTable = ({
       <div className='border-b'>
         <div className='flex flex-col gap-4 p-6'>
           <div className='flex flex-row justify-between items-center'>
-            <span className='text-2xl font-semibold'>Applications</span>
+            <span className='text-2xl font-semibold'>Instructors</span>
             <DeleteDialog
-              title='Delete Selected Applications?'
-              description='Are you sure you want to delete the selected applications? this action can not be undone.'
-              action={handleDeleteApplications}
+              title='Delete Selected Instructors'
+              description='Are you sure you want to delete the selected instructors? this action can not be undone.'
+              action={handleDeleteInstructors}
               disabled={
-                Object.keys(selectApplications).length > 0 ? false : true
+                Object.keys(selectInstructors).length > 0 ? false : true
               }
             />
           </div>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
             {/* Select Status */}
             <Select
               value={filters.status}
@@ -248,37 +244,24 @@ const ApplicationDataTable = ({
                   <SelectItem value='all' className='cursor-pointer'>
                     All
                   </SelectItem>
-                  <SelectItem value='approved' className='cursor-pointer'>
+                  <SelectItem value='active' className='cursor-pointer'>
                     <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-green-500 text-green-500' />
-                      <span className='truncate'>Approved</span>
+                      <CircleIcon className='size-2 fill-green-600 text-green-600' />
+                      <span className='truncate'>Active</span>
                     </span>
                   </SelectItem>
-                  <SelectItem value='rejected' className='cursor-pointer'>
+                  <SelectItem value='banned' className='cursor-pointer'>
                     <span className='flex items-center gap-2'>
                       <CircleIcon className='size-2 fill-destructive text-destructive' />
-                      <span className='truncate'>Rejected</span>
-                    </span>
-                  </SelectItem>
-                  <SelectItem value='pending' className='cursor-pointer'>
-                    <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-amber-400 text-amber-400' />
-                      <span className='truncate'>Pending</span>
+                      <span className='truncate'>Banned</span>
                     </span>
                   </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
 
-            {/* Paid at calendar */}
-            <Input
-              type='date'
-              className='col-span-1'
-              value={filters.submittedAt}
-              onChange={(e) => setFilters({ submittedAt: e.target.value })}
-            />
             {/* Search Input  */}
-            <div className='relative sm:col-span-2 lg:col-span-1'>
+            <div className='relative'>
               <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
                 <SearchIcon className='size-4' />
                 <span className='sr-only'>Search</span>
@@ -296,13 +279,13 @@ const ApplicationDataTable = ({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className='h-14 border-t'>
+              <TableRow key={headerGroup.id} className='h-16 border-t'>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
                       style={{ width: `${header.getSize()}px` }}
-                      className='text-muted-foreground first:pl-4 last:px-4 last:text-center'
+                      className='text-muted-foreground px-4 last:text-center md:last:text-left nth-of-type-[2]:pl-3'
                     >
                       {flexRender(
                         header.column.columnDef.header,
@@ -325,7 +308,7 @@ const ApplicationDataTable = ({
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className='h-14 first:w-12.5 first:pl-4 last:w-29 last:px-4'
+                      className='px-4 nth-of-type-[2]:pl-3 nth-of-type-[6]:text-center'
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -356,7 +339,7 @@ const ApplicationDataTable = ({
             aria-live='polite'
           >
             Showing <span>{table.getRowCount().toString()} </span> of{' '}
-            <span>{applications.length} applications</span>
+            <span>{instructors.length} instructors</span>
           </p>
           <div>
             <DataPagination totalPages={totalPages} />
@@ -367,17 +350,11 @@ const ApplicationDataTable = ({
   );
 };
 
-export default ApplicationDataTable;
+export default InstructorDataTable;
 
-export const RowActions = ({
-  application,
-}: {
-  application: InstructorApplication;
-}) => {
-  const [isPending, startTransition] = useTransition();
-
-  const handleDeleteApplication = async () => {
-    const res = await deleteApplicationById(application.id);
+export const RowActions = ({ instructor }: { instructor: Instructor }) => {
+  const handleDeleteInstructor = async () => {
+    const res = await deleteInstructorById(instructor.id);
     if (!res.success) {
       toast.error(res.message);
       return;
@@ -385,74 +362,31 @@ export const RowActions = ({
     toast.success(res.message);
   };
 
-  const handleUpdateStatus = async (status: string) => {
-    startTransition(async () => {
-      const res = await updateApplicationStatusById(application.id, status);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
   return (
-    <>
-      {isPending && <ScreenSpinner mutate={true} text='Applying changes…' />}
-      <div className='flex items-center justify-center'>
-        <DeleteDialog
-          title={`Delete ${application.user.name} application?`}
-          description={`Are you sure you want to delete ${application.user.name} application? This action cannot be undone.`}
-          action={handleDeleteApplication}
-        />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className='flex'>
-              <Button
-                size='icon'
-                variant='ghost'
-                className='rounded-full p-2 cursor-pointer'
-                aria-label='Edit User'
-              >
-                <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
-              </Button>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='start'>
-            <DropdownMenuGroup>
-              <DropdownMenuItem asChild className='cursor-pointer'>
-                <Link
-                  href={`/admin-dashboard/applications/${application.id}/view`}
-                >
-                  <span>View</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handleUpdateStatus('approved')}
-                className='cursor-pointer'
-                variant='success'
-                disabled={
-                  application.status === 'approved' ||
-                  application.status === 'rejected'
-                }
-              >
-                <span>Approve</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handleUpdateStatus('rejected')}
-                className='cursor-pointer'
-                variant='destructive'
-                disabled={
-                  application.status === 'approved' ||
-                  application.status === 'rejected'
-                }
-              >
-                <span>Reject</span>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </>
+    <div className='flex items-center justify-center md:justify-start'>
+      <DeleteDialog
+        title={`Delete ${instructor.user.name}?`}
+        description={`Are you sure you want to delete ${instructor.user.name}? This action cannot be undone.`}
+        action={handleDeleteInstructor}
+      />
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className='flex'>
+            <Button
+              size='icon'
+              variant='ghost'
+              className='rounded-full p-2 cursor-pointer'
+              aria-label='Edit User'
+              asChild
+            >
+              <Link href={`/admin-dashboard/instructors/${instructor.id}/edit`}>
+                <PencilIcon className='size-4.5' aria-hidden='true' />
+              </Link>
+            </Button>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>Edit</TooltipContent>
+      </Tooltip>
+    </div>
   );
 };

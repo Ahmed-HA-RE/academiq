@@ -138,7 +138,7 @@ const CourseDetailsPage = async ({
             <div className='flex flex-row items-center gap-3'>
               <EnrollCourseBtn course={course} cart={cart} user={user} />
               {/* Instructor */}
-              <InstructorInfoDialog instructor={sampleInstructors[0]} />
+              {/* <InstructorInfoDialog instructor={} /> */}
             </div>
             <Separator orientation='horizontal' className=' my-6' />
             <div className='flex flex-col gap-2'>

@@ -6,14 +6,14 @@ import { getAllOrdersAsAdmin } from '@/lib/actions/order';
 
 export const metadata: Metadata = {
   title: 'Orders',
-  description: 'Manage and review all orders in the admin dashboard.',
+  description: 'Manage and view all orders in the admin dashboard.',
 };
 
 type AdminOrdersPageProps = {
   searchParams: Promise<SearchParams>;
 };
 
-const AdminOrderPage = async ({ searchParams }: AdminOrdersPageProps) => {
+const AdminOrdersPage = async ({ searchParams }: AdminOrdersPageProps) => {
   const { q, status, page, paidAt } = await loadSearchParams(searchParams);
 
   const { orders, totalPages } = await getAllOrdersAsAdmin({
@@ -26,4 +26,4 @@ const AdminOrderPage = async ({ searchParams }: AdminOrdersPageProps) => {
   return <OrderDataTable orders={orders} totalPages={totalPages} />;
 };
 
-export default AdminOrderPage;
+export default AdminOrdersPage;

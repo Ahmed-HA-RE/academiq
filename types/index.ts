@@ -43,6 +43,8 @@ export type Instructor = z.infer<typeof instructorSchema> & {
   id: string;
   createdAt: Date;
   updatedAt: Date;
+  user: Pick<User, 'name' | 'email' | 'image' | 'banned'>;
+  coursesCount: number;
 };
 
 export type BillingInfo = z.infer<typeof billingInfoSchema>;
