@@ -221,3 +221,59 @@ export const getPopularCoursesByInstructor = async () => {
 
   return popularCourses;
 };
+
+// Get courses by instructor with user progress completion percentages
+export const getCoursesWithProgressByInstructor = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== 'instructor')
+    throw new Error('Unauthorized to fetch analytics');
+
+  const courses = await prisma.course.findMany({
+    where: {
+      instructorId: session.user.id,
+    },
+    include: {
+      userProgress: {
+        select: {
+          progress: true,
+        },
+      },
+    },
+  });
+
+  // Aggregate all progress data across all courses
+  const progressRanges = {
+    '0-10%': 0,
+    '11-40%': 0,
+    '41-60%': 0,
+    '61-99%': 0,
+    '100%': 0,
+  };
+
+  courses.forEach((course) => {
+    course.userProgress.forEach((up) => {
+      const percent = Number(up.progress);
+
+      // Categorize by range
+      if (percent === 0 || percent <= 10) progressRanges['0-10%']++;
+      else if (percent <= 40) progressRanges['11-40%']++;
+      else if (percent <= 60) progressRanges['41-60%']++;
+      else if (percent < 100) progressRanges['61-99%']++;
+      else progressRanges['100%']++;
+    });
+  });
+
+  // Format data for bar chart (X-axis: range, Y-axis: count)
+  const chartData = [
+    { range: '0-10%', students: progressRanges['0-10%'] },
+    { range: '11-40%', students: progressRanges['11-40%'] },
+    { range: '41-60%', students: progressRanges['41-60%'] },
+    { range: '61-99%', students: progressRanges['61-99%'] },
+    { range: '100%', students: progressRanges['100%'] },
+  ];
+
+  return chartData;
+};

@@ -16,6 +16,7 @@ import { ScrollArea } from 'app/components/ui/scroll-area';
 import { APP_NAME } from '@/lib/constants';
 import { SidebarContent } from 'app/components/ui/sidebar';
 import {
+  ArrowLeftFromLineIcon,
   FileBadge,
   HomeIcon,
   SettingsIcon,
@@ -24,6 +25,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useSidebar } from 'app/components/ui/sidebar';
+import { cn } from '@/lib/utils';
 
 const menuItems = [
   {
@@ -51,6 +53,11 @@ const menuItems = [
     label: 'Settings',
     href: '/instructor-dashboard/settings',
   },
+  {
+    icon: ArrowLeftFromLineIcon,
+    label: 'Main Site',
+    href: '/',
+  },
 ];
 
 const SidebarGroupedMenuItems = () => {
@@ -66,7 +73,10 @@ const SidebarGroupedMenuItems = () => {
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.label}>
               <SidebarMenuButton
-                className='[[data-state=collapsed]_&>span:last-child]:overflow-unset [[data-state=collapsed]_&>span:last-child]:[text-overflow=unset] [[data-state=collapsed]_&]:h-auto! [[data-state=collapsed]_&]:w-15! [[data-state=collapsed]_&]:flex-col [[data-state=collapsed]_&]:gap-2.5! [[data-state=collapsed]_&>span:last-child]:text-xs [[data-state=collapsed]_&>svg]:size-5!'
+                className={cn(
+                  `[[data-state=collapsed]_&>span:last-child]:overflow-unset [[data-state=collapsed]_&>span:last-child]:[text-overflow=unset] [[data-state=collapsed]_&]:h-auto! [[data-state=collapsed]_&]:w-15! [[data-state=collapsed]_&]:flex-col [[data-state=collapsed]_&]:gap-2.5! [[data-state=collapsed]_&>span:last-child]:text-xs [[data-state=collapsed]_&>svg]:size-5!`,
+                  item.href === '/' && 'self-end h-full'
+                )}
                 asChild
               >
                 <Link onClick={() => setOpenMobile(false)} href={item.href}>
@@ -74,6 +84,7 @@ const SidebarGroupedMenuItems = () => {
                   <span>{item.label}</span>
                 </Link>
               </SidebarMenuButton>
+
               {item.icon && (
                 <SidebarMenuBadge className='bg-primary/10 rounded-full hidden'>
                   <item.icon />

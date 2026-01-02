@@ -16,7 +16,7 @@ const PopularCoursesCard = async () => {
       </CardHeader>
       <CardContent className='flex flex-1 flex-col justify-between gap-3'>
         {popularCourses.length === 0 ? (
-          <div className='flex w-full flex-col items-center justify-center gap-3 px-4 text-center mt-4'>
+          <div className='flex w-full flex-col items-center justify-center gap-3 px-4 text-center mt-4 h-full'>
             <FileChartPieIcon className='size-6 text-primary' />
 
             <span className='text-lg font-semibold'>

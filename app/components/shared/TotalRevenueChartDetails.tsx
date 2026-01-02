@@ -12,6 +12,7 @@ import {
   ChartTooltipContent,
 } from '@/app/components/ui/chart';
 import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const totalEarningChartConfig = {
   uv: {
@@ -51,7 +52,12 @@ const TotalRevenuChartDetails = ({
   const pathname = usePathname();
 
   return (
-    <Card className='col-span-4 w-full'>
+    <Card
+      className={cn(
+        `col-span-4 w-full`,
+        pathname === '/admin-dashboard' ? 'xl:col-span-2' : 'lg:col-span-2'
+      )}
+    >
       <CardHeader className='flex flex-col md:flex-col items-start justify-between gap-4 pb-4'>
         <span className='text-2xl font-semibold'>Total Revenue</span>
         <div className='flex items-center gap-4'>

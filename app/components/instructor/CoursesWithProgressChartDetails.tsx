@@ -1,53 +1,48 @@
 'use client';
+
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/app/components/ui/card';
-import {
-  type ChartConfig,
+  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/app/components/ui/chart';
+} from '../ui/chart';
 
-const totalIncomeChartConfig = {
-  incomes: {
-    label: 'Incomes',
+const progressChartConfig = {
+  students: {
+    label: 'Students',
   },
 } satisfies ChartConfig;
 
-type OrderChartDetailsProps = {
-  ordersMonthlyRevenue: {
-    month: string;
-    revenue: number;
-    totalPrice: number;
+const CoursesWithProgressChartDetails = ({
+  results,
+}: {
+  results: {
+    range: string;
+    students: number;
   }[];
-};
-
-const OrderChartDetails = ({
-  ordersMonthlyRevenue,
-}: OrderChartDetailsProps) => {
-  const maxRevenue = Math.max(...ordersMonthlyRevenue.map((o) => o.totalPrice));
+}) => {
+  const maxStudents = Math.max(...results.map((r) => r.students));
 
   return (
     <Card className='col-span-4 gap-6 py-0'>
-      <div className='space-y-4 py-6 max-lg:border-b lg:col-span-2 lg:border-r'>
+      <div className='space-y-4 py-6 max-lg:border-b lg:col-span-2 '>
         <CardHeader>
-          <CardTitle className='text-2xl font-semibold'>Orders</CardTitle>
+          <CardTitle className='text-2xl font-semibold'>
+            Progress Percentage by Students
+          </CardTitle>
           <span className='text-muted-foreground text-sm'>
-            Monthly orders overview
+            Track course completion
           </span>
         </CardHeader>
         <CardContent className='pb-0 px-6 '>
           <ChartContainer
-            config={totalIncomeChartConfig}
+            config={progressChartConfig}
             className='min-h-[300px] max-h-[300px] w-full '
           >
             <AreaChart
-              data={ordersMonthlyRevenue}
+              data={results}
               margin={{
                 left: -15,
                 right: 12,
@@ -57,7 +52,7 @@ const OrderChartDetails = ({
               className='stroke-2'
             >
               <defs>
-                <linearGradient id='fillSales' x1='0' y1='0' x2='0' y2='1'>
+                <linearGradient id='fillProgress' x1='0' y1='0' x2='0' y2='1'>
                   <stop
                     offset='20%'
                     stopColor='var(--chart-2)'
@@ -76,20 +71,14 @@ const OrderChartDetails = ({
                 vertical={false}
               />
               <XAxis
-                dataKey='month'
+                dataKey='range'
                 tickLine={false}
                 tickMargin={5.5}
                 axisLine={false}
-                tickFormatter={(value, index) =>
-                  index % 2 === 0 ? value.slice(0, 3) : ''
-                }
                 tick={{ fontSize: 12 }}
               />
               <YAxis
-                domain={[0, Math.ceil(maxRevenue / 1000) * 1000]}
-                tickFormatter={(value) =>
-                  value >= 1000 ? `${(value / 1000).toFixed(1)}k` : `${value}`
-                }
+                domain={[0, Math.ceil(maxStudents / 10) * 10]}
                 tickLine={false}
                 axisLine={false}
                 tick={{
@@ -101,20 +90,12 @@ const OrderChartDetails = ({
               />
               <ChartTooltip
                 cursor={false}
-                content={
-                  <ChartTooltipContent
-                    hideLabel
-                    formatter={(value) => [
-                      `$${((value as number) / 1000).toFixed(1)}k`,
-                      ' Income',
-                    ]}
-                  />
-                }
+                content={<ChartTooltipContent hideLabel />}
               />
               <Area
-                dataKey='totalPrice'
+                dataKey='students'
                 type='linear'
-                fill='url(#fillSales)'
+                fill='url(#fillProgress)'
                 stroke='var(--chart-2)'
                 stackId='a'
               />
@@ -126,4 +107,4 @@ const OrderChartDetails = ({
   );
 };
 
-export default OrderChartDetails;
+export default CoursesWithProgressChartDetails;
