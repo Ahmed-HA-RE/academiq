@@ -90,6 +90,9 @@ export const baseCourseSchema = z.object({
   prequisites: z
     .string({ error: 'Invalid prequisites' })
     .min(1, 'Prequisites is required'),
+  instructorId: z
+    .uuid({ error: 'Invalid instructor id' })
+    .min(1, 'Instructor id is required'),
 });
 
 // Auth schemas
@@ -202,12 +205,9 @@ export const instructorSchema = z.object({
   socialLinks: z
     .object({
       whatsapp: phoneSchema,
-      instagram: z
-        .string({ error: 'Invalid instagram username' })
-        .min(3, 'Instagram username is required'),
-      linkedin: z
-        .string({ error: 'Invalid LinkedIn username' })
-        .min(3, 'LinkedIn username is required'),
+      instagram: z.string({ error: 'Invalid instagram username' }),
+
+      linkedin: z.string({ error: 'Invalid LinkedIn username' }),
     })
     .partial(),
   expertise: z
@@ -276,13 +276,13 @@ export const createApplicationSchema = instructorSchema
     address: true,
     phone: true,
     birthDate: true,
-    socialLinks: true,
   })
   .extend({
     file: fileSchema,
     userId: z
       .string({ error: 'Invalid user id' })
       .min(1, 'User id is required'),
+    socialLinks: instructorSchema.shape.socialLinks,
   });
 
 export const updateUserAsAdminSchema = z.object({

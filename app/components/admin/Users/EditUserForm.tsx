@@ -14,7 +14,6 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from '../../ui/select';
@@ -25,6 +24,7 @@ import { Button } from '../../ui/button';
 import AvatarUpload from '../../AvatarUpload';
 import { updateUserAsAdmin } from '@/lib/actions/user';
 import { useRouter } from 'next/navigation';
+
 const EditUserForm = ({ user }: { user: User }) => {
   const router = useRouter();
 
@@ -55,7 +55,7 @@ const EditUserForm = ({ user }: { user: User }) => {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 w-full'>
           {/* Name */}
           <Controller
             control={form.control}
@@ -94,47 +94,15 @@ const EditUserForm = ({ user }: { user: User }) => {
               </Field>
             )}
           />
-        </div>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-          {/* Status */}
-          <Controller
-            control={form.control}
-            name='status'
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name}>Status</FieldLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger
-                    id={field.name}
-                    className='w-full cursor-pointer input'
-                    aria-invalid={fieldState.invalid}
-                  >
-                    <SelectValue placeholder='Select status' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Status</SelectLabel>
-                      <SelectItem value='verified' className='cursor-pointer'>
-                        Verified
-                      </SelectItem>
-                      <SelectItem value='unverified' className='cursor-pointer'>
-                        Unverified
-                      </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                {fieldState.error && (
-                  <FieldError>{fieldState.error.message}</FieldError>
-                )}
-              </Field>
-            )}
-          />
           {/* Role */}
           <Controller
             control={form.control}
             name='role'
             render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
+              <Field
+                className={user.role !== 'user' ? 'lg:col-span-2' : ''}
+                data-invalid={fieldState.invalid}
+              >
                 <FieldLabel htmlFor={field.name}>Role</FieldLabel>
                 <Select
                   aria-invalid={fieldState.invalid}
@@ -144,6 +112,7 @@ const EditUserForm = ({ user }: { user: User }) => {
                   <SelectTrigger
                     id={field.name}
                     className='w-full cursor-pointer input'
+                    disabled={user.banned}
                   >
                     <SelectValue placeholder='Select a role' />
                   </SelectTrigger>
@@ -170,121 +139,165 @@ const EditUserForm = ({ user }: { user: User }) => {
               </Field>
             )}
           />
-        </div>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-          {/* Phone Number  */}
-          <Controller
-            name='phone'
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name}>Phone Number</FieldLabel>
-                <PhoneInput
-                  id={field.name}
-                  aria-invalid={fieldState.invalid}
-                  defaultCountry='AE'
-                  international
-                  countryCallingCodeEditable={false}
-                  {...field}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
+
+          {/* Status */}
+          {user.role === 'user' && (
+            <>
+              <Controller
+                control={form.control}
+                name='status'
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Status</FieldLabel>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger
+                        id={field.name}
+                        className='w-full cursor-pointer input'
+                        aria-invalid={fieldState.invalid}
+                      >
+                        <SelectValue placeholder='Select status' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Status</SelectLabel>
+                          <SelectItem
+                            value='verified'
+                            className='cursor-pointer'
+                          >
+                            Verified
+                          </SelectItem>
+                          <SelectItem
+                            value='unverified'
+                            className='cursor-pointer'
+                          >
+                            Unverified
+                          </SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    {fieldState.error && (
+                      <FieldError>{fieldState.error.message}</FieldError>
+                    )}
+                  </Field>
                 )}
-              </Field>
-            )}
-          />
-          {/* City */}
-          <Controller
-            name='city'
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name}>City</FieldLabel>
-                <Select
-                  aria-invalid={fieldState.invalid}
-                  onValueChange={field.onChange}
-                  value={field.value || ''}
-                >
-                  <SelectTrigger
-                    id={field.name}
-                    className='w-full cursor-pointer input'
-                  >
-                    <SelectValue placeholder='Select a city' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>United Arab Emirates</SelectLabel>
-                      {LIST_COUNTRIES.map((city) => (
-                        <SelectItem
-                          key={city}
-                          value={city}
-                          className='cursor-pointer'
-                        >
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
+              />
+
+              <Controller
+                name='phone'
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Phone Number</FieldLabel>
+                    <PhoneInput
+                      id={field.name}
+                      aria-invalid={fieldState.invalid}
+                      defaultCountry='AE'
+                      international
+                      countryCallingCodeEditable={false}
+                      {...field}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
                 )}
-              </Field>
-            )}
-          />
-        </div>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-          {/* Full Name ( billingInfo ) */}
-          <Controller
-            name='fullName'
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <div className='flex flex-row justify-between items-center'>
-                  <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
-                  <span className='text-muted-foreground text-sm'>
-                    For billing info
-                  </span>
-                </div>
-                <Input
-                  id={field.name}
-                  aria-invalid={fieldState.invalid}
-                  placeholder='Update user full name for billing info'
-                  className='input'
-                  {...field}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
+              />
+              {/* City */}
+              <Controller
+                name='city'
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>City</FieldLabel>
+                    <Select
+                      aria-invalid={fieldState.invalid}
+                      onValueChange={field.onChange}
+                      value={field.value || ''}
+                    >
+                      <SelectTrigger
+                        id={field.name}
+                        className='w-full cursor-pointer input'
+                      >
+                        <SelectValue placeholder='Select a city' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>United Arab Emirates</SelectLabel>
+                          {LIST_COUNTRIES.map((city) => (
+                            <SelectItem
+                              key={city}
+                              value={city}
+                              className='cursor-pointer'
+                            >
+                              {city}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
                 )}
-              </Field>
-            )}
-          />
-          {/* Address */}
-          <Controller
-            name='address'
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name}>Address</FieldLabel>
-                <Input
-                  id={field.name}
-                  aria-invalid={fieldState.invalid}
-                  placeholder='Enter your address'
-                  className='input'
-                  {...field}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
+              />
+              {/* Full Name ( billingInfo ) */}
+              <Controller
+                name='fullName'
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <div className='flex flex-row justify-between items-center'>
+                      <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
+                      <span className='text-muted-foreground text-sm'>
+                        For billing info
+                      </span>
+                    </div>
+                    <Input
+                      id={field.name}
+                      aria-invalid={fieldState.invalid}
+                      placeholder='Update user full name for billing info'
+                      className='input'
+                      {...field}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
                 )}
-              </Field>
-            )}
-          />
+              />
+              {/* Address */}
+              <Controller
+                name='address'
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Address</FieldLabel>
+                    <Input
+                      id={field.name}
+                      aria-invalid={fieldState.invalid}
+                      placeholder='Enter your address'
+                      className='input'
+                      {...field}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </>
+          )}
+
           {/* Avatar */}
           <Controller
             name='avatar'
             control={form.control}
             render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
+              <Field
+                className='lg:col-span-2'
+                data-invalid={fieldState.invalid}
+              >
                 <FieldLabel htmlFor={field.name}>Avatar</FieldLabel>
                 <div className='flex flex-row items-center gap-4'>
                   <AvatarUpload

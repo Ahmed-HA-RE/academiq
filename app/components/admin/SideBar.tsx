@@ -64,6 +64,7 @@ const pagesItems = [
     label: 'Users Management',
     items: [
       { label: 'All Users', href: '/admin-dashboard/users' },
+      { label: 'Admins', href: '/admin-dashboard/users/admins' },
       { label: 'Banned Users', href: '/admin-dashboard/users/banned-users' },
     ],
   },
@@ -86,7 +87,7 @@ const SideBar = ({ user, admins }: { user: User; admins: User[] }) => {
     <Sidebar
       variant='floating'
       collapsible='icon'
-      className='p-6 pr-0 [&>[data-slot=sidebar-inner]]:group-data-[variant=floating]:rounded-xl'
+      className='p-6 pr-0 [&>[data-slot=sidebar-inner]]:group-data-[variant=floating]:rounded-xl z-1'
     >
       <SidebarHeader>
         <SidebarMenu>
@@ -159,33 +160,29 @@ const SideBar = ({ user, admins }: { user: User; admins: User[] }) => {
           <SidebarGroupContent>
             <SidebarMenu className='space-y-2'>
               {admins.map((admin) => (
-                <Link
-                  className='py-1 hover:bg-muted transition rounded-md'
-                  href={`/admin-dashboard/users/${admin.id}/edit`}
-                  onClick={() => setOpenMobile(false)}
+                <SidebarMenuItem
+                  className='flex items-center gap-2 px-1 cursor-default'
                   key={admin.id}
                 >
-                  <SidebarMenuItem className='flex items-center gap-2 px-1  cursor-pointer'>
-                    <Avatar className='size-7 rounded-full'>
-                      <Suspense
-                        fallback={
-                          <AvatarFallback className='rounded-full'>
-                            {admin.name.slice(0, 2).toUpperCase()}
-                          </AvatarFallback>
-                        }
-                      >
-                        <Image
-                          src={admin.image}
-                          alt={admin.name}
-                          width={28}
-                          height={28}
-                          className='object-cover'
-                        />
-                      </Suspense>
-                    </Avatar>
-                    <span>{admin.name}</span>
-                  </SidebarMenuItem>
-                </Link>
+                  <Avatar className='size-7 rounded-full'>
+                    <Suspense
+                      fallback={
+                        <AvatarFallback className='rounded-full'>
+                          {admin.name.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      }
+                    >
+                      <Image
+                        src={admin.image}
+                        alt={admin.name}
+                        width={28}
+                        height={28}
+                        className='object-cover'
+                      />
+                    </Suspense>
+                  </Avatar>
+                  <span>{admin.name}</span>
+                </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>

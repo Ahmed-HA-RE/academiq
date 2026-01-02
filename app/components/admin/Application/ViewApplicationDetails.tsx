@@ -22,7 +22,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { Suspense, useTransition } from 'react';
-import { formatDate } from 'date-fns';
+import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { InstructorApplication } from '@/types';
@@ -130,7 +130,7 @@ const ViewApplicationDetails = ({
                     Date of Birth
                   </p>
                   <p className='text-base'>
-                    {formatDate(application.birthDate, 'MM/dd/yyyy')}
+                    {format(new Date(application.birthDate), 'MM/dd/yyyy')}
                   </p>
                 </div>
               </div>

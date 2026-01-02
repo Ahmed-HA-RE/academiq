@@ -174,12 +174,7 @@ const ApplicationForm = ({
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <div className='flex flex-row justify-between items-center'>
-                    <FieldLabel htmlFor={field.name}>WhatsApp</FieldLabel>
-                    <span className='text-muted-foreground text-xs'>
-                      Optional field
-                    </span>
-                  </div>
+                  <FieldLabel htmlFor={field.name}>WhatsApp</FieldLabel>
                   <PhoneInput
                     id={field.name}
                     aria-invalid={fieldState.invalid}

@@ -23,13 +23,11 @@ import {
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { auth } from '@/lib/auth';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import Image from 'next/image';
 import { logoutUser } from '@/lib/actions/auth';
 import { toast } from 'sonner';
-import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import ScreenSpinner from '../ScreenSpinner';
 
 const ProfileDropdown = ({
   session,

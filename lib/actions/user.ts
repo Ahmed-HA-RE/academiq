@@ -334,13 +334,20 @@ export const banAsAdmin = async (id: string, role: string) => {
 
     if (!user) throw new Error('User not found');
 
-    await auth.api.banUser({
-      body: {
-        userId: user.id,
-        banReason: 'Violation of terms of service',
-      },
-      headers: await headers(),
+    await prisma.$transaction(async (tx) => {
+      await auth.api.banUser({
+        body: {
+          userId: user.id,
+          banReason: 'Violation of terms of service',
+        },
+        headers: await headers(),
+      });
+      await tx.user.update({
+        where: { id: user.id },
+        data: { role: 'user' },
+      });
     });
+
     revalidatePath('/', 'layout');
     return { success: true, message: `${role} banned successfully` };
   } catch (error) {
@@ -398,6 +405,14 @@ export const updateUserAsAdmin = async (
     const validatedData = updateUserAsAdminSchema.safeParse(data);
 
     if (!validatedData.success) throw new Error('Invalid data');
+
+    // Banned users cannot be assigned admin role
+    if (user.banned && validatedData.data.role === 'admin')
+      throw new Error('Banned users cannot be assigned to admin role');
+
+    // Unverified users cannot be assigned admin role
+    if (!user.emailVerified && validatedData.data.role === 'admin')
+      throw new Error('Unverified users cannot be assigned to admin role');
 
     // Unauthorized to update users with admin role
     if (
@@ -459,11 +474,9 @@ export const getBannedUsers = async ({
   q,
   limit,
   status,
-  role,
 }: {
   limit?: number;
   q?: string;
-  role?: string;
   status?: string;
   page: number;
 }) => {
@@ -489,14 +502,6 @@ export const getBannedUsers = async ({
       }
     : { banned: true };
 
-  // Role filter
-  const roleFilter: Prisma.UserWhereInput = role
-    ? {
-        role: { equals: role },
-        AND: { banned: true },
-      }
-    : { banned: true };
-
   // Status filter
   const statusFilter: Prisma.UserWhereInput = status
     ? {
@@ -507,13 +512,13 @@ export const getBannedUsers = async ({
     : { banned: true };
 
   const bannedUsers = await prisma.user.findMany({
-    where: { ...filterQuery, ...roleFilter, ...statusFilter },
+    where: { ...filterQuery, ...statusFilter },
     orderBy: { createdAt: 'desc' },
     take: limit || undefined,
     skip: (page - 1) * (limit || 0),
   });
   const totalBannedUsers = await prisma.user.count({
-    where: { ...filterQuery, ...roleFilter, ...statusFilter },
+    where: { ...filterQuery, ...statusFilter },
   });
 
   const totalPages = limit ? Math.ceil(totalBannedUsers / limit) : 1;
@@ -530,18 +535,55 @@ export const getBannedUsers = async ({
 };
 
 // Get all admins
-export const getAllAdmins = async () => {
-  const admins = await prisma.user.findMany({
-    where: { role: 'admin' },
-    orderBy: { createdAt: 'desc' },
+export const getAllAdmins = async (
+  q?: string,
+  page: number = 1,
+  limit = 10
+) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
   });
 
-  return convertToPlainObject(
-    admins.map((user) => ({
-      ...user,
-      billingInfo: user.billingInfo as BillingInfo,
-    }))
-  );
+  if (!session || session.user.role !== 'admin')
+    throw new Error('Unauthorized');
+
+  // Search filter
+  const filterQuery: Prisma.UserWhereInput = q
+    ? {
+        OR: [
+          {
+            name: { contains: q, mode: 'insensitive' },
+          },
+          {
+            email: { contains: q, mode: 'insensitive' },
+          },
+        ],
+        AND: { role: 'admin', id: { not: session.user.id } },
+      }
+    : { role: 'admin', id: { not: session.user.id } };
+
+  const admins = await prisma.user.findMany({
+    where: { ...filterQuery },
+    orderBy: { createdAt: 'desc' },
+    take: limit || undefined,
+    skip: (page - 1) * limit,
+  });
+
+  const totalAdmins = await prisma.user.count({
+    where: { ...filterQuery },
+  });
+
+  const totalPages = Math.ceil(totalAdmins / limit);
+
+  return {
+    adminUsers: convertToPlainObject(
+      admins.map((user) => ({
+        ...user,
+        billingInfo: user.billingInfo as BillingInfo,
+      }))
+    ),
+    totalPages,
+  };
 };
 // Get courses who have students enrolled
 export const getCoursesWithStudents = async () => {

@@ -37,11 +37,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/app/components/ui/table';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/app/components/ui/tooltip';
 import { cn, formatId } from '@/lib/utils';
 import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
@@ -216,81 +211,77 @@ const ApplicationDataTable = ({
   };
 
   return (
-    <div className='w-full col-span-4 border bg-card shadow-sm rounded-lg'>
-      <div className='border-b'>
-        <div className='flex flex-col gap-4 p-6'>
-          <div className='flex flex-row justify-between items-center'>
-            <span className='text-2xl font-semibold'>Applications</span>
-            <DeleteDialog
-              title='Delete Selected Applications?'
-              description='Are you sure you want to delete the selected applications? this action can not be undone.'
-              action={handleDeleteApplications}
-              disabled={
-                Object.keys(selectApplications).length > 0 ? false : true
-              }
-            />
-          </div>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-            {/* Select Status */}
-            <Select
-              value={filters.status}
-              onValueChange={(value) => setFilters({ status: value })}
+    <div className='w-full col-span-4'>
+      <div className='flex flex-col gap-6 p-6 px-4'>
+        <div className='flex flex-row justify-between items-center'>
+          <span className='text-2xl font-semibold'>Applications</span>
+          <DeleteDialog
+            title='Delete Selected Applications?'
+            description='Are you sure you want to delete the selected applications? this action can not be undone.'
+            action={handleDeleteApplications}
+            disabled={Object.keys(selectApplications).length > 0 ? false : true}
+          />
+        </div>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+          {/* Select Status */}
+          <Select
+            value={filters.status}
+            onValueChange={(value) => setFilters({ status: value })}
+          >
+            <SelectTrigger
+              id={'status'}
+              className='w-full cursor-pointer input'
             >
-              <SelectTrigger
-                id={'status'}
-                className='w-full cursor-pointer input'
-              >
-                <SelectValue placeholder='Select status' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Status</SelectLabel>
-                  <SelectItem value='all' className='cursor-pointer'>
-                    All
-                  </SelectItem>
-                  <SelectItem value='approved' className='cursor-pointer'>
-                    <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-green-500 text-green-500' />
-                      <span className='truncate'>Approved</span>
-                    </span>
-                  </SelectItem>
-                  <SelectItem value='rejected' className='cursor-pointer'>
-                    <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-destructive text-destructive' />
-                      <span className='truncate'>Rejected</span>
-                    </span>
-                  </SelectItem>
-                  <SelectItem value='pending' className='cursor-pointer'>
-                    <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-amber-400 text-amber-400' />
-                      <span className='truncate'>Pending</span>
-                    </span>
-                  </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+              <SelectValue placeholder='Select status' />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Status</SelectLabel>
+                <SelectItem value='all' className='cursor-pointer'>
+                  All
+                </SelectItem>
+                <SelectItem value='approved' className='cursor-pointer'>
+                  <span className='flex items-center gap-2'>
+                    <CircleIcon className='size-2 fill-green-500 text-green-500' />
+                    <span className='truncate'>Approved</span>
+                  </span>
+                </SelectItem>
+                <SelectItem value='rejected' className='cursor-pointer'>
+                  <span className='flex items-center gap-2'>
+                    <CircleIcon className='size-2 fill-destructive text-destructive' />
+                    <span className='truncate'>Rejected</span>
+                  </span>
+                </SelectItem>
+                <SelectItem value='pending' className='cursor-pointer'>
+                  <span className='flex items-center gap-2'>
+                    <CircleIcon className='size-2 fill-amber-400 text-amber-400' />
+                    <span className='truncate'>Pending</span>
+                  </span>
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
-            {/* Paid at calendar */}
-            <Input
-              type='date'
-              className='col-span-1'
-              value={filters.submittedAt}
-              onChange={(e) => setFilters({ submittedAt: e.target.value })}
-            />
-            {/* Search Input  */}
-            <div className='relative sm:col-span-2 lg:col-span-1'>
-              <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
-                <SearchIcon className='size-4' />
-                <span className='sr-only'>Search</span>
-              </div>
-              <Input
-                type='text'
-                placeholder='Search...'
-                className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
-                value={filters.search}
-                onChange={(e) => setFilters({ search: e.target.value })}
-              />
+          {/* Paid at calendar */}
+          <Input
+            type='date'
+            className='col-span-1'
+            value={filters.submittedAt}
+            onChange={(e) => setFilters({ submittedAt: e.target.value })}
+          />
+          {/* Search Input  */}
+          <div className='relative sm:col-span-2 lg:col-span-1'>
+            <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
+              <SearchIcon className='size-4' />
+              <span className='sr-only'>Search</span>
             </div>
+            <Input
+              type='text'
+              placeholder='Search...'
+              className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
+              value={filters.search}
+              onChange={(e) => setFilters({ search: e.target.value })}
+            />
           </div>
         </div>
         <Table>

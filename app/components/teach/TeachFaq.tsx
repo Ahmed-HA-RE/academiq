@@ -11,9 +11,14 @@ import {
 import { MotionPreset } from '@/app/components/ui/motion-preset';
 import { faqItems, SERVER_URL } from '@/lib/constants';
 import Link from 'next/link';
-import { User } from '@/types';
+import { getApplicationByUserId } from '@/lib/actions/instructor';
+import { getCurrentLoggedUser } from '@/lib/actions/user';
 
-const TeachFaq = ({ user }: { user: User | undefined }) => {
+const TeachFaq = async () => {
+  const user = await getCurrentLoggedUser();
+
+  const application = await getApplicationByUserId(user?.id);
+
   return (
     <section className='from-primary/10 relative overflow-hidden bg-linear-to-b to-transparent to-90% section-spacing'>
       <div className='relative container'>
@@ -206,10 +211,16 @@ const TeachFaq = ({ user }: { user: User | undefined }) => {
               href={
                 !user
                   ? `/login?callbackUrl=${SERVER_URL}/teach/apply`
-                  : '/teach/apply'
+                  : application && application.userId === user.id
+                    ? '/application/status'
+                    : '/teach/apply'
               }
             >
-              {!user ? 'Please log in to apply' : 'Apply Now'}
+              {!user
+                ? 'Please log in to apply'
+                : application && application.userId === user.id
+                  ? 'View Application Status'
+                  : 'Apply Now'}
             </Link>
           </Button>
         </MotionPreset>

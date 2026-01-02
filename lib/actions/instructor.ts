@@ -16,7 +16,7 @@ import { APP_NAME } from '../constants';
 import { domain } from '../resend';
 import ApplicationStatus from '@/emails/ApplicationStatus';
 import { Prisma } from '../generated/prisma';
-import { endOfDay, startOfDay } from 'date-fns';
+import { addDays, endOfDay, startOfDay } from 'date-fns';
 import { redirect } from 'next/navigation';
 
 export const applyToTeach = async (
@@ -73,6 +73,7 @@ export const applyToTeach = async (
     const userApplication = await prisma.intructorApplication.create({
       data: {
         ...validateData.data,
+        birthDate: addDays(validateData.data.birthDate, 1),
         userId: session.user.id,
         file: result.secure_url,
         socialLinks: {
@@ -97,7 +98,7 @@ export const applyToTeach = async (
   }
 };
 
-export const getApplicationByUserId = async (userId: string) => {
+export const getApplicationByUserId = async (userId: string | undefined) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });

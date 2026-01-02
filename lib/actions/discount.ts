@@ -61,8 +61,6 @@ export const applyDiscount = async (code: string) => {
     } else if (discount.type === 'fixed') {
       const newTotalPrice = Number(cart.totalPrice) - discount.amount;
 
-      console.log(newTotalPrice);
-
       await prisma.cart.update({
         where: { id: cart.id },
         data: {

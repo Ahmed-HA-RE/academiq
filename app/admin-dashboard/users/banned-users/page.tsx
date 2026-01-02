@@ -14,11 +14,10 @@ type AdminBanUsersPageProps = {
 };
 
 const AdminBanUsersPage = async ({ searchParams }: AdminBanUsersPageProps) => {
-  const { page, role, q, status } = await loadSearchParams(searchParams);
+  const { page, q, status } = await loadSearchParams(searchParams);
 
   const { users: bannedUsers, totalPages } = await getBannedUsers({
     page,
-    role,
     q,
     status,
     limit: 10,

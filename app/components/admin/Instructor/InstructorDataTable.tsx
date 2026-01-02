@@ -215,126 +215,116 @@ const InstructorDataTable = ({
   };
 
   return (
-    <div className='w-full col-span-4 border bg-card shadow-sm rounded-lg'>
-      <div className='border-b'>
-        <div className='flex flex-col gap-4 p-6'>
-          <div className='flex flex-row justify-between items-center'>
-            <span className='text-2xl font-semibold'>Instructors</span>
-            <DeleteDialog
-              title='Delete Selected Instructors'
-              description='Are you sure you want to delete the selected instructors? this action can not be undone.'
-              action={handleDeleteInstructors}
-              disabled={
-                Object.keys(selectInstructors).length > 0 ? false : true
-              }
+    <div className='w-full col-span-4'>
+      <div className='flex flex-col gap-6 p-6 px-4'>
+        <div className='flex flex-row justify-between items-center'>
+          <span className='text-2xl font-semibold'>Instructors</span>
+          <DeleteDialog
+            title='Delete Selected Instructors'
+            description='Are you sure you want to delete the selected instructors? this action can not be undone.'
+            action={handleDeleteInstructors}
+            disabled={Object.keys(selectInstructors).length > 0 ? false : true}
+          />
+        </div>
+
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+          {/* Select Status */}
+          <Select
+            value={filters.status}
+            onValueChange={(value) => setFilters({ status: value })}
+          >
+            <SelectTrigger
+              id={'status'}
+              className='w-full cursor-pointer input'
+            >
+              <SelectValue placeholder='Select status' />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Status</SelectLabel>
+                <SelectItem value='all' className='cursor-pointer'>
+                  All
+                </SelectItem>
+                <SelectItem value='active' className='cursor-pointer'>
+                  <span className='flex items-center gap-2'>
+                    <CircleIcon className='size-2 fill-green-600 text-green-600' />
+                    <span className='truncate'>Active</span>
+                  </span>
+                </SelectItem>
+                <SelectItem value='banned' className='cursor-pointer'>
+                  <span className='flex items-center gap-2'>
+                    <CircleIcon className='size-2 fill-destructive text-destructive' />
+                    <span className='truncate'>Banned</span>
+                  </span>
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          {/* Search Input  */}
+          <div className='relative'>
+            <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
+              <SearchIcon className='size-4' />
+              <span className='sr-only'>Search</span>
+            </div>
+            <Input
+              type='text'
+              placeholder='Search...'
+              className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
+              value={filters.search}
+              onChange={(e) => setFilters({ search: e.target.value })}
             />
           </div>
-
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-            {/* Select Status */}
-            <Select
-              value={filters.status}
-              onValueChange={(value) => setFilters({ status: value })}
-            >
-              <SelectTrigger
-                id={'status'}
-                className='w-full cursor-pointer input'
-              >
-                <SelectValue placeholder='Select status' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Status</SelectLabel>
-                  <SelectItem value='all' className='cursor-pointer'>
-                    All
-                  </SelectItem>
-                  <SelectItem value='active' className='cursor-pointer'>
-                    <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-green-600 text-green-600' />
-                      <span className='truncate'>Active</span>
-                    </span>
-                  </SelectItem>
-                  <SelectItem value='banned' className='cursor-pointer'>
-                    <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-destructive text-destructive' />
-                      <span className='truncate'>Banned</span>
-                    </span>
-                  </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-
-            {/* Search Input  */}
-            <div className='relative'>
-              <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
-                <SearchIcon className='size-4' />
-                <span className='sr-only'>Search</span>
-              </div>
-              <Input
-                type='text'
-                placeholder='Search...'
-                className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
-                value={filters.search}
-                onChange={(e) => setFilters({ search: e.target.value })}
-              />
-            </div>
-          </div>
         </div>
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className='h-16 border-t'>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      key={header.id}
-                      style={{ width: `${header.getSize()}px` }}
-                      className='text-muted-foreground px-4 last:text-center  nth-of-type-[2]:pl-3'
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                  className='hover:bg-transparent'
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className='px-4 nth-of-type-[2]:pl-3 nth-of-type-[6]:text-center'
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-24 text-center'
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
       </div>
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id} className='h-16 border-t'>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead
+                    key={header.id}
+                    style={{ width: `${header.getSize()}px` }}
+                    className='text-muted-foreground px-4 last:text-center  nth-of-type-[2]:pl-3'
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && 'selected'}
+                className='hover:bg-transparent'
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    className='px-4 nth-of-type-[2]:pl-3 nth-of-type-[6]:text-center'
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className='h-24 text-center'>
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
 
       {totalPages > 1 ? (
         <div className='flex items-center justify-between px-6 py-4 max-sm:flex-col md:max-lg:flex-col gap-6'>
@@ -357,7 +347,6 @@ const InstructorDataTable = ({
 export default InstructorDataTable;
 
 export const RowActions = ({ instructor }: { instructor: Instructor }) => {
-  console.log(instructor.user.id);
   const [isPending, startTransition] = useTransition();
 
   const handleDeleteInstructor = async () => {

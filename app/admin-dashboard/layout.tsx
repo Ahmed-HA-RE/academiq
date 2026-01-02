@@ -24,7 +24,7 @@ const AdminDashBoardLayout = async ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [user, admins] = await Promise.all([
+  const [user, { adminUsers }] = await Promise.all([
     getCurrentLoggedUser(),
     getAllAdmins(),
     markAsExpiredAndDeleteOrdersAsAdmin(),
@@ -33,7 +33,10 @@ const AdminDashBoardLayout = async ({
   if (!user) return notFound();
 
   return (
-    <div className='bg-muted before:bg-primary relative flex min-h-dvh w-full before:fixed before:inset-x-0 before:top-0 before:h-105'>
+    <div
+      className='bg-muted before:bg-linear-to-l  relative flex min-h-dvh w-full before:fixed before:inset-x-0 before:top-0 before:h-105 after:bg-linear-to-l  after:bottom-0 after:fixed after:inset-x-0 after:h-100 z-0 before:bg-gradient-to-l before:opacity-40 before:backdrop-blur-md
+after:bg-gradient-to-l after:from-[#434343] after:opacity-30 after:backdrop-blur-sm'
+    >
       <SidebarProvider
         style={
           {
@@ -43,7 +46,7 @@ const AdminDashBoardLayout = async ({
           } as CSSProperties
         }
       >
-        <SideBar user={user} admins={admins} />
+        <SideBar user={user} admins={adminUsers} />
         <div className='z-1 mx-auto flex size-full max-w-7xl flex-1 flex-col px-4 py-6 sm:px-6'>
           <header className='bg-card mb-6 flex items-center justify-between rounded-xl px-6 py-3.5'>
             <SidebarTrigger className='[&_svg]:!size-5 cursor-pointer' />

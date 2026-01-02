@@ -163,80 +163,78 @@ const OrderDataTable = ({
   );
 
   return (
-    <div className='w-full col-span-4 border bg-card shadow-sm rounded-lg'>
-      <div className='border-b'>
-        <div className='flex flex-col gap-4 p-6'>
-          <h2 className='text-2xl font-bold'>All Orders</h2>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-            {/* Select Status */}
-            <Select
-              value={filters.status}
-              onValueChange={(value) => setFilters({ status: value })}
+    <div className='w-full col-span-4'>
+      <div className='flex flex-col gap-6 p-6 px-4'>
+        <h2 className='text-2xl font-bold'>All Orders</h2>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+          {/* Select Status */}
+          <Select
+            value={filters.status}
+            onValueChange={(value) => setFilters({ status: value })}
+          >
+            <SelectTrigger
+              id={'status'}
+              className='w-full cursor-pointer input'
             >
-              <SelectTrigger
-                id={'status'}
-                className='w-full cursor-pointer input'
-              >
-                <SelectValue placeholder='Select status' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Status</SelectLabel>
-                  <SelectItem value='all' className='cursor-pointer'>
-                    <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-blue-500 text-blue-500' />
-                      <span className='truncate'>All</span>
-                    </span>
-                  </SelectItem>
-                  <SelectItem value='pending' className='cursor-pointer'>
-                    <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-amber-400 text-amber-400' />
-                      <span className='truncate'>Pending</span>
-                    </span>
-                  </SelectItem>
-                  <SelectItem value='paid' className='cursor-pointer'>
-                    <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-green-600 text-green-600' />
-                      <span className='truncate'>Paid</span>
-                    </span>
-                  </SelectItem>
-                  <SelectItem value='expired' className='cursor-pointer'>
-                    <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-destructive text-destructive' />
-                      <span className='truncate'>Expired</span>
-                    </span>
-                  </SelectItem>
-                  <SelectItem value='refunded' className='cursor-pointer'>
-                    <span className='flex items-center gap-2'>
-                      <CircleIcon className='size-2 fill-fuchsia-500 text-fuchsia-500' />
-                      <span className='truncate'>Refunded</span>
-                    </span>
-                  </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+              <SelectValue placeholder='Select status' />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Status</SelectLabel>
+                <SelectItem value='all' className='cursor-pointer'>
+                  <span className='flex items-center gap-2'>
+                    <CircleIcon className='size-2 fill-blue-500 text-blue-500' />
+                    <span className='truncate'>All</span>
+                  </span>
+                </SelectItem>
+                <SelectItem value='pending' className='cursor-pointer'>
+                  <span className='flex items-center gap-2'>
+                    <CircleIcon className='size-2 fill-amber-400 text-amber-400' />
+                    <span className='truncate'>Pending</span>
+                  </span>
+                </SelectItem>
+                <SelectItem value='paid' className='cursor-pointer'>
+                  <span className='flex items-center gap-2'>
+                    <CircleIcon className='size-2 fill-green-600 text-green-600' />
+                    <span className='truncate'>Paid</span>
+                  </span>
+                </SelectItem>
+                <SelectItem value='expired' className='cursor-pointer'>
+                  <span className='flex items-center gap-2'>
+                    <CircleIcon className='size-2 fill-destructive text-destructive' />
+                    <span className='truncate'>Expired</span>
+                  </span>
+                </SelectItem>
+                <SelectItem value='refunded' className='cursor-pointer'>
+                  <span className='flex items-center gap-2'>
+                    <CircleIcon className='size-2 fill-fuchsia-500 text-fuchsia-500' />
+                    <span className='truncate'>Refunded</span>
+                  </span>
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
-            {/* Paid at calendar */}
-            <Input
-              type='date'
-              className='col-span-1'
-              value={filters.paidAt}
-              onChange={(e) => setFilters({ paidAt: e.target.value })}
-            />
-            {/* Search Input  */}
-            <div className='relative sm:col-span-2 lg:col-span-1'>
-              <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
-                <SearchIcon className='size-4' />
-                <span className='sr-only'>Search</span>
-              </div>
-              <Input
-                type='text'
-                placeholder='Search...'
-                className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
-                value={filters.q}
-                onChange={(e) => setFilters({ q: e.target.value })}
-              />
+          {/* Paid at calendar */}
+          <Input
+            type='date'
+            className='col-span-1'
+            value={filters.paidAt}
+            onChange={(e) => setFilters({ paidAt: e.target.value })}
+          />
+          {/* Search Input  */}
+          <div className='relative sm:col-span-2 lg:col-span-1'>
+            <div className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
+              <SearchIcon className='size-4' />
+              <span className='sr-only'>Search</span>
             </div>
+            <Input
+              type='text'
+              placeholder='Search...'
+              className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
+              value={filters.q}
+              onChange={(e) => setFilters({ q: e.target.value })}
+            />
           </div>
         </div>
         <Table>

@@ -19,7 +19,6 @@ import z from 'zod';
 
 export type Course = z.infer<typeof baseCourseSchema> & {
   id: string;
-  // instructorId: string;
   rating: string;
   numReviews: number;
   createdAt: Date;

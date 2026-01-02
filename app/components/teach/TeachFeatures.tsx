@@ -1,3 +1,5 @@
+"'use client";
+
 import { TrendingUp, Layers, Globe, AlarmClock } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
 import {

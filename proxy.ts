@@ -54,6 +54,11 @@ export const proxy = async (req: NextRequest) => {
       )
     );
   }
+
+  if (pathname === 'application/status' && !user) {
+    return NextResponse.redirect(new URL('/teach/apply', req.url));
+  }
+
   if (
     pathname.startsWith('/admin-dashboard') &&
     (!user || user.role !== 'admin')

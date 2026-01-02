@@ -5,7 +5,6 @@ import {
   ChevronRightIcon,
   LogOutIcon,
   SettingsIcon,
-  UserIcon,
 } from 'lucide-react';
 import Image from 'next/image';
 import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
@@ -36,8 +35,11 @@ const AdminUserDropdown = ({ user }: { user: User }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const links = [
-    { label: 'My Account', icon: UserIcon, href: '/my-account' },
-    { label: 'Settings', icon: SettingsIcon, href: '/settings' },
+    {
+      label: 'Settings',
+      icon: SettingsIcon,
+      href: '/admin-dashboard/settings',
+    },
     { label: 'Back to Main Site', icon: ArrowLeft, href: '/' },
   ];
 
