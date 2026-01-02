@@ -31,7 +31,12 @@ export const proxy = async (req: NextRequest) => {
   }
 
   if (pathname === '/cart' && !user) {
-    return NextResponse.redirect(new URL('/', req.url));
+    return NextResponse.redirect(
+      new URL(
+        `/login?callbackUrl=${SERVER_URL}${req.nextUrl.pathname}`,
+        req.url
+      )
+    );
   }
 
   if (pathname === '/checkout' && !user) {
@@ -55,8 +60,15 @@ export const proxy = async (req: NextRequest) => {
     );
   }
 
-  if (pathname === 'application/status' && !user) {
+  if (pathname === '/application/status' && !user) {
     return NextResponse.redirect(new URL('/teach/apply', req.url));
+  }
+
+  if (
+    pathname.startsWith('/instructor-dashboard') &&
+    (!user || user.role !== 'instructor')
+  ) {
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
   if (
@@ -79,6 +91,6 @@ export const config = {
     '/success',
     '/my-courses',
     '/admin-dashboard/:path*',
-    '/((?!api|_next/static|_next/image|.*\\.png$).*)',
+    '/instructor-dashboard/:path*',
   ],
 };

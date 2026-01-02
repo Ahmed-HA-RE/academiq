@@ -211,16 +211,28 @@ const TeachFaq = async () => {
               href={
                 !user
                   ? `/login?callbackUrl=${SERVER_URL}/teach/apply`
-                  : application && application.userId === user.id
+                  : application &&
+                      application.userId === user.id &&
+                      user.role !== 'instructor'
                     ? '/application/status'
-                    : '/teach/apply'
+                    : application &&
+                        application.userId === user.id &&
+                        user.role === 'instructor'
+                      ? '/instructor-dashboard'
+                      : '/teach/apply'
               }
             >
               {!user
                 ? 'Please log in to apply'
-                : application && application.userId === user.id
+                : application &&
+                    application.userId === user.id &&
+                    user.role !== 'instructor'
                   ? 'View Application Status'
-                  : 'Apply Now'}
+                  : application &&
+                      application.userId === user.id &&
+                      user.role === 'instructor'
+                    ? 'Go to Instructor Dashboard'
+                    : 'Apply Now'}
             </Link>
           </Button>
         </MotionPreset>

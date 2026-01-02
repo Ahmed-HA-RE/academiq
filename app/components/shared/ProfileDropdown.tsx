@@ -27,7 +27,7 @@ import { Suspense } from 'react';
 import Image from 'next/image';
 import { logoutUser } from '@/lib/actions/auth';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const ProfileDropdown = ({
   session,
@@ -45,15 +45,29 @@ const ProfileDropdown = ({
         ]
       : [];
 
-  const userLinks = [
-    { icon: UserIcon, title: 'My account', href: '/account' },
-    { icon: SettingsIcon, title: 'Settings', href: '/settings' },
-    { icon: LibraryBig, title: 'My Courses', href: '/my-courses' },
-  ];
+  const userLinks =
+    session && session.user.role === 'user'
+      ? [
+          { icon: SettingsIcon, title: 'Settings', href: '/settings' },
+          { icon: LibraryBig, title: 'My Courses', href: '/my-courses' },
+        ]
+      : [];
 
-  const links = [...userLinks, ...adminLinks];
+  const instructorLinks =
+    session && session.user.role === 'instructor'
+      ? [
+          {
+            icon: UserIcon,
+            title: 'Instructor Dashboard',
+            href: '/instructor-dashboard',
+          },
+        ]
+      : [];
+
+  const links = [...adminLinks, ...instructorLinks, ...userLinks];
 
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     const res = await logoutUser();
@@ -145,7 +159,10 @@ const ProfileDropdown = ({
           {links.map((link) => (
             <DropdownMenuItem
               key={link.title}
-              className='px-4 py-2.5 text-base cursor-pointer'
+              className={cn(
+                'px-4 py-2.5 text-base cursor-pointer',
+                pathname === link.href && 'bg-accent'
+              )}
               asChild
             >
               <Link href={link.href}>
