@@ -3,8 +3,7 @@ import {
   getTotalRevenueAfter,
   getTotalRevenueBefore,
 } from '@/lib/actions/order';
-import React from 'react';
-import TotalRevenuChartDetails from './TotalRevenueChartDetails';
+import TotalRevenuChartDetails from '../../shared/TotalRevenueChartDetails';
 
 const TotalRevenueChart = async () => {
   const [monthlyRevenueData, totalRevenueBefore, totalRevenueAfter] =

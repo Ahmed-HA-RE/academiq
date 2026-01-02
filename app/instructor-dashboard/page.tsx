@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import StatisticsCard from '../components/instructor/StatisticsCard';
+import TotalRevenueChart from '../components/instructor/TotalRevenueChart';
+import PopularCoursesCard from '../components/instructor/PopularCoursesCard';
 
 export const metadata: Metadata = {
   title: 'Overview',
@@ -8,7 +10,13 @@ export const metadata: Metadata = {
 };
 
 const InstructorHomePage = async () => {
-  return <StatisticsCard />;
+  return (
+    <>
+      <StatisticsCard />
+      <TotalRevenueChart />
+      <PopularCoursesCard />
+    </>
+  );
 };
 
 export default InstructorHomePage;

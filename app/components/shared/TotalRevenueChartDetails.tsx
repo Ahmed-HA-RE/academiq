@@ -11,6 +11,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/app/components/ui/chart';
+import { usePathname } from 'next/navigation';
 
 const totalEarningChartConfig = {
   uv: {
@@ -47,8 +48,10 @@ const TotalRevenuChartDetails = ({
           (totalRevenueAfter - totalRevenueBefore) / totalRevenueBefore
         );
 
+  const pathname = usePathname();
+
   return (
-    <Card className='col-span-4 xl:col-span-2 w-full'>
+    <Card className='col-span-4 w-full'>
       <CardHeader className='flex flex-col md:flex-col items-start justify-between gap-4 pb-4'>
         <span className='text-2xl font-semibold'>Total Revenue</span>
         <div className='flex items-center gap-4'>
@@ -91,7 +94,8 @@ const TotalRevenuChartDetails = ({
       <CardContent className='pb-4 px-6'>
         <div className='flex items-center justify-between mb-4'>
           <span className='text-muted-foreground text-sm'>
-            {growthPercentage}% Company Growth
+            {growthPercentage}%{' '}
+            {pathname === '/admin-dashboard' ? 'Company Growth' : 'Your Growth'}
           </span>
         </div>
         <ChartContainer
