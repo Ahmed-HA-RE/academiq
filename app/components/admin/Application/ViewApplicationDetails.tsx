@@ -1,5 +1,5 @@
 'use client';
-import { updateApplicationStatusById } from '@/lib/actions/instructor';
+import { updateApplicationStatusById } from '@/lib/actions/instructor/instructor';
 import { Metadata } from 'next';
 import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
 import {

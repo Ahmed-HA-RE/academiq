@@ -1,5 +1,5 @@
 import InstructorDataTable from '@/app/components/admin/Instructor/InstructorDataTable';
-import { getAllInstructorsAsAdmin } from '@/lib/actions/instructor';
+import { getAllInstructorsAsAdmin } from '@/lib/actions/instructor/instructor';
 import { loadSearchParams } from '@/lib/searchParams';
 import { Metadata } from 'next';
 import { SearchParams } from 'nuqs/server';

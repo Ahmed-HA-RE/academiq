@@ -11,8 +11,8 @@ import Link from 'next/link';
 import { FaInstagram } from 'react-icons/fa6';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { Metadata } from 'next';
-import SideBar from './SideBar';
-import Notification from './Notification';
+import SideBar from '../components/instructor/SideBar';
+import Notification from '../components/instructor/Notification';
 
 export const metadata: Metadata = {
   title: {

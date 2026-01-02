@@ -24,7 +24,7 @@ import { Button } from '../ui/button';
 import { TEACHING_CATEGORIES } from '@/lib/constants';
 import MultipleSelector from '../ui/multi-select';
 import { auth } from '@/lib/auth';
-import { applyToTeach } from '@/lib/actions/instructor';
+import { applyToTeach } from '@/lib/actions/instructor/instructor';
 
 const ApplicationForm = ({
   user,

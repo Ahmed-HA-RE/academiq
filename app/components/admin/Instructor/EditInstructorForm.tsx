@@ -11,7 +11,7 @@ import { PhoneInput } from '../../ui/phone-input';
 import { Textarea } from '../../ui/textarea';
 import MultipleSelector from '../../ui/multi-select';
 import { TEACHING_CATEGORIES } from '@/lib/constants';
-import { updateInstructorAsAdmin } from '@/lib/actions/instructor';
+import { updateInstructorAsAdmin } from '@/lib/actions/instructor/instructor';
 import { useRouter } from 'next/navigation';
 import ScreenSpinner from '../../ScreenSpinner';
 import { Button } from '../../ui/button';

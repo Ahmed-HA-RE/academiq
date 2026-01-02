@@ -11,7 +11,7 @@ import {
 import { MotionPreset } from '@/app/components/ui/motion-preset';
 import { faqItems, SERVER_URL } from '@/lib/constants';
 import Link from 'next/link';
-import { getApplicationByUserId } from '@/lib/actions/instructor';
+import { getApplicationByUserId } from '@/lib/actions/instructor/instructor';
 import { getCurrentLoggedUser } from '@/lib/actions/user';
 
 const TeachFaq = async () => {

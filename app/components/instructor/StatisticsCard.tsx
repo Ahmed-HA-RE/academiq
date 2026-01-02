@@ -1,68 +1,37 @@
-import {
-  BookMarkedIcon,
-  Box,
-  DollarSignIcon,
-  FileUser,
-  GraduationCap,
-  Users,
-} from 'lucide-react';
+import { BookMarkedIcon, DollarSignIcon, Users } from 'lucide-react';
+
 import { Card, CardContent, CardHeader } from '../ui/card';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import { getUsersCount } from '@/lib/actions/user';
-import { getOrdersCount, getTotalSalesAmount } from '@/lib/actions/order';
 import {
-  getInstructorApplicationsCount,
-  getTotalInstructorsCount,
-} from '@/lib/actions/instructor/instructor';
-import { getTotalCoursesCount } from '@/lib/actions/course';
+  getTotalCoursesByInstructor,
+  getTotalRevenueByInstructor,
+  getTotalStudentsCount,
+} from '@/lib/actions/instructor/analytics';
 
 const StatisticsCard = async () => {
-  const [
-    usersCount,
-    ordersCount,
-    totalSalesAmount,
-    totalInstructors,
-    totalInstructorsApplicants,
-    totalCourses,
-  ] = await Promise.all([
-    getUsersCount(),
-    getOrdersCount(),
-    getTotalSalesAmount(),
-    getTotalInstructorsCount(),
-    getInstructorApplicationsCount(),
-    getTotalCoursesCount(),
+  const [studentsCount, totalRevenue, totalCourses] = await Promise.all([
+    getTotalStudentsCount(),
+    getTotalRevenueByInstructor(),
+    getTotalCoursesByInstructor(),
   ]);
 
   // Statistics card data
   const StatisticsCardData = [
     {
       icon: <Users />,
-      title: 'Total Users',
-      value: usersCount,
+      title: 'Total Students',
+      value: studentsCount,
       bg: 'bg-purple-500/10',
       color: 'text-purple-500',
     },
     {
-      icon: <Box />,
-      title: 'Total Orders',
-      value: ordersCount,
-      bg: 'bg-pink-500/10',
-      color: 'text-pink-500',
-    },
-    {
       icon: <DollarSignIcon />,
       title: 'Total Revenue',
-      value: `AED ${totalSalesAmount}`,
+      value: `AED ${totalRevenue}`,
       bg: 'bg-green-500/10',
       color: 'text-green-500',
     },
-    {
-      icon: <GraduationCap />,
-      title: 'Total Instructors',
-      value: totalInstructors,
-      bg: 'bg-yellow-500/10',
-      color: 'text-yellow-500',
-    },
+
     {
       icon: <BookMarkedIcon />,
       title: 'Total Courses',
@@ -70,17 +39,10 @@ const StatisticsCard = async () => {
       bg: 'bg-orange-400/10',
       color: 'text-orange-500',
     },
-    {
-      icon: <FileUser />,
-      title: 'Total Applicants',
-      value: totalInstructorsApplicants,
-      bg: 'bg-blue-500/10',
-      color: 'text-blue-500',
-    },
   ];
   return (
     <div className='max-w-7xl mx-auto w-full col-span-4'>
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4'>
         {StatisticsCardData.map((card, index) => (
           <Card
             key={index}

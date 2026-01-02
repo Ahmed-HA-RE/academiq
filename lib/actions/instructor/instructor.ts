@@ -1,21 +1,21 @@
 'use server';
 
-import { auth } from '../auth';
+import { auth } from '../../auth';
 import { headers } from 'next/headers';
 import { createApplicationSchema, instructorUpdateSchema } from '@/schema';
 import z from 'zod';
-import cloudinary from '../cloudinary';
+import cloudinary from '../../cloudinary';
 import { UploadApiResponse } from 'cloudinary';
-import { prisma } from '../prisma';
+import { prisma } from '../../prisma';
 import { InstructorFormData, SocialLinks } from '@/types';
-import resend from '../resend';
+import resend from '../../resend';
 import ApplicationSubmitted from '@/emails/ApplicationSubmitted';
-import { convertToPlainObject } from '../utils';
+import { convertToPlainObject } from '../../utils';
 import { revalidatePath } from 'next/cache';
-import { APP_NAME } from '../constants';
-import { domain } from '../resend';
+import { APP_NAME } from '../../constants';
+import { domain } from '../../resend';
 import ApplicationStatus from '@/emails/ApplicationStatus';
-import { Prisma } from '../generated/prisma';
+import { Prisma } from '../../generated/prisma';
 import { addDays, endOfDay, startOfDay } from 'date-fns';
 import { redirect } from 'next/navigation';
 
