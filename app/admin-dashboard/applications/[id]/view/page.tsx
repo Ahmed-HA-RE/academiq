@@ -1,5 +1,5 @@
 import ViewApplicationDetails from '@/app/components/admin/Application/ViewApplicationDetails';
-import { getApplicationById } from '@/lib/actions/instructor/instructor';
+import { getApplicationById } from '@/lib/actions/instructor/application';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

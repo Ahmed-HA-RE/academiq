@@ -42,7 +42,7 @@ import { formatDate } from 'date-fns';
 import {
   deleteInstructorById,
   deleteInstructorsByIds,
-} from '@/lib/actions/instructor/instructor';
+} from '@/lib/actions/instructor';
 import {
   DropdownMenu,
   DropdownMenuContent,

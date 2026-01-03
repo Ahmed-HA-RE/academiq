@@ -4,21 +4,33 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Instructor, InstructorFormData } from '@/types';
 import { instructorUpdateSchema } from '@/schema';
 import { toast } from 'sonner';
-import { Card, CardContent, CardFooter } from '../../ui/card';
+import { Card, CardContent } from '../../ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '../../ui/field';
 import { Input } from '../../ui/input';
 import { PhoneInput } from '../../ui/phone-input';
 import { Textarea } from '../../ui/textarea';
 import MultipleSelector from '../../ui/multi-select';
 import { TEACHING_CATEGORIES } from '@/lib/constants';
-import { updateInstructorAsAdmin } from '@/lib/actions/instructor/instructor';
+import {
+  updateInstructorAccount,
+  updateInstructorAsAdmin,
+} from '@/lib/actions/instructor';
 import { useRouter } from 'next/navigation';
 import ScreenSpinner from '../../ScreenSpinner';
 import { Button } from '../../ui/button';
 import AvatarUpload from '../../AvatarUpload';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
-const EditInstructorForm = ({ instructor }: { instructor: Instructor }) => {
+const EditInstructorForm = ({
+  instructor,
+  type,
+}: {
+  instructor: Instructor;
+  type: 'admin' | 'instructor';
+}) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   const form = useForm<InstructorFormData>({
     resolver: zodResolver(instructorUpdateSchema),
@@ -39,15 +51,26 @@ const EditInstructorForm = ({ instructor }: { instructor: Instructor }) => {
   });
 
   const onSuccess = async (data: InstructorFormData) => {
-    const res = await updateInstructorAsAdmin({ data, id: instructor.id });
+    let res;
+
+    if (type === 'admin') {
+      res = await updateInstructorAsAdmin({ data, id: instructor.id });
+    } else {
+      res = await updateInstructorAccount({ data });
+    }
     if (!res.success) {
       toast.error(res.message);
       return;
     }
 
     toast.success(res.message);
-
-    setTimeout(() => router.push('/admin-dashboard/instructors'), 500);
+    setTimeout(
+      () =>
+        router.push(
+          `/${type}-dashboard/${type === 'admin' ? 'instructors' : '/'}`
+        ),
+      500
+    );
   };
 
   return (
@@ -55,10 +78,21 @@ const EditInstructorForm = ({ instructor }: { instructor: Instructor }) => {
       {form.formState.isSubmitting && (
         <ScreenSpinner mutate={true} text='Updating...' />
       )}
-      <Card>
+      <Card
+        className={cn(
+          pathname === '/instructor-dashboard/settings'
+            ? 'shadow-none border-none'
+            : ''
+        )}
+      >
         <CardContent>
           <form onSubmit={form.handleSubmit(onSuccess)}>
-            <FieldGroup>
+            <FieldGroup
+              className={cn(
+                pathname === '/instructor-dashboard/settings' &&
+                  'grid grid-cols-1 md:grid-cols-2'
+              )}
+            >
               {/* Name */}
               <Controller
                 name='name'
@@ -129,27 +163,6 @@ const EditInstructorForm = ({ instructor }: { instructor: Instructor }) => {
                 )}
               />
 
-              {/* Bio */}
-              <Controller
-                name='bio'
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel className='leading-5' htmlFor={field.name}>
-                      Instructor Bio
-                    </FieldLabel>
-                    <Textarea
-                      id={field.name}
-                      className='min-h-40 resize-none input'
-                      {...field}
-                      aria-invalid={fieldState.invalid}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
               {/* Expertise */}
               <Controller
                 name='expertise'
@@ -239,7 +252,13 @@ const EditInstructorForm = ({ instructor }: { instructor: Instructor }) => {
                 name='socialLinks.linkedin'
                 control={form.control}
                 render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
+                  <Field
+                    className={cn(
+                      pathname === '/instructor-dashboard/settings' &&
+                        'col-span-2'
+                    )}
+                    data-invalid={fieldState.invalid}
+                  >
                     <div className='flex flex-row justify-between items-center'>
                       <FieldLabel htmlFor={field.name}>LinkedIn</FieldLabel>
                       <span className='text-muted-foreground text-xs'>
@@ -252,6 +271,30 @@ const EditInstructorForm = ({ instructor }: { instructor: Instructor }) => {
                       placeholder='Enter your LinkedIn Username'
                       className='input'
                       {...field}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+              {/* Bio */}
+              <Controller
+                name='bio'
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field
+                    className='col-span-2'
+                    data-invalid={fieldState.invalid}
+                  >
+                    <FieldLabel className='leading-5' htmlFor={field.name}>
+                      Instructor Bio
+                    </FieldLabel>
+                    <Textarea
+                      id={field.name}
+                      className='min-h-40 resize-none input'
+                      {...field}
+                      aria-invalid={fieldState.invalid}
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -284,7 +327,9 @@ const EditInstructorForm = ({ instructor }: { instructor: Instructor }) => {
               />
             </FieldGroup>
             <Button className='w-full cursor-pointer mt-6' type='submit'>
-              Update Instructor
+              {pathname === '/instructor-dashboard/settings'
+                ? 'Update Settings'
+                : 'Update Instructor'}
             </Button>
           </form>
         </CardContent>

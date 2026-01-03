@@ -1,5 +1,5 @@
 import ApplicationDataTable from '@/app/components/admin/Application/ApplicationDataTable';
-import { getAllInstructorApplications } from '@/lib/actions/instructor/instructor';
+import { getAllInstructorApplications } from '@/lib/actions/instructor/application';
 import { loadSearchParams } from '@/lib/searchParams';
 import { Metadata } from 'next';
 import { SearchParams } from 'nuqs/server';

@@ -10,10 +10,8 @@ import { Card, CardContent, CardHeader } from '../ui/card';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { getUsersCount } from '@/lib/actions/user';
 import { getOrdersCount, getTotalSalesAmount } from '@/lib/actions/order';
-import {
-  getInstructorApplicationsCount,
-  getTotalInstructorsCount,
-} from '@/lib/actions/instructor/instructor';
+import { getTotalInstructorsCount } from '@/lib/actions/instructor';
+import { getInstructorApplicationsCount } from '@/lib/actions/instructor/application';
 import { getTotalCoursesCount } from '@/lib/actions/course';
 
 const StatisticsCard = async () => {

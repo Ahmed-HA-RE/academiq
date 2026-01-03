@@ -37,7 +37,7 @@ const avatarSchema = z
   })
   .optional();
 
-// Phone number validation for orders and instructors
+// Phone number validation for orders and billing info
 const phoneSchema = z.string().refine(
   (val) => {
     const phone = parsePhoneNumberFromString(val);
@@ -48,8 +48,8 @@ const phoneSchema = z.string().refine(
   }
 );
 
-// Optional phone number validation (for admin updating users)
-const adminForUsersPhoneSchema = z
+// Optional phone number validation
+const optionalPhoneSchema = z
   .string()
   .optional()
   .refine(
@@ -293,7 +293,7 @@ export const updateUserAsAdminSchema = z.object({
   email: z.email({ error: 'Invalid email address' }),
   role: z.string({ error: 'Invalid role' }).min(1, 'Role is required'),
   status: z.string({ error: 'Invalid status' }).min(1, 'Status is required'),
-  phone: adminForUsersPhoneSchema,
+  phone: optionalPhoneSchema,
   address: z.string({ error: 'Invalid address' }).refine(
     (val) => {
       if (!val) return true;

@@ -1,5 +1,5 @@
 import EditInstructorForm from '@/app/components/admin/Instructor/EditInstructorForm';
-import { getInstructorByIdAsAdmin } from '@/lib/actions/instructor/instructor';
+import { getInstructorByIdAsAdmin } from '@/lib/actions/instructor';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -40,7 +40,7 @@ const EditInstructorPage = async ({
         </div>
         {/* Right side */}
         <div className='flex-1'>
-          <EditInstructorForm instructor={instructor} />
+          <EditInstructorForm instructor={instructor} type='admin' />
         </div>
       </div>
     </div>

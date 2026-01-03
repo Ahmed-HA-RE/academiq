@@ -5,11 +5,11 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { prisma } from '../prisma';
 import { convertToPlainObject } from '../utils';
+import { uploadToCloudinary } from '../cloudinary';
 import { BillingInfo, UpdateUserAsAdmin } from '@/types';
 import { Prisma } from '../generated/prisma';
 import { revalidatePath } from 'next/cache';
 import { updateUserAsAdminSchema } from '@/schema';
-import cloudinary from '../cloudinary';
 
 export const getCurrentLoggedUser = async (search?: string) => {
   const session = await auth.api.getSession({
@@ -423,22 +423,13 @@ export const updateUserAsAdmin = async (
       throw new Error('Cannot update admin users');
 
     // Upload new avatar if provided to cloudinary
-    let avatarUrl: string | undefined;
+    let avatarUrl;
 
     if (validatedData.data.avatar) {
-      const arrayBuffer = await validatedData.data.avatar.arrayBuffer();
-      const buffer = new Uint8Array(arrayBuffer);
-      avatarUrl = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream({ folder: 'avatars' }, function (error, result) {
-            if (error) {
-              reject(error);
-              return;
-            }
-            resolve(result?.secure_url);
-          })
-          .end(buffer);
-      });
+      avatarUrl = await uploadToCloudinary(
+        validatedData.data.avatar,
+        'avatars'
+      );
     }
 
     const updatedBillingInfo = {
@@ -457,7 +448,7 @@ export const updateUserAsAdmin = async (
         email: validatedData.data.email,
         role: validatedData.data.role,
         emailVerified: validatedData.data.status === 'verified' ? true : false,
-        image: avatarUrl || user.image,
+        image: avatarUrl?.secure_url || user.image,
         billingInfo: updatedBillingInfo,
       },
     });
@@ -585,6 +576,7 @@ export const getAllAdmins = async (
     totalPages,
   };
 };
+
 // Get courses who have students enrolled
 export const getCoursesWithStudents = async () => {
   const courses = await prisma.user.findMany({

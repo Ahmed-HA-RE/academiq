@@ -50,7 +50,7 @@ import {
   deleteApplicationById,
   deleteApplicationsByIds,
   updateApplicationStatusById,
-} from '@/lib/actions/instructor/instructor';
+} from '@/lib/actions/instructor/application';
 
 const columns: ColumnDef<InstructorApplication>[] = [
   {
