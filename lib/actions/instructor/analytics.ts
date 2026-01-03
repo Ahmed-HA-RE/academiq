@@ -1,5 +1,6 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { convertToPlainObject } from '@/lib/utils';
 import { getYear, lastDayOfYear } from 'date-fns';
 import { headers } from 'next/headers';
 
@@ -276,4 +277,112 @@ export const getCoursesWithProgressByInstructor = async () => {
   ];
 
   return chartData;
+};
+
+// Get students data for instructor's courses
+export const getEnrolledStudentsForInstructor = async ({
+  limit,
+  q,
+  page = 1,
+}: {
+  limit?: number;
+  q?: string;
+  page?: number;
+}) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== 'instructor')
+    throw new Error('Unauthorized to fetch analytics');
+
+  const students = await prisma.orderItems.findMany({
+    where: {
+      AND: [
+        {
+          course: {
+            instructorId: session.user.id,
+          },
+          order: {
+            isPaid: true,
+            ...(q
+              ? { user: { name: { contains: q, mode: 'insensitive' } } }
+              : {}),
+          },
+        },
+      ],
+    },
+    select: {
+      order: {
+        select: {
+          createdAt: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+              userProgress: {
+                where: {
+                  course: {
+                    instructorId: session.user.id,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      course: {
+        select: {
+          title: true,
+          id: true,
+        },
+      },
+    },
+    orderBy: {
+      order: {
+        createdAt: 'desc',
+      },
+    },
+    take: limit,
+    skip: limit ? (page - 1) * limit : undefined,
+  });
+
+  const totalStudentsCount = await prisma.orderItems.count({
+    where: {
+      AND: [
+        {
+          course: {
+            instructorId: session.user.id,
+          },
+          order: {
+            isPaid: true,
+            ...(q
+              ? { user: { name: { contains: q, mode: 'insensitive' } } }
+              : {}),
+          },
+        },
+      ],
+    },
+  });
+
+  const totalPages = limit ? Math.ceil(totalStudentsCount / limit) : 1;
+
+  return {
+    students: students.map((student) =>
+      convertToPlainObject({
+        studentName: student.order.user.name,
+        studentEmail: student.order.user.email,
+        studentImage: student.order.user.image,
+        enrolledAt: student.order.createdAt,
+        courseName: student.course.title,
+        courseId: student.course.id,
+        progress: student.order.user.userProgress.find(
+          (s) => s.courseId === student.course.id
+        )?.progress,
+      })
+    ),
+    totalPages,
+  };
 };

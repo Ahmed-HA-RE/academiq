@@ -137,3 +137,13 @@ export type UserProgress = {
 };
 
 export type UpdateUserAsAdmin = z.infer<typeof updateUserAsAdminSchema>;
+
+export type EnrolledStudents = {
+  studentName: string;
+  studentEmail: string;
+  studentImage: string;
+  enrolledAt: Date;
+  courseId: string;
+  courseName: string;
+  progress?: string;
+};

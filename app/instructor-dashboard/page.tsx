@@ -3,6 +3,8 @@ import StatisticsCard from '../components/instructor/StatisticsCard';
 import TotalRevenueChart from '../components/instructor/TotalRevenueChart';
 import PopularCoursesCard from '../components/instructor/PopularCoursesCard';
 import CoursesWithProgressChart from '../components/instructor/CoursesWithProgressChart';
+import InstructorUserDataTable from '../components/instructor/InstructorUserDataTable';
+import { SearchParams } from 'nuqs/server';
 
 export const metadata: Metadata = {
   title: 'Overview',
@@ -10,13 +12,18 @@ export const metadata: Metadata = {
     'View your courses, track student progress, monitor revenue, and manage your teaching analytics all in one place.',
 };
 
-const InstructorHomePage = async () => {
+const InstructorHomePage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) => {
   return (
     <>
       <StatisticsCard />
       <TotalRevenueChart />
       <PopularCoursesCard />
       <CoursesWithProgressChart />
+      <InstructorUserDataTable searchParams={searchParams} />
     </>
   );
 };
