@@ -1,7 +1,8 @@
 import ApplicationForm from '@/app/components/teach/ApplicationForm';
 import { Metadata } from 'next';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
+import { getCurrentLoggedUser } from '@/lib/actions/user';
+import { getApplicationByUserId } from '@/lib/actions/instructor/application';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Apply to Teach',
@@ -10,18 +11,20 @@ export const metadata: Metadata = {
 };
 
 const ApplyPage = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const user = await getCurrentLoggedUser();
 
-  if (!session) return undefined;
+  if (!user) return undefined;
+
+  const application = await getApplicationByUserId(user.id);
+
+  if (application) redirect('/application/status');
 
   return (
     <section>
       <div className='container'>
         <div className='flex items-center justify-center min-h-[50vh]'>
           <div className='w-full'>
-            <ApplicationForm user={session.user} />
+            <ApplicationForm user={user} />
 
             <p className='text-center text-sm text-muted-foreground mt-8'>
               By submitting this form, you agree to our terms and conditions.

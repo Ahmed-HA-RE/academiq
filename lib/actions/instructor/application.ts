@@ -17,6 +17,8 @@ import { Prisma } from '@/lib/generated/prisma';
 import { convertToPlainObject } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
 import { uploadToCloudinary } from '@/lib/cloudinary';
+import stripe from '@/lib/stripe';
+import { getCode } from 'country-list';
 
 export const applyToTeach = async (
   data: z.infer<typeof createApplicationSchema>
@@ -63,6 +65,7 @@ export const applyToTeach = async (
           whatsapp: `https://wa.me/${validateData.data.socialLinks?.whatsapp?.slice(1)}`,
           instagram: `https://www.instagram.com/${validateData.data.socialLinks?.instagram}`,
         },
+        city: validateData.data.city,
       },
       include: { user: { select: { name: true, email: true } } },
     });
@@ -250,15 +253,26 @@ export const updateApplicationStatusById = async (
       where: { id: applicationId },
       include: { user: { select: { name: true, email: true } } },
     });
+
     if (!application) throw new Error('Application not found');
     if (application.status === status)
       throw new Error('Application has already been reviewed.');
+
+    const ISOCityCode = getCode(application.city);
 
     // Create a transaction to update application status and create instructor if approved
     await prisma.$transaction(async (tx) => {
       const updatedApplication = await tx.intructorApplication.update({
         where: { id: applicationId },
         data: { status: status === 'approved' ? 'approved' : 'rejected' },
+        include: { user: { select: { name: true, email: true, id: true } } },
+      });
+
+      const stripeAccountId = await stripe.accounts.create({
+        email: updatedApplication.user.email,
+
+        country: ISOCityCode,
+        type: 'express',
       });
 
       if (updatedApplication.status === 'approved') {
@@ -271,6 +285,8 @@ export const updateApplicationStatusById = async (
             socialLinks: updatedApplication.socialLinks as SocialLinks,
             birthDate: updatedApplication.birthDate,
             userId: updatedApplication.userId,
+            city: updatedApplication.city,
+            stripeAccountId: stripeAccountId.id,
           },
         });
         // Update the role of the user to 'instructor' if approved

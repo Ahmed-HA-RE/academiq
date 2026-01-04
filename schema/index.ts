@@ -220,6 +220,7 @@ export const instructorSchema = z.object({
     .min(new Date('1940-01-01'), 'Too old!')
     .max(new Date('2006-01-01'), 'Too young!'),
   userId: z.string({ error: 'Invalid user id' }).min(1, 'User id is required'),
+  city: z.string({ error: 'Invalid city' }),
 });
 
 export const instructorUpdateSchema = instructorSchema
@@ -244,7 +245,7 @@ export const billingInfoSchema = z.object({
   address: z
     .string({ error: 'Invalid address' })
     .min(10, 'Address field should be at least 10 characters long'),
-  city: z.string({ error: 'Invalid city' }).min(5, 'City is required'),
+  city: z.string({ error: 'Invalid city' }),
 });
 
 export const orderBaseSchema = z.object({
@@ -276,6 +277,7 @@ export const createApplicationSchema = instructorSchema
     address: true,
     phone: true,
     birthDate: true,
+    city: true,
   })
   .extend({
     file: fileSchema,

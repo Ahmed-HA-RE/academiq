@@ -15308,7 +15308,9 @@ export namespace Prisma {
     address: string | null
     phone: string | null
     birthDate: Date | null
+    stripeAccountId: string | null
     createdAt: Date | null
+    city: string | null
     updatedAt: Date | null
     userId: string | null
   }
@@ -15319,7 +15321,9 @@ export namespace Prisma {
     address: string | null
     phone: string | null
     birthDate: Date | null
+    stripeAccountId: string | null
     createdAt: Date | null
+    city: string | null
     updatedAt: Date | null
     userId: string | null
   }
@@ -15332,7 +15336,9 @@ export namespace Prisma {
     phone: number
     socialLinks: number
     birthDate: number
+    stripeAccountId: number
     createdAt: number
+    city: number
     updatedAt: number
     userId: number
     _all: number
@@ -15345,7 +15351,9 @@ export namespace Prisma {
     address?: true
     phone?: true
     birthDate?: true
+    stripeAccountId?: true
     createdAt?: true
+    city?: true
     updatedAt?: true
     userId?: true
   }
@@ -15356,7 +15364,9 @@ export namespace Prisma {
     address?: true
     phone?: true
     birthDate?: true
+    stripeAccountId?: true
     createdAt?: true
+    city?: true
     updatedAt?: true
     userId?: true
   }
@@ -15369,7 +15379,9 @@ export namespace Prisma {
     phone?: true
     socialLinks?: true
     birthDate?: true
+    stripeAccountId?: true
     createdAt?: true
+    city?: true
     updatedAt?: true
     userId?: true
     _all?: true
@@ -15455,7 +15467,9 @@ export namespace Prisma {
     phone: string
     socialLinks: JsonValue | null
     birthDate: Date
+    stripeAccountId: string
     createdAt: Date
+    city: string
     updatedAt: Date
     userId: string
     _count: InstructorCountAggregateOutputType | null
@@ -15485,7 +15499,9 @@ export namespace Prisma {
     phone?: boolean
     socialLinks?: boolean
     birthDate?: boolean
+    stripeAccountId?: boolean
     createdAt?: boolean
+    city?: boolean
     updatedAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -15501,7 +15517,9 @@ export namespace Prisma {
     phone?: boolean
     socialLinks?: boolean
     birthDate?: boolean
+    stripeAccountId?: boolean
     createdAt?: boolean
+    city?: boolean
     updatedAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -15515,7 +15533,9 @@ export namespace Prisma {
     phone?: boolean
     socialLinks?: boolean
     birthDate?: boolean
+    stripeAccountId?: boolean
     createdAt?: boolean
+    city?: boolean
     updatedAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -15529,12 +15549,14 @@ export namespace Prisma {
     phone?: boolean
     socialLinks?: boolean
     birthDate?: boolean
+    stripeAccountId?: boolean
     createdAt?: boolean
+    city?: boolean
     updatedAt?: boolean
     userId?: boolean
   }
 
-  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bio" | "expertise" | "address" | "phone" | "socialLinks" | "birthDate" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["instructor"]>
+  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bio" | "expertise" | "address" | "phone" | "socialLinks" | "birthDate" | "stripeAccountId" | "createdAt" | "city" | "updatedAt" | "userId", ExtArgs["result"]["instructor"]>
   export type InstructorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     courses?: boolean | Instructor$coursesArgs<ExtArgs>
@@ -15561,7 +15583,9 @@ export namespace Prisma {
       phone: string
       socialLinks: Prisma.JsonValue | null
       birthDate: Date
+      stripeAccountId: string
       createdAt: Date
+      city: string
       updatedAt: Date
       userId: string
     }, ExtArgs["result"]["instructor"]>
@@ -15996,7 +16020,9 @@ export namespace Prisma {
     readonly phone: FieldRef<"Instructor", 'String'>
     readonly socialLinks: FieldRef<"Instructor", 'Json'>
     readonly birthDate: FieldRef<"Instructor", 'DateTime'>
+    readonly stripeAccountId: FieldRef<"Instructor", 'String'>
     readonly createdAt: FieldRef<"Instructor", 'DateTime'>
+    readonly city: FieldRef<"Instructor", 'String'>
     readonly updatedAt: FieldRef<"Instructor", 'DateTime'>
     readonly userId: FieldRef<"Instructor", 'String'>
   }
@@ -16454,6 +16480,7 @@ export namespace Prisma {
     address: string | null
     phone: string | null
     birthDate: Date | null
+    city: string | null
     file: string | null
     status: string | null
     createdAt: Date | null
@@ -16467,6 +16494,7 @@ export namespace Prisma {
     address: string | null
     phone: string | null
     birthDate: Date | null
+    city: string | null
     file: string | null
     status: string | null
     createdAt: Date | null
@@ -16482,6 +16510,7 @@ export namespace Prisma {
     socialLinks: number
     phone: number
     birthDate: number
+    city: number
     file: number
     status: number
     createdAt: number
@@ -16497,6 +16526,7 @@ export namespace Prisma {
     address?: true
     phone?: true
     birthDate?: true
+    city?: true
     file?: true
     status?: true
     createdAt?: true
@@ -16510,6 +16540,7 @@ export namespace Prisma {
     address?: true
     phone?: true
     birthDate?: true
+    city?: true
     file?: true
     status?: true
     createdAt?: true
@@ -16525,6 +16556,7 @@ export namespace Prisma {
     socialLinks?: true
     phone?: true
     birthDate?: true
+    city?: true
     file?: true
     status?: true
     createdAt?: true
@@ -16613,6 +16645,7 @@ export namespace Prisma {
     socialLinks: JsonValue | null
     phone: string
     birthDate: Date
+    city: string
     file: string
     status: string
     createdAt: Date
@@ -16645,6 +16678,7 @@ export namespace Prisma {
     socialLinks?: boolean
     phone?: boolean
     birthDate?: boolean
+    city?: boolean
     file?: boolean
     status?: boolean
     createdAt?: boolean
@@ -16661,6 +16695,7 @@ export namespace Prisma {
     socialLinks?: boolean
     phone?: boolean
     birthDate?: boolean
+    city?: boolean
     file?: boolean
     status?: boolean
     createdAt?: boolean
@@ -16677,6 +16712,7 @@ export namespace Prisma {
     socialLinks?: boolean
     phone?: boolean
     birthDate?: boolean
+    city?: boolean
     file?: boolean
     status?: boolean
     createdAt?: boolean
@@ -16693,13 +16729,14 @@ export namespace Prisma {
     socialLinks?: boolean
     phone?: boolean
     birthDate?: boolean
+    city?: boolean
     file?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type IntructorApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "bio" | "expertise" | "address" | "socialLinks" | "phone" | "birthDate" | "file" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["intructorApplication"]>
+  export type IntructorApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "bio" | "expertise" | "address" | "socialLinks" | "phone" | "birthDate" | "city" | "file" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["intructorApplication"]>
   export type IntructorApplicationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -16724,6 +16761,7 @@ export namespace Prisma {
       socialLinks: Prisma.JsonValue | null
       phone: string
       birthDate: Date
+      city: string
       file: string
       status: string
       createdAt: Date
@@ -17160,6 +17198,7 @@ export namespace Prisma {
     readonly socialLinks: FieldRef<"IntructorApplication", 'Json'>
     readonly phone: FieldRef<"IntructorApplication", 'String'>
     readonly birthDate: FieldRef<"IntructorApplication", 'DateTime'>
+    readonly city: FieldRef<"IntructorApplication", 'String'>
     readonly file: FieldRef<"IntructorApplication", 'String'>
     readonly status: FieldRef<"IntructorApplication", 'String'>
     readonly createdAt: FieldRef<"IntructorApplication", 'DateTime'>
@@ -18873,7 +18912,9 @@ export namespace Prisma {
     phone: 'phone',
     socialLinks: 'socialLinks',
     birthDate: 'birthDate',
+    stripeAccountId: 'stripeAccountId',
     createdAt: 'createdAt',
+    city: 'city',
     updatedAt: 'updatedAt',
     userId: 'userId'
   };
@@ -18890,6 +18931,7 @@ export namespace Prisma {
     socialLinks: 'socialLinks',
     phone: 'phone',
     birthDate: 'birthDate',
+    city: 'city',
     file: 'file',
     status: 'status',
     createdAt: 'createdAt',
@@ -20015,7 +20057,9 @@ export namespace Prisma {
     phone?: StringFilter<"Instructor"> | string
     socialLinks?: JsonNullableFilter<"Instructor">
     birthDate?: DateTimeFilter<"Instructor"> | Date | string
+    stripeAccountId?: StringFilter<"Instructor"> | string
     createdAt?: DateTimeFilter<"Instructor"> | Date | string
+    city?: StringFilter<"Instructor"> | string
     updatedAt?: DateTimeFilter<"Instructor"> | Date | string
     userId?: StringFilter<"Instructor"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -20030,7 +20074,9 @@ export namespace Prisma {
     phone?: SortOrder
     socialLinks?: SortOrderInput | SortOrder
     birthDate?: SortOrder
+    stripeAccountId?: SortOrder
     createdAt?: SortOrder
+    city?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -20049,7 +20095,9 @@ export namespace Prisma {
     phone?: StringFilter<"Instructor"> | string
     socialLinks?: JsonNullableFilter<"Instructor">
     birthDate?: DateTimeFilter<"Instructor"> | Date | string
+    stripeAccountId?: StringFilter<"Instructor"> | string
     createdAt?: DateTimeFilter<"Instructor"> | Date | string
+    city?: StringFilter<"Instructor"> | string
     updatedAt?: DateTimeFilter<"Instructor"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     courses?: CourseListRelationFilter
@@ -20063,7 +20111,9 @@ export namespace Prisma {
     phone?: SortOrder
     socialLinks?: SortOrderInput | SortOrder
     birthDate?: SortOrder
+    stripeAccountId?: SortOrder
     createdAt?: SortOrder
+    city?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     _count?: InstructorCountOrderByAggregateInput
@@ -20082,7 +20132,9 @@ export namespace Prisma {
     phone?: StringWithAggregatesFilter<"Instructor"> | string
     socialLinks?: JsonNullableWithAggregatesFilter<"Instructor">
     birthDate?: DateTimeWithAggregatesFilter<"Instructor"> | Date | string
+    stripeAccountId?: StringWithAggregatesFilter<"Instructor"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Instructor"> | Date | string
+    city?: StringWithAggregatesFilter<"Instructor"> | string
     updatedAt?: DateTimeWithAggregatesFilter<"Instructor"> | Date | string
     userId?: StringWithAggregatesFilter<"Instructor"> | string
   }
@@ -20099,6 +20151,7 @@ export namespace Prisma {
     socialLinks?: JsonNullableFilter<"IntructorApplication">
     phone?: StringFilter<"IntructorApplication"> | string
     birthDate?: DateTimeFilter<"IntructorApplication"> | Date | string
+    city?: StringFilter<"IntructorApplication"> | string
     file?: StringFilter<"IntructorApplication"> | string
     status?: StringFilter<"IntructorApplication"> | string
     createdAt?: DateTimeFilter<"IntructorApplication"> | Date | string
@@ -20115,6 +20168,7 @@ export namespace Prisma {
     socialLinks?: SortOrderInput | SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
+    city?: SortOrder
     file?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -20134,6 +20188,7 @@ export namespace Prisma {
     socialLinks?: JsonNullableFilter<"IntructorApplication">
     phone?: StringFilter<"IntructorApplication"> | string
     birthDate?: DateTimeFilter<"IntructorApplication"> | Date | string
+    city?: StringFilter<"IntructorApplication"> | string
     file?: StringFilter<"IntructorApplication"> | string
     status?: StringFilter<"IntructorApplication"> | string
     createdAt?: DateTimeFilter<"IntructorApplication"> | Date | string
@@ -20150,6 +20205,7 @@ export namespace Prisma {
     socialLinks?: SortOrderInput | SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
+    city?: SortOrder
     file?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -20171,6 +20227,7 @@ export namespace Prisma {
     socialLinks?: JsonNullableWithAggregatesFilter<"IntructorApplication">
     phone?: StringWithAggregatesFilter<"IntructorApplication"> | string
     birthDate?: DateTimeWithAggregatesFilter<"IntructorApplication"> | Date | string
+    city?: StringWithAggregatesFilter<"IntructorApplication"> | string
     file?: StringWithAggregatesFilter<"IntructorApplication"> | string
     status?: StringWithAggregatesFilter<"IntructorApplication"> | string
     createdAt?: DateTimeWithAggregatesFilter<"IntructorApplication"> | Date | string
@@ -21278,7 +21335,9 @@ export namespace Prisma {
     phone: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate: Date | string
+    stripeAccountId: string
     createdAt?: Date | string
+    city: string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutInstructorInput
     courses?: CourseCreateNestedManyWithoutInstructorInput
@@ -21292,7 +21351,9 @@ export namespace Prisma {
     phone: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate: Date | string
+    stripeAccountId: string
     createdAt?: Date | string
+    city: string
     updatedAt?: Date | string
     userId: string
     courses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
@@ -21306,7 +21367,9 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutInstructorNestedInput
     courses?: CourseUpdateManyWithoutInstructorNestedInput
@@ -21320,7 +21383,9 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     courses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
@@ -21334,7 +21399,9 @@ export namespace Prisma {
     phone: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate: Date | string
+    stripeAccountId: string
     createdAt?: Date | string
+    city: string
     updatedAt?: Date | string
     userId: string
   }
@@ -21347,7 +21414,9 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -21359,7 +21428,9 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
   }
@@ -21372,6 +21443,7 @@ export namespace Prisma {
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone: string
     birthDate: Date | string
+    city: string
     file: string
     status?: string
     createdAt?: Date | string
@@ -21388,6 +21460,7 @@ export namespace Prisma {
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone: string
     birthDate: Date | string
+    city: string
     file: string
     status?: string
     createdAt?: Date | string
@@ -21402,6 +21475,7 @@ export namespace Prisma {
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     file?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21418,6 +21492,7 @@ export namespace Prisma {
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     file?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21433,6 +21508,7 @@ export namespace Prisma {
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone: string
     birthDate: Date | string
+    city: string
     file: string
     status?: string
     createdAt?: Date | string
@@ -21447,6 +21523,7 @@ export namespace Prisma {
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     file?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21462,6 +21539,7 @@ export namespace Prisma {
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     file?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22508,7 +22586,9 @@ export namespace Prisma {
     phone?: SortOrder
     socialLinks?: SortOrder
     birthDate?: SortOrder
+    stripeAccountId?: SortOrder
     createdAt?: SortOrder
+    city?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
   }
@@ -22519,7 +22599,9 @@ export namespace Prisma {
     address?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
+    stripeAccountId?: SortOrder
     createdAt?: SortOrder
+    city?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
   }
@@ -22530,7 +22612,9 @@ export namespace Prisma {
     address?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
+    stripeAccountId?: SortOrder
     createdAt?: SortOrder
+    city?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
   }
@@ -22544,6 +22628,7 @@ export namespace Prisma {
     socialLinks?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
+    city?: SortOrder
     file?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -22557,6 +22642,7 @@ export namespace Prisma {
     address?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
+    city?: SortOrder
     file?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -22570,6 +22656,7 @@ export namespace Prisma {
     address?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
+    city?: SortOrder
     file?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -23925,7 +24012,9 @@ export namespace Prisma {
     phone: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate: Date | string
+    stripeAccountId: string
     createdAt?: Date | string
+    city: string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutInstructorInput
   }
@@ -23938,7 +24027,9 @@ export namespace Prisma {
     phone: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate: Date | string
+    stripeAccountId: string
     createdAt?: Date | string
+    city: string
     updatedAt?: Date | string
     userId: string
   }
@@ -24078,7 +24169,9 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutInstructorNestedInput
   }
@@ -24091,7 +24184,9 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
   }
@@ -24385,6 +24480,7 @@ export namespace Prisma {
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone: string
     birthDate: Date | string
+    city: string
     file: string
     status?: string
     createdAt?: Date | string
@@ -24399,6 +24495,7 @@ export namespace Prisma {
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone: string
     birthDate: Date | string
+    city: string
     file: string
     status?: string
     createdAt?: Date | string
@@ -24418,7 +24515,9 @@ export namespace Prisma {
     phone: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate: Date | string
+    stripeAccountId: string
     createdAt?: Date | string
+    city: string
     updatedAt?: Date | string
     courses?: CourseCreateNestedManyWithoutInstructorInput
   }
@@ -24431,7 +24530,9 @@ export namespace Prisma {
     phone: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate: Date | string
+    stripeAccountId: string
     createdAt?: Date | string
+    city: string
     updatedAt?: Date | string
     courses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
   }
@@ -24656,6 +24757,7 @@ export namespace Prisma {
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     file?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24670,6 +24772,7 @@ export namespace Prisma {
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     file?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24695,7 +24798,9 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courses?: CourseUpdateManyWithoutInstructorNestedInput
   }
@@ -24708,7 +24813,9 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
   }

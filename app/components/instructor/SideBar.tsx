@@ -22,6 +22,7 @@ import {
   SettingsIcon,
   TvMinimalPlayIcon,
   Users2,
+  Wallet,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useSidebar } from 'app/components/ui/sidebar';
@@ -52,6 +53,11 @@ const menuItems = [
     icon: SettingsIcon,
     label: 'Settings',
     href: '/instructor-dashboard/settings',
+  },
+  {
+    icon: Wallet,
+    label: 'Payments',
+    href: '/instructor-dashboard/payments',
   },
   {
     icon: ArrowLeftFromLineIcon,

@@ -25,12 +25,25 @@ import { TEACHING_CATEGORIES } from '@/lib/constants';
 import MultipleSelector from '../ui/multi-select';
 import { auth } from '@/lib/auth';
 import { applyToTeach } from '@/lib/actions/instructor/application';
+import { useRouter } from 'next/navigation';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
+import { LIST_COUNTRIES } from '@/lib/utils';
 
 const ApplicationForm = ({
   user,
 }: {
   user: typeof auth.$Infer.Session.user;
 }) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof createApplicationSchema>>({
     resolver: zodResolver(createApplicationSchema),
     defaultValues: {
@@ -44,6 +57,7 @@ const ApplicationForm = ({
         linkedin: '',
         whatsapp: '',
       },
+      city: '',
 
       birthDate: new Date(),
     },
@@ -56,8 +70,9 @@ const ApplicationForm = ({
       return;
     }
     toast.success(res.message);
-    setTimeout(() => window.scrollTo(0, 0), 300);
-    setTimeout(() => window.location.reload(), 400);
+    setTimeout(() => {
+      router.push('/application/status');
+    }, 500);
   };
 
   return (
@@ -125,19 +140,39 @@ const ApplicationForm = ({
             />
           </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-            {/* Bio */}
+            {/* City */}
             <Controller
-              name='bio'
+              name='city'
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Bio</FieldLabel>
-                  <Textarea
-                    id={field.name}
-                    placeholder='Tell us about yourself'
-                    className='field-sizing-content max-h-30 min-h-0 resize-none py-1.75 input'
-                    {...field}
-                  />
+                  <FieldLabel htmlFor={field.name}>City</FieldLabel>
+                  <Select
+                    aria-invalid={fieldState.invalid}
+                    onValueChange={field.onChange}
+                    value={field.value || ''}
+                  >
+                    <SelectTrigger
+                      id={field.name}
+                      className='w-full cursor-pointer input'
+                    >
+                      <SelectValue placeholder='Select a city' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>United Arab Emirates</SelectLabel>
+                        {LIST_COUNTRIES.map((city) => (
+                          <SelectItem
+                            key={city}
+                            value={city}
+                            className='cursor-pointer'
+                          >
+                            {city}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -166,6 +201,25 @@ const ApplicationForm = ({
               )}
             />
           </div>
+          {/* Bio */}
+          <Controller
+            name='bio'
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}>Bio</FieldLabel>
+                <Textarea
+                  id={field.name}
+                  placeholder='Tell us about yourself'
+                  className='field-sizing-content min-h-50 resize-none py-1.75 input'
+                  {...field}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
           {/* Social Links */}
           <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
             {/* WhatsApp Number  */}

@@ -122,7 +122,7 @@ const UserDatatable = ({
       <div className='flex flex-col gap-6 p-6 px-4'>
         <div className='flex flex-row justify-between items-center'>
           <span className='text-2xl font-semibold'>
-            {pathname === '/instructor-dashboard/users'
+            {pathname === '/instructor-dashboard/students'
               ? 'All Students'
               : 'Latest Enrollments'}
           </span>

@@ -44,6 +44,7 @@ export type Instructor = z.infer<typeof instructorSchema> & {
   createdAt: Date;
   updatedAt: Date;
   user: Pick<User, 'name' | 'email' | 'image' | 'banned' | 'role' | 'id'>;
+  stripeAccountId: string;
   coursesCount?: number;
 };
 
