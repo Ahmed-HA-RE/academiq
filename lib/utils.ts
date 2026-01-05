@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { getData, getNames } from 'country-list';
+import { getNames } from 'country-list';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -59,3 +59,14 @@ export const LIST_COUNTRIES = getNames().filter(
 export const formatId = (id: string) => {
   return id.slice(id.length - 7);
 };
+
+export const UAE_CITIES = [
+  'Abu Dhabi',
+  'Dubai',
+  'Sharjah',
+  'Al Ain',
+  'Ajman',
+  'Fujairah',
+  'Ras Al Khaimah',
+  'Umm Al Quwain',
+];

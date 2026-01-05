@@ -52,19 +52,27 @@ const ApplicationSubmitted = ({ name }: { name: string }) => {
                 Greeting {name}.
               </Text>
               <Text className='text-[#525f7f] text-base leading-6 text-left'>
-                Thank you for submitting your application! Your application is
-                currently under review and it will take a few days for our
-                support team to carefully review all the details.
+                Your application has been successfully submitted and is
+                currently pending payment setup. To continue the review process,
+                you must complete your Stripe payment setup. Applications
+                without completed payment details cannot be reviewed and may be
+                declined.
               </Text>
               <Text className='text-[#525f7f] text-base leading-6 text-left'>
-                Once the review process is complete, you will receive an email
-                notification with the updated status of your application.
+                Once your payment setup is complete, our team will begin
+                reviewing your application. You will receive an email
+                notification when your application status is updated.
+              </Text>
+              <Text className='text-black text-base leading-6 text-left'>
+                If you have already set up your payment details, please
+                disregard this message. Otherwise, click the button below to
+                complete your payment setup.
               </Text>
               <Button
                 className='bg-[#656ee8] rounded-[3px] text-white text-[16px] font-bold no-underline text-center block p-[10px]'
-                href={`${baseUrl}/teach/apply`}
+                href={`${baseUrl}/teach/apply/payments/setup`}
               >
-                Check Status on This Page
+                Complete Payment Setup
               </Button>
               <Hr className='border-[#e6ebf1] my-5' />
               <Text className='text-[#525f7f] text-base leading-6 text-left'>

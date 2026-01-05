@@ -16,9 +16,10 @@ import { SocialLinks } from '@/types';
 import { Prisma } from '@/lib/generated/prisma';
 import { convertToPlainObject } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
-import { uploadToCloudinary } from '@/lib/cloudinary';
+import cloudinary from '@/lib/cloudinary';
 import stripe from '@/lib/stripe';
 import { getCode } from 'country-list';
+import { UploadApiResponse } from 'cloudinary';
 
 export const applyToTeach = async (
   data: z.infer<typeof createApplicationSchema>
@@ -47,51 +48,78 @@ export const applyToTeach = async (
     if (existingApplication) throw new Error('You have already applied.');
 
     // Convert the PDF URL to a file and upload to cloudinary
-    const result = await uploadToCloudinary(
-      validateData.data.file,
-      '/academiq/instructors-application-pdf',
-      `application_${session.user.name}`
-    );
+    const arrayBuffer = await validateData.data.file.arrayBuffer();
+    const buffer = new Uint8Array(arrayBuffer);
+    const result = await new Promise<UploadApiResponse>((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream(
+          {
+            folder: '/academiq/instructors-application-pdf',
+            public_id: `application_${session.user.name}`,
+          },
+          function (error, result) {
+            if (error) {
+              reject(error);
+              return;
+            }
+            resolve(result!);
+          }
+        )
+        .end(buffer);
+    });
 
-    // Save application to the database
-    const userApplication = await prisma.intructorApplication.create({
-      data: {
-        ...validateData.data,
-        birthDate: addDays(validateData.data.birthDate, 1),
-        userId: session.user.id,
-        file: result.secure_url,
-        socialLinks: {
-          linkedin: `https://www.linkedin.com/in/${validateData.data.socialLinks?.linkedin}`,
-          whatsapp: `https://wa.me/${validateData.data.socialLinks?.whatsapp?.slice(1)}`,
-          instagram: `https://www.instagram.com/${validateData.data.socialLinks?.instagram}`,
+    await prisma.$transaction(async (tx) => {
+      const stripeAccountId = await stripe.accounts.create({
+        country: 'AE',
+        type: 'express',
+        business_profile: {
+          url: `${process.env.NEXT_PUBLIC_PROD_URL}`,
+          name: session.user.name,
+          support_phone: validateData.data.phone,
+          support_email: session.user.email,
+          product_description: 'Online courses and tutorials',
         },
-        city: validateData.data.city,
-      },
-      include: { user: { select: { name: true, email: true } } },
+        email: session.user.email,
+      });
+      // Save application to the database
+      const userApplication = await tx.intructorApplication.create({
+        data: {
+          ...validateData.data,
+          stripeAccountId: stripeAccountId.id,
+          birthDate: addDays(validateData.data.birthDate, 1),
+          userId: session.user.id,
+          file: result.secure_url,
+          socialLinks: {
+            linkedin: `https://www.linkedin.com/in/${validateData.data.socialLinks?.linkedin}`,
+            whatsapp: `https://wa.me/${validateData.data.socialLinks?.whatsapp?.slice(1)}`,
+            instagram: `https://www.instagram.com/${validateData.data.socialLinks?.instagram}`,
+          },
+          city: validateData.data.city,
+        },
+        include: { user: { select: { name: true, email: true } } },
+      });
+      await resend.emails.send({
+        from: `${APP_NAME} <support@${domain}>`,
+        to: userApplication.user.email,
+        replyTo: process.env.REPLY_EMAIL,
+        subject: 'Instructor Application Submitted',
+        react: ApplicationSubmitted({ name: userApplication.user.name }),
+      });
     });
 
-    await resend.emails.send({
-      from: `${APP_NAME} <support@${domain}>`,
-      to: userApplication.user.email,
-      replyTo: process.env.REPLY_EMAIL,
-      subject: 'Instructor Application Submitted',
-      react: ApplicationSubmitted({ name: userApplication.user.name }),
-    });
     return { success: true, message: 'Application submitted successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }
 };
 
-export const getApplicationByUserId = async (userId: string | undefined) => {
+export const getApplicationByUserId = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  if (!session) throw new Error('Unauthorized');
-
   const application = await prisma.intructorApplication.findFirst({
-    where: { userId },
+    where: { userId: session?.user.id },
   });
 
   if (!application) return undefined;
@@ -258,21 +286,12 @@ export const updateApplicationStatusById = async (
     if (application.status === status)
       throw new Error('Application has already been reviewed.');
 
-    const ISOCityCode = getCode(application.city);
-
     // Create a transaction to update application status and create instructor if approved
     await prisma.$transaction(async (tx) => {
       const updatedApplication = await tx.intructorApplication.update({
         where: { id: applicationId },
         data: { status: status === 'approved' ? 'approved' : 'rejected' },
         include: { user: { select: { name: true, email: true, id: true } } },
-      });
-
-      const stripeAccountId = await stripe.accounts.create({
-        email: updatedApplication.user.email,
-
-        country: ISOCityCode,
-        type: 'express',
       });
 
       if (updatedApplication.status === 'approved') {
@@ -286,7 +305,7 @@ export const updateApplicationStatusById = async (
             birthDate: updatedApplication.birthDate,
             userId: updatedApplication.userId,
             city: updatedApplication.city,
-            stripeAccountId: stripeAccountId.id,
+            stripeAccountId: updatedApplication.stripeAccountId,
           },
         });
         // Update the role of the user to 'instructor' if approved

@@ -8,7 +8,6 @@ import {
   CardTitle,
 } from '@/app/components/ui/card';
 import { getApplicationByUserId } from '@/lib/actions/instructor/application';
-import { getCurrentLoggedUser } from '@/lib/actions/user';
 import { APP_NAME } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { AlertCircleIcon, CheckCircleIcon } from 'lucide-react';
@@ -23,11 +22,7 @@ export const metadata: Metadata = {
 };
 
 const ApplicationStatusPage = async () => {
-  const user = await getCurrentLoggedUser();
-
-  if (!user) redirect('/');
-
-  const application = await getApplicationByUserId(user.id);
+  const application = await getApplicationByUserId();
 
   if (!application) redirect('/instructor-dashboard/apply');
 

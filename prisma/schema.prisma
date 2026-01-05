@@ -218,20 +218,21 @@ model Instructor {
 }
 
 model IntructorApplication {
-  id          String   @id @default(uuid())
-  userId      String   @unique
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bio         String   @db.Text
-  expertise   String[]
-  address     String
-  socialLinks Json?    @db.Json
-  phone       String
-  birthDate   DateTime @db.Date
-  city        String
-  file        String
-  status      String   @default("pending")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio             String   @db.Text
+  expertise       String[]
+  address         String
+  stripeAccountId String
+  socialLinks     Json?    @db.Json
+  phone           String
+  birthDate       DateTime @db.Date
+  city            String
+  file            String
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model UserProgress {

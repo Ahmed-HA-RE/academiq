@@ -16478,6 +16478,7 @@ export namespace Prisma {
     userId: string | null
     bio: string | null
     address: string | null
+    stripeAccountId: string | null
     phone: string | null
     birthDate: Date | null
     city: string | null
@@ -16492,6 +16493,7 @@ export namespace Prisma {
     userId: string | null
     bio: string | null
     address: string | null
+    stripeAccountId: string | null
     phone: string | null
     birthDate: Date | null
     city: string | null
@@ -16507,6 +16509,7 @@ export namespace Prisma {
     bio: number
     expertise: number
     address: number
+    stripeAccountId: number
     socialLinks: number
     phone: number
     birthDate: number
@@ -16524,6 +16527,7 @@ export namespace Prisma {
     userId?: true
     bio?: true
     address?: true
+    stripeAccountId?: true
     phone?: true
     birthDate?: true
     city?: true
@@ -16538,6 +16542,7 @@ export namespace Prisma {
     userId?: true
     bio?: true
     address?: true
+    stripeAccountId?: true
     phone?: true
     birthDate?: true
     city?: true
@@ -16553,6 +16558,7 @@ export namespace Prisma {
     bio?: true
     expertise?: true
     address?: true
+    stripeAccountId?: true
     socialLinks?: true
     phone?: true
     birthDate?: true
@@ -16642,6 +16648,7 @@ export namespace Prisma {
     bio: string
     expertise: string[]
     address: string
+    stripeAccountId: string
     socialLinks: JsonValue | null
     phone: string
     birthDate: Date
@@ -16675,6 +16682,7 @@ export namespace Prisma {
     bio?: boolean
     expertise?: boolean
     address?: boolean
+    stripeAccountId?: boolean
     socialLinks?: boolean
     phone?: boolean
     birthDate?: boolean
@@ -16692,6 +16700,7 @@ export namespace Prisma {
     bio?: boolean
     expertise?: boolean
     address?: boolean
+    stripeAccountId?: boolean
     socialLinks?: boolean
     phone?: boolean
     birthDate?: boolean
@@ -16709,6 +16718,7 @@ export namespace Prisma {
     bio?: boolean
     expertise?: boolean
     address?: boolean
+    stripeAccountId?: boolean
     socialLinks?: boolean
     phone?: boolean
     birthDate?: boolean
@@ -16726,6 +16736,7 @@ export namespace Prisma {
     bio?: boolean
     expertise?: boolean
     address?: boolean
+    stripeAccountId?: boolean
     socialLinks?: boolean
     phone?: boolean
     birthDate?: boolean
@@ -16736,7 +16747,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type IntructorApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "bio" | "expertise" | "address" | "socialLinks" | "phone" | "birthDate" | "city" | "file" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["intructorApplication"]>
+  export type IntructorApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "bio" | "expertise" | "address" | "stripeAccountId" | "socialLinks" | "phone" | "birthDate" | "city" | "file" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["intructorApplication"]>
   export type IntructorApplicationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -16758,6 +16769,7 @@ export namespace Prisma {
       bio: string
       expertise: string[]
       address: string
+      stripeAccountId: string
       socialLinks: Prisma.JsonValue | null
       phone: string
       birthDate: Date
@@ -17195,6 +17207,7 @@ export namespace Prisma {
     readonly bio: FieldRef<"IntructorApplication", 'String'>
     readonly expertise: FieldRef<"IntructorApplication", 'String[]'>
     readonly address: FieldRef<"IntructorApplication", 'String'>
+    readonly stripeAccountId: FieldRef<"IntructorApplication", 'String'>
     readonly socialLinks: FieldRef<"IntructorApplication", 'Json'>
     readonly phone: FieldRef<"IntructorApplication", 'String'>
     readonly birthDate: FieldRef<"IntructorApplication", 'DateTime'>
@@ -18928,6 +18941,7 @@ export namespace Prisma {
     bio: 'bio',
     expertise: 'expertise',
     address: 'address',
+    stripeAccountId: 'stripeAccountId',
     socialLinks: 'socialLinks',
     phone: 'phone',
     birthDate: 'birthDate',
@@ -20148,6 +20162,7 @@ export namespace Prisma {
     bio?: StringFilter<"IntructorApplication"> | string
     expertise?: StringNullableListFilter<"IntructorApplication">
     address?: StringFilter<"IntructorApplication"> | string
+    stripeAccountId?: StringFilter<"IntructorApplication"> | string
     socialLinks?: JsonNullableFilter<"IntructorApplication">
     phone?: StringFilter<"IntructorApplication"> | string
     birthDate?: DateTimeFilter<"IntructorApplication"> | Date | string
@@ -20165,6 +20180,7 @@ export namespace Prisma {
     bio?: SortOrder
     expertise?: SortOrder
     address?: SortOrder
+    stripeAccountId?: SortOrder
     socialLinks?: SortOrderInput | SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
@@ -20185,6 +20201,7 @@ export namespace Prisma {
     bio?: StringFilter<"IntructorApplication"> | string
     expertise?: StringNullableListFilter<"IntructorApplication">
     address?: StringFilter<"IntructorApplication"> | string
+    stripeAccountId?: StringFilter<"IntructorApplication"> | string
     socialLinks?: JsonNullableFilter<"IntructorApplication">
     phone?: StringFilter<"IntructorApplication"> | string
     birthDate?: DateTimeFilter<"IntructorApplication"> | Date | string
@@ -20202,6 +20219,7 @@ export namespace Prisma {
     bio?: SortOrder
     expertise?: SortOrder
     address?: SortOrder
+    stripeAccountId?: SortOrder
     socialLinks?: SortOrderInput | SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
@@ -20224,6 +20242,7 @@ export namespace Prisma {
     bio?: StringWithAggregatesFilter<"IntructorApplication"> | string
     expertise?: StringNullableListFilter<"IntructorApplication">
     address?: StringWithAggregatesFilter<"IntructorApplication"> | string
+    stripeAccountId?: StringWithAggregatesFilter<"IntructorApplication"> | string
     socialLinks?: JsonNullableWithAggregatesFilter<"IntructorApplication">
     phone?: StringWithAggregatesFilter<"IntructorApplication"> | string
     birthDate?: DateTimeWithAggregatesFilter<"IntructorApplication"> | Date | string
@@ -21440,6 +21459,7 @@ export namespace Prisma {
     bio: string
     expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
+    stripeAccountId: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone: string
     birthDate: Date | string
@@ -21457,6 +21477,7 @@ export namespace Prisma {
     bio: string
     expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
+    stripeAccountId: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone: string
     birthDate: Date | string
@@ -21472,6 +21493,7 @@ export namespace Prisma {
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21489,6 +21511,7 @@ export namespace Prisma {
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21505,6 +21528,7 @@ export namespace Prisma {
     bio: string
     expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
+    stripeAccountId: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone: string
     birthDate: Date | string
@@ -21520,6 +21544,7 @@ export namespace Prisma {
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21536,6 +21561,7 @@ export namespace Prisma {
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22625,6 +22651,7 @@ export namespace Prisma {
     bio?: SortOrder
     expertise?: SortOrder
     address?: SortOrder
+    stripeAccountId?: SortOrder
     socialLinks?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
@@ -22640,6 +22667,7 @@ export namespace Prisma {
     userId?: SortOrder
     bio?: SortOrder
     address?: SortOrder
+    stripeAccountId?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
     city?: SortOrder
@@ -22654,6 +22682,7 @@ export namespace Prisma {
     userId?: SortOrder
     bio?: SortOrder
     address?: SortOrder
+    stripeAccountId?: SortOrder
     phone?: SortOrder
     birthDate?: SortOrder
     city?: SortOrder
@@ -24477,6 +24506,7 @@ export namespace Prisma {
     bio: string
     expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
+    stripeAccountId: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone: string
     birthDate: Date | string
@@ -24492,6 +24522,7 @@ export namespace Prisma {
     bio: string
     expertise?: IntructorApplicationCreateexpertiseInput | string[]
     address: string
+    stripeAccountId: string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone: string
     birthDate: Date | string
@@ -24754,6 +24785,7 @@ export namespace Prisma {
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24769,6 +24801,7 @@ export namespace Prisma {
     bio?: StringFieldUpdateOperationsInput | string
     expertise?: IntructorApplicationUpdateexpertiseInput | string[]
     address?: StringFieldUpdateOperationsInput | string
+    stripeAccountId?: StringFieldUpdateOperationsInput | string
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     phone?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string

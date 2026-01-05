@@ -1,5 +1,5 @@
 import EditInstructorForm from '@/app/components/admin/Instructor/EditInstructorForm';
-import { getCurrentLoogedInInstructor } from '@/lib/actions/instructor';
+import { getCurrentLoggedInInstructor } from '@/lib/actions/instructor';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const SettingsPage = async () => {
-  const instructor = await getCurrentLoogedInInstructor();
+  const instructor = await getCurrentLoggedInInstructor();
 
   return (
     <div className='col-span-4 space-y-8'>

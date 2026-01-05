@@ -1,7 +1,7 @@
 'use client';
 
 import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
-import { MotionPreset } from '../ui/motion-preset';
+import { MotionPreset } from '../../components/ui/motion-preset';
 import { CircleCheckBig } from 'lucide-react';
 import Image from 'next/image';
 import { checklist } from '@/lib/constants';

@@ -8,6 +8,10 @@ import { InstructorFormData, SocialLinks } from '@/types';
 import { convertToPlainObject } from '../../utils';
 import { revalidatePath } from 'next/cache';
 import { Prisma } from '../../generated/prisma';
+import stripe from '@/lib/stripe';
+import { SERVER_URL } from '@/lib/constants';
+import { redirect } from 'next/navigation';
+import { getApplicationByUserId } from './application';
 
 // Get total Instructors count
 export const getTotalInstructorsCount = async () => {
@@ -182,13 +186,12 @@ export const getInstructorByIdAsAdmin = async (instructorId: string) => {
 };
 
 // Get current logged in instructor
-export const getCurrentLoogedInInstructor = async () => {
+export const getCurrentLoggedInInstructor = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  if (!session || session.user.role !== 'instructor')
-    throw new Error('Unauthorized to fetch instructor');
+  if (!session) throw new Error('Unauthorized');
 
   const instructor = await prisma.instructor.findUnique({
     where: { userId: session.user.id },
@@ -334,6 +337,43 @@ export const updateInstructorAccount = async ({
     revalidatePath('/instructor-dashboard');
 
     return { success: true, message: 'Account updated successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+// Get stripe account by application
+export const getStripeAccountByApplication = async () => {
+  const application = await getApplicationByUserId();
+
+  if (application) {
+    const account = await stripe.accounts.retrieve(application.stripeAccountId);
+    return convertToPlainObject(account);
+  }
+};
+
+// Get instructor's stripe account
+export const getInstructorStripeAccount = async () => {
+  const instructor = await getCurrentLoggedInInstructor();
+
+  const account = await stripe.accounts.retrieve(instructor.stripeAccountId);
+
+  if (!account) redirect('/instructor-dashboard');
+
+  return convertToPlainObject(account);
+};
+
+// Create Stripe onboarding link
+export const createStripeOnboardingLink = async (stripeAccountId: string) => {
+  try {
+    const accountLink = await stripe.accountLinks.create({
+      account: stripeAccountId,
+      return_url: `${SERVER_URL}/teach/apply/payments/setup`,
+      refresh_url: `${SERVER_URL}/teach/apply/payments/setup`,
+      type: 'account_onboarding',
+    });
+
+    return { success: true, redirect: accountLink.url, message: '' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

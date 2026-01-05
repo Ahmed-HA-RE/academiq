@@ -13,11 +13,14 @@ import { faqItems, SERVER_URL } from '@/lib/constants';
 import Link from 'next/link';
 import { getApplicationByUserId } from '@/lib/actions/instructor/application';
 import { getCurrentLoggedUser } from '@/lib/actions/user';
+import { getStripeAccountByApplication } from '@/lib/actions/instructor';
 
 const TeachFaq = async () => {
-  const user = await getCurrentLoggedUser();
-
-  const application = await getApplicationByUserId(user?.id);
+  const [user, application, account] = await Promise.all([
+    getCurrentLoggedUser(),
+    getApplicationByUserId(),
+    getStripeAccountByApplication(),
+  ]);
 
   return (
     <section className='from-primary/10 relative overflow-hidden bg-linear-to-b to-transparent to-90% section-spacing'>
@@ -213,26 +216,44 @@ const TeachFaq = async () => {
                   ? `/login?callbackUrl=${SERVER_URL}/teach/apply`
                   : application &&
                       application.userId === user.id &&
-                      user.role !== 'instructor'
+                      user.role !== 'instructor' &&
+                      application.status === 'pending' &&
+                      account &&
+                      account.payouts_enabled
                     ? '/application/status'
                     : application &&
                         application.userId === user.id &&
-                        user.role === 'instructor'
-                      ? '/instructor-dashboard'
-                      : '/teach/apply'
+                        account &&
+                        !account.payouts_enabled &&
+                        application.status === 'pending'
+                      ? '/teach/apply/payments/setup'
+                      : application &&
+                          application.userId === user.id &&
+                          user.role === 'instructor'
+                        ? '/instructor-dashboard'
+                        : '/teach/apply'
               }
             >
               {!user
                 ? 'Please log in to apply'
                 : application &&
                     application.userId === user.id &&
-                    user.role !== 'instructor'
+                    user.role !== 'instructor' &&
+                    application.status === 'pending' &&
+                    account &&
+                    account.payouts_enabled
                   ? 'View Application Status'
                   : application &&
                       application.userId === user.id &&
-                      user.role === 'instructor'
-                    ? 'Go to Instructor Dashboard'
-                    : 'Apply Now'}
+                      account &&
+                      !account.payouts_enabled &&
+                      application.status === 'pending'
+                    ? 'Complete Payment Setup'
+                    : application &&
+                        application.userId === user.id &&
+                        user.role === 'instructor'
+                      ? 'Go to Instructor Dashboard'
+                      : 'Apply Now'}
             </Link>
           </Button>
         </MotionPreset>
