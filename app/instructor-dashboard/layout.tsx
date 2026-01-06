@@ -80,7 +80,7 @@ const InstructorDashboardLayout = async ({
               <div className='flex items-center gap-5 text-sm whitespace-nowrap'>
                 <Link href='#'>Privacy Policy</Link>
                 <Link href='/about'>About</Link>
-                <Link href='/contact'>Contact Us</Link>
+                <Link href='/contact-us'>Contact Us</Link>
               </div>
               <div className='text-muted-foreground flex items-center gap-3'>
                 <a

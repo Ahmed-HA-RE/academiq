@@ -46,7 +46,7 @@ const Testimonial = () => {
     };
   }, [api]);
   return (
-    <section className='bg-gray-50 dark:bg-accent py-4 section-spacing'>
+    <section className='bg-gray-50 dark:bg-accent py-4 section-spacing border-b'>
       <div className='container space-y-10 md:space-y-16 lg:space-y-24 lg:px-8'>
         {/* Left Content */}
         <div className='space-y-4 text-center'>

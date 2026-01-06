@@ -7,34 +7,34 @@ import { MotionPreset } from './ui/motion-preset';
 
 const CTA = () => {
   return (
-    <section className=' bg-blue-50 dark:bg-zinc-900 section-spacing'>
+    <section className='section-spacing'>
       <MotionPreset
         component='div'
         className='container'
         fade
-        slide={{ direction: 'right', offset: 50 }}
+        slide={{ direction: 'up', offset: 50 }}
         blur
         transition={{ duration: 0.8 }}
       >
-        <Card className='rounded-3xl border-none py-8 shadow-lg sm:py-16 lg:py-24 bg-muted'>
-          <CardContent className='flex flex-col lg:flex-row items-start md:items-center justify-between gap-8 px-8 sm:px-16 xl:px-24'>
-            <div className='lg:max-w-lg flex-1/2'>
-              <h2 className='mb-4 text-2xl md:text-3xl font-bold'>
+        <Card className='rounded-3xl border-none py-10 shadow-none sm:py-16 lg:py-24 bg-[url(/images/cta-image.png)] bg-cover bg-center bg-no-repeat 2xl:scale-130'>
+          <CardContent className='flex flex-col items-center justify-between gap-8 px-8 sm:px-16 xl:px-24'>
+            <div className='flex-1/2'>
+              <h2 className='text-3xl text-center md:text-5xl font-bold text-black'>
                 Start Learning Anytime, Anywhere
               </h2>
-              <p className='text-muted-foreground text-base md:text-lg font-medium'>
-                Browse our courses and pricing, and learn at your own pace from
-                any device, whenever it fits your schedule.
-              </p>
             </div>
-            <div className='flex items-start lg:items-center gap-6 lg:justify-end w-full flex-1/3'>
-              <Button asChild size={'lg'} className='p-6 text-base'>
+            <div className='flex flex-col md:flex-row items-center justify-center gap-6 w-full'>
+              <Button
+                asChild
+                size={'lg'}
+                className='p-6 rounded-full w-full md:w-[150px] max-w-xs text-base bg-black text-white hover:bg-0'
+              >
                 <Link href={'/prices'}>View Prices</Link>
               </Button>
               <Button
                 asChild
                 size={'lg'}
-                className='px-6 py-6 text-base'
+                className='px-6 py-6 hover:bg-0 rounded-full w-full max-w-xs text-base md:w-[150px] bg-black text-white hover:bg-0'
                 variant='outline'
               >
                 <Link href={'/courses'}>View Courses</Link>

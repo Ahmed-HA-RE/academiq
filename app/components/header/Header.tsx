@@ -17,7 +17,7 @@ const Header = async () => {
     { href: '/prices', title: 'Prices' },
     { href: '/about', title: 'About ' },
     { href: '/teach', title: 'Become an Instructor' },
-    { href: '/contact', title: 'Contact ' },
+    { href: '/contact-us', title: 'Contact-Us' },
   ];
 
   const session = await auth.api.getSession({

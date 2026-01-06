@@ -1,6 +1,6 @@
 import Checklist from '@/app/components/teach/Checklist';
 import CTASection from '@/app/components/teach/CTA';
-import TeacherHero from '@/app/components/teach/TeacherHero';
+import InstructorHero from '@/app/components/teach/InstructorHero';
 import TeachFaq from '@/app/components/teach/TeachFaq';
 import TeachFeatures from '@/app/components/teach/TeachFeatures';
 import { Metadata } from 'next';
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const BecomeAnInstructorPage = async () => {
   return (
     <>
-      <TeacherHero />
+      <InstructorHero />
       <TeachFeatures />
       <Checklist />
       <TeachFaq />

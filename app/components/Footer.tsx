@@ -17,21 +17,21 @@ const footerResourcesLinks = [
 
 const footerSupportLinks = [
   { name: 'About Us', href: '/about' },
-  { name: 'Contact Us', href: '/contact' },
+  { name: 'Contact Us', href: '/contact-us' },
   { name: 'FAQs', href: '/faqs' },
   { name: 'Terms & Conditions', href: '/' },
 ];
 
 const Footer = () => {
   return (
-    <footer className='z-10 border-t bg-background'>
+    <footer className='z-10 border-t bg-[#080826] text-white pt-20 pb-4'>
       <div className='mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:grid-cols-2  lg:grid-cols-4'>
         <div className='flex flex-col items-start gap-4 lg:col-span-2'>
-          <Link className='flex flex-row items-center gap-2' href='/'>
+          <div className='flex flex-row items-center gap-2'>
             <Image src={'/images/logo.png'} alt='Logo' width={45} height={45} />
             <span className='font-bold text-2xl'>{APP_NAME}</span>
-          </Link>
-          <p className='text-muted-foreground text-balance'>
+          </div>
+          <p className='text-gray-300 text-balance'>
             A curated collection of ready to learn video courses and lessons,
             organized by topics and sections—paired with practical exercises and
             real world projects to help learners build, practice, and master
@@ -42,15 +42,17 @@ const Footer = () => {
               href='https://www.instagram.com'
               target='_blank'
               rel='noopener noreferrer'
+              className='hover:scale-105 transition'
             >
-              <LuInstagram className='size-5 text-pink-600' />
+              <LuInstagram className='size-7 text-gray-300' />
             </a>
             <a
               href='https://www.whatsapp.com'
               target='_blank'
               rel='noopener noreferrer'
+              className='hover:scale-105 transition'
             >
-              <FaWhatsapp className='text-green-600 size-5' />
+              <FaWhatsapp className='size-7 text-gray-300' />
             </a>
           </div>
         </div>
@@ -61,7 +63,9 @@ const Footer = () => {
           <ul className='text-muted-foreground space-y-3'>
             {footerResourcesLinks.map((link) => (
               <li key={link.name}>
-                <Link href={link.href}>{link.name}</Link>
+                <Link className='text-gray-300' href={link.href}>
+                  {link.name}
+                </Link>
               </li>
             ))}
           </ul>
@@ -72,7 +76,9 @@ const Footer = () => {
           <ul className='text-muted-foreground w-full space-y-3'>
             {footerSupportLinks.map((link) => (
               <li key={link.name}>
-                <Link href={link.href}>{link.name}</Link>
+                <Link className='text-gray-300' href={link.href}>
+                  {link.name}
+                </Link>
               </li>
             ))}
           </ul>
@@ -87,7 +93,7 @@ const Footer = () => {
         </p>
 
         <div className='flex flex-wrap items-center gap-4'>
-          <Badge variant='outline' className='text-base font-normal'>
+          <Badge variant='outline' className='text-base text-white font-normal'>
             <ShieldCheckIcon className='!size-4.5 text-green-600' /> Secure
             Payment
           </Badge>

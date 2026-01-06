@@ -71,7 +71,7 @@ after:bg-gradient-to-l after:from-[#434343] after:opacity-30 after:backdrop-blur
             <div className='flex items-center gap-5 text-sm whitespace-nowrap'>
               <Link href='#'>Privacy Policy</Link>
               <Link href='/about'>About</Link>
-              <Link href='/contact'>Contact Us</Link>
+              <Link href='/contact-us'>Contact Us</Link>
             </div>
             <div className='text-muted-foreground flex items-center gap-3'>
               <a

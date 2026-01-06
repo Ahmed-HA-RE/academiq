@@ -10,9 +10,11 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/app/components/ui/badge';
 import Image from 'next/image';
+import { Marquee } from '../ui/marquee';
+import { MotionPreset } from '../ui/motion-preset';
 
 import { AnimatedBeam } from '@/app/components/ui/animated-beam';
-const TeacherHeroSection = () => {
+const InstructorHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const iconRef1 = useRef<HTMLDivElement>(null);
   const iconRef2 = useRef<HTMLDivElement>(null);
@@ -31,8 +33,11 @@ const TeacherHeroSection = () => {
   const spanRef8 = useRef<HTMLSpanElement>(null);
 
   return (
-    <section className='flex-1 overflow-hidden py-4'>
-      <div className='container flex-col items-center gap-8 px-4 sm:gap-16 space-y-10'>
+    <section
+      className='flex-1 overflow-hidden
+     min-h-[calc(70dvh-4rem)] flex-col py-4'
+    >
+      <div className=' container flex-col items-center gap-8 px-4 sm:gap-16 space-y-10'>
         {/* Hero Content */}
         <div className='flex flex-col items-center gap-4 text-center'>
           <Badge variant='outline' className='text-sm font-normal'>
@@ -52,7 +57,7 @@ const TeacherHeroSection = () => {
         </div>
         <div
           ref={containerRef}
-          className='relative flex w-full flex-col items-center'
+          className='relative flex w-full flex-col items-center mb-12'
         >
           <div className='flex w-full max-w-4xl items-center justify-between max-md:hidden'>
             <div className='flex items-center gap-30'>
@@ -272,8 +277,100 @@ const TeacherHeroSection = () => {
           />
         </div>
       </div>
+      <MotionPreset
+        component='div'
+        fade
+        slide={{ direction: 'down', offset: 50 }}
+        delay={0}
+        transition={{ duration: 0.5 }}
+        className='bg-primary relative z-1 flex items-center gap-x-10 p-4 max-sm:flex-col'
+      >
+        <p className='mb-4 sm:mb-0 sm:w-60 shrink-0 grow text-base sm:text-lg font-medium text-white uppercase dark:text-black'>
+          Trusted by leading institutions
+        </p>
+        <div className='relative'>
+          <div className='from-primary pointer-events-none absolute inset-y-0 left-0 z-1 w-15 bg-gradient-to-r via-85% to-transparent max-sm:w-15' />
+          <div className='from-primary pointer-events-none absolute inset-y-0 right-0 z-1 w-15 bg-gradient-to-l via-85% to-transparent max-sm:w-15' />
+          <Marquee
+            pauseOnHover
+            duration={20}
+            gap={4}
+            reverse
+            className='[&_.animate-marquee-horizontal]:items-center'
+          >
+            <Image
+              src='/images/coursera.png'
+              alt='Coursera'
+              className='h-10 w-auto shrink-0 object-contain opacity-80 dark:invert'
+              width={0}
+              height={0}
+              sizes='100vw'
+            />
+            <Image
+              src='/images/udemy1.png'
+              alt='Udemy'
+              className='h-8 w-auto shrink-0 object-contain opacity-80 dark:block hidden'
+              width={0}
+              height={0}
+              sizes='100vw'
+            />
+
+            <Image
+              src='/images/udemy_light.png'
+              alt='Udemy'
+              className='h-8 w-auto shrink-0 object-contain opacity-80 dark:hidden block'
+              width={0}
+              height={0}
+              sizes='100vw'
+            />
+            <Image
+              src='/images/harvard.png'
+              alt='Harvard'
+              className='h-8 w-auto shrink-0 object-contain invert dark:invert-0'
+              width={0}
+              height={0}
+              sizes='100vw'
+            />
+            <Image
+              src='/images/google_hero.png'
+              alt='Google'
+              className='h-7.5 w-auto shrink-0 object-contain opacity-80  dark:invert'
+              width={0}
+              height={0}
+              sizes='100vw'
+            />
+
+            <Image
+              src='/images/microsoft_hero.png'
+              alt='Microsoft'
+              className='h-7 w-auto shrink-0 object-contain opacity-100'
+              width={0}
+              height={0}
+              sizes='100vw'
+            />
+
+            <Image
+              src='/images/linkedin_light.png'
+              alt='Linkedin'
+              className='h-7 w-auto shrink-0 object-contain opacity-80 dark:hidden block'
+              width={0}
+              height={0}
+              sizes='100vw'
+            />
+
+            <Image
+              src='/images/linkedin_dark.png'
+              alt='Linkedin'
+              className='h-7 w-auto shrink-0 object-contain opacity-80 dark:block hidden'
+              width={0}
+              height={0}
+              sizes='100vw'
+            />
+          </Marquee>
+        </div>
+      </MotionPreset>
     </section>
   );
 };
 
-export default TeacherHeroSection;
+export default InstructorHero;
