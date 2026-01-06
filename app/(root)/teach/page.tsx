@@ -1,4 +1,5 @@
 import Checklist from '@/app/components/teach/Checklist';
+import CTASection from '@/app/components/teach/CTA';
 import TeacherHero from '@/app/components/teach/TeacherHero';
 import TeachFaq from '@/app/components/teach/TeachFaq';
 import TeachFeatures from '@/app/components/teach/TeachFeatures';
@@ -17,6 +18,7 @@ const BecomeAnInstructorPage = async () => {
       <TeachFeatures />
       <Checklist />
       <TeachFaq />
+      <CTASection />
     </>
   );
 };
