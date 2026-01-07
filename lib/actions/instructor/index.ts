@@ -390,3 +390,16 @@ export const notifyApplicant = async (userEmail: string) => {
     react: NotifyApplicant(),
   });
 };
+
+// Create Stripe payout login link
+export const createStripePayoutsLoginLink = async () => {
+  const instructor = await getCurrentLoggedInInstructor();
+
+  if (!instructor) throw new Error('Instructor not found');
+
+  const loginLink = await stripe.accounts.createLoginLink(
+    instructor.stripeAccountId
+  );
+
+  return loginLink.url;
+};

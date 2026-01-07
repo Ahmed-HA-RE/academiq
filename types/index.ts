@@ -5,6 +5,7 @@ import {
   cartSchema,
   discountSchema,
   forgotPasswordSchema,
+  instructorCertificateSchema,
   instructorSchema,
   instructorUpdateSchema,
   loginSchema,
@@ -148,4 +149,22 @@ export type EnrolledStudents = {
   courseId: string;
   courseName: string;
   progress?: string;
+};
+
+export type InstructorCertificate = z.infer<
+  typeof instructorCertificateSchema
+> & {
+  id: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    image: string;
+  };
+  course: {
+    id: string;
+    title: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
 };

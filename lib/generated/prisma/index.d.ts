@@ -83,6 +83,11 @@ export type IntructorApplication = $Result.DefaultSelection<Prisma.$IntructorApp
  * 
  */
 export type UserProgress = $Result.DefaultSelection<Prisma.$UserProgressPayload>
+/**
+ * Model Certifacte
+ * 
+ */
+export type Certifacte = $Result.DefaultSelection<Prisma.$CertifactePayload>
 
 /**
  * Enums
@@ -357,6 +362,16 @@ export class PrismaClient<
     * ```
     */
   get userProgress(): Prisma.UserProgressDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.certifacte`: Exposes CRUD operations for the **Certifacte** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Certifactes
+    * const certifactes = await prisma.certifacte.findMany()
+    * ```
+    */
+  get certifacte(): Prisma.CertifacteDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -804,7 +819,8 @@ export namespace Prisma {
     Discount: 'Discount',
     Instructor: 'Instructor',
     IntructorApplication: 'IntructorApplication',
-    UserProgress: 'UserProgress'
+    UserProgress: 'UserProgress',
+    Certifacte: 'Certifacte'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -820,7 +836,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "course" | "user" | "session" | "account" | "verification" | "cart" | "section" | "lesson" | "order" | "orderItems" | "discount" | "instructor" | "intructorApplication" | "userProgress"
+      modelProps: "course" | "user" | "session" | "account" | "verification" | "cart" | "section" | "lesson" | "order" | "orderItems" | "discount" | "instructor" | "intructorApplication" | "userProgress" | "certifacte"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1860,6 +1876,80 @@ export namespace Prisma {
           }
         }
       }
+      Certifacte: {
+        payload: Prisma.$CertifactePayload<ExtArgs>
+        fields: Prisma.CertifacteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CertifacteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CertifactePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CertifacteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CertifactePayload>
+          }
+          findFirst: {
+            args: Prisma.CertifacteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CertifactePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CertifacteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CertifactePayload>
+          }
+          findMany: {
+            args: Prisma.CertifacteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CertifactePayload>[]
+          }
+          create: {
+            args: Prisma.CertifacteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CertifactePayload>
+          }
+          createMany: {
+            args: Prisma.CertifacteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CertifacteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CertifactePayload>[]
+          }
+          delete: {
+            args: Prisma.CertifacteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CertifactePayload>
+          }
+          update: {
+            args: Prisma.CertifacteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CertifactePayload>
+          }
+          deleteMany: {
+            args: Prisma.CertifacteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CertifacteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CertifacteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CertifactePayload>[]
+          }
+          upsert: {
+            args: Prisma.CertifacteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CertifactePayload>
+          }
+          aggregate: {
+            args: Prisma.CertifacteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCertifacte>
+          }
+          groupBy: {
+            args: Prisma.CertifacteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CertifacteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CertifacteCountArgs<ExtArgs>
+            result: $Utils.Optional<CertifacteCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1982,6 +2072,7 @@ export namespace Prisma {
     instructor?: InstructorOmit
     intructorApplication?: IntructorApplicationOmit
     userProgress?: UserProgressOmit
+    certifacte?: CertifacteOmit
   }
 
   /* Types for Logging */
@@ -2066,6 +2157,7 @@ export namespace Prisma {
     sections: number
     orderItems: number
     userProgress: number
+    certifactes: number
   }
 
   export type CourseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2073,6 +2165,7 @@ export namespace Prisma {
     sections?: boolean | CourseCountOutputTypeCountSectionsArgs
     orderItems?: boolean | CourseCountOutputTypeCountOrderItemsArgs
     userProgress?: boolean | CourseCountOutputTypeCountUserProgressArgs
+    certifactes?: boolean | CourseCountOutputTypeCountCertifactesArgs
   }
 
   // Custom InputTypes
@@ -2114,6 +2207,13 @@ export namespace Prisma {
     where?: UserProgressWhereInput
   }
 
+  /**
+   * CourseCountOutputType without action
+   */
+  export type CourseCountOutputTypeCountCertifactesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CertifacteWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -2126,6 +2226,7 @@ export namespace Prisma {
     carts: number
     orders: number
     userProgress: number
+    certifactes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2135,6 +2236,7 @@ export namespace Prisma {
     carts?: boolean | UserCountOutputTypeCountCartsArgs
     orders?: boolean | UserCountOutputTypeCountOrdersArgs
     userProgress?: boolean | UserCountOutputTypeCountUserProgressArgs
+    certifactes?: boolean | UserCountOutputTypeCountCertifactesArgs
   }
 
   // Custom InputTypes
@@ -2188,6 +2290,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountUserProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserProgressWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCertifactesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CertifacteWhereInput
   }
 
 
@@ -2643,6 +2752,7 @@ export namespace Prisma {
     sections?: boolean | Course$sectionsArgs<ExtArgs>
     orderItems?: boolean | Course$orderItemsArgs<ExtArgs>
     userProgress?: boolean | Course$userProgressArgs<ExtArgs>
+    certifactes?: boolean | Course$certifactesArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
@@ -2715,6 +2825,7 @@ export namespace Prisma {
     sections?: boolean | Course$sectionsArgs<ExtArgs>
     orderItems?: boolean | Course$orderItemsArgs<ExtArgs>
     userProgress?: boolean | Course$userProgressArgs<ExtArgs>
+    certifactes?: boolean | Course$certifactesArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2732,6 +2843,7 @@ export namespace Prisma {
       sections: Prisma.$SectionPayload<ExtArgs>[]
       orderItems: Prisma.$orderItemsPayload<ExtArgs>[]
       userProgress: Prisma.$UserProgressPayload<ExtArgs>[]
+      certifactes: Prisma.$CertifactePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3150,6 +3262,7 @@ export namespace Prisma {
     sections<T extends Course$sectionsArgs<ExtArgs> = {}>(args?: Subset<T, Course$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orderItems<T extends Course$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Course$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$orderItemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     userProgress<T extends Course$userProgressArgs<ExtArgs> = {}>(args?: Subset<T, Course$userProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    certifactes<T extends Course$certifactesArgs<ExtArgs> = {}>(args?: Subset<T, Course$certifactesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3688,6 +3801,30 @@ export namespace Prisma {
   }
 
   /**
+   * Course.certifactes
+   */
+  export type Course$certifactesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+    where?: CertifacteWhereInput
+    orderBy?: CertifacteOrderByWithRelationInput | CertifacteOrderByWithRelationInput[]
+    cursor?: CertifacteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CertifacteScalarFieldEnum | CertifacteScalarFieldEnum[]
+  }
+
+  /**
    * Course without action
    */
   export type CourseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3938,6 +4075,7 @@ export namespace Prisma {
     intructorApplication?: boolean | User$intructorApplicationArgs<ExtArgs>
     instructor?: boolean | User$instructorArgs<ExtArgs>
     userProgress?: boolean | User$userProgressArgs<ExtArgs>
+    certifactes?: boolean | User$certifactesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3999,6 +4137,7 @@ export namespace Prisma {
     intructorApplication?: boolean | User$intructorApplicationArgs<ExtArgs>
     instructor?: boolean | User$instructorArgs<ExtArgs>
     userProgress?: boolean | User$userProgressArgs<ExtArgs>
+    certifactes?: boolean | User$certifactesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4015,6 +4154,7 @@ export namespace Prisma {
       intructorApplication: Prisma.$IntructorApplicationPayload<ExtArgs> | null
       instructor: Prisma.$InstructorPayload<ExtArgs> | null
       userProgress: Prisma.$UserProgressPayload<ExtArgs>[]
+      certifactes: Prisma.$CertifactePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4432,6 +4572,7 @@ export namespace Prisma {
     intructorApplication<T extends User$intructorApplicationArgs<ExtArgs> = {}>(args?: Subset<T, User$intructorApplicationArgs<ExtArgs>>): Prisma__IntructorApplicationClient<$Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     instructor<T extends User$instructorArgs<ExtArgs> = {}>(args?: Subset<T, User$instructorArgs<ExtArgs>>): Prisma__InstructorClient<$Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     userProgress<T extends User$userProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$userProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    certifactes<T extends User$certifactesArgs<ExtArgs> = {}>(args?: Subset<T, User$certifactesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5041,6 +5182,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserProgressScalarFieldEnum | UserProgressScalarFieldEnum[]
+  }
+
+  /**
+   * User.certifactes
+   */
+  export type User$certifactesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+    where?: CertifacteWhereInput
+    orderBy?: CertifacteOrderByWithRelationInput | CertifacteOrderByWithRelationInput[]
+    cursor?: CertifacteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CertifacteScalarFieldEnum | CertifacteScalarFieldEnum[]
   }
 
   /**
@@ -18731,6 +18896,1085 @@ export namespace Prisma {
 
 
   /**
+   * Model Certifacte
+   */
+
+  export type AggregateCertifacte = {
+    _count: CertifacteCountAggregateOutputType | null
+    _min: CertifacteMinAggregateOutputType | null
+    _max: CertifacteMaxAggregateOutputType | null
+  }
+
+  export type CertifacteMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    courseId: string | null
+    published: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CertifacteMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    courseId: string | null
+    published: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CertifacteCountAggregateOutputType = {
+    id: number
+    userId: number
+    courseId: number
+    published: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CertifacteMinAggregateInputType = {
+    id?: true
+    userId?: true
+    courseId?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CertifacteMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    courseId?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CertifacteCountAggregateInputType = {
+    id?: true
+    userId?: true
+    courseId?: true
+    published?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CertifacteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Certifacte to aggregate.
+     */
+    where?: CertifacteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Certifactes to fetch.
+     */
+    orderBy?: CertifacteOrderByWithRelationInput | CertifacteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CertifacteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Certifactes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Certifactes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Certifactes
+    **/
+    _count?: true | CertifacteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CertifacteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CertifacteMaxAggregateInputType
+  }
+
+  export type GetCertifacteAggregateType<T extends CertifacteAggregateArgs> = {
+        [P in keyof T & keyof AggregateCertifacte]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCertifacte[P]>
+      : GetScalarType<T[P], AggregateCertifacte[P]>
+  }
+
+
+
+
+  export type CertifacteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CertifacteWhereInput
+    orderBy?: CertifacteOrderByWithAggregationInput | CertifacteOrderByWithAggregationInput[]
+    by: CertifacteScalarFieldEnum[] | CertifacteScalarFieldEnum
+    having?: CertifacteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CertifacteCountAggregateInputType | true
+    _min?: CertifacteMinAggregateInputType
+    _max?: CertifacteMaxAggregateInputType
+  }
+
+  export type CertifacteGroupByOutputType = {
+    id: string
+    userId: string
+    courseId: string
+    published: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: CertifacteCountAggregateOutputType | null
+    _min: CertifacteMinAggregateOutputType | null
+    _max: CertifacteMaxAggregateOutputType | null
+  }
+
+  type GetCertifacteGroupByPayload<T extends CertifacteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CertifacteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CertifacteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CertifacteGroupByOutputType[P]>
+            : GetScalarType<T[P], CertifacteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CertifacteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    courseId?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["certifacte"]>
+
+  export type CertifacteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    courseId?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["certifacte"]>
+
+  export type CertifacteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    courseId?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["certifacte"]>
+
+  export type CertifacteSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    courseId?: boolean
+    published?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CertifacteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "courseId" | "published" | "createdAt" | "updatedAt", ExtArgs["result"]["certifacte"]>
+  export type CertifacteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }
+  export type CertifacteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }
+  export type CertifacteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }
+
+  export type $CertifactePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Certifacte"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      course: Prisma.$CoursePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      courseId: string
+      published: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["certifacte"]>
+    composites: {}
+  }
+
+  type CertifacteGetPayload<S extends boolean | null | undefined | CertifacteDefaultArgs> = $Result.GetResult<Prisma.$CertifactePayload, S>
+
+  type CertifacteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CertifacteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CertifacteCountAggregateInputType | true
+    }
+
+  export interface CertifacteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Certifacte'], meta: { name: 'Certifacte' } }
+    /**
+     * Find zero or one Certifacte that matches the filter.
+     * @param {CertifacteFindUniqueArgs} args - Arguments to find a Certifacte
+     * @example
+     * // Get one Certifacte
+     * const certifacte = await prisma.certifacte.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CertifacteFindUniqueArgs>(args: SelectSubset<T, CertifacteFindUniqueArgs<ExtArgs>>): Prisma__CertifacteClient<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Certifacte that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CertifacteFindUniqueOrThrowArgs} args - Arguments to find a Certifacte
+     * @example
+     * // Get one Certifacte
+     * const certifacte = await prisma.certifacte.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CertifacteFindUniqueOrThrowArgs>(args: SelectSubset<T, CertifacteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CertifacteClient<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Certifacte that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CertifacteFindFirstArgs} args - Arguments to find a Certifacte
+     * @example
+     * // Get one Certifacte
+     * const certifacte = await prisma.certifacte.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CertifacteFindFirstArgs>(args?: SelectSubset<T, CertifacteFindFirstArgs<ExtArgs>>): Prisma__CertifacteClient<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Certifacte that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CertifacteFindFirstOrThrowArgs} args - Arguments to find a Certifacte
+     * @example
+     * // Get one Certifacte
+     * const certifacte = await prisma.certifacte.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CertifacteFindFirstOrThrowArgs>(args?: SelectSubset<T, CertifacteFindFirstOrThrowArgs<ExtArgs>>): Prisma__CertifacteClient<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Certifactes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CertifacteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Certifactes
+     * const certifactes = await prisma.certifacte.findMany()
+     * 
+     * // Get first 10 Certifactes
+     * const certifactes = await prisma.certifacte.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const certifacteWithIdOnly = await prisma.certifacte.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CertifacteFindManyArgs>(args?: SelectSubset<T, CertifacteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Certifacte.
+     * @param {CertifacteCreateArgs} args - Arguments to create a Certifacte.
+     * @example
+     * // Create one Certifacte
+     * const Certifacte = await prisma.certifacte.create({
+     *   data: {
+     *     // ... data to create a Certifacte
+     *   }
+     * })
+     * 
+     */
+    create<T extends CertifacteCreateArgs>(args: SelectSubset<T, CertifacteCreateArgs<ExtArgs>>): Prisma__CertifacteClient<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Certifactes.
+     * @param {CertifacteCreateManyArgs} args - Arguments to create many Certifactes.
+     * @example
+     * // Create many Certifactes
+     * const certifacte = await prisma.certifacte.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CertifacteCreateManyArgs>(args?: SelectSubset<T, CertifacteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Certifactes and returns the data saved in the database.
+     * @param {CertifacteCreateManyAndReturnArgs} args - Arguments to create many Certifactes.
+     * @example
+     * // Create many Certifactes
+     * const certifacte = await prisma.certifacte.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Certifactes and only return the `id`
+     * const certifacteWithIdOnly = await prisma.certifacte.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CertifacteCreateManyAndReturnArgs>(args?: SelectSubset<T, CertifacteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Certifacte.
+     * @param {CertifacteDeleteArgs} args - Arguments to delete one Certifacte.
+     * @example
+     * // Delete one Certifacte
+     * const Certifacte = await prisma.certifacte.delete({
+     *   where: {
+     *     // ... filter to delete one Certifacte
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CertifacteDeleteArgs>(args: SelectSubset<T, CertifacteDeleteArgs<ExtArgs>>): Prisma__CertifacteClient<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Certifacte.
+     * @param {CertifacteUpdateArgs} args - Arguments to update one Certifacte.
+     * @example
+     * // Update one Certifacte
+     * const certifacte = await prisma.certifacte.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CertifacteUpdateArgs>(args: SelectSubset<T, CertifacteUpdateArgs<ExtArgs>>): Prisma__CertifacteClient<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Certifactes.
+     * @param {CertifacteDeleteManyArgs} args - Arguments to filter Certifactes to delete.
+     * @example
+     * // Delete a few Certifactes
+     * const { count } = await prisma.certifacte.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CertifacteDeleteManyArgs>(args?: SelectSubset<T, CertifacteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Certifactes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CertifacteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Certifactes
+     * const certifacte = await prisma.certifacte.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CertifacteUpdateManyArgs>(args: SelectSubset<T, CertifacteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Certifactes and returns the data updated in the database.
+     * @param {CertifacteUpdateManyAndReturnArgs} args - Arguments to update many Certifactes.
+     * @example
+     * // Update many Certifactes
+     * const certifacte = await prisma.certifacte.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Certifactes and only return the `id`
+     * const certifacteWithIdOnly = await prisma.certifacte.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CertifacteUpdateManyAndReturnArgs>(args: SelectSubset<T, CertifacteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Certifacte.
+     * @param {CertifacteUpsertArgs} args - Arguments to update or create a Certifacte.
+     * @example
+     * // Update or create a Certifacte
+     * const certifacte = await prisma.certifacte.upsert({
+     *   create: {
+     *     // ... data to create a Certifacte
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Certifacte we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CertifacteUpsertArgs>(args: SelectSubset<T, CertifacteUpsertArgs<ExtArgs>>): Prisma__CertifacteClient<$Result.GetResult<Prisma.$CertifactePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Certifactes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CertifacteCountArgs} args - Arguments to filter Certifactes to count.
+     * @example
+     * // Count the number of Certifactes
+     * const count = await prisma.certifacte.count({
+     *   where: {
+     *     // ... the filter for the Certifactes we want to count
+     *   }
+     * })
+    **/
+    count<T extends CertifacteCountArgs>(
+      args?: Subset<T, CertifacteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CertifacteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Certifacte.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CertifacteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CertifacteAggregateArgs>(args: Subset<T, CertifacteAggregateArgs>): Prisma.PrismaPromise<GetCertifacteAggregateType<T>>
+
+    /**
+     * Group by Certifacte.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CertifacteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CertifacteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CertifacteGroupByArgs['orderBy'] }
+        : { orderBy?: CertifacteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CertifacteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCertifacteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Certifacte model
+   */
+  readonly fields: CertifacteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Certifacte.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CertifacteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Certifacte model
+   */
+  interface CertifacteFieldRefs {
+    readonly id: FieldRef<"Certifacte", 'String'>
+    readonly userId: FieldRef<"Certifacte", 'String'>
+    readonly courseId: FieldRef<"Certifacte", 'String'>
+    readonly published: FieldRef<"Certifacte", 'Boolean'>
+    readonly createdAt: FieldRef<"Certifacte", 'DateTime'>
+    readonly updatedAt: FieldRef<"Certifacte", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Certifacte findUnique
+   */
+  export type CertifacteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+    /**
+     * Filter, which Certifacte to fetch.
+     */
+    where: CertifacteWhereUniqueInput
+  }
+
+  /**
+   * Certifacte findUniqueOrThrow
+   */
+  export type CertifacteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+    /**
+     * Filter, which Certifacte to fetch.
+     */
+    where: CertifacteWhereUniqueInput
+  }
+
+  /**
+   * Certifacte findFirst
+   */
+  export type CertifacteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+    /**
+     * Filter, which Certifacte to fetch.
+     */
+    where?: CertifacteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Certifactes to fetch.
+     */
+    orderBy?: CertifacteOrderByWithRelationInput | CertifacteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Certifactes.
+     */
+    cursor?: CertifacteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Certifactes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Certifactes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Certifactes.
+     */
+    distinct?: CertifacteScalarFieldEnum | CertifacteScalarFieldEnum[]
+  }
+
+  /**
+   * Certifacte findFirstOrThrow
+   */
+  export type CertifacteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+    /**
+     * Filter, which Certifacte to fetch.
+     */
+    where?: CertifacteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Certifactes to fetch.
+     */
+    orderBy?: CertifacteOrderByWithRelationInput | CertifacteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Certifactes.
+     */
+    cursor?: CertifacteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Certifactes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Certifactes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Certifactes.
+     */
+    distinct?: CertifacteScalarFieldEnum | CertifacteScalarFieldEnum[]
+  }
+
+  /**
+   * Certifacte findMany
+   */
+  export type CertifacteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+    /**
+     * Filter, which Certifactes to fetch.
+     */
+    where?: CertifacteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Certifactes to fetch.
+     */
+    orderBy?: CertifacteOrderByWithRelationInput | CertifacteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Certifactes.
+     */
+    cursor?: CertifacteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Certifactes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Certifactes.
+     */
+    skip?: number
+    distinct?: CertifacteScalarFieldEnum | CertifacteScalarFieldEnum[]
+  }
+
+  /**
+   * Certifacte create
+   */
+  export type CertifacteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Certifacte.
+     */
+    data: XOR<CertifacteCreateInput, CertifacteUncheckedCreateInput>
+  }
+
+  /**
+   * Certifacte createMany
+   */
+  export type CertifacteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Certifactes.
+     */
+    data: CertifacteCreateManyInput | CertifacteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Certifacte createManyAndReturn
+   */
+  export type CertifacteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * The data used to create many Certifactes.
+     */
+    data: CertifacteCreateManyInput | CertifacteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Certifacte update
+   */
+  export type CertifacteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Certifacte.
+     */
+    data: XOR<CertifacteUpdateInput, CertifacteUncheckedUpdateInput>
+    /**
+     * Choose, which Certifacte to update.
+     */
+    where: CertifacteWhereUniqueInput
+  }
+
+  /**
+   * Certifacte updateMany
+   */
+  export type CertifacteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Certifactes.
+     */
+    data: XOR<CertifacteUpdateManyMutationInput, CertifacteUncheckedUpdateManyInput>
+    /**
+     * Filter which Certifactes to update
+     */
+    where?: CertifacteWhereInput
+    /**
+     * Limit how many Certifactes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Certifacte updateManyAndReturn
+   */
+  export type CertifacteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * The data used to update Certifactes.
+     */
+    data: XOR<CertifacteUpdateManyMutationInput, CertifacteUncheckedUpdateManyInput>
+    /**
+     * Filter which Certifactes to update
+     */
+    where?: CertifacteWhereInput
+    /**
+     * Limit how many Certifactes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Certifacte upsert
+   */
+  export type CertifacteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Certifacte to update in case it exists.
+     */
+    where: CertifacteWhereUniqueInput
+    /**
+     * In case the Certifacte found by the `where` argument doesn't exist, create a new Certifacte with this data.
+     */
+    create: XOR<CertifacteCreateInput, CertifacteUncheckedCreateInput>
+    /**
+     * In case the Certifacte was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CertifacteUpdateInput, CertifacteUncheckedUpdateInput>
+  }
+
+  /**
+   * Certifacte delete
+   */
+  export type CertifacteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+    /**
+     * Filter which Certifacte to delete.
+     */
+    where: CertifacteWhereUniqueInput
+  }
+
+  /**
+   * Certifacte deleteMany
+   */
+  export type CertifacteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Certifactes to delete
+     */
+    where?: CertifacteWhereInput
+    /**
+     * Limit how many Certifactes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Certifacte without action
+   */
+  export type CertifacteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Certifacte
+     */
+    select?: CertifacteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Certifacte
+     */
+    omit?: CertifacteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CertifacteInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -18966,6 +20210,18 @@ export namespace Prisma {
   export type UserProgressScalarFieldEnum = (typeof UserProgressScalarFieldEnum)[keyof typeof UserProgressScalarFieldEnum]
 
 
+  export const CertifacteScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    courseId: 'courseId',
+    published: 'published',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CertifacteScalarFieldEnum = (typeof CertifacteScalarFieldEnum)[keyof typeof CertifacteScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -19160,6 +20416,7 @@ export namespace Prisma {
     sections?: SectionListRelationFilter
     orderItems?: OrderItemsListRelationFilter
     userProgress?: UserProgressListRelationFilter
+    certifactes?: CertifacteListRelationFilter
   }
 
   export type CourseOrderByWithRelationInput = {
@@ -19185,6 +20442,7 @@ export namespace Prisma {
     sections?: SectionOrderByRelationAggregateInput
     orderItems?: orderItemsOrderByRelationAggregateInput
     userProgress?: UserProgressOrderByRelationAggregateInput
+    certifactes?: CertifacteOrderByRelationAggregateInput
   }
 
   export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -19213,6 +20471,7 @@ export namespace Prisma {
     sections?: SectionListRelationFilter
     orderItems?: OrderItemsListRelationFilter
     userProgress?: UserProgressListRelationFilter
+    certifactes?: CertifacteListRelationFilter
   }, "id" | "slug">
 
   export type CourseOrderByWithAggregationInput = {
@@ -19288,6 +20547,7 @@ export namespace Prisma {
     intructorApplication?: XOR<IntructorApplicationNullableScalarRelationFilter, IntructorApplicationWhereInput> | null
     instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
     userProgress?: UserProgressListRelationFilter
+    certifactes?: CertifacteListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -19312,6 +20572,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationOrderByWithRelationInput
     instructor?: InstructorOrderByWithRelationInput
     userProgress?: UserProgressOrderByRelationAggregateInput
+    certifactes?: CertifacteOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -19339,6 +20600,7 @@ export namespace Prisma {
     intructorApplication?: XOR<IntructorApplicationNullableScalarRelationFilter, IntructorApplicationWhereInput> | null
     instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
     userProgress?: UserProgressListRelationFilter
+    certifactes?: CertifacteListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -20313,6 +21575,70 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"UserProgress"> | Date | string
   }
 
+  export type CertifacteWhereInput = {
+    AND?: CertifacteWhereInput | CertifacteWhereInput[]
+    OR?: CertifacteWhereInput[]
+    NOT?: CertifacteWhereInput | CertifacteWhereInput[]
+    id?: StringFilter<"Certifacte"> | string
+    userId?: StringFilter<"Certifacte"> | string
+    courseId?: StringFilter<"Certifacte"> | string
+    published?: BoolFilter<"Certifacte"> | boolean
+    createdAt?: DateTimeFilter<"Certifacte"> | Date | string
+    updatedAt?: DateTimeFilter<"Certifacte"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+  }
+
+  export type CertifacteOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    courseId?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    course?: CourseOrderByWithRelationInput
+  }
+
+  export type CertifacteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    courseId?: string
+    userId_courseId?: CertifacteUserIdCourseIdCompoundUniqueInput
+    AND?: CertifacteWhereInput | CertifacteWhereInput[]
+    OR?: CertifacteWhereInput[]
+    NOT?: CertifacteWhereInput | CertifacteWhereInput[]
+    userId?: StringFilter<"Certifacte"> | string
+    published?: BoolFilter<"Certifacte"> | boolean
+    createdAt?: DateTimeFilter<"Certifacte"> | Date | string
+    updatedAt?: DateTimeFilter<"Certifacte"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+  }, "id" | "courseId" | "userId_courseId">
+
+  export type CertifacteOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    courseId?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CertifacteCountOrderByAggregateInput
+    _max?: CertifacteMaxOrderByAggregateInput
+    _min?: CertifacteMinOrderByAggregateInput
+  }
+
+  export type CertifacteScalarWhereWithAggregatesInput = {
+    AND?: CertifacteScalarWhereWithAggregatesInput | CertifacteScalarWhereWithAggregatesInput[]
+    OR?: CertifacteScalarWhereWithAggregatesInput[]
+    NOT?: CertifacteScalarWhereWithAggregatesInput | CertifacteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Certifacte"> | string
+    userId?: StringWithAggregatesFilter<"Certifacte"> | string
+    courseId?: StringWithAggregatesFilter<"Certifacte"> | string
+    published?: BoolWithAggregatesFilter<"Certifacte"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Certifacte"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Certifacte"> | Date | string
+  }
+
   export type CourseCreateInput = {
     id?: string
     slug: string
@@ -20335,6 +21661,7 @@ export namespace Prisma {
     sections?: SectionCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsCreateNestedManyWithoutCourseInput
     userProgress?: UserProgressCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateInput = {
@@ -20359,6 +21686,7 @@ export namespace Prisma {
     sections?: SectionUncheckedCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsUncheckedCreateNestedManyWithoutCourseInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUpdateInput = {
@@ -20383,6 +21711,7 @@ export namespace Prisma {
     sections?: SectionUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUpdateManyWithoutCourseNestedInput
     userProgress?: UserProgressUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateInput = {
@@ -20407,6 +21736,7 @@ export namespace Prisma {
     sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUncheckedUpdateManyWithoutCourseNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseCreateManyInput = {
@@ -20490,6 +21820,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
     userProgress?: UserProgressCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -20514,6 +21845,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -20538,6 +21870,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -20562,6 +21895,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -21626,6 +22960,67 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CertifacteCreateInput = {
+    id?: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCertifactesInput
+    course: CourseCreateNestedOneWithoutCertifactesInput
+  }
+
+  export type CertifacteUncheckedCreateInput = {
+    id?: string
+    userId: string
+    courseId: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CertifacteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCertifactesNestedInput
+    course?: CourseUpdateOneRequiredWithoutCertifactesNestedInput
+  }
+
+  export type CertifacteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CertifacteCreateManyInput = {
+    id?: string
+    userId: string
+    courseId: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CertifacteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CertifacteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -21708,6 +23103,12 @@ export namespace Prisma {
     none?: UserProgressWhereInput
   }
 
+  export type CertifacteListRelationFilter = {
+    every?: CertifacteWhereInput
+    some?: CertifacteWhereInput
+    none?: CertifacteWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -21721,6 +23122,10 @@ export namespace Prisma {
   }
 
   export type UserProgressOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CertifacteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22724,6 +24129,38 @@ export namespace Prisma {
     progress?: SortOrder
   }
 
+  export type CertifacteUserIdCourseIdCompoundUniqueInput = {
+    userId: string
+    courseId: string
+  }
+
+  export type CertifacteCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    courseId?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CertifacteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    courseId?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CertifacteMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    courseId?: SortOrder
+    published?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type UserCreateNestedManyWithoutCoursesInput = {
     create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput> | UserCreateWithoutCoursesInput[] | UserUncheckedCreateWithoutCoursesInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCoursesInput | UserCreateOrConnectWithoutCoursesInput[]
@@ -22757,6 +24194,13 @@ export namespace Prisma {
     connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
   }
 
+  export type CertifacteCreateNestedManyWithoutCourseInput = {
+    create?: XOR<CertifacteCreateWithoutCourseInput, CertifacteUncheckedCreateWithoutCourseInput> | CertifacteCreateWithoutCourseInput[] | CertifacteUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: CertifacteCreateOrConnectWithoutCourseInput | CertifacteCreateOrConnectWithoutCourseInput[]
+    createMany?: CertifacteCreateManyCourseInputEnvelope
+    connect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCoursesInput = {
     create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput> | UserCreateWithoutCoursesInput[] | UserUncheckedCreateWithoutCoursesInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCoursesInput | UserCreateOrConnectWithoutCoursesInput[]
@@ -22782,6 +24226,13 @@ export namespace Prisma {
     connectOrCreate?: UserProgressCreateOrConnectWithoutCourseInput | UserProgressCreateOrConnectWithoutCourseInput[]
     createMany?: UserProgressCreateManyCourseInputEnvelope
     connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+  }
+
+  export type CertifacteUncheckedCreateNestedManyWithoutCourseInput = {
+    create?: XOR<CertifacteCreateWithoutCourseInput, CertifacteUncheckedCreateWithoutCourseInput> | CertifacteCreateWithoutCourseInput[] | CertifacteUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: CertifacteCreateOrConnectWithoutCourseInput | CertifacteCreateOrConnectWithoutCourseInput[]
+    createMany?: CertifacteCreateManyCourseInputEnvelope
+    connect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -22875,6 +24326,20 @@ export namespace Prisma {
     deleteMany?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
   }
 
+  export type CertifacteUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<CertifacteCreateWithoutCourseInput, CertifacteUncheckedCreateWithoutCourseInput> | CertifacteCreateWithoutCourseInput[] | CertifacteUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: CertifacteCreateOrConnectWithoutCourseInput | CertifacteCreateOrConnectWithoutCourseInput[]
+    upsert?: CertifacteUpsertWithWhereUniqueWithoutCourseInput | CertifacteUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: CertifacteCreateManyCourseInputEnvelope
+    set?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    disconnect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    delete?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    connect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    update?: CertifacteUpdateWithWhereUniqueWithoutCourseInput | CertifacteUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: CertifacteUpdateManyWithWhereWithoutCourseInput | CertifacteUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: CertifacteScalarWhereInput | CertifacteScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCoursesNestedInput = {
     create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput> | UserCreateWithoutCoursesInput[] | UserUncheckedCreateWithoutCoursesInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCoursesInput | UserCreateOrConnectWithoutCoursesInput[]
@@ -22930,6 +24395,20 @@ export namespace Prisma {
     deleteMany?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
   }
 
+  export type CertifacteUncheckedUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<CertifacteCreateWithoutCourseInput, CertifacteUncheckedCreateWithoutCourseInput> | CertifacteCreateWithoutCourseInput[] | CertifacteUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: CertifacteCreateOrConnectWithoutCourseInput | CertifacteCreateOrConnectWithoutCourseInput[]
+    upsert?: CertifacteUpsertWithWhereUniqueWithoutCourseInput | CertifacteUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: CertifacteCreateManyCourseInputEnvelope
+    set?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    disconnect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    delete?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    connect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    update?: CertifacteUpdateWithWhereUniqueWithoutCourseInput | CertifacteUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: CertifacteUpdateManyWithWhereWithoutCourseInput | CertifacteUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: CertifacteScalarWhereInput | CertifacteScalarWhereInput[]
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -22983,6 +24462,13 @@ export namespace Prisma {
     connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
   }
 
+  export type CertifacteCreateNestedManyWithoutUserInput = {
+    create?: XOR<CertifacteCreateWithoutUserInput, CertifacteUncheckedCreateWithoutUserInput> | CertifacteCreateWithoutUserInput[] | CertifacteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CertifacteCreateOrConnectWithoutUserInput | CertifacteCreateOrConnectWithoutUserInput[]
+    createMany?: CertifacteCreateManyUserInputEnvelope
+    connect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -23034,6 +24520,13 @@ export namespace Prisma {
     connectOrCreate?: UserProgressCreateOrConnectWithoutUserInput | UserProgressCreateOrConnectWithoutUserInput[]
     createMany?: UserProgressCreateManyUserInputEnvelope
     connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+  }
+
+  export type CertifacteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CertifacteCreateWithoutUserInput, CertifacteUncheckedCreateWithoutUserInput> | CertifacteCreateWithoutUserInput[] | CertifacteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CertifacteCreateOrConnectWithoutUserInput | CertifacteCreateOrConnectWithoutUserInput[]
+    createMany?: CertifacteCreateManyUserInputEnvelope
+    connect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -23147,6 +24640,20 @@ export namespace Prisma {
     deleteMany?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
   }
 
+  export type CertifacteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CertifacteCreateWithoutUserInput, CertifacteUncheckedCreateWithoutUserInput> | CertifacteCreateWithoutUserInput[] | CertifacteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CertifacteCreateOrConnectWithoutUserInput | CertifacteCreateOrConnectWithoutUserInput[]
+    upsert?: CertifacteUpsertWithWhereUniqueWithoutUserInput | CertifacteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CertifacteCreateManyUserInputEnvelope
+    set?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    disconnect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    delete?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    connect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    update?: CertifacteUpdateWithWhereUniqueWithoutUserInput | CertifacteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CertifacteUpdateManyWithWhereWithoutUserInput | CertifacteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CertifacteScalarWhereInput | CertifacteScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -23248,6 +24755,20 @@ export namespace Prisma {
     update?: UserProgressUpdateWithWhereUniqueWithoutUserInput | UserProgressUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserProgressUpdateManyWithWhereWithoutUserInput | UserProgressUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
+  }
+
+  export type CertifacteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CertifacteCreateWithoutUserInput, CertifacteUncheckedCreateWithoutUserInput> | CertifacteCreateWithoutUserInput[] | CertifacteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CertifacteCreateOrConnectWithoutUserInput | CertifacteCreateOrConnectWithoutUserInput[]
+    upsert?: CertifacteUpsertWithWhereUniqueWithoutUserInput | CertifacteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CertifacteCreateManyUserInputEnvelope
+    set?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    disconnect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    delete?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    connect?: CertifacteWhereUniqueInput | CertifacteWhereUniqueInput[]
+    update?: CertifacteUpdateWithWhereUniqueWithoutUserInput | CertifacteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CertifacteUpdateManyWithWhereWithoutUserInput | CertifacteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CertifacteScalarWhereInput | CertifacteScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -23693,6 +25214,34 @@ export namespace Prisma {
     update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutUserProgressInput, CourseUpdateWithoutUserProgressInput>, CourseUncheckedUpdateWithoutUserProgressInput>
   }
 
+  export type UserCreateNestedOneWithoutCertifactesInput = {
+    create?: XOR<UserCreateWithoutCertifactesInput, UserUncheckedCreateWithoutCertifactesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCertifactesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CourseCreateNestedOneWithoutCertifactesInput = {
+    create?: XOR<CourseCreateWithoutCertifactesInput, CourseUncheckedCreateWithoutCertifactesInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutCertifactesInput
+    connect?: CourseWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutCertifactesNestedInput = {
+    create?: XOR<UserCreateWithoutCertifactesInput, UserUncheckedCreateWithoutCertifactesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCertifactesInput
+    upsert?: UserUpsertWithoutCertifactesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCertifactesInput, UserUpdateWithoutCertifactesInput>, UserUncheckedUpdateWithoutCertifactesInput>
+  }
+
+  export type CourseUpdateOneRequiredWithoutCertifactesNestedInput = {
+    create?: XOR<CourseCreateWithoutCertifactesInput, CourseUncheckedCreateWithoutCertifactesInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutCertifactesInput
+    upsert?: CourseUpsertWithoutCertifactesInput
+    connect?: CourseWhereUniqueInput
+    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutCertifactesInput, CourseUpdateWithoutCertifactesInput>, CourseUncheckedUpdateWithoutCertifactesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -24003,6 +25552,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
     userProgress?: UserProgressCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -24026,6 +25576,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -24141,6 +25692,32 @@ export namespace Prisma {
 
   export type UserProgressCreateManyCourseInputEnvelope = {
     data: UserProgressCreateManyCourseInput | UserProgressCreateManyCourseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CertifacteCreateWithoutCourseInput = {
+    id?: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCertifactesInput
+  }
+
+  export type CertifacteUncheckedCreateWithoutCourseInput = {
+    id?: string
+    userId: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CertifacteCreateOrConnectWithoutCourseInput = {
+    where: CertifacteWhereUniqueInput
+    create: XOR<CertifacteCreateWithoutCourseInput, CertifacteUncheckedCreateWithoutCourseInput>
+  }
+
+  export type CertifacteCreateManyCourseInputEnvelope = {
+    data: CertifacteCreateManyCourseInput | CertifacteCreateManyCourseInput[]
     skipDuplicates?: boolean
   }
 
@@ -24302,6 +25879,34 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"UserProgress"> | Date | string
   }
 
+  export type CertifacteUpsertWithWhereUniqueWithoutCourseInput = {
+    where: CertifacteWhereUniqueInput
+    update: XOR<CertifacteUpdateWithoutCourseInput, CertifacteUncheckedUpdateWithoutCourseInput>
+    create: XOR<CertifacteCreateWithoutCourseInput, CertifacteUncheckedCreateWithoutCourseInput>
+  }
+
+  export type CertifacteUpdateWithWhereUniqueWithoutCourseInput = {
+    where: CertifacteWhereUniqueInput
+    data: XOR<CertifacteUpdateWithoutCourseInput, CertifacteUncheckedUpdateWithoutCourseInput>
+  }
+
+  export type CertifacteUpdateManyWithWhereWithoutCourseInput = {
+    where: CertifacteScalarWhereInput
+    data: XOR<CertifacteUpdateManyMutationInput, CertifacteUncheckedUpdateManyWithoutCourseInput>
+  }
+
+  export type CertifacteScalarWhereInput = {
+    AND?: CertifacteScalarWhereInput | CertifacteScalarWhereInput[]
+    OR?: CertifacteScalarWhereInput[]
+    NOT?: CertifacteScalarWhereInput | CertifacteScalarWhereInput[]
+    id?: StringFilter<"Certifacte"> | string
+    userId?: StringFilter<"Certifacte"> | string
+    courseId?: StringFilter<"Certifacte"> | string
+    published?: BoolFilter<"Certifacte"> | boolean
+    createdAt?: DateTimeFilter<"Certifacte"> | Date | string
+    updatedAt?: DateTimeFilter<"Certifacte"> | Date | string
+  }
+
   export type SessionCreateWithoutUserInput = {
     id: string
     expiresAt: Date | string
@@ -24395,6 +26000,7 @@ export namespace Prisma {
     sections?: SectionCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsCreateNestedManyWithoutCourseInput
     userProgress?: UserProgressCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutUsersInput = {
@@ -24418,6 +26024,7 @@ export namespace Prisma {
     sections?: SectionUncheckedCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsUncheckedCreateNestedManyWithoutCourseInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutUsersInput = {
@@ -24594,6 +26201,32 @@ export namespace Prisma {
 
   export type UserProgressCreateManyUserInputEnvelope = {
     data: UserProgressCreateManyUserInput | UserProgressCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CertifacteCreateWithoutUserInput = {
+    id?: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: CourseCreateNestedOneWithoutCertifactesInput
+  }
+
+  export type CertifacteUncheckedCreateWithoutUserInput = {
+    id?: string
+    courseId: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CertifacteCreateOrConnectWithoutUserInput = {
+    where: CertifacteWhereUniqueInput
+    create: XOR<CertifacteCreateWithoutUserInput, CertifacteUncheckedCreateWithoutUserInput>
+  }
+
+  export type CertifacteCreateManyUserInputEnvelope = {
+    data: CertifacteCreateManyUserInput | CertifacteCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -24869,6 +26502,22 @@ export namespace Prisma {
     data: XOR<UserProgressUpdateManyMutationInput, UserProgressUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type CertifacteUpsertWithWhereUniqueWithoutUserInput = {
+    where: CertifacteWhereUniqueInput
+    update: XOR<CertifacteUpdateWithoutUserInput, CertifacteUncheckedUpdateWithoutUserInput>
+    create: XOR<CertifacteCreateWithoutUserInput, CertifacteUncheckedCreateWithoutUserInput>
+  }
+
+  export type CertifacteUpdateWithWhereUniqueWithoutUserInput = {
+    where: CertifacteWhereUniqueInput
+    data: XOR<CertifacteUpdateWithoutUserInput, CertifacteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CertifacteUpdateManyWithWhereWithoutUserInput = {
+    where: CertifacteScalarWhereInput
+    data: XOR<CertifacteUpdateManyMutationInput, CertifacteUncheckedUpdateManyWithoutUserInput>
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id: string
     name: string
@@ -24890,6 +26539,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
     userProgress?: UserProgressCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -24913,6 +26563,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -24952,6 +26603,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -24975,6 +26627,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -24998,6 +26651,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
     userProgress?: UserProgressCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -25021,6 +26675,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -25060,6 +26715,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -25083,6 +26739,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCartsInput = {
@@ -25106,6 +26763,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
     userProgress?: UserProgressCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCartsInput = {
@@ -25129,6 +26787,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCartsInput = {
@@ -25197,6 +26856,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartsInput = {
@@ -25220,6 +26880,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DiscountUpsertWithoutCartsInput = {
@@ -25278,6 +26939,7 @@ export namespace Prisma {
     instructor: InstructorCreateNestedOneWithoutCoursesInput
     orderItems?: orderItemsCreateNestedManyWithoutCourseInput
     userProgress?: UserProgressCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutSectionsInput = {
@@ -25301,6 +26963,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCoursesInput
     orderItems?: orderItemsUncheckedCreateNestedManyWithoutCourseInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutSectionsInput = {
@@ -25368,6 +27031,7 @@ export namespace Prisma {
     instructor?: InstructorUpdateOneRequiredWithoutCoursesNestedInput
     orderItems?: orderItemsUpdateManyWithoutCourseNestedInput
     userProgress?: UserProgressUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutSectionsInput = {
@@ -25391,6 +27055,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCoursesNestedInput
     orderItems?: orderItemsUncheckedUpdateManyWithoutCourseNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type LessonUpsertWithWhereUniqueWithoutSectionInput = {
@@ -25491,6 +27156,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
     userProgress?: UserProgressCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOrdersInput = {
@@ -25514,6 +27180,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOrdersInput = {
@@ -25608,6 +27275,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -25631,6 +27299,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type orderItemsUpsertWithWhereUniqueWithoutOrderInput = {
@@ -25705,6 +27374,7 @@ export namespace Prisma {
     instructor: InstructorCreateNestedOneWithoutCoursesInput
     sections?: SectionCreateNestedManyWithoutCourseInput
     userProgress?: UserProgressCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutOrderItemsInput = {
@@ -25728,6 +27398,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCoursesInput
     sections?: SectionUncheckedCreateNestedManyWithoutCourseInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutOrderItemsInput = {
@@ -25804,6 +27475,7 @@ export namespace Prisma {
     instructor?: InstructorUpdateOneRequiredWithoutCoursesNestedInput
     sections?: SectionUpdateManyWithoutCourseNestedInput
     userProgress?: UserProgressUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutOrderItemsInput = {
@@ -25827,6 +27499,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCoursesNestedInput
     sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type OrderUpsertWithoutOrderItemsInput = {
@@ -26001,6 +27674,7 @@ export namespace Prisma {
     orders?: OrderCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     userProgress?: UserProgressCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInstructorInput = {
@@ -26024,6 +27698,7 @@ export namespace Prisma {
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInstructorInput = {
@@ -26052,6 +27727,7 @@ export namespace Prisma {
     sections?: SectionCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsCreateNestedManyWithoutCourseInput
     userProgress?: UserProgressCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutInstructorInput = {
@@ -26075,6 +27751,7 @@ export namespace Prisma {
     sections?: SectionUncheckedCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsUncheckedCreateNestedManyWithoutCourseInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutInstructorInput = {
@@ -26119,6 +27796,7 @@ export namespace Prisma {
     orders?: OrderUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInstructorInput = {
@@ -26142,6 +27820,7 @@ export namespace Prisma {
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithWhereUniqueWithoutInstructorInput = {
@@ -26181,6 +27860,7 @@ export namespace Prisma {
     orders?: OrderCreateNestedManyWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
     userProgress?: UserProgressCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutIntructorApplicationInput = {
@@ -26204,6 +27884,7 @@ export namespace Prisma {
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
     userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutIntructorApplicationInput = {
@@ -26243,6 +27924,7 @@ export namespace Prisma {
     orders?: OrderUpdateManyWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutIntructorApplicationInput = {
@@ -26266,6 +27948,7 @@ export namespace Prisma {
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUserProgressInput = {
@@ -26289,6 +27972,7 @@ export namespace Prisma {
     orders?: OrderCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
     instructor?: InstructorCreateNestedOneWithoutUserInput
+    certifactes?: CertifacteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserProgressInput = {
@@ -26312,6 +27996,7 @@ export namespace Prisma {
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserProgressInput = {
@@ -26340,6 +28025,7 @@ export namespace Prisma {
     instructor: InstructorCreateNestedOneWithoutCoursesInput
     sections?: SectionCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutUserProgressInput = {
@@ -26363,6 +28049,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCoursesInput
     sections?: SectionUncheckedCreateNestedManyWithoutCourseInput
     orderItems?: orderItemsUncheckedCreateNestedManyWithoutCourseInput
+    certifactes?: CertifacteUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutUserProgressInput = {
@@ -26402,6 +28089,7 @@ export namespace Prisma {
     orders?: OrderUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
+    certifactes?: CertifacteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserProgressInput = {
@@ -26425,6 +28113,7 @@ export namespace Prisma {
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutUserProgressInput = {
@@ -26459,6 +28148,7 @@ export namespace Prisma {
     instructor?: InstructorUpdateOneRequiredWithoutCoursesNestedInput
     sections?: SectionUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutUserProgressInput = {
@@ -26482,6 +28172,231 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCoursesNestedInput
     sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUncheckedUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type UserCreateWithoutCertifactesInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string
+    role?: string
+    billingInfo?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUsersInput
+    carts?: CartCreateNestedManyWithoutUserInput
+    orders?: OrderCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationCreateNestedOneWithoutUserInput
+    instructor?: InstructorCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCertifactesInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string
+    role?: string
+    billingInfo?: NullableJsonNullValueInput | InputJsonValue
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    banned?: boolean
+    banReason?: string | null
+    banExpires?: Date | string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUsersInput
+    carts?: CartUncheckedCreateNestedManyWithoutUserInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    intructorApplication?: IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
+    instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCertifactesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCertifactesInput, UserUncheckedCreateWithoutCertifactesInput>
+  }
+
+  export type CourseCreateWithoutCertifactesInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    price: Decimal | DecimalJsLike | number | string
+    currentPrice: Decimal | DecimalJsLike | number | string
+    isFeatured?: boolean
+    image: string
+    language: string
+    duration: number
+    difficulty: string
+    prequisites: string
+    rating?: Decimal | DecimalJsLike | number | string
+    numReviews?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCoursesInput
+    instructor: InstructorCreateNestedOneWithoutCoursesInput
+    sections?: SectionCreateNestedManyWithoutCourseInput
+    orderItems?: orderItemsCreateNestedManyWithoutCourseInput
+    userProgress?: UserProgressCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseUncheckedCreateWithoutCertifactesInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    price: Decimal | DecimalJsLike | number | string
+    currentPrice: Decimal | DecimalJsLike | number | string
+    isFeatured?: boolean
+    image: string
+    language: string
+    duration: number
+    difficulty: string
+    prequisites: string
+    rating?: Decimal | DecimalJsLike | number | string
+    numReviews?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    instructorId: string
+    users?: UserUncheckedCreateNestedManyWithoutCoursesInput
+    sections?: SectionUncheckedCreateNestedManyWithoutCourseInput
+    orderItems?: orderItemsUncheckedCreateNestedManyWithoutCourseInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseCreateOrConnectWithoutCertifactesInput = {
+    where: CourseWhereUniqueInput
+    create: XOR<CourseCreateWithoutCertifactesInput, CourseUncheckedCreateWithoutCertifactesInput>
+  }
+
+  export type UserUpsertWithoutCertifactesInput = {
+    update: XOR<UserUpdateWithoutCertifactesInput, UserUncheckedUpdateWithoutCertifactesInput>
+    create: XOR<UserCreateWithoutCertifactesInput, UserUncheckedCreateWithoutCertifactesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCertifactesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCertifactesInput, UserUncheckedUpdateWithoutCertifactesInput>
+  }
+
+  export type UserUpdateWithoutCertifactesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    billingInfo?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUsersNestedInput
+    carts?: CartUpdateManyWithoutUserNestedInput
+    orders?: OrderUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
+    instructor?: InstructorUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCertifactesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    billingInfo?: NullableJsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUsersNestedInput
+    carts?: CartUncheckedUpdateManyWithoutUserNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
+    instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CourseUpsertWithoutCertifactesInput = {
+    update: XOR<CourseUpdateWithoutCertifactesInput, CourseUncheckedUpdateWithoutCertifactesInput>
+    create: XOR<CourseCreateWithoutCertifactesInput, CourseUncheckedCreateWithoutCertifactesInput>
+    where?: CourseWhereInput
+  }
+
+  export type CourseUpdateToOneWithWhereWithoutCertifactesInput = {
+    where?: CourseWhereInput
+    data: XOR<CourseUpdateWithoutCertifactesInput, CourseUncheckedUpdateWithoutCertifactesInput>
+  }
+
+  export type CourseUpdateWithoutCertifactesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    difficulty?: StringFieldUpdateOperationsInput | string
+    prequisites?: StringFieldUpdateOperationsInput | string
+    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    numReviews?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCoursesNestedInput
+    instructor?: InstructorUpdateOneRequiredWithoutCoursesNestedInput
+    sections?: SectionUpdateManyWithoutCourseNestedInput
+    orderItems?: orderItemsUpdateManyWithoutCourseNestedInput
+    userProgress?: UserProgressUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseUncheckedUpdateWithoutCertifactesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    difficulty?: StringFieldUpdateOperationsInput | string
+    prequisites?: StringFieldUpdateOperationsInput | string
+    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    numReviews?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    instructorId?: StringFieldUpdateOperationsInput | string
+    users?: UserUncheckedUpdateManyWithoutCoursesNestedInput
+    sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
+    orderItems?: orderItemsUncheckedUpdateManyWithoutCourseNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type SectionCreateManyCourseInput = {
@@ -26506,6 +28421,14 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type CertifacteCreateManyCourseInput = {
+    id?: string
+    userId: string
+    published?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type UserUpdateWithoutCoursesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -26527,6 +28450,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUpdateOneWithoutUserNestedInput
     instructor?: InstructorUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -26550,6 +28474,7 @@ export namespace Prisma {
     intructorApplication?: IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutUserNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCoursesInput = {
@@ -26636,6 +28561,30 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CertifacteUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCertifactesNestedInput
+  }
+
+  export type CertifacteUncheckedUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CertifacteUncheckedUpdateManyWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SessionCreateManyUserInput = {
     id: string
     expiresAt: Date | string
@@ -26693,6 +28642,14 @@ export namespace Prisma {
     id?: string
     courseId: string
     progress?: Decimal | DecimalJsLike | number | string
+    updatedAt?: Date | string
+  }
+
+  export type CertifacteCreateManyUserInput = {
+    id?: string
+    courseId: string
+    published?: boolean
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -26795,6 +28752,7 @@ export namespace Prisma {
     sections?: SectionUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUpdateManyWithoutCourseNestedInput
     userProgress?: UserProgressUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutUsersInput = {
@@ -26818,6 +28776,7 @@ export namespace Prisma {
     sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUncheckedUpdateManyWithoutCourseNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateManyWithoutUsersInput = {
@@ -26941,6 +28900,30 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CertifacteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutCertifactesNestedInput
+  }
+
+  export type CertifacteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CertifacteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -27162,6 +29145,7 @@ export namespace Prisma {
     sections?: SectionUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUpdateManyWithoutCourseNestedInput
     userProgress?: UserProgressUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutInstructorInput = {
@@ -27185,6 +29169,7 @@ export namespace Prisma {
     sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
     orderItems?: orderItemsUncheckedUpdateManyWithoutCourseNestedInput
     userProgress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
+    certifactes?: CertifacteUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateManyWithoutInstructorInput = {

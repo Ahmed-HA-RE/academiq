@@ -314,3 +314,13 @@ export const updateUserAsAdminSchema = z.object({
   ),
   avatar: avatarSchema,
 });
+
+export const instructorCertificateSchema = z.object({
+  userId: z.string({ error: 'Invalid user id' }).min(1, 'User id is required'),
+  courseId: z
+    .uuid({ error: 'Invalid course id' })
+    .min(1, 'Course id is required'),
+  published: z
+    .boolean({ error: 'Please choose a publication status' })
+    .default(false),
+});

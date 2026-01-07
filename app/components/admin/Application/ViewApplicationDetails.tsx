@@ -12,7 +12,6 @@ import { Badge } from '@/app/components/ui/badge';
 import { Button } from '@/app/components/ui/button';
 import {
   CalendarIcon,
-  CircleIcon,
   FileTextIcon,
   GlobeIcon,
   MailIcon,
