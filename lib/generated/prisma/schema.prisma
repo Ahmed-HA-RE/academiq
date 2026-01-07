@@ -25,6 +25,8 @@ model Course {
   language     String
   duration     Int
   difficulty   String
+  published    Boolean        @default(false)
+  category     String
   prequisites  String         @db.Text
   rating       Decimal        @default(0) @db.Decimal(2, 1)
   numReviews   Int            @default(0)
@@ -36,7 +38,7 @@ model Course {
   sections     Section[]
   orderItems   orderItems[]
   userProgress UserProgress[]
-  certifactes  Certifacte[]
+  certifactes  Certificate[]
 }
 
 model User {
@@ -61,7 +63,7 @@ model User {
   banned               Boolean               @default(false)
   banReason            String?
   banExpires           DateTime?
-  certifactes          Certifacte[]
+  certificates         Certificate[]
 
   @@unique([email])
   @@map("user")
@@ -247,7 +249,7 @@ model UserProgress {
   updatedAt DateTime @updatedAt
 }
 
-model Certifacte {
+model Certificate {
   id        String   @id @default(uuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id])

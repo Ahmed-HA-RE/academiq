@@ -3,7 +3,7 @@ import { getPopularCoursesByInstructor } from '@/lib/actions/instructor/analytic
 import Image from 'next/image';
 import Link from 'next/link';
 import { FileChartPieIcon } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 
 const PopularCoursesCard = async () => {
   const popularCourses = await getPopularCoursesByInstructor();

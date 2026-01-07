@@ -3,21 +3,17 @@ import { prisma } from '@/lib/prisma';
 import { convertToPlainObject } from '@/lib/utils';
 import { getYear, lastDayOfYear } from 'date-fns';
 import { headers } from 'next/headers';
+import { getCurrentLoggedInInstructor } from '.';
 
 // Get total students across all courses
 export const getTotalStudentsCount = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session || session.user.role !== 'instructor')
-    throw new Error('Unauthorized to fetch analytics');
+  const instructor = await getCurrentLoggedInInstructor();
 
   const studentsCount = await prisma.user.count({
     where: {
       courses: {
-        every: {
-          instructorId: session.user.id,
+        some: {
+          instructorId: instructor.id,
         },
       },
     },
@@ -28,16 +24,11 @@ export const getTotalStudentsCount = async () => {
 
 // Get total courses by instructor
 export const getTotalCoursesByInstructor = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session || session.user.role !== 'instructor')
-    throw new Error('Unauthorized to fetch analytics');
+  const instructor = await getCurrentLoggedInInstructor();
 
   const coursesCount = await prisma.course.count({
     where: {
-      instructorId: session.user.id,
+      instructorId: instructor.id,
     },
   });
 
@@ -46,19 +37,14 @@ export const getTotalCoursesByInstructor = async () => {
 
 // Get total revenue by instructor
 export const getTotalRevenueByInstructor = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session || session.user.role !== 'instructor')
-    throw new Error('Unauthorized to fetch analytics');
+  const instructor = await getCurrentLoggedInInstructor();
 
   const revenueData = await prisma.course.aggregate({
     _sum: {
       price: true,
     },
     where: {
-      instructorId: session.user.id,
+      instructorId: instructor.id,
     },
   });
 
@@ -67,12 +53,7 @@ export const getTotalRevenueByInstructor = async () => {
 
 // Get monthly revenue for instructor
 export const getMonthlyRevenueForInstructor = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session || session.user.role !== 'instructor')
-    throw new Error('Unauthorized to fetch analytics');
+  const instructor = await getCurrentLoggedInInstructor();
 
   const currentYear = getYear(new Date());
   const previousYear = currentYear - 1;
@@ -88,7 +69,7 @@ export const getMonthlyRevenueForInstructor = async () => {
         every: {
           course: {
             instructorId: {
-              equals: session.user.id,
+              equals: instructor.id,
             },
           },
         },
@@ -198,16 +179,11 @@ export const getTotalRevenueBeforeForInstructor = async () => {
 
 // Get popular courses by instructor
 export const getPopularCoursesByInstructor = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session || session.user.role !== 'instructor')
-    throw new Error('Unauthorized to fetch analytics');
+  const instructor = await getCurrentLoggedInInstructor();
 
   const popularCourses = await prisma.course.findMany({
     where: {
-      instructorId: session.user.id,
+      instructorId: instructor.id,
     },
     orderBy: {
       users: {
@@ -225,16 +201,11 @@ export const getPopularCoursesByInstructor = async () => {
 
 // Get courses by instructor with user progress completion percentages
 export const getCoursesWithProgressByInstructor = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session || session.user.role !== 'instructor')
-    throw new Error('Unauthorized to fetch analytics');
+  const instructor = await getCurrentLoggedInInstructor();
 
   const courses = await prisma.course.findMany({
     where: {
-      instructorId: session.user.id,
+      instructorId: instructor.id,
     },
     include: {
       userProgress: {
@@ -289,19 +260,14 @@ export const getEnrolledStudentsForInstructor = async ({
   q?: string;
   page?: number;
 }) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session || session.user.role !== 'instructor')
-    throw new Error('Unauthorized to fetch analytics');
+  const instructor = await getCurrentLoggedInInstructor();
 
   const students = await prisma.orderItems.findMany({
     where: {
       AND: [
         {
           course: {
-            instructorId: session.user.id,
+            instructorId: instructor.id,
           },
           order: {
             isPaid: true,
@@ -325,7 +291,7 @@ export const getEnrolledStudentsForInstructor = async ({
               userProgress: {
                 where: {
                   course: {
-                    instructorId: session.user.id,
+                    instructorId: instructor.id,
                   },
                 },
               },
@@ -354,7 +320,7 @@ export const getEnrolledStudentsForInstructor = async ({
       AND: [
         {
           course: {
-            instructorId: session.user.id,
+            instructorId: instructor.id,
           },
           order: {
             isPaid: true,

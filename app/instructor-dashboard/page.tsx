@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import StatisticsCard from '../components/instructor/StatisticsCard';
 import TotalRevenueChart from '../components/instructor/TotalRevenueChart';
-import PopularCoursesCard from '../components/instructor/PopularCoursesCard';
-import CoursesWithProgressChart from '../components/instructor/CoursesWithProgressChart';
-import InstructorUserDataTable from '../components/instructor/InstructorUserDataTable';
+import PopularCoursesCard from '../components/instructor/courses/PopularCoursesCard';
+import InstructorUserDataTable from '../components/instructor/students/InstructorUserDataTable';
 import { SearchParams } from 'nuqs/server';
+import CoursesWithProgressChart from '../components/instructor/courses/CoursesWithProgressChart';
 
 export const metadata: Metadata = {
   title: 'Overview',

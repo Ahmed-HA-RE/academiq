@@ -1,4 +1,4 @@
-import InstructorUserDataTable from '@/app/components/instructor/InstructorUserDataTable';
+import InstructorUserDataTable from '@/app/components/instructor/students/InstructorUserDataTable';
 import { Metadata } from 'next';
 import { SearchParams } from 'nuqs/server';
 

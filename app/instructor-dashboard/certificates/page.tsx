@@ -1,4 +1,4 @@
-import InstructorCertificateDataTable from '@/app/components/instructor/InstructorCertificateDataTable';
+import InstructorCertificateDataTable from '@/app/components/instructor/certificate/InstructorCertificateDataTable';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

@@ -3,6 +3,7 @@ import {
   billingInfoSchema,
   cartItemsSchema,
   cartSchema,
+  createCourseSchema,
   discountSchema,
   forgotPasswordSchema,
   instructorCertificateSchema,
@@ -27,6 +28,8 @@ export type Course = z.infer<typeof baseCourseSchema> & {
   totalPages?: number;
   currentPrice: string;
 };
+
+export type CreateCourse = z.infer<typeof createCourseSchema>;
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;

@@ -37,6 +37,13 @@ const avatarSchema = z
   })
   .optional();
 
+const imageSchema = z
+  .file({ error: 'Image is required' })
+  .max(5_000_000, { error: 'Max file size is 5MB' })
+  .mime(['image/jpeg', 'image/png', 'image/webp'], {
+    error: 'Only JPG/PNG/WebP file formats are allowed',
+  });
+
 // Phone number validation for orders and billing info
 const phoneSchema = z.string().refine(
   (val) => {
@@ -75,9 +82,7 @@ export const baseCourseSchema = z.object({
     .max(100, 'Course description is too long'),
   price: positiveMoney,
   isFeatured: z.boolean().default(false),
-  image: z
-    .string({ error: 'Invalid image URL' })
-    .min(1, 'Image URL is required'),
+  image: z.string({ error: 'Invalid image' }).min(1, 'Image is required'),
   language: z
     .string({ error: 'Invalid language' })
     .min(1, 'Language is required'),
@@ -93,7 +98,19 @@ export const baseCourseSchema = z.object({
   instructorId: z
     .uuid({ error: 'Invalid instructor id' })
     .min(1, 'Instructor id is required'),
+  category: z
+    .string({ error: 'Invalid category' })
+    .min(1, 'Category is required'),
+  published: z
+    .boolean({ error: 'Please choose a publication status' })
+    .prefault(false),
 });
+
+export const createCourseSchema = baseCourseSchema
+  .omit({ image: true })
+  .extend({
+    imageFile: imageSchema,
+  });
 
 // Auth schemas
 export const registerSchema = z

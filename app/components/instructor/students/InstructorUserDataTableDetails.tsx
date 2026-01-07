@@ -18,11 +18,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/app/components/ui/table';
-import { Input } from '../ui/input';
+import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
-import DataPagination from '../shared/Pagination';
+import DataPagination from '../../shared/Pagination';
 import { format } from 'date-fns';
-import { Progress } from '../ui/progress';
+import { Progress } from '../../ui/progress';
 import { SearchIcon } from 'lucide-react';
 
 const columns: ColumnDef<EnrolledStudents>[] = [

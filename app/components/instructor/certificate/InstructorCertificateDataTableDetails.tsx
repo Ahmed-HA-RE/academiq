@@ -35,14 +35,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/app/components/ui/table';
-import { Input } from '../ui/input';
+import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import DataPagination from '../shared/Pagination';
+import DataPagination from '../../shared/Pagination';
 import { format } from 'date-fns';
-import { Switch } from '../ui/switch';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { Switch } from '../../ui/switch';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip';
 
 const columns: ColumnDef<InstructorCertificate>[] = [
   {

@@ -5,7 +5,7 @@ import { convertToPlainObject } from '@/lib/utils';
 export const getAllInstructorCertificates = async () => {
   const instructor = await getCurrentLoggedInInstructor();
 
-  const certificates = await prisma.certifacte.findMany({
+  const certificates = await prisma.certificate.findMany({
     where: {
       course: {
         instructorId: instructor.id,
