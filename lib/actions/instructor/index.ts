@@ -9,9 +9,11 @@ import { convertToPlainObject } from '../../utils';
 import { revalidatePath } from 'next/cache';
 import { Prisma } from '../../generated/prisma';
 import stripe from '@/lib/stripe';
-import { SERVER_URL } from '@/lib/constants';
+import { APP_NAME, SERVER_URL } from '@/lib/constants';
 import { redirect } from 'next/navigation';
 import { getApplicationByUserId } from './application';
+import resend, { domain } from '@/lib/resend';
+import NotifyApplicant from '@/emails/NotifyApplicant';
 
 // Get total Instructors count
 export const getTotalInstructorsCount = async () => {
@@ -342,7 +344,7 @@ export const updateInstructorAccount = async ({
   }
 };
 
-// Get stripe account by application
+// Get stripe account by application user ID
 export const getStripeAccountByApplication = async () => {
   const application = await getApplicationByUserId();
 
@@ -377,4 +379,14 @@ export const createStripeOnboardingLink = async (stripeAccountId: string) => {
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }
+};
+
+// Notify applicant email
+export const notifyApplicant = async (userEmail: string) => {
+  await resend.emails.send({
+    from: `${APP_NAME} <support@${domain}>`,
+    to: userEmail,
+    subject: 'Complete Your Payment Setup',
+    react: NotifyApplicant(),
+  });
 };

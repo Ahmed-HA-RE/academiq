@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/app/components/ui/card';
+import { getStripeAccountByApplication } from '@/lib/actions/instructor';
 import { getApplicationByUserId } from '@/lib/actions/instructor/application';
 import { APP_NAME } from '@/lib/constants';
 import { cn } from '@/lib/utils';
@@ -22,9 +23,12 @@ export const metadata: Metadata = {
 };
 
 const ApplicationStatusPage = async () => {
-  const application = await getApplicationByUserId();
+  const [application, account] = await Promise.all([
+    getApplicationByUserId(),
+    getStripeAccountByApplication(),
+  ]);
 
-  if (!application) redirect('/instructor-dashboard/apply');
+  if (!application || !account || !account.payouts_enabled) redirect('/teach');
 
   return (
     <div className='min-h-screen w-screen flex items-center justify-center px-4'>

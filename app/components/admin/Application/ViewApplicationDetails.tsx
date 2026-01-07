@@ -12,6 +12,7 @@ import { Badge } from '@/app/components/ui/badge';
 import { Button } from '@/app/components/ui/button';
 import {
   CalendarIcon,
+  CircleIcon,
   FileTextIcon,
   GlobeIcon,
   MailIcon,
@@ -27,6 +28,9 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { InstructorApplication } from '@/types';
 import ScreenSpinner from '../../ScreenSpinner';
+import Stripe from 'stripe';
+import { notifyApplicant } from '@/lib/actions/instructor';
+import { FaCity } from 'react-icons/fa';
 
 export const metadata: Metadata = {
   title: 'View Application',
@@ -35,8 +39,10 @@ export const metadata: Metadata = {
 
 const ViewApplicationDetails = ({
   application,
+  account,
 }: {
   application: InstructorApplication;
+  account: Stripe.Account;
 }) => {
   const [isPending, startTransition] = useTransition();
 
@@ -50,6 +56,10 @@ const ViewApplicationDetails = ({
       toast.success(res.message);
     });
   };
+
+  const isPaymentEligible =
+    account.payouts_enabled &&
+    account.requirements?.currently_due?.length === 0;
 
   return isPending ? (
     <ScreenSpinner mutate={true} text='Processing...' />
@@ -143,6 +153,17 @@ const ViewApplicationDetails = ({
                     Phone Number
                   </p>
                   <p className='text-base'>{application.phone}</p>
+                </div>
+              </div>
+
+              {/* City */}
+              <div className='flex items-start gap-3'>
+                <FaCity className='size-5 text-muted-foreground mt-0.5' />
+                <div>
+                  <p className='text-sm font-medium text-muted-foreground'>
+                    City
+                  </p>
+                  <p className='text-base'>{application.city}</p>
                 </div>
               </div>
 
@@ -283,6 +304,67 @@ const ViewApplicationDetails = ({
               </CardContent>
             </Card>
           )}
+
+          {/* Payments Details */}
+          <Card className='gap-4'>
+            <CardHeader className='gap-0 border-b [.border-b]:pb-4'>
+              <CardTitle>Payment Details</CardTitle>
+            </CardHeader>
+            <CardContent className='space-y-4'>
+              <div className='space-y-2'>
+                <div className='flex flex-row gap-x-4 gap-y-2 items-center'>
+                  <h3>Payout Eligibility:</h3>
+                  <span
+                    className={cn(
+                      isPaymentEligible ? 'text-green-600' : 'text-red-500'
+                    )}
+                  >
+                    {isPaymentEligible ? 'Eligible' : 'Not Eligible'}
+                  </span>
+                </div>
+                {!isPaymentEligible && (
+                  <p className='text-sm text-muted-foreground'>
+                    The connected Stripe account is not eligible for payouts.{' '}
+                    {account.requirements?.currently_due?.length} documents is
+                    still required to enable payouts.
+                  </p>
+                )}
+              </div>
+              {!isPaymentEligible && (
+                <div className='space-y-8'>
+                  <div className='space-y-2'>
+                    <h2>Missed Documents:</h2>
+                    <ul className='space-y-2 min-w-0'>
+                      {account.requirements?.currently_due?.map(
+                        (requirement) => (
+                          <li
+                            key={requirement}
+                            className='text-sm text-muted-foreground pl-2 break-words whitespace-normal'
+                          >
+                            {requirement}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
+                  <Button
+                    size={'sm'}
+                    className='rounded-full cursor-pointer text-xs'
+                    onClick={() =>
+                      startTransition(async () => {
+                        await notifyApplicant(application.user.email);
+                        toast.success(
+                          'Notification sent to applicant successfully'
+                        );
+                      })
+                    }
+                  >
+                    Notify Applicant
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
 
@@ -300,6 +382,7 @@ const ViewApplicationDetails = ({
           <Button
             className='sm:w-auto w-full bg-green-600 hover:bg-green-700 cursor-pointer text-white'
             onClick={() => handleUpdateStatus('approved')}
+            disabled={!isPaymentEligible}
           >
             Approve Application
           </Button>

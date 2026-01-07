@@ -77,6 +77,10 @@ export const proxy = async (req: NextRequest) => {
   ) {
     return NextResponse.redirect(new URL('/', req.url));
   }
+
+  if (pathname === '/teach/apply/payments/setup' && !user) {
+    return NextResponse.redirect(new URL('/teach', req.url));
+  }
 };
 
 export const config = {
@@ -89,6 +93,8 @@ export const config = {
     '/cart',
     '/checkout',
     '/success',
+    '/teach/:path*',
+    '/application/status',
     '/my-courses',
     '/admin-dashboard/:path*',
     '/instructor-dashboard/:path*',

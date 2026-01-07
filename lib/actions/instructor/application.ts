@@ -18,7 +18,6 @@ import { convertToPlainObject } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
 import cloudinary from '@/lib/cloudinary';
 import stripe from '@/lib/stripe';
-import { getCode } from 'country-list';
 import { UploadApiResponse } from 'cloudinary';
 
 export const applyToTeach = async (
@@ -68,7 +67,7 @@ export const applyToTeach = async (
         .end(buffer);
     });
 
-    await prisma.$transaction(async (tx) => {
+    const userApplication = await prisma.$transaction(async (tx) => {
       const stripeAccountId = await stripe.accounts.create({
         country: 'AE',
         type: 'express',
@@ -98,13 +97,14 @@ export const applyToTeach = async (
         },
         include: { user: { select: { name: true, email: true } } },
       });
-      await resend.emails.send({
-        from: `${APP_NAME} <support@${domain}>`,
-        to: userApplication.user.email,
-        replyTo: process.env.REPLY_EMAIL,
-        subject: 'Instructor Application Submitted',
-        react: ApplicationSubmitted({ name: userApplication.user.name }),
-      });
+      return userApplication;
+    });
+    await resend.emails.send({
+      from: `${APP_NAME} <support@${domain}>`,
+      to: userApplication.user.email,
+      replyTo: process.env.REPLY_EMAIL,
+      subject: 'Instructor Application Submitted',
+      react: ApplicationSubmitted({ name: userApplication.user.name }),
     });
 
     return { success: true, message: 'Application submitted successfully' };
@@ -312,6 +312,11 @@ export const updateApplicationStatusById = async (
         await tx.user.update({
           where: { id: newInstructor.userId },
           data: { role: 'instructor' },
+        });
+      } else if (updatedApplication.status === 'rejected') {
+        await stripe.accounts.del(updatedApplication.stripeAccountId);
+        await tx.intructorApplication.delete({
+          where: { id: applicationId },
         });
       }
     });

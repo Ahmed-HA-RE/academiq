@@ -15,9 +15,10 @@ const SetupPayment = async () => {
 
   if (!account) redirect('/teach/apply');
 
-  return account && account.charges_enabled && account.payouts_enabled ? (
-    redirect('/application/status')
-  ) : (
+  if (account && account.charges_enabled && account.payouts_enabled)
+    redirect('/application/status');
+
+  return (
     <div className='min-h-screen bg-gradient-to-b from-background to-muted/20'>
       <div className='container'>
         {/* Stepper Section */}

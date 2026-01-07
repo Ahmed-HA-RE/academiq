@@ -121,6 +121,7 @@ export type InstructorApplication = {
     email: string;
     image: string;
   };
+  city: string;
 };
 
 export type SocialLinks = {
