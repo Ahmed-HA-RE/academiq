@@ -2,7 +2,7 @@ import { StarIcon } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '../ui/card';
 import Link from 'next/link';
 import { Badge } from '../ui/badge';
-import { Cart, Course, User } from '@/types';
+import { Cart, Course, CourseCardType, User } from '@/types';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { MotionPreset } from '../ui/motion-preset';
@@ -11,7 +11,7 @@ import CourseProgression from './CourseProgression';
 import { getUserProgress } from '@/lib/actions/user';
 
 type CourseCardProps = {
-  course: Course;
+  course: CourseCardType;
   cart: Cart | undefined;
   user: User | undefined;
 };

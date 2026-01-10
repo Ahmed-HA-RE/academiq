@@ -15,6 +15,12 @@ export const getAllInstructorCourses = async () => {
           users: true,
         },
       },
+
+      sections: {
+        include: {
+          lessons: true,
+        },
+      },
     },
   });
 

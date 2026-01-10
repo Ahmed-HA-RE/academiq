@@ -39,7 +39,7 @@ const avatarSchema = z
 
 const imageSchema = z
   .file({ error: 'Image is required' })
-  .max(5_000_000, { error: 'Max file size is 5MB' })
+  .max(10_000_000, { error: 'Max Image size is 10MB' })
   .mime(['image/jpeg', 'image/png', 'image/webp'], {
     error: 'Only JPG/PNG/WebP file formats are allowed',
   });
@@ -78,38 +78,51 @@ export const baseCourseSchema = z.object({
   title: z.string({ error: 'Invalid title' }).min(1, 'Title is required'),
   description: z
     .string({ error: 'Invalid description' })
-    .min(5, 'Course description is required')
-    .max(100, 'Course description is too long'),
+    .min(5, 'Course description is required'),
   price: positiveMoney,
-  isFeatured: z.boolean().default(false),
   image: z.string({ error: 'Invalid image' }).min(1, 'Image is required'),
   language: z
     .string({ error: 'Invalid language' })
     .min(1, 'Language is required'),
-  duration: z
-    .number({ error: 'Invalid duration' })
-    .min(1, 'Duration is required'),
   difficulty: z
     .string({ error: 'Invalid difficulty' })
     .min(1, 'Difficulty is required'),
   prequisites: z
     .string({ error: 'Invalid prequisites' })
     .min(1, 'Prequisites is required'),
-  instructorId: z
-    .uuid({ error: 'Invalid instructor id' })
-    .min(1, 'Instructor id is required'),
+  instructorId: z.uuid({ error: 'Invalid instructor id' }),
   category: z
     .string({ error: 'Invalid category' })
     .min(1, 'Category is required'),
-  published: z
-    .boolean({ error: 'Please choose a publication status' })
-    .prefault(false),
+  published: z.boolean({ error: 'Please choose a publication status' }),
 });
 
 export const createCourseSchema = baseCourseSchema
   .omit({ image: true })
   .extend({
     imageFile: imageSchema,
+    section: z.array(
+      z.object({
+        title: z
+          .string({ error: 'Invalid section title' })
+          .min(1, 'Section title is required'),
+        lessons: z.array(
+          z.object({
+            title: z
+              .string({ error: 'Invalid lesson title' })
+              .min(1, 'Lesson title is required'),
+            duration: z.coerce
+              .number<number>({ error: 'Invalid lesson duration' })
+              .min(0.5, 'Lesson duration must be at least 30 seconds'),
+            videoUrl: z
+              .url({ protocol: /^https$/, error: 'Video is required' })
+              .min(1, 'Video is required'),
+          }),
+          { error: 'At least one lesson is required' }
+        ),
+      }),
+      { error: 'At least one section is required' }
+    ),
   });
 
 // Auth schemas

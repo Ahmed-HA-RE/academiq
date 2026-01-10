@@ -13,7 +13,7 @@ import { Textarea } from '../ui/textarea';
 import { Calendar } from '../ui/calendar';
 import PDFFileUpload from '../PDFFileUpload';
 import { Button } from '../ui/button';
-import { TEACHING_CATEGORIES } from '@/lib/constants';
+import { TEACHING_CATEGORIESMULTISELECT } from '@/lib/constants';
 import MultipleSelector from '../ui/multi-select';
 import { auth } from '@/lib/auth';
 import { applyToTeach } from '@/lib/actions/instructor/application';
@@ -82,13 +82,13 @@ const ApplicationForm = ({
                   commandProps={{
                     label: 'Select categories',
                   }}
-                  value={TEACHING_CATEGORIES.filter((option) =>
+                  value={TEACHING_CATEGORIESMULTISELECT.filter((option) =>
                     field.value.includes(option.value)
                   )}
                   onChange={(options) =>
                     field.onChange(options.map((opt) => opt.value))
                   }
-                  defaultOptions={TEACHING_CATEGORIES}
+                  defaultOptions={TEACHING_CATEGORIESMULTISELECT}
                   placeholder='Select categories'
                   emptyIndicator={
                     <p className='text-center text-sm'>No results found</p>

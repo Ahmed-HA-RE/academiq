@@ -19,8 +19,6 @@ model Course {
   title        String
   description  String
   price        Decimal        @db.Decimal(10, 2)
-  currentPrice Decimal        @db.Decimal(10, 2)
-  isFeatured   Boolean        @default(false)
   image        String
   language     String
   duration     Int
@@ -144,14 +142,16 @@ model Section {
 }
 
 model Lesson {
-  id        String   @id @default(uuid())
-  title     String
-  videoUrl  String
-  duration  Int
-  sectionId String
-  section   Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(uuid())
+  title         String
+  videoUrl      String
+  duration      Int
+  muxAssetId    String
+  muxPlaybackId String
+  sectionId     String
+  section       Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Order {

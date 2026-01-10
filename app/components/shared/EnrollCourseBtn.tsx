@@ -1,6 +1,6 @@
 'use client';
 
-import { Cart, Course, User } from '@/types';
+import { Cart, CourseCardType, User } from '@/types';
 import { useTransition } from 'react';
 import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
@@ -14,7 +14,7 @@ const EnrollCourseBtn = ({
   cart,
   user,
 }: {
-  course: Course;
+  course: CourseCardType;
   cart: Cart | undefined;
   user: User | undefined;
 }) => {

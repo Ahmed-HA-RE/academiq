@@ -1,4 +1,5 @@
 import { Option } from '@/app/components/ui/multi-select';
+import langes from 'langs';
 
 export const SERVER_URL =
   process.env.NODE_ENV === 'production'
@@ -99,7 +100,7 @@ export const faqItems = [
   },
 ];
 
-export const TEACHING_CATEGORIES: Option[] = [
+export const TEACHING_CATEGORIESMULTISELECT: Option[] = [
   {
     value: 'Web Development',
     label: 'Web Development',
@@ -152,3 +153,7 @@ export const USERS_ROLES = [
     label: 'Admin',
   },
 ];
+
+export const TEACHING_CATEGORIES = ['Web Development', 'Business'];
+
+export const COURSE_LANGUAGES = langes.names();

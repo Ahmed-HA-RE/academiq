@@ -27,6 +27,34 @@ export type Course = z.infer<typeof baseCourseSchema> & {
   updatedAt: Date;
   totalPages?: number;
   currentPrice: string;
+  sections: {
+    id: string;
+    title: string;
+    position: number;
+    createdAt: Date;
+    updatedAt: Date;
+    lessons: {
+      id: string;
+      title: string;
+      videoUrl: string;
+      muxPlaybackId: string;
+      muxAssetId: string;
+      duration: number;
+      position: number;
+      createdAt: Date;
+      updatedAt: Date;
+    }[];
+  };
+};
+
+export type CourseCardType = z.infer<typeof baseCourseSchema> & {
+  id: string;
+  slug: string;
+  rating: string;
+  numReviews: number;
+  createdAt: Date;
+  updatedAt: Date;
+  currentPrice: string;
 };
 
 export type CreateCourse = z.infer<typeof createCourseSchema>;

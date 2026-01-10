@@ -2451,7 +2451,6 @@ export namespace Prisma {
 
   export type CourseAvgAggregateOutputType = {
     price: Decimal | null
-    currentPrice: Decimal | null
     duration: number | null
     rating: Decimal | null
     numReviews: number | null
@@ -2459,7 +2458,6 @@ export namespace Prisma {
 
   export type CourseSumAggregateOutputType = {
     price: Decimal | null
-    currentPrice: Decimal | null
     duration: number | null
     rating: Decimal | null
     numReviews: number | null
@@ -2471,8 +2469,6 @@ export namespace Prisma {
     title: string | null
     description: string | null
     price: Decimal | null
-    currentPrice: Decimal | null
-    isFeatured: boolean | null
     image: string | null
     language: string | null
     duration: number | null
@@ -2493,8 +2489,6 @@ export namespace Prisma {
     title: string | null
     description: string | null
     price: Decimal | null
-    currentPrice: Decimal | null
-    isFeatured: boolean | null
     image: string | null
     language: string | null
     duration: number | null
@@ -2515,8 +2509,6 @@ export namespace Prisma {
     title: number
     description: number
     price: number
-    currentPrice: number
-    isFeatured: number
     image: number
     language: number
     duration: number
@@ -2535,7 +2527,6 @@ export namespace Prisma {
 
   export type CourseAvgAggregateInputType = {
     price?: true
-    currentPrice?: true
     duration?: true
     rating?: true
     numReviews?: true
@@ -2543,7 +2534,6 @@ export namespace Prisma {
 
   export type CourseSumAggregateInputType = {
     price?: true
-    currentPrice?: true
     duration?: true
     rating?: true
     numReviews?: true
@@ -2555,8 +2545,6 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
-    currentPrice?: true
-    isFeatured?: true
     image?: true
     language?: true
     duration?: true
@@ -2577,8 +2565,6 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
-    currentPrice?: true
-    isFeatured?: true
     image?: true
     language?: true
     duration?: true
@@ -2599,8 +2585,6 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
-    currentPrice?: true
-    isFeatured?: true
     image?: true
     language?: true
     duration?: true
@@ -2708,8 +2692,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal
-    currentPrice: Decimal
-    isFeatured: boolean
     image: string
     language: string
     duration: number
@@ -2749,8 +2731,6 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
-    currentPrice?: boolean
-    isFeatured?: boolean
     image?: boolean
     language?: boolean
     duration?: boolean
@@ -2778,8 +2758,6 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
-    currentPrice?: boolean
-    isFeatured?: boolean
     image?: boolean
     language?: boolean
     duration?: boolean
@@ -2801,8 +2779,6 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
-    currentPrice?: boolean
-    isFeatured?: boolean
     image?: boolean
     language?: boolean
     duration?: boolean
@@ -2824,8 +2800,6 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
-    currentPrice?: boolean
-    isFeatured?: boolean
     image?: boolean
     language?: boolean
     duration?: boolean
@@ -2840,7 +2814,7 @@ export namespace Prisma {
     instructorId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "currentPrice" | "isFeatured" | "image" | "language" | "duration" | "difficulty" | "published" | "category" | "prequisites" | "rating" | "numReviews" | "createdAt" | "updatedAt" | "instructorId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "image" | "language" | "duration" | "difficulty" | "published" | "category" | "prequisites" | "rating" | "numReviews" | "createdAt" | "updatedAt" | "instructorId", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Course$usersArgs<ExtArgs>
     instructor?: boolean | InstructorDefaultArgs<ExtArgs>
@@ -2873,8 +2847,6 @@ export namespace Prisma {
       title: string
       description: string
       price: Prisma.Decimal
-      currentPrice: Prisma.Decimal
-      isFeatured: boolean
       image: string
       language: string
       duration: number
@@ -3321,8 +3293,6 @@ export namespace Prisma {
     readonly title: FieldRef<"Course", 'String'>
     readonly description: FieldRef<"Course", 'String'>
     readonly price: FieldRef<"Course", 'Decimal'>
-    readonly currentPrice: FieldRef<"Course", 'Decimal'>
-    readonly isFeatured: FieldRef<"Course", 'Boolean'>
     readonly image: FieldRef<"Course", 'String'>
     readonly language: FieldRef<"Course", 'String'>
     readonly duration: FieldRef<"Course", 'Int'>
@@ -10853,6 +10823,8 @@ export namespace Prisma {
     title: string | null
     videoUrl: string | null
     duration: number | null
+    muxAssetId: string | null
+    muxPlaybackId: string | null
     sectionId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10863,6 +10835,8 @@ export namespace Prisma {
     title: string | null
     videoUrl: string | null
     duration: number | null
+    muxAssetId: string | null
+    muxPlaybackId: string | null
     sectionId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10873,6 +10847,8 @@ export namespace Prisma {
     title: number
     videoUrl: number
     duration: number
+    muxAssetId: number
+    muxPlaybackId: number
     sectionId: number
     createdAt: number
     updatedAt: number
@@ -10893,6 +10869,8 @@ export namespace Prisma {
     title?: true
     videoUrl?: true
     duration?: true
+    muxAssetId?: true
+    muxPlaybackId?: true
     sectionId?: true
     createdAt?: true
     updatedAt?: true
@@ -10903,6 +10881,8 @@ export namespace Prisma {
     title?: true
     videoUrl?: true
     duration?: true
+    muxAssetId?: true
+    muxPlaybackId?: true
     sectionId?: true
     createdAt?: true
     updatedAt?: true
@@ -10913,6 +10893,8 @@ export namespace Prisma {
     title?: true
     videoUrl?: true
     duration?: true
+    muxAssetId?: true
+    muxPlaybackId?: true
     sectionId?: true
     createdAt?: true
     updatedAt?: true
@@ -11010,6 +10992,8 @@ export namespace Prisma {
     title: string
     videoUrl: string
     duration: number
+    muxAssetId: string
+    muxPlaybackId: string
     sectionId: string
     createdAt: Date
     updatedAt: Date
@@ -11039,6 +11023,8 @@ export namespace Prisma {
     title?: boolean
     videoUrl?: boolean
     duration?: boolean
+    muxAssetId?: boolean
+    muxPlaybackId?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11050,6 +11036,8 @@ export namespace Prisma {
     title?: boolean
     videoUrl?: boolean
     duration?: boolean
+    muxAssetId?: boolean
+    muxPlaybackId?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11061,6 +11049,8 @@ export namespace Prisma {
     title?: boolean
     videoUrl?: boolean
     duration?: boolean
+    muxAssetId?: boolean
+    muxPlaybackId?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11072,12 +11062,14 @@ export namespace Prisma {
     title?: boolean
     videoUrl?: boolean
     duration?: boolean
+    muxAssetId?: boolean
+    muxPlaybackId?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "videoUrl" | "duration" | "sectionId" | "createdAt" | "updatedAt", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "videoUrl" | "duration" | "muxAssetId" | "muxPlaybackId" | "sectionId" | "createdAt" | "updatedAt", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     section?: boolean | SectionDefaultArgs<ExtArgs>
   }
@@ -11098,6 +11090,8 @@ export namespace Prisma {
       title: string
       videoUrl: string
       duration: number
+      muxAssetId: string
+      muxPlaybackId: string
       sectionId: string
       createdAt: Date
       updatedAt: Date
@@ -11529,6 +11523,8 @@ export namespace Prisma {
     readonly title: FieldRef<"Lesson", 'String'>
     readonly videoUrl: FieldRef<"Lesson", 'String'>
     readonly duration: FieldRef<"Lesson", 'Int'>
+    readonly muxAssetId: FieldRef<"Lesson", 'String'>
+    readonly muxPlaybackId: FieldRef<"Lesson", 'String'>
     readonly sectionId: FieldRef<"Lesson", 'String'>
     readonly createdAt: FieldRef<"Lesson", 'DateTime'>
     readonly updatedAt: FieldRef<"Lesson", 'DateTime'>
@@ -20020,8 +20016,6 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     price: 'price',
-    currentPrice: 'currentPrice',
-    isFeatured: 'isFeatured',
     image: 'image',
     language: 'language',
     duration: 'duration',
@@ -20136,6 +20130,8 @@ export namespace Prisma {
     title: 'title',
     videoUrl: 'videoUrl',
     duration: 'duration',
+    muxAssetId: 'muxAssetId',
+    muxPlaybackId: 'muxPlaybackId',
     sectionId: 'sectionId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -20332,13 +20328,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -20349,6 +20338,13 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -20427,8 +20423,6 @@ export namespace Prisma {
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFilter<"Course"> | boolean
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
     duration?: IntFilter<"Course"> | number
@@ -20455,8 +20449,6 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
-    currentPrice?: SortOrder
-    isFeatured?: SortOrder
     image?: SortOrder
     language?: SortOrder
     duration?: SortOrder
@@ -20486,8 +20478,6 @@ export namespace Prisma {
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFilter<"Course"> | boolean
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
     duration?: IntFilter<"Course"> | number
@@ -20514,8 +20504,6 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
-    currentPrice?: SortOrder
-    isFeatured?: SortOrder
     image?: SortOrder
     language?: SortOrder
     duration?: SortOrder
@@ -20544,8 +20532,6 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Course"> | string
     description?: StringWithAggregatesFilter<"Course"> | string
     price?: DecimalWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolWithAggregatesFilter<"Course"> | boolean
     image?: StringWithAggregatesFilter<"Course"> | string
     language?: StringWithAggregatesFilter<"Course"> | string
     duration?: IntWithAggregatesFilter<"Course"> | number
@@ -21057,6 +21043,8 @@ export namespace Prisma {
     title?: StringFilter<"Lesson"> | string
     videoUrl?: StringFilter<"Lesson"> | string
     duration?: IntFilter<"Lesson"> | number
+    muxAssetId?: StringFilter<"Lesson"> | string
+    muxPlaybackId?: StringFilter<"Lesson"> | string
     sectionId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
@@ -21068,6 +21056,8 @@ export namespace Prisma {
     title?: SortOrder
     videoUrl?: SortOrder
     duration?: SortOrder
+    muxAssetId?: SortOrder
+    muxPlaybackId?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21082,6 +21072,8 @@ export namespace Prisma {
     title?: StringFilter<"Lesson"> | string
     videoUrl?: StringFilter<"Lesson"> | string
     duration?: IntFilter<"Lesson"> | number
+    muxAssetId?: StringFilter<"Lesson"> | string
+    muxPlaybackId?: StringFilter<"Lesson"> | string
     sectionId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
@@ -21093,6 +21085,8 @@ export namespace Prisma {
     title?: SortOrder
     videoUrl?: SortOrder
     duration?: SortOrder
+    muxAssetId?: SortOrder
+    muxPlaybackId?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21111,6 +21105,8 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Lesson"> | string
     videoUrl?: StringWithAggregatesFilter<"Lesson"> | string
     duration?: IntWithAggregatesFilter<"Lesson"> | number
+    muxAssetId?: StringWithAggregatesFilter<"Lesson"> | string
+    muxPlaybackId?: StringWithAggregatesFilter<"Lesson"> | string
     sectionId?: StringWithAggregatesFilter<"Lesson"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
@@ -21683,8 +21679,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -21710,8 +21704,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -21737,8 +21729,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -21764,8 +21754,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -21791,8 +21779,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -21813,8 +21799,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -21834,8 +21818,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -22408,6 +22390,8 @@ export namespace Prisma {
     title: string
     videoUrl: string
     duration: number
+    muxAssetId: string
+    muxPlaybackId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     section: SectionCreateNestedOneWithoutLessonsInput
@@ -22418,6 +22402,8 @@ export namespace Prisma {
     title: string
     videoUrl: string
     duration: number
+    muxAssetId: string
+    muxPlaybackId: string
     sectionId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22428,6 +22414,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     section?: SectionUpdateOneRequiredWithoutLessonsNestedInput
@@ -22438,6 +22426,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     sectionId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22448,6 +22438,8 @@ export namespace Prisma {
     title: string
     videoUrl: string
     duration: number
+    muxAssetId: string
+    muxPlaybackId: string
     sectionId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22458,6 +22450,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22467,6 +22461,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     sectionId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23099,11 +23095,6 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -23113,6 +23104,11 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -23187,8 +23183,6 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
-    currentPrice?: SortOrder
-    isFeatured?: SortOrder
     image?: SortOrder
     language?: SortOrder
     duration?: SortOrder
@@ -23205,7 +23199,6 @@ export namespace Prisma {
 
   export type CourseAvgOrderByAggregateInput = {
     price?: SortOrder
-    currentPrice?: SortOrder
     duration?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
@@ -23217,8 +23210,6 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
-    currentPrice?: SortOrder
-    isFeatured?: SortOrder
     image?: SortOrder
     language?: SortOrder
     duration?: SortOrder
@@ -23239,8 +23230,6 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
-    currentPrice?: SortOrder
-    isFeatured?: SortOrder
     image?: SortOrder
     language?: SortOrder
     duration?: SortOrder
@@ -23257,7 +23246,6 @@ export namespace Prisma {
 
   export type CourseSumOrderByAggregateInput = {
     price?: SortOrder
-    currentPrice?: SortOrder
     duration?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
@@ -23297,14 +23285,6 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -23319,6 +23299,14 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -23818,6 +23806,8 @@ export namespace Prisma {
     title?: SortOrder
     videoUrl?: SortOrder
     duration?: SortOrder
+    muxAssetId?: SortOrder
+    muxPlaybackId?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -23832,6 +23822,8 @@ export namespace Prisma {
     title?: SortOrder
     videoUrl?: SortOrder
     duration?: SortOrder
+    muxAssetId?: SortOrder
+    muxPlaybackId?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -23842,6 +23834,8 @@ export namespace Prisma {
     title?: SortOrder
     videoUrl?: SortOrder
     duration?: SortOrder
+    muxAssetId?: SortOrder
+    muxPlaybackId?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24305,16 +24299,16 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -25325,11 +25319,6 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -25339,6 +25328,11 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -25385,14 +25379,6 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -25418,6 +25404,14 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -26043,8 +26037,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -26069,8 +26061,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -26383,8 +26373,6 @@ export namespace Prisma {
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFilter<"Course"> | boolean
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
     duration?: IntFilter<"Course"> | number
@@ -26988,8 +26976,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -27014,8 +27000,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -27044,6 +27028,8 @@ export namespace Prisma {
     title: string
     videoUrl: string
     duration: number
+    muxAssetId: string
+    muxPlaybackId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27053,6 +27039,8 @@ export namespace Prisma {
     title: string
     videoUrl: string
     duration: number
+    muxAssetId: string
+    muxPlaybackId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27084,8 +27072,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -27110,8 +27096,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -27154,6 +27138,8 @@ export namespace Prisma {
     title?: StringFilter<"Lesson"> | string
     videoUrl?: StringFilter<"Lesson"> | string
     duration?: IntFilter<"Lesson"> | number
+    muxAssetId?: StringFilter<"Lesson"> | string
+    muxPlaybackId?: StringFilter<"Lesson"> | string
     sectionId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
@@ -27431,8 +27417,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -27457,8 +27441,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -27536,8 +27518,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -27562,8 +27542,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -27792,8 +27770,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -27818,8 +27794,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -28094,8 +28068,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -28120,8 +28092,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -28221,8 +28191,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -28247,8 +28215,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -28326,8 +28292,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -28352,8 +28316,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -28453,8 +28415,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -28479,8 +28439,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -28837,8 +28795,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -28863,8 +28819,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -28889,8 +28843,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -29038,6 +28990,8 @@ export namespace Prisma {
     title: string
     videoUrl: string
     duration: number
+    muxAssetId: string
+    muxPlaybackId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -29047,6 +29001,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29056,6 +29012,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29065,6 +29023,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29217,8 +29177,6 @@ export namespace Prisma {
     title: string
     description: string
     price: Decimal | DecimalJsLike | number | string
-    currentPrice: Decimal | DecimalJsLike | number | string
-    isFeatured?: boolean
     image: string
     language: string
     duration: number
@@ -29238,8 +29196,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -29264,8 +29220,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -29290,8 +29244,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currentPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
