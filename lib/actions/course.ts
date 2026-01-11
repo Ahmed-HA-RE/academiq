@@ -1,6 +1,13 @@
+'use server';
+
+import { CreateCourse } from '@/types';
 import { Prisma } from '../generated/prisma';
 import { prisma } from '../prisma';
 import { convertToPlainObject } from '../utils';
+import { getCurrentLoggedInInstructor } from './instructor';
+import { createCourseSchema } from '@/schema';
+import mux from '../mux';
+import { uploadToCloudinary } from '../cloudinary';
 
 // Get all courses
 export const getAllCourses = async ({
@@ -40,14 +47,14 @@ export const getAllCourses = async ({
   const priceFilter: Prisma.CourseWhereInput =
     price && price.includes('-')
       ? {
-          currentPrice: {
+          price: {
             lte: Number(price.split('-')[1]),
             gte: Number(price.split('-')[0]),
           },
         }
       : price
         ? {
-            currentPrice: { gte: Number(price) },
+            price: { gte: Number(price) },
           }
         : {};
 
@@ -66,9 +73,9 @@ export const getAllCourses = async ({
       : sortBy === 'oldest'
         ? { createdAt: 'desc' }
         : sortBy === 'price-asc'
-          ? { currentPrice: 'asc' }
+          ? { price: 'asc' }
           : sortBy === 'price-desc'
-            ? { currentPrice: 'desc' }
+            ? { price: 'desc' }
             : {};
 
   const courses = await prisma.course.findMany({
@@ -77,6 +84,7 @@ export const getAllCourses = async ({
       ...ratingFilter,
       ...priceFilter,
       ...difficultyFilter,
+      ...{},
     },
     orderBy: { ...sortingFilter },
     take: limit,
@@ -99,15 +107,6 @@ export const getAllCourses = async ({
   return convertToPlainObject({ courses, totalPages });
 };
 
-// Get featured courses
-export const getFeaturedCourses = async () => {
-  const courses = await prisma.course.findMany({
-    where: { isFeatured: true },
-    take: 3,
-  });
-  return convertToPlainObject(courses);
-};
-
 // Get course by slug
 export const getCourseBySlug = async (slug: string) => {
   const course = await prisma.course.findUnique({
@@ -123,4 +122,118 @@ export const getCourseBySlug = async (slug: string) => {
 export const getTotalCoursesCount = async () => {
   const count = await prisma.course.count();
   return count;
+};
+
+export const getAllInstructorCourses = async () => {
+  const instructor = await getCurrentLoggedInInstructor();
+
+  const courses = await prisma.course.findMany({
+    where: {
+      instructorId: instructor.id,
+    },
+    include: {
+      _count: {
+        select: {
+          users: true,
+        },
+      },
+
+      sections: {
+        include: {
+          lessons: true,
+        },
+      },
+    },
+  });
+
+  return {
+    courses: courses.map((course) =>
+      convertToPlainObject({
+        ...course,
+        studentsCount: course._count.users,
+      })
+    ),
+  };
+};
+
+// Create a new course
+export const createCourse = async (data: CreateCourse) => {
+  try {
+    await getCurrentLoggedInInstructor();
+
+    const validatedData = createCourseSchema.safeParse(data);
+
+    if (!validatedData.success) throw new Error('Invalid course data');
+
+    const results: { id: string; videoUrl: string }[] = [];
+
+    // Upload Image Cloudinary
+    const imageUrl = await uploadToCloudinary(data.imageFile, 'academiq');
+
+    await prisma.$transaction(async (tx) => {
+      const newCourse = await tx.course.create({
+        data: {
+          title: validatedData.data.title,
+          description: validatedData.data.description,
+          price: validatedData.data.price,
+          difficulty: validatedData.data.difficulty,
+          category: validatedData.data.category,
+          image: imageUrl.secure_url,
+          language: validatedData.data.language,
+          prequisites: validatedData.data.prequisites,
+          instructorId: validatedData.data.instructorId,
+          slug: validatedData.data.slug,
+          published: validatedData.data.published,
+        },
+      });
+
+      for (const section of validatedData.data.section) {
+        const newSection = await tx.section.create({
+          data: {
+            title: section.title,
+            courseId: newCourse.id,
+          },
+        });
+
+        for (const lesson of section.lessons) {
+          const newLesson = await tx.lesson.create({
+            data: {
+              title: lesson.title,
+              duration: lesson.duration,
+              sectionId: newSection.id,
+            },
+          });
+          results.push({
+            id: newLesson.id,
+            videoUrl: lesson.videoUrl,
+          });
+        }
+      }
+    });
+
+    for (const lesson of results) {
+      // Create Mux Asset
+      const muxData = await mux.video.assets.create({
+        inputs: [{ url: lesson.videoUrl }],
+        playback_policy: ['public'],
+      });
+
+      if (!muxData || !muxData.playback_ids) {
+        throw new Error('Failed to create Mux asset');
+      }
+
+      // Store Mux Data in the database
+      await prisma.muxData.create({
+        data: {
+          lessonId: lesson.id,
+          muxAssetId: muxData.id,
+          muxPlaybackId: muxData.playback_ids[0].id as string,
+        },
+      });
+    }
+
+    return { success: true, message: 'Course created successfully' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
 };

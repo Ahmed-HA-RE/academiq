@@ -1,5 +1,4 @@
 import CTA from '../../components/CTA';
-import FeaturedCourses from '../../components/courses/FeaturedCourses';
 import Features from '../../components/Features';
 import HeroSection from '../../components/HeroSection';
 import Testimonial from '../../components/Testimonial';
@@ -18,9 +17,7 @@ const HomePage = async () => {
             <SkeletonCard />
           </div>
         }
-      >
-        <FeaturedCourses />
-      </Suspense>
+      ></Suspense>
       <Features />
       <Testimonial />
       <CTA />

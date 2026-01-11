@@ -11,7 +11,7 @@ import {
   User as UserIcon,
   Users,
 } from 'lucide-react';
-import { Course, User } from '@/types';
+import { Course } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import {
   flexRender,

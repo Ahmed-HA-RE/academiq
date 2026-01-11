@@ -10,7 +10,7 @@ import { Input } from '../../ui/input';
 import { PhoneInput } from '../../ui/phone-input';
 import { Textarea } from '../../ui/textarea';
 import MultipleSelector from '../../ui/multi-select';
-import { TEACHING_CATEGORIES } from '@/lib/constants';
+import { TEACHING_CATEGORIESMULTISELECT } from '@/lib/constants';
 import {
   updateInstructorAccount,
   updateInstructorAsAdmin,
@@ -174,13 +174,13 @@ const EditInstructorForm = ({
                       commandProps={{
                         label: 'Select categories',
                       }}
-                      value={TEACHING_CATEGORIES.filter((option) =>
+                      value={TEACHING_CATEGORIESMULTISELECT.filter((option) =>
                         field.value.includes(option.value)
                       )}
                       onChange={(options) =>
                         field.onChange(options.map((opt) => opt.value))
                       }
-                      defaultOptions={TEACHING_CATEGORIES}
+                      defaultOptions={TEACHING_CATEGORIESMULTISELECT}
                       placeholder='Select categories'
                       emptyIndicator={
                         <p className='text-center text-sm'>No results found</p>

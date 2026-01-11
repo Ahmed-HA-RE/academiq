@@ -54,6 +54,11 @@ export type Section = $Result.DefaultSelection<Prisma.$SectionPayload>
  */
 export type Lesson = $Result.DefaultSelection<Prisma.$LessonPayload>
 /**
+ * Model MuxData
+ * 
+ */
+export type MuxData = $Result.DefaultSelection<Prisma.$MuxDataPayload>
+/**
  * Model Order
  * 
  */
@@ -302,6 +307,16 @@ export class PrismaClient<
     * ```
     */
   get lesson(): Prisma.LessonDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.muxData`: Exposes CRUD operations for the **MuxData** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MuxData
+    * const muxData = await prisma.muxData.findMany()
+    * ```
+    */
+  get muxData(): Prisma.MuxDataDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.order`: Exposes CRUD operations for the **Order** model.
@@ -814,6 +829,7 @@ export namespace Prisma {
     Cart: 'Cart',
     Section: 'Section',
     Lesson: 'Lesson',
+    MuxData: 'MuxData',
     Order: 'Order',
     orderItems: 'orderItems',
     Discount: 'Discount',
@@ -836,7 +852,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "course" | "user" | "session" | "account" | "verification" | "cart" | "section" | "lesson" | "order" | "orderItems" | "discount" | "instructor" | "intructorApplication" | "userProgress" | "certificate"
+      modelProps: "course" | "user" | "session" | "account" | "verification" | "cart" | "section" | "lesson" | "muxData" | "order" | "orderItems" | "discount" | "instructor" | "intructorApplication" | "userProgress" | "certificate"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1429,6 +1445,80 @@ export namespace Prisma {
           count: {
             args: Prisma.LessonCountArgs<ExtArgs>
             result: $Utils.Optional<LessonCountAggregateOutputType> | number
+          }
+        }
+      }
+      MuxData: {
+        payload: Prisma.$MuxDataPayload<ExtArgs>
+        fields: Prisma.MuxDataFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MuxDataFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MuxDataPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MuxDataFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MuxDataPayload>
+          }
+          findFirst: {
+            args: Prisma.MuxDataFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MuxDataPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MuxDataFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MuxDataPayload>
+          }
+          findMany: {
+            args: Prisma.MuxDataFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MuxDataPayload>[]
+          }
+          create: {
+            args: Prisma.MuxDataCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MuxDataPayload>
+          }
+          createMany: {
+            args: Prisma.MuxDataCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MuxDataCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MuxDataPayload>[]
+          }
+          delete: {
+            args: Prisma.MuxDataDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MuxDataPayload>
+          }
+          update: {
+            args: Prisma.MuxDataUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MuxDataPayload>
+          }
+          deleteMany: {
+            args: Prisma.MuxDataDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MuxDataUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MuxDataUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MuxDataPayload>[]
+          }
+          upsert: {
+            args: Prisma.MuxDataUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MuxDataPayload>
+          }
+          aggregate: {
+            args: Prisma.MuxDataAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMuxData>
+          }
+          groupBy: {
+            args: Prisma.MuxDataGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MuxDataGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MuxDataCountArgs<ExtArgs>
+            result: $Utils.Optional<MuxDataCountAggregateOutputType> | number
           }
         }
       }
@@ -2066,6 +2156,7 @@ export namespace Prisma {
     cart?: CartOmit
     section?: SectionOmit
     lesson?: LessonOmit
+    muxData?: MuxDataOmit
     order?: OrderOmit
     orderItems?: orderItemsOmit
     discount?: DiscountOmit
@@ -2451,14 +2542,12 @@ export namespace Prisma {
 
   export type CourseAvgAggregateOutputType = {
     price: Decimal | null
-    duration: number | null
     rating: Decimal | null
     numReviews: number | null
   }
 
   export type CourseSumAggregateOutputType = {
     price: Decimal | null
-    duration: number | null
     rating: Decimal | null
     numReviews: number | null
   }
@@ -2471,7 +2560,6 @@ export namespace Prisma {
     price: Decimal | null
     image: string | null
     language: string | null
-    duration: number | null
     difficulty: string | null
     published: boolean | null
     category: string | null
@@ -2491,7 +2579,6 @@ export namespace Prisma {
     price: Decimal | null
     image: string | null
     language: string | null
-    duration: number | null
     difficulty: string | null
     published: boolean | null
     category: string | null
@@ -2511,7 +2598,6 @@ export namespace Prisma {
     price: number
     image: number
     language: number
-    duration: number
     difficulty: number
     published: number
     category: number
@@ -2527,14 +2613,12 @@ export namespace Prisma {
 
   export type CourseAvgAggregateInputType = {
     price?: true
-    duration?: true
     rating?: true
     numReviews?: true
   }
 
   export type CourseSumAggregateInputType = {
     price?: true
-    duration?: true
     rating?: true
     numReviews?: true
   }
@@ -2547,7 +2631,6 @@ export namespace Prisma {
     price?: true
     image?: true
     language?: true
-    duration?: true
     difficulty?: true
     published?: true
     category?: true
@@ -2567,7 +2650,6 @@ export namespace Prisma {
     price?: true
     image?: true
     language?: true
-    duration?: true
     difficulty?: true
     published?: true
     category?: true
@@ -2587,7 +2669,6 @@ export namespace Prisma {
     price?: true
     image?: true
     language?: true
-    duration?: true
     difficulty?: true
     published?: true
     category?: true
@@ -2694,7 +2775,6 @@ export namespace Prisma {
     price: Decimal
     image: string
     language: string
-    duration: number
     difficulty: string
     published: boolean
     category: string
@@ -2733,7 +2813,6 @@ export namespace Prisma {
     price?: boolean
     image?: boolean
     language?: boolean
-    duration?: boolean
     difficulty?: boolean
     published?: boolean
     category?: boolean
@@ -2760,7 +2839,6 @@ export namespace Prisma {
     price?: boolean
     image?: boolean
     language?: boolean
-    duration?: boolean
     difficulty?: boolean
     published?: boolean
     category?: boolean
@@ -2781,7 +2859,6 @@ export namespace Prisma {
     price?: boolean
     image?: boolean
     language?: boolean
-    duration?: boolean
     difficulty?: boolean
     published?: boolean
     category?: boolean
@@ -2802,7 +2879,6 @@ export namespace Prisma {
     price?: boolean
     image?: boolean
     language?: boolean
-    duration?: boolean
     difficulty?: boolean
     published?: boolean
     category?: boolean
@@ -2814,7 +2890,7 @@ export namespace Prisma {
     instructorId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "image" | "language" | "duration" | "difficulty" | "published" | "category" | "prequisites" | "rating" | "numReviews" | "createdAt" | "updatedAt" | "instructorId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "image" | "language" | "difficulty" | "published" | "category" | "prequisites" | "rating" | "numReviews" | "createdAt" | "updatedAt" | "instructorId", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Course$usersArgs<ExtArgs>
     instructor?: boolean | InstructorDefaultArgs<ExtArgs>
@@ -2849,7 +2925,6 @@ export namespace Prisma {
       price: Prisma.Decimal
       image: string
       language: string
-      duration: number
       difficulty: string
       published: boolean
       category: string
@@ -3295,7 +3370,6 @@ export namespace Prisma {
     readonly price: FieldRef<"Course", 'Decimal'>
     readonly image: FieldRef<"Course", 'String'>
     readonly language: FieldRef<"Course", 'String'>
-    readonly duration: FieldRef<"Course", 'Int'>
     readonly difficulty: FieldRef<"Course", 'String'>
     readonly published: FieldRef<"Course", 'Boolean'>
     readonly category: FieldRef<"Course", 'String'>
@@ -10821,10 +10895,7 @@ export namespace Prisma {
   export type LessonMinAggregateOutputType = {
     id: string | null
     title: string | null
-    videoUrl: string | null
     duration: number | null
-    muxAssetId: string | null
-    muxPlaybackId: string | null
     sectionId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10833,10 +10904,7 @@ export namespace Prisma {
   export type LessonMaxAggregateOutputType = {
     id: string | null
     title: string | null
-    videoUrl: string | null
     duration: number | null
-    muxAssetId: string | null
-    muxPlaybackId: string | null
     sectionId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10845,10 +10913,7 @@ export namespace Prisma {
   export type LessonCountAggregateOutputType = {
     id: number
     title: number
-    videoUrl: number
     duration: number
-    muxAssetId: number
-    muxPlaybackId: number
     sectionId: number
     createdAt: number
     updatedAt: number
@@ -10867,10 +10932,7 @@ export namespace Prisma {
   export type LessonMinAggregateInputType = {
     id?: true
     title?: true
-    videoUrl?: true
     duration?: true
-    muxAssetId?: true
-    muxPlaybackId?: true
     sectionId?: true
     createdAt?: true
     updatedAt?: true
@@ -10879,10 +10941,7 @@ export namespace Prisma {
   export type LessonMaxAggregateInputType = {
     id?: true
     title?: true
-    videoUrl?: true
     duration?: true
-    muxAssetId?: true
-    muxPlaybackId?: true
     sectionId?: true
     createdAt?: true
     updatedAt?: true
@@ -10891,10 +10950,7 @@ export namespace Prisma {
   export type LessonCountAggregateInputType = {
     id?: true
     title?: true
-    videoUrl?: true
     duration?: true
-    muxAssetId?: true
-    muxPlaybackId?: true
     sectionId?: true
     createdAt?: true
     updatedAt?: true
@@ -10990,10 +11046,7 @@ export namespace Prisma {
   export type LessonGroupByOutputType = {
     id: string
     title: string
-    videoUrl: string
     duration: number
-    muxAssetId: string
-    muxPlaybackId: string
     sectionId: string
     createdAt: Date
     updatedAt: Date
@@ -11021,23 +11074,18 @@ export namespace Prisma {
   export type LessonSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    videoUrl?: boolean
     duration?: boolean
-    muxAssetId?: boolean
-    muxPlaybackId?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    muxData?: boolean | Lesson$muxDataArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
 
   export type LessonSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    videoUrl?: boolean
     duration?: boolean
-    muxAssetId?: boolean
-    muxPlaybackId?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11047,10 +11095,7 @@ export namespace Prisma {
   export type LessonSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    videoUrl?: boolean
     duration?: boolean
-    muxAssetId?: boolean
-    muxPlaybackId?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11060,18 +11105,16 @@ export namespace Prisma {
   export type LessonSelectScalar = {
     id?: boolean
     title?: boolean
-    videoUrl?: boolean
     duration?: boolean
-    muxAssetId?: boolean
-    muxPlaybackId?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "videoUrl" | "duration" | "muxAssetId" | "muxPlaybackId" | "sectionId" | "createdAt" | "updatedAt", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "duration" | "sectionId" | "createdAt" | "updatedAt", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    muxData?: boolean | Lesson$muxDataArgs<ExtArgs>
   }
   export type LessonIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     section?: boolean | SectionDefaultArgs<ExtArgs>
@@ -11084,14 +11127,12 @@ export namespace Prisma {
     name: "Lesson"
     objects: {
       section: Prisma.$SectionPayload<ExtArgs>
+      muxData: Prisma.$MuxDataPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
-      videoUrl: string
       duration: number
-      muxAssetId: string
-      muxPlaybackId: string
       sectionId: string
       createdAt: Date
       updatedAt: Date
@@ -11490,6 +11531,7 @@ export namespace Prisma {
   export interface Prisma__LessonClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    muxData<T extends Lesson$muxDataArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$muxDataArgs<ExtArgs>>): Prisma__MuxDataClient<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11521,10 +11563,7 @@ export namespace Prisma {
   interface LessonFieldRefs {
     readonly id: FieldRef<"Lesson", 'String'>
     readonly title: FieldRef<"Lesson", 'String'>
-    readonly videoUrl: FieldRef<"Lesson", 'String'>
     readonly duration: FieldRef<"Lesson", 'Int'>
-    readonly muxAssetId: FieldRef<"Lesson", 'String'>
-    readonly muxPlaybackId: FieldRef<"Lesson", 'String'>
     readonly sectionId: FieldRef<"Lesson", 'String'>
     readonly createdAt: FieldRef<"Lesson", 'DateTime'>
     readonly updatedAt: FieldRef<"Lesson", 'DateTime'>
@@ -11924,6 +11963,25 @@ export namespace Prisma {
   }
 
   /**
+   * Lesson.muxData
+   */
+  export type Lesson$muxDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataInclude<ExtArgs> | null
+    where?: MuxDataWhereInput
+  }
+
+  /**
    * Lesson without action
    */
   export type LessonDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11939,6 +11997,1077 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: LessonInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MuxData
+   */
+
+  export type AggregateMuxData = {
+    _count: MuxDataCountAggregateOutputType | null
+    _min: MuxDataMinAggregateOutputType | null
+    _max: MuxDataMaxAggregateOutputType | null
+  }
+
+  export type MuxDataMinAggregateOutputType = {
+    id: string | null
+    lessonId: string | null
+    muxAssetId: string | null
+    muxPlaybackId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MuxDataMaxAggregateOutputType = {
+    id: string | null
+    lessonId: string | null
+    muxAssetId: string | null
+    muxPlaybackId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MuxDataCountAggregateOutputType = {
+    id: number
+    lessonId: number
+    muxAssetId: number
+    muxPlaybackId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MuxDataMinAggregateInputType = {
+    id?: true
+    lessonId?: true
+    muxAssetId?: true
+    muxPlaybackId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MuxDataMaxAggregateInputType = {
+    id?: true
+    lessonId?: true
+    muxAssetId?: true
+    muxPlaybackId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MuxDataCountAggregateInputType = {
+    id?: true
+    lessonId?: true
+    muxAssetId?: true
+    muxPlaybackId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MuxDataAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MuxData to aggregate.
+     */
+    where?: MuxDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MuxData to fetch.
+     */
+    orderBy?: MuxDataOrderByWithRelationInput | MuxDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MuxDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MuxData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MuxData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MuxData
+    **/
+    _count?: true | MuxDataCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MuxDataMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MuxDataMaxAggregateInputType
+  }
+
+  export type GetMuxDataAggregateType<T extends MuxDataAggregateArgs> = {
+        [P in keyof T & keyof AggregateMuxData]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMuxData[P]>
+      : GetScalarType<T[P], AggregateMuxData[P]>
+  }
+
+
+
+
+  export type MuxDataGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MuxDataWhereInput
+    orderBy?: MuxDataOrderByWithAggregationInput | MuxDataOrderByWithAggregationInput[]
+    by: MuxDataScalarFieldEnum[] | MuxDataScalarFieldEnum
+    having?: MuxDataScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MuxDataCountAggregateInputType | true
+    _min?: MuxDataMinAggregateInputType
+    _max?: MuxDataMaxAggregateInputType
+  }
+
+  export type MuxDataGroupByOutputType = {
+    id: string
+    lessonId: string
+    muxAssetId: string
+    muxPlaybackId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: MuxDataCountAggregateOutputType | null
+    _min: MuxDataMinAggregateOutputType | null
+    _max: MuxDataMaxAggregateOutputType | null
+  }
+
+  type GetMuxDataGroupByPayload<T extends MuxDataGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MuxDataGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MuxDataGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MuxDataGroupByOutputType[P]>
+            : GetScalarType<T[P], MuxDataGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MuxDataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lessonId?: boolean
+    muxAssetId?: boolean
+    muxPlaybackId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["muxData"]>
+
+  export type MuxDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lessonId?: boolean
+    muxAssetId?: boolean
+    muxPlaybackId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["muxData"]>
+
+  export type MuxDataSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lessonId?: boolean
+    muxAssetId?: boolean
+    muxPlaybackId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["muxData"]>
+
+  export type MuxDataSelectScalar = {
+    id?: boolean
+    lessonId?: boolean
+    muxAssetId?: boolean
+    muxPlaybackId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MuxDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "lessonId" | "muxAssetId" | "muxPlaybackId" | "createdAt" | "updatedAt", ExtArgs["result"]["muxData"]>
+  export type MuxDataInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+  }
+  export type MuxDataIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+  }
+  export type MuxDataIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+  }
+
+  export type $MuxDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MuxData"
+    objects: {
+      lesson: Prisma.$LessonPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      lessonId: string
+      muxAssetId: string
+      muxPlaybackId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["muxData"]>
+    composites: {}
+  }
+
+  type MuxDataGetPayload<S extends boolean | null | undefined | MuxDataDefaultArgs> = $Result.GetResult<Prisma.$MuxDataPayload, S>
+
+  type MuxDataCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MuxDataFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MuxDataCountAggregateInputType | true
+    }
+
+  export interface MuxDataDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MuxData'], meta: { name: 'MuxData' } }
+    /**
+     * Find zero or one MuxData that matches the filter.
+     * @param {MuxDataFindUniqueArgs} args - Arguments to find a MuxData
+     * @example
+     * // Get one MuxData
+     * const muxData = await prisma.muxData.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MuxDataFindUniqueArgs>(args: SelectSubset<T, MuxDataFindUniqueArgs<ExtArgs>>): Prisma__MuxDataClient<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MuxData that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MuxDataFindUniqueOrThrowArgs} args - Arguments to find a MuxData
+     * @example
+     * // Get one MuxData
+     * const muxData = await prisma.muxData.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MuxDataFindUniqueOrThrowArgs>(args: SelectSubset<T, MuxDataFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MuxDataClient<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MuxData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MuxDataFindFirstArgs} args - Arguments to find a MuxData
+     * @example
+     * // Get one MuxData
+     * const muxData = await prisma.muxData.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MuxDataFindFirstArgs>(args?: SelectSubset<T, MuxDataFindFirstArgs<ExtArgs>>): Prisma__MuxDataClient<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MuxData that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MuxDataFindFirstOrThrowArgs} args - Arguments to find a MuxData
+     * @example
+     * // Get one MuxData
+     * const muxData = await prisma.muxData.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MuxDataFindFirstOrThrowArgs>(args?: SelectSubset<T, MuxDataFindFirstOrThrowArgs<ExtArgs>>): Prisma__MuxDataClient<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MuxData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MuxDataFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MuxData
+     * const muxData = await prisma.muxData.findMany()
+     * 
+     * // Get first 10 MuxData
+     * const muxData = await prisma.muxData.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const muxDataWithIdOnly = await prisma.muxData.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MuxDataFindManyArgs>(args?: SelectSubset<T, MuxDataFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MuxData.
+     * @param {MuxDataCreateArgs} args - Arguments to create a MuxData.
+     * @example
+     * // Create one MuxData
+     * const MuxData = await prisma.muxData.create({
+     *   data: {
+     *     // ... data to create a MuxData
+     *   }
+     * })
+     * 
+     */
+    create<T extends MuxDataCreateArgs>(args: SelectSubset<T, MuxDataCreateArgs<ExtArgs>>): Prisma__MuxDataClient<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MuxData.
+     * @param {MuxDataCreateManyArgs} args - Arguments to create many MuxData.
+     * @example
+     * // Create many MuxData
+     * const muxData = await prisma.muxData.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MuxDataCreateManyArgs>(args?: SelectSubset<T, MuxDataCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MuxData and returns the data saved in the database.
+     * @param {MuxDataCreateManyAndReturnArgs} args - Arguments to create many MuxData.
+     * @example
+     * // Create many MuxData
+     * const muxData = await prisma.muxData.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MuxData and only return the `id`
+     * const muxDataWithIdOnly = await prisma.muxData.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MuxDataCreateManyAndReturnArgs>(args?: SelectSubset<T, MuxDataCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MuxData.
+     * @param {MuxDataDeleteArgs} args - Arguments to delete one MuxData.
+     * @example
+     * // Delete one MuxData
+     * const MuxData = await prisma.muxData.delete({
+     *   where: {
+     *     // ... filter to delete one MuxData
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MuxDataDeleteArgs>(args: SelectSubset<T, MuxDataDeleteArgs<ExtArgs>>): Prisma__MuxDataClient<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MuxData.
+     * @param {MuxDataUpdateArgs} args - Arguments to update one MuxData.
+     * @example
+     * // Update one MuxData
+     * const muxData = await prisma.muxData.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MuxDataUpdateArgs>(args: SelectSubset<T, MuxDataUpdateArgs<ExtArgs>>): Prisma__MuxDataClient<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MuxData.
+     * @param {MuxDataDeleteManyArgs} args - Arguments to filter MuxData to delete.
+     * @example
+     * // Delete a few MuxData
+     * const { count } = await prisma.muxData.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MuxDataDeleteManyArgs>(args?: SelectSubset<T, MuxDataDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MuxData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MuxDataUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MuxData
+     * const muxData = await prisma.muxData.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MuxDataUpdateManyArgs>(args: SelectSubset<T, MuxDataUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MuxData and returns the data updated in the database.
+     * @param {MuxDataUpdateManyAndReturnArgs} args - Arguments to update many MuxData.
+     * @example
+     * // Update many MuxData
+     * const muxData = await prisma.muxData.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MuxData and only return the `id`
+     * const muxDataWithIdOnly = await prisma.muxData.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MuxDataUpdateManyAndReturnArgs>(args: SelectSubset<T, MuxDataUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MuxData.
+     * @param {MuxDataUpsertArgs} args - Arguments to update or create a MuxData.
+     * @example
+     * // Update or create a MuxData
+     * const muxData = await prisma.muxData.upsert({
+     *   create: {
+     *     // ... data to create a MuxData
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MuxData we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MuxDataUpsertArgs>(args: SelectSubset<T, MuxDataUpsertArgs<ExtArgs>>): Prisma__MuxDataClient<$Result.GetResult<Prisma.$MuxDataPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MuxData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MuxDataCountArgs} args - Arguments to filter MuxData to count.
+     * @example
+     * // Count the number of MuxData
+     * const count = await prisma.muxData.count({
+     *   where: {
+     *     // ... the filter for the MuxData we want to count
+     *   }
+     * })
+    **/
+    count<T extends MuxDataCountArgs>(
+      args?: Subset<T, MuxDataCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MuxDataCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MuxData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MuxDataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MuxDataAggregateArgs>(args: Subset<T, MuxDataAggregateArgs>): Prisma.PrismaPromise<GetMuxDataAggregateType<T>>
+
+    /**
+     * Group by MuxData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MuxDataGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MuxDataGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MuxDataGroupByArgs['orderBy'] }
+        : { orderBy?: MuxDataGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MuxDataGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMuxDataGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MuxData model
+   */
+  readonly fields: MuxDataFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MuxData.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MuxDataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    lesson<T extends LessonDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LessonDefaultArgs<ExtArgs>>): Prisma__LessonClient<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MuxData model
+   */
+  interface MuxDataFieldRefs {
+    readonly id: FieldRef<"MuxData", 'String'>
+    readonly lessonId: FieldRef<"MuxData", 'String'>
+    readonly muxAssetId: FieldRef<"MuxData", 'String'>
+    readonly muxPlaybackId: FieldRef<"MuxData", 'String'>
+    readonly createdAt: FieldRef<"MuxData", 'DateTime'>
+    readonly updatedAt: FieldRef<"MuxData", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MuxData findUnique
+   */
+  export type MuxDataFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataInclude<ExtArgs> | null
+    /**
+     * Filter, which MuxData to fetch.
+     */
+    where: MuxDataWhereUniqueInput
+  }
+
+  /**
+   * MuxData findUniqueOrThrow
+   */
+  export type MuxDataFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataInclude<ExtArgs> | null
+    /**
+     * Filter, which MuxData to fetch.
+     */
+    where: MuxDataWhereUniqueInput
+  }
+
+  /**
+   * MuxData findFirst
+   */
+  export type MuxDataFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataInclude<ExtArgs> | null
+    /**
+     * Filter, which MuxData to fetch.
+     */
+    where?: MuxDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MuxData to fetch.
+     */
+    orderBy?: MuxDataOrderByWithRelationInput | MuxDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MuxData.
+     */
+    cursor?: MuxDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MuxData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MuxData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MuxData.
+     */
+    distinct?: MuxDataScalarFieldEnum | MuxDataScalarFieldEnum[]
+  }
+
+  /**
+   * MuxData findFirstOrThrow
+   */
+  export type MuxDataFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataInclude<ExtArgs> | null
+    /**
+     * Filter, which MuxData to fetch.
+     */
+    where?: MuxDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MuxData to fetch.
+     */
+    orderBy?: MuxDataOrderByWithRelationInput | MuxDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MuxData.
+     */
+    cursor?: MuxDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MuxData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MuxData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MuxData.
+     */
+    distinct?: MuxDataScalarFieldEnum | MuxDataScalarFieldEnum[]
+  }
+
+  /**
+   * MuxData findMany
+   */
+  export type MuxDataFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataInclude<ExtArgs> | null
+    /**
+     * Filter, which MuxData to fetch.
+     */
+    where?: MuxDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MuxData to fetch.
+     */
+    orderBy?: MuxDataOrderByWithRelationInput | MuxDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MuxData.
+     */
+    cursor?: MuxDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MuxData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MuxData.
+     */
+    skip?: number
+    distinct?: MuxDataScalarFieldEnum | MuxDataScalarFieldEnum[]
+  }
+
+  /**
+   * MuxData create
+   */
+  export type MuxDataCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MuxData.
+     */
+    data: XOR<MuxDataCreateInput, MuxDataUncheckedCreateInput>
+  }
+
+  /**
+   * MuxData createMany
+   */
+  export type MuxDataCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MuxData.
+     */
+    data: MuxDataCreateManyInput | MuxDataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MuxData createManyAndReturn
+   */
+  export type MuxDataCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * The data used to create many MuxData.
+     */
+    data: MuxDataCreateManyInput | MuxDataCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MuxData update
+   */
+  export type MuxDataUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MuxData.
+     */
+    data: XOR<MuxDataUpdateInput, MuxDataUncheckedUpdateInput>
+    /**
+     * Choose, which MuxData to update.
+     */
+    where: MuxDataWhereUniqueInput
+  }
+
+  /**
+   * MuxData updateMany
+   */
+  export type MuxDataUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MuxData.
+     */
+    data: XOR<MuxDataUpdateManyMutationInput, MuxDataUncheckedUpdateManyInput>
+    /**
+     * Filter which MuxData to update
+     */
+    where?: MuxDataWhereInput
+    /**
+     * Limit how many MuxData to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MuxData updateManyAndReturn
+   */
+  export type MuxDataUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * The data used to update MuxData.
+     */
+    data: XOR<MuxDataUpdateManyMutationInput, MuxDataUncheckedUpdateManyInput>
+    /**
+     * Filter which MuxData to update
+     */
+    where?: MuxDataWhereInput
+    /**
+     * Limit how many MuxData to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MuxData upsert
+   */
+  export type MuxDataUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MuxData to update in case it exists.
+     */
+    where: MuxDataWhereUniqueInput
+    /**
+     * In case the MuxData found by the `where` argument doesn't exist, create a new MuxData with this data.
+     */
+    create: XOR<MuxDataCreateInput, MuxDataUncheckedCreateInput>
+    /**
+     * In case the MuxData was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MuxDataUpdateInput, MuxDataUncheckedUpdateInput>
+  }
+
+  /**
+   * MuxData delete
+   */
+  export type MuxDataDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataInclude<ExtArgs> | null
+    /**
+     * Filter which MuxData to delete.
+     */
+    where: MuxDataWhereUniqueInput
+  }
+
+  /**
+   * MuxData deleteMany
+   */
+  export type MuxDataDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MuxData to delete
+     */
+    where?: MuxDataWhereInput
+    /**
+     * Limit how many MuxData to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MuxData without action
+   */
+  export type MuxDataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MuxData
+     */
+    select?: MuxDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MuxData
+     */
+    omit?: MuxDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MuxDataInclude<ExtArgs> | null
   }
 
 
@@ -20018,7 +21147,6 @@ export namespace Prisma {
     price: 'price',
     image: 'image',
     language: 'language',
-    duration: 'duration',
     difficulty: 'difficulty',
     published: 'published',
     category: 'category',
@@ -20128,16 +21256,25 @@ export namespace Prisma {
   export const LessonScalarFieldEnum: {
     id: 'id',
     title: 'title',
-    videoUrl: 'videoUrl',
     duration: 'duration',
-    muxAssetId: 'muxAssetId',
-    muxPlaybackId: 'muxPlaybackId',
     sectionId: 'sectionId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type LessonScalarFieldEnum = (typeof LessonScalarFieldEnum)[keyof typeof LessonScalarFieldEnum]
+
+
+  export const MuxDataScalarFieldEnum: {
+    id: 'id',
+    lessonId: 'lessonId',
+    muxAssetId: 'muxAssetId',
+    muxPlaybackId: 'muxPlaybackId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MuxDataScalarFieldEnum = (typeof MuxDataScalarFieldEnum)[keyof typeof MuxDataScalarFieldEnum]
 
 
   export const OrderScalarFieldEnum: {
@@ -20328,6 +21465,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -20338,13 +21482,6 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -20425,7 +21562,6 @@ export namespace Prisma {
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
-    duration?: IntFilter<"Course"> | number
     difficulty?: StringFilter<"Course"> | string
     published?: BoolFilter<"Course"> | boolean
     category?: StringFilter<"Course"> | string
@@ -20451,7 +21587,6 @@ export namespace Prisma {
     price?: SortOrder
     image?: SortOrder
     language?: SortOrder
-    duration?: SortOrder
     difficulty?: SortOrder
     published?: SortOrder
     category?: SortOrder
@@ -20480,7 +21615,6 @@ export namespace Prisma {
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
-    duration?: IntFilter<"Course"> | number
     difficulty?: StringFilter<"Course"> | string
     published?: BoolFilter<"Course"> | boolean
     category?: StringFilter<"Course"> | string
@@ -20506,7 +21640,6 @@ export namespace Prisma {
     price?: SortOrder
     image?: SortOrder
     language?: SortOrder
-    duration?: SortOrder
     difficulty?: SortOrder
     published?: SortOrder
     category?: SortOrder
@@ -20534,7 +21667,6 @@ export namespace Prisma {
     price?: DecimalWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringWithAggregatesFilter<"Course"> | string
     language?: StringWithAggregatesFilter<"Course"> | string
-    duration?: IntWithAggregatesFilter<"Course"> | number
     difficulty?: StringWithAggregatesFilter<"Course"> | string
     published?: BoolWithAggregatesFilter<"Course"> | boolean
     category?: StringWithAggregatesFilter<"Course"> | string
@@ -21041,27 +22173,23 @@ export namespace Prisma {
     NOT?: LessonWhereInput | LessonWhereInput[]
     id?: StringFilter<"Lesson"> | string
     title?: StringFilter<"Lesson"> | string
-    videoUrl?: StringFilter<"Lesson"> | string
     duration?: IntFilter<"Lesson"> | number
-    muxAssetId?: StringFilter<"Lesson"> | string
-    muxPlaybackId?: StringFilter<"Lesson"> | string
     sectionId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
     section?: XOR<SectionScalarRelationFilter, SectionWhereInput>
+    muxData?: XOR<MuxDataNullableScalarRelationFilter, MuxDataWhereInput> | null
   }
 
   export type LessonOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
-    videoUrl?: SortOrder
     duration?: SortOrder
-    muxAssetId?: SortOrder
-    muxPlaybackId?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     section?: SectionOrderByWithRelationInput
+    muxData?: MuxDataOrderByWithRelationInput
   }
 
   export type LessonWhereUniqueInput = Prisma.AtLeast<{
@@ -21070,23 +22198,18 @@ export namespace Prisma {
     OR?: LessonWhereInput[]
     NOT?: LessonWhereInput | LessonWhereInput[]
     title?: StringFilter<"Lesson"> | string
-    videoUrl?: StringFilter<"Lesson"> | string
     duration?: IntFilter<"Lesson"> | number
-    muxAssetId?: StringFilter<"Lesson"> | string
-    muxPlaybackId?: StringFilter<"Lesson"> | string
     sectionId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
     section?: XOR<SectionScalarRelationFilter, SectionWhereInput>
+    muxData?: XOR<MuxDataNullableScalarRelationFilter, MuxDataWhereInput> | null
   }, "id">
 
   export type LessonOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
-    videoUrl?: SortOrder
     duration?: SortOrder
-    muxAssetId?: SortOrder
-    muxPlaybackId?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21103,13 +22226,70 @@ export namespace Prisma {
     NOT?: LessonScalarWhereWithAggregatesInput | LessonScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Lesson"> | string
     title?: StringWithAggregatesFilter<"Lesson"> | string
-    videoUrl?: StringWithAggregatesFilter<"Lesson"> | string
     duration?: IntWithAggregatesFilter<"Lesson"> | number
-    muxAssetId?: StringWithAggregatesFilter<"Lesson"> | string
-    muxPlaybackId?: StringWithAggregatesFilter<"Lesson"> | string
     sectionId?: StringWithAggregatesFilter<"Lesson"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
+  }
+
+  export type MuxDataWhereInput = {
+    AND?: MuxDataWhereInput | MuxDataWhereInput[]
+    OR?: MuxDataWhereInput[]
+    NOT?: MuxDataWhereInput | MuxDataWhereInput[]
+    id?: StringFilter<"MuxData"> | string
+    lessonId?: StringFilter<"MuxData"> | string
+    muxAssetId?: StringFilter<"MuxData"> | string
+    muxPlaybackId?: StringFilter<"MuxData"> | string
+    createdAt?: DateTimeFilter<"MuxData"> | Date | string
+    updatedAt?: DateTimeFilter<"MuxData"> | Date | string
+    lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
+  }
+
+  export type MuxDataOrderByWithRelationInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    muxAssetId?: SortOrder
+    muxPlaybackId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lesson?: LessonOrderByWithRelationInput
+  }
+
+  export type MuxDataWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    lessonId?: string
+    AND?: MuxDataWhereInput | MuxDataWhereInput[]
+    OR?: MuxDataWhereInput[]
+    NOT?: MuxDataWhereInput | MuxDataWhereInput[]
+    muxAssetId?: StringFilter<"MuxData"> | string
+    muxPlaybackId?: StringFilter<"MuxData"> | string
+    createdAt?: DateTimeFilter<"MuxData"> | Date | string
+    updatedAt?: DateTimeFilter<"MuxData"> | Date | string
+    lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
+  }, "id" | "lessonId">
+
+  export type MuxDataOrderByWithAggregationInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    muxAssetId?: SortOrder
+    muxPlaybackId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MuxDataCountOrderByAggregateInput
+    _max?: MuxDataMaxOrderByAggregateInput
+    _min?: MuxDataMinOrderByAggregateInput
+  }
+
+  export type MuxDataScalarWhereWithAggregatesInput = {
+    AND?: MuxDataScalarWhereWithAggregatesInput | MuxDataScalarWhereWithAggregatesInput[]
+    OR?: MuxDataScalarWhereWithAggregatesInput[]
+    NOT?: MuxDataScalarWhereWithAggregatesInput | MuxDataScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MuxData"> | string
+    lessonId?: StringWithAggregatesFilter<"MuxData"> | string
+    muxAssetId?: StringWithAggregatesFilter<"MuxData"> | string
+    muxPlaybackId?: StringWithAggregatesFilter<"MuxData"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"MuxData"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MuxData"> | Date | string
   }
 
   export type OrderWhereInput = {
@@ -21681,7 +22861,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -21706,7 +22885,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -21731,7 +22909,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -21756,7 +22933,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -21781,7 +22957,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -21801,7 +22976,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -21820,7 +22994,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -22388,58 +23561,47 @@ export namespace Prisma {
   export type LessonCreateInput = {
     id?: string
     title: string
-    videoUrl: string
     duration: number
-    muxAssetId: string
-    muxPlaybackId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     section: SectionCreateNestedOneWithoutLessonsInput
+    muxData?: MuxDataCreateNestedOneWithoutLessonInput
   }
 
   export type LessonUncheckedCreateInput = {
     id?: string
     title: string
-    videoUrl: string
     duration: number
-    muxAssetId: string
-    muxPlaybackId: string
     sectionId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    muxData?: MuxDataUncheckedCreateNestedOneWithoutLessonInput
   }
 
   export type LessonUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
-    muxAssetId?: StringFieldUpdateOperationsInput | string
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     section?: SectionUpdateOneRequiredWithoutLessonsNestedInput
+    muxData?: MuxDataUpdateOneWithoutLessonNestedInput
   }
 
   export type LessonUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
-    muxAssetId?: StringFieldUpdateOperationsInput | string
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     sectionId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    muxData?: MuxDataUncheckedUpdateOneWithoutLessonNestedInput
   }
 
   export type LessonCreateManyInput = {
     id?: string
     title: string
-    videoUrl: string
     duration: number
-    muxAssetId: string
-    muxPlaybackId: string
     sectionId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22448,10 +23610,7 @@ export namespace Prisma {
   export type LessonUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
-    muxAssetId?: StringFieldUpdateOperationsInput | string
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22459,11 +23618,70 @@ export namespace Prisma {
   export type LessonUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    sectionId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MuxDataCreateInput = {
+    id?: string
+    muxAssetId: string
+    muxPlaybackId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lesson: LessonCreateNestedOneWithoutMuxDataInput
+  }
+
+  export type MuxDataUncheckedCreateInput = {
+    id?: string
+    lessonId: string
+    muxAssetId: string
+    muxPlaybackId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MuxDataUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     muxAssetId?: StringFieldUpdateOperationsInput | string
     muxPlaybackId?: StringFieldUpdateOperationsInput | string
-    sectionId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lesson?: LessonUpdateOneRequiredWithoutMuxDataNestedInput
+  }
+
+  export type MuxDataUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MuxDataCreateManyInput = {
+    id?: string
+    lessonId: string
+    muxAssetId: string
+    muxPlaybackId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MuxDataUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MuxDataUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23095,6 +24313,11 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -23104,11 +24327,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -23185,7 +24403,6 @@ export namespace Prisma {
     price?: SortOrder
     image?: SortOrder
     language?: SortOrder
-    duration?: SortOrder
     difficulty?: SortOrder
     published?: SortOrder
     category?: SortOrder
@@ -23199,7 +24416,6 @@ export namespace Prisma {
 
   export type CourseAvgOrderByAggregateInput = {
     price?: SortOrder
-    duration?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
   }
@@ -23212,7 +24428,6 @@ export namespace Prisma {
     price?: SortOrder
     image?: SortOrder
     language?: SortOrder
-    duration?: SortOrder
     difficulty?: SortOrder
     published?: SortOrder
     category?: SortOrder
@@ -23232,7 +24447,6 @@ export namespace Prisma {
     price?: SortOrder
     image?: SortOrder
     language?: SortOrder
-    duration?: SortOrder
     difficulty?: SortOrder
     published?: SortOrder
     category?: SortOrder
@@ -23246,7 +24460,6 @@ export namespace Prisma {
 
   export type CourseSumOrderByAggregateInput = {
     price?: SortOrder
-    duration?: SortOrder
     rating?: SortOrder
     numReviews?: SortOrder
   }
@@ -23285,6 +24498,14 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -23299,14 +24520,6 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -23801,13 +25014,15 @@ export namespace Prisma {
     isNot?: SectionWhereInput
   }
 
+  export type MuxDataNullableScalarRelationFilter = {
+    is?: MuxDataWhereInput | null
+    isNot?: MuxDataWhereInput | null
+  }
+
   export type LessonCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    videoUrl?: SortOrder
     duration?: SortOrder
-    muxAssetId?: SortOrder
-    muxPlaybackId?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -23820,10 +25035,7 @@ export namespace Prisma {
   export type LessonMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    videoUrl?: SortOrder
     duration?: SortOrder
-    muxAssetId?: SortOrder
-    muxPlaybackId?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -23832,10 +25044,7 @@ export namespace Prisma {
   export type LessonMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    videoUrl?: SortOrder
     duration?: SortOrder
-    muxAssetId?: SortOrder
-    muxPlaybackId?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -23843,6 +25052,38 @@ export namespace Prisma {
 
   export type LessonSumOrderByAggregateInput = {
     duration?: SortOrder
+  }
+
+  export type LessonScalarRelationFilter = {
+    is?: LessonWhereInput
+    isNot?: LessonWhereInput
+  }
+
+  export type MuxDataCountOrderByAggregateInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    muxAssetId?: SortOrder
+    muxPlaybackId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MuxDataMaxOrderByAggregateInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    muxAssetId?: SortOrder
+    muxPlaybackId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MuxDataMinOrderByAggregateInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    muxAssetId?: SortOrder
+    muxPlaybackId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -24299,16 +25540,16 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -24954,12 +26195,58 @@ export namespace Prisma {
     connect?: SectionWhereUniqueInput
   }
 
+  export type MuxDataCreateNestedOneWithoutLessonInput = {
+    create?: XOR<MuxDataCreateWithoutLessonInput, MuxDataUncheckedCreateWithoutLessonInput>
+    connectOrCreate?: MuxDataCreateOrConnectWithoutLessonInput
+    connect?: MuxDataWhereUniqueInput
+  }
+
+  export type MuxDataUncheckedCreateNestedOneWithoutLessonInput = {
+    create?: XOR<MuxDataCreateWithoutLessonInput, MuxDataUncheckedCreateWithoutLessonInput>
+    connectOrCreate?: MuxDataCreateOrConnectWithoutLessonInput
+    connect?: MuxDataWhereUniqueInput
+  }
+
   export type SectionUpdateOneRequiredWithoutLessonsNestedInput = {
     create?: XOR<SectionCreateWithoutLessonsInput, SectionUncheckedCreateWithoutLessonsInput>
     connectOrCreate?: SectionCreateOrConnectWithoutLessonsInput
     upsert?: SectionUpsertWithoutLessonsInput
     connect?: SectionWhereUniqueInput
     update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutLessonsInput, SectionUpdateWithoutLessonsInput>, SectionUncheckedUpdateWithoutLessonsInput>
+  }
+
+  export type MuxDataUpdateOneWithoutLessonNestedInput = {
+    create?: XOR<MuxDataCreateWithoutLessonInput, MuxDataUncheckedCreateWithoutLessonInput>
+    connectOrCreate?: MuxDataCreateOrConnectWithoutLessonInput
+    upsert?: MuxDataUpsertWithoutLessonInput
+    disconnect?: MuxDataWhereInput | boolean
+    delete?: MuxDataWhereInput | boolean
+    connect?: MuxDataWhereUniqueInput
+    update?: XOR<XOR<MuxDataUpdateToOneWithWhereWithoutLessonInput, MuxDataUpdateWithoutLessonInput>, MuxDataUncheckedUpdateWithoutLessonInput>
+  }
+
+  export type MuxDataUncheckedUpdateOneWithoutLessonNestedInput = {
+    create?: XOR<MuxDataCreateWithoutLessonInput, MuxDataUncheckedCreateWithoutLessonInput>
+    connectOrCreate?: MuxDataCreateOrConnectWithoutLessonInput
+    upsert?: MuxDataUpsertWithoutLessonInput
+    disconnect?: MuxDataWhereInput | boolean
+    delete?: MuxDataWhereInput | boolean
+    connect?: MuxDataWhereUniqueInput
+    update?: XOR<XOR<MuxDataUpdateToOneWithWhereWithoutLessonInput, MuxDataUpdateWithoutLessonInput>, MuxDataUncheckedUpdateWithoutLessonInput>
+  }
+
+  export type LessonCreateNestedOneWithoutMuxDataInput = {
+    create?: XOR<LessonCreateWithoutMuxDataInput, LessonUncheckedCreateWithoutMuxDataInput>
+    connectOrCreate?: LessonCreateOrConnectWithoutMuxDataInput
+    connect?: LessonWhereUniqueInput
+  }
+
+  export type LessonUpdateOneRequiredWithoutMuxDataNestedInput = {
+    create?: XOR<LessonCreateWithoutMuxDataInput, LessonUncheckedCreateWithoutMuxDataInput>
+    connectOrCreate?: LessonCreateOrConnectWithoutMuxDataInput
+    upsert?: LessonUpsertWithoutMuxDataInput
+    connect?: LessonWhereUniqueInput
+    update?: XOR<XOR<LessonUpdateToOneWithWhereWithoutMuxDataInput, LessonUpdateWithoutMuxDataInput>, LessonUncheckedUpdateWithoutMuxDataInput>
   }
 
   export type UserCreateNestedOneWithoutOrdersInput = {
@@ -25319,6 +26606,11 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -25328,11 +26620,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -25379,6 +26666,14 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -25404,14 +26699,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -26039,7 +27326,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -26063,7 +27349,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -26375,7 +27660,6 @@ export namespace Prisma {
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
-    duration?: IntFilter<"Course"> | number
     difficulty?: StringFilter<"Course"> | string
     published?: BoolFilter<"Course"> | boolean
     category?: StringFilter<"Course"> | string
@@ -26978,7 +28262,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -27002,7 +28285,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -27026,23 +28308,19 @@ export namespace Prisma {
   export type LessonCreateWithoutSectionInput = {
     id?: string
     title: string
-    videoUrl: string
     duration: number
-    muxAssetId: string
-    muxPlaybackId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    muxData?: MuxDataCreateNestedOneWithoutLessonInput
   }
 
   export type LessonUncheckedCreateWithoutSectionInput = {
     id?: string
     title: string
-    videoUrl: string
     duration: number
-    muxAssetId: string
-    muxPlaybackId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    muxData?: MuxDataUncheckedCreateNestedOneWithoutLessonInput
   }
 
   export type LessonCreateOrConnectWithoutSectionInput = {
@@ -27074,7 +28352,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -27098,7 +28375,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -27136,10 +28412,7 @@ export namespace Prisma {
     NOT?: LessonScalarWhereInput | LessonScalarWhereInput[]
     id?: StringFilter<"Lesson"> | string
     title?: StringFilter<"Lesson"> | string
-    videoUrl?: StringFilter<"Lesson"> | string
     duration?: IntFilter<"Lesson"> | number
-    muxAssetId?: StringFilter<"Lesson"> | string
-    muxPlaybackId?: StringFilter<"Lesson"> | string
     sectionId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
@@ -27166,6 +28439,27 @@ export namespace Prisma {
     create: XOR<SectionCreateWithoutLessonsInput, SectionUncheckedCreateWithoutLessonsInput>
   }
 
+  export type MuxDataCreateWithoutLessonInput = {
+    id?: string
+    muxAssetId: string
+    muxPlaybackId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MuxDataUncheckedCreateWithoutLessonInput = {
+    id?: string
+    muxAssetId: string
+    muxPlaybackId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MuxDataCreateOrConnectWithoutLessonInput = {
+    where: MuxDataWhereUniqueInput
+    create: XOR<MuxDataCreateWithoutLessonInput, MuxDataUncheckedCreateWithoutLessonInput>
+  }
+
   export type SectionUpsertWithoutLessonsInput = {
     update: XOR<SectionUpdateWithoutLessonsInput, SectionUncheckedUpdateWithoutLessonsInput>
     create: XOR<SectionCreateWithoutLessonsInput, SectionUncheckedCreateWithoutLessonsInput>
@@ -27189,6 +28483,85 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MuxDataUpsertWithoutLessonInput = {
+    update: XOR<MuxDataUpdateWithoutLessonInput, MuxDataUncheckedUpdateWithoutLessonInput>
+    create: XOR<MuxDataCreateWithoutLessonInput, MuxDataUncheckedCreateWithoutLessonInput>
+    where?: MuxDataWhereInput
+  }
+
+  export type MuxDataUpdateToOneWithWhereWithoutLessonInput = {
+    where?: MuxDataWhereInput
+    data: XOR<MuxDataUpdateWithoutLessonInput, MuxDataUncheckedUpdateWithoutLessonInput>
+  }
+
+  export type MuxDataUpdateWithoutLessonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MuxDataUncheckedUpdateWithoutLessonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    muxAssetId?: StringFieldUpdateOperationsInput | string
+    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LessonCreateWithoutMuxDataInput = {
+    id?: string
+    title: string
+    duration: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    section: SectionCreateNestedOneWithoutLessonsInput
+  }
+
+  export type LessonUncheckedCreateWithoutMuxDataInput = {
+    id?: string
+    title: string
+    duration: number
+    sectionId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LessonCreateOrConnectWithoutMuxDataInput = {
+    where: LessonWhereUniqueInput
+    create: XOR<LessonCreateWithoutMuxDataInput, LessonUncheckedCreateWithoutMuxDataInput>
+  }
+
+  export type LessonUpsertWithoutMuxDataInput = {
+    update: XOR<LessonUpdateWithoutMuxDataInput, LessonUncheckedUpdateWithoutMuxDataInput>
+    create: XOR<LessonCreateWithoutMuxDataInput, LessonUncheckedCreateWithoutMuxDataInput>
+    where?: LessonWhereInput
+  }
+
+  export type LessonUpdateToOneWithWhereWithoutMuxDataInput = {
+    where?: LessonWhereInput
+    data: XOR<LessonUpdateWithoutMuxDataInput, LessonUncheckedUpdateWithoutMuxDataInput>
+  }
+
+  export type LessonUpdateWithoutMuxDataInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: SectionUpdateOneRequiredWithoutLessonsNestedInput
+  }
+
+  export type LessonUncheckedUpdateWithoutMuxDataInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    sectionId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27419,7 +28792,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -27443,7 +28815,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -27520,7 +28891,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -27544,7 +28914,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -27772,7 +29141,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -27796,7 +29164,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -28070,7 +29437,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -28094,7 +29460,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -28193,7 +29558,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -28217,7 +29581,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -28294,7 +29657,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -28318,7 +29680,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -28417,7 +29778,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -28441,7 +29801,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -28797,7 +30156,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -28821,7 +30179,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -28845,7 +30202,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -28988,10 +30344,7 @@ export namespace Prisma {
   export type LessonCreateManySectionInput = {
     id?: string
     title: string
-    videoUrl: string
     duration: number
-    muxAssetId: string
-    muxPlaybackId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -28999,32 +30352,25 @@ export namespace Prisma {
   export type LessonUpdateWithoutSectionInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
-    muxAssetId?: StringFieldUpdateOperationsInput | string
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    muxData?: MuxDataUpdateOneWithoutLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutSectionInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
-    muxAssetId?: StringFieldUpdateOperationsInput | string
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    muxData?: MuxDataUncheckedUpdateOneWithoutLessonNestedInput
   }
 
   export type LessonUncheckedUpdateManyWithoutSectionInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    videoUrl?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
-    muxAssetId?: StringFieldUpdateOperationsInput | string
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29179,7 +30525,6 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     language: string
-    duration: number
     difficulty: string
     published?: boolean
     category: string
@@ -29198,7 +30543,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -29222,7 +30566,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
@@ -29246,7 +30589,6 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string

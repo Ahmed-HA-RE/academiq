@@ -2,7 +2,6 @@ import { getCourseBySlug } from '@/lib/actions/course';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Rating } from '@/app/components/ui/rating';
-import { sampleInstructors } from '@/sampleData';
 import InstructorInfoDialog from '@/app/components/course/InstructorInfoDialog';
 import Link from 'next/link';
 import { Button } from '@/app/components/ui/button';
@@ -131,8 +130,7 @@ const CourseDetailsPage = async ({
               <TimerIcon size={18} />
               <span className='text-gray-400'>Duration:</span>
               <p className='font-medium'>
-                {`${(course.duration / 60).toFixed(0)}h`}{' '}
-                {`${course.duration % 60}m`}
+                {/* @TODO calculate duration here */}
               </p>
             </div>
             <div className='flex flex-row items-center gap-3'>

@@ -21,7 +21,6 @@ model Course {
   price        Decimal        @db.Decimal(10, 2)
   image        String
   language     String
-  duration     Int
   difficulty   String
   published    Boolean        @default(false)
   category     String
@@ -142,14 +141,22 @@ model Section {
 }
 
 model Lesson {
+  id        String   @id @default(uuid())
+  title     String
+  duration  Int
+  sectionId String
+  section   Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  muxData   MuxData?
+}
+
+model MuxData {
   id            String   @id @default(uuid())
-  title         String
-  videoUrl      String
-  duration      Int
+  lessonId      String   @unique
+  lesson        Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   muxAssetId    String
   muxPlaybackId String
-  sectionId     String
-  section       Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }

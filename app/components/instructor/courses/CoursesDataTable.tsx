@@ -1,4 +1,4 @@
-import { getAllInstructorCourses } from '@/lib/actions/instructor/courses';
+import { getAllInstructorCourses } from '@/lib/actions/course';
 import CoursesDataTableDetails from './CoursesDataTableDetails';
 
 const CoursesDataTable = async () => {
