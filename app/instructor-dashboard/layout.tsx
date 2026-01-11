@@ -13,6 +13,7 @@ import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { Metadata } from 'next';
 import SideBar from '../components/instructor/SideBar';
 import Notification from '../components/instructor/Notification';
+import VideoProcessBanner from '../components/instructor/VideoProcessBanner';
 
 export const metadata: Metadata = {
   title: {
@@ -40,6 +41,7 @@ const InstructorDashboardLayout = async ({
       >
         <SideBar />
         <div className='flex flex-1 flex-col'>
+          <VideoProcessBanner />
           <header className='bg-card sticky top-0 z-50 border-b'>
             <div className='mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-2 sm:px-6'>
               <div className='flex items-center gap-4'>

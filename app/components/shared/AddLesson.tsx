@@ -20,7 +20,7 @@ const AddLesson = ({
 }) => {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: `section.${sectionIndex}.lessons`,
+    name: `sections.${sectionIndex}.lessons`,
   });
 
   return (
@@ -28,7 +28,7 @@ const AddLesson = ({
       {fields.map((lesson, lessonIndex) => (
         <FieldGroup className='gap-5' key={lesson.id}>
           <Controller
-            name={`section.${sectionIndex}.lessons.${lessonIndex}.title`}
+            name={`sections.${sectionIndex}.lessons.${lessonIndex}.title`}
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
@@ -56,7 +56,7 @@ const AddLesson = ({
             )}
           />
           <Controller
-            name={`section.${sectionIndex}.lessons.${lessonIndex}.duration`}
+            name={`sections.${sectionIndex}.lessons.${lessonIndex}.duration`}
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
@@ -81,7 +81,7 @@ const AddLesson = ({
             )}
           />
           <Controller
-            name={`section.${sectionIndex}.lessons.${lessonIndex}.videoUrl`}
+            name={`sections.${sectionIndex}.lessons.${lessonIndex}.videoUrl`}
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>

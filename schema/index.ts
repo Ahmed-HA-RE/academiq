@@ -101,7 +101,7 @@ export const createCourseSchema = baseCourseSchema
   .omit({ image: true })
   .extend({
     imageFile: imageSchema,
-    section: z.array(
+    sections: z.array(
       z.object({
         title: z
           .string({ error: 'Invalid section title' })

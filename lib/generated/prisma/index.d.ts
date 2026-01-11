@@ -98,7 +98,16 @@ export type Certificate = $Result.DefaultSelection<Prisma.$CertificatePayload>
  * Enums
  */
 export namespace $Enums {
-  export const Type: {
+  export const status: {
+  processing: 'processing',
+  ready: 'ready',
+  failed: 'failed'
+};
+
+export type status = (typeof status)[keyof typeof status]
+
+
+export const Type: {
   percentage: 'percentage',
   fixed: 'fixed'
 };
@@ -106,6 +115,10 @@ export namespace $Enums {
 export type Type = (typeof Type)[keyof typeof Type]
 
 }
+
+export type status = $Enums.status
+
+export const status: typeof $Enums.status
 
 export type Type = $Enums.Type
 
@@ -10896,6 +10909,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     duration: number | null
+    status: $Enums.status | null
     sectionId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10905,6 +10919,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     duration: number | null
+    status: $Enums.status | null
     sectionId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10914,6 +10929,7 @@ export namespace Prisma {
     id: number
     title: number
     duration: number
+    status: number
     sectionId: number
     createdAt: number
     updatedAt: number
@@ -10933,6 +10949,7 @@ export namespace Prisma {
     id?: true
     title?: true
     duration?: true
+    status?: true
     sectionId?: true
     createdAt?: true
     updatedAt?: true
@@ -10942,6 +10959,7 @@ export namespace Prisma {
     id?: true
     title?: true
     duration?: true
+    status?: true
     sectionId?: true
     createdAt?: true
     updatedAt?: true
@@ -10951,6 +10969,7 @@ export namespace Prisma {
     id?: true
     title?: true
     duration?: true
+    status?: true
     sectionId?: true
     createdAt?: true
     updatedAt?: true
@@ -11047,6 +11066,7 @@ export namespace Prisma {
     id: string
     title: string
     duration: number
+    status: $Enums.status
     sectionId: string
     createdAt: Date
     updatedAt: Date
@@ -11075,6 +11095,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     duration?: boolean
+    status?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11086,6 +11107,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     duration?: boolean
+    status?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11096,6 +11118,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     duration?: boolean
+    status?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11106,12 +11129,13 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     duration?: boolean
+    status?: boolean
     sectionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "duration" | "sectionId" | "createdAt" | "updatedAt", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "duration" | "status" | "sectionId" | "createdAt" | "updatedAt", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     section?: boolean | SectionDefaultArgs<ExtArgs>
     muxData?: boolean | Lesson$muxDataArgs<ExtArgs>
@@ -11133,6 +11157,7 @@ export namespace Prisma {
       id: string
       title: string
       duration: number
+      status: $Enums.status
       sectionId: string
       createdAt: Date
       updatedAt: Date
@@ -11564,6 +11589,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Lesson", 'String'>
     readonly title: FieldRef<"Lesson", 'String'>
     readonly duration: FieldRef<"Lesson", 'Int'>
+    readonly status: FieldRef<"Lesson", 'status'>
     readonly sectionId: FieldRef<"Lesson", 'String'>
     readonly createdAt: FieldRef<"Lesson", 'DateTime'>
     readonly updatedAt: FieldRef<"Lesson", 'DateTime'>
@@ -21257,6 +21283,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     duration: 'duration',
+    status: 'status',
     sectionId: 'sectionId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -21517,6 +21544,20 @@ export namespace Prisma {
    * Reference to a field of type 'Json[]'
    */
   export type ListJsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'status'
+   */
+  export type EnumstatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'status'>
+    
+
+
+  /**
+   * Reference to a field of type 'status[]'
+   */
+  export type ListEnumstatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'status[]'>
     
 
 
@@ -22174,6 +22215,7 @@ export namespace Prisma {
     id?: StringFilter<"Lesson"> | string
     title?: StringFilter<"Lesson"> | string
     duration?: IntFilter<"Lesson"> | number
+    status?: EnumstatusFilter<"Lesson"> | $Enums.status
     sectionId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
@@ -22185,6 +22227,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     duration?: SortOrder
+    status?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22199,6 +22242,7 @@ export namespace Prisma {
     NOT?: LessonWhereInput | LessonWhereInput[]
     title?: StringFilter<"Lesson"> | string
     duration?: IntFilter<"Lesson"> | number
+    status?: EnumstatusFilter<"Lesson"> | $Enums.status
     sectionId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
@@ -22210,6 +22254,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     duration?: SortOrder
+    status?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22227,6 +22272,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Lesson"> | string
     title?: StringWithAggregatesFilter<"Lesson"> | string
     duration?: IntWithAggregatesFilter<"Lesson"> | number
+    status?: EnumstatusWithAggregatesFilter<"Lesson"> | $Enums.status
     sectionId?: StringWithAggregatesFilter<"Lesson"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
@@ -23562,6 +23608,7 @@ export namespace Prisma {
     id?: string
     title: string
     duration: number
+    status?: $Enums.status
     createdAt?: Date | string
     updatedAt?: Date | string
     section: SectionCreateNestedOneWithoutLessonsInput
@@ -23572,6 +23619,7 @@ export namespace Prisma {
     id?: string
     title: string
     duration: number
+    status?: $Enums.status
     sectionId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23582,6 +23630,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    status?: EnumstatusFieldUpdateOperationsInput | $Enums.status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     section?: SectionUpdateOneRequiredWithoutLessonsNestedInput
@@ -23592,6 +23641,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    status?: EnumstatusFieldUpdateOperationsInput | $Enums.status
     sectionId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23602,6 +23652,7 @@ export namespace Prisma {
     id?: string
     title: string
     duration: number
+    status?: $Enums.status
     sectionId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23611,6 +23662,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    status?: EnumstatusFieldUpdateOperationsInput | $Enums.status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23619,6 +23671,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    status?: EnumstatusFieldUpdateOperationsInput | $Enums.status
     sectionId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25009,6 +25062,13 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumstatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.status | EnumstatusFieldRefInput<$PrismaModel>
+    in?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumstatusFilter<$PrismaModel> | $Enums.status
+  }
+
   export type SectionScalarRelationFilter = {
     is?: SectionWhereInput
     isNot?: SectionWhereInput
@@ -25023,6 +25083,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     duration?: SortOrder
+    status?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25036,6 +25097,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     duration?: SortOrder
+    status?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25045,6 +25107,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     duration?: SortOrder
+    status?: SortOrder
     sectionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25052,6 +25115,16 @@ export namespace Prisma {
 
   export type LessonSumOrderByAggregateInput = {
     duration?: SortOrder
+  }
+
+  export type EnumstatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.status | EnumstatusFieldRefInput<$PrismaModel>
+    in?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumstatusWithAggregatesFilter<$PrismaModel> | $Enums.status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumstatusFilter<$PrismaModel>
+    _max?: NestedEnumstatusFilter<$PrismaModel>
   }
 
   export type LessonScalarRelationFilter = {
@@ -26207,6 +26280,10 @@ export namespace Prisma {
     connect?: MuxDataWhereUniqueInput
   }
 
+  export type EnumstatusFieldUpdateOperationsInput = {
+    set?: $Enums.status
+  }
+
   export type SectionUpdateOneRequiredWithoutLessonsNestedInput = {
     create?: XOR<SectionCreateWithoutLessonsInput, SectionUncheckedCreateWithoutLessonsInput>
     connectOrCreate?: SectionCreateOrConnectWithoutLessonsInput
@@ -26828,6 +26905,23 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumstatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.status | EnumstatusFieldRefInput<$PrismaModel>
+    in?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumstatusFilter<$PrismaModel> | $Enums.status
+  }
+
+  export type NestedEnumstatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.status | EnumstatusFieldRefInput<$PrismaModel>
+    in?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumstatusWithAggregatesFilter<$PrismaModel> | $Enums.status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumstatusFilter<$PrismaModel>
+    _max?: NestedEnumstatusFilter<$PrismaModel>
   }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -28309,6 +28403,7 @@ export namespace Prisma {
     id?: string
     title: string
     duration: number
+    status?: $Enums.status
     createdAt?: Date | string
     updatedAt?: Date | string
     muxData?: MuxDataCreateNestedOneWithoutLessonInput
@@ -28318,6 +28413,7 @@ export namespace Prisma {
     id?: string
     title: string
     duration: number
+    status?: $Enums.status
     createdAt?: Date | string
     updatedAt?: Date | string
     muxData?: MuxDataUncheckedCreateNestedOneWithoutLessonInput
@@ -28413,6 +28509,7 @@ export namespace Prisma {
     id?: StringFilter<"Lesson"> | string
     title?: StringFilter<"Lesson"> | string
     duration?: IntFilter<"Lesson"> | number
+    status?: EnumstatusFilter<"Lesson"> | $Enums.status
     sectionId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
@@ -28518,6 +28615,7 @@ export namespace Prisma {
     id?: string
     title: string
     duration: number
+    status?: $Enums.status
     createdAt?: Date | string
     updatedAt?: Date | string
     section: SectionCreateNestedOneWithoutLessonsInput
@@ -28527,6 +28625,7 @@ export namespace Prisma {
     id?: string
     title: string
     duration: number
+    status?: $Enums.status
     sectionId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28552,6 +28651,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    status?: EnumstatusFieldUpdateOperationsInput | $Enums.status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     section?: SectionUpdateOneRequiredWithoutLessonsNestedInput
@@ -28561,6 +28661,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    status?: EnumstatusFieldUpdateOperationsInput | $Enums.status
     sectionId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30345,6 +30446,7 @@ export namespace Prisma {
     id?: string
     title: string
     duration: number
+    status?: $Enums.status
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -30353,6 +30455,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    status?: EnumstatusFieldUpdateOperationsInput | $Enums.status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     muxData?: MuxDataUpdateOneWithoutLessonNestedInput
@@ -30362,6 +30465,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    status?: EnumstatusFieldUpdateOperationsInput | $Enums.status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     muxData?: MuxDataUncheckedUpdateOneWithoutLessonNestedInput
@@ -30371,6 +30475,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    status?: EnumstatusFieldUpdateOperationsInput | $Enums.status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

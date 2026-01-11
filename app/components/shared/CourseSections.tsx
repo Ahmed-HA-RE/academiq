@@ -27,7 +27,7 @@ type CourseSectionsProps = {
 
 const CourseSections = ({ form }: CourseSectionsProps) => {
   const { fields, append, remove } = useFieldArray({
-    name: 'section',
+    name: 'sections',
     control: form.control,
   });
 
@@ -72,7 +72,7 @@ const CourseSections = ({ form }: CourseSectionsProps) => {
             <CardContent>
               <FieldGroup className='gap-4'>
                 <Controller
-                  name={`section.${sectionIndex}.title`}
+                  name={`sections.${sectionIndex}.title`}
                   control={form.control}
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>

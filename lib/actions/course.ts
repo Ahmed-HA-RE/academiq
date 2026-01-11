@@ -187,7 +187,8 @@ export const createCourse = async (data: CreateCourse) => {
         },
       });
 
-      for (const section of validatedData.data.section) {
+      // Create Sections
+      for (const section of validatedData.data.sections) {
         const newSection = await tx.section.create({
           data: {
             title: section.title,
@@ -195,6 +196,7 @@ export const createCourse = async (data: CreateCourse) => {
           },
         });
 
+        // Create Lessons
         for (const lesson of section.lessons) {
           const newLesson = await tx.lesson.create({
             data: {
@@ -211,8 +213,8 @@ export const createCourse = async (data: CreateCourse) => {
       }
     });
 
+    // Create Mux Asset
     for (const lesson of results) {
-      // Create Mux Asset
       const muxData = await mux.video.assets.create({
         inputs: [{ url: lesson.videoUrl }],
         playback_policy: ['public'],
@@ -232,7 +234,7 @@ export const createCourse = async (data: CreateCourse) => {
       });
     }
 
-    return { success: true, message: 'Course created successfully' };
+    return { success: true, message: 'Course created successfully.' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

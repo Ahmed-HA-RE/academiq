@@ -1,3 +1,4 @@
+import { Lesson } from '@/lib/generated/prisma';
 import {
   baseCourseSchema,
   billingInfoSchema,
@@ -19,6 +20,14 @@ import {
 } from '@/schema';
 import z from 'zod';
 
+type Section = {
+  id: string;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
+  lessons: Lesson[];
+}[];
+
 export type Course = z.infer<typeof baseCourseSchema> & {
   id: string;
   rating: string;
@@ -26,19 +35,7 @@ export type Course = z.infer<typeof baseCourseSchema> & {
   createdAt: Date;
   updatedAt: Date;
   totalPages?: number;
-  sections: {
-    id: string;
-    title: string;
-    createdAt: Date;
-    updatedAt: Date;
-    lessons: {
-      id: string;
-      title: string;
-      duration: number;
-      createdAt: Date;
-      updatedAt: Date;
-    }[];
-  }[];
+  sections: Section;
 };
 
 export type CourseCardType = z.infer<typeof baseCourseSchema> & {

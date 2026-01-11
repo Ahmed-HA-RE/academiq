@@ -90,7 +90,7 @@ const CreateUpdateCourseForm = ({
 
   const isSlugged = form.watch('slug');
 
-  const isThereSections = form.watch('section')?.length > 0;
+  const isThereSections = form.watch('sections')?.length > 0;
 
   return (
     <>
