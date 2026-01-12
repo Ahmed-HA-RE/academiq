@@ -120,7 +120,7 @@ const CartDetails = ({
                         width={0}
                         height={0}
                         sizes='100vw'
-                        className='rounded-md w-full  object-cover'
+                        className='rounded-md w-full object-cover'
                       />
                     </div>
                     <h2 className='text-base font-medium'>{item.name}</h2>

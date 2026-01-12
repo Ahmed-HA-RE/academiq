@@ -8,6 +8,7 @@ import { getCurrentLoggedInInstructor } from './instructor';
 import { createCourseSchema } from '@/schema';
 import mux from '../mux';
 import { uploadToCloudinary } from '../cloudinary';
+import { revalidatePath } from 'next/cache';
 
 // Get all courses
 export const getAllCourses = async ({
@@ -124,12 +125,28 @@ export const getTotalCoursesCount = async () => {
   return count;
 };
 
-export const getAllInstructorCourses = async () => {
+export const getAllInstructorCourses = async ({
+  status,
+  q,
+  limit = 1,
+  page,
+}: {
+  status?: string;
+  q?: string;
+  limit?: number;
+  page?: number;
+}) => {
   const instructor = await getCurrentLoggedInInstructor();
 
   const courses = await prisma.course.findMany({
     where: {
       instructorId: instructor.id,
+      ...(status === 'published'
+        ? { published: true }
+        : status === 'unpublished'
+          ? { published: false }
+          : {}),
+      ...(q ? { title: { contains: q, mode: 'insensitive' } } : {}),
     },
     include: {
       _count: {
@@ -144,7 +161,26 @@ export const getAllInstructorCourses = async () => {
         },
       },
     },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: limit,
+    skip: page ? (page - 1) * limit : 0,
   });
+
+  const totalCourses = await prisma.course.count({
+    where: {
+      instructorId: instructor.id,
+      ...(status === 'published'
+        ? { published: true }
+        : status === 'unpublished'
+          ? { published: false }
+          : {}),
+      ...(q ? { title: { contains: q, mode: 'insensitive' } } : {}),
+    },
+  });
+
+  const totalPages = Math.ceil(totalCourses / limit);
 
   return {
     courses: courses.map((course) =>
@@ -153,6 +189,7 @@ export const getAllInstructorCourses = async () => {
         studentsCount: course._count.users,
       })
     ),
+    totalPages,
   };
 };
 
@@ -235,6 +272,33 @@ export const createCourse = async (data: CreateCourse) => {
     }
 
     return { success: true, message: 'Course created successfully.' };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+// Toogle course publish status
+export const toggleCoursePublishStatus = async (courseId: string) => {
+  try {
+    const instructor = await getCurrentLoggedInInstructor();
+
+    const course = await prisma.course.findUnique({
+      where: { id: courseId, instructorId: instructor.id },
+    });
+
+    if (!course) throw new Error('Course not found');
+
+    await prisma.course.update({
+      where: { id: course.id, instructorId: course.instructorId },
+      data: { published: !course.published },
+    });
+
+    revalidatePath('/instructor-dashboard/courses');
+
+    return {
+      success: true,
+      message: `Course ${course.published ? 'Unpublished' : 'Published'} successfully.`,
+    };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

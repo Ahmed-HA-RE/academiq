@@ -2,14 +2,13 @@
 import { Suspense, useState, useTransition } from 'react';
 import Image from 'next/image';
 import {
+  Check,
   CircleIcon,
   EllipsisVerticalIcon,
-  GraduationCap,
   PlusIcon,
   SearchIcon,
-  ShieldUser,
-  User as UserIcon,
   Users,
+  X,
 } from 'lucide-react';
 import { Course } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -20,7 +19,6 @@ import {
 } from '@tanstack/react-table';
 import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
 import { Button } from '@/app/components/ui/button';
-import { Checkbox } from '@/app/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -52,38 +50,20 @@ import {
 } from '@/app/components/ui/tooltip';
 import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
-import DeleteDialog from '../../shared/DeleteDialog';
-import { deleteSelectedUsers } from '@/lib/actions/user';
 import { toast } from 'sonner';
 import Link from 'next/link';
 import ScreenSpinner from '../../ScreenSpinner';
 import DataPagination from '../../shared/Pagination';
 import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { toggleCoursePublishStatus } from '@/lib/actions/course';
 
 const columns: ColumnDef<Course & { studentsCount: number }>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
-    size: 50,
-  },
   {
     header: 'Course',
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
-        <Avatar className='size-9'>
+        <Avatar className='size-12 rounded-full'>
           <Suspense
             fallback={
               <AvatarFallback className='text-xs font-bold'>
@@ -94,9 +74,10 @@ const columns: ColumnDef<Course & { studentsCount: number }>[] = [
             <Image
               src={row.original.image}
               alt={row.original.title}
-              width={36}
-              height={36}
-              className='object-cover rounded-full'
+              width={100}
+              height={100}
+              sizes='100vw'
+              className='object-cover'
             />
           </Suspense>
         </Avatar>
@@ -121,8 +102,8 @@ const columns: ColumnDef<Course & { studentsCount: number }>[] = [
     header: 'Students',
     accessorKey: 'studentsCount',
     cell: ({ row }) => (
-      <span className='text-base'>
-        <Users /> {row.original.studentsCount}
+      <span className='text-muted-foreground flex items-center gap-1'>
+        <Users className='size-5' /> {row.original.studentsCount}
       </span>
     ),
   },
@@ -135,6 +116,25 @@ const columns: ColumnDef<Course & { studentsCount: number }>[] = [
         <span className='text-base'>{row.original.price}</span>
       </div>
     ),
+  },
+  {
+    header: 'Is Published',
+    accessorKey: 'published',
+    cell: ({ row }) => {
+      return (
+        <span
+          className={cn(
+            row.original.published ? 'text-green-600' : 'text-red-600'
+          )}
+        >
+          {row.original.published ? (
+            <Check className='size-7' />
+          ) : (
+            <X className='size-7' />
+          )}
+        </span>
+      );
+    },
   },
   {
     header: 'Published At',
@@ -155,12 +155,12 @@ const columns: ColumnDef<Course & { studentsCount: number }>[] = [
 
 type CoursesDataTableDetailsProps = {
   courses: (Course & { studentsCount: number })[];
-  // totalPages: number;
+  totalPages: number;
 };
 
 const CoursesDataTableDetails = ({
   courses,
-  // totalPages,
+  totalPages,
 }: CoursesDataTableDetailsProps) => {
   const [filters, setFilters] = useQueryStates(
     {
@@ -175,28 +175,11 @@ const CoursesDataTableDetails = ({
     { shallow: false }
   );
 
-  const [selectUsers, setSelectUsers] = useState({});
-
   const table = useReactTable({
     data: courses,
     columns,
-    state: {
-      rowSelection: selectUsers,
-    },
-    onRowSelectionChange: setSelectUsers,
-    getRowId: (row) => row.id,
     getCoreRowModel: getCoreRowModel(),
   });
-
-  const handleDeleteUsers = async () => {
-    const res = await deleteSelectedUsers(Object.keys(selectUsers));
-    if (!res.success) {
-      toast.error(res.message);
-      return;
-    }
-    toast.success(res.message);
-    setSelectUsers({});
-  };
 
   return (
     <div className='w-full col-span-4'>
@@ -232,16 +215,16 @@ const CoursesDataTableDetails = ({
                 <SelectItem value='all' className='cursor-pointer'>
                   All
                 </SelectItem>
-                <SelectItem value='verified' className='cursor-pointer'>
+                <SelectItem value='published' className='cursor-pointer'>
                   <span className='flex items-center gap-2'>
                     <CircleIcon className='size-2 fill-green-600 text-green-600' />
                     <span className='truncate'>Published</span>
                   </span>
                 </SelectItem>
-                <SelectItem value='unverified' className='cursor-pointer'>
+                <SelectItem value='unpublished' className='cursor-pointer'>
                   <span className='flex items-center gap-2'>
                     <CircleIcon className='size-2 fill-red-600 text-red-600' />
-                    <span className='truncate'>Unpublished</span>
+                    <span className='truncate'>Not Published</span>
                   </span>
                 </SelectItem>
               </SelectGroup>
@@ -273,7 +256,7 @@ const CoursesDataTableDetails = ({
                   <TableHead
                     key={header.id}
                     style={{ width: `${header.getSize()}px` }}
-                    className='text-muted-foreground px-4 last:text-center  nth-of-type-[2]:pl-3'
+                    className='text-muted-foreground px-4 nth-of-type-[2]:pl-3'
                   >
                     {flexRender(
                       header.column.columnDef.header,
@@ -296,7 +279,7 @@ const CoursesDataTableDetails = ({
                 {row.getVisibleCells().map((cell) => (
                   <TableCell
                     key={cell.id}
-                    className='px-4 nth-of-type-[2]:pl-3 nth-of-type-[6]:text-center'
+                    className='px-4 nth-of-type-[2]:pl-3 nth-of-type-[5]:text-center'
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
@@ -313,20 +296,20 @@ const CoursesDataTableDetails = ({
         </TableBody>
       </Table>
 
-      {/* {totalPages > 1 ? (
+      {totalPages > 1 ? (
         <div className='flex items-center justify-between px-6 py-4 max-sm:flex-col md:max-lg:flex-col gap-6'>
           <p
             className='text-muted-foreground text-sm whitespace-nowrap'
             aria-live='polite'
           >
             Showing <span>{table.getRowCount().toString()} </span> of{' '}
-            <span>{users.length} users</span>
+            <span>{courses.length} courses</span>
           </p>
           <div>
             <DataPagination totalPages={totalPages} />
           </div>
         </div>
-      ) : null} */}
+      ) : null}
     </div>
   );
 };
@@ -335,6 +318,17 @@ export default CoursesDataTableDetails;
 
 export const RowActions = ({ course }: { course: Course }) => {
   const [isPending, startTransition] = useTransition();
+
+  const habdleTogglePublish = () => {
+    startTransition(async () => {
+      const res = await toggleCoursePublishStatus(course.id);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+    });
+  };
 
   return (
     <>
@@ -362,8 +356,15 @@ export const RowActions = ({ course }: { course: Course }) => {
               </DropdownMenuItem>
               <DropdownMenuItem className='cursor-pointer' asChild>
                 <Link href={`/instructor-dashboard/courses/${course.id}/edit`}>
-                  edit
+                  Edit
                 </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className='cursor-pointer'
+                variant={course.published ? 'destructive' : 'success'}
+                onClick={habdleTogglePublish}
+              >
+                {course.published ? 'Unpublish' : 'Publish'}
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

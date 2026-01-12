@@ -39,12 +39,17 @@ export const getTotalCoursesByInstructor = async () => {
 export const getTotalRevenueByInstructor = async () => {
   const instructor = await getCurrentLoggedInInstructor();
 
-  const revenueData = await prisma.course.aggregate({
+  const revenueData = await prisma.orderItems.aggregate({
     _sum: {
       price: true,
     },
     where: {
-      instructorId: instructor.id,
+      course: {
+        instructorId: instructor.id,
+      },
+      order: {
+        status: 'paid',
+      },
     },
   });
 

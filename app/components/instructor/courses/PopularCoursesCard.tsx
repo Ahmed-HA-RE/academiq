@@ -9,7 +9,7 @@ const PopularCoursesCard = async () => {
   const popularCourses = await getPopularCoursesByInstructor();
 
   return (
-    <Card className='gap-3 col-span-4 lg:col-span-2'>
+    <Card className='gap-5 col-span-4 lg:col-span-2'>
       <CardHeader className='flex justify-between'>
         <span className='text-lg font-semibold'>Popular Courses</span>
         <span className='text-muted-foreground text-sm'>Your Top courses</span>
@@ -41,20 +41,22 @@ const PopularCoursesCard = async () => {
               className='flex items-center justify-between gap-2'
             >
               <div className='flex items-center justify-between gap-2'>
-                <div className='p-2'>
+                <div className='max-w-[80px]'>
                   <Image
                     src={course.image}
                     alt={course.title}
-                    width={42}
-                    height={42}
-                    className='size-10.5'
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='rounded-md w-full object-cover'
                   />
                 </div>
                 <div className='flex flex-col gap-0.5'>
                   <span className='font-medium'>{course.title}</span>
-                  <span className='text-muted-foreground text-xs'>
-                    {course.price}
-                  </span>
+                  <div className='flex flex-row items-center gap-1 font-medium text-xs text-muted-foreground'>
+                    <span className='dirham-symbol'>&#xea;</span>
+                    <span className='font-semibold'>{course.price}</span>
+                  </div>
                 </div>
               </div>
               <span className='text-muted-foreground text-sm'>
