@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@internationalized/date": "^3.10.1",
     "@mux/mux-node": "^12.8.1",
+    "@mux/mux-player-react": "^3.10.2",
     "@mux/mux-uploader-react": "^1.4.1",
     "@prisma/adapter-neon": "^7.1.0",
     "@prisma/adapter-pg": "^7.1.0",

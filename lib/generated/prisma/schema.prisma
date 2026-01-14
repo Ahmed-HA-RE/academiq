@@ -20,6 +20,7 @@ model Course {
   description  String
   price        Decimal        @db.Decimal(10, 2)
   image        String
+  imageKey     String
   language     String
   difficulty   String
   published    Boolean        @default(false)
@@ -147,11 +148,10 @@ enum status {
 }
 
 model Lesson {
-  id       String @id @default(uuid())
-  title    String
-  duration Int
-  status   status @default(processing)
-
+  id        String   @id @default(uuid())
+  title     String
+  duration  Int
+  status    status   @default(processing)
   sectionId String
   section   Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
@@ -160,13 +160,14 @@ model Lesson {
 }
 
 model MuxData {
-  id            String   @id @default(uuid())
-  lessonId      String   @unique
-  lesson        Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  muxAssetId    String
-  muxPlaybackId String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                String   @id @default(uuid())
+  lessonId          String   @unique
+  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  muxAssetId        String
+  muxPlaybackId     String
+  uploadthingFileId String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 model Order {

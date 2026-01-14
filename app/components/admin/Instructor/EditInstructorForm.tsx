@@ -81,7 +81,7 @@ const EditInstructorForm = ({
       <Card
         className={cn(
           pathname === '/instructor-dashboard/settings'
-            ? 'shadow-none border-none'
+            ? 'shadow-none border-none col-span-4'
             : ''
         )}
       >
@@ -90,7 +90,7 @@ const EditInstructorForm = ({
             <FieldGroup
               className={cn(
                 pathname === '/instructor-dashboard/settings' &&
-                  'grid grid-cols-1 md:grid-cols-2'
+                  'grid grid-cols-1 md:grid-cols-2 gap-6'
               )}
             >
               {/* Name */}
@@ -255,7 +255,7 @@ const EditInstructorForm = ({
                   <Field
                     className={cn(
                       pathname === '/instructor-dashboard/settings' &&
-                        'col-span-2'
+                        'md:col-span-2'
                     )}
                     data-invalid={fieldState.invalid}
                   >
@@ -284,7 +284,7 @@ const EditInstructorForm = ({
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field
-                    className='col-span-2'
+                    className='md:col-span-2'
                     data-invalid={fieldState.invalid}
                   >
                     <FieldLabel className='leading-5' htmlFor={field.name}>

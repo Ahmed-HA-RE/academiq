@@ -1,5 +1,6 @@
 import mux from '@/lib/mux';
 import { prisma } from '@/lib/prisma';
+import { UTApi } from 'uploadthing/server';
 
 const muxSigningSecret = process.env.MUX_SECRET;
 
@@ -44,8 +45,11 @@ export const POST = async (req: Request) => {
             status: 'ready',
           },
         });
+        const utapi = new UTApi();
+        await utapi.deleteFiles([muxData.uploadthingFileId]);
       });
     }
+    return new Response('Webhook processed', { status: 200 });
   } catch (error) {
     return new Response((error as Error).message, { status: 500 });
   }

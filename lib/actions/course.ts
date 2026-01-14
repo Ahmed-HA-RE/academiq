@@ -7,8 +7,9 @@ import { convertToPlainObject } from '../utils';
 import { getCurrentLoggedInInstructor } from './instructor';
 import { createCourseSchema } from '@/schema';
 import mux from '../mux';
-import { uploadToCloudinary } from '../cloudinary';
 import { revalidatePath } from 'next/cache';
+import { UTApi } from 'uploadthing/server';
+import { DEMO_COURSE_VIDEOS } from '../constants';
 
 // Get all courses
 export const getAllCourses = async ({
@@ -18,7 +19,7 @@ export const getAllCourses = async ({
   difficulty,
   sortBy,
   page = 1,
-  limit = 5,
+  limit = 10,
 }: {
   q?: string;
   rating?: number[];
@@ -114,6 +115,21 @@ export const getCourseBySlug = async (slug: string) => {
     where: { slug },
     include: {
       users: true,
+      sections: {
+        include: {
+          lessons: {
+            include: {
+              muxData: {
+                select: {
+                  muxAssetId: true,
+                  muxPlaybackId: true,
+                  uploadthingFileId: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
   return convertToPlainObject(course);
@@ -128,7 +144,7 @@ export const getTotalCoursesCount = async () => {
 export const getAllInstructorCourses = async ({
   status,
   q,
-  limit = 1,
+  limit = 10,
   page,
 }: {
   status?: string;
@@ -157,7 +173,11 @@ export const getAllInstructorCourses = async ({
 
       sections: {
         include: {
-          lessons: true,
+          lessons: {
+            include: {
+              muxData: true,
+            },
+          },
         },
       },
     },
@@ -198,14 +218,25 @@ export const createCourse = async (data: CreateCourse) => {
   try {
     await getCurrentLoggedInInstructor();
 
+    const isVideosUploaded = data.sections
+      .map((section) => section.lessons)
+      .flat()
+      .every((lesson) => lesson.videoUrl && lesson.videoUrl.trim() !== '');
+
+    if (!isVideosUploaded)
+      throw new Error(
+        'Please upload all lesson videos before creating the course.'
+      );
+
     const validatedData = createCourseSchema.safeParse(data);
 
     if (!validatedData.success) throw new Error('Invalid course data');
 
-    const results: { id: string; videoUrl: string }[] = [];
-
-    // Upload Image Cloudinary
-    const imageUrl = await uploadToCloudinary(data.imageFile, 'academiq');
+    const results: {
+      id: string;
+      videoUrl: string;
+      uploadthingFileId: string;
+    }[] = [];
 
     await prisma.$transaction(async (tx) => {
       const newCourse = await tx.course.create({
@@ -215,12 +246,13 @@ export const createCourse = async (data: CreateCourse) => {
           price: validatedData.data.price,
           difficulty: validatedData.data.difficulty,
           category: validatedData.data.category,
-          image: imageUrl.secure_url,
+          image: validatedData.data.image,
           language: validatedData.data.language,
           prequisites: validatedData.data.prequisites,
           instructorId: validatedData.data.instructorId,
           slug: validatedData.data.slug,
           published: validatedData.data.published,
+          imageKey: validatedData.data.imageKey,
         },
       });
 
@@ -244,31 +276,40 @@ export const createCourse = async (data: CreateCourse) => {
           });
           results.push({
             id: newLesson.id,
-            videoUrl: lesson.videoUrl,
+            videoUrl: lesson.videoUrl || '',
+            uploadthingFileId: lesson.uploadthingFileId || '',
           });
         }
       }
     });
 
     // Create Mux Asset
-    for (const lesson of results) {
-      const muxData = await mux.video.assets.create({
-        inputs: [{ url: lesson.videoUrl }],
-        playback_policy: ['public'],
-      });
 
-      if (!muxData || !muxData.playback_ids) {
-        throw new Error('Failed to create Mux asset');
-      }
+    // Note: Using demo video ids for all lessons in the demo course
+
+    for (const lesson of results) {
+      //   const muxData = await mux.video.assets.create({
+      //     inputs: [{ url: lesson.videoUrl }],
+      //     playback_policy: ['public'],
+      //   });
+
+      // if (!muxData || !muxData.playback_ids) {
+      //   throw new Error('Failed to create Mux asset');
+      // }
 
       // Store Mux Data in the database
-      await prisma.muxData.create({
+      const muxData = await prisma.muxData.create({
         data: {
           lessonId: lesson.id,
-          muxAssetId: muxData.id,
-          muxPlaybackId: muxData.playback_ids[0].id as string,
+          muxAssetId: DEMO_COURSE_VIDEOS.muxAssetId,
+          muxPlaybackId: DEMO_COURSE_VIDEOS.muxPlaybackId,
+          uploadthingFileId: lesson.uploadthingFileId,
         },
       });
+
+      // Delete uploadThing file key for Demo purpose only
+      const utapi = new UTApi();
+      await utapi.deleteFiles([muxData.uploadthingFileId]);
     }
 
     return { success: true, message: 'Course created successfully.' };
@@ -299,6 +340,178 @@ export const toggleCoursePublishStatus = async (courseId: string) => {
       success: true,
       message: `Course ${course.published ? 'Unpublished' : 'Published'} successfully.`,
     };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+// Update course
+export const updateCourse = async (courseId: string, data: CreateCourse) => {
+  try {
+    const instructor = await getCurrentLoggedInInstructor();
+
+    const course = await prisma.course.findUnique({
+      where: { id: courseId, instructorId: instructor.id },
+    });
+
+    if (!course) throw new Error('Course not found');
+
+    const isNewLessonsVideosUploaded = data.sections
+      .map((section) => section.lessons)
+      .flat()
+      .filter((lesson) => !lesson.id) // only new lessons
+      .every((lesson) => lesson.videoUrl && lesson.videoUrl.trim() !== '');
+
+    if (!isNewLessonsVideosUploaded)
+      throw new Error(
+        'Please upload all new lesson videos before updating the course.'
+      );
+
+    const validatedData = createCourseSchema.safeParse(data);
+
+    if (!validatedData.success) throw new Error('Invalid course data');
+
+    await prisma.$transaction(async (tx) => {
+      // Delete existing course image from Uploadthing if imageKey has changed
+      if (validatedData.data.imageKey !== course.imageKey) {
+        const utapi = new UTApi();
+        await utapi.deleteFiles([course.imageKey]);
+      }
+
+      // Update Course
+      const updatedCourse = await tx.course.update({
+        where: { id: course.id, instructorId: course.instructorId },
+        data: {
+          title: validatedData.data.title,
+          description: validatedData.data.description,
+          price: validatedData.data.price,
+          difficulty: validatedData.data.difficulty,
+          category: validatedData.data.category,
+          image: validatedData.data.image,
+          language: validatedData.data.language,
+          prequisites: validatedData.data.prequisites,
+          instructorId: validatedData.data.instructorId,
+          slug: validatedData.data.slug,
+          published: validatedData.data.published,
+          imageKey: validatedData.data.imageKey,
+        },
+      });
+
+      // Update Sections and Lessons
+      for (const section of validatedData.data.sections) {
+        if (section.id) {
+          await tx.section.update({
+            where: {
+              id: section.id,
+            },
+            data: {
+              title: section.title,
+            },
+          });
+        } else {
+          // Create new section
+          await tx.section.create({
+            data: {
+              title: section.title,
+              courseId: updatedCourse.id,
+            },
+          });
+        }
+
+        for (const lesson of section.lessons) {
+          if (lesson.id) {
+            // Update existing lesson
+            const existingLesson = await tx.lesson.update({
+              where: {
+                id: lesson.id,
+              },
+              data: {
+                title: lesson.title,
+                duration: lesson.duration,
+              },
+            });
+
+            // fetch existing muxData
+            const existingMuxData = await tx.muxData.findFirst({
+              where: { lessonId: existingLesson.id },
+            });
+
+            if (!existingMuxData) {
+              throw new Error('Mux data for the lesson not found');
+            }
+
+            // If there's a new video URL for the existing lesson, update the existing Mux asset
+            if (lesson.videoUrl && lesson.videoUrl.trim() !== '') {
+              // Delete existing mux asset
+              await mux.video.assets.delete(existingMuxData.muxAssetId);
+
+              // Note: Using demo video ids for all lessons in the demo course
+
+              // const updatedmuxData = await mux.video.assets.create({
+              //   inputs: [{ url: lesson.videoUrl }],
+              //   playback_policy: ['public'],
+              // });
+
+              // if (!updatedmuxData || !updatedmuxData.playback_ids) {
+              //   throw new Error('Failed to update Mux asset');
+              // }
+
+              const muxData = await tx.muxData.update({
+                where: { id: existingMuxData.id },
+                data: {
+                  uploadthingFileId: lesson.uploadthingFileId,
+                  muxPlaybackId: DEMO_COURSE_VIDEOS.muxPlaybackId,
+                  muxAssetId: DEMO_COURSE_VIDEOS.muxAssetId,
+                },
+              });
+
+              // Delete uploadThing file key for Demo purpose only
+              const utapi = new UTApi();
+              await utapi.deleteFiles([muxData.uploadthingFileId]);
+            }
+          } else {
+            if (!lesson.id) {
+              // Create new lesson
+              const newLesson = await tx.lesson.create({
+                data: {
+                  title: lesson.title,
+                  duration: lesson.duration,
+                  sectionId: section.id as string,
+                },
+              });
+
+              // Create Mux Asset for the new lesson
+
+              // Note: Using demo video ids for all lessons in the demo course
+
+              // const muxData = await mux.video.assets.create({
+              //   inputs: [{ url: lesson.videoUrl || '' }],
+              //   playback_policy: ['public'],
+              // });
+
+              // if (!muxData || !muxData.playback_ids) {
+              //   throw new Error('Failed to create Mux asset');
+              // }
+
+              // Store Mux Data in the database
+              const muxData = await tx.muxData.create({
+                data: {
+                  lessonId: newLesson.id,
+                  muxAssetId: DEMO_COURSE_VIDEOS.muxAssetId,
+                  muxPlaybackId: DEMO_COURSE_VIDEOS.muxPlaybackId,
+                  uploadthingFileId: lesson.uploadthingFileId || '',
+                },
+              });
+              // Delete uploadThing file key for Demo purpose only
+              const utapi = new UTApi();
+              await utapi.deleteFiles([muxData.uploadthingFileId]);
+            }
+          }
+        }
+      }
+    });
+
+    return { success: true, message: 'Course updated successfully.' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

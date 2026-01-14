@@ -2572,6 +2572,7 @@ export namespace Prisma {
     description: string | null
     price: Decimal | null
     image: string | null
+    imageKey: string | null
     language: string | null
     difficulty: string | null
     published: boolean | null
@@ -2591,6 +2592,7 @@ export namespace Prisma {
     description: string | null
     price: Decimal | null
     image: string | null
+    imageKey: string | null
     language: string | null
     difficulty: string | null
     published: boolean | null
@@ -2610,6 +2612,7 @@ export namespace Prisma {
     description: number
     price: number
     image: number
+    imageKey: number
     language: number
     difficulty: number
     published: number
@@ -2643,6 +2646,7 @@ export namespace Prisma {
     description?: true
     price?: true
     image?: true
+    imageKey?: true
     language?: true
     difficulty?: true
     published?: true
@@ -2662,6 +2666,7 @@ export namespace Prisma {
     description?: true
     price?: true
     image?: true
+    imageKey?: true
     language?: true
     difficulty?: true
     published?: true
@@ -2681,6 +2686,7 @@ export namespace Prisma {
     description?: true
     price?: true
     image?: true
+    imageKey?: true
     language?: true
     difficulty?: true
     published?: true
@@ -2787,6 +2793,7 @@ export namespace Prisma {
     description: string
     price: Decimal
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published: boolean
@@ -2825,6 +2832,7 @@ export namespace Prisma {
     description?: boolean
     price?: boolean
     image?: boolean
+    imageKey?: boolean
     language?: boolean
     difficulty?: boolean
     published?: boolean
@@ -2851,6 +2859,7 @@ export namespace Prisma {
     description?: boolean
     price?: boolean
     image?: boolean
+    imageKey?: boolean
     language?: boolean
     difficulty?: boolean
     published?: boolean
@@ -2871,6 +2880,7 @@ export namespace Prisma {
     description?: boolean
     price?: boolean
     image?: boolean
+    imageKey?: boolean
     language?: boolean
     difficulty?: boolean
     published?: boolean
@@ -2891,6 +2901,7 @@ export namespace Prisma {
     description?: boolean
     price?: boolean
     image?: boolean
+    imageKey?: boolean
     language?: boolean
     difficulty?: boolean
     published?: boolean
@@ -2903,7 +2914,7 @@ export namespace Prisma {
     instructorId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "image" | "language" | "difficulty" | "published" | "category" | "prequisites" | "rating" | "numReviews" | "createdAt" | "updatedAt" | "instructorId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "image" | "imageKey" | "language" | "difficulty" | "published" | "category" | "prequisites" | "rating" | "numReviews" | "createdAt" | "updatedAt" | "instructorId", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Course$usersArgs<ExtArgs>
     instructor?: boolean | InstructorDefaultArgs<ExtArgs>
@@ -2937,6 +2948,7 @@ export namespace Prisma {
       description: string
       price: Prisma.Decimal
       image: string
+      imageKey: string
       language: string
       difficulty: string
       published: boolean
@@ -3382,6 +3394,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Course", 'String'>
     readonly price: FieldRef<"Course", 'Decimal'>
     readonly image: FieldRef<"Course", 'String'>
+    readonly imageKey: FieldRef<"Course", 'String'>
     readonly language: FieldRef<"Course", 'String'>
     readonly difficulty: FieldRef<"Course", 'String'>
     readonly published: FieldRef<"Course", 'Boolean'>
@@ -12041,6 +12054,7 @@ export namespace Prisma {
     lessonId: string | null
     muxAssetId: string | null
     muxPlaybackId: string | null
+    uploadthingFileId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -12050,6 +12064,7 @@ export namespace Prisma {
     lessonId: string | null
     muxAssetId: string | null
     muxPlaybackId: string | null
+    uploadthingFileId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -12059,6 +12074,7 @@ export namespace Prisma {
     lessonId: number
     muxAssetId: number
     muxPlaybackId: number
+    uploadthingFileId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -12070,6 +12086,7 @@ export namespace Prisma {
     lessonId?: true
     muxAssetId?: true
     muxPlaybackId?: true
+    uploadthingFileId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -12079,6 +12096,7 @@ export namespace Prisma {
     lessonId?: true
     muxAssetId?: true
     muxPlaybackId?: true
+    uploadthingFileId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -12088,6 +12106,7 @@ export namespace Prisma {
     lessonId?: true
     muxAssetId?: true
     muxPlaybackId?: true
+    uploadthingFileId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -12170,6 +12189,7 @@ export namespace Prisma {
     lessonId: string
     muxAssetId: string
     muxPlaybackId: string
+    uploadthingFileId: string
     createdAt: Date
     updatedAt: Date
     _count: MuxDataCountAggregateOutputType | null
@@ -12196,6 +12216,7 @@ export namespace Prisma {
     lessonId?: boolean
     muxAssetId?: boolean
     muxPlaybackId?: boolean
+    uploadthingFileId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
@@ -12206,6 +12227,7 @@ export namespace Prisma {
     lessonId?: boolean
     muxAssetId?: boolean
     muxPlaybackId?: boolean
+    uploadthingFileId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
@@ -12216,6 +12238,7 @@ export namespace Prisma {
     lessonId?: boolean
     muxAssetId?: boolean
     muxPlaybackId?: boolean
+    uploadthingFileId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
@@ -12226,11 +12249,12 @@ export namespace Prisma {
     lessonId?: boolean
     muxAssetId?: boolean
     muxPlaybackId?: boolean
+    uploadthingFileId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type MuxDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "lessonId" | "muxAssetId" | "muxPlaybackId" | "createdAt" | "updatedAt", ExtArgs["result"]["muxData"]>
+  export type MuxDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "lessonId" | "muxAssetId" | "muxPlaybackId" | "uploadthingFileId" | "createdAt" | "updatedAt", ExtArgs["result"]["muxData"]>
   export type MuxDataInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
   }
@@ -12251,6 +12275,7 @@ export namespace Prisma {
       lessonId: string
       muxAssetId: string
       muxPlaybackId: string
+      uploadthingFileId: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["muxData"]>
@@ -12681,6 +12706,7 @@ export namespace Prisma {
     readonly lessonId: FieldRef<"MuxData", 'String'>
     readonly muxAssetId: FieldRef<"MuxData", 'String'>
     readonly muxPlaybackId: FieldRef<"MuxData", 'String'>
+    readonly uploadthingFileId: FieldRef<"MuxData", 'String'>
     readonly createdAt: FieldRef<"MuxData", 'DateTime'>
     readonly updatedAt: FieldRef<"MuxData", 'DateTime'>
   }
@@ -21172,6 +21198,7 @@ export namespace Prisma {
     description: 'description',
     price: 'price',
     image: 'image',
+    imageKey: 'imageKey',
     language: 'language',
     difficulty: 'difficulty',
     published: 'published',
@@ -21297,6 +21324,7 @@ export namespace Prisma {
     lessonId: 'lessonId',
     muxAssetId: 'muxAssetId',
     muxPlaybackId: 'muxPlaybackId',
+    uploadthingFileId: 'uploadthingFileId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -21602,6 +21630,7 @@ export namespace Prisma {
     description?: StringFilter<"Course"> | string
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"Course"> | string
+    imageKey?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
     difficulty?: StringFilter<"Course"> | string
     published?: BoolFilter<"Course"> | boolean
@@ -21627,6 +21656,7 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     image?: SortOrder
+    imageKey?: SortOrder
     language?: SortOrder
     difficulty?: SortOrder
     published?: SortOrder
@@ -21655,6 +21685,7 @@ export namespace Prisma {
     description?: StringFilter<"Course"> | string
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"Course"> | string
+    imageKey?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
     difficulty?: StringFilter<"Course"> | string
     published?: BoolFilter<"Course"> | boolean
@@ -21680,6 +21711,7 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     image?: SortOrder
+    imageKey?: SortOrder
     language?: SortOrder
     difficulty?: SortOrder
     published?: SortOrder
@@ -21707,6 +21739,7 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"Course"> | string
     price?: DecimalWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringWithAggregatesFilter<"Course"> | string
+    imageKey?: StringWithAggregatesFilter<"Course"> | string
     language?: StringWithAggregatesFilter<"Course"> | string
     difficulty?: StringWithAggregatesFilter<"Course"> | string
     published?: BoolWithAggregatesFilter<"Course"> | boolean
@@ -22286,6 +22319,7 @@ export namespace Prisma {
     lessonId?: StringFilter<"MuxData"> | string
     muxAssetId?: StringFilter<"MuxData"> | string
     muxPlaybackId?: StringFilter<"MuxData"> | string
+    uploadthingFileId?: StringFilter<"MuxData"> | string
     createdAt?: DateTimeFilter<"MuxData"> | Date | string
     updatedAt?: DateTimeFilter<"MuxData"> | Date | string
     lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
@@ -22296,6 +22330,7 @@ export namespace Prisma {
     lessonId?: SortOrder
     muxAssetId?: SortOrder
     muxPlaybackId?: SortOrder
+    uploadthingFileId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     lesson?: LessonOrderByWithRelationInput
@@ -22309,6 +22344,7 @@ export namespace Prisma {
     NOT?: MuxDataWhereInput | MuxDataWhereInput[]
     muxAssetId?: StringFilter<"MuxData"> | string
     muxPlaybackId?: StringFilter<"MuxData"> | string
+    uploadthingFileId?: StringFilter<"MuxData"> | string
     createdAt?: DateTimeFilter<"MuxData"> | Date | string
     updatedAt?: DateTimeFilter<"MuxData"> | Date | string
     lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
@@ -22319,6 +22355,7 @@ export namespace Prisma {
     lessonId?: SortOrder
     muxAssetId?: SortOrder
     muxPlaybackId?: SortOrder
+    uploadthingFileId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: MuxDataCountOrderByAggregateInput
@@ -22334,6 +22371,7 @@ export namespace Prisma {
     lessonId?: StringWithAggregatesFilter<"MuxData"> | string
     muxAssetId?: StringWithAggregatesFilter<"MuxData"> | string
     muxPlaybackId?: StringWithAggregatesFilter<"MuxData"> | string
+    uploadthingFileId?: StringWithAggregatesFilter<"MuxData"> | string
     createdAt?: DateTimeWithAggregatesFilter<"MuxData"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MuxData"> | Date | string
   }
@@ -22906,6 +22944,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -22930,6 +22969,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -22954,6 +22994,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -22978,6 +23019,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -23002,6 +23044,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -23021,6 +23064,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -23039,6 +23083,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -23681,6 +23726,7 @@ export namespace Prisma {
     id?: string
     muxAssetId: string
     muxPlaybackId: string
+    uploadthingFileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     lesson: LessonCreateNestedOneWithoutMuxDataInput
@@ -23691,6 +23737,7 @@ export namespace Prisma {
     lessonId: string
     muxAssetId: string
     muxPlaybackId: string
+    uploadthingFileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -23699,6 +23746,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     muxAssetId?: StringFieldUpdateOperationsInput | string
     muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    uploadthingFileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lesson?: LessonUpdateOneRequiredWithoutMuxDataNestedInput
@@ -23709,6 +23757,7 @@ export namespace Prisma {
     lessonId?: StringFieldUpdateOperationsInput | string
     muxAssetId?: StringFieldUpdateOperationsInput | string
     muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    uploadthingFileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23718,6 +23767,7 @@ export namespace Prisma {
     lessonId: string
     muxAssetId: string
     muxPlaybackId: string
+    uploadthingFileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -23726,6 +23776,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     muxAssetId?: StringFieldUpdateOperationsInput | string
     muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    uploadthingFileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23735,6 +23786,7 @@ export namespace Prisma {
     lessonId?: StringFieldUpdateOperationsInput | string
     muxAssetId?: StringFieldUpdateOperationsInput | string
     muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    uploadthingFileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24455,6 +24507,7 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     image?: SortOrder
+    imageKey?: SortOrder
     language?: SortOrder
     difficulty?: SortOrder
     published?: SortOrder
@@ -24480,6 +24533,7 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     image?: SortOrder
+    imageKey?: SortOrder
     language?: SortOrder
     difficulty?: SortOrder
     published?: SortOrder
@@ -24499,6 +24553,7 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     image?: SortOrder
+    imageKey?: SortOrder
     language?: SortOrder
     difficulty?: SortOrder
     published?: SortOrder
@@ -25137,6 +25192,7 @@ export namespace Prisma {
     lessonId?: SortOrder
     muxAssetId?: SortOrder
     muxPlaybackId?: SortOrder
+    uploadthingFileId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -25146,6 +25202,7 @@ export namespace Prisma {
     lessonId?: SortOrder
     muxAssetId?: SortOrder
     muxPlaybackId?: SortOrder
+    uploadthingFileId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -25155,6 +25212,7 @@ export namespace Prisma {
     lessonId?: SortOrder
     muxAssetId?: SortOrder
     muxPlaybackId?: SortOrder
+    uploadthingFileId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27419,6 +27477,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -27442,6 +27501,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -27753,6 +27813,7 @@ export namespace Prisma {
     description?: StringFilter<"Course"> | string
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"Course"> | string
+    imageKey?: StringFilter<"Course"> | string
     language?: StringFilter<"Course"> | string
     difficulty?: StringFilter<"Course"> | string
     published?: BoolFilter<"Course"> | boolean
@@ -28355,6 +28416,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -28378,6 +28440,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -28447,6 +28510,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -28470,6 +28534,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -28540,6 +28605,7 @@ export namespace Prisma {
     id?: string
     muxAssetId: string
     muxPlaybackId: string
+    uploadthingFileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -28548,6 +28614,7 @@ export namespace Prisma {
     id?: string
     muxAssetId: string
     muxPlaybackId: string
+    uploadthingFileId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -28599,6 +28666,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     muxAssetId?: StringFieldUpdateOperationsInput | string
     muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    uploadthingFileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28607,6 +28675,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     muxAssetId?: StringFieldUpdateOperationsInput | string
     muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    uploadthingFileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28892,6 +28961,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -28915,6 +28985,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -28991,6 +29062,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -29014,6 +29086,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -29241,6 +29314,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -29264,6 +29338,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -29537,6 +29612,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -29560,6 +29636,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -29658,6 +29735,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -29681,6 +29759,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -29757,6 +29836,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -29780,6 +29860,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -29878,6 +29959,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -29901,6 +29983,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -30256,6 +30339,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -30279,6 +30363,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -30302,6 +30387,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -30629,6 +30715,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    imageKey: string
     language: string
     difficulty: string
     published?: boolean
@@ -30647,6 +30734,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -30670,6 +30758,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean
@@ -30693,6 +30782,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    imageKey?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
     difficulty?: StringFieldUpdateOperationsInput | string
     published?: BoolFieldUpdateOperationsInput | boolean

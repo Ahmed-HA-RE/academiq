@@ -157,3 +157,8 @@ export const USERS_ROLES = [
 export const TEACHING_CATEGORIES = ['Web Development', 'Business'];
 
 export const COURSE_LANGUAGES = langes.names();
+
+export const DEMO_COURSE_VIDEOS = {
+  muxPlaybackId: process.env.NEXT_PUBLIC_DEMO_MUX_PLAYBACK_VIDEO as string,
+  muxAssetId: process.env.DEMO_MUX_ASSEST_VIDEO as string,
+};

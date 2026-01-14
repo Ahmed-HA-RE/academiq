@@ -1,4 +1,4 @@
-import CreateUpdateCourseForm from '@/app/components/shared/CreateUpdateCourseForm';
+import CreateUpdateCourseForm from '@/app/components/instructor/courses/CreateUpdateCourseForm';
 import { getCurrentLoggedInInstructor } from '@/lib/actions/instructor';
 import { Metadata } from 'next';
 

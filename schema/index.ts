@@ -37,13 +37,6 @@ const avatarSchema = z
   })
   .optional();
 
-const imageSchema = z
-  .file({ error: 'Image is required' })
-  .max(10_000_000, { error: 'Max Image size is 10MB' })
-  .mime(['image/jpeg', 'image/png', 'image/webp'], {
-    error: 'Only JPG/PNG/WebP file formats are allowed',
-  });
-
 // Phone number validation for orders and billing info
 const phoneSchema = z.string().refine(
   (val) => {
@@ -81,6 +74,9 @@ export const baseCourseSchema = z.object({
     .min(5, 'Course description is required'),
   price: positiveMoney,
   image: z.string({ error: 'Invalid image' }).min(1, 'Image is required'),
+  imageKey: z
+    .string({ error: 'Invalid image key' })
+    .min(1, 'Image key is required'),
   language: z
     .string({ error: 'Invalid language' })
     .min(1, 'Language is required'),
@@ -97,33 +93,31 @@ export const baseCourseSchema = z.object({
   published: z.boolean({ error: 'Please choose a publication status' }),
 });
 
-export const createCourseSchema = baseCourseSchema
-  .omit({ image: true })
-  .extend({
-    imageFile: imageSchema,
-    sections: z.array(
-      z.object({
-        title: z
-          .string({ error: 'Invalid section title' })
-          .min(1, 'Section title is required'),
-        lessons: z.array(
-          z.object({
-            title: z
-              .string({ error: 'Invalid lesson title' })
-              .min(1, 'Lesson title is required'),
-            duration: z.coerce
-              .number<number>({ error: 'Invalid lesson duration' })
-              .min(0.5, 'Lesson duration must be at least 30 seconds'),
-            videoUrl: z
-              .url({ protocol: /^https$/, error: 'Video is required' })
-              .min(1, 'Video is required'),
-          }),
-          { error: 'At least one lesson is required' }
-        ),
-      }),
-      { error: 'At least one section is required' }
-    ),
-  });
+export const createCourseSchema = baseCourseSchema.extend({
+  sections: z.array(
+    z.object({
+      id: z.string().optional(), // for existing sections during updates
+      title: z
+        .string({ error: 'Invalid section title' })
+        .min(1, 'Section title is required'),
+      lessons: z.array(
+        z.object({
+          id: z.string().optional(), // for existing lessons during updates
+          title: z
+            .string({ error: 'Invalid lesson title' })
+            .min(1, 'Lesson title is required'),
+          duration: z.coerce
+            .number<number>({ error: 'Invalid lesson duration' })
+            .min(0.5, 'Lesson duration must be at least 30 seconds'),
+          videoUrl: z.string().optional(),
+          uploadthingFileId: z.string().optional(),
+        }),
+        { error: 'At least one lesson is required' }
+      ),
+    }),
+    { error: 'At least one section is required' }
+  ),
+});
 
 // Auth schemas
 export const registerSchema = z
@@ -228,10 +222,7 @@ export const cartSchema = z.object({
 });
 
 export const instructorSchema = z.object({
-  bio: z
-    .string({ error: 'Invalid bio' })
-    .min(1, 'Bio is required')
-    .max(500, 'Bio is too long'),
+  bio: z.string({ error: 'Invalid bio' }).min(1, 'Bio is required'),
   socialLinks: z
     .object({
       whatsapp: phoneSchema,

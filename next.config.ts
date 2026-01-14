@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
         hostname: 'lh3.googleusercontent.com',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: '**.ufs.sh',
+        port: '',
+      },
     ],
   },
   experimental: {

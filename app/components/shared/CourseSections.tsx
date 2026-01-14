@@ -18,14 +18,15 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '../ui/collapsible';
-import { CreateCourse } from '@/types';
+import { CreateCourse, Section } from '@/types';
 import AddLesson from './AddLesson';
 
 type CourseSectionsProps = {
   form: UseFormReturn<CreateCourse>;
+  sections?: Section;
 };
 
-const CourseSections = ({ form }: CourseSectionsProps) => {
+const CourseSections = ({ form, sections }: CourseSectionsProps) => {
   const { fields, append, remove } = useFieldArray({
     name: 'sections',
     control: form.control,
@@ -48,7 +49,12 @@ const CourseSections = ({ form }: CourseSectionsProps) => {
           onClick={() =>
             append({
               title: '',
-              lessons: [{ title: '', duration: 0, videoUrl: '' }],
+              lessons: [
+                {
+                  title: '',
+                  duration: 0,
+                },
+              ],
             })
           }
         >
@@ -66,7 +72,7 @@ const CourseSections = ({ form }: CourseSectionsProps) => {
       ) : (
         fields.map((section, sectionIndex) => (
           <Card
-            className='bg-blue-100 dark:bg-muted border-0 shadow-none gap-5 pb-3'
+            className='bg-blue-100 dark:bg-muted border-0 shadow-none gap-5'
             key={section.id}
           >
             <CardContent>
@@ -118,7 +124,11 @@ const CourseSections = ({ form }: CourseSectionsProps) => {
                     </CollapsibleTrigger>
                   </div>
                   <CollapsibleContent>
-                    <AddLesson form={form} sectionIndex={sectionIndex} />
+                    <AddLesson
+                      form={form}
+                      sectionIndex={sectionIndex}
+                      lessons={sections?.[sectionIndex]?.lessons}
+                    />
                   </CollapsibleContent>
                 </Collapsible>
               </FieldGroup>

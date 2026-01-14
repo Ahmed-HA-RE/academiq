@@ -1,4 +1,3 @@
-import { Lesson } from '@/lib/generated/prisma';
 import {
   baseCourseSchema,
   billingInfoSchema,
@@ -20,7 +19,21 @@ import {
 } from '@/schema';
 import z from 'zod';
 
-type Section = {
+export type Lesson = {
+  id: string;
+  title: string;
+  duration: number;
+  status: 'ready' | 'processing' | 'failed';
+  sectionId: string;
+  createdAt: Date;
+  muxData: {
+    muxAssetId: string;
+    muxPlaybackId: string;
+    uploadthingFileId: string;
+  } | null;
+};
+
+export type Section = {
   id: string;
   title: string;
   createdAt: Date;

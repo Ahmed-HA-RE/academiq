@@ -136,7 +136,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
               name='rememberMe'
               control={form.control}
               render={({ field, fieldState }) => (
-                <FieldGroup className='w-34' data-slot='checkbox-group'>
+                <FieldGroup className='w-40' data-slot='checkbox-group'>
                   <Field
                     orientation={'horizontal'}
                     className='items-start justify-start'
@@ -162,7 +162,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
 
             <Link
               href='/forgot-password'
-              className='hover:underline text-sm text-right '
+              className='hover:underline text-sm text-right'
             >
               Forgot Password?
             </Link>

@@ -2,11 +2,11 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createCourseSchema } from '@/schema';
-import { Course, CreateCourse, Instructor } from '@/types';
+import { Course, CreateCourse, Instructor } from '../../../../types';
 import { toast } from 'sonner';
 import { useForm, Controller } from 'react-hook-form';
-import { Input } from '../ui/input';
-
+import { Input } from '../../ui/input';
+import Image from 'next/image';
 import {
   Field,
   FieldError,
@@ -14,11 +14,10 @@ import {
   FieldLabel,
   FieldLegend,
   FieldSet,
-} from '../ui/field';
+} from '../../ui/field';
 import { Grid2x2Icon } from 'lucide-react';
-import ImageUpload from '../ImageUpload';
-import Tiptap from '../RichTextEditor';
-import { Button } from '../ui/button';
+import Tiptap from '../../RichTextEditor';
+import { Button } from '../../ui/button';
 import slugify from 'slugify';
 import {
   Select,
@@ -28,10 +27,10 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '../ui/select';
+} from '../../ui/select';
 import { DIFFICULTY_LEVELS } from '@/lib/utils';
 import { COURSE_LANGUAGES, TEACHING_CATEGORIES } from '@/lib/constants';
-import CourseSections from './CourseSections';
+import CourseSections from '../../shared/CourseSections';
 import {
   Tabs,
   TabsContent,
@@ -39,20 +38,24 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/app/components/ui/motion-tabs';
-import { createCourse } from '@/lib/actions/course';
-import { useRouter } from 'next/navigation';
-import ScreenSpinner from '../ScreenSpinner';
+import { createCourse, updateCourse } from '@/lib/actions/course';
+import { usePathname, useRouter } from 'next/navigation';
+import ScreenSpinner from '../../ScreenSpinner';
+import { UploadDropzone } from '@/lib/uploadthing';
+import { useState } from 'react';
 
-const CreateUpdateCourseForm = ({
+const CreateCourseForm = ({
   course,
   type,
   instructor,
 }: {
   course?: Course;
-  type: 'create' | 'update';
-  instructor: Instructor;
+  type: 'create' | 'edit';
+  instructor?: Instructor;
 }) => {
   const router = useRouter();
+  const pathname = usePathname();
+  const [isUpdatingImage, setIsUpdatingImage] = useState(false);
 
   const form = useForm<CreateCourse>({
     resolver: zodResolver(createCourseSchema),
@@ -62,27 +65,40 @@ const CreateUpdateCourseForm = ({
           title: '',
           description: '',
           price: '',
+          image: '',
           slug: '',
           language: '',
           difficulty: '',
           prequisites: '',
-          instructorId: instructor.id,
+          instructorId: instructor?.id,
           category: '',
           published: false,
+          sections: [],
         },
     mode: 'onSubmit',
   });
 
   const onSubmit = async (data: CreateCourse) => {
-    const res = await createCourse(data);
+    if (type === 'edit') {
+      const res = await updateCourse(course ? course.id : '', data);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
 
-    if (!res.success) {
-      toast.error(res.message);
-      return;
+      toast.success(res.message);
+      router.push('/instructor-dashboard/courses');
+    } else {
+      const res = await createCourse(data);
+
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+
+      toast.success(res.message);
+      router.push('/instructor-dashboard/courses');
     }
-
-    toast.success(res.message);
-    router.push('/instructor-dashboard/courses');
   };
 
   // ignore eslint-disable-next-line react-hooks/rules-of-hooks
@@ -104,7 +120,7 @@ const CreateUpdateCourseForm = ({
         <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-2'>
           <FieldSet>
             <FieldLegend className='!text-3xl font-bold pt-4'>
-              {type === 'create' ? 'Create New Course' : 'Update Course'}
+              {type === 'create' ? 'Create New Course' : 'Edit Course'}
             </FieldLegend>
           </FieldSet>
           <Button
@@ -222,17 +238,49 @@ const CreateUpdateCourseForm = ({
 
                   {/* Image */}
                   <Controller
-                    name='imageFile'
+                    name='image'
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor={field.name}>
-                          Course Image
-                        </FieldLabel>
-                        <ImageUpload
-                          fieldState={fieldState}
-                          onChange={field.onChange}
-                        />
+                        <div className='flex flex-row justify-between items-center'>
+                          <FieldLabel htmlFor={field.name}>
+                            Course Image
+                          </FieldLabel>
+                          {/* Add toggle update image only for edit page */}
+                          {pathname.includes('edit') && (
+                            <Button
+                              onClick={() =>
+                                setIsUpdatingImage(!isUpdatingImage)
+                              }
+                              type='button'
+                              className='cursor-pointer'
+                              variant={'link'}
+                            >
+                              {isUpdatingImage ? 'Cancel' : 'Change Image'}
+                            </Button>
+                          )}
+                        </div>
+                        {field.value && !isUpdatingImage ? (
+                          <Image
+                            src={field.value}
+                            alt='Course Image'
+                            width={0}
+                            height={0}
+                            sizes='100vw'
+                            className='w-full max-w-lg mx-auto h-auto rounded-md mt-4'
+                          />
+                        ) : (
+                          <UploadDropzone
+                            className='ut-button:bg-blue-500 ut-button:w-full cursor-pointer border-solid ut-label:text-black ut-allowed-content:text-black ut-label:dark:text-white ut-allowed-content:dark:text-white '
+                            endpoint={'imageUploader'}
+                            onClientUploadComplete={(res) => {
+                              toast.success('Image uploaded successfully!');
+                              field.onChange(res[0].ufsUrl);
+                              form.setValue('imageKey', res[0].key);
+                              setIsUpdatingImage(false);
+                            }}
+                          />
+                        )}
                         {fieldState.error && (
                           <FieldError errors={[fieldState.error]} />
                         )}
@@ -414,14 +462,14 @@ const CreateUpdateCourseForm = ({
               </div>
             </TabsContent>
             <TabsContent value='course-sections'>
-              <CourseSections form={form} />
+              <CourseSections form={form} sections={course?.sections} />
               <Button
                 size={'lg'}
                 type='submit'
                 className='mt-10 w-auto cursor-pointer text-base'
                 disabled={form.formState.isSubmitting || !isThereSections}
               >
-                {type === 'create' ? 'Create' : 'Update'} Course
+                {type === 'create' ? 'Create Course' : 'Update Course'}
               </Button>
             </TabsContent>
           </TabsContents>
@@ -431,4 +479,4 @@ const CreateUpdateCourseForm = ({
   );
 };
 
-export default CreateUpdateCourseForm;
+export default CreateCourseForm;

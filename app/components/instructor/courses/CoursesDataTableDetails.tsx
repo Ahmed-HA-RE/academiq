@@ -1,5 +1,5 @@
 'use client';
-import { Suspense, useState, useTransition } from 'react';
+import { Suspense, useTransition } from 'react';
 import Image from 'next/image';
 import {
   Check,
@@ -10,7 +10,7 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import { Course } from '@/types';
+import { Course } from '../../../../types';
 import type { ColumnDef } from '@tanstack/react-table';
 import {
   flexRender,
@@ -350,12 +350,16 @@ export const RowActions = ({ course }: { course: Course }) => {
           <DropdownMenuContent align='start'>
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className='cursor-pointer'>
-                <Link href={`/instructor-dashboard/courses/${course.id}/view`}>
+                <Link
+                  href={`/instructor-dashboard/courses/${course.slug}/view`}
+                >
                   <span>View</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className='cursor-pointer' asChild>
-                <Link href={`/instructor-dashboard/courses/${course.id}/edit`}>
+                <Link
+                  href={`/instructor-dashboard/courses/${course.slug}/edit`}
+                >
                   Edit
                 </Link>
               </DropdownMenuItem>
