@@ -94,29 +94,31 @@ export const baseCourseSchema = z.object({
 });
 
 export const createCourseSchema = baseCourseSchema.extend({
-  sections: z.array(
-    z.object({
-      id: z.string().optional(), // for existing sections during updates
-      title: z
-        .string({ error: 'Invalid section title' })
-        .min(1, 'Section title is required'),
-      lessons: z.array(
-        z.object({
-          id: z.string().optional(), // for existing lessons during updates
-          title: z
-            .string({ error: 'Invalid lesson title' })
-            .min(1, 'Lesson title is required'),
-          duration: z.coerce
-            .number<number>({ error: 'Invalid lesson duration' })
-            .min(0.5, 'Lesson duration must be at least 30 seconds'),
-          videoUrl: z.string().optional(),
-          uploadthingFileId: z.string().optional(),
-        }),
-        { error: 'At least one lesson is required' }
-      ),
-    }),
-    { error: 'At least one section is required' }
-  ),
+  sections: z
+    .array(
+      z.object({
+        id: z.string().optional(), // for existing sections during updates
+        title: z
+          .string({ error: 'Invalid section title' })
+          .min(1, 'Section title is required'),
+        lessons: z
+          .array(
+            z.object({
+              id: z.string().optional(), // for existing lessons during updates
+              title: z
+                .string({ error: 'Invalid lesson title' })
+                .min(1, 'Lesson title is required'),
+              duration: z.coerce
+                .number<number>({ error: 'Invalid lesson duration' })
+                .min(0.5, 'Lesson duration must be at least 30 seconds'),
+              videoUrl: z.string().optional(),
+              uploadthingFileId: z.string().optional(),
+            })
+          )
+          .min(1, { error: 'At least one lesson is required' }),
+      })
+    )
+    .min(1, { error: 'At least one section is required' }),
 });
 
 // Auth schemas

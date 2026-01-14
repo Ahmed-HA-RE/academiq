@@ -106,8 +106,6 @@ const CreateCourseForm = ({
 
   const isSlugged = form.watch('slug');
 
-  const isThereSections = form.watch('sections')?.length > 0;
-
   return (
     <>
       {form.formState.isSubmitting && (
@@ -288,36 +286,6 @@ const CreateCourseForm = ({
                     )}
                   />
 
-                  {/* Price */}
-                  <Controller
-                    name='price'
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid}>
-                        <div className='flex flex-row items-center justify-between'>
-                          <FieldLabel htmlFor={field.name}>
-                            Course Price
-                          </FieldLabel>
-                          <span className='text-sm text-muted-foreground'>
-                            Prices are in (AED)
-                          </span>
-                        </div>
-                        <Input
-                          id={field.name}
-                          type='number'
-                          min={0}
-                          step={0.01}
-                          placeholder='Course Price'
-                          {...field}
-                          aria-invalid={fieldState.invalid}
-                          className='input'
-                        />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
                   {/* Prerequisites */}
                   <Controller
                     name='prequisites'
@@ -335,129 +303,163 @@ const CreateCourseForm = ({
                     )}
                   />
 
-                  {/* Difficulty */}
-                  <Controller
-                    name='difficulty'
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor={field.name}>
-                          Course Difficulty
-                        </FieldLabel>
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                    {/* Difficulty */}
+                    <Controller
+                      name='difficulty'
+                      control={form.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <FieldLabel htmlFor={field.name}>
+                            Course Difficulty
+                          </FieldLabel>
 
-                        <Select
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <SelectTrigger
-                            id={field.name}
-                            className='w-full cursor-pointer input'
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
                           >
-                            <SelectValue placeholder='Select difficulty' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Course Difficulty</SelectLabel>
-                              {DIFFICULTY_LEVELS.map((level) => (
-                                <SelectItem
-                                  key={level.value}
-                                  value={level.value}
-                                  className='cursor-pointer'
-                                >
-                                  {level.label}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                  {/* Category */}
-                  <Controller
-                    name='category'
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor={field.name}>
-                          Course Category
-                        </FieldLabel>
-                        <Select
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <SelectTrigger
-                            id={field.name}
-                            className='w-full cursor-pointer input'
+                            <SelectTrigger
+                              id={field.name}
+                              className='w-full cursor-pointer input'
+                            >
+                              <SelectValue placeholder='Select difficulty' />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Course Difficulty</SelectLabel>
+                                {DIFFICULTY_LEVELS.map((level) => (
+                                  <SelectItem
+                                    key={level.value}
+                                    value={level.value}
+                                    className='cursor-pointer'
+                                  >
+                                    {level.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                    {/* Category */}
+                    <Controller
+                      name='category'
+                      control={form.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <FieldLabel htmlFor={field.name}>
+                            Course Category
+                          </FieldLabel>
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
                           >
-                            <SelectValue placeholder='Select category' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Course Category</SelectLabel>
-                              {TEACHING_CATEGORIES.map((cat) => (
-                                <SelectItem
-                                  key={cat}
-                                  value={cat}
-                                  className='cursor-pointer'
-                                >
-                                  {cat}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
+                            <SelectTrigger
+                              id={field.name}
+                              className='w-full cursor-pointer input'
+                            >
+                              <SelectValue placeholder='Select category' />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Course Category</SelectLabel>
+                                {TEACHING_CATEGORIES.map((cat) => (
+                                  <SelectItem
+                                    key={cat}
+                                    value={cat}
+                                    className='cursor-pointer'
+                                  >
+                                    {cat}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                  </div>
 
-                  {/* Languages */}
-                  <Controller
-                    name='language'
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor={field.name}>
-                          Course Language
-                        </FieldLabel>
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                    {/* Languages */}
+                    <Controller
+                      name='language'
+                      control={form.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <FieldLabel htmlFor={field.name}>
+                            Course Language
+                          </FieldLabel>
 
-                        <Select
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <SelectTrigger
-                            id={field.name}
-                            className='w-full cursor-pointer input'
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
                           >
-                            <SelectValue placeholder='Select language' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Course Language</SelectLabel>
-                              {COURSE_LANGUAGES.map((lang) => (
-                                <SelectItem
-                                  key={lang}
-                                  value={lang}
-                                  className='cursor-pointer'
-                                >
-                                  {lang}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
+                            <SelectTrigger
+                              id={field.name}
+                              className='w-full cursor-pointer input'
+                            >
+                              <SelectValue placeholder='Select language' />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Course Language</SelectLabel>
+                                {COURSE_LANGUAGES.map((lang) => (
+                                  <SelectItem
+                                    key={lang}
+                                    value={lang}
+                                    className='cursor-pointer'
+                                  >
+                                    {lang}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                    {/* Price */}
+                    <Controller
+                      name='price'
+                      control={form.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <div className='flex flex-row items-center justify-between'>
+                            <FieldLabel htmlFor={field.name}>
+                              Course Price
+                            </FieldLabel>
+                            <span className='text-sm text-muted-foreground'>
+                              Prices are in (AED)
+                            </span>
+                          </div>
+                          <Input
+                            id={field.name}
+                            type='number'
+                            min={0}
+                            step={0.01}
+                            placeholder='Course Price'
+                            {...field}
+                            aria-invalid={fieldState.invalid}
+                            className='input'
+                          />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                  </div>
                 </FieldGroup>
               </div>
             </TabsContent>
@@ -467,7 +469,7 @@ const CreateCourseForm = ({
                 size={'lg'}
                 type='submit'
                 className='mt-10 w-auto cursor-pointer text-base'
-                disabled={form.formState.isSubmitting || !isThereSections}
+                disabled={form.formState.isSubmitting}
               >
                 {type === 'create' ? 'Create Course' : 'Update Course'}
               </Button>

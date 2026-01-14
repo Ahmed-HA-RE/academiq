@@ -151,7 +151,7 @@ model Lesson {
   id        String   @id @default(uuid())
   title     String
   duration  Int
-  status    status   @default(processing)
+  status    status   @default(ready) //for testing purposes
   sectionId String
   section   Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())

@@ -1,25 +1,16 @@
 'use client ';
 
-import {
-  ChevronDownIcon,
-  CircleX,
-  ListChecks,
-  Plus,
-  TvMinimalPlay,
-} from 'lucide-react';
+import { CircleX, ListChecks, Plus, TvMinimalPlay } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Alert, AlertTitle } from '../ui/alert';
 import { Card, CardContent } from '../ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
 import { Controller, useFieldArray, UseFormReturn } from 'react-hook-form';
 import { Input } from '../ui/input';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '../ui/collapsible';
+
 import { CreateCourse, Section } from '@/types';
 import AddLesson from './AddLesson';
+import { deleteCourseSections } from '@/lib/actions/course';
 
 type CourseSectionsProps = {
   form: UseFormReturn<CreateCourse>;
@@ -91,7 +82,14 @@ const CourseSections = ({ form, sections }: CourseSectionsProps) => {
                           variant={'ghost'}
                           size={'icon-sm'}
                           className='cursor-pointer hover:bg-0 p-0'
-                          onClick={() => remove(sectionIndex)}
+                          onClick={async () => {
+                            remove(sectionIndex);
+                            if (sections?.[sectionIndex]?.id) {
+                              await deleteCourseSections(
+                                sections?.[sectionIndex]?.id
+                              );
+                            }
+                          }}
                         >
                           <CircleX className='size-5' />
                         </Button>
@@ -109,28 +107,12 @@ const CourseSections = ({ form, sections }: CourseSectionsProps) => {
                     </Field>
                   )}
                 />
-                {/* Collapsible Lessons */}
-                <Collapsible className='flex flex-col justify-between gap-2'>
-                  <div className='flex flex-row items-center justify-between'>
-                    <div className='text-base font-semibold'>Lessons</div>
-                    <CollapsibleTrigger
-                      asChild
-                      className='group cursor-pointer hover:bg-0'
-                    >
-                      <Button variant='ghost' size='icon-sm'>
-                        <ChevronDownIcon className='text-muted-foreground transition-transform group-data-[state=open]:rotate-180' />
-                        <span className='sr-only'>Toggle</span>
-                      </Button>
-                    </CollapsibleTrigger>
-                  </div>
-                  <CollapsibleContent>
-                    <AddLesson
-                      form={form}
-                      sectionIndex={sectionIndex}
-                      lessons={sections?.[sectionIndex]?.lessons}
-                    />
-                  </CollapsibleContent>
-                </Collapsible>
+                {/* Lessons */}
+                <AddLesson
+                  form={form}
+                  sectionIndex={sectionIndex}
+                  lessons={sections?.[sectionIndex]?.lessons}
+                />
               </FieldGroup>
             </CardContent>
           </Card>

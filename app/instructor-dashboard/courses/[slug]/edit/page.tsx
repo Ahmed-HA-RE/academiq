@@ -19,7 +19,6 @@ const EditCoursePage = async ({
 
   if (!course) redirect('/instructor-dashboard/courses');
 
-  if (!course) redirect('/instructor-dashboard/courses');
   return (
     <div className='col-span-4'>
       <CreateUpdateCourseForm type='edit' course={course} />
