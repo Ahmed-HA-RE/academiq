@@ -81,6 +81,10 @@ export const proxy = async (req: NextRequest) => {
   if (pathname === '/teach/apply/payments/setup' && !user) {
     return NextResponse.redirect(new URL('/teach', req.url));
   }
+
+  if (pathname === '/teach' && user && user.role === 'instructor') {
+    return NextResponse.redirect(new URL('/instructor-dashboard', req.url));
+  }
 };
 
 export const config = {

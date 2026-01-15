@@ -30,7 +30,10 @@ const DesktopNavMenu = ({ navigationData }: DesktopNavMenuProps) => {
                 'hover:bg-0',
                 'focus:bg-0',
                 'font-normal',
-                pathname !== menu.href ? 'link-affect' : 'font-bold'
+                'text-muted-foreground',
+                pathname === menu.href
+                  ? 'text-black font-bold'
+                  : 'font-normal hover:text-black dark:hover:text-white'
               )}
               asChild
             >

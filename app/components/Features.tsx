@@ -6,7 +6,7 @@ import {
   MessageCircleMore,
   MessagesSquare,
   Clock4,
-  Pencil,
+  Captions,
 } from 'lucide-react';
 import { MotionPreset } from './ui/motion-preset';
 import Image from 'next/image';
@@ -37,7 +37,7 @@ const rightSection = [
     icon: MessagesSquare,
     title: 'Student Group Support',
     description:
-      'Join WhatsApp groups to connect, share, and learn together with peers.',
+      'Join social groups to connect, share, and learn together with peers.',
   },
   {
     icon: Clock4,
@@ -46,10 +46,10 @@ const rightSection = [
       'Access courses with the latest curriculum to stay current and ahead.',
   },
   {
-    icon: Pencil,
-    title: 'Quizzes & Tests',
+    icon: Captions,
+    title: 'Certificate of Completion',
     description:
-      'Take quizzes to ensure you fully understand and master each course.',
+      'Receive an official certificate after finishing each course to showcase your achievement and skills.',
   },
 ];
 
@@ -104,7 +104,7 @@ const Features = () => {
                   fade
                   slide={{ direction: 'down', offset: 50 }}
                   blur
-                  delay={0.4 * index + 1.5}
+                  delay={0.4 * index + 2}
                   transition={{ duration: 0.5 }}
                 >
                   <div className='border-primary/60 dark:border-primary bg-primary/2 flex size-16 shrink-0 items-center justify-center rounded-md border lg:hidden'>
@@ -134,13 +134,13 @@ const Features = () => {
             transition={{ duration: 0.9 }}
           >
             <Image
-              src='https://res.cloudinary.com/ahmed--dev/image/upload/v1765132165/kid_1_ri2lbc.jpg'
+              src='https://res.cloudinary.com/ahmed--dev/image/upload/v1768497214/rekeyws0avabwadtiuhh.svg'
               alt='kid studying'
               width={0}
               height={0}
               sizes='100vw'
               loading='eager'
-              className='mx-auto size-110 md:h-147.5 rounded-2xl object-cover'
+              className='mx-auto w-full md:h-147.5 rounded-2xl object-cover'
             />
           </MotionPreset>
           <div className='w-full space-y-9 max-lg:order-3 max-lg:mx-auto max-lg:max-w-100'>

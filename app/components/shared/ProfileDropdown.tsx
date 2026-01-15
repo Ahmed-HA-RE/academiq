@@ -99,13 +99,14 @@ const ProfileDropdown = ({
                   {session.user.name.slice(0, 2).toUpperCase()}
                 </AvatarFallback>
               }
-            ></Suspense>
-            <Image
-              src={session.user.image!}
-              alt='Logo'
-              width={50}
-              height={50}
-            />
+            >
+              <Image
+                src={session.user.image!}
+                alt='Logo'
+                width={50}
+                height={50}
+              />
+            </Suspense>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -119,29 +120,15 @@ const ProfileDropdown = ({
                     {session.user.name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 }
-              ></Suspense>
-              <Image
-                src={session.user.image!}
-                alt='Logo'
-                width={90}
-                height={90}
-              />
+              >
+                <Image
+                  src={session.user.image!}
+                  alt='Logo'
+                  width={90}
+                  height={90}
+                />
+              </Suspense>
             </Avatar>
-            <span
-              className={cn(
-                'ring-card',
-                'absolute',
-                'right-1',
-                'bottom-0',
-                'block',
-                'size-2',
-                'rounded-full',
-                session.user.status === 'online'
-                  ? 'bg-green-600'
-                  : 'bg-red-600',
-                'ring-2'
-              )}
-            />
           </div>
           <div className='flex flex-1 flex-col items-start'>
             <span className='text-foreground text-lg font-semibold'>

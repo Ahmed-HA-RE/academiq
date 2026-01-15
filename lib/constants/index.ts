@@ -33,9 +33,9 @@ export const testimonials = [
   },
   {
     name: 'Alex Johnson',
-    title: 'Up to date and practical',
+    title: 'Structured and Reliable',
     description:
-      'The updated curriculum and quizzes helped me grasp complex concepts quickly. Highly recommend for anyone serious about learning.',
+      'The platform organizes learning in a way that’s intuitive and effective. Students can focus on understanding concepts without getting overwhelmed.',
     rating: 5,
     role: 'Cloud Data Analyst',
     company: 'Cloudflare',

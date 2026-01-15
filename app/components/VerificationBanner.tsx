@@ -9,7 +9,7 @@ const VerificationBanner = () => {
 
   return (
     <div className='dark bg-muted px-4 py-3 text-foreground'>
-      <div className='flex flex-col justify-between gap-2 md:flex-row max-w-7xl mx-auto  md:px-6'>
+      <div className='flex flex-col justify-between gap-2 md:flex-row max-w-[1440px] mx-auto md:px-6'>
         <div className='flex grow gap-3'>
           <Mail
             aria-hidden='true'

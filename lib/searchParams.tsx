@@ -8,11 +8,9 @@ import {
 
 export const coursesfilteredParams = {
   q: parseAsString.withDefault(''),
-  rating: parseAsArrayOf(parseAsInteger, '-').withDefault([1, 5]).withOptions({
-    clearOnDefault: false,
-  }),
   price: parseAsString.withDefault(''),
   difficulty: parseAsArrayOf(parseAsString).withDefault([]),
+  category: parseAsArrayOf(parseAsString).withDefault([]),
   sortBy: parseAsString.withDefault(''),
   page: parseAsInteger.withDefault(1),
   search: parseAsString.withDefault(''),

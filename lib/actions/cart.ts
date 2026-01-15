@@ -5,9 +5,9 @@ import { cartItemsSchema, cartSchema } from '@/schema';
 import { prisma } from '../prisma';
 import { auth } from '../auth';
 import { headers } from 'next/headers';
-import { cookies } from 'next/headers';
 import { convertToPlainObject } from '../utils';
 import { revalidatePath } from 'next/cache';
+import { getCurrentLoggedUser } from './user';
 
 const calculatePrices = (cartItems: CartItems[]) => {
   const itemsPrice = cartItems.reduce((acc, c) => acc + Number(c.price), 0);
@@ -23,22 +23,25 @@ const calculatePrices = (cartItems: CartItems[]) => {
 
 export const addToCart = async (data: CartItems) => {
   try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
+    const user = await getCurrentLoggedUser();
 
     const validateData = cartItemsSchema.safeParse(data);
 
-    const sessionId = (await cookies()).get('sessionId')?.value;
     const cart = await getMyCart();
 
     const { itemsPrice, taxPrice, totalPrice } = calculatePrices([data]);
 
     const course = await prisma.course.findFirst({
       where: { id: data.courseId },
+      include: { instructor: true },
     });
 
     if (!course) throw new Error('Course not found');
+    // Check if instructor that is adding the course is the same as course instructor
+
+    if (course.instructor.userId === user?.id) {
+      throw new Error('Instructors cannot add their own courses to the cart');
+    }
 
     if (!validateData.success) throw new Error('Invalid data');
 
@@ -48,8 +51,7 @@ export const addToCart = async (data: CartItems) => {
         itemsPrice,
         taxPrice,
         totalPrice,
-        userId: session?.user.id,
-        sessionId: sessionId,
+        userId: user?.id,
       });
 
       if (newCart.success) {
@@ -58,7 +60,7 @@ export const addToCart = async (data: CartItems) => {
             itemsPrice: newCart.data.itemsPrice,
             taxPrice: newCart.data.taxPrice,
             totalPrice: newCart.data.totalPrice,
-            userId: session?.user.id,
+            userId: user?.id,
             sessionId: newCart.data.sessionId,
             cartItems: newCart.data.cartItems,
           },

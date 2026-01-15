@@ -9,6 +9,7 @@ import { createStripeOnboardingLink } from '@/lib/actions/instructor';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { Spinner } from '../ui/spinner';
+import Link from 'next/link';
 
 const benefits = [
   'Receive payments directly to your bank account',
@@ -85,25 +86,38 @@ const SetUpStripeConnectCard = ({ account }: { account: Stripe.Account }) => {
         </ul>
         {/* CTA */}
         <div className='mt-8 space-y-4'>
-          <Button
-            size='lg'
-            className='cursor-pointer bg-[#5167FC] hover:opacity-95 hover:bg-0 text-white w-full group'
-            onClick={handleSetup}
-            disabled={isPending || isAccountComplete}
-          >
-            {isPending ? (
-              <Spinner className='size-6' />
-            ) : (
-              <>
-                {isFirstCreatedAccount
-                  ? 'Set Up Your Stripe Account'
-                  : isAccountSubmittedButIncomplete
-                    ? 'Complete Stripe Information'
-                    : 'Setup is Complete'}
+          {!isAccountComplete ? (
+            <Button
+              size='lg'
+              className='cursor-pointer bg-[#5167FC] hover:opacity-95 hover:bg-0 text-white w-full group'
+              onClick={handleSetup}
+              disabled={isPending}
+            >
+              {isPending ? (
+                <Spinner className='size-6' />
+              ) : (
+                <>
+                  {isFirstCreatedAccount
+                    ? 'Set Up Your Stripe Account'
+                    : isAccountSubmittedButIncomplete
+                      ? 'Complete Stripe Information'
+                      : 'Setup is Complete'}
+                  <ArrowRight className='size-4 -me-1 opacity-60 transition-transform group-hover:translate-x-0.5' />
+                </>
+              )}
+            </Button>
+          ) : (
+            <Button
+              size='lg'
+              className='cursor-pointer bg-[#5167FC] hover:opacity-95 hover:bg-0 text-white w-full group'
+              asChild
+            >
+              <Link href={'/application/status'}>
+                Review Application Status
                 <ArrowRight className='size-4 -me-1 opacity-60 transition-transform group-hover:translate-x-0.5' />
-              </>
-            )}
-          </Button>
+              </Link>
+            </Button>
+          )}
           <p className='text-muted-foreground text-xs text-center'>
             Powered by{' '}
             <span className='font-semibold text-[#5167FC]'>Stripe</span> -

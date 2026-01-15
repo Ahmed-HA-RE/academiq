@@ -25,7 +25,7 @@ const footerSupportLinks = [
 const Footer = () => {
   return (
     <footer className='z-10 border-t bg-[#080826] text-white pt-20 pb-4'>
-      <div className='mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:grid-cols-2  lg:grid-cols-4'>
+      <div className='mx-auto grid max-w-[1440px] gap-6 px-4 py-8 sm:grid-cols-2  lg:grid-cols-4'>
         <div className='flex flex-col items-start gap-4 lg:col-span-2'>
           <div className='flex flex-row items-center gap-2'>
             <Image src={'/images/logo.png'} alt='Logo' width={45} height={45} />

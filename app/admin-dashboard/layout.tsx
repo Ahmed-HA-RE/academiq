@@ -47,7 +47,7 @@ after:bg-gradient-to-l after:from-[#434343] after:opacity-30 after:backdrop-blur
         }
       >
         <SideBar user={user} admins={adminUsers} />
-        <div className='z-1 mx-auto flex size-full max-w-7xl flex-1 flex-col px-4 py-6 sm:px-6'>
+        <div className='z-1 mx-auto flex size-full max-w-[1440px] flex-1 flex-col px-4 py-6 sm:px-6'>
           <header className='bg-card mb-6 flex items-center justify-between rounded-xl px-6 py-3.5'>
             <SidebarTrigger className='[&_svg]:!size-5 cursor-pointer' />
             <Theme />

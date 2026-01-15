@@ -21,7 +21,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/app/components/ui/sheet';
-import { Slider } from '@/app/components/ui/slider';
 import {
   cn,
   DIFFICULTY_LEVELS,
@@ -35,7 +34,6 @@ import {
   throttle,
   useQueryStates,
 } from 'nuqs';
-import { IoStarSharp } from 'react-icons/io5';
 import {
   Select,
   SelectContent,
@@ -45,6 +43,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
+import { TEACHING_CATEGORIES } from '@/lib/constants';
 
 const FilterContent = () => {
   const [filters, setFilters] = useQueryStates(
@@ -52,16 +51,11 @@ const FilterContent = () => {
       q: parseAsString
         .withDefault('')
         .withOptions({ limitUrlUpdates: throttle(300) }),
-      rating: parseAsArrayOf(parseAsInteger, '-')
-        .withDefault([1, 5])
-        .withOptions({
-          limitUrlUpdates: throttle(300),
-          clearOnDefault: false,
-        }),
       price: parseAsString
         .withDefault('')
         .withOptions({ limitUrlUpdates: throttle(300) }),
       difficulty: parseAsArrayOf(parseAsString).withDefault([]),
+      category: parseAsArrayOf(parseAsString).withDefault([]),
       sortBy: parseAsString
         .withDefault('')
         .withOptions({ limitUrlUpdates: throttle(300) }),
@@ -88,42 +82,6 @@ const FilterContent = () => {
             value={filters.q}
             onChange={(e) => setFilters({ q: e.target.value })}
           />
-        </div>
-      </div>
-
-      <Separator />
-
-      {/* Rating */}
-      <div className='space-y-4 px-4'>
-        <Label className='text-xl font-medium'>Rating</Label>
-        <div>
-          <Slider
-            value={filters.rating}
-            onValueChange={(e) => setFilters({ rating: e })}
-            min={1}
-            max={5}
-            aria-label='Rating slider'
-          />
-          <span
-            className='mt-4 flex w-full items-center justify-between gap-1'
-            aria-hidden='true'
-          >
-            <span className='flex items-center gap-1'>
-              1 <IoStarSharp className='size-4 text-amber-400' />
-            </span>
-            <span className='flex items-center gap-1'>
-              2 <IoStarSharp className='size-4 text-amber-400' />
-            </span>
-            <span className='flex items-center gap-1'>
-              3 <IoStarSharp className='size-4 text-amber-400' />
-            </span>
-            <span className='flex items-center gap-1'>
-              4 <IoStarSharp className='size-4 text-amber-400' />
-            </span>
-            <span className='flex items-center gap-1'>
-              5 <IoStarSharp className='size-4 text-amber-400' />
-            </span>
-          </span>
         </div>
       </div>
 
@@ -161,6 +119,36 @@ const FilterContent = () => {
 
       <Separator />
 
+      {/* Category */}
+      <div className='space-y-4 px-4'>
+        <Label className='text-xl font-medium'>Category</Label>
+        {TEACHING_CATEGORIES.map((category) => (
+          <div key={category} className='flex items-center gap-2'>
+            <Checkbox
+              id={category}
+              className='size-5'
+              checked={filters.category.includes(category)}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  setFilters({
+                    category: [...filters.category, category],
+                  });
+                } else {
+                  setFilters({
+                    category: filters.category.filter(
+                      (cat) => cat !== category
+                    ),
+                  });
+                }
+              }}
+            />
+            <Label htmlFor={category}>{category}</Label>
+          </div>
+        ))}
+      </div>
+
+      <Separator />
+
       {/* Difficulty */}
       <div className='space-y-4 px-4'>
         <Label className='text-xl font-medium'>Difficulty</Label>
@@ -191,7 +179,7 @@ const FilterContent = () => {
 
       <Separator />
 
-      {/* Battery */}
+      {/* Sort By */}
       <div className='w-full space-y-2 px-4'>
         <Select
           value={filters.sortBy}

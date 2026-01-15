@@ -14,17 +14,17 @@ import { DEMO_COURSE_VIDEOS } from '../constants';
 // Get all courses
 export const getAllCourses = async ({
   q,
-  rating,
   price,
   difficulty,
+  category,
   sortBy,
   page = 1,
   limit = 10,
 }: {
   q?: string;
-  rating?: number[];
   price?: string;
   difficulty?: string[];
+  category?: string[];
   sortBy?: string;
   page?: number;
   limit?: number;
@@ -33,17 +33,6 @@ export const getAllCourses = async ({
   const filterQuery: Prisma.CourseWhereInput = q
     ? { title: { contains: q, mode: 'insensitive' } }
     : {};
-
-  // Rating Filter
-  const ratingFilter: Prisma.CourseWhereInput =
-    rating && rating.length > 0
-      ? {
-          rating: {
-            lte: rating[1],
-            gte: rating[0],
-          },
-        }
-      : {};
 
   // Price Filter
   const priceFilter: Prisma.CourseWhereInput =
@@ -68,6 +57,14 @@ export const getAllCourses = async ({
         }
       : {};
 
+  // Category Filter
+  const categoryFilter: Prisma.CourseWhereInput =
+    category && category.length > 0
+      ? {
+          category: { in: category },
+        }
+      : {};
+
   // Sorting Filter
   const sortingFilter: Prisma.CourseOrderByWithRelationInput =
     sortBy === 'newest'
@@ -83,22 +80,37 @@ export const getAllCourses = async ({
   const courses = await prisma.course.findMany({
     where: {
       ...filterQuery,
-      ...ratingFilter,
       ...priceFilter,
       ...difficultyFilter,
-      ...{},
+      ...categoryFilter,
     },
     orderBy: { ...sortingFilter },
     take: limit,
     skip: (page - 1) * limit,
+    include: {
+      instructor: {
+        include: {
+          user: {
+            select: {
+              name: true,
+              image: true,
+              id: true,
+              email: true,
+              banned: true,
+              role: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   const totalCount = await prisma.course.count({
     where: {
       ...filterQuery,
-      ...ratingFilter,
       ...priceFilter,
       ...difficultyFilter,
+      ...categoryFilter,
     },
   });
 
@@ -368,6 +380,8 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
       );
 
     const validatedData = createCourseSchema.safeParse(data);
+
+    console.log(validatedData.data?.price);
 
     if (!validatedData.success) throw new Error('Invalid course data');
 

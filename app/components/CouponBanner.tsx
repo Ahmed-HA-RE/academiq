@@ -22,7 +22,7 @@ const CouponBanner = ({ discount }: { discount: Discount | undefined }) => {
 
   return (
     <div className='w-full p-4 overflow-hidden bg-gradient-to-r from-purple-600 to-indigo-500 shadow-lg fixed bottom-0 right-0 left-0 z-30'>
-      <div className='max-w-7xl mx-auto'>
+      <div className='max-w-[1440px] mx-auto'>
         {/* Animated background elements */}
         <div className='absolute inset-0 overflow-hidden'>
           <div className='absolute -top-20 -left-20 h-48 w-48 animate-pulse rounded-full bg-white opacity-10'></div>

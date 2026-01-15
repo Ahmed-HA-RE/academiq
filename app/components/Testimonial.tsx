@@ -98,6 +98,7 @@ const Testimonial = () => {
             <Carousel
               opts={{
                 align: 'start',
+                loop: true,
               }}
               setApi={setApi}
             >
@@ -128,6 +129,10 @@ const Testimonial = () => {
                           </div>
                           <Separator />
                           <div className='space-y-2'>
+                            <p className='font-semibold'>{testimonial.title}</p>
+                            <p className='text-muted-foreground'>
+                              {testimonial.description}
+                            </p>
                             <Rating
                               readOnly
                               variant='yellow'
@@ -135,9 +140,6 @@ const Testimonial = () => {
                               value={testimonial.rating}
                               precision={0.5}
                             />
-                            <p className='text-muted-foreground'>
-                              {testimonial.description}
-                            </p>
                           </div>
                         </div>
                       </CardContent>

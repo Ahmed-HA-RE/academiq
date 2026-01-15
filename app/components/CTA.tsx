@@ -23,7 +23,7 @@ const CTA = () => {
                 Start Learning Anytime, Anywhere
               </h2>
             </div>
-            <div className='flex flex-col md:flex-row items-center justify-center gap-6 w-full'>
+            <div className='flex flex-col md:flex-row items-center justify-center gap-x-6 gap-y-3 w-full'>
               <Button
                 asChild
                 size={'lg'}
@@ -34,8 +34,7 @@ const CTA = () => {
               <Button
                 asChild
                 size={'lg'}
-                className='px-6 py-6 hover:bg-0 rounded-full w-full max-w-xs text-base md:w-[150px] bg-black text-white hover:bg-0'
-                variant='outline'
+                className='px-6 py-6 hover:bg-0 rounded-full w-full max-w-xs text-base md:w-[150px] bg-rose-400 text-white hover:bg-0'
               >
                 <Link href={'/courses'}>View Courses</Link>
               </Button>

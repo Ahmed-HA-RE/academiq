@@ -13,7 +13,7 @@ const VideoProcessBanner = () => {
     pathname === '/instructor-dashboard/courses/new' &&
     isVisible && (
       <div className='bg-yellow-500 dark:bg-yellow-600 py-3'>
-        <div className='mx-auto max-w-7xl px-4 lg:text-center text-sm text-white sm:px-6 lg:px-8 flex items-center justify-between gap-6'>
+        <div className='mx-auto max-w-[1440px] px-4 lg:text-center text-sm text-white sm:px-6 lg:px-8 flex items-center justify-between gap-6'>
           <p>
             Note: Uploading video may take a few minutes depending on your
             internet connection or video size. Lesson will not be visible to

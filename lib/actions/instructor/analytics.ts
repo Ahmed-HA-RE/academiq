@@ -189,6 +189,11 @@ export const getPopularCoursesByInstructor = async () => {
   const popularCourses = await prisma.course.findMany({
     where: {
       instructorId: instructor.id,
+      users: {
+        some: {
+          id: { not: undefined },
+        },
+      },
     },
     orderBy: {
       users: {

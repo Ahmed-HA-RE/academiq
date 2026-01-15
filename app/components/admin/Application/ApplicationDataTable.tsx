@@ -1,7 +1,7 @@
 'use client';
-import { Suspense, useState, useTransition } from 'react';
+import { Suspense, useState } from 'react';
 import Image from 'next/image';
-import { CircleIcon, EllipsisVerticalIcon, SearchIcon } from 'lucide-react';
+import { CircleIcon, Eye, SearchIcon } from 'lucide-react';
 import { InstructorApplication } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import {
@@ -13,13 +13,6 @@ import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
 import { Badge } from '@/app/components/ui/badge';
 import { Button } from '@/app/components/ui/button';
 import { Checkbox } from '@/app/components/ui/checkbox';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/app/components/ui/dropdown-menu';
 import {
   Select,
   SelectContent,
@@ -43,13 +36,11 @@ import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../../shared/DeleteDialog';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import ScreenSpinner from '../../ScreenSpinner';
 import DataPagination from '../../shared/Pagination';
 import { format } from 'date-fns';
 import {
   deleteApplicationById,
   deleteApplicationsByIds,
-  updateApplicationStatusById,
 } from '@/lib/actions/instructor/application';
 
 const columns: ColumnDef<InstructorApplication>[] = [
@@ -365,8 +356,6 @@ export const RowActions = ({
 }: {
   application: InstructorApplication;
 }) => {
-  const [isPending, startTransition] = useTransition();
-
   const handleDeleteApplication = async () => {
     const res = await deleteApplicationById(application.id);
     if (!res.success) {
@@ -376,74 +365,27 @@ export const RowActions = ({
     toast.success(res.message);
   };
 
-  const handleUpdateStatus = async (status: string) => {
-    startTransition(async () => {
-      const res = await updateApplicationStatusById(application.id, status);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
   return (
-    <>
-      {isPending && <ScreenSpinner mutate={true} text='Applying changes…' />}
-      <div className='flex items-center justify-center'>
-        <DeleteDialog
-          title={`Delete ${application.user.name} application?`}
-          description={`Are you sure you want to delete ${application.user.name} application? This action cannot be undone.`}
-          action={handleDeleteApplication}
-        />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className='flex'>
-              <Button
-                size='icon'
-                variant='ghost'
-                className='rounded-full p-2 cursor-pointer'
-                aria-label='Edit User'
-              >
-                <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
-              </Button>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='start'>
-            <DropdownMenuGroup>
-              <DropdownMenuItem asChild className='cursor-pointer'>
-                <Link
-                  href={`/admin-dashboard/applications/${application.id}/view`}
-                >
-                  <span>View</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handleUpdateStatus('approved')}
-                className='cursor-pointer'
-                variant='success'
-                disabled={
-                  application.status === 'approved' ||
-                  application.status === 'rejected'
-                }
-              >
-                <span>Approve</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handleUpdateStatus('rejected')}
-                className='cursor-pointer'
-                variant='destructive'
-                disabled={
-                  application.status === 'approved' ||
-                  application.status === 'rejected'
-                }
-              >
-                <span>Reject</span>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <div className='flex items-center justify-center'>
+      <DeleteDialog
+        title={`Delete ${application.user.name} application?`}
+        description={`Are you sure you want to delete ${application.user.name} application? This action cannot be undone.`}
+        action={handleDeleteApplication}
+      />
+
+      <div className='flex'>
+        <Button
+          size='icon'
+          variant='ghost'
+          className='rounded-full p-2 cursor-pointer'
+          aria-label='Edit User'
+          asChild
+        >
+          <Link href={`/admin-dashboard/applications/${application.id}/view`}>
+            <Eye className='size-4.5' aria-hidden='true' />
+          </Link>
+        </Button>
       </div>
-    </>
+    </div>
   );
 };

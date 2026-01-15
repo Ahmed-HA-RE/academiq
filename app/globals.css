@@ -10,11 +10,8 @@
     @apply from-primary via-primary/60 to-primary bg-transparent bg-gradient-to-r [background-size:200%_auto] hover:bg-transparent hover:bg-[99%_center];
   }
 
-  .link-affect {
-    @apply after:bg-primary relative !no-underline after:absolute after:bottom-2 after:h-px after:w-[85%] after:origin-bottom-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100;
-  }
   .container {
-    @apply max-w-7xl mx-auto p-6;
+    @apply max-w-[1440px] mx-auto p-6;
   }
 
   .section-spacing {
@@ -32,6 +29,7 @@
     #6dd5fa,
     #ffffff
   );
+  --breakpoint-8xl: 1440px;
 }
 
 @theme inline {

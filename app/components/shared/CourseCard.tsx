@@ -1,14 +1,16 @@
-import { StarIcon } from 'lucide-react';
-import { Card, CardContent, CardFooter } from '../ui/card';
+import { BadgeCheckIcon, StarIcon } from 'lucide-react';
+import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import Link from 'next/link';
 import { Badge } from '../ui/badge';
-import { Cart, Course, CourseCardType, User } from '@/types';
+import { Cart, CourseCardType, User } from '@/types';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { MotionPreset } from '../ui/motion-preset';
 import EnrollCourseBtn from './EnrollCourseBtn';
 import CourseProgression from './CourseProgression';
 import { getUserProgress } from '@/lib/actions/user';
+import { Avatar, AvatarFallback } from '../ui/avatar';
+import { Suspense } from 'react';
 
 type CourseCardProps = {
   course: CourseCardType;
@@ -29,43 +31,70 @@ const CourseCard = async ({ course, cart, user }: CourseCardProps) => {
       transition={{ duration: 0.4 }}
       delay={0.3}
     >
-      <Card className='h-full shadow-none gap-4 py-0 pt-6 pb-4 relative'>
-        <CardContent className='flex flex-1 flex-col gap-6'>
-          <div className='relative shrink-0 overflow-hidden rounded-md'>
+      <Card className='hover:shadow-lg transition-shadow duration-300 ease-in-out pt-0 pb-4 overflow-hidden gap-2'>
+        <CardHeader className='p-0'>
+          <Link href={`/course/${course.slug}`}>
+            <Image
+              src={course.image}
+              alt={course.title}
+              sizes='100vw'
+              width={0}
+              height={0}
+              className='object-cover object-center w-full h-54 rounded-t-md hover:scale-105 transition-transform duration-300 ease-in-out relative'
+            />
+            <Badge className='absolute top-4 left-3 rounded-sm bg-emerald-500 text-white focus-visible:ring-emerald-600/20 focus-visible:outline-none dark:bg-emerald-500/60 dark:focus-visible:ring-emerald-500/40'>
+              {course.difficulty}
+            </Badge>
+          </Link>
+        </CardHeader>
+        <CardContent className='px-4'>
+          <div className='flex flex-col gap-4'>
+            {/* Course title */}
             <Link href={`/course/${course.slug}`}>
-              <Image
-                src={course.image}
-                alt={course.title}
-                width={0}
-                height={0}
-                sizes='100vw'
-                loading='eager'
-                className='w-full max-h-[200px] object-cover hover:scale-105 transition duration-300 ease-in-out'
-              />
+              <h3 className='text-lg hover:text-blue-500 hover:dark:text-blue-400 transition duration-300'>
+                {course.title}
+              </h3>
             </Link>
-          </div>
-          <Badge className='absolute top-4 left-3 rounded-sm bg-emerald-500 text-white focus-visible:ring-emerald-600/20 focus-visible:outline-none dark:bg-emerald-500/60 dark:focus-visible:ring-emerald-500/40'>
-            {course.difficulty}
-          </Badge>
-          <div className='flex flex-col gap-0'>
-            <div className='flex flex-1 flex-col gap-4'>
-              <h3 className='text-xl font-medium'>{course.title}</h3>
-              <div className='flex items-center gap-3'>
-                <Badge className='rounded-sm bg-amber-400 text-white focus-visible:ring-amber-600/20 focus-visible:outline-none dark:bg-amber-400/60 dark:focus-visible:ring-amber-400/40'>
-                  <StarIcon className='size-3' />
-                  {course.rating}
-                </Badge>
-                <span className='text-muted-foreground font-medium underline'>
-                  {course.numReviews} Reviews
+            {/* Instructor info */}
+            <div className='flex items-center gap-2'>
+              <div className='relative w-fit'>
+                <Avatar className='size-8 rounded-full'>
+                  <Suspense
+                    fallback={
+                      <AvatarFallback>
+                        {course.instructor.user.name.charAt(0)}
+                      </AvatarFallback>
+                    }
+                  >
+                    <Image
+                      src={course.instructor.user.image}
+                      alt={course.instructor.user.name}
+                      width={32}
+                      height={32}
+                      className='rounded-full object-cover'
+                    />
+                  </Suspense>
+                </Avatar>
+                <span className='absolute -top-1.5 -right-1.5'>
+                  <BadgeCheckIcon className='text-background size-5 fill-sky-500' />
                 </span>
               </div>
+              <span className='text-sm text-green-400/75 dark:text-emerald-400'>
+                by {course.instructor.user.name}
+              </span>
             </div>
-
-            <div className='flex flex-row items-center gap-1 font-semibold mt-4'>
-              <span className='dirham-symbol !text-xl'>&#xea;</span>
-              <span className='text-2xl'>{course.price}</span>
-            </div>
-            {isCourseOwened && <CourseProgression userProgress={useProgress} />}
+            {/* Description */}
+            <p className='text-sm text-muted-foreground line-clamp-2'>
+              {course.description}
+            </p>
+            {isCourseOwened ? (
+              <CourseProgression userProgress={useProgress} />
+            ) : (
+              <div className='flex flex-row items-center gap-1 font-semibold'>
+                <span className='dirham-symbol !text-lg'>&#xea;</span>
+                <span className='text-xl'>{course.price}</span>
+              </div>
+            )}
           </div>
         </CardContent>
         <CardFooter className='items-end justify-end gap-2'>
@@ -75,7 +104,7 @@ const CourseCard = async ({ course, cart, user }: CourseCardProps) => {
             size={'sm'}
             variant={'outline'}
           >
-            <Link href={`/course/${course.slug}`}>Read More</Link>
+            <Link href={`/course/${course.slug}`}>View Details</Link>
           </Button>
           <EnrollCourseBtn course={course} cart={cart} user={user} />
         </CardFooter>

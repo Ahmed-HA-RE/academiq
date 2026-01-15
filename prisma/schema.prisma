@@ -26,8 +26,6 @@ model Course {
   published    Boolean        @default(false)
   category     String
   prequisites  String         @db.Text
-  rating       Decimal        @default(0) @db.Decimal(2, 1)
-  numReviews   Int            @default(0)
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   users        User[]
@@ -47,7 +45,6 @@ model User {
   image                String                @default("https://res.cloudinary.com/ahmed--dev/image/upload/v1755243182/default_avatar_7541d4c434.webp")
   role                 String                @default("user")
   billingInfo          Json?                 @db.Json
-  status               String                @default("online")
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   sessions             Session[]

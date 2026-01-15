@@ -8,6 +8,7 @@ import { addToCart, removeFromCart } from '@/lib/actions/cart';
 import { toast } from 'sonner';
 import { usePathname, useRouter } from 'next/navigation';
 import { SERVER_URL } from '@/lib/constants';
+import Link from 'next/link';
 
 const EnrollCourseBtn = ({
   course,
@@ -27,6 +28,9 @@ const EnrollCourseBtn = ({
     cart && cart.cartItems.find((item) => item.courseId === course.id);
 
   const isUserEnrolled = user && user.courses?.some((c) => c.id === course.id);
+
+  const isCourseOwnedToInstructor =
+    user && user.role === 'instructor' && course.instructor?.userId === user.id;
 
   const handleAddToCart = async () => {
     if (!user) {
@@ -80,6 +84,17 @@ const EnrollCourseBtn = ({
       }}
     >
       View Course
+    </Button>
+  ) : isCourseOwnedToInstructor ? (
+    <Button
+      className='min-w-24 cursor-pointer bg-amber-500 text-white hover:bg-amber-500/80'
+      size={'sm'}
+      variant={'default'}
+      asChild
+    >
+      <Link href={`/instructor-dashboard/courses/${course.slug}/edit`}>
+        Edit Course
+      </Link>
     </Button>
   ) : (
     <Button

@@ -43,21 +43,18 @@ export type Section = {
 
 export type Course = z.infer<typeof baseCourseSchema> & {
   id: string;
-  rating: string;
-  numReviews: number;
   createdAt: Date;
   updatedAt: Date;
   totalPages?: number;
   sections: Section;
 };
 
-export type CourseCardType = z.infer<typeof baseCourseSchema> & {
+export type CourseCardType = Omit<Course, 'sections'> & {
   id: string;
   slug: string;
-  rating: string;
-  numReviews: number;
   createdAt: Date;
   updatedAt: Date;
+  instructor: Omit<Instructor, 'socialLinks'>;
 };
 
 export type CreateCourse = z.infer<typeof createCourseSchema>;
@@ -127,7 +124,6 @@ export type User = {
   image: string;
   role: string;
   billingInfo: BillingInfo | null;
-  status: string;
   banned: boolean;
   createdAt: Date;
   updatedAt: Date;

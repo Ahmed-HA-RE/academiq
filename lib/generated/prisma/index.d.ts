@@ -2555,14 +2555,10 @@ export namespace Prisma {
 
   export type CourseAvgAggregateOutputType = {
     price: Decimal | null
-    rating: Decimal | null
-    numReviews: number | null
   }
 
   export type CourseSumAggregateOutputType = {
     price: Decimal | null
-    rating: Decimal | null
-    numReviews: number | null
   }
 
   export type CourseMinAggregateOutputType = {
@@ -2578,8 +2574,6 @@ export namespace Prisma {
     published: boolean | null
     category: string | null
     prequisites: string | null
-    rating: Decimal | null
-    numReviews: number | null
     createdAt: Date | null
     updatedAt: Date | null
     instructorId: string | null
@@ -2598,8 +2592,6 @@ export namespace Prisma {
     published: boolean | null
     category: string | null
     prequisites: string | null
-    rating: Decimal | null
-    numReviews: number | null
     createdAt: Date | null
     updatedAt: Date | null
     instructorId: string | null
@@ -2618,8 +2610,6 @@ export namespace Prisma {
     published: number
     category: number
     prequisites: number
-    rating: number
-    numReviews: number
     createdAt: number
     updatedAt: number
     instructorId: number
@@ -2629,14 +2619,10 @@ export namespace Prisma {
 
   export type CourseAvgAggregateInputType = {
     price?: true
-    rating?: true
-    numReviews?: true
   }
 
   export type CourseSumAggregateInputType = {
     price?: true
-    rating?: true
-    numReviews?: true
   }
 
   export type CourseMinAggregateInputType = {
@@ -2652,8 +2638,6 @@ export namespace Prisma {
     published?: true
     category?: true
     prequisites?: true
-    rating?: true
-    numReviews?: true
     createdAt?: true
     updatedAt?: true
     instructorId?: true
@@ -2672,8 +2656,6 @@ export namespace Prisma {
     published?: true
     category?: true
     prequisites?: true
-    rating?: true
-    numReviews?: true
     createdAt?: true
     updatedAt?: true
     instructorId?: true
@@ -2692,8 +2674,6 @@ export namespace Prisma {
     published?: true
     category?: true
     prequisites?: true
-    rating?: true
-    numReviews?: true
     createdAt?: true
     updatedAt?: true
     instructorId?: true
@@ -2799,8 +2779,6 @@ export namespace Prisma {
     published: boolean
     category: string
     prequisites: string
-    rating: Decimal
-    numReviews: number
     createdAt: Date
     updatedAt: Date
     instructorId: string
@@ -2838,8 +2816,6 @@ export namespace Prisma {
     published?: boolean
     category?: boolean
     prequisites?: boolean
-    rating?: boolean
-    numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     instructorId?: boolean
@@ -2865,8 +2841,6 @@ export namespace Prisma {
     published?: boolean
     category?: boolean
     prequisites?: boolean
-    rating?: boolean
-    numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     instructorId?: boolean
@@ -2886,8 +2860,6 @@ export namespace Prisma {
     published?: boolean
     category?: boolean
     prequisites?: boolean
-    rating?: boolean
-    numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     instructorId?: boolean
@@ -2907,14 +2879,12 @@ export namespace Prisma {
     published?: boolean
     category?: boolean
     prequisites?: boolean
-    rating?: boolean
-    numReviews?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     instructorId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "image" | "imageKey" | "language" | "difficulty" | "published" | "category" | "prequisites" | "rating" | "numReviews" | "createdAt" | "updatedAt" | "instructorId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "image" | "imageKey" | "language" | "difficulty" | "published" | "category" | "prequisites" | "createdAt" | "updatedAt" | "instructorId", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Course$usersArgs<ExtArgs>
     instructor?: boolean | InstructorDefaultArgs<ExtArgs>
@@ -2954,8 +2924,6 @@ export namespace Prisma {
       published: boolean
       category: string
       prequisites: string
-      rating: Prisma.Decimal
-      numReviews: number
       createdAt: Date
       updatedAt: Date
       instructorId: string
@@ -3400,8 +3368,6 @@ export namespace Prisma {
     readonly published: FieldRef<"Course", 'Boolean'>
     readonly category: FieldRef<"Course", 'String'>
     readonly prequisites: FieldRef<"Course", 'String'>
-    readonly rating: FieldRef<"Course", 'Decimal'>
-    readonly numReviews: FieldRef<"Course", 'Int'>
     readonly createdAt: FieldRef<"Course", 'DateTime'>
     readonly updatedAt: FieldRef<"Course", 'DateTime'>
     readonly instructorId: FieldRef<"Course", 'String'>
@@ -3956,7 +3922,6 @@ export namespace Prisma {
     emailVerified: boolean | null
     image: string | null
     role: string | null
-    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
     banned: boolean | null
@@ -3971,7 +3936,6 @@ export namespace Prisma {
     emailVerified: boolean | null
     image: string | null
     role: string | null
-    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
     banned: boolean | null
@@ -3987,7 +3951,6 @@ export namespace Prisma {
     image: number
     role: number
     billingInfo: number
-    status: number
     createdAt: number
     updatedAt: number
     banned: number
@@ -4004,7 +3967,6 @@ export namespace Prisma {
     emailVerified?: true
     image?: true
     role?: true
-    status?: true
     createdAt?: true
     updatedAt?: true
     banned?: true
@@ -4019,7 +3981,6 @@ export namespace Prisma {
     emailVerified?: true
     image?: true
     role?: true
-    status?: true
     createdAt?: true
     updatedAt?: true
     banned?: true
@@ -4035,7 +3996,6 @@ export namespace Prisma {
     image?: true
     role?: true
     billingInfo?: true
-    status?: true
     createdAt?: true
     updatedAt?: true
     banned?: true
@@ -4124,7 +4084,6 @@ export namespace Prisma {
     image: string
     role: string
     billingInfo: JsonValue | null
-    status: string
     createdAt: Date
     updatedAt: Date
     banned: boolean
@@ -4157,7 +4116,6 @@ export namespace Prisma {
     image?: boolean
     role?: boolean
     billingInfo?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     banned?: boolean
@@ -4183,7 +4141,6 @@ export namespace Prisma {
     image?: boolean
     role?: boolean
     billingInfo?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     banned?: boolean
@@ -4199,7 +4156,6 @@ export namespace Prisma {
     image?: boolean
     role?: boolean
     billingInfo?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     banned?: boolean
@@ -4215,7 +4171,6 @@ export namespace Prisma {
     image?: boolean
     role?: boolean
     billingInfo?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     banned?: boolean
@@ -4223,7 +4178,7 @@ export namespace Prisma {
     banExpires?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "billingInfo" | "status" | "createdAt" | "updatedAt" | "banned" | "banReason" | "banExpires", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "billingInfo" | "createdAt" | "updatedAt" | "banned" | "banReason" | "banExpires", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -4260,7 +4215,6 @@ export namespace Prisma {
       image: string
       role: string
       billingInfo: Prisma.JsonValue | null
-      status: string
       createdAt: Date
       updatedAt: Date
       banned: boolean
@@ -4705,7 +4659,6 @@ export namespace Prisma {
     readonly image: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'String'>
     readonly billingInfo: FieldRef<"User", 'Json'>
-    readonly status: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly banned: FieldRef<"User", 'Boolean'>
@@ -21204,8 +21157,6 @@ export namespace Prisma {
     published: 'published',
     category: 'category',
     prequisites: 'prequisites',
-    rating: 'rating',
-    numReviews: 'numReviews',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     instructorId: 'instructorId'
@@ -21222,7 +21173,6 @@ export namespace Prisma {
     image: 'image',
     role: 'role',
     billingInfo: 'billingInfo',
-    status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     banned: 'banned',
@@ -21527,20 +21477,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -21572,6 +21508,20 @@ export namespace Prisma {
    * Reference to a field of type 'Json[]'
    */
   export type ListJsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -21636,8 +21586,6 @@ export namespace Prisma {
     published?: BoolFilter<"Course"> | boolean
     category?: StringFilter<"Course"> | string
     prequisites?: StringFilter<"Course"> | string
-    rating?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFilter<"Course"> | number
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
     instructorId?: StringFilter<"Course"> | string
@@ -21662,8 +21610,6 @@ export namespace Prisma {
     published?: SortOrder
     category?: SortOrder
     prequisites?: SortOrder
-    rating?: SortOrder
-    numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     instructorId?: SortOrder
@@ -21691,8 +21637,6 @@ export namespace Prisma {
     published?: BoolFilter<"Course"> | boolean
     category?: StringFilter<"Course"> | string
     prequisites?: StringFilter<"Course"> | string
-    rating?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFilter<"Course"> | number
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
     instructorId?: StringFilter<"Course"> | string
@@ -21717,8 +21661,6 @@ export namespace Prisma {
     published?: SortOrder
     category?: SortOrder
     prequisites?: SortOrder
-    rating?: SortOrder
-    numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     instructorId?: SortOrder
@@ -21745,8 +21687,6 @@ export namespace Prisma {
     published?: BoolWithAggregatesFilter<"Course"> | boolean
     category?: StringWithAggregatesFilter<"Course"> | string
     prequisites?: StringWithAggregatesFilter<"Course"> | string
-    rating?: DecimalWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    numReviews?: IntWithAggregatesFilter<"Course"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     instructorId?: StringWithAggregatesFilter<"Course"> | string
@@ -21763,7 +21703,6 @@ export namespace Prisma {
     image?: StringFilter<"User"> | string
     role?: StringFilter<"User"> | string
     billingInfo?: JsonNullableFilter<"User">
-    status?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     banned?: BoolFilter<"User"> | boolean
@@ -21788,7 +21727,6 @@ export namespace Prisma {
     image?: SortOrder
     role?: SortOrder
     billingInfo?: SortOrderInput | SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     banned?: SortOrder
@@ -21816,7 +21754,6 @@ export namespace Prisma {
     image?: StringFilter<"User"> | string
     role?: StringFilter<"User"> | string
     billingInfo?: JsonNullableFilter<"User">
-    status?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     banned?: BoolFilter<"User"> | boolean
@@ -21841,7 +21778,6 @@ export namespace Prisma {
     image?: SortOrder
     role?: SortOrder
     billingInfo?: SortOrderInput | SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     banned?: SortOrder
@@ -21863,7 +21799,6 @@ export namespace Prisma {
     image?: StringWithAggregatesFilter<"User"> | string
     role?: StringWithAggregatesFilter<"User"> | string
     billingInfo?: JsonNullableWithAggregatesFilter<"User">
-    status?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     banned?: BoolWithAggregatesFilter<"User"> | boolean
@@ -22950,8 +22885,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCoursesInput
@@ -22975,8 +22908,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     instructorId: string
@@ -23000,8 +22931,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCoursesNestedInput
@@ -23025,8 +22954,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructorId?: StringFieldUpdateOperationsInput | string
@@ -23050,8 +22977,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     instructorId: string
@@ -23070,8 +22995,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23089,8 +23012,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructorId?: StringFieldUpdateOperationsInput | string
@@ -23104,7 +23025,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -23129,7 +23049,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -23154,7 +23073,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -23179,7 +23097,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -23204,7 +23121,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -23220,7 +23136,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -23236,7 +23151,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -24423,17 +24337,6 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -24513,8 +24416,6 @@ export namespace Prisma {
     published?: SortOrder
     category?: SortOrder
     prequisites?: SortOrder
-    rating?: SortOrder
-    numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     instructorId?: SortOrder
@@ -24522,8 +24423,6 @@ export namespace Prisma {
 
   export type CourseAvgOrderByAggregateInput = {
     price?: SortOrder
-    rating?: SortOrder
-    numReviews?: SortOrder
   }
 
   export type CourseMaxOrderByAggregateInput = {
@@ -24539,8 +24438,6 @@ export namespace Prisma {
     published?: SortOrder
     category?: SortOrder
     prequisites?: SortOrder
-    rating?: SortOrder
-    numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     instructorId?: SortOrder
@@ -24559,8 +24456,6 @@ export namespace Prisma {
     published?: SortOrder
     category?: SortOrder
     prequisites?: SortOrder
-    rating?: SortOrder
-    numReviews?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     instructorId?: SortOrder
@@ -24568,8 +24463,6 @@ export namespace Prisma {
 
   export type CourseSumOrderByAggregateInput = {
     price?: SortOrder
-    rating?: SortOrder
-    numReviews?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -24612,22 +24505,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -24766,7 +24643,6 @@ export namespace Prisma {
     image?: SortOrder
     role?: SortOrder
     billingInfo?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     banned?: SortOrder
@@ -24781,7 +24657,6 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     role?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     banned?: SortOrder
@@ -24796,7 +24671,6 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     role?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     banned?: SortOrder
@@ -25117,6 +24991,17 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type EnumstatusFilter<$PrismaModel = never> = {
     equals?: $Enums.status | EnumstatusFieldRefInput<$PrismaModel>
     in?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
@@ -25170,6 +25055,22 @@ export namespace Prisma {
 
   export type LessonSumOrderByAggregateInput = {
     duration?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumstatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -25673,14 +25574,6 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -26338,6 +26231,14 @@ export namespace Prisma {
     connect?: MuxDataWhereUniqueInput
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type EnumstatusFieldUpdateOperationsInput = {
     set?: $Enums.status
   }
@@ -26746,17 +26647,6 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -26785,6 +26675,17 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
@@ -26807,33 +26708,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -26972,6 +26846,33 @@ export namespace Prisma {
     not?: NestedEnumstatusFilter<$PrismaModel> | $Enums.status
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumstatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.status | EnumstatusFieldRefInput<$PrismaModel>
     in?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
@@ -27030,7 +26931,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -27054,7 +26954,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -27239,7 +27138,6 @@ export namespace Prisma {
     image?: StringFilter<"User"> | string
     role?: StringFilter<"User"> | string
     billingInfo?: JsonNullableFilter<"User">
-    status?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     banned?: BoolFilter<"User"> | boolean
@@ -27483,8 +27381,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     instructor: InstructorCreateNestedOneWithoutCoursesInput
@@ -27507,8 +27403,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     instructorId: string
@@ -27819,8 +27713,6 @@ export namespace Prisma {
     published?: BoolFilter<"Course"> | boolean
     category?: StringFilter<"Course"> | string
     prequisites?: StringFilter<"Course"> | string
-    rating?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFilter<"Course"> | number
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
     instructorId?: StringFilter<"Course"> | string
@@ -28017,7 +27909,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -28041,7 +27932,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -28081,7 +27971,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -28105,7 +27994,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -28129,7 +28017,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -28153,7 +28040,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -28193,7 +28079,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -28217,7 +28102,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -28241,7 +28125,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -28265,7 +28148,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -28334,7 +28216,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -28358,7 +28239,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -28422,8 +28302,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCoursesInput
@@ -28446,8 +28324,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     instructorId: string
@@ -28516,8 +28392,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCoursesNestedInput
@@ -28540,8 +28414,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructorId?: StringFieldUpdateOperationsInput | string
@@ -28744,7 +28616,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -28768,7 +28639,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -28863,7 +28733,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -28887,7 +28756,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -28967,8 +28835,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCoursesInput
@@ -28991,8 +28857,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     instructorId: string
@@ -29068,8 +28932,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCoursesNestedInput
@@ -29092,8 +28954,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructorId?: StringFieldUpdateOperationsInput | string
@@ -29262,7 +29122,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -29286,7 +29145,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -29320,8 +29178,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCoursesInput
@@ -29344,8 +29200,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCoursesInput
@@ -29384,7 +29238,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -29408,7 +29261,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -29448,7 +29300,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -29472,7 +29323,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -29512,7 +29362,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -29536,7 +29385,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -29560,7 +29408,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -29584,7 +29431,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -29618,8 +29464,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCoursesInput
@@ -29642,8 +29486,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     instructorId: string
@@ -29677,7 +29519,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -29701,7 +29542,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -29741,8 +29581,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCoursesNestedInput
@@ -29765,8 +29603,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructorId?: StringFieldUpdateOperationsInput | string
@@ -29784,7 +29620,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -29808,7 +29643,6 @@ export namespace Prisma {
     image?: string
     role?: string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     banned?: boolean
@@ -29842,8 +29676,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCoursesInput
@@ -29866,8 +29698,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     instructorId: string
@@ -29901,7 +29731,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -29925,7 +29754,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -29965,8 +29793,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCoursesNestedInput
@@ -29989,8 +29815,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructorId?: StringFieldUpdateOperationsInput | string
@@ -30038,7 +29862,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -30062,7 +29885,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -30086,7 +29908,6 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     billingInfo?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     banned?: BoolFieldUpdateOperationsInput | boolean
@@ -30345,8 +30166,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructor?: InstructorUpdateOneRequiredWithoutCoursesNestedInput
@@ -30369,8 +30188,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructorId?: StringFieldUpdateOperationsInput | string
@@ -30393,8 +30210,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructorId?: StringFieldUpdateOperationsInput | string
@@ -30721,8 +30536,6 @@ export namespace Prisma {
     published?: boolean
     category: string
     prequisites: string
-    rating?: Decimal | DecimalJsLike | number | string
-    numReviews?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -30740,8 +30553,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCoursesNestedInput
@@ -30764,8 +30575,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCoursesNestedInput
@@ -30788,8 +30597,6 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
     prequisites?: StringFieldUpdateOperationsInput | string
-    rating?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    numReviews?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
