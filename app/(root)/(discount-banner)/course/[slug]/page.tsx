@@ -1,4 +1,4 @@
-import { getCourseBySlug } from '@/lib/actions/course';
+import { getCourseBySlug } from '@/lib/actions/course/getCourses';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';

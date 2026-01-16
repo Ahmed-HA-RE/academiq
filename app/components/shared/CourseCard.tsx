@@ -1,4 +1,6 @@
-import { BadgeCheckIcon, StarIcon } from 'lucide-react';
+'use client';
+
+import { BadgeCheckIcon } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import Link from 'next/link';
 import { Badge } from '../ui/badge';
@@ -7,10 +9,9 @@ import Image from 'next/image';
 import { Button } from '../ui/button';
 import { MotionPreset } from '../ui/motion-preset';
 import EnrollCourseBtn from './EnrollCourseBtn';
-import CourseProgression from './CourseProgression';
-import { getUserProgress } from '@/lib/actions/user';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Suspense } from 'react';
+import DOMPurify from 'isomorphic-dompurify';
 
 type CourseCardProps = {
   course: CourseCardType;
@@ -18,10 +19,7 @@ type CourseCardProps = {
   user: User | undefined;
 };
 
-const CourseCard = async ({ course, cart, user }: CourseCardProps) => {
-  const isCourseOwened = user && user.courses?.some((c) => c.id === course.id);
-  const useProgress = await getUserProgress(course.id);
-
+const CourseCard = ({ course, cart, user }: CourseCardProps) => {
   return (
     <MotionPreset
       component='div'
@@ -84,17 +82,19 @@ const CourseCard = async ({ course, cart, user }: CourseCardProps) => {
               </span>
             </div>
             {/* Description */}
-            <p className='text-sm text-muted-foreground line-clamp-2'>
-              {course.description}
-            </p>
-            {isCourseOwened ? (
-              <CourseProgression userProgress={useProgress} />
-            ) : (
-              <div className='flex flex-row items-center gap-1 font-semibold'>
-                <span className='dirham-symbol !text-lg'>&#xea;</span>
-                <span className='text-xl'>{course.price}</span>
-              </div>
-            )}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(course.description, {
+                  ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'p', 'br'],
+                }),
+              }}
+              className='text-sm text-muted-foreground line-clamp-2'
+            ></span>
+
+            <div className='flex flex-row items-center gap-1 font-semibold'>
+              <span className='dirham-symbol !text-lg'>&#xea;</span>
+              <span className='text-xl'>{course.price}</span>
+            </div>
           </div>
         </CardContent>
         <CardFooter className='items-end justify-end gap-2'>

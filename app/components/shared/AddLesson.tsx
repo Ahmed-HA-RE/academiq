@@ -21,7 +21,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Label } from '../ui/label';
 import React from 'react';
-import { deleteCourseLessons } from '@/lib/actions/course';
+import { deleteCourseLessons } from '@/lib/actions/course/courseDeletion';
 import {
   Collapsible,
   CollapsibleContent,

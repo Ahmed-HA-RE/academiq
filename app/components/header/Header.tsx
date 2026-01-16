@@ -27,8 +27,8 @@ const Header = async () => {
   ];
 
   return (
-    <header className='bg-transparent z-20'>
-      <div className='mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-4 py-7 lg:px-6'>
+    <header className='bg-transparent z-20 border-b'>
+      <div className='mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-4 lg:px-6 h-17.5'>
         <div className='flex items-center lg:gap-10'>
           <MenuSheet navigationData={baseNavigationMenu} />
           <Link className='flex flex-row items-center gap-1' href='/'>
@@ -38,7 +38,7 @@ const Header = async () => {
           <DesktopNavMenu navigationData={baseNavigationMenu} />
         </div>
 
-        <div className='flex items-center '>
+        <div className='flex items-center'>
           {/* Cart */}
           {session?.user && (
             <Tooltip>

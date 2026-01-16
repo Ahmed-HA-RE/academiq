@@ -6,7 +6,7 @@ import { prisma } from '../prisma';
 import { BillingInfo, Cart, PaymentResult } from '@/types';
 import { orderItemSchema } from '@/schema';
 import z from 'zod';
-import stripe from '../stripe';
+import { stripe } from '../stripe';
 import { SERVER_URL } from '../constants';
 import { revalidatePath } from 'next/cache';
 import { convertToPlainObject } from '../utils';

@@ -9,9 +9,9 @@ const HomePage = async () => {
   return (
     <>
       <HeroSection />
-      <LogoCloud />
       <Features />
       <LearningOutcomes />
+      <LogoCloud />
       <Testimonial />
       <CTA />
     </>

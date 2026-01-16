@@ -1,6 +1,6 @@
 import SetUpStripeConnectCard from '@/app/components/instructor/SetUpStripeConnectCard';
 import ApplicationStepper from '@/app/components/teach/ApplicationStepper';
-import { getStripeAccountByApplication } from '@/lib/actions/instructor';
+import { getStripeAccountByApplication } from '@/lib/actions/stripe.action';
 import { APP_NAME } from '@/lib/constants';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';

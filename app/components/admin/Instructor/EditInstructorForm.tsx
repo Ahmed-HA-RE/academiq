@@ -14,7 +14,7 @@ import { TEACHING_CATEGORIESMULTISELECT } from '@/lib/constants';
 import {
   updateInstructorAccount,
   updateInstructorAsAdmin,
-} from '@/lib/actions/instructor';
+} from '@/lib/actions/instructor/updateInstructor';
 import { useRouter } from 'next/navigation';
 import ScreenSpinner from '../../ScreenSpinner';
 import { Button } from '../../ui/button';

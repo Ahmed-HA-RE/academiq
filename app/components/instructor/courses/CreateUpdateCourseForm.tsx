@@ -2,7 +2,13 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createCourseSchema } from '@/schema';
-import { Course, CreateCourse, Instructor } from '../../../../types';
+import {
+  Course,
+  CreateCourse,
+  Instructor,
+  Section,
+  User,
+} from '../../../../types';
 import { toast } from 'sonner';
 import { useForm, Controller } from 'react-hook-form';
 import { Input } from '../../ui/input';
@@ -38,7 +44,11 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/app/components/ui/motion-tabs';
-import { createCourse, updateCourse } from '@/lib/actions/course';
+import { createCourse } from '@/lib/actions/course/createCourse';
+import {
+  updateCourse,
+  updateCourseAsAdmin,
+} from '@/lib/actions/course/updateCourse';
 import { usePathname, useRouter } from 'next/navigation';
 import ScreenSpinner from '../../ScreenSpinner';
 import { UploadDropzone } from '@/lib/uploadthing';
@@ -48,10 +58,12 @@ const CreateCourseForm = ({
   course,
   type,
   instructor,
+  user,
 }: {
-  course?: Course;
+  course?: Course & { sections: Section };
   type: 'create' | 'edit';
   instructor?: Instructor;
+  user?: User;
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -79,7 +91,7 @@ const CreateCourseForm = ({
   });
 
   const onSubmit = async (data: CreateCourse) => {
-    if (type === 'edit') {
+    if (type === 'edit' && !user) {
       const res = await updateCourse(course ? course.id : '', data);
       if (!res.success) {
         toast.error(res.message);
@@ -88,6 +100,15 @@ const CreateCourseForm = ({
 
       toast.success(res.message);
       router.push('/instructor-dashboard/courses');
+    } else if (type === 'edit' && user && user.role === 'admin') {
+      const res = await updateCourseAsAdmin(course ? course.id : '', data);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+
+      toast.success(res.message);
+      router.push('/admin-dashboard/courses');
     } else {
       const res = await createCourse(data);
 

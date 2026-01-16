@@ -46,7 +46,7 @@ export type Course = z.infer<typeof baseCourseSchema> & {
   createdAt: Date;
   updatedAt: Date;
   totalPages?: number;
-  sections: Section;
+  instructor: Omit<Instructor, 'socialLinks'>;
 };
 
 export type CourseCardType = Omit<Course, 'sections'> & {
@@ -78,6 +78,7 @@ export type Instructor = z.infer<typeof instructorSchema> & {
   user: Pick<User, 'name' | 'email' | 'image' | 'banned' | 'role' | 'id'>;
   stripeAccountId: string;
   coursesCount?: number;
+  courses?: Course;
 };
 
 export type InstructorFormData = z.infer<typeof instructorUpdateSchema>;

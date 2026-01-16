@@ -56,9 +56,11 @@ import ScreenSpinner from '../../ScreenSpinner';
 import DataPagination from '../../shared/Pagination';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { toggleCoursePublishStatus } from '@/lib/actions/course';
+import { toggleCoursePublishStatus } from '@/lib/actions/course/toggleCourseStatus';
 
-const columns: ColumnDef<Course & { studentsCount: number }>[] = [
+const columns: ColumnDef<
+  Omit<Course, 'instructor'> & { studentsCount: number }
+>[] = [
   {
     header: 'Course',
     cell: ({ row }) => (
@@ -137,7 +139,7 @@ const columns: ColumnDef<Course & { studentsCount: number }>[] = [
     },
   },
   {
-    header: 'Published At',
+    header: 'Created At',
     accessorKey: 'createdAt',
     cell: ({ row }) => (
       <span className='text-muted-foreground'>
@@ -154,7 +156,7 @@ const columns: ColumnDef<Course & { studentsCount: number }>[] = [
 ];
 
 type CoursesDataTableDetailsProps = {
-  courses: (Course & { studentsCount: number })[];
+  courses: (Omit<Course, 'instructor'> & { studentsCount: number })[];
   totalPages: number;
 };
 
@@ -316,7 +318,11 @@ const CoursesDataTableDetails = ({
 
 export default CoursesDataTableDetails;
 
-export const RowActions = ({ course }: { course: Course }) => {
+export const RowActions = ({
+  course,
+}: {
+  course: Omit<Course, 'instructor'> & { studentsCount: number };
+}) => {
   const [isPending, startTransition] = useTransition();
 
   const habdleTogglePublish = () => {

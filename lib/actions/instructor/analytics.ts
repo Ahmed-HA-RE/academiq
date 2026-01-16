@@ -1,9 +1,11 @@
+'use server';
+
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { convertToPlainObject } from '@/lib/utils';
 import { getYear, lastDayOfYear } from 'date-fns';
 import { headers } from 'next/headers';
-import { getCurrentLoggedInInstructor } from '.';
+import { getCurrentLoggedInInstructor } from './getInstructor';
 
 // Get total students across all courses
 export const getTotalStudentsCount = async () => {

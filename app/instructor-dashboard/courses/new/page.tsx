@@ -1,5 +1,5 @@
 import CreateUpdateCourseForm from '@/app/components/instructor/courses/CreateUpdateCourseForm';
-import { getCurrentLoggedInInstructor } from '@/lib/actions/instructor';
+import { getCurrentLoggedInInstructor } from '@/lib/actions/instructor/getInstructor';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

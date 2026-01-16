@@ -1,5 +1,7 @@
+'use server';
+
 import { prisma } from '@/lib/prisma';
-import { getCurrentLoggedInInstructor } from '.';
+import { getCurrentLoggedInInstructor } from './getInstructor';
 import { convertToPlainObject } from '@/lib/utils';
 
 export const getAllInstructorCertificates = async () => {

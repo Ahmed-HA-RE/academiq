@@ -28,7 +28,7 @@ import { toast } from 'sonner';
 import { InstructorApplication } from '@/types';
 import ScreenSpinner from '../../ScreenSpinner';
 import Stripe from 'stripe';
-import { notifyApplicant } from '@/lib/actions/instructor';
+import { notifyApplicant } from '@/lib/actions/stripe.action';
 import { FaCity } from 'react-icons/fa';
 
 export const metadata: Metadata = {

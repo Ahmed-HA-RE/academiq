@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/app/components/ui/card';
-import { getStripeAccountByApplication } from '@/lib/actions/instructor';
+import { getStripeAccountByApplication } from '@/lib/actions/stripe.action';
 import { getApplicationByUserId } from '@/lib/actions/instructor/application';
 import { APP_NAME } from '@/lib/constants';
 import { cn } from '@/lib/utils';
