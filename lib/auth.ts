@@ -84,11 +84,6 @@ export const auth = betterAuth({
         defaultValue: 'user',
         input: false,
       },
-      status: {
-        type: 'string',
-        defaultValue: 'online',
-        input: false,
-      },
     },
   },
 });

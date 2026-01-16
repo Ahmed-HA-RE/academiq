@@ -32,7 +32,7 @@ const DesktopNavMenu = ({ navigationData }: DesktopNavMenuProps) => {
                 'font-normal',
                 'text-muted-foreground',
                 pathname === menu.href
-                  ? 'text-black font-bold'
+                  ? 'text-black dark:text-white font-bold'
                   : 'font-normal hover:text-black dark:hover:text-white'
               )}
               asChild

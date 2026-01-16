@@ -1,7 +1,6 @@
 import { getCourseBySlug } from '@/lib/actions/course';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Rating } from '@/app/components/ui/rating';
 import Link from 'next/link';
 import { Button } from '@/app/components/ui/button';
 import {
@@ -10,7 +9,6 @@ import {
   ClipboardClock,
   TimerIcon,
   Users,
-  UserStar,
 } from 'lucide-react';
 import { Separator } from '@/app/components/ui/separator';
 import EnrollCourseBtn from '@/app/components/shared/EnrollCourseBtn';
@@ -43,11 +41,14 @@ const CourseDetailsPage = async ({
 }) => {
   const { slug } = await params;
 
-  const course = await getCourseBySlug(slug);
+  const [course, cart, user] = await Promise.all([
+    getCourseBySlug(slug),
+    getMyCart(),
+    getCurrentLoggedUser(),
+  ]);
+
   if (!course) notFound();
 
-  const cart = await getMyCart();
-  const user = await getCurrentLoggedUser();
   return (
     <section className='mb-10'>
       <div className='container'>
@@ -95,20 +96,6 @@ const CourseDetailsPage = async ({
             <div className='flex flex-row items-center justify-start gap-1 font-semibold mb-8'>
               <span className='dirham-symbol !text-3xl '>&#xea;</span>
               <span className='text-3xl md:text-4xl'>{course.price}</span>
-            </div>
-            {/* rating + num reviews */}
-            <div className='flex flex-row items-center gap-3 text-sm'>
-              <UserStar size={18} />
-              <p className='text-sm font-semibold shadow-2xl'>
-                {course.numReviews} reviews
-              </p>
-              <Rating
-                value={Number(course.rating)}
-                precision={0.5}
-                size={18}
-                readOnly
-                variant='yellow'
-              />
             </div>
             <div className='flex flex-row items-center gap-3 text-sm'>
               <ClipboardClock size={18} />

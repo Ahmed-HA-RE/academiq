@@ -203,14 +203,14 @@ const SendReceipt = ({ order, discount }: SendReceiptProp) => {
                     <Img
                       src={`${baseImageUrl}/insta.png`}
                       alt='Instagram'
-                      className='w-[32px]  inline-block'
+                      className='w-[34px]  inline-block'
                     />
                   </Link>
                   <Link href='https://www.whatsapp.com'>
                     <Img
                       src={`${baseImageUrl}/whatsapp.png`}
                       alt='WhatsApp'
-                      className='w-[32px] inline-block ml-[12px]'
+                      className='w-[36px] inline-block ml-[7px]'
                     />
                   </Link>
                 </Column>

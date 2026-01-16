@@ -127,6 +127,20 @@ export const getCourseBySlug = async (slug: string) => {
     where: { slug },
     include: {
       users: true,
+      instructor: {
+        include: {
+          user: {
+            select: {
+              name: true,
+              image: true,
+              id: true,
+              email: true,
+              banned: true,
+              role: true,
+            },
+          },
+        },
+      },
       sections: {
         include: {
           lessons: {

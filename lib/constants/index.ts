@@ -8,6 +8,72 @@ export const SERVER_URL =
 
 export const APP_NAME = 'Academiq';
 
+export const LEARNING_OUTCOMES = [
+  {
+    title: 'Apply Knowledge in Real Situations',
+    description:
+      'Gain the ability to confidently apply what you learn to real-life scenarios, projects, and problem-solving situations, rather than relying on memorization or isolated examples.',
+  },
+  {
+    title: 'Develop Independent Learning Confidence',
+    description:
+      'Build the confidence to approach new topics, tools, or challenges on your own, knowing how to break problems down and find effective solutions.',
+  },
+  {
+    title: 'Strengthen Practical Decision Making Skills',
+    description:
+      'Learn how to make informed decisions when working through complex tasks by understanding trade-offs, best practices, and common pitfalls.',
+  },
+];
+
+export const LOGO_CLOUD = [
+  {
+    image: '/svg/google_logo.svg',
+    alt: 'Google',
+    size: 'size-14',
+  },
+  {
+    image: '/images/linkedin_logo.png',
+    alt: 'LinkedIn',
+    size: 'size-14',
+  },
+  {
+    image: '/svg/amazon_logo.svg',
+    alt: 'Amazon',
+    size: 'size-14',
+  },
+  {
+    image: '/images/shopify_logo.png',
+    alt: 'Shopify',
+    size: 'size-14',
+  },
+  {
+    image: '/svg/microsoft_logo.svg',
+    alt: 'Microsoft',
+    size: 'size-14',
+  },
+  {
+    image: '/svg/stripe_logo_circule.svg',
+    alt: 'Stripe',
+    size: 'size-14',
+  },
+  {
+    image: '/svg/ibm_logo.svg',
+    alt: 'IBM',
+    size: 'size-14',
+  },
+  {
+    image: '/svg/meta_logo.svg',
+    alt: 'Meta',
+    size: 'size-15',
+  },
+  {
+    image: '/svg/slack_logo.svg',
+    alt: 'Slack',
+    size: 'size-15',
+  },
+];
+
 export const testimonials = [
   {
     name: 'John Doe',

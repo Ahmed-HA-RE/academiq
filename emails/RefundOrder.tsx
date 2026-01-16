@@ -118,8 +118,8 @@ const RefundOrder = ({
                 <Link href='https://www.instagram.com'>
                   <Img
                     src={`${baseImageUrl}/insta.png`}
-                    width='32'
-                    height='32'
+                    width='34'
+                    height='34'
                     alt='Instagram'
                     className='inline ml-2'
                   />
@@ -127,10 +127,10 @@ const RefundOrder = ({
                 <Link href='https://www.whatsapp.com'>
                   <Img
                     src={`${baseImageUrl}/whatsapp.png`}
-                    width='32'
-                    height='32'
+                    width='36'
+                    height='36'
                     alt='WhatsApp'
-                    className=' ml-4 inline'
+                    className=' ml-2 inline'
                   />
                 </Link>
               </Column>
