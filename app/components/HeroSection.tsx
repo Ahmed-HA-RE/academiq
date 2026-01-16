@@ -3,8 +3,8 @@ import { BounceButton } from '@/app/components/ui/bounce-button';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { getTotalCoursesCount } from '@/lib/actions/course';
-import { getCoursesWithStudents } from '@/lib/actions/user';
+import { getTotalCoursesCount } from '@/lib/actions/course/getCourses';
+import { getCoursesWithStudents } from '@/lib/actions/course/getCourses';
 
 const HeroSection = async () => {
   const [coursesCount, studentsCount] = await Promise.all([
@@ -12,7 +12,7 @@ const HeroSection = async () => {
     getCoursesWithStudents(),
   ]);
   return (
-    <section className='overflow-hidden'>
+    <section className='overflow-hidden section-spacing'>
       <div className='container'>
         <div className='relative grid gap-12 lg:grid-cols-5'>
           <div className='flex flex-col gap-6 lg:col-span-3'>

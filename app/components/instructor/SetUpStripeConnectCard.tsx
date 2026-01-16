@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 import Image from 'next/image';
 import Stripe from 'stripe';
 import { useTransition } from 'react';
-import { createStripeOnboardingLink } from '@/lib/actions/instructor';
+import { createStripeOnboardingLink } from '@/lib/actions/stripe.action';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { Spinner } from '../ui/spinner';

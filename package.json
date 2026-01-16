@@ -61,6 +61,7 @@
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
+    "isomorphic-dompurify": "^2.35.0",
     "langs": "^2.0.0",
     "libphonenumber-js": "^1.12.33",
     "lucide-react": "^0.556.0",

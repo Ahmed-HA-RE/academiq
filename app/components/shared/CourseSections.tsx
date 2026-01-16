@@ -10,7 +10,7 @@ import { Input } from '../ui/input';
 
 import { CreateCourse, Section } from '@/types';
 import AddLesson from './AddLesson';
-import { deleteCourseSections } from '@/lib/actions/course';
+import { deleteCourseSections } from '@/lib/actions/course/courseDeletion';
 
 type CourseSectionsProps = {
   form: UseFormReturn<CreateCourse>;

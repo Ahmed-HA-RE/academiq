@@ -17,7 +17,7 @@ import { Prisma } from '@/lib/generated/prisma';
 import { convertToPlainObject } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
 import cloudinary from '@/lib/cloudinary';
-import stripe from '@/lib/stripe';
+import { stripe } from '@/lib/stripe';
 import { UploadApiResponse } from 'cloudinary';
 
 export const applyToTeach = async (

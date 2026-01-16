@@ -4,7 +4,7 @@ import { Card, CardContent } from '../../components/ui/card';
 import Link from 'next/link';
 import { getCurrentLoggedUser } from '@/lib/actions/user';
 import { getApplicationByUserId } from '@/lib/actions/instructor/application';
-import { getStripeAccountByApplication } from '@/lib/actions/instructor';
+import { getStripeAccountByApplication } from '@/lib/actions/stripe.action';
 import { MotionPreset } from '../ui/motion-preset';
 
 const CTASection = async () => {

@@ -27,7 +27,7 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
   }
 
   return (
-    <div className='flex flex-wrap gap-y-2 gap-x-1 border p-2 rounded-md mb-2 bg-secondary/50'>
+    <div className='flex flex-wrap gap-y-2 gap-x-1 p-2 border-b bg-secondary/50'>
       <Button
         variant={'ghost'}
         className='p-2 cursor-pointer'
@@ -161,13 +161,13 @@ const Tiptap = ({
     editorProps: {
       attributes: {
         class:
-          'input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[1px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-auto min-h-30',
+          'input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 bg-transparent px-3 py-1 text-base rounded-b-md transition duration-300 outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[1px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-auto min-h-30 ',
       },
     },
   });
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col border rounded-md'>
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>

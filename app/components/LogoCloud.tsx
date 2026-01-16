@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 const LogoCloud = () => {
   return (
-    <section className='py-10 bg-muted'>
+    <section className='py-10'>
       <div className='container'>
         <div className='flex items-center justify-between gap-12 gap-y-20 max-lg:flex-col sm:gap-16 lg:gap-24'>
           <div className='space-y-4'>
@@ -80,9 +80,10 @@ const LogoCloud = () => {
             zoom={{ initialScale: 0.8 }}
             transition={{ duration: 0.8 }}
             delay={0.5}
+            className='max-sm:scale-90'
           >
             <div className='relative flex size-112 flex-col items-center justify-center'>
-              <Orbiting className='size-150' radius={200} dashedGap={12}>
+              <Orbiting className='size-80' radius={200} dashedGap={12}>
                 {LOGO_CLOUD.slice(0, 6).map((logo, index) => (
                   <Image
                     key={index}

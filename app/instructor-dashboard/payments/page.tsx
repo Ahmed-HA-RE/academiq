@@ -1,6 +1,5 @@
-import { createStripePayoutsLoginLink } from '@/lib/actions/instructor';
+import { createStripePayoutsLoginLink } from '@/lib/actions/stripe.action';
 import { Metadata } from 'next';
-import React from 'react';
 import {
   Card,
   CardContent,

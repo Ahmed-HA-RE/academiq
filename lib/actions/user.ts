@@ -18,7 +18,7 @@ export const getCurrentLoggedUser = async (search?: string) => {
 
   if (!session) return undefined;
 
-  // Seach Filter
+  // Search Filter
   const searchFilter: Prisma.CourseWhereInput = search
     ? { title: { contains: search, mode: 'insensitive' } }
     : {};
@@ -33,6 +33,7 @@ export const getCurrentLoggedUser = async (search?: string) => {
           slug: true,
           image: true,
         },
+
         where: { ...searchFilter },
       },
     },
@@ -575,16 +576,4 @@ export const getAllAdmins = async (
     ),
     totalPages,
   };
-};
-
-// Get courses who have students enrolled
-export const getCoursesWithStudents = async () => {
-  const courses = await prisma.user.findMany({
-    where: {
-      courses: {
-        some: {},
-      },
-    },
-  });
-  return courses.length;
 };

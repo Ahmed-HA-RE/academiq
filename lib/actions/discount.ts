@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache';
 import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { CreateDiscount } from '@/types';
-import stripe from '../stripe';
+import { stripe } from '../stripe';
 import { Prisma } from '../generated/prisma';
 import { endOfDay, startOfDay } from 'date-fns';
 

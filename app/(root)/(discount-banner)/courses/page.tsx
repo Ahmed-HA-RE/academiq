@@ -1,7 +1,7 @@
 import CategoriesFilter from '@/app/components/courses/CategoriesFilter';
 import CoursesPagination from '@/app/components/shared/Pagination';
 import { getMyCart } from '@/lib/actions/cart';
-import { getAllCourses } from '@/lib/actions/course';
+import { getAllCourses } from '@/lib/actions/course/getCourses';
 import { loadSearchParams } from '@/lib/searchParams';
 import type { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';

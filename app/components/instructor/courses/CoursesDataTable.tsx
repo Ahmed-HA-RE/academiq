@@ -1,4 +1,4 @@
-import { getAllInstructorCourses } from '@/lib/actions/course';
+import { getAllInstructorCourses } from '@/lib/actions/course/getCourses';
 import CoursesDataTableDetails from './CoursesDataTableDetails';
 import { SearchParams } from 'nuqs/server';
 import { loadSearchParams } from '@/lib/searchParams';
