@@ -19,7 +19,7 @@ export const createCourse = async (data: CreateCourse) => {
 
     if (!isVideosUploaded)
       throw new Error(
-        'Please upload all lesson videos before creating the course.'
+        'Please upload the lesson video before creating the course.',
       );
 
     const validatedData = createCourseSchema.safeParse(data);

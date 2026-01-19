@@ -5,19 +5,17 @@ import Image from 'next/image';
 import { BookOpenIcon } from 'lucide-react';
 import CourseProgression from '../shared/CourseProgression';
 import { Button } from '../ui/button';
-import { getUserProgress } from '@/lib/actions/user';
+import {
+  getTotalLessonsCount,
+  getUserProgress,
+} from '@/lib/actions/user/my-course';
+import { MyCoursesCardType } from '@/types';
 
-const MyCoursesCard = async ({
-  course,
-}: {
-  course: {
-    id: string;
-    slug: string;
-    image: string;
-    title: string;
-  };
-}) => {
-  const userProgress = await getUserProgress(course.id);
+const MyCoursesCard = async ({ course }: { course: MyCoursesCardType }) => {
+  const [userProgress, lessonsCount] = await Promise.all([
+    getUserProgress(course.id),
+    getTotalLessonsCount(course.id),
+  ]);
 
   return (
     <MotionPreset
@@ -55,7 +53,9 @@ const MyCoursesCard = async ({
                     className='text-blue-500 dark:text-blue-600'
                   />
                 </div>
-                <span className='text-muted-foreground'>12 Lessons</span>
+                <span className='text-muted-foreground'>
+                  {lessonsCount} Lessons
+                </span>
               </div>
             </div>
             <CourseProgression userProgress={userProgress} />

@@ -65,7 +65,7 @@ const columns: ColumnDef<
     header: 'Course',
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
-        <Avatar className='size-12 rounded-full'>
+        <Avatar className='size-10 rounded-full'>
           <Suspense
             fallback={
               <AvatarFallback className='text-xs font-bold'>
@@ -76,10 +76,10 @@ const columns: ColumnDef<
             <Image
               src={row.original.image}
               alt={row.original.title}
-              width={100}
-              height={100}
+              width={40}
+              height={40}
               sizes='100vw'
-              className='object-cover'
+              className='object-cover rounded-full'
             />
           </Suspense>
         </Avatar>
@@ -126,7 +126,7 @@ const columns: ColumnDef<
       return (
         <span
           className={cn(
-            row.original.published ? 'text-green-600' : 'text-red-600'
+            row.original.published ? 'text-green-600' : 'text-red-600',
           )}
         >
           {row.original.published ? (
@@ -174,7 +174,7 @@ const CoursesDataTableDetails = ({
         .withOptions({ limitUrlUpdates: throttle(500) }),
       page: parseAsInteger.withDefault(1),
     },
-    { shallow: false }
+    { shallow: false },
   );
 
   const table = useReactTable({
@@ -262,7 +262,7 @@ const CoursesDataTableDetails = ({
                   >
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                   </TableHead>
                 );

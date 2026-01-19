@@ -2,7 +2,7 @@ import stripe from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
 import resend, { domain } from '@/lib/resend';
 import SendReceipt from '@/emails/SendReceipt';
-import { APP_NAME, APPLICATION_FEE_PERCENTAGE } from '@/lib/constants';
+import { APP_NAME } from '@/lib/constants';
 import { BillingInfo, OrderItems, PaymentResult } from '@/types';
 import { formatDate } from '@/lib/utils';
 import RefundOrder from '@/emails/RefundOrder';
@@ -48,23 +48,7 @@ export const POST = async (req: Request) => {
         },
       });
 
-      // Transfer credits to instrcutors and enroll user to purchased courses
-      for (const item of order.orderItems) {
-        const course = await tx.course.findUnique({
-          where: { id: item.courseId },
-          include: { instructor: true },
-        });
-
-        if (course) {
-          const instructorEarnings =
-            Number(item.price) * (1 - APPLICATION_FEE_PERCENTAGE); // Assuming 5% platform fee
-          await stripe.transfers.create({
-            currency: 'aed',
-            amount: Math.round(instructorEarnings * 100),
-            destination: course.instructor.stripeAccountId,
-          });
-        }
-      }
+      // Grant user access to purchased courses
       await tx.user.update({
         where: { id: order.user.id },
         data: {

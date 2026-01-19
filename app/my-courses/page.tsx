@@ -1,8 +1,7 @@
 import { Button } from '../components/ui/button';
 import Link from 'next/link';
 import { ArrowLeftIcon, InfoIcon } from 'lucide-react';
-import { getCurrentLoggedUser } from '@/lib/actions/user';
-import { redirect } from 'next/navigation';
+import { getUserEnrolledCourses } from '@/lib/actions/user/my-course';
 import MyCoursesCard from '../components/my-courses/MyCoursesCard';
 import { Metadata } from 'next';
 import type { SearchParams } from 'nuqs/server';
@@ -20,9 +19,7 @@ const MyCoursesPage = async ({
 }) => {
   const { search } = await loadSearchParams(searchParams);
 
-  const user = await getCurrentLoggedUser(search);
-
-  if (!user) redirect('/');
+  const enrolledCourses = await getUserEnrolledCourses(search);
 
   return (
     <section>
@@ -38,7 +35,7 @@ const MyCoursesPage = async ({
           </Link>
         </Button>
         {/* Display courses */}
-        {user.courses.length === 0 ? (
+        {enrolledCourses.length === 0 ? (
           <div className='mt-10 max-w-md mx-auto rounded-md border border-blue-500/50 px-4 py-3 text-blue-600'>
             <p className='text-sm'>
               <InfoIcon
@@ -58,7 +55,7 @@ const MyCoursesPage = async ({
           </div>
         ) : (
           <div className='mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-            {user.courses.map((course) => (
+            {enrolledCourses.map((course) => (
               <MyCoursesCard key={course.id} course={course} />
             ))}
           </div>

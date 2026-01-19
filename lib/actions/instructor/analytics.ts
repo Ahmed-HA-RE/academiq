@@ -41,6 +41,22 @@ export const getTotalCoursesByInstructor = async () => {
 export const getTotalRevenueByInstructor = async () => {
   const instructor = await getCurrentLoggedInInstructor();
 
+  const discount = await prisma.discount.findFirst({
+    where: {
+      orders: {
+        some: {
+          orderItems: {
+            some: {
+              course: {
+                instructorId: instructor.id,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
   const revenueData = await prisma.orderItems.aggregate({
     _sum: {
       price: true,
@@ -55,7 +71,10 @@ export const getTotalRevenueByInstructor = async () => {
     },
   });
 
-  return revenueData._sum.price || 0;
+  const totalAmount = Number(revenueData._sum.price) || 0;
+  const discountAmount = discount ? discount.amount : 0;
+
+  return totalAmount - discountAmount;
 };
 
 // Get monthly revenue for instructor
@@ -73,7 +92,7 @@ export const getMonthlyRevenueForInstructor = async () => {
         lte: lastDayOfYear(new Date(currentYear, 11, 31)),
       },
       orderItems: {
-        every: {
+        some: {
           course: {
             instructorId: {
               equals: instructor.id,
@@ -89,7 +108,7 @@ export const getMonthlyRevenueForInstructor = async () => {
   });
 
   const monthlyData = Array.from({ length: 12 }, (_, i) => {
-    const month = new Date(2024, i).toLocaleString('default', {
+    const month = new Date(currentYear, i).toLocaleString('default', {
       month: 'long',
     });
     const currentYearRevenue = orders
@@ -98,7 +117,7 @@ export const getMonthlyRevenueForInstructor = async () => {
           order.createdAt.getMonth() === i &&
           order.createdAt.getFullYear() === currentYear
       )
-      .reduce((sum, order) => sum + Number(order.totalPrice), 0);
+      .reduce((sum, order) => sum + parseFloat(order.totalPrice), 0);
 
     const previousYearRevenue = orders
       .filter(
@@ -106,13 +125,13 @@ export const getMonthlyRevenueForInstructor = async () => {
           order.createdAt.getMonth() === i &&
           order.createdAt.getFullYear() === previousYear
       )
-      .reduce((sum, order) => sum + Number(order.totalPrice), 0);
+      .reduce((sum, order) => sum + parseFloat(order.totalPrice), 0);
 
     return {
       name: month,
-      pv: Math.round(currentYearRevenue / 100),
-      uv: Math.round(previousYearRevenue / 100),
-      amt: Math.round(currentYearRevenue / 100),
+      pv: currentYearRevenue,
+      uv: previousYearRevenue,
+      amt: currentYearRevenue,
     };
   });
 
@@ -138,7 +157,7 @@ export const getTotalRevenueAfterForInstructor = async () => {
         gte: new Date(`${currentYear}`),
       },
       orderItems: {
-        every: {
+        some: {
           course: {
             instructorId: {
               equals: session.user.id,
@@ -171,7 +190,7 @@ export const getTotalRevenueBeforeForInstructor = async () => {
         lte: new Date(`${previousYear}-12-31`),
       },
       orderItems: {
-        every: {
+        some: {
           course: {
             instructorId: {
               equals: session.user.id,
@@ -356,9 +375,10 @@ export const getEnrolledStudentsForInstructor = async ({
         enrolledAt: student.order.createdAt,
         courseName: student.course.title,
         courseId: student.course.id,
-        progress: student.order.user.userProgress.find(
-          (s) => s.courseId === student.course.id
-        )?.progress,
+        progress:
+          student.order.user.userProgress.find(
+            (s) => s.courseId === student.course.id
+          )?.progress || 0,
       })
     ),
     totalPages,

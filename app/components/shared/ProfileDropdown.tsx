@@ -61,6 +61,7 @@ const ProfileDropdown = ({
             title: 'Instructor Dashboard',
             href: '/instructor-dashboard',
           },
+          { icon: LibraryBig, title: 'My Courses', href: '/my-courses' },
         ]
       : [];
 

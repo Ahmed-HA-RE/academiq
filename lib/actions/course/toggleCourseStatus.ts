@@ -3,7 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { getCurrentLoggedInInstructor } from '../instructor/getInstructor';
 import { revalidatePath } from 'next/cache';
-import { getCurrentLoggedUser } from '../user';
+import { getCurrentLoggedUser } from '../user/getUser';
 
 export const toggleCoursePublishStatus = async (courseId: string) => {
   try {

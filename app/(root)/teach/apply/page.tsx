@@ -1,6 +1,6 @@
 import ApplicationForm from '@/app/components/teach/ApplicationForm';
 import { Metadata } from 'next';
-import { getCurrentLoggedUser } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
 import { getApplicationByUserId } from '@/lib/actions/instructor/application';
 import { redirect } from 'next/navigation';
 import ApplicationStepper from '@/app/components/teach/ApplicationStepper';

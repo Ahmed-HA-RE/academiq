@@ -158,7 +158,7 @@ export const getMonthlyRevenue = async () => {
       .filter(
         (order) =>
           order.createdAt.getMonth() === i &&
-          order.createdAt.getFullYear() === currentYear
+          order.createdAt.getFullYear() === currentYear,
       )
       .reduce((sum, order) => sum + Number(order.totalPrice), 0);
 
@@ -166,7 +166,7 @@ export const getMonthlyRevenue = async () => {
       .filter(
         (order) =>
           order.createdAt.getMonth() === i &&
-          order.createdAt.getFullYear() === previousYear
+          order.createdAt.getFullYear() === previousYear,
       )
       .reduce((sum, order) => sum + Number(order.totalPrice), 0);
 
@@ -328,7 +328,7 @@ export const getAllOrdersAsAdmin = async ({
         ...order,
         billingDetails: order.billingDetails as BillingInfo,
         paymentResult: order.paymentResult as PaymentResult,
-      })
+      }),
     ),
     totalPages,
   };
@@ -447,7 +447,7 @@ export const createRefund = async (orderId: string) => {
 
     if (userCourseProgress && +userCourseProgress.progress >= 10)
       throw new Error(
-        'An order cannot be refunded if the course progress is more than 10%'
+        'An order cannot be refunded if the course progress is more than 10%',
       );
 
     await stripe.refunds.create({
@@ -455,7 +455,11 @@ export const createRefund = async (orderId: string) => {
       metadata: {
         orderId: order.id,
       },
+      refund_application_fee: true,
+      reverse_transfer: true,
     });
+
+    revalidatePath('/', 'layout');
 
     return { success: true, message: 'Order refunded successfully' };
   } catch (error) {

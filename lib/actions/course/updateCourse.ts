@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache';
 import { UTApi } from 'uploadthing/server';
 import { getCurrentLoggedInInstructor } from '../instructor/getInstructor';
 import { CreateCourse } from '@/types';
-import { getCurrentLoggedUser } from '../user';
+import { getCurrentLoggedUser } from '../user/getUser';
 
 // Update course as instructor
 export const updateCourse = async (courseId: string, data: CreateCourse) => {
@@ -32,7 +32,7 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
 
     if (!isNewLessonsVideosUploaded)
       throw new Error(
-        'Please upload all new lesson videos before updating the course.'
+        'Please upload all new lesson videos before updating the course.',
       );
 
     const validatedData = createCourseSchema.safeParse(data);
@@ -189,7 +189,7 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
 // Update course as admin
 export const updateCourseAsAdmin = async (
   courseId: string,
-  data: CreateCourse
+  data: CreateCourse,
 ) => {
   try {
     const user = await getCurrentLoggedUser();
@@ -211,7 +211,7 @@ export const updateCourseAsAdmin = async (
 
     if (!isNewLessonsVideosUploaded)
       throw new Error(
-        'Please upload all new lesson videos before updating the course.'
+        'Please upload all new lesson videos before updating the course.',
       );
 
     const validatedData = createCourseSchema.safeParse(data);

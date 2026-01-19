@@ -53,7 +53,7 @@ export const prisma = new PrismaClient({ adapter }).$extends({
     orderItems: {
       price: {
         compute(data) {
-          return data.price.toString();
+          return data.price.toFixed(2);
         },
       },
     },

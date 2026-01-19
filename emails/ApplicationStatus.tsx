@@ -90,20 +90,15 @@ const ApplicationStatus = ({ name, status }: ApplicationStatusProps) => {
                 </>
               )}
 
-              <Button
-                className={`rounded-[3px] text-white text-[16px] font-bold no-underline text-center block p-[10px] ${
-                  status === 'approved' ? 'bg-green-600' : 'bg-red-600'
-                }`}
-                href={`${baseUrl}${
-                  status === 'approved'
-                    ? '/instructor-dashboard'
-                    : '/teach/apply'
-                }`}
-              >
-                {status === 'approved'
-                  ? 'Go to Instructor Dashboard'
-                  : 'View Application Details'}
-              </Button>
+              {status === 'approved' && (
+                <Button
+                  className='rounded-[3px] text-white text-[16px] font-bold no-underline text-center block p-[10px] 
+                  bg-green-600 '
+                  href={`${baseUrl}/instructor-dashboard`}
+                >
+                  Go to Instructor Dashboard
+                </Button>
+              )}
               <Hr className='border-[#e6ebf1] my-5' />
               <Text className='text-[#525f7f] text-base leading-6 text-left'>
                 — The {APP_NAME} team

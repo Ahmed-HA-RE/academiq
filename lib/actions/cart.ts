@@ -7,7 +7,7 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { convertToPlainObject } from '../utils';
 import { revalidatePath } from 'next/cache';
-import { getCurrentLoggedUser } from './user';
+import { getCurrentLoggedUser } from './user/getUser';
 
 const calculatePrices = (cartItems: CartItems[]) => {
   const itemsPrice = cartItems.reduce((acc, c) => acc + Number(c.price), 0);
@@ -37,11 +37,14 @@ export const addToCart = async (data: CartItems) => {
     });
 
     if (!course) throw new Error('Course not found');
-    // Check if instructor that is adding the course is the same as course instructor
 
-    if (course.instructor.userId === user?.id) {
+    // Check if instructor that is adding the course is the same as course instructor
+    if (course.instructor.userId === user?.id)
       throw new Error('Instructors cannot add their own courses to the cart');
-    }
+
+    // Check if course is not published
+    if (!course.published)
+      throw new Error('Cannot add unpublished course to the cart');
 
     if (!validateData.success) throw new Error('Invalid data');
 
@@ -70,7 +73,7 @@ export const addToCart = async (data: CartItems) => {
     } else {
       // check if course already in cart
       const existingCourse = (cart.cartItems as CartItems[]).find(
-        (item) => item.courseId === validateData.data.courseId
+        (item) => item.courseId === validateData.data.courseId,
       );
 
       if (existingCourse) throw new Error('Course already in cart');
@@ -78,7 +81,7 @@ export const addToCart = async (data: CartItems) => {
       cart.cartItems.push(validateData.data);
 
       const { itemsPrice, taxPrice } = calculatePrices(
-        cart.cartItems as CartItems[]
+        cart.cartItems as CartItems[],
       );
 
       let totalPrice = Number(itemsPrice) + Number(taxPrice);
@@ -158,7 +161,7 @@ export const removeFromCart = async (courseId: string) => {
     if (!cart) throw new Error('No cart found');
 
     const updatedCart = (cart.cartItems as CartItems[]).filter(
-      (item) => item.courseId !== courseId
+      (item) => item.courseId !== courseId,
     );
 
     const { itemsPrice, taxPrice } = calculatePrices(updatedCart);

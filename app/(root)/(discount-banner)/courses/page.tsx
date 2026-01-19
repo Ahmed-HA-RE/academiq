@@ -5,7 +5,7 @@ import { getAllCourses } from '@/lib/actions/course/getCourses';
 import { loadSearchParams } from '@/lib/searchParams';
 import type { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';
-import { getCurrentLoggedUser } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
 import { Alert, AlertTitle } from '@/app/components/ui/alert';
 import { TriangleAlertIcon } from 'lucide-react';
 import CourseCard from '@/app/components/shared/CourseCard';
@@ -78,14 +78,17 @@ const CoursesPage = async ({
             </Alert>
           ) : (
             <div className='col-span-7 md:col-span-4 lg:col-span-5 grid grid-cols-1 lg:grid-cols-2 gap-4 '>
-              {courses.map((course) => (
-                <CourseCard
-                  key={course.id}
-                  course={course}
-                  cart={cart}
-                  user={user}
-                />
-              ))}
+              {courses.map(
+                (course) =>
+                  course.published && (
+                    <CourseCard
+                      key={course.id}
+                      course={course}
+                      cart={cart}
+                      user={user}
+                    />
+                  ),
+              )}
             </div>
           )}
         </div>

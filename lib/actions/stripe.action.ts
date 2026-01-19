@@ -3,12 +3,13 @@
 import { convertToPlainObject } from '../utils';
 import { getCurrentLoggedInInstructor } from '../actions/instructor/getInstructor';
 import { redirect } from 'next/navigation';
-import { APP_NAME, SERVER_URL } from '../constants';
+import { APP_NAME, APPLICATION_FEE_PERCENTAGE, SERVER_URL } from '../constants';
 import resend, { domain } from '../resend';
 import NotifyApplicant from '@/emails/NotifyApplicant';
 import { getApplicationByUserId } from './instructor/application';
 import { stripe } from '../stripe';
 import { getMyCart } from './cart';
+import { prisma } from '../prisma';
 
 // Get stripe account by application user ID
 export const getStripeAccountByApplication = async () => {
@@ -48,12 +49,18 @@ export const createStripeOnboardingLink = async (stripeAccountId: string) => {
 };
 
 // Notify applicant email
-export const notifyApplicant = async (userEmail: string) => {
+export const notifyApplicant = async ({
+  userEmail,
+  userName,
+}: {
+  userEmail: string;
+  userName: string;
+}) => {
   await resend.emails.send({
     from: `${APP_NAME} <support@${domain}>`,
     to: userEmail,
     subject: 'Complete Your Payment Setup',
-    react: NotifyApplicant(),
+    react: NotifyApplicant({ name: userName }),
   });
 };
 
@@ -64,7 +71,7 @@ export const createStripePayoutsLoginLink = async () => {
   if (!instructor) throw new Error('Instructor not found');
 
   const loginLink = await stripe.accounts.createLoginLink(
-    instructor.stripeAccountId
+    instructor.stripeAccountId,
   );
 
   return loginLink.url;
@@ -78,19 +85,34 @@ export const createPaymentIntent = async (orderId: string) => {
     throw new Error('No cart found');
   }
 
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: Math.round(Number(cart.totalPrice) * 100),
-    currency: 'aed',
-    metadata: {
-      orderId,
-    },
-  });
+  for (const item of cart.cartItems) {
+    const course = await prisma.course.findUnique({
+      where: { id: item.courseId },
+      select: { instructor: { select: { stripeAccountId: true } } },
+    });
 
-  if (!paymentIntent.client_secret) {
-    throw new Error('Failed to create payment intent');
+    if (!course?.instructor.stripeAccountId) continue;
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(Number(item.price) * 100),
+      application_fee_amount: Math.round(
+        (Number(item.price) * APPLICATION_FEE_PERCENTAGE) / 100,
+      ),
+      currency: 'aed',
+      transfer_data: {
+        destination: course.instructor.stripeAccountId,
+      },
+      metadata: {
+        orderId,
+      },
+    });
+
+    if (!paymentIntent.client_secret) {
+      throw new Error('Failed to create payment intent');
+    }
+
+    return paymentIntent.id;
   }
-
-  return paymentIntent.id;
 };
 
 // Get stripe client secret for payment

@@ -1,7 +1,7 @@
 import CartDetails from '@/app/components/cart/CartDetails';
 import { getMyCart } from '@/lib/actions/cart';
 import { getDiscountById } from '@/lib/actions/discount';
-import { getCurrentLoggedUser } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 

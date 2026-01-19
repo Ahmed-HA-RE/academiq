@@ -39,11 +39,12 @@ const SetUpStripeConnectCard = ({ account }: { account: Stripe.Account }) => {
 
   const isAccountSubmittedButIncomplete =
     account.details_submitted &&
-    account.requirements?.currently_due &&
-    account.requirements.currently_due.length > 0;
+    ((account.requirements?.currently_due &&
+      account.requirements?.currently_due.length > 0) ||
+      (account.requirements?.errors &&
+        account.requirements?.errors?.length > 0));
 
   const isAccountComplete =
-    !account.requirements?.currently_due &&
     account.requirements?.currently_due?.length === 0 &&
     account.charges_enabled &&
     account.payouts_enabled;
@@ -69,7 +70,7 @@ const SetUpStripeConnectCard = ({ account }: { account: Stripe.Account }) => {
           {isFirstCreatedAccount
             ? 'To start receiving payments, please complete your Stripe setup.'
             : isAccountSubmittedButIncomplete
-              ? 'Your Stripe account setup is almost complete. Please provide the required information to start receiving payouts.'
+              ? 'Please complete the required information or upload valid documents to enable payouts.'
               : 'Your Stripe account is set up successfully.'}
         </p>
         {/* Benefits */}
@@ -100,7 +101,7 @@ const SetUpStripeConnectCard = ({ account }: { account: Stripe.Account }) => {
                   {isFirstCreatedAccount
                     ? 'Set Up Your Stripe Account'
                     : isAccountSubmittedButIncomplete
-                      ? 'Complete Stripe Information'
+                      ? 'Complete Your Stripe Information'
                       : 'Setup is Complete'}
                   <ArrowRight className='size-4 -me-1 opacity-60 transition-transform group-hover:translate-x-0.5' />
                 </>
@@ -121,7 +122,14 @@ const SetUpStripeConnectCard = ({ account }: { account: Stripe.Account }) => {
           <p className='text-muted-foreground text-xs text-center'>
             Powered by{' '}
             <span className='font-semibold text-[#5167FC]'>Stripe</span> -
-            Secure payment processing
+            Secure payment processing.
+            <a
+              href='https://stripe.com/ae/connect'
+              target='_blank'
+              className='ml-1 font-semibold text-[#5167FC] underline'
+            >
+              Read more
+            </a>
           </p>
         </div>
       </div>

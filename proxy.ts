@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { SERVER_URL } from './lib/constants';
-import { getCurrentLoggedUser } from './lib/actions/user';
+import { getCurrentLoggedUser } from './lib/actions/user/getUser';
 
 export const proxy = async (req: NextRequest) => {
   const pathname = req.nextUrl.pathname;

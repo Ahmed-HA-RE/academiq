@@ -15,7 +15,7 @@ import EnrollCourseBtn from '@/app/components/shared/EnrollCourseBtn';
 import { getMyCart } from '@/lib/actions/cart';
 import { Metadata } from 'next';
 import { APP_NAME } from '@/lib/constants';
-import { getCurrentLoggedUser } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
 
 export const generateMetadata = async ({
   params,

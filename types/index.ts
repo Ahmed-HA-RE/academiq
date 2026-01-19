@@ -58,6 +58,9 @@ export type CourseCardType = Omit<Course, 'sections'> & {
 };
 
 export type CreateCourse = z.infer<typeof createCourseSchema>;
+export type MyCoursesCardType = Omit<Course, 'instructor'> & {
+  sections: Section;
+};
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;
@@ -183,7 +186,7 @@ export type EnrolledStudents = {
   enrolledAt: Date;
   courseId: string;
   courseName: string;
-  progress?: string;
+  progress: string | number;
 };
 
 export type InstructorCertificate = z.infer<

@@ -1,4 +1,4 @@
-import { getUserById } from '@/lib/actions/user';
+import { getUserById } from '@/lib/actions/user/getUser';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import EditUserForm from '@/app/components/admin/Users/EditUserForm';

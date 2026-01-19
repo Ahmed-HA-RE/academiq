@@ -2,7 +2,7 @@ import { SERVER_URL } from '@/lib/constants';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import Link from 'next/link';
-import { getCurrentLoggedUser } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
 import { getApplicationByUserId } from '@/lib/actions/instructor/application';
 import { getStripeAccountByApplication } from '@/lib/actions/stripe.action';
 import { MotionPreset } from '../ui/motion-preset';

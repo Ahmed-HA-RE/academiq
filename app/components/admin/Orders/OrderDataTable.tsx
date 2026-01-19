@@ -73,9 +73,7 @@ export const columns: ColumnDef<Omit<Order, 'discount'>>[] = [
     cell: ({ row }) => (
       <div className='flex flex-row items-center gap-1'>
         <span className='dirham-symbol !text-base'>&#xea;</span>
-        <span className='text-base'>
-          {row.original.paymentResult?.amount || row.original.totalPrice}
-        </span>
+        <span className='text-base'>{row.original.totalPrice}</span>
       </div>
     ),
   },
@@ -91,7 +89,7 @@ export const columns: ColumnDef<Omit<Order, 'discount'>>[] = [
     ),
   },
   {
-    accessorKey: 'Status',
+    accessorKey: 'status',
     header: 'Status',
     cell: ({ row }) => (
       <Badge
@@ -102,7 +100,7 @@ export const columns: ColumnDef<Omit<Order, 'discount'>>[] = [
               ? 'bg-green-600/10 text-green-600'
               : row.original.status === 'refunded'
                 ? 'bg-fuchsia-500/10 text-fuchsia-500'
-                : 'bg-amber-600/10 text-amber-600'
+                : 'bg-amber-600/10 text-amber-600',
         )}
       >
         <span
@@ -114,7 +112,7 @@ export const columns: ColumnDef<Omit<Order, 'discount'>>[] = [
                 ? 'bg-green-600'
                 : row.original.status === 'refunded'
                   ? 'bg-fuchsia-500'
-                  : 'bg-amber-600'
+                  : 'bg-amber-600',
           )}
           aria-hidden='true'
         />
@@ -159,7 +157,7 @@ const OrderDataTable = ({
       }),
       page: parseAsInteger.withDefault(1),
     },
-    { shallow: false }
+    { shallow: false },
   );
 
   return (
@@ -251,7 +249,7 @@ const OrderDataTable = ({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -270,7 +268,7 @@ const OrderDataTable = ({
                     <TableCell key={cell.id} className='px-6'>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

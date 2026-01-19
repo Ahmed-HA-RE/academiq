@@ -110,7 +110,7 @@ const TotalRevenuChartDetails = ({
         >
           <LineChart
             data={monthlyRevenue}
-            margin={{ top: 5, right: 10, left: -40, bottom: 5 }}
+            margin={{ top: 5, right: 10, left: -25, bottom: 5 }}
           >
             <CartesianGrid
               vertical={false}
@@ -130,7 +130,12 @@ const TotalRevenuChartDetails = ({
             <YAxis
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => (value === 0 ? '0' : `${value}k`)}
+              tickFormatter={(value) =>
+                new Intl.NumberFormat('en', {
+                  notation: 'compact',
+                  maximumFractionDigits: 1,
+                }).format(Number(value))
+              }
               tick={{ fontSize: 12 }}
             />
             <ChartTooltip

@@ -53,7 +53,7 @@ export const SORTING_OPTIONS = [
 ];
 
 export const LIST_COUNTRIES = getNames().filter(
-  (country) => country !== 'Israel' && country !== 'Christmas Island'
+  (country) => country !== 'Israel' && country !== 'Christmas Island',
 );
 
 export const formatId = (id: string) => {
@@ -141,7 +141,7 @@ export const FAQ_TABS = [
       {
         question: 'Are payouts taxed?',
         answer:
-          'Tax obligations depend on your jurisdiction. We provide reports; consult a local tax advisor for specifics.',
+          'Tax obligations depend on your jurisdiction. We provide reports to consult a local tax advisor for specifics.',
       },
       {
         question: 'What payment methods are supported?',

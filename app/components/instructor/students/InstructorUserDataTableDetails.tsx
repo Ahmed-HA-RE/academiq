@@ -57,7 +57,7 @@ const columns: ColumnDef<EnrolledStudents>[] = [
     header: 'Email',
     accessorKey: 'email',
     cell: ({ row }) => (
-      <span className='text-muted-foreground'>{row.getValue('email')}</span>
+      <span className='text-muted-foreground'>{row.original.studentEmail}</span>
     ),
   },
   {
@@ -71,7 +71,7 @@ const columns: ColumnDef<EnrolledStudents>[] = [
   },
   {
     header: 'Enrolled At',
-    accessorKey: '',
+    accessorKey: 'enrolledAt',
     cell: ({ row }) => (
       <span className='text-muted-foreground'>
         {format(row.original.enrolledAt, 'MM/dd/yyyy')}

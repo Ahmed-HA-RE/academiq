@@ -28,8 +28,8 @@ import { toast } from 'sonner';
 import { InstructorApplication } from '@/types';
 import ScreenSpinner from '../../ScreenSpinner';
 import Stripe from 'stripe';
-import { notifyApplicant } from '@/lib/actions/stripe.action';
 import { FaCity } from 'react-icons/fa';
+import PaymentDetails from './PaymentDetails';
 
 export const metadata: Metadata = {
   title: 'View Application',
@@ -107,7 +107,7 @@ const ViewApplicationDetails = ({
                       : application.status === 'rejected'
                         ? 'bg-red-600/10 text-red-600'
                         : 'bg-amber-600/10 text-amber-600',
-                    'absolute top-4 right-4'
+                    'absolute top-4 right-4',
                   )}
                 >
                   {application.status.charAt(0).toUpperCase() +
@@ -305,66 +305,11 @@ const ViewApplicationDetails = ({
           )}
 
           {/* Payments Details */}
-          <Card className='gap-4'>
-            <CardHeader className='gap-0 border-b [.border-b]:pb-4'>
-              <CardTitle>Payment Details</CardTitle>
-            </CardHeader>
-            <CardContent className='space-y-4'>
-              <div className='space-y-2'>
-                <div className='flex flex-row gap-x-4 gap-y-2 items-center'>
-                  <h3>Payout Eligibility:</h3>
-                  <span
-                    className={cn(
-                      isPaymentEligible ? 'text-green-600' : 'text-red-500'
-                    )}
-                  >
-                    {isPaymentEligible ? 'Eligible' : 'Not Eligible'}
-                  </span>
-                </div>
-                {!isPaymentEligible && (
-                  <p className='text-sm text-muted-foreground'>
-                    The connected Stripe account is not eligible for payouts.{' '}
-                    {account.requirements?.currently_due?.length} documents is
-                    still required to enable payouts.
-                  </p>
-                )}
-              </div>
-              {!isPaymentEligible && (
-                <div className='space-y-8'>
-                  <div className='space-y-2'>
-                    <h2>Missed Documents:</h2>
-                    <ul className='space-y-2 min-w-0'>
-                      {account.requirements?.currently_due?.map(
-                        (requirement) => (
-                          <li
-                            key={requirement}
-                            className='text-sm text-muted-foreground pl-2 break-words whitespace-normal'
-                          >
-                            {requirement}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                  <Button
-                    size={'sm'}
-                    className='rounded-full cursor-pointer text-xs'
-                    disabled={isPaymentEligible}
-                    onClick={() =>
-                      startTransition(async () => {
-                        await notifyApplicant(application.user.email);
-                        toast.success(
-                          'Notification sent to applicant successfully'
-                        );
-                      })
-                    }
-                  >
-                    Notify Applicant
-                  </Button>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          <PaymentDetails
+            account={account}
+            application={application}
+            isPaymentEligible={isPaymentEligible}
+          />
         </div>
       </div>
 
