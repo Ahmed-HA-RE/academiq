@@ -7,6 +7,7 @@ import { BillingInfo, OrderItems, PaymentResult } from '@/types';
 import { formatDate } from '@/lib/utils';
 import RefundOrder from '@/emails/RefundOrder';
 import { revalidatePath } from 'next/cache';
+import InstructorOrderRefund from '@/emails/InstructorOrderRefund';
 
 export const POST = async (req: Request) => {
   let event;
@@ -19,7 +20,7 @@ export const POST = async (req: Request) => {
   } catch (error) {
     console.log(
       'Webhook signature verification failed.',
-      (error as Error).message
+      (error as Error).message,
     );
     return new Response('Invalid signature', { status: 400 });
   }
@@ -108,7 +109,7 @@ export const POST = async (req: Request) => {
 
     // Remove user access to the refunded courses
     const itemsCourseIds = refundedOrder.orderItems.map(
-      (item) => item.courseId
+      (item) => item.courseId,
     );
     await prisma.user.update({
       where: {
@@ -129,18 +130,55 @@ export const POST = async (req: Request) => {
 
     const refundedOrder = await prisma.order.findFirst({
       where: { id: refund.metadata?.orderId },
-      include: { user: true },
+      include: {
+        user: true,
+        orderItems: {
+          include: {
+            course: true,
+          },
+        },
+      },
     });
 
     if (!refundedOrder) {
       return Response.json('Order not found', { status: 404 });
     }
 
-    // Add later send email notification for the related instructor
+    for (const item of refundedOrder.orderItems) {
+      // Find the related instructor email and send notification
+      const instructor = await prisma.instructor.findFirst({
+        where: { id: item.course.instructorId },
+        include: {
+          user: { select: { email: true, name: true, banned: true } },
+        },
+      });
+
+      if (!instructor) {
+        return Response.json('Instructor not found', { status: 404 });
+      }
+
+      if (instructor.user.banned) {
+        continue;
+      }
+
+      await resend.emails.send({
+        from: `${APP_NAME} <support@${domain}>`,
+        to: instructor.user.email,
+        subject: 'A refund has been processed for your course',
+        react: InstructorOrderRefund({
+          coursesName: refundedOrder.orderItems.map(
+            (item) => item.course.title,
+          ),
+          instructorName: instructor.user.name,
+          refundAmount: refund.amount / 100,
+        }),
+      });
+    }
 
     await resend.emails.send({
       from: `${APP_NAME} <support@${domain}>`,
       to: refundedOrder.user.email,
+      replyTo: process.env.REPLY_EMAIL,
       subject: 'Your order has been refunded',
       react: RefundOrder({
         name: refundedOrder.user.name,
