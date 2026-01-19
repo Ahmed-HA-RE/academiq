@@ -53,16 +53,16 @@ import { cn, formatDate } from '@/lib/utils';
 import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../../shared/DeleteDialog';
+import { toast } from 'sonner';
+import Link from 'next/link';
+import ScreenSpinner from '../../ScreenSpinner';
+import DataPagination from '../../shared/Pagination';
 import {
   banAsAdmin,
   deleteSelectedUsers,
   deleteUserById,
   unbanAsAdmin,
-} from '@/lib/actions/user';
-import { toast } from 'sonner';
-import Link from 'next/link';
-import ScreenSpinner from '../../ScreenSpinner';
-import DataPagination from '../../shared/Pagination';
+} from '@/lib/actions/admin/user-mutation';
 
 const columns: ColumnDef<User>[] = [
   {

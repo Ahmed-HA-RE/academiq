@@ -1,4 +1,4 @@
-import { getAllAdmins } from '@/lib/actions/user';
+import { getAllAdmins } from '@/lib/actions/admin/list-user';
 import { loadSearchParams } from '@/lib/searchParams';
 import { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';

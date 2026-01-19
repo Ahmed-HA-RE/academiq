@@ -1,12 +1,6 @@
 import { createStripePayoutsLoginLink } from '@/lib/actions/stripe.action';
 import { Metadata } from 'next';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/app/components/ui/card';
+import { Card, CardContent } from '@/app/components/ui/card';
 import { Button } from '@/app/components/ui/button';
 import { CreditCardIcon, ExternalLinkIcon, TrendingUpIcon } from 'lucide-react';
 
@@ -30,21 +24,8 @@ const InstructorPaymentsPage = async () => {
       </div>
 
       {/* Main Card */}
-      <Card className='border-2'>
-        <CardHeader className='space-y-1 pb-4'>
-          <div className='flex items-center gap-3'>
-            <div className='flex items-center justify-center size-12 rounded-full bg-primary/10'>
-              <CreditCardIcon className='size-6 text-primary' />
-            </div>
-            <div>
-              <CardTitle className='text-2xl'>Payment Dashboard</CardTitle>
-              <CardDescription className='text-base'>
-                Access your Stripe account to manage payouts and settings
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className='space-y-6'>
+      <Card className='border-0 shadow-none p-0'>
+        <CardContent className='space-y-6 px-0'>
           <div className='grid gap-4 sm:grid-cols-2'>
             {/* Feature 1 */}
             <div className='flex items-start gap-3 rounded-lg border p-4'>
@@ -74,7 +55,7 @@ const InstructorPaymentsPage = async () => {
           </div>
 
           {/* CTA Button */}
-          <div className='pt-2'>
+          <div className='pt-2 text-center'>
             <Button
               asChild
               size='lg'
@@ -85,15 +66,6 @@ const InstructorPaymentsPage = async () => {
                 <ExternalLinkIcon className='ml-2 size-4 transition-transform group-hover:translate-x-0.5' />
               </a>
             </Button>
-          </div>
-
-          {/* Footer Note */}
-          <div className='rounded-lg bg-muted p-4'>
-            <p className='text-sm text-muted-foreground'>
-              <strong className='text-foreground'>Note:</strong> You will be
-              redirected to Stripe to securely access your payment dashboard.
-              All payment processing is handled by Stripe.
-            </p>
           </div>
         </CardContent>
       </Card>

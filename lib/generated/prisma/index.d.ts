@@ -8583,7 +8583,6 @@ export namespace Prisma {
   export type CartMinAggregateOutputType = {
     id: string | null
     userId: string | null
-    sessionId: string | null
     discountId: string | null
     itemsPrice: Decimal | null
     totalPrice: Decimal | null
@@ -8595,7 +8594,6 @@ export namespace Prisma {
   export type CartMaxAggregateOutputType = {
     id: string | null
     userId: string | null
-    sessionId: string | null
     discountId: string | null
     itemsPrice: Decimal | null
     totalPrice: Decimal | null
@@ -8607,7 +8605,6 @@ export namespace Prisma {
   export type CartCountAggregateOutputType = {
     id: number
     userId: number
-    sessionId: number
     discountId: number
     cartItems: number
     itemsPrice: number
@@ -8634,7 +8631,6 @@ export namespace Prisma {
   export type CartMinAggregateInputType = {
     id?: true
     userId?: true
-    sessionId?: true
     discountId?: true
     itemsPrice?: true
     totalPrice?: true
@@ -8646,7 +8642,6 @@ export namespace Prisma {
   export type CartMaxAggregateInputType = {
     id?: true
     userId?: true
-    sessionId?: true
     discountId?: true
     itemsPrice?: true
     totalPrice?: true
@@ -8658,7 +8653,6 @@ export namespace Prisma {
   export type CartCountAggregateInputType = {
     id?: true
     userId?: true
-    sessionId?: true
     discountId?: true
     cartItems?: true
     itemsPrice?: true
@@ -8758,7 +8752,6 @@ export namespace Prisma {
   export type CartGroupByOutputType = {
     id: string
     userId: string | null
-    sessionId: string | null
     discountId: string | null
     cartItems: JsonValue[]
     itemsPrice: Decimal
@@ -8790,7 +8783,6 @@ export namespace Prisma {
   export type CartSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    sessionId?: boolean
     discountId?: boolean
     cartItems?: boolean
     itemsPrice?: boolean
@@ -8805,7 +8797,6 @@ export namespace Prisma {
   export type CartSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    sessionId?: boolean
     discountId?: boolean
     cartItems?: boolean
     itemsPrice?: boolean
@@ -8820,7 +8811,6 @@ export namespace Prisma {
   export type CartSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    sessionId?: boolean
     discountId?: boolean
     cartItems?: boolean
     itemsPrice?: boolean
@@ -8835,7 +8825,6 @@ export namespace Prisma {
   export type CartSelectScalar = {
     id?: boolean
     userId?: boolean
-    sessionId?: boolean
     discountId?: boolean
     cartItems?: boolean
     itemsPrice?: boolean
@@ -8845,7 +8834,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CartOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "sessionId" | "discountId" | "cartItems" | "itemsPrice" | "totalPrice" | "taxPrice" | "createdAt" | "updatedAt", ExtArgs["result"]["cart"]>
+  export type CartOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "discountId" | "cartItems" | "itemsPrice" | "totalPrice" | "taxPrice" | "createdAt" | "updatedAt", ExtArgs["result"]["cart"]>
   export type CartInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Cart$userArgs<ExtArgs>
     discount?: boolean | Cart$discountArgs<ExtArgs>
@@ -8868,7 +8857,6 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string | null
-      sessionId: string | null
       discountId: string | null
       cartItems: Prisma.JsonValue[]
       itemsPrice: Prisma.Decimal
@@ -9303,7 +9291,6 @@ export namespace Prisma {
   interface CartFieldRefs {
     readonly id: FieldRef<"Cart", 'String'>
     readonly userId: FieldRef<"Cart", 'String'>
-    readonly sessionId: FieldRef<"Cart", 'String'>
     readonly discountId: FieldRef<"Cart", 'String'>
     readonly cartItems: FieldRef<"Cart", 'Json[]'>
     readonly itemsPrice: FieldRef<"Cart", 'Decimal'>
@@ -13106,6 +13093,7 @@ export namespace Prisma {
     itemsPrice: Decimal | null
     totalPrice: Decimal | null
     taxPrice: Decimal | null
+    stripePaymentIntentId: string | null
     status: string | null
     isPaid: boolean | null
     paidAt: Date | null
@@ -13120,6 +13108,7 @@ export namespace Prisma {
     itemsPrice: Decimal | null
     totalPrice: Decimal | null
     taxPrice: Decimal | null
+    stripePaymentIntentId: string | null
     status: string | null
     isPaid: boolean | null
     paidAt: Date | null
@@ -13136,6 +13125,7 @@ export namespace Prisma {
     taxPrice: number
     billingDetails: number
     paymentResult: number
+    stripePaymentIntentId: number
     status: number
     isPaid: number
     paidAt: number
@@ -13164,6 +13154,7 @@ export namespace Prisma {
     itemsPrice?: true
     totalPrice?: true
     taxPrice?: true
+    stripePaymentIntentId?: true
     status?: true
     isPaid?: true
     paidAt?: true
@@ -13178,6 +13169,7 @@ export namespace Prisma {
     itemsPrice?: true
     totalPrice?: true
     taxPrice?: true
+    stripePaymentIntentId?: true
     status?: true
     isPaid?: true
     paidAt?: true
@@ -13194,6 +13186,7 @@ export namespace Prisma {
     taxPrice?: true
     billingDetails?: true
     paymentResult?: true
+    stripePaymentIntentId?: true
     status?: true
     isPaid?: true
     paidAt?: true
@@ -13297,6 +13290,7 @@ export namespace Prisma {
     taxPrice: Decimal
     billingDetails: JsonValue
     paymentResult: JsonValue | null
+    stripePaymentIntentId: string | null
     status: string
     isPaid: boolean
     paidAt: Date | null
@@ -13332,6 +13326,7 @@ export namespace Prisma {
     taxPrice?: boolean
     billingDetails?: boolean
     paymentResult?: boolean
+    stripePaymentIntentId?: boolean
     status?: boolean
     isPaid?: boolean
     paidAt?: boolean
@@ -13352,6 +13347,7 @@ export namespace Prisma {
     taxPrice?: boolean
     billingDetails?: boolean
     paymentResult?: boolean
+    stripePaymentIntentId?: boolean
     status?: boolean
     isPaid?: boolean
     paidAt?: boolean
@@ -13370,6 +13366,7 @@ export namespace Prisma {
     taxPrice?: boolean
     billingDetails?: boolean
     paymentResult?: boolean
+    stripePaymentIntentId?: boolean
     status?: boolean
     isPaid?: boolean
     paidAt?: boolean
@@ -13388,6 +13385,7 @@ export namespace Prisma {
     taxPrice?: boolean
     billingDetails?: boolean
     paymentResult?: boolean
+    stripePaymentIntentId?: boolean
     status?: boolean
     isPaid?: boolean
     paidAt?: boolean
@@ -13396,7 +13394,7 @@ export namespace Prisma {
     discountId?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "itemsPrice" | "totalPrice" | "taxPrice" | "billingDetails" | "paymentResult" | "status" | "isPaid" | "paidAt" | "createdAt" | "updatedAt" | "discountId", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "itemsPrice" | "totalPrice" | "taxPrice" | "billingDetails" | "paymentResult" | "stripePaymentIntentId" | "status" | "isPaid" | "paidAt" | "createdAt" | "updatedAt" | "discountId", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     orderItems?: boolean | Order$orderItemsArgs<ExtArgs>
@@ -13427,6 +13425,7 @@ export namespace Prisma {
       taxPrice: Prisma.Decimal
       billingDetails: Prisma.JsonValue
       paymentResult: Prisma.JsonValue | null
+      stripePaymentIntentId: string | null
       status: string
       isPaid: boolean
       paidAt: Date | null
@@ -13866,6 +13865,7 @@ export namespace Prisma {
     readonly taxPrice: FieldRef<"Order", 'Decimal'>
     readonly billingDetails: FieldRef<"Order", 'Json'>
     readonly paymentResult: FieldRef<"Order", 'Json'>
+    readonly stripePaymentIntentId: FieldRef<"Order", 'String'>
     readonly status: FieldRef<"Order", 'String'>
     readonly isPaid: FieldRef<"Order", 'Boolean'>
     readonly paidAt: FieldRef<"Order", 'DateTime'>
@@ -21232,7 +21232,6 @@ export namespace Prisma {
   export const CartScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    sessionId: 'sessionId',
     discountId: 'discountId',
     cartItems: 'cartItems',
     itemsPrice: 'itemsPrice',
@@ -21290,6 +21289,7 @@ export namespace Prisma {
     taxPrice: 'taxPrice',
     billingDetails: 'billingDetails',
     paymentResult: 'paymentResult',
+    stripePaymentIntentId: 'stripePaymentIntentId',
     status: 'status',
     isPaid: 'isPaid',
     paidAt: 'paidAt',
@@ -22039,7 +22039,6 @@ export namespace Prisma {
     NOT?: CartWhereInput | CartWhereInput[]
     id?: StringFilter<"Cart"> | string
     userId?: StringNullableFilter<"Cart"> | string | null
-    sessionId?: UuidNullableFilter<"Cart"> | string | null
     discountId?: StringNullableFilter<"Cart"> | string | null
     cartItems?: JsonNullableListFilter<"Cart">
     itemsPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
@@ -22054,7 +22053,6 @@ export namespace Prisma {
   export type CartOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
-    sessionId?: SortOrderInput | SortOrder
     discountId?: SortOrderInput | SortOrder
     cartItems?: SortOrder
     itemsPrice?: SortOrder
@@ -22068,7 +22066,6 @@ export namespace Prisma {
 
   export type CartWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    sessionId?: string
     AND?: CartWhereInput | CartWhereInput[]
     OR?: CartWhereInput[]
     NOT?: CartWhereInput | CartWhereInput[]
@@ -22082,12 +22079,11 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Cart"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     discount?: XOR<DiscountNullableScalarRelationFilter, DiscountWhereInput> | null
-  }, "id" | "sessionId">
+  }, "id">
 
   export type CartOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
-    sessionId?: SortOrderInput | SortOrder
     discountId?: SortOrderInput | SortOrder
     cartItems?: SortOrder
     itemsPrice?: SortOrder
@@ -22108,7 +22104,6 @@ export namespace Prisma {
     NOT?: CartScalarWhereWithAggregatesInput | CartScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Cart"> | string
     userId?: StringNullableWithAggregatesFilter<"Cart"> | string | null
-    sessionId?: UuidNullableWithAggregatesFilter<"Cart"> | string | null
     discountId?: StringNullableWithAggregatesFilter<"Cart"> | string | null
     cartItems?: JsonNullableListFilter<"Cart">
     itemsPrice?: DecimalWithAggregatesFilter<"Cart"> | Decimal | DecimalJsLike | number | string
@@ -22322,6 +22317,7 @@ export namespace Prisma {
     taxPrice?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonFilter<"Order">
     paymentResult?: JsonNullableFilter<"Order">
+    stripePaymentIntentId?: StringNullableFilter<"Order"> | string | null
     status?: StringFilter<"Order"> | string
     isPaid?: BoolFilter<"Order"> | boolean
     paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
@@ -22341,6 +22337,7 @@ export namespace Prisma {
     taxPrice?: SortOrder
     billingDetails?: SortOrder
     paymentResult?: SortOrderInput | SortOrder
+    stripePaymentIntentId?: SortOrderInput | SortOrder
     status?: SortOrder
     isPaid?: SortOrder
     paidAt?: SortOrderInput | SortOrder
@@ -22363,6 +22360,7 @@ export namespace Prisma {
     taxPrice?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonFilter<"Order">
     paymentResult?: JsonNullableFilter<"Order">
+    stripePaymentIntentId?: StringNullableFilter<"Order"> | string | null
     status?: StringFilter<"Order"> | string
     isPaid?: BoolFilter<"Order"> | boolean
     paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
@@ -22382,6 +22380,7 @@ export namespace Prisma {
     taxPrice?: SortOrder
     billingDetails?: SortOrder
     paymentResult?: SortOrderInput | SortOrder
+    stripePaymentIntentId?: SortOrderInput | SortOrder
     status?: SortOrder
     isPaid?: SortOrder
     paidAt?: SortOrderInput | SortOrder
@@ -22406,6 +22405,7 @@ export namespace Prisma {
     taxPrice?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonWithAggregatesFilter<"Order">
     paymentResult?: JsonNullableWithAggregatesFilter<"Order">
+    stripePaymentIntentId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     status?: StringWithAggregatesFilter<"Order"> | string
     isPaid?: BoolWithAggregatesFilter<"Order"> | boolean
     paidAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
@@ -23417,7 +23417,6 @@ export namespace Prisma {
 
   export type CartCreateInput = {
     id?: string
-    sessionId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -23431,7 +23430,6 @@ export namespace Prisma {
   export type CartUncheckedCreateInput = {
     id?: string
     userId?: string | null
-    sessionId?: string | null
     discountId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
@@ -23443,7 +23441,6 @@ export namespace Prisma {
 
   export type CartUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -23457,7 +23454,6 @@ export namespace Prisma {
   export type CartUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
-    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     discountId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -23470,7 +23466,6 @@ export namespace Prisma {
   export type CartCreateManyInput = {
     id?: string
     userId?: string | null
-    sessionId?: string | null
     discountId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
@@ -23482,7 +23477,6 @@ export namespace Prisma {
 
   export type CartUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -23494,7 +23488,6 @@ export namespace Prisma {
   export type CartUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
-    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     discountId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -23712,6 +23705,7 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: string | null
     status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
@@ -23730,6 +23724,7 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: string | null
     status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
@@ -23746,6 +23741,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23764,6 +23760,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23781,6 +23778,7 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: string | null
     status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
@@ -23796,6 +23794,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23811,6 +23810,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24851,18 +24851,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
-
-  export type UuidNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
-  }
   export type JsonNullableListFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableListFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableListFilterBase<$PrismaModel>>, 'path'>>,
@@ -24891,7 +24879,6 @@ export namespace Prisma {
   export type CartCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    sessionId?: SortOrder
     discountId?: SortOrder
     cartItems?: SortOrder
     itemsPrice?: SortOrder
@@ -24910,7 +24897,6 @@ export namespace Prisma {
   export type CartMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    sessionId?: SortOrder
     discountId?: SortOrder
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
@@ -24922,7 +24908,6 @@ export namespace Prisma {
   export type CartMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    sessionId?: SortOrder
     discountId?: SortOrder
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
@@ -24935,21 +24920,6 @@ export namespace Prisma {
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
     taxPrice?: SortOrder
-  }
-
-  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type CourseScalarRelationFilter = {
@@ -25149,6 +25119,7 @@ export namespace Prisma {
     taxPrice?: SortOrder
     billingDetails?: SortOrder
     paymentResult?: SortOrder
+    stripePaymentIntentId?: SortOrder
     status?: SortOrder
     isPaid?: SortOrder
     paidAt?: SortOrder
@@ -25169,6 +25140,7 @@ export namespace Prisma {
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
     taxPrice?: SortOrder
+    stripePaymentIntentId?: SortOrder
     status?: SortOrder
     isPaid?: SortOrder
     paidAt?: SortOrder
@@ -25183,6 +25155,7 @@ export namespace Prisma {
     itemsPrice?: SortOrder
     totalPrice?: SortOrder
     taxPrice?: SortOrder
+    stripePaymentIntentId?: SortOrder
     status?: SortOrder
     isPaid?: SortOrder
     paidAt?: SortOrder
@@ -26814,31 +26787,6 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedUuidNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
   export type NestedEnumstatusFilter<$PrismaModel = never> = {
     equals?: $Enums.status | EnumstatusFieldRefInput<$PrismaModel>
     in?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
@@ -27419,7 +27367,6 @@ export namespace Prisma {
 
   export type CartCreateWithoutUserInput = {
     id?: string
-    sessionId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -27431,7 +27378,6 @@ export namespace Prisma {
 
   export type CartUncheckedCreateWithoutUserInput = {
     id?: string
-    sessionId?: string | null
     discountId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
@@ -27458,6 +27404,7 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: string | null
     status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
@@ -27474,6 +27421,7 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: string | null
     status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
@@ -27740,7 +27688,6 @@ export namespace Prisma {
     NOT?: CartScalarWhereInput | CartScalarWhereInput[]
     id?: StringFilter<"Cart"> | string
     userId?: StringNullableFilter<"Cart"> | string | null
-    sessionId?: UuidNullableFilter<"Cart"> | string | null
     discountId?: StringNullableFilter<"Cart"> | string | null
     cartItems?: JsonNullableListFilter<"Cart">
     itemsPrice?: DecimalFilter<"Cart"> | Decimal | DecimalJsLike | number | string
@@ -27777,6 +27724,7 @@ export namespace Prisma {
     taxPrice?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonFilter<"Order">
     paymentResult?: JsonNullableFilter<"Order">
+    stripePaymentIntentId?: StringNullableFilter<"Order"> | string | null
     status?: StringFilter<"Order"> | string
     isPaid?: BoolFilter<"Order"> | boolean
     paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
@@ -28878,6 +28826,7 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: string | null
     status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
@@ -28895,6 +28844,7 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: string | null
     status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
@@ -28981,6 +28931,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28998,6 +28949,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29013,6 +28965,7 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: string | null
     status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
@@ -29030,6 +28983,7 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: string | null
     status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
@@ -29050,7 +29004,6 @@ export namespace Prisma {
 
   export type CartCreateWithoutDiscountInput = {
     id?: string
-    sessionId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -29063,7 +29016,6 @@ export namespace Prisma {
   export type CartUncheckedCreateWithoutDiscountInput = {
     id?: string
     userId?: string | null
-    sessionId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -30035,7 +29987,6 @@ export namespace Prisma {
 
   export type CartCreateManyUserInput = {
     id?: string
-    sessionId?: string | null
     discountId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
@@ -30052,6 +30003,7 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: string | null
     status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
@@ -30217,7 +30169,6 @@ export namespace Prisma {
 
   export type CartUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -30229,7 +30180,6 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     discountId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -30241,7 +30191,6 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     discountId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -30258,6 +30207,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30274,6 +30224,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30290,6 +30241,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30421,6 +30373,7 @@ export namespace Prisma {
     taxPrice: Decimal | DecimalJsLike | number | string
     billingDetails: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: string | null
     status?: string
     isPaid?: boolean
     paidAt?: Date | string | null
@@ -30431,7 +30384,6 @@ export namespace Prisma {
   export type CartCreateManyDiscountInput = {
     id?: string
     userId?: string | null
-    sessionId?: string | null
     cartItems?: CartCreatecartItemsInput | InputJsonValue[]
     itemsPrice: Decimal | DecimalJsLike | number | string
     totalPrice: Decimal | DecimalJsLike | number | string
@@ -30447,6 +30399,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30464,6 +30417,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30480,6 +30434,7 @@ export namespace Prisma {
     taxPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     billingDetails?: JsonNullValueInput | InputJsonValue
     paymentResult?: NullableJsonNullValueInput | InputJsonValue
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30489,7 +30444,6 @@ export namespace Prisma {
 
   export type CartUpdateWithoutDiscountInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -30502,7 +30456,6 @@ export namespace Prisma {
   export type CartUncheckedUpdateWithoutDiscountInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
-    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -30514,7 +30467,6 @@ export namespace Prisma {
   export type CartUncheckedUpdateManyWithoutDiscountInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
-    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     cartItems?: CartUpdatecartItemsInput | InputJsonValue[]
     itemsPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string

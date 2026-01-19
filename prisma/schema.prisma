@@ -174,7 +174,7 @@ model Order {
   itemsPrice            Decimal      @db.Decimal(10, 2)
   totalPrice            Decimal      @db.Decimal(10, 2)
   taxPrice              Decimal      @db.Decimal(10, 2)
-  billingDetails        Json?        @db.Json
+  billingDetails        Json         @db.Json
   paymentResult         Json?        @db.Json
   stripePaymentIntentId String?
   status                String       @default("pending")

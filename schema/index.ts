@@ -2,6 +2,7 @@ import parsePhoneNumberFromString, { CountryCode } from 'libphonenumber-js';
 import z from 'zod';
 import { validCountryPhones } from '@/lib/constants';
 import { isAfter } from 'date-fns';
+import { LIST_COUNTRIES } from '@/lib/utils';
 
 // Decimal validation for courses
 const positiveMoney = z
@@ -210,11 +211,6 @@ export const cartItemsSchema = z.object({
 });
 
 export const cartSchema = z.object({
-  sessionId: z
-    .uuid({ error: 'Invalid session id' })
-    .min(1, 'Session id is required')
-    .optional()
-    .nullable(),
   userId: z.string({ error: 'Invalid user id' }).optional().nullable(),
   discountId: z.string({ error: 'Invalid discount id' }).optional().nullable(),
   cartItems: z.array(cartItemsSchema).min(1, 'Cart items cannot be empty'),
@@ -268,7 +264,7 @@ export const billingInfoSchema = z.object({
   address: z
     .string({ error: 'Invalid address' })
     .min(10, 'Address field should be at least 10 characters long'),
-  city: z.string({ error: 'Invalid city' }),
+  country: z.enum(LIST_COUNTRIES, { error: 'Invalid country' }),
 });
 
 export const orderBaseSchema = z.object({
@@ -327,7 +323,7 @@ export const updateUserAsAdminSchema = z.object({
     { error: 'Address field should be at least 10 characters long' }
   ),
 
-  city: z.string({ error: 'Invalid city' }).optional(),
+  country: z.enum(LIST_COUNTRIES, { error: 'Invalid country' }).optional(),
   fullName: z.string({ error: 'Invalid full name' }).refine(
     (val) => {
       if (!val) return true;

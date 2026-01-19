@@ -45,7 +45,7 @@ import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import { useTransition } from 'react';
 import ScreenSpinner from '../../ScreenSpinner';
 
-export const columns: ColumnDef<Order>[] = [
+export const columns: ColumnDef<Omit<Order, 'discount'>>[] = [
   {
     accessorKey: 'id',
     header: 'Order ID',
@@ -137,7 +137,7 @@ const OrderDataTable = ({
   orders,
   totalPages,
 }: {
-  orders: Order[];
+  orders: Omit<Order, 'discount'>[];
   totalPages: number;
 }) => {
   const table = useReactTable({
@@ -309,7 +309,7 @@ const OrderDataTable = ({
 
 export default OrderDataTable;
 
-function RowActions({ order }: { order: Order }) {
+function RowActions({ order }: { order: Omit<Order, 'discount'> }) {
   const [isPending, startTransition] = useTransition();
 
   const handleDeleteOrder = async () => {

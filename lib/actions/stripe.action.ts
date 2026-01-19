@@ -8,6 +8,7 @@ import resend, { domain } from '../resend';
 import NotifyApplicant from '@/emails/NotifyApplicant';
 import { getApplicationByUserId } from './instructor/application';
 import { stripe } from '../stripe';
+import { getMyCart } from './cart';
 
 // Get stripe account by application user ID
 export const getStripeAccountByApplication = async () => {
@@ -67,4 +68,38 @@ export const createStripePayoutsLoginLink = async () => {
   );
 
   return loginLink.url;
+};
+
+// Create stripe payment intent for the cart
+export const createPaymentIntent = async (orderId: string) => {
+  const cart = await getMyCart();
+
+  if (!cart) {
+    throw new Error('No cart found');
+  }
+
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: Math.round(Number(cart.totalPrice) * 100),
+    currency: 'aed',
+    metadata: {
+      orderId,
+    },
+  });
+
+  if (!paymentIntent.client_secret) {
+    throw new Error('Failed to create payment intent');
+  }
+
+  return paymentIntent.id;
+};
+
+// Get stripe client secret for payment
+export const getClientSecret = async (paymentIntentId: string | null) => {
+  if (!paymentIntentId) throw new Error('Payment Intent ID is required');
+  const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+  if (!paymentIntent || !paymentIntent.client_secret)
+    throw new Error('Payment Intent not found');
+
+  return paymentIntent.client_secret;
 };

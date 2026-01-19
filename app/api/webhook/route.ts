@@ -2,7 +2,7 @@ import stripe from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
 import resend, { domain } from '@/lib/resend';
 import SendReceipt from '@/emails/SendReceipt';
-import { APP_NAME } from '@/lib/constants';
+import { APP_NAME, APPLICATION_FEE_PERCENTAGE } from '@/lib/constants';
 import { BillingInfo, OrderItems, PaymentResult } from '@/types';
 import { formatDate } from '@/lib/utils';
 import RefundOrder from '@/emails/RefundOrder';
@@ -24,31 +24,46 @@ export const POST = async (req: Request) => {
     return new Response('Invalid signature', { status: 400 });
   }
 
-  if (event.type === 'checkout.session.completed') {
+  if (event.type === 'payment_intent.succeeded') {
     const session = event.data.object;
 
     const updatedOrder = await prisma.$transaction(async (tx) => {
       const order = await tx.order.update({
-        where: { id: session.metadata?.orderId },
+        where: { id: session.metadata.orderId },
         data: {
           isPaid: true,
           paidAt: new Date(),
-          status: session.payment_status,
+          status: session.status === 'succeeded' ? 'paid' : 'unpaid',
           paymentResult: {
             id: session.id,
             currency: session.currency,
-            country: session.customer_details?.address?.country,
-            amount: session.amount_total! / 100,
-            paymentIntentId: session.payment_intent as string,
+            amount: session.amount_received / 100,
           },
         },
         include: {
-          orderItems: true,
           user: true,
+          orderItems: true,
           discount: true,
         },
       });
 
+      // Transfer credits to instrcutors and enroll user to purchased courses
+      for (const item of order.orderItems) {
+        const course = await tx.course.findUnique({
+          where: { id: item.courseId },
+          include: { instructor: true },
+        });
+
+        if (course) {
+          const instructorEarnings =
+            Number(item.price) * (1 - APPLICATION_FEE_PERCENTAGE); // Assuming 5% platform fee
+          await stripe.transfers.create({
+            currency: 'aed',
+            amount: Math.round(instructorEarnings * 100),
+            destination: course.instructor.stripeAccountId,
+          });
+        }
+      }
       await tx.user.update({
         where: { id: order.user.id },
         data: {

@@ -22,7 +22,7 @@ import { PhoneInput } from '../../ui/phone-input';
 import { LIST_COUNTRIES } from '@/lib/utils';
 import { Button } from '../../ui/button';
 import AvatarUpload from '../../AvatarUpload';
-import { updateUserAsAdmin } from '@/lib/actions/user';
+import { updateUserAsAdmin } from '@/lib/actions/admin/user-mutation';
 import { useRouter } from 'next/navigation';
 
 const EditUserForm = ({ user }: { user: User }) => {
@@ -37,7 +37,7 @@ const EditUserForm = ({ user }: { user: User }) => {
       status: user.emailVerified ? 'verified' : 'unverified',
       phone: user.billingInfo?.phone || '',
       address: user.billingInfo?.address || '',
-      city: user.billingInfo?.city || '',
+      country: user.billingInfo?.country || '',
       fullName: user.billingInfo?.fullName || '',
     },
   });
@@ -202,13 +202,13 @@ const EditUserForm = ({ user }: { user: User }) => {
                   </Field>
                 )}
               />
-              {/* City */}
+              {/* Country */}
               <Controller
-                name='city'
+                name='country'
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>City</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>Country</FieldLabel>
                     <Select
                       aria-invalid={fieldState.invalid}
                       onValueChange={field.onChange}
@@ -218,18 +218,17 @@ const EditUserForm = ({ user }: { user: User }) => {
                         id={field.name}
                         className='w-full cursor-pointer input'
                       >
-                        <SelectValue placeholder='Select a city' />
+                        <SelectValue placeholder='Select a country' />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>United Arab Emirates</SelectLabel>
-                          {LIST_COUNTRIES.map((city) => (
+                          {LIST_COUNTRIES.map((country) => (
                             <SelectItem
-                              key={city}
-                              value={city}
+                              key={country}
+                              value={country}
                               className='cursor-pointer'
                             >
-                              {city}
+                              {country}
                             </SelectItem>
                           ))}
                         </SelectGroup>

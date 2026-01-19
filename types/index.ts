@@ -87,9 +87,7 @@ export type BillingInfo = z.infer<typeof billingInfoSchema>;
 export type PaymentResult = {
   id: string;
   currency: string;
-  country: string;
   amount: string;
-  paymentIntentId: string;
 };
 
 export type Discount = z.infer<typeof discountSchema> & {
@@ -102,8 +100,12 @@ export type CreateDiscount = z.infer<typeof discountSchema>;
 
 export type createOrderItems = z.infer<typeof orderItemSchema>;
 
-export type OrderItems = z.infer<typeof orderItemSchema> & {
+export type OrderItems = {
   id: string;
+  name: string;
+  price: string;
+  image: string;
+  courseId: string;
 };
 
 export type Order = z.infer<typeof orderBaseSchema> & {
@@ -114,6 +116,8 @@ export type Order = z.infer<typeof orderBaseSchema> & {
   createdAt: Date;
   updatedAt: Date;
   status: string;
+  stripePaymentIntentId: string | null;
+  discount: Discount | null;
   orderItems: OrderItems[];
 };
 

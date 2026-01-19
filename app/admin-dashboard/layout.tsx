@@ -1,16 +1,17 @@
 import { Card, CardContent } from '@/app/components/ui/card';
-import { SidebarProvider, SidebarTrigger } from '@/app/components/ui/sidebar';
 import Link from 'next/link';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { FaInstagram } from 'react-icons/fa6';
 import { APP_NAME } from '@/lib/constants';
 import Theme from '../components/Theme';
-import { getAllAdmins, getCurrentLoggedUser } from '@/lib/actions/user';
+import { getCurrentLoggedUser } from '@/lib/actions/user';
+import { getAllAdmins } from '@/lib/actions/admin/list-user';
 import { notFound } from 'next/navigation';
 import { CSSProperties } from 'react';
 import SideBar from '../components/admin/SideBar';
 import { markAsExpiredAndDeleteOrdersAsAdmin } from '@/lib/actions/order';
 import { Metadata } from 'next';
+import { SidebarProvider, SidebarTrigger } from '../components/ui/sidebar';
 
 export const metadata: Metadata = {
   title: {

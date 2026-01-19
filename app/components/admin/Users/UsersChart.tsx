@@ -2,7 +2,7 @@ import {
   getActiveUsersCount,
   getMonthlyUserActivity,
   getNewUsersCount,
-} from '@/lib/actions/user';
+} from '@/lib/actions/admin/list-user';
 import UsersChartDetails from './UsersChartDetails';
 
 const UsersChart = async () => {

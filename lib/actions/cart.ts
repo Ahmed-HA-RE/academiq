@@ -61,7 +61,6 @@ export const addToCart = async (data: CartItems) => {
             taxPrice: newCart.data.taxPrice,
             totalPrice: newCart.data.totalPrice,
             userId: user?.id,
-            sessionId: newCart.data.sessionId,
             cartItems: newCart.data.cartItems,
           },
         });

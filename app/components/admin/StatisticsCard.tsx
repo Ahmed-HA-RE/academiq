@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '../ui/card';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import { getUsersCount } from '@/lib/actions/user';
+import { getUsersCount } from '@/lib/actions/admin/list-user';
 import { getOrdersCount, getTotalSalesAmount } from '@/lib/actions/order';
 import { getTotalInstructorsCount } from '@/lib/actions/instructor/getInstructor';
 import { getInstructorApplicationsCount } from '@/lib/actions/instructor/application';

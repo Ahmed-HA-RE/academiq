@@ -349,6 +349,7 @@ const ViewApplicationDetails = ({
                   <Button
                     size={'sm'}
                     className='rounded-full cursor-pointer text-xs'
+                    disabled={isPaymentEligible}
                     onClick={() =>
                       startTransition(async () => {
                         await notifyApplicant(application.user.email);

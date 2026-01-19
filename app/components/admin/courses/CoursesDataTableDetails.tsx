@@ -1,8 +1,16 @@
 'use client';
-import { Suspense, useState, useTransition } from 'react';
+import { Suspense, useTransition } from 'react';
 import Image from 'next/image';
-import { CircleIcon, EllipsisVerticalIcon, SearchIcon } from 'lucide-react';
-import { Instructor } from '@/types';
+import {
+  Check,
+  CircleIcon,
+  EllipsisVerticalIcon,
+  PlusIcon,
+  SearchIcon,
+  Users,
+  X,
+} from 'lucide-react';
+import { Course } from '../../../../types';
 import type { ColumnDef } from '@tanstack/react-table';
 import {
   flexRender,
@@ -10,10 +18,14 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
-import { Badge } from '@/app/components/ui/badge';
 import { Button } from '@/app/components/ui/button';
-import { Checkbox } from '@/app/components/ui/checkbox';
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/app/components/ui/dropdown-menu';
 import {
   Select,
   SelectContent,
@@ -31,159 +43,131 @@ import {
   TableHeader,
   TableRow,
 } from '@/app/components/ui/table';
-import { cn, formatId } from '@/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/app/components/ui/tooltip';
 import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
-import DeleteDialog from '../../shared/DeleteDialog';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import DataPagination from '../../shared/Pagination';
-import { formatDate } from 'date-fns';
-import {
-  deleteInstructorById,
-  deleteInstructorsByIds,
-} from '@/lib/actions/instructor/instructorDeletion';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../../ui/dropdown-menu';
-import { banAsAdmin, unbanAsAdmin } from '@/lib/actions/admin/user-mutation';
 import ScreenSpinner from '../../ScreenSpinner';
+import DataPagination from '../../shared/Pagination';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { toggleCoursePublishStatus } from '@/lib/actions/course/toggleCourseStatus';
 
-const columns: ColumnDef<Instructor>[] = [
+const columns: ColumnDef<Course & { studentsCount: number }>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
-    size: 50,
-  },
-  {
-    header: 'ID',
-    accessorKey: 'id',
-    cell: ({ row }) => (
-      <span className='text-muted-foreground'>
-        {`#${formatId(row.original.id)}`}
-      </span>
-    ),
-  },
-  {
-    header: 'Instructor',
+    header: 'Course',
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
-        <Avatar className='size-9'>
+        <Avatar className='size-12 rounded-full'>
           <Suspense
             fallback={
               <AvatarFallback className='text-xs font-bold'>
-                {row.original.user.name.slice(0, 2).toUpperCase()}
+                {row.original.title.slice(0, 2).toUpperCase()}
               </AvatarFallback>
             }
           >
             <Image
-              src={row.original.user.image}
-              alt={row.original.user.name}
-              width={36}
-              height={36}
-              className='object-cover rounded-full'
+              src={row.original.image}
+              alt={row.original.title}
+              width={100}
+              height={100}
+              sizes='100vw'
+              className='object-cover'
             />
           </Suspense>
         </Avatar>
 
-        <span className='font-medium'>{row.original.user.name}</span>
+        <span className='font-medium'>{row.original.title}</span>
       </div>
     ),
     size: 360,
   },
-
   {
-    header: 'Email',
-    accessorKey: 'email',
-    cell: ({ row }) => (
-      <span className='text-muted-foreground'>{row.original.user.email}</span>
-    ),
-  },
-
-  {
-    header: 'Contact',
-    accessorKey: 'contact',
-    cell: ({ row }) => (
-      <span className='text-muted-foreground'>{row.original.phone}</span>
-    ),
-  },
-  {
-    header: 'Courses',
-    accessorKey: 'coursesCount',
-    cell: ({ row }) => (
-      <span className='text-muted-foreground'>{row.original.coursesCount}</span>
-    ),
-  },
-
-  {
-    header: 'Registered At',
-    accessorKey: 'createdAt',
-    cell: ({ row }) => (
-      <span className='text-muted-foreground'>
-        {formatDate(row.original.createdAt, 'MM/dd/yyyy')}
-      </span>
-    ),
-  },
-  {
-    header: 'Status',
-    accessorKey: 'emailVerified',
+    header: 'Category',
+    accessorKey: 'category',
     cell: ({ row }) => {
-      const status = row.original.user.banned ? 'Banned' : 'Active';
+      const category = row.original.category as string;
 
       return (
-        <Badge
-          className={cn(
-            'rounded-full text-xs  border-none capitalize focus-visible:outline-none',
-            status === 'Active'
-              ? 'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400'
-              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive'
-          )}
-        >
-          {status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}
-        </Badge>
+        <span className='capitalize text-muted-foreground'>{category}</span>
       );
     },
   },
   {
+    header: 'Students',
+    accessorKey: 'studentsCount',
+    cell: ({ row }) => (
+      <span className='text-muted-foreground flex items-center gap-1'>
+        <Users className='size-5' /> {row.original.studentsCount}
+      </span>
+    ),
+  },
+  {
+    header: 'Price',
+    accessorKey: 'price',
+    cell: ({ row }) => (
+      <div className='flex flex-row items-center gap-1'>
+        <span className='dirham-symbol !text-base'>&#xea;</span>
+        <span className='text-base'>{row.original.price}</span>
+      </div>
+    ),
+  },
+  {
+    header: 'Is Published',
+    accessorKey: 'published',
+    cell: ({ row }) => {
+      return (
+        <span
+          className={cn(
+            row.original.published ? 'text-green-600' : 'text-red-600'
+          )}
+        >
+          {row.original.published ? (
+            <Check className='size-7' />
+          ) : (
+            <X className='size-7' />
+          )}
+        </span>
+      );
+    },
+  },
+  {
+    header: 'Published At',
+    accessorKey: 'createdAt',
+    cell: ({ row }) => (
+      <span className='text-muted-foreground'>
+        {format(new Date(row.original.createdAt), 'MM/dd/yyyy')}
+      </span>
+    ),
+  },
+  {
     id: 'actions',
     header: () => 'Actions',
-    cell: ({ row }) => <RowActions instructor={row.original} />,
+    cell: ({ row }) => <RowActions course={row.original} />,
     enableHiding: false,
   },
 ];
 
-type InstructorDataTableProps = {
-  instructors: Instructor[];
+type CoursesDataTableDetailsProps = {
+  courses: (Course & { studentsCount: number })[];
   totalPages: number;
 };
 
-const InstructorDataTable = ({
-  instructors,
+const CoursesDataTableDetails = ({
+  courses,
   totalPages,
-}: InstructorDataTableProps) => {
+}: CoursesDataTableDetailsProps) => {
   const [filters, setFilters] = useQueryStates(
     {
       status: parseAsString.withDefault('all').withOptions({
         limitUrlUpdates: throttle(500),
       }),
-      search: parseAsString
+      q: parseAsString
         .withDefault('')
         .withOptions({ limitUrlUpdates: throttle(500) }),
       page: parseAsInteger.withDefault(1),
@@ -191,42 +175,28 @@ const InstructorDataTable = ({
     { shallow: false }
   );
 
-  const [selectInstructors, setSelectInstructors] = useState({});
-
   const table = useReactTable({
-    data: instructors,
+    data: courses,
     columns,
-    state: {
-      rowSelection: selectInstructors,
-    },
-    onRowSelectionChange: setSelectInstructors,
-    getRowId: (row) => row.id,
     getCoreRowModel: getCoreRowModel(),
   });
-
-  const handleDeleteInstructors = async () => {
-    const res = await deleteInstructorsByIds(Object.keys(selectInstructors));
-    if (!res.success) {
-      toast.error(res.message);
-      return;
-    }
-    toast.success(res.message);
-    setSelectInstructors({});
-  };
 
   return (
     <div className='w-full col-span-4'>
       <div className='flex flex-col gap-6 p-6 px-4'>
         <div className='flex flex-row justify-between items-center'>
-          <span className='text-2xl font-semibold'>Instructors</span>
-          <DeleteDialog
-            title='Delete Selected Instructors'
-            description='Are you sure you want to delete the selected instructors? this action can not be undone.'
-            action={handleDeleteInstructors}
-            disabled={Object.keys(selectInstructors).length > 0 ? false : true}
-          />
+          <span className='text-2xl font-semibold'>Your Courses</span>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button asChild variant={'outline'} size='icon'>
+                <Link href='/instructor-dashboard/courses/new'>
+                  <PlusIcon />
+                </Link>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>New Course</TooltipContent>
+          </Tooltip>
         </div>
-
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
           {/* Select Status */}
           <Select
@@ -245,16 +215,16 @@ const InstructorDataTable = ({
                 <SelectItem value='all' className='cursor-pointer'>
                   All
                 </SelectItem>
-                <SelectItem value='active' className='cursor-pointer'>
+                <SelectItem value='published' className='cursor-pointer'>
                   <span className='flex items-center gap-2'>
                     <CircleIcon className='size-2 fill-green-600 text-green-600' />
-                    <span className='truncate'>Active</span>
+                    <span className='truncate'>Published</span>
                   </span>
                 </SelectItem>
-                <SelectItem value='banned' className='cursor-pointer'>
+                <SelectItem value='unpublished' className='cursor-pointer'>
                   <span className='flex items-center gap-2'>
-                    <CircleIcon className='size-2 fill-destructive text-destructive' />
-                    <span className='truncate'>Banned</span>
+                    <CircleIcon className='size-2 fill-red-600 text-red-600' />
+                    <span className='truncate'>Not Published</span>
                   </span>
                 </SelectItem>
               </SelectGroup>
@@ -271,8 +241,8 @@ const InstructorDataTable = ({
               type='text'
               placeholder='Search...'
               className='peer px-9 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none input text-sm'
-              value={filters.search}
-              onChange={(e) => setFilters({ search: e.target.value })}
+              value={filters.q}
+              onChange={(e) => setFilters({ q: e.target.value })}
             />
           </div>
         </div>
@@ -280,13 +250,13 @@ const InstructorDataTable = ({
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className='h-16 border-t'>
+            <TableRow key={headerGroup.id} className='h-14 border-t'>
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead
                     key={header.id}
                     style={{ width: `${header.getSize()}px` }}
-                    className='text-muted-foreground px-4 last:text-center  nth-of-type-[2]:pl-3'
+                    className='text-muted-foreground px-4 nth-of-type-[2]:pl-3'
                   >
                     {flexRender(
                       header.column.columnDef.header,
@@ -309,7 +279,7 @@ const InstructorDataTable = ({
                 {row.getVisibleCells().map((cell) => (
                   <TableCell
                     key={cell.id}
-                    className='px-4 nth-of-type-[2]:pl-3 nth-of-type-[6]:text-center'
+                    className='px-4 nth-of-type-[2]:pl-3 nth-of-type-[5]:text-center'
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
@@ -333,7 +303,7 @@ const InstructorDataTable = ({
             aria-live='polite'
           >
             Showing <span>{table.getRowCount().toString()} </span> of{' '}
-            <span>{instructors.length} instructors</span>
+            <span>{courses.length} courses</span>
           </p>
           <div>
             <DataPagination totalPages={totalPages} />
@@ -344,34 +314,14 @@ const InstructorDataTable = ({
   );
 };
 
-export default InstructorDataTable;
+export default CoursesDataTableDetails;
 
-export const RowActions = ({ instructor }: { instructor: Instructor }) => {
+export const RowActions = ({ course }: { course: Course }) => {
   const [isPending, startTransition] = useTransition();
 
-  const handleDeleteInstructor = async () => {
-    const res = await deleteInstructorById(instructor.id);
-    if (!res.success) {
-      toast.error(res.message);
-      return;
-    }
-    toast.success(res.message);
-  };
-
-  const handleBanUser = () => {
+  const habdleTogglePublish = () => {
     startTransition(async () => {
-      const res = await banAsAdmin(instructor.user.id, instructor.user.role);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
-  const handleUnbanUser = () => {
-    startTransition(async () => {
-      const res = await unbanAsAdmin(instructor.user.id, instructor.user.role);
+      const res = await toggleCoursePublishStatus(course.id);
       if (!res.success) {
         toast.error(res.message);
         return;
@@ -383,13 +333,7 @@ export const RowActions = ({ instructor }: { instructor: Instructor }) => {
   return (
     <>
       {isPending && <ScreenSpinner mutate={true} text='Applying changes…' />}
-
-      <div className='flex items-center justify-center '>
-        <DeleteDialog
-          title={`Delete ${instructor.user.name}?`}
-          description={`Are you sure you want to delete ${instructor.user.name}? This action cannot be undone.`}
-          action={handleDeleteInstructor}
-        />
+      <div className='flex'>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className='flex'>
@@ -397,7 +341,7 @@ export const RowActions = ({ instructor }: { instructor: Instructor }) => {
                 size='icon'
                 variant='ghost'
                 className='rounded-full p-2 cursor-pointer'
-                aria-label='Edit User'
+                aria-label='Open menu'
               >
                 <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
               </Button>
@@ -407,23 +351,24 @@ export const RowActions = ({ instructor }: { instructor: Instructor }) => {
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className='cursor-pointer'>
                 <Link
-                  href={`/admin-dashboard/instructors/${instructor.id}/edit`}
+                  href={`/instructor-dashboard/courses/${course.slug}/view`}
                 >
-                  <span>Edit</span>
+                  <span>View</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className='cursor-pointer' asChild>
+                <Link
+                  href={`/instructor-dashboard/courses/${course.slug}/edit`}
+                >
+                  Edit
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={
-                  instructor.user.banned ? handleUnbanUser : handleBanUser
-                }
                 className='cursor-pointer'
-                variant='destructive'
+                variant={course.published ? 'destructive' : 'success'}
+                onClick={habdleTogglePublish}
               >
-                <span>
-                  {instructor.user.banned
-                    ? 'Unban Instructor'
-                    : 'Ban Instructor'}
-                </span>
+                {course.published ? 'Unpublish' : 'Publish'}
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

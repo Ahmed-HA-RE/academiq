@@ -1,7 +1,6 @@
 import StatisticsCard from '../components/admin/StatisticsCard';
 import { loadSearchParams } from '@/lib/searchParams';
-import { getAllUsers } from '@/lib/actions/user';
-
+import { getAllUsers } from '@/lib/actions/admin/list-user';
 import { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';
 import TotalRevenueChart from '../components/admin/TotalRevenue/TotalRevenuChart';

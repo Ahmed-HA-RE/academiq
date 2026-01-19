@@ -7,11 +7,11 @@ import { BillingInfo, Cart, PaymentResult } from '@/types';
 import { orderItemSchema } from '@/schema';
 import z from 'zod';
 import { stripe } from '../stripe';
-import { SERVER_URL } from '../constants';
 import { revalidatePath } from 'next/cache';
 import { convertToPlainObject } from '../utils';
 import { Prisma } from '../generated/prisma';
 import { endOfDay, startOfDay } from 'date-fns';
+import { createPaymentIntent } from './stripe.action';
 
 export const createOrder = async ({
   data,
@@ -43,19 +43,15 @@ export const createOrder = async ({
       itemsPrice: data.itemsPrice,
       taxPrice: data.taxPrice,
       totalPrice: data.totalPrice,
-      billingDetails: billingDetails,
       discountId: data.discountId,
+      billingDetails: billingDetails,
     });
 
     if (!validateOrderData.success) throw new Error('Invalid order data');
 
-    const checkout = await prisma.$transaction(async (tx) => {
+    const orderId = await prisma.$transaction(async (tx) => {
       const order = await tx.order.create({
-        data: validateOrderData.data,
-        include: {
-          orderItems: true,
-          discount: { select: { stripeCouponId: true } },
-        },
+        data: { ...validateOrderData.data },
       });
 
       await tx.orderItems.createMany({
@@ -69,54 +65,30 @@ export const createOrder = async ({
       });
 
       await tx.user.update({
-        where: { id: session.user.id },
+        where: { id: validateOrderData.data.userId },
         data: {
-          billingInfo: billingDetails,
+          billingInfo: validateOrderData.data.billingDetails,
         },
       });
 
-      const checkoutSession = await stripe.checkout.sessions.create({
-        discounts:
-          order.discountId && order.discount?.stripeCouponId
-            ? [
-                {
-                  coupon: order.discount.stripeCouponId,
-                },
-              ]
-            : undefined,
-        success_url: `${SERVER_URL}/success?orderId=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${SERVER_URL}/checkout`,
-        customer_email: billingDetails.email,
-        mode: 'payment',
-        metadata: {
-          orderId: order.id,
-          cartId: data.id,
-          payerName: billingDetails.fullName,
-          payerEmail: billingDetails.email,
-        },
-        line_items: validateOrderItems.data.map((item) => {
-          const tax = 0.05;
-          const priceWithTax = Number(item.price) * (1 + tax);
-          return {
-            price_data: {
-              product_data: {
-                name: item.name,
-                images: [item.image],
-              },
-              currency: 'aed',
-              unit_amount: Math.round(priceWithTax * 100),
-            },
-            quantity: 1,
-          };
-        }),
-      });
-
-      return checkoutSession.url;
+      return order.id;
     });
-    revalidatePath('/', 'layout');
+
+    // Create payment intent
+    const paymentIntent = await createPaymentIntent(orderId);
+
+    await prisma.order.update({
+      where: { id: orderId },
+      data: {
+        stripePaymentIntentId: paymentIntent,
+      },
+    });
+
+    revalidatePath('/checkout', 'page');
     return {
       success: true,
-      redirect: checkout,
+      message: 'Order created successfully.',
+      redirectUrl: `/order/${orderId}/checkout`,
     };
   } catch (error) {
     return { success: false, message: (error as Error).message };
@@ -134,11 +106,11 @@ export const getOrderById = async (orderId: string) => {
   });
 
   if (!order) return undefined;
-  return {
+  return convertToPlainObject({
     ...order,
     billingDetails: order?.billingDetails as BillingInfo,
     paymentResult: order?.paymentResult as PaymentResult,
-  };
+  });
 };
 
 // Get total orders count
@@ -479,7 +451,7 @@ export const createRefund = async (orderId: string) => {
       );
 
     await stripe.refunds.create({
-      payment_intent: order.paymentResult.paymentIntentId,
+      payment_intent: order.paymentResult.id,
       metadata: {
         orderId: order.id,
       },

@@ -10,11 +10,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from 'app/components/ui/sidebar';
+} from '@/app/components/ui/sidebar';
 import Image from 'next/image';
-import { ScrollArea } from 'app/components/ui/scroll-area';
+import { ScrollArea } from '@/app/components/ui/scroll-area';
 import { APP_NAME } from '@/lib/constants';
-import { SidebarContent } from 'app/components/ui/sidebar';
+import { SidebarContent } from '@/app/components/ui/sidebar';
 import {
   ArrowLeftFromLineIcon,
   FileBadge,
@@ -25,7 +25,7 @@ import {
   Wallet,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useSidebar } from 'app/components/ui/sidebar';
+import { useSidebar } from '@/app/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 
 const menuItems = [

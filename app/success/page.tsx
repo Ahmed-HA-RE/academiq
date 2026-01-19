@@ -7,13 +7,19 @@ import { notFound } from 'next/navigation';
 const SuccessPage = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const { orderId, session_id } = await searchParams;
-  if (!session_id) notFound();
-  const session = await stripe.checkout.sessions?.retrieve(session_id);
+  const { orderId, payment_intent } = await searchParams;
 
-  if (!session) throw new Error('Invalid session_id');
+  if (!orderId || !payment_intent) {
+    return notFound();
+  }
+
+  const isPayemntIntent = await stripe.paymentIntents.retrieve(payment_intent);
+
+  if (isPayemntIntent.status !== 'succeeded') {
+    return notFound();
+  }
 
   return (
     <section className='flex flex-col items-center justify-center min-h-screen space-y-6 px-3'>

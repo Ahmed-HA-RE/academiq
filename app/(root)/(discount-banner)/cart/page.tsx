@@ -1,9 +1,9 @@
-import CartDetails from '@/app/components/CartDetails';
+import CartDetails from '@/app/components/cart/CartDetails';
 import { getMyCart } from '@/lib/actions/cart';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
 import { getDiscountById } from '@/lib/actions/discount';
+import { getCurrentLoggedUser } from '@/lib/actions/user';
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Cart',
@@ -11,12 +11,7 @@ export const metadata: Metadata = {
 };
 
 const CartPage = async () => {
-  const [cart, session] = await Promise.all([
-    getMyCart(),
-    auth.api.getSession({
-      headers: await headers(),
-    }),
-  ]);
+  const [cart, user] = await Promise.all([getMyCart(), getCurrentLoggedUser()]);
 
   let discount;
 
@@ -24,7 +19,9 @@ const CartPage = async () => {
     discount = await getDiscountById(cart.discountId);
   }
 
-  return <CartDetails cart={cart} session={session} discount={discount} />;
+  if (!user) redirect('/login');
+
+  return <CartDetails cart={cart} discount={discount} user={user} />;
 };
 
 export default CartPage;

@@ -1,4 +1,4 @@
-import { getBannedUsers } from '@/lib/actions/user';
+import { getBannedUsers } from '@/lib/actions/admin/list-user';
 import { loadSearchParams } from '@/lib/searchParams';
 import { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';

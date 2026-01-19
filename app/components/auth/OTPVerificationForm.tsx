@@ -1,23 +1,18 @@
 'use client';
 
 import { Button } from '../ui/button';
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from '../../components/ui/input-otp';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { VerifyOTPFormData } from '@/types';
-import { verifyOTPSchema } from '@/schema';
 import { Field, FieldError } from '../ui/field';
 import { sendEmailVerificationOTP, verifyEmail } from '@/lib/actions/auth';
 import { toast } from 'sonner';
-import { Spinner } from '../ui/spinner';
-import { useRouter } from 'next/navigation';
 import ScreenSpinner from '../ScreenSpinner';
 import { useTransition } from 'react';
-
+import { useRouter } from 'next/navigation';
+import { verifyOTPSchema } from '@/schema';
+import { Spinner } from '../ui/spinner';
 const OTPVerificationForm = ({ callbackUrl }: { callbackUrl: string }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();

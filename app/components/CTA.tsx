@@ -16,7 +16,7 @@ const CTA = () => {
         blur
         transition={{ duration: 0.8 }}
       >
-        <Card className='rounded-3xl border-none py-10 shadow-none sm:py-16 lg:py-24 bg-[url(/images/cta-image.png)] bg-cover bg-center bg-no-repeat 2xl:scale-130'>
+        <Card className='rounded-3xl border-none py-10 shadow-none sm:py-16 lg:py-24 bg-[url(/images/cta-image.png)] bg-cover bg-center bg-no-repeat 2xl:scale-115'>
           <CardContent className='flex flex-col items-center justify-between gap-8 px-8 sm:px-16 xl:px-24'>
             <div className='flex-1/2'>
               <h2 className='text-3xl text-center md:text-5xl font-bold text-black'>

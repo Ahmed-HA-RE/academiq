@@ -47,6 +47,7 @@ const EditInstructorForm = ({
       email: instructor.user.email,
       name: instructor.user.name,
       phone: instructor.phone,
+      // image: instructor.user.image,
     },
   });
 
