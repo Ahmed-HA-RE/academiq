@@ -38,7 +38,14 @@ const SuccessPage = async ({
           You should receive an order confirmation email shortly.
         </p>
         <Button size={'lg'} className='text-base cursor-pointer h-11' asChild>
-          <Link href={`/order/${orderId}`}>View Order</Link>
+          <Link href={`/`}>Go Home</Link>
+        </Button>
+        <Button
+          size={'lg'}
+          className='text-base cursor-pointer h-11 ml-4'
+          asChild
+        >
+          <Link href={`/my-courses`}>View My Courses</Link>
         </Button>
       </div>
     </section>

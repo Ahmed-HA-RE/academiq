@@ -2,9 +2,9 @@ import stripe from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
 import resend, { domain } from '@/lib/resend';
 import SendReceipt from '@/emails/SendReceipt';
-import { APP_NAME } from '@/lib/constants';
+import { APP_NAME, APPLICATION_FEE_PERCENTAGE } from '@/lib/constants';
 import { BillingInfo, OrderItems, PaymentResult } from '@/types';
-import { formatDate } from '@/lib/utils';
+import { convertToFils, formatDate } from '@/lib/utils';
 import RefundOrder from '@/emails/RefundOrder';
 import { revalidatePath } from 'next/cache';
 import InstructorOrderRefund from '@/emails/InstructorOrderRefund';
@@ -25,7 +25,7 @@ export const POST = async (req: Request) => {
     return new Response('Invalid signature', { status: 400 });
   }
 
-  if (event.type === 'payment_intent.succeeded') {
+  if (event.type === 'charge.succeeded') {
     const session = event.data.object;
 
     const updatedOrder = await prisma.$transaction(async (tx) => {
@@ -38,7 +38,7 @@ export const POST = async (req: Request) => {
           paymentResult: {
             id: session.id,
             currency: session.currency,
-            amount: session.amount_received / 100,
+            amount: session.amount / 100,
           },
         },
         include: {
@@ -48,7 +48,6 @@ export const POST = async (req: Request) => {
         },
       });
 
-      // Grant user access to purchased courses
       await tx.user.update({
         where: { id: order.user.id },
         data: {
@@ -65,6 +64,33 @@ export const POST = async (req: Request) => {
       return order;
     });
 
+    // Transfer instructors their share and save transfer ids
+    for (const item of updatedOrder.orderItems) {
+      const course = await prisma.course.findUnique({
+        where: { id: item.courseId },
+        select: { instructor: true },
+      });
+
+      if (course?.instructor.stripeAccountId) {
+        const transfer = await stripe.transfers.create({
+          currency: 'aed',
+          amount: Math.round(
+            (convertToFils(item.price) * (100 - APPLICATION_FEE_PERCENTAGE)) /
+              100,
+          ), // 5% application fee
+          destination: course?.instructor.stripeAccountId as string,
+          source_transaction: session.id,
+        });
+        // Save transfer id in db
+        await prisma.orderItems.update({
+          where: { id_courseId: { id: item.id, courseId: item.courseId } },
+          data: {
+            stripeTransferId: transfer.id,
+          },
+        });
+      }
+    }
+
     await resend.emails.send({
       from: `${APP_NAME} <no-reply@${domain}>`,
       to: updatedOrder.user.email,
@@ -79,16 +105,16 @@ export const POST = async (req: Request) => {
         discount: updatedOrder.discount,
       }),
     });
-    return Response.json({ received: true });
 
+    return Response.json({ message: 'Charge succeeded processed' });
     // Create a refund process for an order
-  } else if (event.type === 'refund.created') {
+  } else if (event.type === 'charge.refunded') {
     const refund = event.data.object;
 
     const refundedOrder = await prisma.order.update({
       where: { id: refund.metadata?.orderId },
       data: { status: 'refunded' },
-      include: { user: true, orderItems: true },
+      include: { user: true, orderItems: { include: { course: true } } },
     });
 
     // Remove user access to the refunded courses
@@ -106,30 +132,11 @@ export const POST = async (req: Request) => {
       },
     });
 
-    revalidatePath('/admin-dashboard', 'layout');
-
-    return Response.json('Refund processed successfully', { status: 200 });
-  } else if (event.type === 'refund.updated') {
-    const refund = event.data.object;
-
-    const refundedOrder = await prisma.order.findFirst({
-      where: { id: refund.metadata?.orderId },
-      include: {
-        user: true,
-        orderItems: {
-          include: {
-            course: true,
-          },
-        },
-      },
-    });
-
     if (!refundedOrder) {
-      return Response.json('Order not found', { status: 404 });
+      console.log('Refunded order not found');
     }
 
     for (const item of refundedOrder.orderItems) {
-      // Find the related instructor email and send notification
       const instructor = await prisma.instructor.findFirst({
         where: { id: item.course.instructorId },
         include: {
@@ -138,23 +145,33 @@ export const POST = async (req: Request) => {
       });
 
       if (!instructor) {
-        return Response.json('Instructor not found', { status: 404 });
+        continue;
       }
 
       if (instructor.user.banned) {
         continue;
       }
 
+      if (!item.stripeTransferId) {
+        continue;
+      }
+
+      // Find the related instructor email and send notification and refund his share
+      await stripe.transfers.createReversal(item.stripeTransferId, {
+        amount: Math.round(
+          (convertToFils(item.price) * (100 - APPLICATION_FEE_PERCENTAGE)) /
+            100,
+        ),
+      });
+
       await resend.emails.send({
         from: `${APP_NAME} <support@${domain}>`,
         to: instructor.user.email,
         subject: 'A refund has been processed for your course',
         react: InstructorOrderRefund({
-          coursesName: refundedOrder.orderItems.map(
-            (item) => item.course.title,
-          ),
+          courseName: item.course.title,
           instructorName: instructor.user.name,
-          refundAmount: refund.amount / 100,
+          refundAmount: Number(item.price),
         }),
       });
     }
@@ -169,10 +186,11 @@ export const POST = async (req: Request) => {
         orderId: refundedOrder.id,
         refundAmount: (refund.amount / 100).toFixed(2),
         refundDate: formatDate(new Date(refund.created * 1000), 'date'),
-        refundCode: refund.destination_details?.card?.reference as string,
       }),
     });
-    return Response.json('Refund update email sent', { status: 200 });
+
+    revalidatePath('/admin-dashboard', 'layout');
+    return Response.json({ message: 'Charge refunded processed' });
   } else if (event.type === 'coupon.created') {
     const coupon = event.data.object;
 
@@ -181,16 +199,16 @@ export const POST = async (req: Request) => {
     });
 
     if (!discount) {
-      return Response.json('Discount not found', { status: 404 });
+      console.log('Discount not found for coupon creation');
     }
 
     await prisma.discount.update({
-      where: { id: discount.id },
+      where: { id: discount?.id },
       data: {
         stripeCouponId: coupon.id,
       },
     });
-
-    return Response.json('Coupon id added successfully', { status: 200 });
+    return Response.json({ message: 'Coupon created processed' });
   }
+  return Response.json({ received: true });
 };

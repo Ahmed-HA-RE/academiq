@@ -115,7 +115,7 @@ export const getMonthlyRevenueForInstructor = async () => {
       .filter(
         (order) =>
           order.createdAt.getMonth() === i &&
-          order.createdAt.getFullYear() === currentYear
+          order.createdAt.getFullYear() === currentYear,
       )
       .reduce((sum, order) => sum + parseFloat(order.totalPrice), 0);
 
@@ -123,7 +123,7 @@ export const getMonthlyRevenueForInstructor = async () => {
       .filter(
         (order) =>
           order.createdAt.getMonth() === i &&
-          order.createdAt.getFullYear() === previousYear
+          order.createdAt.getFullYear() === previousYear,
       )
       .reduce((sum, order) => sum + parseFloat(order.totalPrice), 0);
 
@@ -302,6 +302,7 @@ export const getEnrolledStudentsForInstructor = async ({
           },
           order: {
             isPaid: true,
+            status: 'paid',
             ...(q
               ? { user: { name: { contains: q, mode: 'insensitive' } } }
               : {}),
@@ -377,9 +378,9 @@ export const getEnrolledStudentsForInstructor = async ({
         courseId: student.course.id,
         progress:
           student.order.user.userProgress.find(
-            (s) => s.courseId === student.course.id
+            (s) => s.courseId === student.course.id,
           )?.progress || 0,
-      })
+      }),
     ),
     totalPages,
   };

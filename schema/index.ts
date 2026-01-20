@@ -46,7 +46,7 @@ const phoneSchema = z.string().refine(
   },
   {
     error: 'Invalid phone number',
-  }
+  },
 );
 
 // Optional phone number validation
@@ -63,7 +63,7 @@ const optionalPhoneSchema = z
     },
     {
       error: 'Invalid phone number',
-    }
+    },
   );
 
 // Courses schema
@@ -114,10 +114,10 @@ export const createCourseSchema = baseCourseSchema.extend({
                 .min(0.5, 'Lesson duration must be at least 30 seconds'),
               videoUrl: z.string().optional(),
               uploadthingFileId: z.string().optional(),
-            })
+            }),
           )
           .min(1, { error: 'At least one lesson is required' }),
-      })
+      }),
     )
     .min(1, { error: 'At least one section is required' }),
 });
@@ -186,7 +186,7 @@ export const discountSchema = z
     {
       error: 'Percentage discount cannot exceed 100',
       path: ['amount'],
-    }
+    },
   );
 
 export const applyDiscountSchema = z.object({
@@ -320,16 +320,16 @@ export const updateUserAsAdminSchema = z.object({
       if (!val) return true;
       return val.length >= 10;
     },
-    { error: 'Address field should be at least 10 characters long' }
+    { error: 'Address field should be at least 10 characters long' },
   ),
 
-  country: z.enum(LIST_COUNTRIES, { error: 'Invalid country' }).optional(),
+  country: z.string({ error: 'Invalid country' }).optional(),
   fullName: z.string({ error: 'Invalid full name' }).refine(
     (val) => {
       if (!val) return true;
       return val.length >= 3;
     },
-    { error: 'Full name field should be at least 3 characters long' }
+    { error: 'Full name field should be at least 3 characters long' },
   ),
   avatar: avatarSchema,
 });

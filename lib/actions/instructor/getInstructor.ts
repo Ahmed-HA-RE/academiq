@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma';
 import { convertToPlainObject } from '@/lib/utils';
 import { SocialLinks } from '@/types';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 // Get total Instructors count
 export const getTotalInstructorsCount = async () => {
@@ -95,7 +96,7 @@ export const getAllInstructorsAsAdmin = async ({
         ...instructor,
         socialLinks: instructor.socialLinks as SocialLinks,
         coursesCount: instructor._count.courses,
-      })
+      }),
     ),
     totalPages,
   };
@@ -139,7 +140,7 @@ export const getCurrentLoggedInInstructor = async () => {
     headers: await headers(),
   });
 
-  if (!session) throw new Error('Unauthorized');
+  if (!session) redirect('/');
 
   const instructor = await prisma.instructor.findUnique({
     where: { userId: session.user.id },

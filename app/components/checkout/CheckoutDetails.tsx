@@ -16,6 +16,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutPaymentForm from './CheckoutPaymentForm';
 import { useTheme } from 'next-themes';
+import { redirect } from 'next/navigation';
 
 const CheckoutDetails = ({
   user,
@@ -30,9 +31,13 @@ const CheckoutDetails = ({
     process.env.NEXT_PUBLIC_STRIPE_KEY as string,
     {
       developerTools: { assistant: { enabled: false } },
-    }
+    },
   );
+
+  console.log(stripePromise);
   const { theme } = useTheme();
+
+  if (order.orderItems.length === 0 || order.isPaid) redirect('/');
 
   return (
     <section className='section-spacing'>

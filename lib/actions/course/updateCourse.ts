@@ -63,12 +63,12 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
       },
     });
 
-    let newSectionId;
-
-    // Update Sections and Lessons
     for (const section of validatedData.data.sections) {
+      // Update Sections
+      let sectionId;
+
       if (section.id) {
-        await prisma.section.update({
+        sectionId = await prisma.section.update({
           where: {
             id: section.id,
           },
@@ -76,44 +76,37 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
             title: section.title,
           },
         });
-      } else {
+      } else if (!section.id) {
         // Create new section
-        newSectionId = await prisma.section.create({
+        sectionId = await prisma.section.create({
           data: {
             title: section.title,
             courseId: updatedCourse.id,
           },
-          select: { id: true },
         });
-        newSectionId = newSectionId.id;
       }
 
+      // Update Existing Lessons
       for (const lesson of section.lessons) {
         if (lesson.id) {
-          // Update existing lesson
-          const existingLesson = await prisma.lesson.update({
+          await prisma.lesson.update({
             where: {
               id: lesson.id,
             },
-            data: {
-              title: lesson.title,
-              duration: lesson.duration,
-            },
+            data: lesson,
           });
-
-          // fetch existing muxData
-          const existingMuxData = await prisma.muxData.findFirst({
-            where: { lessonId: existingLesson.id },
-          });
-
-          if (!existingMuxData) {
-            throw new Error('Mux data for the lesson not found');
-          }
-
-          // If there's a new video URL for the existing lesson, update the existing Mux asset
+          // Replace mux video asset and uploadthingFileId if the new video is uploaded
           if (lesson.videoUrl && lesson.videoUrl.trim() !== '') {
+            const existingMuxData = await prisma.muxData.findUnique({
+              where: { lessonId: lesson.id },
+            });
+            if (!existingMuxData) continue;
+
             // Delete existing mux asset
             await mux.video.assets.delete(existingMuxData.muxAssetId);
+
+            const utapi = new UTApi();
+            await utapi.deleteFiles([existingMuxData.uploadthingFileId]);
 
             // Note: Using demo video ids for all lessons in the demo course
 
@@ -122,22 +115,14 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
             //   playback_policy: ['public'],
             // });
 
-            // if (!updatedmuxData || !updatedmuxData.playback_ids) {
-            //   throw new Error('Failed to update Mux asset');
-            // }
-
-            const muxData = await prisma.muxData.update({
+            await prisma.muxData.update({
               where: { id: existingMuxData.id },
               data: {
-                uploadthingFileId: lesson.uploadthingFileId,
-                muxPlaybackId: DEMO_COURSE_VIDEOS.muxPlaybackId,
                 muxAssetId: DEMO_COURSE_VIDEOS.muxAssetId,
+                muxPlaybackId: DEMO_COURSE_VIDEOS.muxPlaybackId,
+                uploadthingFileId: lesson.uploadthingFileId,
               },
             });
-
-            // Delete uploadThing file key for Demo purpose only
-            const utapi = new UTApi();
-            await utapi.deleteFiles([muxData.uploadthingFileId]);
           }
         } else {
           // Create new lesson
@@ -145,7 +130,7 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
             data: {
               title: lesson.title,
               duration: lesson.duration,
-              sectionId: newSectionId as string,
+              sectionId: sectionId?.id as string,
             },
           });
 
@@ -158,22 +143,19 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
           //   playback_policy: ['public'],
           // });
 
-          // if (!muxData || !muxData.playback_ids) {
-          //   throw new Error('Failed to create Mux asset');
-          // }
+          // if(!muxData) continue;
 
-          // Store Mux Data in the database
-          const muxData = await prisma.muxData.create({
+          await prisma.muxData.create({
             data: {
               lessonId: newLesson.id,
               muxAssetId: DEMO_COURSE_VIDEOS.muxAssetId,
               muxPlaybackId: DEMO_COURSE_VIDEOS.muxPlaybackId,
-              uploadthingFileId: lesson.uploadthingFileId || '',
+              uploadthingFileId: lesson.uploadthingFileId as string,
             },
           });
-          // Delete uploadThing file key for Demo purpose only
+
           const utapi = new UTApi();
-          await utapi.deleteFiles([muxData.uploadthingFileId]);
+          await utapi.deleteFiles([lesson.uploadthingFileId as string]);
         }
       }
     }

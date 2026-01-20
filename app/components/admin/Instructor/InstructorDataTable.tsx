@@ -1,5 +1,5 @@
 'use client';
-import { Suspense, useState, useTransition } from 'react';
+import { Suspense, useTransition } from 'react';
 import Image from 'next/image';
 import { CircleIcon, EllipsisVerticalIcon, SearchIcon } from 'lucide-react';
 import { Instructor } from '@/types';
@@ -12,7 +12,6 @@ import {
 import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
 import { Badge } from '@/app/components/ui/badge';
 import { Button } from '@/app/components/ui/button';
-import { Checkbox } from '@/app/components/ui/checkbox';
 
 import {
   Select,
@@ -34,15 +33,11 @@ import {
 import { cn, formatId } from '@/lib/utils';
 import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
-import DeleteDialog from '../../shared/DeleteDialog';
 import { toast } from 'sonner';
 import Link from 'next/link';
 import DataPagination from '../../shared/Pagination';
 import { formatDate } from 'date-fns';
-import {
-  deleteInstructorById,
-  deleteInstructorsByIds,
-} from '@/lib/actions/instructor/instructorDeletion';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -54,24 +49,6 @@ import { banAsAdmin, unbanAsAdmin } from '@/lib/actions/admin/user-mutation';
 import ScreenSpinner from '../../ScreenSpinner';
 
 const columns: ColumnDef<Instructor>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
-    size: 50,
-  },
   {
     header: 'ID',
     accessorKey: 'id',
@@ -153,7 +130,7 @@ const columns: ColumnDef<Instructor>[] = [
             'rounded-full text-xs  border-none capitalize focus-visible:outline-none',
             status === 'Active'
               ? 'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400'
-              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive'
+              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive',
           )}
         >
           {status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}
@@ -188,44 +165,19 @@ const InstructorDataTable = ({
         .withOptions({ limitUrlUpdates: throttle(500) }),
       page: parseAsInteger.withDefault(1),
     },
-    { shallow: false }
+    { shallow: false },
   );
-
-  const [selectInstructors, setSelectInstructors] = useState({});
 
   const table = useReactTable({
     data: instructors,
     columns,
-    state: {
-      rowSelection: selectInstructors,
-    },
-    onRowSelectionChange: setSelectInstructors,
-    getRowId: (row) => row.id,
     getCoreRowModel: getCoreRowModel(),
   });
-
-  const handleDeleteInstructors = async () => {
-    const res = await deleteInstructorsByIds(Object.keys(selectInstructors));
-    if (!res.success) {
-      toast.error(res.message);
-      return;
-    }
-    toast.success(res.message);
-    setSelectInstructors({});
-  };
 
   return (
     <div className='w-full col-span-4'>
       <div className='flex flex-col gap-6 p-6 px-4'>
-        <div className='flex flex-row justify-between items-center'>
-          <span className='text-2xl font-semibold'>Instructors</span>
-          <DeleteDialog
-            title='Delete Selected Instructors'
-            description='Are you sure you want to delete the selected instructors? this action can not be undone.'
-            action={handleDeleteInstructors}
-            disabled={Object.keys(selectInstructors).length > 0 ? false : true}
-          />
-        </div>
+        <span className='text-2xl font-semibold'>Instructors</span>
 
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
           {/* Select Status */}
@@ -290,7 +242,7 @@ const InstructorDataTable = ({
                   >
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                   </TableHead>
                 );
@@ -349,15 +301,6 @@ export default InstructorDataTable;
 export const RowActions = ({ instructor }: { instructor: Instructor }) => {
   const [isPending, startTransition] = useTransition();
 
-  const handleDeleteInstructor = async () => {
-    const res = await deleteInstructorById(instructor.id);
-    if (!res.success) {
-      toast.error(res.message);
-      return;
-    }
-    toast.success(res.message);
-  };
-
   const handleBanUser = () => {
     startTransition(async () => {
       const res = await banAsAdmin(instructor.user.id, instructor.user.role);
@@ -385,11 +328,6 @@ export const RowActions = ({ instructor }: { instructor: Instructor }) => {
       {isPending && <ScreenSpinner mutate={true} text='Applying changes…' />}
 
       <div className='flex items-center justify-center '>
-        <DeleteDialog
-          title={`Delete ${instructor.user.name}?`}
-          description={`Are you sure you want to delete ${instructor.user.name}? This action cannot be undone.`}
-          action={handleDeleteInstructor}
-        />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className='flex'>

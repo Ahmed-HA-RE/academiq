@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { registerUser, signInWithProviders } from '@/lib/actions/auth';
 import { SERVER_URL } from '@/lib/constants';
 import { Separator } from '../ui/separator';
-import { FaGoogle } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 import { useTransition } from 'react';
 import ScreenSpinner from '../ScreenSpinner';
 
@@ -59,12 +59,12 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
       <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
         <div className='mb-4 flex items-center'>
           <Button
-            className='bg-[#DB4437] text-white text-base hover:bg-[#DB4437]/90 cursor-pointer w-full'
+            className='bg-transparent border text-black dark:text-white text-base hover:dark:border-white/70 hover:border-black/50 hover:bg-0 cursor-pointer w-full'
             type='button'
             onClick={() => handleSocialSignIn('google')}
           >
             <span className=''>
-              <FaGoogle aria-hidden='true' className='opacity-70' />
+              <FcGoogle aria-hidden='true' />
             </span>
             Login with Google
           </Button>

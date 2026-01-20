@@ -19,13 +19,13 @@ config();
 
 type InstructorOrderRefundProps = {
   instructorName: string;
-  coursesName: string[];
+  courseName: string;
   refundAmount: number;
 };
 
 const InstructorOrderRefund = ({
   instructorName,
-  coursesName,
+  courseName,
   refundAmount,
 }: InstructorOrderRefundProps) => {
   const baseImageUrl =
@@ -65,18 +65,11 @@ const InstructorOrderRefund = ({
               <Text className='text-gray-700 text-base leading-6 text-left inline-block'>
                 This is an automated notification to inform you that a refund
                 has been successfully processed for an enrollment in your
-                courses:
+                course:
               </Text>
-              <ul className='list-disc pl-6 my-0'>
-                {coursesName.map((course, index) => (
-                  <li
-                    key={index}
-                    className='text-black text-base leading-6 text-left font-bold'
-                  >
-                    {course}
-                  </li>
-                ))}
-              </ul>
+              <Text className='text-gray-900 text-lg font-semibold mt-4 mb-2 text-left'>
+                {courseName}
+              </Text>
 
               <Section className='bg-gray-50 border border-gray-200  p-6 my-6 text-center'>
                 <Text className='text-sm text-gray-500 m-0'>

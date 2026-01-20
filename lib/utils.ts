@@ -172,3 +172,7 @@ export const FAQ_TABS = [
     ],
   },
 ];
+
+export const convertToFils = (price: string) => {
+  return Math.round(Number(price) * 100);
+};

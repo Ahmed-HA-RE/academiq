@@ -21,7 +21,7 @@ import { stripe } from '@/lib/stripe';
 import { UploadApiResponse } from 'cloudinary';
 
 export const applyToTeach = async (
-  data: z.infer<typeof createApplicationSchema>
+  data: z.infer<typeof createApplicationSchema>,
 ) => {
   try {
     const session = await auth.api.getSession({
@@ -62,24 +62,34 @@ export const applyToTeach = async (
               return;
             }
             resolve(result!);
-          }
+          },
         )
         .end(buffer);
     });
 
-    const userApplication = await prisma.$transaction(async (tx) => {
-      const stripeAccountId = await stripe.accounts.create({
-        country: 'AE',
-        type: 'express',
-        business_profile: {
-          url: `${process.env.NEXT_PUBLIC_PROD_URL}`,
-          name: session.user.name,
-          support_phone: validateData.data.phone,
-          support_email: session.user.email,
-          product_description: 'Online courses and tutorials',
+    const stripeAccountId = await stripe.accounts.create({
+      country: 'AE',
+      type: 'express',
+      business_profile: {
+        url: `${process.env.NEXT_PUBLIC_PROD_URL}`,
+        name: session.user.name,
+        support_phone: validateData.data.phone,
+        support_email: session.user.email,
+        product_description: 'Online courses and tutorials',
+      },
+      settings: {
+        payouts: {
+          debit_negative_balances: true,
+          schedule: {
+            delay_days: 8,
+            interval: 'daily',
+          },
         },
-        email: session.user.email,
-      });
+      },
+      email: session.user.email,
+    });
+
+    const userApplication = await prisma.$transaction(async (tx) => {
       // Save application to the database
       const userApplication = await tx.intructorApplication.create({
         data: {
@@ -212,7 +222,7 @@ export const getAllInstructorApplications = async ({
         ...app,
         socialLinks: app.socialLinks as SocialLinks,
         file: app.file,
-      })
+      }),
     ),
     totalPages,
   };
@@ -267,7 +277,7 @@ export const deleteApplicationsByIds = async (applicationIds: string[]) => {
 // Update application status by ID
 export const updateApplicationStatusById = async (
   applicationId: string,
-  status: string
+  status: string,
 ) => {
   try {
     const session = await auth.api.getSession({
