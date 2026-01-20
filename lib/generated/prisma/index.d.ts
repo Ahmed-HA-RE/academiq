@@ -14356,6 +14356,7 @@ export namespace Prisma {
     image: string | null
     courseId: string | null
     orderId: string | null
+    stripeTransferId: string | null
   }
 
   export type OrderItemsMaxAggregateOutputType = {
@@ -14365,6 +14366,7 @@ export namespace Prisma {
     image: string | null
     courseId: string | null
     orderId: string | null
+    stripeTransferId: string | null
   }
 
   export type OrderItemsCountAggregateOutputType = {
@@ -14374,6 +14376,7 @@ export namespace Prisma {
     image: number
     courseId: number
     orderId: number
+    stripeTransferId: number
     _all: number
   }
 
@@ -14393,6 +14396,7 @@ export namespace Prisma {
     image?: true
     courseId?: true
     orderId?: true
+    stripeTransferId?: true
   }
 
   export type OrderItemsMaxAggregateInputType = {
@@ -14402,6 +14406,7 @@ export namespace Prisma {
     image?: true
     courseId?: true
     orderId?: true
+    stripeTransferId?: true
   }
 
   export type OrderItemsCountAggregateInputType = {
@@ -14411,6 +14416,7 @@ export namespace Prisma {
     image?: true
     courseId?: true
     orderId?: true
+    stripeTransferId?: true
     _all?: true
   }
 
@@ -14507,6 +14513,7 @@ export namespace Prisma {
     image: string
     courseId: string
     orderId: string
+    stripeTransferId: string | null
     _count: OrderItemsCountAggregateOutputType | null
     _avg: OrderItemsAvgAggregateOutputType | null
     _sum: OrderItemsSumAggregateOutputType | null
@@ -14535,6 +14542,7 @@ export namespace Prisma {
     image?: boolean
     courseId?: boolean
     orderId?: boolean
+    stripeTransferId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderItems"]>
@@ -14546,6 +14554,7 @@ export namespace Prisma {
     image?: boolean
     courseId?: boolean
     orderId?: boolean
+    stripeTransferId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderItems"]>
@@ -14557,6 +14566,7 @@ export namespace Prisma {
     image?: boolean
     courseId?: boolean
     orderId?: boolean
+    stripeTransferId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderItems"]>
@@ -14568,9 +14578,10 @@ export namespace Prisma {
     image?: boolean
     courseId?: boolean
     orderId?: boolean
+    stripeTransferId?: boolean
   }
 
-  export type orderItemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "image" | "courseId" | "orderId", ExtArgs["result"]["orderItems"]>
+  export type orderItemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "image" | "courseId" | "orderId" | "stripeTransferId", ExtArgs["result"]["orderItems"]>
   export type orderItemsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
@@ -14597,6 +14608,7 @@ export namespace Prisma {
       image: string
       courseId: string
       orderId: string
+      stripeTransferId: string | null
     }, ExtArgs["result"]["orderItems"]>
     composites: {}
   }
@@ -15028,6 +15040,7 @@ export namespace Prisma {
     readonly image: FieldRef<"orderItems", 'String'>
     readonly courseId: FieldRef<"orderItems", 'String'>
     readonly orderId: FieldRef<"orderItems", 'String'>
+    readonly stripeTransferId: FieldRef<"orderItems", 'String'>
   }
     
 
@@ -21307,7 +21320,8 @@ export namespace Prisma {
     price: 'price',
     image: 'image',
     courseId: 'courseId',
-    orderId: 'orderId'
+    orderId: 'orderId',
+    stripeTransferId: 'stripeTransferId'
   };
 
   export type OrderItemsScalarFieldEnum = (typeof OrderItemsScalarFieldEnum)[keyof typeof OrderItemsScalarFieldEnum]
@@ -22424,6 +22438,7 @@ export namespace Prisma {
     image?: StringFilter<"orderItems"> | string
     courseId?: StringFilter<"orderItems"> | string
     orderId?: StringFilter<"orderItems"> | string
+    stripeTransferId?: StringNullableFilter<"orderItems"> | string | null
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
   }
@@ -22435,6 +22450,7 @@ export namespace Prisma {
     image?: SortOrder
     courseId?: SortOrder
     orderId?: SortOrder
+    stripeTransferId?: SortOrderInput | SortOrder
     course?: CourseOrderByWithRelationInput
     order?: OrderOrderByWithRelationInput
   }
@@ -22450,6 +22466,7 @@ export namespace Prisma {
     image?: StringFilter<"orderItems"> | string
     courseId?: StringFilter<"orderItems"> | string
     orderId?: StringFilter<"orderItems"> | string
+    stripeTransferId?: StringNullableFilter<"orderItems"> | string | null
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
   }, "id_courseId">
@@ -22461,6 +22478,7 @@ export namespace Prisma {
     image?: SortOrder
     courseId?: SortOrder
     orderId?: SortOrder
+    stripeTransferId?: SortOrderInput | SortOrder
     _count?: orderItemsCountOrderByAggregateInput
     _avg?: orderItemsAvgOrderByAggregateInput
     _max?: orderItemsMaxOrderByAggregateInput
@@ -22478,6 +22496,7 @@ export namespace Prisma {
     image?: StringWithAggregatesFilter<"orderItems"> | string
     courseId?: StringWithAggregatesFilter<"orderItems"> | string
     orderId?: StringWithAggregatesFilter<"orderItems"> | string
+    stripeTransferId?: StringNullableWithAggregatesFilter<"orderItems"> | string | null
   }
 
   export type DiscountWhereInput = {
@@ -23824,6 +23843,7 @@ export namespace Prisma {
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    stripeTransferId?: string | null
     course?: CourseCreateNestedOneWithoutOrderItemsInput
     order: OrderCreateNestedOneWithoutOrderItemsInput
   }
@@ -23835,6 +23855,7 @@ export namespace Prisma {
     image: string
     courseId?: string
     orderId: string
+    stripeTransferId?: string | null
   }
 
   export type orderItemsUpdateInput = {
@@ -23842,6 +23863,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
     course?: CourseUpdateOneRequiredWithoutOrderItemsNestedInput
     order?: OrderUpdateOneRequiredWithoutOrderItemsNestedInput
   }
@@ -23853,6 +23875,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type orderItemsCreateManyInput = {
@@ -23862,6 +23885,7 @@ export namespace Prisma {
     image: string
     courseId?: string
     orderId: string
+    stripeTransferId?: string | null
   }
 
   export type orderItemsUpdateManyMutationInput = {
@@ -23869,6 +23893,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type orderItemsUncheckedUpdateManyInput = {
@@ -23878,6 +23903,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DiscountCreateInput = {
@@ -25213,6 +25239,7 @@ export namespace Prisma {
     image?: SortOrder
     courseId?: SortOrder
     orderId?: SortOrder
+    stripeTransferId?: SortOrder
   }
 
   export type orderItemsAvgOrderByAggregateInput = {
@@ -25226,6 +25253,7 @@ export namespace Prisma {
     image?: SortOrder
     courseId?: SortOrder
     orderId?: SortOrder
+    stripeTransferId?: SortOrder
   }
 
   export type orderItemsMinOrderByAggregateInput = {
@@ -25235,6 +25263,7 @@ export namespace Prisma {
     image?: SortOrder
     courseId?: SortOrder
     orderId?: SortOrder
+    stripeTransferId?: SortOrder
   }
 
   export type orderItemsSumOrderByAggregateInput = {
@@ -26988,6 +27017,7 @@ export namespace Prisma {
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    stripeTransferId?: string | null
     order: OrderCreateNestedOneWithoutOrderItemsInput
   }
 
@@ -26997,6 +27027,7 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     orderId: string
+    stripeTransferId?: string | null
   }
 
   export type orderItemsCreateOrConnectWithoutCourseInput = {
@@ -27187,6 +27218,7 @@ export namespace Prisma {
     image?: StringFilter<"orderItems"> | string
     courseId?: StringFilter<"orderItems"> | string
     orderId?: StringFilter<"orderItems"> | string
+    stripeTransferId?: StringNullableFilter<"orderItems"> | string | null
   }
 
   export type UserProgressUpsertWithWhereUniqueWithoutCourseInput = {
@@ -28612,6 +28644,7 @@ export namespace Prisma {
     name: string
     price: Decimal | DecimalJsLike | number | string
     image: string
+    stripeTransferId?: string | null
     course?: CourseCreateNestedOneWithoutOrderItemsInput
   }
 
@@ -28621,6 +28654,7 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     courseId?: string
+    stripeTransferId?: string | null
   }
 
   export type orderItemsCreateOrConnectWithoutOrderInput = {
@@ -29789,6 +29823,7 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     orderId: string
+    stripeTransferId?: string | null
   }
 
   export type UserProgressCreateManyCourseInput = {
@@ -29895,6 +29930,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: OrderUpdateOneRequiredWithoutOrderItemsNestedInput
   }
 
@@ -29904,6 +29940,7 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type orderItemsUncheckedUpdateManyWithoutCourseInput = {
@@ -29912,6 +29949,7 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserProgressUpdateWithoutCourseInput = {
@@ -30339,6 +30377,7 @@ export namespace Prisma {
     price: Decimal | DecimalJsLike | number | string
     image: string
     courseId?: string
+    stripeTransferId?: string | null
   }
 
   export type orderItemsUpdateWithoutOrderInput = {
@@ -30346,6 +30385,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
     course?: CourseUpdateOneRequiredWithoutOrderItemsNestedInput
   }
 
@@ -30355,6 +30395,7 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type orderItemsUncheckedUpdateManyWithoutOrderInput = {
@@ -30363,6 +30404,7 @@ export namespace Prisma {
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderCreateManyDiscountInput = {

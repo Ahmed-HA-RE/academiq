@@ -1,15 +1,14 @@
 'use server';
 
-import { convertToPlainObject } from '../utils';
+import { convertToFils, convertToPlainObject } from '../utils';
 import { getCurrentLoggedInInstructor } from '../actions/instructor/getInstructor';
 import { redirect } from 'next/navigation';
-import { APP_NAME, APPLICATION_FEE_PERCENTAGE, SERVER_URL } from '../constants';
+import { APP_NAME, SERVER_URL } from '../constants';
 import resend, { domain } from '../resend';
 import NotifyApplicant from '@/emails/NotifyApplicant';
 import { getApplicationByUserId } from './instructor/application';
 import { stripe } from '../stripe';
 import { getMyCart } from './cart';
-import { prisma } from '../prisma';
 
 // Get stripe account by application user ID
 export const getStripeAccountByApplication = async () => {
@@ -85,34 +84,20 @@ export const createPaymentIntent = async (orderId: string) => {
     throw new Error('No cart found');
   }
 
-  for (const item of cart.cartItems) {
-    const course = await prisma.course.findUnique({
-      where: { id: item.courseId },
-      select: { instructor: { select: { stripeAccountId: true } } },
-    });
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: convertToFils(cart.totalPrice),
+    currency: 'aed',
+    metadata: {
+      orderId,
+      cartId: cart.id,
+    },
+  });
 
-    if (!course?.instructor.stripeAccountId) continue;
-
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(Number(item.price) * 100),
-      application_fee_amount: Math.round(
-        (Number(item.price) * APPLICATION_FEE_PERCENTAGE) / 100,
-      ),
-      currency: 'aed',
-      transfer_data: {
-        destination: course.instructor.stripeAccountId,
-      },
-      metadata: {
-        orderId,
-      },
-    });
-
-    if (!paymentIntent.client_secret) {
-      throw new Error('Failed to create payment intent');
-    }
-
-    return paymentIntent.id;
+  if (!paymentIntent.client_secret) {
+    throw new Error('Failed to create payment intent');
   }
+
+  return paymentIntent.id;
 };
 
 // Get stripe client secret for payment

@@ -187,14 +187,15 @@ model Order {
 }
 
 model orderItems {
-  id       String  @default(uuid())
-  name     String
-  price    Decimal @db.Decimal(10, 2)
-  image    String
-  course   Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String  @default(uuid())
-  order    Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId  String
+  id               String  @default(uuid())
+  name             String
+  price            Decimal @db.Decimal(10, 2)
+  image            String
+  course           Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId         String  @default(uuid())
+  order            Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId          String
+  stripeTransferId String?
 
   @@id([id, courseId])
 }

@@ -94,7 +94,7 @@ const StatisticsCard = async () => {
                 </AvatarFallback>
               </Avatar>
             </CardHeader>
-            <CardContent className='flex flex-1 flex-col justify-between gap-2 '>
+            <CardContent className='flex flex-1 flex-col justify-between gap-2 px-4'>
               <p className='flex flex-col gap-1'>
                 <span className='text-xl sm:text-2xl font-bold'>
                   {card.value}

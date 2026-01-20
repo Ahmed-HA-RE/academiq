@@ -127,6 +127,7 @@ export const getTotalSalesAmount = async () => {
     },
     where: {
       isPaid: true,
+      status: 'paid',
     },
   });
   return totalSales._sum.totalPrice || 0;
@@ -451,12 +452,11 @@ export const createRefund = async (orderId: string) => {
       );
 
     await stripe.refunds.create({
-      payment_intent: order.paymentResult.id,
+      payment_intent: order.stripePaymentIntentId as string,
       metadata: {
         orderId: order.id,
       },
-      refund_application_fee: true,
-      reverse_transfer: true,
+      amount: Math.round(Number(order.paymentResult.amount) * 100),
     });
 
     revalidatePath('/', 'layout');

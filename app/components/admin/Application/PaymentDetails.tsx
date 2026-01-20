@@ -18,6 +18,9 @@ const PaymentDetails = ({
   application,
   isPaymentEligible,
 }: PaymentDetailsProps) => {
+  const isErrors =
+    account.requirements?.errors && account.requirements.errors.length > 0;
+
   return (
     <Card className='gap-4'>
       <CardHeader className='gap-0 border-b [.border-b]:pb-4'>
@@ -58,19 +61,21 @@ const PaymentDetails = ({
                 ))}
               </ul>
             </div>
-            <div className='space-y-2'>
-              <h2>Invalid Documents:</h2>
-              <ul className='space-y-2 min-w-0 pl-6'>
-                {account.requirements?.errors?.map((error) => (
-                  <li
-                    key={error.code}
-                    className='text-sm text-muted-foreground break-words whitespace-normal list-decimal'
-                  >
-                    {error.reason}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {isErrors && (
+              <div className='space-y-2'>
+                <h2>Invalid Documents:</h2>
+                <ul className='space-y-2 min-w-0 pl-6'>
+                  {account.requirements?.errors?.map((error, index) => (
+                    <li
+                      key={index + 1}
+                      className='text-sm text-muted-foreground break-words whitespace-normal list-decimal'
+                    >
+                      {error.reason}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <Button
               size={'sm'}
               className='rounded-full cursor-pointer text-xs'

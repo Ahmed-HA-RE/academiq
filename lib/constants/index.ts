@@ -229,4 +229,4 @@ export const DEMO_COURSE_VIDEOS = {
   muxAssetId: process.env.DEMO_MUX_ASSEST_VIDEO as string,
 };
 
-export const APPLICATION_FEE_PERCENTAGE = 0.05; // 5% application fee
+export const APPLICATION_FEE_PERCENTAGE = 5; // 5% application fee

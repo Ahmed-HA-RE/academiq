@@ -109,6 +109,7 @@ export type OrderItems = {
   price: string;
   image: string;
   courseId: string;
+  stripeTransferId?: string | null;
 };
 
 export type Order = z.infer<typeof orderBaseSchema> & {

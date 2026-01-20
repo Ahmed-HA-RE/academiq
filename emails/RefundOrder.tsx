@@ -26,7 +26,6 @@ const baseImageUrl =
     : `${process.env.NEXT_PUBLIC_DEV_EMAIL_URL}/static`;
 
 type RefundOrderProps = {
-  refundCode: string;
   name: string;
   orderId: string;
   refundAmount: string;
@@ -34,7 +33,6 @@ type RefundOrderProps = {
 };
 
 const RefundOrder = ({
-  refundCode,
   name,
   orderId,
   refundAmount,
@@ -83,15 +81,6 @@ const RefundOrder = ({
             <Text className='text-base ml-4 my-1'>
               • Refund Date: {refundDate}
             </Text>
-            <Text className='text-base ml-4 my-1'>
-              • Refund Reference: {refundCode}
-            </Text>
-          </Section>
-
-          <Section className='bg-[rgb(245,244,245)] rounded mb-[30px] py-10 px-[10px]'>
-            <Text className='text-3xl leading-[24px] text-center align-middle'>
-              {refundCode}
-            </Text>
           </Section>
 
           <Text className='text-black text-base leading-6'>
@@ -99,8 +88,8 @@ const RefundOrder = ({
             payment method within 5-10 business days, depending on your bank.
           </Text>
           <Text className='text-base'>
-            If you don&apos;t see the refund after that time, you can contact
-            your bank with the refund reference above to help track it.
+            If you don&apos;t see the refund after that time, you can contact us
+            with the orderId reference above to help you.
           </Text>
           <Text className='mt-10 mb-4'>Warm regards, The {APP_NAME} Team.</Text>
           <Hr />
