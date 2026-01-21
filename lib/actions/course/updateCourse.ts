@@ -95,6 +95,7 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
             },
             data: lesson,
           });
+
           // Replace mux video asset and uploadthingFileId if the new video is uploaded
           if (lesson.videoUrl && lesson.videoUrl.trim() !== '') {
             const existingMuxData = await prisma.muxData.findUnique({
