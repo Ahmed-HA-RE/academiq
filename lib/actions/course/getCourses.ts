@@ -141,7 +141,11 @@ export const getCourseBySlug = async (slug: string) => {
   const course = await prisma.course.findUnique({
     where: { slug },
     include: {
-      users: true,
+      _count: {
+        select: {
+          users: true,
+        },
+      },
       instructor: {
         include: {
           user: {
@@ -248,7 +252,7 @@ export const getAllInstructorCourses = async ({
       convertToPlainObject({
         ...course,
         studentsCount: course._count.users,
-      })
+      }),
     ),
     totalPages,
   };

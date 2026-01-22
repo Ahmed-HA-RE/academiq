@@ -17,6 +17,7 @@ model Course {
   id           String         @id @default(uuid())
   slug         String         @unique
   title        String
+  shortDesc    String
   description  String
   price        Decimal        @db.Decimal(10, 2)
   image        String

@@ -36,6 +36,7 @@ export const createCourse = async (data: CreateCourse) => {
       const newCourse = await tx.course.create({
         data: {
           title: validatedData.data.title,
+          shortDesc: validatedData.data.shortDesc,
           description: validatedData.data.description,
           price: validatedData.data.price,
           difficulty: validatedData.data.difficulty,
