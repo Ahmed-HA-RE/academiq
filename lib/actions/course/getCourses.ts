@@ -177,6 +177,7 @@ export const getCourseBySlug = async (slug: string) => {
       },
     },
   });
+
   return convertToPlainObject(course);
 };
 

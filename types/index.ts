@@ -3,6 +3,7 @@ import {
   billingInfoSchema,
   cartItemsSchema,
   cartSchema,
+  courseReviewSchema,
   createCourseSchema,
   discountSchema,
   forgotPasswordSchema,
@@ -207,3 +208,12 @@ export type InstructorCertificate = z.infer<
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type Review = z.infer<typeof courseReviewSchema> & {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: Pick<User, 'name' | 'image' | 'id'>;
+};
+
+export type CreateReview = z.infer<typeof courseReviewSchema>;

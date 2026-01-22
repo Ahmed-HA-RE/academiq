@@ -347,3 +347,23 @@ export const instructorCertificateSchema = z.object({
     .boolean({ error: 'Please choose a publication status' })
     .default(false),
 });
+
+export const courseReviewSchema = z.object({
+  rating: z.coerce
+    .number<number>({ error: 'Invalid rating' })
+    .min(0.5, 'Rating is required')
+    .max(5, 'Rating cannot be more than 5'),
+  comment: z
+    .string({ error: 'Invalid comment' })
+    .min(1, 'Comment is required')
+    .max(1000, 'Comment cannot be more than 1000 characters'),
+  approved: z
+    .boolean({ error: 'Please tick the approval box' })
+    .refine((data) => data === true, {
+      error: 'You must approve before submitting review',
+    }),
+  userId: z.string({ error: 'Invalid user id' }).min(1, 'User id is required'),
+  courseId: z
+    .string({ error: 'Invalid course id' })
+    .min(1, 'Course id is required'),
+});

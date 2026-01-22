@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import { APP_NAME } from '@/lib/constants';
 import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
 import CourseTopSection from '@/app/components/course/CourseTopSection';
+import CourseDetails from '@/app/components/course/CourseDetails';
 
 export const generateMetadata = async ({
   params,
@@ -41,6 +42,7 @@ const CourseDetailsPage = async ({
   return (
     <>
       <CourseTopSection course={course} user={user} cart={cart} />
+      <CourseDetails course={course} userId={user?.id} />
     </>
   );
 };

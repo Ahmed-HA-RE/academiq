@@ -36,6 +36,7 @@ model Course {
   orderItems   orderItems[]
   userProgress UserProgress[]
   certifactes  Certificate[]
+  reviews      Review[]
 }
 
 model User {
@@ -60,6 +61,7 @@ model User {
   banReason            String?
   banExpires           DateTime?
   certificates         Certificate[]
+  reviews              Review[]
 
   @@unique([email])
   @@map("user")
@@ -275,4 +277,17 @@ model Certificate {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, courseId])
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    Decimal  @db.Decimal(2, 1)
+  comment   String   @db.Text
+  approved  Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
