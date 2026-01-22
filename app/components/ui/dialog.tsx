@@ -39,7 +39,7 @@ function DialogOverlay({
       data-slot='dialog-overlay'
       className={cn(
         'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50',
-        className
+        className,
       )}
       {...props}
     />
@@ -61,7 +61,7 @@ function DialogContent({
         data-slot='dialog-content'
         className={cn(
           'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg',
-          className
+          className,
         )}
         {...props}
       >
@@ -69,9 +69,9 @@ function DialogContent({
         {showCloseButton && (
           <DialogPrimitive.Close
             data-slot='dialog-close'
-            className=" data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 transition bg-gray-200/40 rounded-full p-2 hover:bg-gray-200/60 cursor-pointer disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-5 text-white font-bold"
+            className=" data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 transition rounded-full p-2 cursor-pointer disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-5 text-white font-bold"
           >
-            <XIcon />
+            <XIcon className='text-black dark:text-white' />
             <span className='sr-only'>Close</span>
           </DialogPrimitive.Close>
         )}
@@ -96,7 +96,7 @@ function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {
       data-slot='dialog-footer'
       className={cn(
         'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
-        className
+        className,
       )}
       {...props}
     />

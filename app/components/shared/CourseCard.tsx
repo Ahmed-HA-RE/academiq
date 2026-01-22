@@ -4,17 +4,17 @@ import { BadgeCheckIcon } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import Link from 'next/link';
 import { Badge } from '../ui/badge';
-import { Cart, CourseCardType, User } from '@/types';
+import { Cart, Course, User } from '@/types';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { MotionPreset } from '../ui/motion-preset';
-import EnrollCourseBtn from './EnrollCourseBtn';
+import EnrollCourseBtn from './CourseAction';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Suspense } from 'react';
 import DOMPurify from 'isomorphic-dompurify';
 
 type CourseCardProps = {
-  course: CourseCardType;
+  course: Course;
   cart: Cart | undefined;
   user: User | undefined;
 };
@@ -97,11 +97,11 @@ const CourseCard = ({ course, cart, user }: CourseCardProps) => {
             </div>
           </div>
         </CardContent>
-        <CardFooter className='items-end justify-end gap-2'>
+        <CardFooter className='grid grid-cols-2 gap-2 mt-2 px-3'>
           <Button
             asChild
-            className='cursor-pointer'
-            size={'sm'}
+            className='cursor-pointer text-sm'
+            size={'default'}
             variant={'outline'}
           >
             <Link href={`/course/${course.slug}`}>View Details</Link>

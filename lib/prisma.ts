@@ -1,4 +1,5 @@
 import { PrismaClient } from '@/lib/generated/prisma/client';
+import { SocialLinks } from '@/types';
 import { PrismaNeon } from '@prisma/adapter-neon';
 import dotenv from 'dotenv';
 
@@ -61,6 +62,13 @@ export const prisma = new PrismaClient({ adapter }).$extends({
       progress: {
         compute(data) {
           return data.progress.toString();
+        },
+      },
+    },
+    instructor: {
+      socialLinks: {
+        compute(data) {
+          return data.socialLinks as SocialLinks;
         },
       },
     },

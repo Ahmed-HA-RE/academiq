@@ -1,6 +1,6 @@
 'use client';
 
-import { Cart, CourseCardType, User } from '@/types';
+import { Cart, Course, User } from '@/types';
 import { useTransition } from 'react';
 import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
@@ -9,13 +9,14 @@ import { toast } from 'sonner';
 import { usePathname, useRouter } from 'next/navigation';
 import { SERVER_URL } from '@/lib/constants';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
-const EnrollCourseBtn = ({
+const CourseAction = ({
   course,
   cart,
   user,
 }: {
-  course: CourseCardType;
+  course: Course;
   cart: Cart | undefined;
   user: User | undefined;
 }) => {
@@ -31,6 +32,8 @@ const EnrollCourseBtn = ({
 
   const isCourseOwnedToInstructor =
     user && user.role === 'instructor' && course.instructor?.userId === user.id;
+
+  const isCourseDetailsPage = pathname.includes(`/course/${course.slug}`);
 
   const handleAddToCart = async () => {
     if (!user) {
@@ -67,8 +70,8 @@ const EnrollCourseBtn = ({
   return isCourseInCart ? (
     <Button
       onClick={handleRemoveFromCart}
-      className='cursor-pointer w-24 bg-destructive text-white hover:bg-destructive/70'
-      size={'sm'}
+      className={`cursor-pointer bg-red-600 text-white hover:bg-red-700 w-full ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'}`}
+      size={!isCourseDetailsPage ? 'default' : 'lg'}
       variant={'default'}
       disabled={isPending}
     >
@@ -76,8 +79,8 @@ const EnrollCourseBtn = ({
     </Button>
   ) : isUserEnrolled ? (
     <Button
-      className='min-w-24 cursor-pointer'
-      size={'sm'}
+      className={`w-full cursor-pointer ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'}`}
+      size={!isCourseDetailsPage ? 'default' : 'lg'}
       variant={'default'}
       onClick={() => {
         router.push(`/my-courses/${course.slug}`);
@@ -87,8 +90,11 @@ const EnrollCourseBtn = ({
     </Button>
   ) : isCourseOwnedToInstructor ? (
     <Button
-      className='min-w-24 cursor-pointer bg-amber-500 text-white hover:bg-amber-500/80'
-      size={'sm'}
+      className={cn(
+        'cursor-pointer bg-blue-500 hover:bg-blue-600 dark:bg-amber-500 hover:dark:bg-amber-500/80  text-white w-full text-xs',
+        !isCourseDetailsPage && 'text-sm bg-amber-500 hover:bg-amber-500/80',
+      )}
+      size={!isCourseDetailsPage ? 'default' : 'lg'}
       variant={'default'}
       asChild
     >
@@ -99,9 +105,9 @@ const EnrollCourseBtn = ({
   ) : (
     <Button
       onClick={handleAddToCart}
-      className='cursor-pointer min-w-24'
-      size={'sm'}
-      variant={'outline'}
+      className={`w-full cursor-pointer ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'} bg-blue-500 hover:bg-blue-600 dark:bg-amber-500 hover:dark:bg-amber-500/80 text-white `}
+      size={!isCourseDetailsPage ? 'default' : 'lg'}
+      variant={'default'}
       disabled={isPending}
     >
       {isPending ? <Spinner className='size-6' /> : 'Enroll Now'}
@@ -109,4 +115,4 @@ const EnrollCourseBtn = ({
   );
 };
 
-export default EnrollCourseBtn;
+export default CourseAction;

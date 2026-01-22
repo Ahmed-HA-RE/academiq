@@ -49,6 +49,7 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
       where: { id: course.id, instructorId: course.instructorId },
       data: {
         title: validatedData.data.title,
+        shortDesc: validatedData.data.shortDesc,
         description: validatedData.data.description,
         price: validatedData.data.price,
         difficulty: validatedData.data.difficulty,

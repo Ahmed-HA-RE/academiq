@@ -46,7 +46,7 @@ export type Course = z.infer<typeof baseCourseSchema> & {
   createdAt: Date;
   updatedAt: Date;
   totalPages?: number;
-  instructor: Omit<Instructor, 'socialLinks'>;
+  instructor: Instructor;
 };
 
 export type CourseCardType = Omit<Course, 'sections'> & {

@@ -6,7 +6,7 @@ import { LIST_COUNTRIES } from '@/lib/utils';
 
 // Decimal validation for courses
 const positiveMoney = z
-  .string()
+  .string({ error: 'Invalid money amount' })
   .regex(/^(0|[1-9]\d*)\.\d{2}$/, {
     error: 'Must be a number with exactly 2 decimal places',
   })
@@ -70,6 +70,10 @@ const optionalPhoneSchema = z
 export const baseCourseSchema = z.object({
   slug: z.string({ error: 'Invalid slug' }).min(1, 'Slug is required'),
   title: z.string({ error: 'Invalid title' }).min(1, 'Title is required'),
+  shortDesc: z
+    .string({ error: 'Invalid short description' })
+    .min(10, 'Short description is required')
+    .max(255, 'Short description is too long'),
   description: z
     .string({ error: 'Invalid description' })
     .min(5, 'Course description is required'),

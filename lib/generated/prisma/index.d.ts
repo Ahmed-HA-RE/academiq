@@ -2565,6 +2565,7 @@ export namespace Prisma {
     id: string | null
     slug: string | null
     title: string | null
+    shortDesc: string | null
     description: string | null
     price: Decimal | null
     image: string | null
@@ -2583,6 +2584,7 @@ export namespace Prisma {
     id: string | null
     slug: string | null
     title: string | null
+    shortDesc: string | null
     description: string | null
     price: Decimal | null
     image: string | null
@@ -2601,6 +2603,7 @@ export namespace Prisma {
     id: number
     slug: number
     title: number
+    shortDesc: number
     description: number
     price: number
     image: number
@@ -2629,6 +2632,7 @@ export namespace Prisma {
     id?: true
     slug?: true
     title?: true
+    shortDesc?: true
     description?: true
     price?: true
     image?: true
@@ -2647,6 +2651,7 @@ export namespace Prisma {
     id?: true
     slug?: true
     title?: true
+    shortDesc?: true
     description?: true
     price?: true
     image?: true
@@ -2665,6 +2670,7 @@ export namespace Prisma {
     id?: true
     slug?: true
     title?: true
+    shortDesc?: true
     description?: true
     price?: true
     image?: true
@@ -2770,6 +2776,7 @@ export namespace Prisma {
     id: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal
     image: string
@@ -2807,6 +2814,7 @@ export namespace Prisma {
     id?: boolean
     slug?: boolean
     title?: boolean
+    shortDesc?: boolean
     description?: boolean
     price?: boolean
     image?: boolean
@@ -2832,6 +2840,7 @@ export namespace Prisma {
     id?: boolean
     slug?: boolean
     title?: boolean
+    shortDesc?: boolean
     description?: boolean
     price?: boolean
     image?: boolean
@@ -2851,6 +2860,7 @@ export namespace Prisma {
     id?: boolean
     slug?: boolean
     title?: boolean
+    shortDesc?: boolean
     description?: boolean
     price?: boolean
     image?: boolean
@@ -2870,6 +2880,7 @@ export namespace Prisma {
     id?: boolean
     slug?: boolean
     title?: boolean
+    shortDesc?: boolean
     description?: boolean
     price?: boolean
     image?: boolean
@@ -2884,7 +2895,7 @@ export namespace Prisma {
     instructorId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "price" | "image" | "imageKey" | "language" | "difficulty" | "published" | "category" | "prequisites" | "createdAt" | "updatedAt" | "instructorId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "shortDesc" | "description" | "price" | "image" | "imageKey" | "language" | "difficulty" | "published" | "category" | "prequisites" | "createdAt" | "updatedAt" | "instructorId", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Course$usersArgs<ExtArgs>
     instructor?: boolean | InstructorDefaultArgs<ExtArgs>
@@ -2915,6 +2926,7 @@ export namespace Prisma {
       id: string
       slug: string
       title: string
+      shortDesc: string
       description: string
       price: Prisma.Decimal
       image: string
@@ -3359,6 +3371,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Course", 'String'>
     readonly slug: FieldRef<"Course", 'String'>
     readonly title: FieldRef<"Course", 'String'>
+    readonly shortDesc: FieldRef<"Course", 'String'>
     readonly description: FieldRef<"Course", 'String'>
     readonly price: FieldRef<"Course", 'Decimal'>
     readonly image: FieldRef<"Course", 'String'>
@@ -21161,6 +21174,7 @@ export namespace Prisma {
     id: 'id',
     slug: 'slug',
     title: 'title',
+    shortDesc: 'shortDesc',
     description: 'description',
     price: 'price',
     image: 'image',
@@ -21591,6 +21605,7 @@ export namespace Prisma {
     id?: StringFilter<"Course"> | string
     slug?: StringFilter<"Course"> | string
     title?: StringFilter<"Course"> | string
+    shortDesc?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"Course"> | string
@@ -21615,6 +21630,7 @@ export namespace Prisma {
     id?: SortOrder
     slug?: SortOrder
     title?: SortOrder
+    shortDesc?: SortOrder
     description?: SortOrder
     price?: SortOrder
     image?: SortOrder
@@ -21642,6 +21658,7 @@ export namespace Prisma {
     OR?: CourseWhereInput[]
     NOT?: CourseWhereInput | CourseWhereInput[]
     title?: StringFilter<"Course"> | string
+    shortDesc?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"Course"> | string
@@ -21666,6 +21683,7 @@ export namespace Prisma {
     id?: SortOrder
     slug?: SortOrder
     title?: SortOrder
+    shortDesc?: SortOrder
     description?: SortOrder
     price?: SortOrder
     image?: SortOrder
@@ -21692,6 +21710,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Course"> | string
     slug?: StringWithAggregatesFilter<"Course"> | string
     title?: StringWithAggregatesFilter<"Course"> | string
+    shortDesc?: StringWithAggregatesFilter<"Course"> | string
     description?: StringWithAggregatesFilter<"Course"> | string
     price?: DecimalWithAggregatesFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringWithAggregatesFilter<"Course"> | string
@@ -22895,6 +22914,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -22918,6 +22938,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -22941,6 +22962,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -22964,6 +22986,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -22987,6 +23010,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -23005,6 +23029,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -23022,6 +23047,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -24433,6 +24459,7 @@ export namespace Prisma {
     id?: SortOrder
     slug?: SortOrder
     title?: SortOrder
+    shortDesc?: SortOrder
     description?: SortOrder
     price?: SortOrder
     image?: SortOrder
@@ -24455,6 +24482,7 @@ export namespace Prisma {
     id?: SortOrder
     slug?: SortOrder
     title?: SortOrder
+    shortDesc?: SortOrder
     description?: SortOrder
     price?: SortOrder
     image?: SortOrder
@@ -24473,6 +24501,7 @@ export namespace Prisma {
     id?: SortOrder
     slug?: SortOrder
     title?: SortOrder
+    shortDesc?: SortOrder
     description?: SortOrder
     price?: SortOrder
     image?: SortOrder
@@ -27352,6 +27381,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -27374,6 +27404,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -27684,6 +27715,7 @@ export namespace Prisma {
     id?: StringFilter<"Course"> | string
     slug?: StringFilter<"Course"> | string
     title?: StringFilter<"Course"> | string
+    shortDesc?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
     price?: DecimalFilter<"Course"> | Decimal | DecimalJsLike | number | string
     image?: StringFilter<"Course"> | string
@@ -28273,6 +28305,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -28295,6 +28328,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -28363,6 +28397,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -28385,6 +28420,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -28808,6 +28844,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -28830,6 +28867,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -28907,6 +28945,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -28929,6 +28968,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -29155,6 +29195,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -29177,6 +29218,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -29441,6 +29483,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -29463,6 +29506,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -29558,6 +29602,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -29580,6 +29625,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -29653,6 +29699,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -29675,6 +29722,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -29770,6 +29818,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -29792,6 +29841,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -30147,6 +30197,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -30169,6 +30220,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -30191,6 +30243,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -30521,6 +30574,7 @@ export namespace Prisma {
     id?: string
     slug: string
     title: string
+    shortDesc: string
     description: string
     price: Decimal | DecimalJsLike | number | string
     image: string
@@ -30538,6 +30592,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -30560,6 +30615,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
@@ -30582,6 +30638,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     image?: StringFieldUpdateOperationsInput | string
