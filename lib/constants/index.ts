@@ -230,3 +230,9 @@ export const DEMO_COURSE_VIDEOS = {
 };
 
 export const APPLICATION_FEE_PERCENTAGE = 5; // 5% application fee
+
+export const COURSE_TABS_TRIGGER = [
+  { label: 'About Course', value: 'about-course' },
+  { label: 'Course Content', value: 'course-content' },
+  { label: 'Reviews', value: 'reviews' },
+];

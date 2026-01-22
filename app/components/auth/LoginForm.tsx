@@ -145,7 +145,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
                     <Checkbox
                       id={field.name}
                       aria-invalid={fieldState.invalid}
-                      className='input  size-5'
+                      className='input size-5'
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />

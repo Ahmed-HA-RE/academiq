@@ -12,7 +12,7 @@ const HeroSection = async () => {
     getCoursesWithStudents(),
   ]);
   return (
-    <section className='overflow-hidden section-spacing'>
+    <section className='overflow-hidden py-8 md:py-10 lg:py-12 bg-blue-50'>
       <div className='container'>
         <div className='relative grid gap-12 lg:grid-cols-5'>
           <div className='flex flex-col gap-6 lg:col-span-3'>
@@ -183,7 +183,7 @@ const HeroSection = async () => {
               height={0}
               sizes='100vw'
               loading='eager'
-              className='size-full max-h-[520px] max-w-md rounded-3xl object-cover'
+              className='size-full max-h-[480px] max-w-md rounded-3xl object-cover'
             />
           </MotionPreset>
         </div>

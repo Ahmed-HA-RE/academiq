@@ -91,8 +91,7 @@ const CourseTopSection = ({ course, user, cart }: CourseTopSectionProps) => {
               delay={0.4}
             >
               <p className='text-muted-foreground dark:text-white text-base'>
-                Build production-ready Next.js apps with routing, SSR,
-                performance, and deployment best practices.
+                {course.shortDesc}
               </p>
             </MotionPreset>
             <MotionPreset
@@ -127,7 +126,7 @@ const CourseTopSection = ({ course, user, cart }: CourseTopSectionProps) => {
                 slide={{ direction: 'up', offset: 40 }}
                 transition={{ type: 'spring', stiffness: 150, damping: 20 }}
                 delay={0.6}
-                className='w-full max-w-sm'
+                className='w-full max-w-[250px]'
               >
                 <EnrollCourseBtn course={course} user={user} cart={cart} />
               </MotionPreset>
@@ -137,7 +136,7 @@ const CourseTopSection = ({ course, user, cart }: CourseTopSectionProps) => {
                 slide={{ direction: 'up', offset: 40 }}
                 transition={{ type: 'spring', stiffness: 150, damping: 20 }}
                 delay={0.6}
-                className='w-full max-w-sm'
+                className='w-full max-w-[250px]'
               >
                 <InstructorInfoDialog instructor={course.instructor} />
               </MotionPreset>
@@ -159,7 +158,7 @@ const CourseTopSection = ({ course, user, cart }: CourseTopSectionProps) => {
               height={0}
               sizes='100vw'
               loading='eager'
-              className='w-full mx-auto sm:max-w-lg transition-all duration-300 hover:scale-105 rounded-md'
+              className='w-full mx-auto sm:max-w-md transition-all duration-300 hover:scale-105 rounded-md'
             />
           </MotionPreset>
         </div>
