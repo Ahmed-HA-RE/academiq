@@ -77,7 +77,7 @@ const CoursesPage = async ({
               <AlertTitle>No courses found.</AlertTitle>
             </Alert>
           ) : (
-            <div className='col-span-7 md:col-span-4 lg:col-span-5 grid grid-cols-1 lg:grid-cols-2 gap-4 '>
+            <div className='col-span-7 md:col-span-4 lg:col-span-5 grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-3xl '>
               {courses.map(
                 (course) =>
                   course.published && (

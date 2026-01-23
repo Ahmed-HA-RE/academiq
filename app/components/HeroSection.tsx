@@ -5,14 +5,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getTotalCoursesCount } from '@/lib/actions/course/getCourses';
 import { getCoursesWithStudents } from '@/lib/actions/course/getCourses';
+import { getInstructorsCount } from '@/lib/actions/instructor/getInstructor';
 
 const HeroSection = async () => {
-  const [coursesCount, studentsCount] = await Promise.all([
+  const [coursesCount, studentsCount, instructorsCount] = await Promise.all([
     getTotalCoursesCount(),
     getCoursesWithStudents(),
+    getInstructorsCount(),
   ]);
   return (
-    <section className='overflow-hidden py-8 md:py-10 lg:py-12 bg-blue-50'>
+    <section className='overflow-hidden py-8 md:pt-10 lg:pt-12 bg-gradient-to-br from-blue-500/10 via-transparent to-amber-500/10 dark:from-blue-500/20 dark:to-amber-500/20'>
       <div className='container'>
         <div className='relative grid gap-12 lg:grid-cols-5'>
           <div className='flex flex-col gap-6 lg:col-span-3'>
@@ -23,7 +25,7 @@ const HeroSection = async () => {
               transition={{ duration: 0.5 }}
               delay={0.3}
             >
-              <h1 className='max-w-3xl text-3xl leading-[1.29167] font-bold sm:text-4xl lg:text-5xl'>
+              <h1 className='max-w-3xl text-3xl leading-[1.29167] font-bold sm:text-4xl lg:text-5xl '>
                 Empowering Learners for Real Growth
               </h1>
             </MotionPreset>
@@ -49,18 +51,41 @@ const HeroSection = async () => {
               blur
               transition={{ duration: 0.5 }}
               delay={0.7}
-              className='flex flex-wrap md:justify-center items-center gap-6'
+              className='space-x-6'
             >
-              <BounceButton>
+              <BounceButton size={'lg'} className='text-base rounded-sm px-4'>
                 <Link href='/courses'>View Courses</Link>
               </BounceButton>
+              <BounceButton
+                size={'lg'}
+                variant={'outline'}
+                className='text-base rounded-sm px-4 border-black dark:border-white'
+              >
+                <Link href='/about'>Learn More</Link>
+              </BounceButton>
+            </MotionPreset>
+            <MotionPreset
+              component='div'
+              fade
+              slide={{ offset: 50 }}
+              blur
+              transition={{ duration: 0.5 }}
+              delay={0.8}
+              className='flex items-center gap-8'
+            >
               <div className='flex flex-col'>
-                <span className='text-xl font-medium'>{coursesCount}+</span>
+                <span className='text-2xl font-medium'>{coursesCount}+</span>
                 <span className='text-muted-foreground'>Courses</span>
               </div>
               <div className='flex flex-col'>
-                <span className='text-xl font-medium'>{studentsCount}+</span>
-                <span className='text-muted-foreground'>Students Enrolled</span>
+                <span className='text-2xl font-medium'>{studentsCount}+</span>
+                <span className='text-muted-foreground'>Students</span>
+              </div>
+              <div className='flex flex-col'>
+                <span className='text-2xl font-medium'>
+                  {instructorsCount}+
+                </span>
+                <span className='text-muted-foreground'>Instructors</span>
               </div>
             </MotionPreset>
             <div className='grid grid-cols-1 gap-3 sm:grid-cols-3 lg:max-w-184'>
@@ -107,17 +132,10 @@ const HeroSection = async () => {
                 <span className='text-muted-foreground text-xl font-medium'>
                   Certified Instructors
                 </span>
-                <div className='text-muted-foreground absolute end-15.5 -bottom-0.5 transition-transform duration-500 group-hover:-translate-y-1.5 group-hover:scale-115 group-hover:drop-shadow-sm'>
-                  <div className='relative'>
-                    <div className='text-muted-foreground absolute size-42 -translate-x-1/2 -translate-y-1/2 rounded-full border'></div>
-                    <div className='text-muted-foreground absolute size-36 -translate-x-1/2 -translate-y-1/2 rounded-full border'></div>
-                    <div className='text-muted-foreground absolute size-28 -translate-x-1/2 -translate-y-1/2 rounded-full border'></div>
-                    <div className='text-muted-foreground absolute size-20 -translate-x-1/2 -translate-y-1/2 rounded-full border'></div>
-                  </div>
-                </div>
+
                 <div className='absolute end-1 -bottom-2 transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-110 group-hover:drop-shadow-sm'>
                   <Image
-                    src='https://res.cloudinary.com/ahmed--dev/image/upload/v1765042923/teacher_g6dnkt.svg'
+                    src='https://res.cloudinary.com/ahmed--dev/image/upload/v1769174650/twy9aawdkrqrouhxxqnd.png'
                     alt='teacher'
                     width={0}
                     height={0}
@@ -125,7 +143,7 @@ const HeroSection = async () => {
                     className='w-20 opacity-50 object-cover dark:hidden'
                   />
                   <Image
-                    src='https://res.cloudinary.com/ahmed--dev/image/upload/v1765042923/teacher-white_asuicc.svg'
+                    src='https://res.cloudinary.com/ahmed--dev/image/upload/v1769174812/hqspm6sbzjkfm95nquxk.png'
                     alt='teacher'
                     width={0}
                     height={0}
@@ -174,16 +192,15 @@ const HeroSection = async () => {
             blur
             transition={{ duration: 0.5 }}
             delay={0.5}
-            className='relative flex items-center md:items-start justify-center  lg:col-span-2'
+            className='relative flex items-center md:items-start justify-center lg:col-span-2'
           >
             <Image
-              src='https://res.cloudinary.com/ahmed--dev/image/upload/v1765132080/hero_fskl0d.jpg'
-              alt='student'
+              src='/images/hero.jpg'
               width={0}
               height={0}
               sizes='100vw'
-              loading='eager'
-              className='size-full max-h-[480px] max-w-md rounded-3xl object-cover'
+              alt='Hero Image'
+              className='object-cover size-full max-sm:scale-120'
             />
           </MotionPreset>
         </div>

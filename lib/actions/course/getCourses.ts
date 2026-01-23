@@ -261,12 +261,12 @@ export const getAllInstructorCourses = async ({
 
 // Get courses who have students enrolled
 export const getCoursesWithStudents = async () => {
-  const courses = await prisma.user.findMany({
+  const courses = await prisma.user.count({
     where: {
       courses: {
         some: {},
       },
     },
   });
-  return courses.length;
+  return courses;
 };

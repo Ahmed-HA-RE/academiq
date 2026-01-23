@@ -62,7 +62,7 @@ const FilterContent = () => {
     },
     {
       shallow: false,
-    }
+    },
   );
 
   return (
@@ -136,7 +136,7 @@ const FilterContent = () => {
                 } else {
                   setFilters({
                     category: filters.category.filter(
-                      (cat) => cat !== category
+                      (cat) => cat !== category,
                     ),
                   });
                 }
@@ -166,7 +166,7 @@ const FilterContent = () => {
                 } else {
                   setFilters({
                     difficulty: filters.difficulty.filter(
-                      (lvl) => lvl !== level.value
+                      (lvl) => lvl !== level.value,
                     ),
                   });
                 }
@@ -240,7 +240,7 @@ const CategoriesFilter = () => {
     },
     {
       shallow: false,
-    }
+    },
   );
 
   return (

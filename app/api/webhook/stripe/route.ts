@@ -68,8 +68,14 @@ export const POST = async (req: Request) => {
     for (const item of updatedOrder.orderItems) {
       const course = await prisma.course.findUnique({
         where: { id: item.courseId },
-        select: { instructor: true },
+        select: {
+          instructor: { include: { user: { select: { banned: true } } } },
+        },
       });
+
+      if (course?.instructor.user.banned) {
+        continue;
+      }
 
       if (course?.instructor.stripeAccountId) {
         const transfer = await stripe.transfers.create({
@@ -132,10 +138,6 @@ export const POST = async (req: Request) => {
       },
     });
 
-    if (!refundedOrder) {
-      console.log('Refunded order not found');
-    }
-
     for (const item of refundedOrder.orderItems) {
       const instructor = await prisma.instructor.findFirst({
         where: { id: item.course.instructorId },
@@ -145,10 +147,6 @@ export const POST = async (req: Request) => {
       });
 
       if (!instructor) {
-        continue;
-      }
-
-      if (instructor.user.banned) {
         continue;
       }
 
@@ -163,6 +161,10 @@ export const POST = async (req: Request) => {
             100,
         ),
       });
+
+      if (!instructor.user.banned) {
+        continue;
+      }
 
       await resend.emails.send({
         from: `${APP_NAME} <support@${domain}>`,

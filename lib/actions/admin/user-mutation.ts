@@ -23,18 +23,12 @@ export const banAsAdmin = async (id: string, role: string) => {
 
     if (!user) throw new Error('User not found');
 
-    await prisma.$transaction(async (tx) => {
-      await auth.api.banUser({
-        body: {
-          userId: user.id,
-          banReason: 'Violation of terms of service',
-        },
-        headers: await headers(),
-      });
-      await tx.user.update({
-        where: { id: user.id },
-        data: { role: 'user' },
-      });
+    await auth.api.banUser({
+      body: {
+        userId: user.id,
+        banReason: 'Violation of terms of service',
+      },
+      headers: await headers(),
     });
 
     revalidatePath('/', 'layout');
@@ -124,7 +118,7 @@ export const deleteSelectedUsers = async (userIds: string[]) => {
 
 export const updateUserAsAdmin = async (
   userId: string,
-  data: UpdateUserAsAdmin
+  data: UpdateUserAsAdmin,
 ) => {
   try {
     const session = await auth.api.getSession({
@@ -166,7 +160,7 @@ export const updateUserAsAdmin = async (
     if (validatedData.data.avatar) {
       avatarUrl = await uploadToCloudinary(
         validatedData.data.avatar,
-        'avatars'
+        'avatars',
       );
     }
 
