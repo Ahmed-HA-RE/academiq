@@ -6,6 +6,7 @@ import { APP_NAME } from '@/lib/constants';
 import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
 import CourseTopSection from '@/app/components/course/CourseTopSection';
 import CourseDetails from '@/app/components/course/CourseDetails';
+import { SearchParams } from 'nuqs/server';
 
 export const generateMetadata = async ({
   params,
@@ -26,8 +27,10 @@ export const generateMetadata = async ({
 
 const CourseDetailsPage = async ({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<SearchParams>;
 }) => {
   const { slug } = await params;
 
@@ -42,7 +45,7 @@ const CourseDetailsPage = async ({
   return (
     <>
       <CourseTopSection course={course} user={user} cart={cart} />
-      <CourseDetails course={course} userId={user?.id} />
+      <CourseDetails course={course} user={user} searchParams={searchParams} />
     </>
   );
 };

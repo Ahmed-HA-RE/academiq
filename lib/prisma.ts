@@ -72,5 +72,12 @@ export const prisma = new PrismaClient({ adapter }).$extends({
         },
       },
     },
+    review: {
+      rating: {
+        compute(data) {
+          return Number(data.rating);
+        },
+      },
+    },
   },
 });
