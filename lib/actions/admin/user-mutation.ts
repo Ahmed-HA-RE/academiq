@@ -19,6 +19,7 @@ export const banAsAdmin = async (id: string, role: string) => {
 
     const user = await prisma.user.findUnique({
       where: { id },
+      include: { instructor: true },
     });
 
     if (!user) throw new Error('User not found');
@@ -30,6 +31,25 @@ export const banAsAdmin = async (id: string, role: string) => {
       },
       headers: await headers(),
     });
+
+    // If the user is an instructor, set their courses to unpublished and set related courses orders to payoutsEnabled to false
+    if (user.role === 'instructor' && user.instructor) {
+      await prisma.course.updateMany({
+        where: { instructorId: user.instructor.id },
+        data: { published: false },
+      });
+      await prisma.orderItems.updateMany({
+        where: {
+          stripeTransferId: { equals: null },
+          course: {
+            instructorId: user.instructor.id,
+          },
+        },
+        data: {
+          payoutsEnabled: false,
+        },
+      });
+    }
 
     revalidatePath('/', 'layout');
     return { success: true, message: `${role} banned successfully` };
@@ -49,6 +69,7 @@ export const unbanAsAdmin = async (id: string, role: string) => {
 
     const user = await prisma.user.findUnique({
       where: { id },
+      include: { instructor: true },
     });
 
     if (!user) throw new Error('User not found');
@@ -59,6 +80,26 @@ export const unbanAsAdmin = async (id: string, role: string) => {
       },
       headers: await headers(),
     });
+
+    // If the user is an instructor, set their courses to unpublished and set related courses orders to payoutsEnabled to true
+    if (user.role === 'instructor' && user.instructor) {
+      await prisma.course.updateMany({
+        where: { instructorId: user.instructor.id },
+        data: { published: false },
+      });
+      await prisma.orderItems.updateMany({
+        where: {
+          stripeTransferId: { equals: null },
+          course: {
+            instructorId: user.instructor.id,
+          },
+        },
+        data: {
+          payoutsEnabled: true,
+        },
+      });
+    }
+
     revalidatePath('/', 'layout');
     return { success: true, message: `${role} unbanned successfully` };
   } catch (error) {

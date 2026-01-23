@@ -199,6 +199,7 @@ model orderItems {
   order            Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId          String
   stripeTransferId String?
+  payoutsEnabled   Boolean @default(true)
 
   @@id([id, courseId])
 }

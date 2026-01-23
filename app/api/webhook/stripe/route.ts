@@ -73,7 +73,7 @@ export const POST = async (req: Request) => {
         },
       });
 
-      if (course?.instructor.user.banned) {
+      if (course?.instructor.user.banned || !item.payoutsEnabled) {
         continue;
       }
 
@@ -146,7 +146,7 @@ export const POST = async (req: Request) => {
         },
       });
 
-      if (!instructor) {
+      if (!instructor || !item.payoutsEnabled) {
         continue;
       }
 

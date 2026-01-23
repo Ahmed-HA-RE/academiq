@@ -12,7 +12,7 @@ export const getUserEnrolledCourses = async (search?: string) => {
   if (!user) throw new Error('User not found');
 
   const baseSearch = {
-    AND: [{ users: { some: { id: user.id } } }, { published: true }],
+    AND: [{ users: { some: { id: user.id } } }],
   };
 
   // Filter Search Query

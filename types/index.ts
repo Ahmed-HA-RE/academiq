@@ -102,16 +102,12 @@ export type Discount = z.infer<typeof discountSchema> & {
 };
 export type CreateDiscount = z.infer<typeof discountSchema>;
 
-export type createOrderItems = z.infer<typeof orderItemSchema>;
-
-export type OrderItems = {
+export type OrderItems = z.infer<typeof orderItemSchema> & {
   id: string;
-  name: string;
-  price: string;
-  image: string;
-  courseId: string;
   stripeTransferId?: string | null;
+  payoutsEnabled: boolean;
 };
+export type createOrderItems = z.infer<typeof orderItemSchema>;
 
 export type Order = z.infer<typeof orderBaseSchema> & {
   id: string;
