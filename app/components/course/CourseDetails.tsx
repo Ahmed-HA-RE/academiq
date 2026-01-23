@@ -1,4 +1,4 @@
-import { Course, Section } from '@/types';
+import { Course, Section, User } from '@/types';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ui/tabs';
 import DOMPurify from 'isomorphic-dompurify';
 import {
@@ -12,14 +12,29 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { COURSE_TABS_TRIGGER } from '@/lib/constants';
 import CourseReviews from './CourseReviews';
+import {
+  getAverageCourseRating,
+  getCourseReviews,
+  getUserReview,
+} from '@/lib/actions/course/getReview';
+import { SearchParams } from 'nuqs/server';
+import { loadSearchParams } from '@/lib/searchParams';
 
-const CourseDetails = ({
+const CourseDetails = async ({
   course,
-  userId,
+  user,
+  searchParams,
 }: {
   course: Course & { sections: Section };
-  userId?: string;
+  user?: User;
+  searchParams: Promise<SearchParams>;
 }) => {
+  const { page } = await loadSearchParams(searchParams);
+
+  const review = await getUserReview(course.id);
+  const { reviews, totalPages } = await getCourseReviews(course.id, page);
+  const avgReviewRating = await getAverageCourseRating(course.id);
+
   dayjs.extend(duration);
 
   const lessonDuration = (duration: number) => {
@@ -63,12 +78,12 @@ const CourseDetails = ({
                 {course.sections.map((section, index) => (
                   <AccordionItem
                     value={section.id}
-                    className='bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden'
+                    className='bg-white dark:bg-muted rounded-xl border border-gray-200 last:border-b dark:border-muted overflow-hidden'
                     key={section.id}
                   >
                     <AccordionTrigger className='cursor-pointer px-6 py-4 text-base font-semibold hover:no-underline hover:bg-transparent transition-colors [&>svg]:size-5 [&>svg]:text-blue-500 dark:[&>svg]:text-amber-500'>
                       <div className='flex items-center gap-3'>
-                        <div className='flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm font-bold'>
+                        <div className='flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 dark:bg-amber-500 text-blue-600 dark:text-white text-sm font-bold'>
                           {index + 1}
                         </div>
                         <span className='text-gray-900 dark:text-white'>
@@ -76,7 +91,7 @@ const CourseDetails = ({
                         </span>
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className='px-6 pb-4'>
+                    <AccordionContent className='px-6'>
                       <div className='space-y-2 pt-2'>
                         {section.lessons.map((lesson, lessonIndex) => (
                           <div
@@ -103,14 +118,15 @@ const CourseDetails = ({
               </Accordion>
             </div>
           </TabsContent>
-          <TabsContent value='reviews'>
-            <div className='py-10 md:py-12'>
+          <TabsContent className='w-full' value='reviews'>
+            <div className='py-10 md:py-12 w-full'>
               <CourseReviews
-                course={{
-                  id: course.id,
-                  slug: course.slug,
-                }}
-                userId={userId}
+                course={course}
+                user={user}
+                review={review}
+                reviews={reviews}
+                totalPages={totalPages}
+                avgReviewRating={avgReviewRating.toFixed(1)}
               />
             </div>
           </TabsContent>

@@ -1,0 +1,83 @@
+'use server';
+
+import { prisma } from '@/lib/prisma';
+import { getCurrentLoggedUser } from '../user/getUser';
+import { convertToPlainObject } from '@/lib/utils';
+
+export const getCourseReviews = async (
+  courseId: string,
+  page = 1,
+  limit = 5,
+) => {
+  const reviews = await prisma.review.findMany({
+    where: {
+      courseId: courseId,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+
+  const totalCReviews = await prisma.review.count({
+    where: {
+      courseId: courseId,
+    },
+  });
+
+  const totalPages = Math.ceil(totalCReviews / limit);
+
+  return {
+    reviews: convertToPlainObject(reviews),
+    totalPages,
+  };
+};
+
+export const getUserReview = async (courseId: string) => {
+  const user = await getCurrentLoggedUser();
+
+  const review = await prisma.review.findFirst({
+    where: {
+      userId: user?.id,
+      courseId: courseId,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
+    },
+  });
+
+  if (!review) return undefined;
+
+  return convertToPlainObject(review);
+};
+
+export const getAverageCourseRating = async (courseId: string) => {
+  const avgReviews = await prisma.review.aggregate({
+    _avg: {
+      rating: true,
+    },
+    where: {
+      courseId: courseId,
+    },
+  });
+
+  return convertToPlainObject(Number(avgReviews._avg.rating) || 0);
+};

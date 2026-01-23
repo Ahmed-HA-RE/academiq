@@ -9,11 +9,7 @@ import {
   CardFooter,
   CardTitle,
 } from '@/app/components/ui/card';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
 import { Rating } from '@/app/components/ui/rating';
 import {
   Dialog,
@@ -27,7 +23,7 @@ import {
 import { Textarea } from '../ui/textarea';
 import { Checkbox } from '../ui/checkbox';
 import { Controller, useForm } from 'react-hook-form';
-import { CreateReview, Review } from '@/types';
+import { Course, CreateReview, Review, User } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { courseReviewSchema } from '@/schema';
 import {
@@ -40,46 +36,30 @@ import {
 } from '../ui/field';
 import Link from 'next/link';
 import { SERVER_URL } from '@/lib/constants';
-
-const reviewsData = [
-  {
-    id: 1,
-    image: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-13.png',
-    name: 'Zain Saris',
-    rating: 4.5,
-    date: '11-11-2023',
-    description:
-      'I absolutely love this smartwatch! It tracks my steps, heart rate, and even sleep patterns with great accuracy. The design is sleek and lightweight, making it comfortable to wear all day. The battery lasts several days, and the notifications from my phone come through perfectly.',
-  },
-  {
-    id: 2,
-    image: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-15.png',
-    name: 'Erin Torff',
-    rating: 4.5,
-    date: '11-11-2023',
-    description:
-      "This portable blender is a game changer! It's compact, easy to use, and powerful enough to blend smoothies, protein shakes, and even ice. The rechargeable battery lasts a long time, making it perfect for on-the-go use.",
-  },
-  {
-    id: 3,
-    image: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png',
-    name: 'Wilson Workman',
-    rating: 4.5,
-    date: '11-11-2023',
-    description:
-      "I'm so impressed with this LED desk lamp! It has multiple brightness settings and an adjustable arm, making it perfect for reading, studying, or working late at night. The touch controls are super convenient, and the light is easy on the eyes.",
-  },
-];
+import { cn } from '@/lib/utils';
+import {
+  createReview,
+  updateUserReview,
+} from '@/lib/actions/course/review-mutation';
+import { toast } from 'sonner';
+import { Spinner } from '../ui/spinner';
+import { Suspense, useState } from 'react';
+import { format } from 'date-fns';
+import Image from 'next/image';
+import { Alert, AlertTitle } from '../ui/alert';
+import { CircleAlertIcon, TriangleAlert } from 'lucide-react';
+import Pagination from '../shared/Pagination';
 
 const ReviewDialog = ({
   review,
   courseId,
-  userId,
+  user,
 }: {
   review?: Review;
   courseId: string;
-  userId?: string;
+  user: User;
 }) => {
+  const [open, setOpen] = useState(false);
   const form = useForm<CreateReview>({
     resolver: zodResolver(courseReviewSchema),
     defaultValues: review
@@ -89,23 +69,42 @@ const ReviewDialog = ({
           approved: false,
           comment: '',
           courseId,
-          userId,
+          userId: user.id,
         },
     mode: 'onSubmit',
   });
 
   const onSubmit = async (data: CreateReview) => {
-    console.log(data);
+    if (!review) {
+      const res = await createReview(courseId, data);
+
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+      setOpen(false);
+    } else {
+      const res = await updateUserReview(courseId, data);
+
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+      toast.success(res.message);
+      setOpen(false);
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           type='button'
           className='w-full rounded-lg cursor-pointer bg-blue-500 hover:bg-blue-600 dark:bg-amber-500 dark:hover:bg-amber-600 text-white'
+          disabled={!user.emailVerified}
         >
-          Write a Review
+          {review ? 'Edit Your Review' : 'Write a Review'}
         </Button>
       </DialogTrigger>
       <DialogContent aria-describedby={undefined} className='sm:max-w-md'>
@@ -190,11 +189,19 @@ const ReviewDialog = ({
           </FieldSet>
 
           <DialogFooter className='sm:justify-end'>
-            <DialogClose asChild>
+            <DialogClose className='min-w-24 cursor-pointer' asChild>
               <Button variant='outline'>Cancel</Button>
             </DialogClose>
-            <Button className='cursor-pointer' type='submit'>
-              Submit
+            <Button
+              disabled={form.formState.isSubmitting}
+              className='cursor-pointer min-w-24'
+              type='submit'
+            >
+              {form.formState.isSubmitting ? (
+                <Spinner className='size-6' />
+              ) : (
+                'Submit'
+              )}
             </Button>
           </DialogFooter>
         </form>
@@ -204,97 +211,149 @@ const ReviewDialog = ({
 };
 
 const CourseReviews = ({
-  userId,
+  user,
   course,
+  review,
+  reviews,
+  totalPages,
+  avgReviewRating,
 }: {
-  userId: string | undefined;
-  course: {
-    id: string;
-    slug: string;
-  };
+  user: User | undefined;
+  course: Course;
+  review?: Review;
+  reviews: Review[];
+  avgReviewRating: string;
+  totalPages: number;
 }) => {
+  const isInstructorViewing = course.instructor.userId === user?.id;
+
   return (
-    <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
-      <div className='space-y-8 lg:col-span-2'>
-        <h2 className='text-3xl font-semibold'>What Students Say</h2>
-        {reviewsData.map((item) => (
-          <div key={`${item.name}-${item.id}`}>
-            <Card className='w-full shadow-none'>
-              <CardContent className='space-y-3'>
-                <div className='flex gap-3'>
-                  <Avatar className='size-10'>
-                    <AvatarImage src={item.image} alt={item.name} />
-                    <AvatarFallback className='text-xs'>
-                      {item.name}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className='flex grow flex-col'>
-                    <h5 className='text-lg font-semibold'>{item.name}</h5>
-                    <span className='text-muted-foreground font-medium'>
-                      {item.date}
-                    </span>
-                  </div>
-                  <Rating
-                    readOnly
-                    variant='yellow'
-                    size={16}
-                    value={item.rating}
-                    precision={0.5}
-                  />
-                </div>
-                <p className='text-muted-foreground'>{item.description}</p>
-              </CardContent>
-            </Card>
+    <>
+      <div
+        className={cn(
+          'grid grid-cols-1 gap-6 mb-4',
+          !isInstructorViewing && 'md:grid-cols-2 lg:grid-cols-3',
+        )}
+      >
+        {reviews.length === 0 ? (
+          <Alert className='lg:col-span-2 self-start max-w-md'>
+            <CircleAlertIcon />
+            <AlertTitle>
+              No reviews have been published for this course yet!
+            </AlertTitle>
+          </Alert>
+        ) : (
+          <div
+            className={cn('space-y-8', !isInstructorViewing && 'lg:col-span-2')}
+          >
+            <h2 className='text-3xl font-semibold'>What Students Say</h2>
+            {reviews?.map((review) => (
+              <div key={`${review}-${review.id}`}>
+                <Card className=' shadow-none'>
+                  <CardContent className='space-y-3'>
+                    <div className='flex gap-3'>
+                      <Avatar className='size-10'>
+                        <Suspense
+                          fallback={
+                            <AvatarFallback className='text-xs'>
+                              {review.user.name}
+                            </AvatarFallback>
+                          }
+                        >
+                          <Image
+                            alt={review.user.name}
+                            src={review.user.image}
+                            width={40}
+                            height={40}
+                          />
+                        </Suspense>
+                      </Avatar>
+                      <div className='flex grow flex-col'>
+                        <h5 className='text-lg font-semibold'>
+                          {review.user.name}
+                        </h5>
+                        <span className='text-muted-foreground font-medium'>
+                          {format(new Date(review.createdAt), 'M/d/yyyy')}
+                        </span>
+                      </div>
+                      <Rating
+                        readOnly
+                        variant='yellow'
+                        size={16}
+                        value={review.rating}
+                        precision={0.5}
+                      />
+                    </div>
+                    <p className='text-muted-foreground'>{review.comment}</p>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        )}
 
-      <div className='space-y-8'>
-        <h2 className='text-3xl font-semibold'>Average Rating</h2>
-        <Card className='w-full shadow-none'>
-          <CardHeader>
-            <CardTitle className='flex items-center gap-3 text-3xl font-semibold'>
-              4.5
-              <span>
-                <Rating
-                  readOnly
-                  variant='yellow'
-                  size={24}
-                  value={4.5}
-                  precision={0.5}
-                />
-              </span>
-            </CardTitle>
-            <CardDescription>
-              Average Positive rating on this year
-            </CardDescription>
-          </CardHeader>
+        {!isInstructorViewing && (
+          <div className='space-y-6'>
+            <h2 className='text-3xl font-semibold'>Average Rating</h2>
+            <Card className='w-full shadow-none'>
+              <CardHeader>
+                <CardTitle className='flex reviews-center gap-3 text-3xl font-semibold'>
+                  {avgReviewRating.toString()}
+                  <span>
+                    <Rating
+                      readOnly
+                      variant='yellow'
+                      size={24}
+                      value={Number(avgReviewRating)}
+                      precision={0.5}
+                    />
+                  </span>
+                </CardTitle>
+                <CardDescription>
+                  Average Positive rating on this year
+                </CardDescription>
+              </CardHeader>
 
-          <CardFooter className='flex-col items-start gap-4'>
-            <h5 className='text-lg font-semibold'>Write your Review</h5>
-            <p className='text-muted-foreground'>
-              Share your feedback and help create a better learning experience
-              for everyone
-            </p>
-            {userId ? (
-              <ReviewDialog userId={userId} courseId={course.id} />
-            ) : (
-              <Button
-                type='button'
-                className='w-full rounded-lg cursor-pointer bg-blue-500 hover:bg-blue-600 dark:bg-amber-500 dark:hover:bg-amber-500/80 text-white'
-                asChild
-              >
-                <Link
-                  href={`/login?callbackUrl=${SERVER_URL}/course/${course.slug}`}
-                >
-                  Write a Review
-                </Link>
-              </Button>
+              <CardFooter className='flex-col items-start gap-4'>
+                <h5 className='text-lg font-semibold'>Write your Review</h5>
+                <p className='text-muted-foreground'>
+                  Share your feedback and help create a better learning
+                  experience for everyone
+                </p>
+                {user ? (
+                  <ReviewDialog
+                    user={user}
+                    courseId={course.id}
+                    review={review}
+                  />
+                ) : (
+                  <Button
+                    type='button'
+                    className='w-full rounded-lg cursor-pointer bg-blue-500 hover:bg-blue-600 dark:bg-amber-500 dark:hover:bg-amber-500/80 text-white'
+                    asChild
+                  >
+                    <Link
+                      href={`/login?callbackUrl=${SERVER_URL}/course/${course.slug}`}
+                    >
+                      Write a Review
+                    </Link>
+                  </Button>
+                )}
+              </CardFooter>
+            </Card>
+            {user && !user.emailVerified && (
+              <Alert className='border-destructive bg-destructive/10 text-destructive rounded-none border-0 border-l-6'>
+                <TriangleAlert />
+                <AlertTitle>
+                  Please verify your email to write a review.
+                </AlertTitle>
+              </Alert>
             )}
-          </CardFooter>
-        </Card>
+          </div>
+        )}
       </div>
-    </div>
+      {totalPages > 1 && <Pagination totalPages={totalPages} />}
+    </>
   );
 };
 
