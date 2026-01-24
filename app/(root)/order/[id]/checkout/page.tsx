@@ -1,5 +1,5 @@
 import CheckoutDetails from '@/app/components/checkout/CheckoutDetails';
-import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
+import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import { getClientSecret } from '@/lib/actions/stripe.action';

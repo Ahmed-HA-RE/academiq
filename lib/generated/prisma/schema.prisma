@@ -60,6 +60,7 @@ model User {
   banReason            String?
   banExpires           DateTime?
   reviews              Review[]
+  lessonProgresses     LessonProgress[]
 
   @@unique([email])
   @@map("user")
@@ -145,15 +146,17 @@ enum status {
 }
 
 model Lesson {
-  id        String   @id @default(uuid())
-  title     String
-  duration  Int
-  status    status   @default(ready) //for testing purposes
-  sectionId String
-  section   Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  muxData   MuxData?
+  id               String           @id @default(uuid())
+  title            String
+  duration         Int
+  status           status           @default(ready) //for testing purposes
+  sectionId        String
+  section          Section          @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  muxData          MuxData?
+  position         Int
+  lessonProgresses LessonProgress[]
 }
 
 model MuxData {
@@ -265,6 +268,18 @@ model UserProgress {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, courseId])
+}
+
+model LessonProgress {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  completed Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, lessonId])
 }
 
 model Review {

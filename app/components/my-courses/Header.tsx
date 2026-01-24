@@ -14,7 +14,7 @@ const Header = async () => {
 
   return (
     <header className='bg-transparent z-20'>
-      <div className='mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-6 py-7 lg:px-6'>
+      <div className='mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-7 lg:px-6'>
         <Link
           className='flex flex-row items-center gap-1 flex-1/3 md:flex-1/2'
           href='/'

@@ -1,7 +1,7 @@
 'use server';
 
 import { convertToPlainObject } from '@/lib/utils';
-import { getCurrentLoggedUser } from './getUser';
+import { getCurrentLoggedUser } from '../getUser';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@/lib/generated/prisma';
 
@@ -17,7 +17,19 @@ export const getUserEnrolledCourses = async (search?: string) => {
 
   // Filter Search Query
   const searchFilter: Prisma.CourseWhereInput = search
-    ? { ...baseSearch, title: { contains: search, mode: 'insensitive' } }
+    ? {
+        ...baseSearch,
+        OR: [
+          {
+            title: { contains: search, mode: 'insensitive' },
+          },
+          {
+            instructor: {
+              user: { name: { contains: search, mode: 'insensitive' } },
+            },
+          },
+        ],
+      }
     : baseSearch;
 
   const enrolledCourses = await prisma.course.findMany({
@@ -34,6 +46,11 @@ export const getUserEnrolledCourses = async (search?: string) => {
           },
         },
       },
+      instructor: {
+        include: {
+          user: true,
+        },
+      },
     },
     orderBy: {
       createdAt: 'desc',
@@ -44,22 +61,13 @@ export const getUserEnrolledCourses = async (search?: string) => {
 };
 
 // Get user's progress in courses
-export const getUserProgress = async (courseId: string) => {
+export const getUserCourseProgress = async (courseId: string) => {
   const user = await getCurrentLoggedUser();
 
   const progress = await prisma.userProgress.findFirst({
     where: { userId: user?.id, courseId: courseId },
   });
 
-  if (!progress) return undefined;
+  if (!progress) throw new Error('Progress not found');
   return convertToPlainObject(progress);
-};
-
-// Get total lessons count in a course
-export const getTotalLessonsCount = async (courseId: string) => {
-  const lessonsCount = await prisma.lesson.count({
-    where: { section: { courseId: courseId } },
-  });
-
-  return lessonsCount;
 };

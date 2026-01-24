@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
-import { getCurrentLoggedUser } from '../user/getUser';
+import { getCurrentLoggedUser } from '../getUser';
 import { convertToPlainObject } from '@/lib/utils';
 
 export const getCourseReviews = async (slug: string, page = 1, limit = 5) => {

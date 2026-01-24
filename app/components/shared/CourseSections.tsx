@@ -44,6 +44,7 @@ const CourseSections = ({ form, sections }: CourseSectionsProps) => {
                 {
                   title: '',
                   duration: 0,
+                  position: fields.length + 1,
                 },
               ],
             })
@@ -86,7 +87,7 @@ const CourseSections = ({ form, sections }: CourseSectionsProps) => {
                             remove(sectionIndex);
                             if (sections?.[sectionIndex]?.id) {
                               await deleteCourseSections(
-                                sections?.[sectionIndex]?.id
+                                sections?.[sectionIndex]?.id,
                               );
                             }
                           }}

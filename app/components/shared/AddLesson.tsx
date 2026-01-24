@@ -88,7 +88,7 @@ const AddLesson = ({
                             remove(lessonIndex);
                             if (lessons?.[lessonIndex]?.id) {
                               await deleteCourseLessons(
-                                lessons?.[lessonIndex]?.id
+                                lessons?.[lessonIndex]?.id,
                               );
                             }
                           }}
@@ -183,14 +183,14 @@ const AddLesson = ({
                             endpoint={'videoUploader'}
                             className={cn(
                               'ut-button:bg-orange-500 ut-button:w-full ut-button:cursor-pointer ut-button:hover:bg-orange-600 ut-button:duration-300 ut-button:ut-uploading:bg-green-500 ut-button:ut-uploading:pointer-events-none ut-button:ut-uploading:opacity-60  bg-slate-800 border-0 cursor-pointer hover:bg-slate-900 duration-300 ut-label:text-white ut-allowed-content:text-white',
-                              field.value && 'pointer-events-none opacity-50'
+                              field.value && 'pointer-events-none opacity-50',
                             )}
                             onClientUploadComplete={(res) => {
                               toast.success('Video uploaded successfully!');
                               field.onChange(res[0].ufsUrl);
                               form.setValue(
                                 `sections.${sectionIndex}.lessons.${lessonIndex}.uploadthingFileId`,
-                                res[0].key
+                                res[0].key,
                               );
                             }}
                             disabled={!!field.value}
@@ -239,17 +239,17 @@ const AddLesson = ({
                       'ut-button:bg-gradient-to-r ut-button:from-indigo-500 ut-button:to-blue-500 ut-button:w-full ut-button:cursor-pointer ut-button:hover:opacity-90 ut-button:duration-300 ut-button:ut-uploading:bg-green-500 ut-button:ut-uploading:pointer-events-none ut-button:ut-uploading:opacity-60',
                       'bg-indigo-50/50 dark:bg-gray-800/50 border-2 border-dashed border-indigo-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-indigo-400 dark:hover:border-gray-600 duration-300',
                       'ut-label:text-indigo-600 dark:ut-label:text-indigo-400 ut-label:font-semibold',
-                      'ut-allowed-content:text-gray-500 dark:ut-allowed-content:text-gray-400'
+                      'ut-allowed-content:text-gray-500 dark:ut-allowed-content:text-gray-400',
                     )}
                     onClientUploadComplete={(res) => {
                       toast.success('Video uploaded successfully!');
                       form.setValue(
                         `sections.${sectionIndex}.lessons.${lessonIndex}.videoUrl`,
-                        res[0].ufsUrl
+                        res[0].ufsUrl,
                       );
                       form.setValue(
                         `sections.${sectionIndex}.lessons.${lessonIndex}.uploadthingFileId`,
-                        res[0].key
+                        res[0].key,
                       );
                       setIsUpdatingVideo(null);
                     }}
@@ -265,6 +265,7 @@ const AddLesson = ({
                 append({
                   duration: 0,
                   title: '',
+                  position: fields.length + 1,
                 })
               }
               className='cursor-pointer w-auto btn-hover-affect !from-[#00d2ff] !via-[#3a7bd5] !to-[#00d2ff] text-base text-white'

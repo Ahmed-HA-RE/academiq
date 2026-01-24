@@ -4,7 +4,7 @@ import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { FaInstagram } from 'react-icons/fa6';
 import { APP_NAME } from '@/lib/constants';
 import Theme from '../components/Theme';
-import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
+import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import { getAllAdmins } from '@/lib/actions/admin/list-user';
 import { notFound } from 'next/navigation';
 import { CSSProperties } from 'react';

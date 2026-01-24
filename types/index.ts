@@ -32,6 +32,7 @@ export type Lesson = {
     muxPlaybackId: string;
     uploadthingFileId: string;
   } | null;
+  position: number;
 };
 
 export type Section = {
@@ -59,7 +60,7 @@ export type CourseCardType = Omit<Course, 'sections'> & {
 };
 
 export type CreateCourse = z.infer<typeof createCourseSchema>;
-export type MyCoursesCardType = Omit<Course, 'instructor'> & {
+export type MyCoursesCardType = Course & {
   sections: Section;
 };
 

@@ -7,7 +7,7 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { convertToPlainObject } from '../utils';
 import { revalidatePath } from 'next/cache';
-import { getCurrentLoggedUser } from './user/getUser';
+import { getCurrentLoggedUser } from './getUser';
 
 const calculatePrices = (cartItems: CartItems[]) => {
   const itemsPrice = cartItems.reduce((acc, c) => acc + Number(c.price), 0);

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { SERVER_URL } from './lib/constants';
-import { getCurrentLoggedUser } from './lib/actions/user/getUser';
+import { getCurrentLoggedUser } from './lib/actions/getUser';
 
 export const proxy = async (req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
@@ -34,8 +34,8 @@ export const proxy = async (req: NextRequest) => {
     return NextResponse.redirect(
       new URL(
         `/login?callbackUrl=${SERVER_URL}${req.nextUrl.pathname}`,
-        req.url
-      )
+        req.url,
+      ),
     );
   }
 
@@ -55,8 +55,8 @@ export const proxy = async (req: NextRequest) => {
     return NextResponse.redirect(
       new URL(
         `/login?callbackUrl=${SERVER_URL}${req.nextUrl.pathname}`,
-        req.url
-      )
+        req.url,
+      ),
     );
   }
 

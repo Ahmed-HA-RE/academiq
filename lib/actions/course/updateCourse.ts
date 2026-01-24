@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache';
 import { UTApi } from 'uploadthing/server';
 import { getCurrentLoggedInInstructor } from '../instructor/getInstructor';
 import { CreateCourse } from '@/types';
-import { getCurrentLoggedUser } from '../user/getUser';
+import { getCurrentLoggedUser } from '../getUser';
 
 // Update course as instructor
 export const updateCourse = async (courseId: string, data: CreateCourse) => {
@@ -133,6 +133,7 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
               title: lesson.title,
               duration: lesson.duration,
               sectionId: sectionId?.id as string,
+              position: lesson.position,
             },
           });
 
@@ -309,6 +310,7 @@ export const updateCourseAsAdmin = async (
               title: lesson.title,
               duration: lesson.duration,
               sectionId: newSectionId as string,
+              position: lesson.position,
             },
           });
 

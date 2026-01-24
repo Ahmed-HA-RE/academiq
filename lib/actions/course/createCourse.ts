@@ -67,6 +67,7 @@ export const createCourse = async (data: CreateCourse) => {
               title: lesson.title,
               duration: lesson.duration,
               sectionId: newSection.id,
+              position: lesson.position,
             },
           });
           results.push({

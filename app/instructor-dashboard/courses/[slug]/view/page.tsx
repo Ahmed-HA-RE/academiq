@@ -72,7 +72,7 @@ const InstructorViewCoursePage = async ({
               <h4 className='text-4xl font-light text-red-700'>
                 {notStartedCourseCount}
               </h4>
-              <h5 className='text-sm'>Not Started</h5>
+              <h5 className='text-sm'>Haven&apos;t Started</h5>
             </span>
           </div>
 

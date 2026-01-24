@@ -5,7 +5,7 @@ import { getAllCourses } from '@/lib/actions/course/getCourses';
 import { loadSearchParams } from '@/lib/searchParams';
 import type { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';
-import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
+import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import { Alert, AlertTitle } from '@/app/components/ui/alert';
 import { TriangleAlertIcon } from 'lucide-react';
 import CourseCard from '@/app/components/shared/CourseCard';

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { getMyCart } from '@/lib/actions/cart';
 import { Metadata } from 'next';
 import { APP_NAME } from '@/lib/constants';
-import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
+import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import CourseTopSection from '@/app/components/course/CourseTopSection';
 import CourseDetails from '@/app/components/course/CourseDetails';
 import { SearchParams } from 'nuqs/server';

@@ -1,10 +1,10 @@
 'use server';
 
 import { notFound } from 'next/navigation';
-import { auth } from '../../auth';
+import { auth } from '../auth';
 import { headers } from 'next/headers';
-import { prisma } from '../../prisma';
-import { convertToPlainObject } from '../../utils';
+import { prisma } from '../prisma';
+import { convertToPlainObject } from '../utils';
 import { BillingInfo } from '@/types';
 
 export const getCurrentLoggedUser = async () => {

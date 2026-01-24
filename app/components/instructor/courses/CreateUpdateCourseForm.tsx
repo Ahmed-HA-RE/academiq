@@ -93,7 +93,7 @@ const CreateCourseForm = ({
       }
 
       toast.success(res.message);
-      router.push('/instructor-dashboard/courses');
+      // router.push('/instructor-dashboard/courses');
     }
   };
 

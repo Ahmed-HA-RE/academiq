@@ -2,7 +2,7 @@
 
 import { CreateReview } from '@/types';
 import { courseReviewSchema } from '@/schema';
-import { getCurrentLoggedUser } from '../user/getUser';
+import { getCurrentLoggedUser } from '../getUser';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 

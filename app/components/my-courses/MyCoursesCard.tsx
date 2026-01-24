@@ -1,73 +1,145 @@
-import { MotionPreset } from '../ui/motion-preset';
-import { Card, CardContent, CardFooter } from '../ui/card';
+import { Card, CardTitle } from '../ui/card';
 import Link from 'next/link';
 import Image from 'next/image';
-import { BookOpenIcon } from 'lucide-react';
+import { BookOpenText, Clock4 } from 'lucide-react';
 import CourseProgression from '../shared/CourseProgression';
 import { Button } from '../ui/button';
+import { getUserCourseProgress } from '@/lib/actions/my-course/getMyCourse';
 import {
+  getFirstLessonOfCourse,
+  getLastUnfinishedLessonOfCourse,
   getTotalLessonsCount,
-  getUserProgress,
-} from '@/lib/actions/user/my-course';
+} from '@/lib/actions/my-course/getMyCourseLessons';
 import { MyCoursesCardType } from '@/types';
+import { Suspense } from 'react';
+import { Avatar, AvatarFallback } from '../ui/avatar';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 
 const MyCoursesCard = async ({ course }: { course: MyCoursesCardType }) => {
-  const [userProgress, lessonsCount] = await Promise.all([
-    getUserProgress(course.id),
+  const [
+    userProgress,
+    lessonsCount,
+    firstLessonOfCourse,
+    lastUnfinishedLesson,
+  ] = await Promise.all([
+    getUserCourseProgress(course.id),
     getTotalLessonsCount(course.id),
+    getFirstLessonOfCourse(course.id),
+    getLastUnfinishedLessonOfCourse(course.id),
   ]);
 
-  return (
-    <MotionPreset
-      component='div'
-      key={course.id}
-      fade
-      slide={{ direction: 'up', offset: 50 }}
-      blur
-      transition={{ duration: 0.4 }}
-      delay={0.3}
-    >
-      <Card className='h-full shadow-none gap-4 py-0 pt-6 pb-4 relative'>
-        <CardContent className='flex flex-1 flex-col gap-6'>
-          <div className='shrink-0 overflow-hidden rounded-md'>
-            <Link href={`/course/${course.slug}`}>
-              <Image
-                src={course.image}
-                alt={course.title}
-                width={0}
-                height={0}
-                sizes='100vw'
-                loading='eager'
-                className='w-full max-h-[200px] object-cover hover:scale-105 transition duration-300 ease-in-out'
-              />
-            </Link>
-          </div>
-          <div className='flex flex-col gap-0'>
-            <div className='flex flex-1 flex-col gap-4'>
-              <h3 className='text-xl font-medium'>{course.title}</h3>
+  const courseDuration = course.sections
+    .map((section) =>
+      section.lessons
+        .map((lesson) => lesson.duration)
+        .reduce((a, b) => a + b, 0),
+    )
+    .reduce((a, b) => a + b, 0);
 
-              <div className='flex flex-row items-center gap-2'>
-                <div className='bg-blue-300/60 dark:bg-blue-300/90 p-1 rounded-full flex items-center justify-center'>
-                  <BookOpenIcon
-                    size={20}
-                    className='text-blue-500 dark:text-blue-600'
+  dayjs.extend(duration);
+
+  const parseCourseDuration = dayjs.duration(courseDuration, 'minute');
+
+  const formatCourseDuration =
+    courseDuration < 60
+      ? `${parseCourseDuration.minutes()} min`
+      : `${parseCourseDuration.hours()} hr ${parseCourseDuration.minutes()} min`;
+
+  return (
+    <Card className='p-0 sm:flex-row gap-0 hover:shadow-lg transition-all duration-300 overflow-hidden border-border/50'>
+      {/* Left Side - Image */}
+      <div className='sm:w-2/5 h-48 sm:h-auto relative'>
+        <Image
+          src={course.image}
+          alt={course.title}
+          fill
+          sizes='(max-width: 640px) 100vw, 40vw'
+          className='object-cover'
+        />
+      </div>
+
+      {/* Right Side - Content */}
+      <div className='sm:w-3/5 flex flex-col justify-between p-5'>
+        {/* Top Section */}
+        <div className='space-y-3'>
+          <CardTitle className='font-semibold text-lg line-clamp-2'>
+            {course.title}
+          </CardTitle>
+
+          {/* Instructor */}
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-2'>
+              <Avatar className='size-6 rounded-full'>
+                <Suspense
+                  fallback={
+                    <AvatarFallback className='text-xs'>
+                      {course.instructor.user.name.charAt(0)}
+                    </AvatarFallback>
+                  }
+                >
+                  <Image
+                    src={course.instructor.user.image}
+                    alt={course.instructor.user.name}
+                    width={24}
+                    height={24}
+                    className='rounded-full object-cover'
                   />
-                </div>
-                <span className='text-muted-foreground'>
-                  {lessonsCount} Lessons
-                </span>
-              </div>
+                </Suspense>
+              </Avatar>
+              <span className='text-xs text-muted-foreground'>
+                {course.instructor.user.name}
+              </span>
             </div>
-            <CourseProgression userProgress={userProgress} />
+            {/* Course Stats */}
+            <div className='flex flex-wrap items-center gap-3'>
+              <span className='flex items-center gap-1.5 text-xs text-muted-foreground'>
+                <span className='bg-muted p-1.5 rounded-md'>
+                  <BookOpenText size={14} />
+                </span>
+                {lessonsCount} Lessons
+              </span>
+              <span className='flex items-center gap-1.5 text-xs text-muted-foreground'>
+                <span className='bg-muted p-1.5 rounded-md'>
+                  <Clock4 size={14} />
+                </span>
+                {formatCourseDuration}
+              </span>
+            </div>
           </div>
-        </CardContent>
-        <CardFooter className='self-end'>
-          <Button asChild>
-            <Link href={`/my-courses/${course.slug}`}>Go to Course</Link>
-          </Button>
-        </CardFooter>
-      </Card>
-    </MotionPreset>
+        </div>
+
+        {/* Bottom Section - Progress & Button */}
+        <div className='space-y-3 mt-4'>
+          <CourseProgression userProgress={userProgress} />
+          {Number(userProgress.progress) === 0 ? (
+            <Button
+              className='w-full bg-gradient-to-r from-blue-500 to-sky-700 hover:from-blue-600 hover:to-sky-600 text-white transition cursor-pointer duration-300'
+              size='sm'
+              asChild
+            >
+              <Link
+                href={`/my-courses/${course.slug}/${firstLessonOfCourse.sectionId}/${firstLessonOfCourse.id}`}
+              >
+                Start Learning
+              </Link>
+            </Button>
+          ) : (
+            <Button
+              className='w-full bg-gradient-to-r from-blue-500 to-sky-700 hover:from-blue-600 hover:to-sky-600 text-white transition cursor-pointer duration-300'
+              size='sm'
+              asChild
+            >
+              <Link
+                href={`/my-courses/${course.slug}/${lastUnfinishedLesson.sectionId}/${lastUnfinishedLesson.id}`}
+              >
+                Continue Learning
+              </Link>
+            </Button>
+          )}
+        </div>
+      </div>
+    </Card>
   );
 };
 

@@ -1,6 +1,6 @@
 import CreateUpdateCourseForm from '@/app/components/instructor/courses/CreateUpdateCourseForm';
 import { getCourseBySlug } from '@/lib/actions/course/getCourses';
-import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
+import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 

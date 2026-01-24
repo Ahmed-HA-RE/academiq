@@ -49,7 +49,7 @@ const rightSection = [
     icon: RefreshCw,
     title: 'Updated Curriculum',
     description:
-      'Learn with content aligned to real-world tools and practices.',
+      'Learn with content aligned to real world tools and practices.',
   },
 ];
 

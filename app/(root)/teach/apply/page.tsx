@@ -1,6 +1,6 @@
 import ApplicationForm from '@/app/components/teach/ApplicationForm';
 import { Metadata } from 'next';
-import { getCurrentLoggedUser } from '@/lib/actions/user/getUser';
+import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import { getApplicationByUserId } from '@/lib/actions/instructor/application';
 import { redirect } from 'next/navigation';
 import ApplicationStepper from '@/app/components/teach/ApplicationStepper';
@@ -17,8 +17,9 @@ const ApplyPage = async () => {
     getApplicationByUserId(),
   ]);
 
-  if (!user) redirect('/');
-  if (application) redirect('/teach');
+  if (!user || application) {
+    return redirect('/');
+  }
 
   return (
     <section className='section-spacing'>

@@ -118,6 +118,9 @@ export const createCourseSchema = baseCourseSchema.extend({
                 .min(0.5, 'Lesson duration must be at least 30 seconds'),
               videoUrl: z.string().optional(),
               uploadthingFileId: z.string().optional(),
+              position: z.coerce
+                .number<number>({ error: 'Invalid lesson position' })
+                .min(1, 'Lesson Position must be at least 1'),
             }),
           )
           .min(1, { error: 'At least one lesson is required' }),
