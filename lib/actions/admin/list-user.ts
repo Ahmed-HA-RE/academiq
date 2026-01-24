@@ -77,14 +77,14 @@ export const getMonthlyUserActivity = async () => {
 
     // Count new users for this month
     const newUsersThisMonth = newUsers.filter(
-      (user) => user.createdAt.getMonth() === i
+      (user) => user.createdAt.getMonth() === i,
     ).length;
 
     // Count unique active users (users who made purchases) for this month
     const activeUsersThisMonth = new Set(
       orders
         .filter((order) => order.createdAt.getMonth() === i)
-        .map((order) => order.userId)
+        .map((order) => order.userId),
     ).size;
 
     return {
@@ -145,6 +145,11 @@ export const getBannedUsers = async ({
     orderBy: { createdAt: 'desc' },
     take: limit || undefined,
     skip: (page - 1) * (limit || 0),
+    include: {
+      _count: {
+        select: { orders: true },
+      },
+    },
   });
   const totalBannedUsers = await prisma.user.count({
     where: { ...filterQuery, ...statusFilter },
@@ -157,7 +162,8 @@ export const getBannedUsers = async ({
       bannedUsers.map((user) => ({
         ...user,
         billingInfo: user.billingInfo as BillingInfo,
-      }))
+        ordersCount: user._count.orders,
+      })),
     ),
     totalPages,
   };
@@ -166,7 +172,7 @@ export const getBannedUsers = async ({
 export const getAllAdmins = async (
   q?: string,
   page: number = 1,
-  limit = 10
+  limit = 10,
 ) => {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -208,7 +214,7 @@ export const getAllAdmins = async (
       admins.map((user) => ({
         ...user,
         billingInfo: user.billingInfo as BillingInfo,
-      }))
+      })),
     ),
     totalPages,
   };
@@ -287,6 +293,11 @@ export const getAllUsers = async ({
       ...roleFilter,
       ...statusFilter,
     },
+    include: {
+      _count: {
+        select: { orders: true },
+      },
+    },
   });
 
   const totalUsers = await prisma.user.count({
@@ -305,8 +316,9 @@ export const getAllUsers = async ({
         return {
           ...user,
           billingInfo: user.billingInfo as BillingInfo,
+          ordersCount: user._count.orders,
         };
-      })
+      }),
     ),
     totalPages,
   };

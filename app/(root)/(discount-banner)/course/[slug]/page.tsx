@@ -45,7 +45,12 @@ const CourseDetailsPage = async ({
   return (
     <>
       <CourseTopSection course={course} user={user} cart={cart} />
-      <CourseDetails course={course} user={user} searchParams={searchParams} />
+      <CourseDetails
+        course={course}
+        user={user}
+        searchParams={searchParams}
+        slug={slug}
+      />
     </>
   );
 };

@@ -21,14 +21,14 @@ const CourseProgression = ({
       {pathname === '/my-courses' && (
         <p
           className={cn(
-            !userProgress || Number(userProgress.progress) === 0
+            Number(userProgress?.progress) === 0
               ? 'text-red-600 font-medium'
-              : 'text-green-600 font-medium'
+              : 'text-green-600 font-medium',
           )}
         >
-          {!userProgress
+          {Number(userProgress?.progress) === 0
             ? `0% Completed`
-            : `${userProgress.progress}% Completed`}
+            : `${userProgress?.progress}% Completed`}
         </p>
       )}
     </div>

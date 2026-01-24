@@ -64,6 +64,8 @@ export const POST = async (req: Request) => {
       return order;
     });
 
+    const progressionData = [];
+
     // Transfer instructors their share and save transfer ids
     for (const item of updatedOrder.orderItems) {
       const course = await prisma.course.findUnique({
@@ -95,7 +97,14 @@ export const POST = async (req: Request) => {
           },
         });
       }
+      progressionData.push({
+        userId: updatedOrder.userId,
+        courseId: item.courseId,
+      });
     }
+    await prisma.userProgress.createMany({
+      data: progressionData,
+    });
 
     await resend.emails.send({
       from: `${APP_NAME} <no-reply@${domain}>`,
@@ -138,6 +147,8 @@ export const POST = async (req: Request) => {
       },
     });
 
+    const progressionData = [];
+
     for (const item of refundedOrder.orderItems) {
       const instructor = await prisma.instructor.findFirst({
         where: { id: item.course.instructorId },
@@ -176,7 +187,20 @@ export const POST = async (req: Request) => {
           refundAmount: Number(item.price),
         }),
       });
+      progressionData.push({
+        userId: refundedOrder.userId,
+        courseId: item.courseId,
+      });
     }
+
+    await prisma.userProgress.deleteMany({
+      where: {
+        OR: progressionData.map((data) => ({
+          userId: data.userId,
+          courseId: data.courseId,
+        })),
+      },
+    });
 
     await resend.emails.send({
       from: `${APP_NAME} <support@${domain}>`,

@@ -117,7 +117,12 @@ export const deleteUserById = async (userId: string) => {
       throw new Error('Unauthorized to delete users');
 
     const user = await prisma.user.findUnique({
-      where: { id: userId },
+      where: {
+        id: userId,
+        orders: {
+          none: {},
+        },
+      },
     });
 
     if (!user) throw new Error('User not found');
@@ -128,7 +133,9 @@ export const deleteUserById = async (userId: string) => {
     if (user.role === 'admin') throw new Error('Cannot delete admin users');
 
     await prisma.user.delete({
-      where: { id: userId },
+      where: {
+        id: userId,
+      },
     });
 
     revalidatePath('/', 'layout');
@@ -148,7 +155,7 @@ export const deleteSelectedUsers = async (userIds: string[]) => {
       throw new Error('Unauthorized to delete users');
 
     await prisma.user.deleteMany({
-      where: { id: { in: userIds } },
+      where: { id: { in: userIds }, orders: { none: {} } },
     });
     revalidatePath('/', 'layout');
     return { success: true, message: 'Users deleted successfully' };

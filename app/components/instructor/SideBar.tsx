@@ -45,11 +45,6 @@ const menuItems = [
     href: '/instructor-dashboard/students',
   },
   {
-    icon: FileBadge,
-    label: 'Certificates',
-    href: '/instructor-dashboard/certificates',
-  },
-  {
     icon: SettingsIcon,
     label: 'Settings',
     href: '/instructor-dashboard/settings',
@@ -81,7 +76,7 @@ const SidebarGroupedMenuItems = () => {
               <SidebarMenuButton
                 className={cn(
                   `[[data-state=collapsed]_&>span:last-child]:overflow-unset [[data-state=collapsed]_&>span:last-child]:[text-overflow=unset] [[data-state=collapsed]_&]:h-auto! [[data-state=collapsed]_&]:w-15! [[data-state=collapsed]_&]:flex-col [[data-state=collapsed]_&]:gap-2.5! [[data-state=collapsed]_&>span:last-child]:text-xs [[data-state=collapsed]_&>svg]:size-5!`,
-                  item.href === '/' && 'self-end h-full'
+                  item.href === '/' && 'self-end h-full',
                 )}
                 asChild
               >

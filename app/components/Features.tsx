@@ -6,7 +6,7 @@ import {
   MessageCircleMore,
   MessagesSquare,
   Clock4,
-  Captions,
+  RefreshCw,
 } from 'lucide-react';
 import { MotionPreset } from './ui/motion-preset';
 import Image from 'next/image';
@@ -46,10 +46,10 @@ const rightSection = [
       'Access courses with the latest curriculum to stay current and ahead.',
   },
   {
-    icon: Captions,
-    title: 'Certificate of Completion',
+    icon: RefreshCw,
+    title: 'Updated Curriculum',
     description:
-      'Receive an official certificate after finishing each course to showcase your achievement and skills.',
+      'Learn with content aligned to real-world tools and practices.',
   },
 ];
 

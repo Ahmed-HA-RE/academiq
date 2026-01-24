@@ -64,7 +64,7 @@ import {
   unbanAsAdmin,
 } from '@/lib/actions/admin/user-mutation';
 
-const columns: ColumnDef<User>[] = [
+const columns: ColumnDef<User & { ordersCount: number }>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -74,13 +74,14 @@ const columns: ColumnDef<User>[] = [
         aria-label='Select all'
       />
     ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
+    cell: ({ row }) =>
+      row.original.ordersCount === 0 && (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label='Select row'
+        />
+      ),
     size: 50,
   },
   {
@@ -160,7 +161,7 @@ const columns: ColumnDef<User>[] = [
             'rounded-full text-xs  border-none capitalize focus-visible:outline-none',
             status === 'verified'
               ? 'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400'
-              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive'
+              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive',
           )}
         >
           {row.getValue('emailVerified') ? 'verified' : 'unverified'}
@@ -177,7 +178,7 @@ const columns: ColumnDef<User>[] = [
 ];
 
 type UserDatatableProps = {
-  users: User[];
+  users: (User & { ordersCount: number })[];
   totalPages: number;
 };
 
@@ -194,7 +195,7 @@ const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
         .withOptions({ limitUrlUpdates: throttle(500) }),
       page: parseAsInteger.withDefault(1),
     },
-    { shallow: false }
+    { shallow: false },
   );
 
   const [selectUsers, setSelectUsers] = useState({});
@@ -297,7 +298,7 @@ const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
                   >
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                   </TableHead>
                 );
@@ -353,7 +354,11 @@ const UserDatatable = ({ users, totalPages }: UserDatatableProps) => {
 
 export default UserDatatable;
 
-export const RowActions = ({ user }: { user: User }) => {
+export const RowActions = ({
+  user,
+}: {
+  user: User & { ordersCount: number };
+}) => {
   const [isPending, startTransition] = useTransition();
 
   const handleDeleteUser = async () => {
@@ -391,18 +396,20 @@ export const RowActions = ({ user }: { user: User }) => {
     <>
       {isPending && <ScreenSpinner mutate={true} text='Applying changes…' />}
       <div className='flex items-center justify-center'>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <DeleteDialog
-              title={`Delete ${user.name}?`}
-              description={`Are you sure you want to delete ${user.name}? This action cannot be undone.`}
-              action={handleDeleteUser}
-            />
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Delete</p>
-          </TooltipContent>
-        </Tooltip>
+        {user.ordersCount === 0 && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DeleteDialog
+                title={`Delete ${user.name}?`}
+                description={`Are you sure you want to delete ${user.name}? This action cannot be undone.`}
+                action={handleDeleteUser}
+              />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Delete</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className='flex'>

@@ -4,14 +4,12 @@ import { prisma } from '@/lib/prisma';
 import { getCurrentLoggedUser } from '../user/getUser';
 import { convertToPlainObject } from '@/lib/utils';
 
-export const getCourseReviews = async (
-  courseId: string,
-  page = 1,
-  limit = 5,
-) => {
+export const getCourseReviews = async (slug: string, page = 1, limit = 5) => {
   const reviews = await prisma.review.findMany({
     where: {
-      courseId: courseId,
+      course: {
+        slug: slug,
+      },
     },
     include: {
       user: {
@@ -32,7 +30,9 @@ export const getCourseReviews = async (
 
   const totalCReviews = await prisma.review.count({
     where: {
-      courseId: courseId,
+      course: {
+        slug: slug,
+      },
     },
   });
 

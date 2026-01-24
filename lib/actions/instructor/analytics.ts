@@ -87,6 +87,7 @@ export const getMonthlyRevenueForInstructor = async () => {
   const orders = await prisma.order.findMany({
     where: {
       isPaid: true,
+      status: 'paid',
       createdAt: {
         gte: lastDayOfYear(new Date(previousYear, 11, 31)),
         lte: lastDayOfYear(new Date(currentYear, 11, 31)),
@@ -153,6 +154,7 @@ export const getTotalRevenueAfterForInstructor = async () => {
     _sum: { totalPrice: true },
     where: {
       isPaid: true,
+      status: 'paid',
       createdAt: {
         gte: new Date(`${currentYear}`),
       },
@@ -186,6 +188,7 @@ export const getTotalRevenueBeforeForInstructor = async () => {
     _sum: { totalPrice: true },
     where: {
       isPaid: true,
+      status: 'paid',
       createdAt: {
         lte: new Date(`${previousYear}-12-31`),
       },
@@ -213,6 +216,14 @@ export const getPopularCoursesByInstructor = async () => {
       users: {
         some: {
           id: { not: undefined },
+        },
+      },
+      orderItems: {
+        some: {
+          order: {
+            isPaid: true,
+            status: 'paid',
+          },
         },
       },
     },
@@ -384,4 +395,60 @@ export const getEnrolledStudentsForInstructor = async ({
     ),
     totalPages,
   };
+};
+
+// Get total count of students who finished course for instructor
+export const getTotalStudentsCompletedCourseForInstructor = async (
+  courseSlug: string,
+) => {
+  const instructor = await getCurrentLoggedInInstructor();
+
+  const completedCount = await prisma.userProgress.count({
+    where: {
+      progress: 100,
+      course: {
+        instructorId: instructor.id,
+        slug: courseSlug,
+      },
+    },
+  });
+
+  return completedCount;
+};
+
+// Get total count of students who haven't finished course for instructor
+export const getTotalStudentsUncompletedCourseForInstructor = async (
+  courseSlug: string,
+) => {
+  const instructor = await getCurrentLoggedInInstructor();
+
+  const unCompletedCount = await prisma.userProgress.count({
+    where: {
+      progress: { lt: 100, gt: 0 },
+      course: {
+        instructorId: instructor.id,
+        slug: courseSlug,
+      },
+    },
+  });
+
+  return unCompletedCount;
+};
+// Get total count of students who haven't started course for instructor
+export const getTotalStudentsNotStartedCourseForInstructor = async (
+  courseSlug: string,
+) => {
+  const instructor = await getCurrentLoggedInInstructor();
+
+  const notStartedCount = await prisma.userProgress.count({
+    where: {
+      progress: { equals: 0 },
+      course: {
+        instructorId: instructor.id,
+        slug: courseSlug,
+      },
+    },
+  });
+
+  return notStartedCount;
 };

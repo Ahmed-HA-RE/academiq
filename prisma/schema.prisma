@@ -35,7 +35,6 @@ model Course {
   sections     Section[]
   orderItems   orderItems[]
   userProgress UserProgress[]
-  certifactes  Certificate[]
   reviews      Review[]
 }
 
@@ -60,7 +59,6 @@ model User {
   banned               Boolean               @default(false)
   banReason            String?
   banExpires           DateTime?
-  certificates         Certificate[]
   reviews              Review[]
 
   @@unique([email])
@@ -259,22 +257,11 @@ model IntructorApplication {
 
 model UserProgress {
   id        String   @id @default(uuid())
-  userId    String   @unique
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  courseId  String   @unique
+  courseId  String
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   progress  Decimal  @default(0) @db.Decimal(5, 2)
-  updatedAt DateTime @updatedAt
-}
-
-model Certificate {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  courseId  String   @unique
-  course    Course   @relation(fields: [courseId], references: [id])
-  published Boolean  @default(false)
-  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([userId, courseId])
