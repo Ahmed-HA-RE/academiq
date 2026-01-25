@@ -7,7 +7,6 @@ import { Card, CardContent } from '../ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
 import { Controller, useFieldArray, UseFormReturn } from 'react-hook-form';
 import { Input } from '../ui/input';
-
 import { CreateCourse, Section } from '@/types';
 import AddLesson from './AddLesson';
 import { deleteCourseSections } from '@/lib/actions/course/courseDeletion';
@@ -44,7 +43,7 @@ const CourseSections = ({ form, sections }: CourseSectionsProps) => {
                 {
                   title: '',
                   duration: 0,
-                  position: fields.length + 1,
+                  position: 1,
                 },
               ],
             })

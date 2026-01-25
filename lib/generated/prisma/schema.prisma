@@ -264,7 +264,7 @@ model UserProgress {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   courseId  String
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  progress  Decimal  @default(0) @db.Decimal(5, 2)
+  progress  Int      @default(0)
   updatedAt DateTime @updatedAt
 
   @@unique([userId, courseId])

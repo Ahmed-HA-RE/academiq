@@ -19209,18 +19209,18 @@ export namespace Prisma {
   }
 
   export type UserProgressAvgAggregateOutputType = {
-    progress: Decimal | null
+    progress: number | null
   }
 
   export type UserProgressSumAggregateOutputType = {
-    progress: Decimal | null
+    progress: number | null
   }
 
   export type UserProgressMinAggregateOutputType = {
     id: string | null
     userId: string | null
     courseId: string | null
-    progress: Decimal | null
+    progress: number | null
     updatedAt: Date | null
   }
 
@@ -19228,7 +19228,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     courseId: string | null
-    progress: Decimal | null
+    progress: number | null
     updatedAt: Date | null
   }
 
@@ -19365,7 +19365,7 @@ export namespace Prisma {
     id: string
     userId: string
     courseId: string
-    progress: Decimal
+    progress: number
     updatedAt: Date
     _count: UserProgressCountAggregateOutputType | null
     _avg: UserProgressAvgAggregateOutputType | null
@@ -19450,7 +19450,7 @@ export namespace Prisma {
       id: string
       userId: string
       courseId: string
-      progress: Prisma.Decimal
+      progress: number
       updatedAt: Date
     }, ExtArgs["result"]["userProgress"]>
     composites: {}
@@ -19880,7 +19880,7 @@ export namespace Prisma {
     readonly id: FieldRef<"UserProgress", 'String'>
     readonly userId: FieldRef<"UserProgress", 'String'>
     readonly courseId: FieldRef<"UserProgress", 'String'>
-    readonly progress: FieldRef<"UserProgress", 'Decimal'>
+    readonly progress: FieldRef<"UserProgress", 'Int'>
     readonly updatedAt: FieldRef<"UserProgress", 'DateTime'>
   }
     
@@ -24169,7 +24169,7 @@ export namespace Prisma {
     id?: StringFilter<"UserProgress"> | string
     userId?: StringFilter<"UserProgress"> | string
     courseId?: StringFilter<"UserProgress"> | string
-    progress?: DecimalFilter<"UserProgress"> | Decimal | DecimalJsLike | number | string
+    progress?: IntFilter<"UserProgress"> | number
     updatedAt?: DateTimeFilter<"UserProgress"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
@@ -24193,7 +24193,7 @@ export namespace Prisma {
     NOT?: UserProgressWhereInput | UserProgressWhereInput[]
     userId?: StringFilter<"UserProgress"> | string
     courseId?: StringFilter<"UserProgress"> | string
-    progress?: DecimalFilter<"UserProgress"> | Decimal | DecimalJsLike | number | string
+    progress?: IntFilter<"UserProgress"> | number
     updatedAt?: DateTimeFilter<"UserProgress"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
@@ -24219,7 +24219,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"UserProgress"> | string
     userId?: StringWithAggregatesFilter<"UserProgress"> | string
     courseId?: StringWithAggregatesFilter<"UserProgress"> | string
-    progress?: DecimalWithAggregatesFilter<"UserProgress"> | Decimal | DecimalJsLike | number | string
+    progress?: IntWithAggregatesFilter<"UserProgress"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"UserProgress"> | Date | string
   }
 
@@ -25714,7 +25714,7 @@ export namespace Prisma {
 
   export type UserProgressCreateInput = {
     id?: string
-    progress?: Decimal | DecimalJsLike | number | string
+    progress?: number
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutUserProgressInput
     course: CourseCreateNestedOneWithoutUserProgressInput
@@ -25724,13 +25724,13 @@ export namespace Prisma {
     id?: string
     userId: string
     courseId: string
-    progress?: Decimal | DecimalJsLike | number | string
+    progress?: number
     updatedAt?: Date | string
   }
 
   export type UserProgressUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutUserProgressNestedInput
     course?: CourseUpdateOneRequiredWithoutUserProgressNestedInput
@@ -25740,7 +25740,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -25748,13 +25748,13 @@ export namespace Prisma {
     id?: string
     userId: string
     courseId: string
-    progress?: Decimal | DecimalJsLike | number | string
+    progress?: number
     updatedAt?: Date | string
   }
 
   export type UserProgressUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -25762,7 +25762,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -28785,7 +28785,7 @@ export namespace Prisma {
 
   export type UserProgressCreateWithoutCourseInput = {
     id?: string
-    progress?: Decimal | DecimalJsLike | number | string
+    progress?: number
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutUserProgressInput
   }
@@ -28793,7 +28793,7 @@ export namespace Prisma {
   export type UserProgressUncheckedCreateWithoutCourseInput = {
     id?: string
     userId: string
-    progress?: Decimal | DecimalJsLike | number | string
+    progress?: number
     updatedAt?: Date | string
   }
 
@@ -28992,7 +28992,7 @@ export namespace Prisma {
     id?: StringFilter<"UserProgress"> | string
     userId?: StringFilter<"UserProgress"> | string
     courseId?: StringFilter<"UserProgress"> | string
-    progress?: DecimalFilter<"UserProgress"> | Decimal | DecimalJsLike | number | string
+    progress?: IntFilter<"UserProgress"> | number
     updatedAt?: DateTimeFilter<"UserProgress"> | Date | string
   }
 
@@ -29299,7 +29299,7 @@ export namespace Prisma {
 
   export type UserProgressCreateWithoutUserInput = {
     id?: string
-    progress?: Decimal | DecimalJsLike | number | string
+    progress?: number
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutUserProgressInput
   }
@@ -29307,7 +29307,7 @@ export namespace Prisma {
   export type UserProgressUncheckedCreateWithoutUserInput = {
     id?: string
     courseId: string
-    progress?: Decimal | DecimalJsLike | number | string
+    progress?: number
     updatedAt?: Date | string
   }
 
@@ -31919,7 +31919,7 @@ export namespace Prisma {
   export type UserProgressCreateManyCourseInput = {
     id?: string
     userId: string
-    progress?: Decimal | DecimalJsLike | number | string
+    progress?: number
     updatedAt?: Date | string
   }
 
@@ -32051,7 +32051,7 @@ export namespace Prisma {
 
   export type UserProgressUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutUserProgressNestedInput
   }
@@ -32059,14 +32059,14 @@ export namespace Prisma {
   export type UserProgressUncheckedUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserProgressUncheckedUpdateManyWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -32156,7 +32156,7 @@ export namespace Prisma {
   export type UserProgressCreateManyUserInput = {
     id?: string
     courseId: string
-    progress?: Decimal | DecimalJsLike | number | string
+    progress?: number
     updatedAt?: Date | string
   }
 
@@ -32405,7 +32405,7 @@ export namespace Prisma {
 
   export type UserProgressUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutUserProgressNestedInput
   }
@@ -32413,14 +32413,14 @@ export namespace Prisma {
   export type UserProgressUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserProgressUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
-    progress?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

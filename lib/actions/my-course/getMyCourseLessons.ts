@@ -42,7 +42,7 @@ export const getLastUnfinishedLessonOfCourse = async (courseId: string) => {
         },
       },
     },
-    orderBy: { createdAt: 'asc' },
+    orderBy: { position: 'asc' },
   });
 
   if (!lastUnfinishedLesson)
