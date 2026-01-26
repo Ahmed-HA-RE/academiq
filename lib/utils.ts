@@ -176,3 +176,16 @@ export const FAQ_TABS = [
 export const convertToFils = (price: string) => {
   return Math.round(Number(price) * 100);
 };
+
+// Utility type to deeply omit a property from a nested object type
+export type NestedOmit<Schema, Path extends string> = Schema extends (infer U)[]
+  ? NestedOmit<U, Path>[]
+  : Path extends `${infer Head}.${infer Tail}`
+    ? Head extends keyof Schema
+      ? {
+          [K in keyof Schema]: K extends Head
+            ? NestedOmit<Schema[K], Tail>
+            : Schema[K];
+        }
+      : Schema
+    : Omit<Schema, Path>;

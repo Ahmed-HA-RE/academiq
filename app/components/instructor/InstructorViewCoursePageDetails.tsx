@@ -21,7 +21,7 @@ import {
 const InstructorViewCoursePageDetails = ({
   course,
 }: {
-  course: Course & { sections: Section };
+  course: Course & { sections: Section[] };
 }) => {
   const courseDuration = course.sections
     .map((section) =>

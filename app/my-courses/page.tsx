@@ -6,6 +6,7 @@ import MyCoursesCard from '../components/my-courses/MyCoursesCard';
 import { Metadata } from 'next';
 import type { SearchParams } from 'nuqs/server';
 import { loadSearchParams } from '@/lib/searchParams';
+import Header from '../components/my-courses/Header';
 
 export const metadata: Metadata = {
   title: 'My Courses',
@@ -22,54 +23,73 @@ const MyCoursesPage = async ({
   const enrolledCourses = await getUserEnrolledCourses(search);
 
   return (
-    <section>
-      <div className='max-w-5xl mx-auto p-6 space-y-6'>
-        <div className='flex items-center justify-between'>
-          <div>
-            <h1 className='text-2xl font-semibold mb-2.5'>My Courses</h1>
-            <p className='text-sm text-muted-foreground'>
-              All the courses you are currently enrolled in.
-            </p>
+    <div className='min-h-screen flex flex-col w-full relative overflow-hidden'>
+      {/* Midnight Radial Glow Background */}
+      <div
+        className='absolute inset-0 z-0 hidden dark:block'
+        style={{
+          background: `
+            radial-gradient(circle at 50% 50%, 
+              rgba(226, 232, 240, 0.2) 0%, 
+              rgba(226, 232, 240, 0.1) 25%, 
+              rgba(226, 232, 240, 0.05) 35%, 
+              transparent 50%
+            )
+          `,
+        }}
+      />
+      <Header />
+      <main className='w-full flex-grow z-20'>
+        <section>
+          <div className='max-w-5xl mx-auto p-6 space-y-6'>
+            <div className='flex items-center justify-between'>
+              <div>
+                <h1 className='text-2xl font-semibold mb-2.5'>My Courses</h1>
+                <p className='text-sm text-muted-foreground'>
+                  All the courses you are currently enrolled in.
+                </p>
+              </div>
+              <Button className='group' variant='ghost' asChild>
+                <Link href='/'>
+                  <ArrowLeftIcon
+                    aria-hidden='true'
+                    className='-ms-1 group-hover:-translate-x-0.5 opacity-60 transition-transform'
+                    size={16}
+                  />
+                  Back to Home
+                </Link>
+              </Button>
+            </div>
+            {/* Display courses */}
+            {enrolledCourses.length === 0 ? (
+              <div className='mt-10 max-w-md mx-auto rounded-md border border-blue-500/50 px-4 py-3 text-blue-600'>
+                <p className='text-sm'>
+                  <InfoIcon
+                    aria-hidden='true'
+                    className='-mt-0.5 me-3 inline-flex opacity-60'
+                    size={16}
+                  />
+                  Ready to start learning? Browse{' '}
+                  <Link
+                    href='/courses'
+                    className='underline underline-offset-4 hover:text-blue-700'
+                  >
+                    courses
+                  </Link>{' '}
+                  and get started.
+                </p>
+              </div>
+            ) : (
+              <div className='mt-6 grid grid-cols-1 gap-6'>
+                {enrolledCourses.map((course) => (
+                  <MyCoursesCard key={course.id} course={course} />
+                ))}
+              </div>
+            )}
           </div>
-          <Button className='group' variant='ghost' asChild>
-            <Link href='/'>
-              <ArrowLeftIcon
-                aria-hidden='true'
-                className='-ms-1 group-hover:-translate-x-0.5 opacity-60 transition-transform'
-                size={16}
-              />
-              Back to Home
-            </Link>
-          </Button>
-        </div>
-        {/* Display courses */}
-        {enrolledCourses.length === 0 ? (
-          <div className='mt-10 max-w-md mx-auto rounded-md border border-blue-500/50 px-4 py-3 text-blue-600'>
-            <p className='text-sm'>
-              <InfoIcon
-                aria-hidden='true'
-                className='-mt-0.5 me-3 inline-flex opacity-60'
-                size={16}
-              />
-              Ready to start learning? Browse{' '}
-              <Link
-                href='/courses'
-                className='underline underline-offset-4 hover:text-blue-700'
-              >
-                courses
-              </Link>{' '}
-              and get started.
-            </p>
-          </div>
-        ) : (
-          <div className='mt-6 grid grid-cols-1  gap-6'>
-            {enrolledCourses.map((course) => (
-              <MyCoursesCard key={course.id} course={course} />
-            ))}
-          </div>
-        )}
-      </div>
-    </section>
+        </section>
+      </main>
+    </div>
   );
 };
 

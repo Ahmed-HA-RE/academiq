@@ -15,7 +15,7 @@ import { format } from 'date-fns';
 import InstructorInfoDialog from './InstructorInfoDialog';
 
 type CourseTopSectionProps = {
-  course: Course & { sections: Section; _count: { users: number } };
+  course: Course & { sections: Section[]; _count: { users: number } };
   user?: User;
   cart?: Cart;
 };

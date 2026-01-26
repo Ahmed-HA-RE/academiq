@@ -36,7 +36,7 @@ const CreateCourseForm = ({
   instructor,
   user,
 }: {
-  course?: Course & { sections: Section };
+  course?: Course & { sections: Section[] };
   type: 'create' | 'edit';
   instructor?: Instructor;
   user?: User;

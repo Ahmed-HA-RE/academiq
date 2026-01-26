@@ -13,7 +13,7 @@ import { deleteCourseSections } from '@/lib/actions/course/courseDeletion';
 
 type CourseSectionsProps = {
   form: UseFormReturn<CreateCourse>;
-  sections?: Section;
+  sections?: Section[];
 };
 
 const CourseSections = ({ form, sections }: CourseSectionsProps) => {

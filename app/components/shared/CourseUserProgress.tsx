@@ -4,7 +4,7 @@ import { Progress } from '../ui/progress';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
-const CourseProgression = ({
+const CourseUserProgress = ({
   userProgress,
 }: {
   userProgress: UserProgress | undefined;
@@ -16,17 +16,23 @@ const CourseProgression = ({
       <Progress
         value={Number(userProgress?.progress)}
         max={100}
-        className=' [&>*]:bg-sky-500'
+        className={cn(
+          Number(userProgress?.progress) === 100
+            ? '[&>*]:bg-green-700'
+            : Number(userProgress?.progress) > 0
+              ? '[&>*]:bg-sky-500'
+              : '[&>*]:bg-muted-foreground/20',
+        )}
       />
-      {pathname === '/my-courses' && (
+      {pathname.startsWith('/my-courses') && (
         <p
           className={cn(
-            Number(userProgress?.progress) === 0
-              ? 'text-red-600 font-medium'
-              : Number(userProgress?.progress) < 50
-                ? 'text-blue-600 font-medium'
-                : 'text-green-600 font-medium',
-            'text-sm',
+            Number(userProgress?.progress) === 100
+              ? 'text-green-700'
+              : Number(userProgress?.progress) > 0
+                ? 'text-sky-500'
+                : 'text-muted-foreground',
+            'text-sm font-medium',
           )}
         >
           {Number(userProgress?.progress) === 0
@@ -38,4 +44,4 @@ const CourseProgression = ({
   );
 };
 
-export default CourseProgression;
+export default CourseUserProgress;

@@ -2,14 +2,10 @@ import { Card, CardTitle } from '../ui/card';
 import Link from 'next/link';
 import Image from 'next/image';
 import { BookOpenText, Clock4 } from 'lucide-react';
-import CourseProgression from '../shared/CourseProgression';
+import CourseUserProgress from '../shared/CourseUserProgress';
 import { Button } from '../ui/button';
 import { getUserCourseProgress } from '@/lib/actions/my-course/getMyCourse';
-import {
-  getFirstLessonOfCourse,
-  getLastUnfinishedLessonOfCourse,
-  getTotalLessonsCount,
-} from '@/lib/actions/my-course/getMyCourseLessons';
+import { getTotalLessonsCount } from '@/lib/actions/my-course/courseContent';
 import { MyCoursesCardType } from '@/types';
 import { Suspense } from 'react';
 import { Avatar, AvatarFallback } from '../ui/avatar';
@@ -17,16 +13,9 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
 const MyCoursesCard = async ({ course }: { course: MyCoursesCardType }) => {
-  const [
-    userProgress,
-    lessonsCount,
-    firstLessonOfCourse,
-    lastUnfinishedLesson,
-  ] = await Promise.all([
+  const [userProgress, lessonsCount] = await Promise.all([
     getUserCourseProgress(course.id),
     getTotalLessonsCount(course.id),
-    getFirstLessonOfCourse(course.id),
-    getLastUnfinishedLessonOfCourse(course.id),
   ]);
 
   const courseDuration = course.sections
@@ -97,7 +86,7 @@ const MyCoursesCard = async ({ course }: { course: MyCoursesCardType }) => {
                 <span className='bg-muted p-1.5 rounded-md'>
                   <BookOpenText size={14} />
                 </span>
-                {lessonsCount} Lessons
+                {lessonsCount} {lessonsCount === 1 ? 'Lesson' : 'Lessons'}
               </span>
               <span className='flex items-center gap-1.5 text-xs text-muted-foreground'>
                 <span className='bg-muted p-1.5 rounded-md'>
@@ -111,32 +100,21 @@ const MyCoursesCard = async ({ course }: { course: MyCoursesCardType }) => {
 
         {/* Bottom Section - Progress & Button */}
         <div className='space-y-3 mt-4'>
-          <CourseProgression userProgress={userProgress} />
-          {Number(userProgress.progress) === 0 ? (
-            <Button
-              className='w-full bg-gradient-to-r from-blue-500 to-sky-700 hover:from-blue-600 hover:to-sky-600 text-white transition cursor-pointer duration-300'
-              size='sm'
-              asChild
+          <CourseUserProgress userProgress={userProgress} />
+
+          <Button
+            className='w-full bg-gradient-to-r from-blue-500 to-sky-700 hover:from-blue-600 hover:to-sky-600 text-white transition cursor-pointer duration-300'
+            size='sm'
+            asChild
+          >
+            <Link
+              href={`/my-courses/${course.slug}/${course.sections[0].id}/${course.sections[0].lessons[0].id}`}
             >
-              <Link
-                href={`/my-courses/${course.slug}/${firstLessonOfCourse.sectionId}/${firstLessonOfCourse.id}`}
-              >
-                Start Learning
-              </Link>
-            </Button>
-          ) : (
-            <Button
-              className='w-full bg-gradient-to-r from-blue-500 to-sky-700 hover:from-blue-600 hover:to-sky-600 text-white transition cursor-pointer duration-300'
-              size='sm'
-              asChild
-            >
-              <Link
-                href={`/my-courses/${course.slug}/${lastUnfinishedLesson.sectionId}/${lastUnfinishedLesson.id}`}
-              >
-                Continue Learning
-              </Link>
-            </Button>
-          )}
+              {Number(userProgress.progress) === 0
+                ? 'Start Learning'
+                : 'Continue Learning'}
+            </Link>
+          </Button>
         </div>
       </div>
     </Card>

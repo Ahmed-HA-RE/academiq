@@ -41,7 +41,7 @@ export type Section = {
   createdAt: Date;
   updatedAt: Date;
   lessons: Lesson[];
-}[];
+};
 
 export type Course = z.infer<typeof baseCourseSchema> & {
   id: string;
@@ -61,7 +61,7 @@ export type CourseCardType = Omit<Course, 'sections'> & {
 
 export type CreateCourse = z.infer<typeof createCourseSchema>;
 export type MyCoursesCardType = Course & {
-  sections: Section;
+  sections: Section[];
 };
 
 export type RegisterFormData = z.infer<typeof registerSchema>;

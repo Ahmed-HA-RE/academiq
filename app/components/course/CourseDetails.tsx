@@ -26,7 +26,7 @@ const CourseDetails = async ({
   searchParams,
   slug,
 }: {
-  course: Course & { sections: Section };
+  course: Course & { sections: Section[] };
   user?: User;
   searchParams: Promise<SearchParams>;
   slug: string;

@@ -11,8 +11,8 @@ export const getUserEnrolledCourses = async (search?: string) => {
 
   if (!user) throw new Error('User not found');
 
-  const baseSearch = {
-    AND: [{ users: { some: { id: user.id } } }],
+  const baseSearch: Prisma.CourseWhereInput = {
+    AND: [{ users: { some: { id: user.id } } }, { published: true }],
   };
 
   // Filter Search Query
@@ -70,4 +70,37 @@ export const getUserCourseProgress = async (courseId: string) => {
 
   if (!progress) throw new Error('Progress not found');
   return convertToPlainObject(progress);
+};
+
+export const getMyCourseBySlug = async (slug: string) => {
+  const user = await getCurrentLoggedUser();
+
+  if (!user) throw new Error('User not found');
+
+  const course = await prisma.course.findFirst({
+    where: {
+      slug,
+    },
+    include: {
+      sections: {
+        include: {
+          lessons: {
+            where: {
+              status: 'ready',
+            },
+            include: {
+              lessonProgresses: {
+                where: {
+                  userId: user.id,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!course) throw new Error('Course not found');
+  return convertToPlainObject(course);
 };

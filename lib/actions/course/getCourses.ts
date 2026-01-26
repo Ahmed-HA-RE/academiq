@@ -139,7 +139,7 @@ export const getAllCourses = async ({
 // Get course by slug
 export const getCourseBySlug = async (slug: string) => {
   const course = await prisma.course.findUnique({
-    where: { slug },
+    where: { slug, published: true },
     include: {
       _count: {
         select: {
