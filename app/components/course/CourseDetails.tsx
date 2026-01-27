@@ -8,8 +8,6 @@ import {
   AccordionTrigger,
 } from '../ui/accordion';
 import { Clock } from 'lucide-react';
-import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
 import { COURSE_TABS_TRIGGER } from '@/lib/constants';
 import CourseReviews from './CourseReviews';
 import {
@@ -19,6 +17,7 @@ import {
 } from '@/lib/actions/course/getReview';
 import { SearchParams } from 'nuqs/server';
 import { loadSearchParams } from '@/lib/searchParams';
+import { formatDuration } from '@/lib/utils';
 
 const CourseDetails = async ({
   course,
@@ -36,17 +35,6 @@ const CourseDetails = async ({
   const review = await getUserReview(course.id);
   const { reviews, totalPages } = await getCourseReviews(slug, page);
   const avgReviewRating = await getAverageCourseRating(course.id);
-
-  dayjs.extend(duration);
-
-  const lessonDuration = (duration: number) => {
-    const parseLessonDuration = dayjs.duration(duration, 'minute');
-    const formatLessonDuration =
-      Number(duration) < 60
-        ? `${parseLessonDuration.minutes()} min`
-        : `${parseLessonDuration.hours()} hr ${parseLessonDuration.minutes()} min`;
-    return formatLessonDuration;
-  };
 
   return (
     <section className='py-6 md:py-8'>
@@ -108,7 +96,7 @@ const CourseDetails = async ({
                             <div className='flex items-center gap-1.5 text-gray-500 dark:text-gray-400  ml-4 flex-shrink-0'>
                               <Clock className='size-5' />
                               <span className='font-medium text-base'>
-                                {lessonDuration(lesson.duration)}
+                                {formatDuration(lesson.duration)}
                               </span>
                             </div>
                           </div>

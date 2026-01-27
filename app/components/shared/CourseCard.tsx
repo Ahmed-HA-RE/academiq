@@ -8,10 +8,10 @@ import { Cart, Course, User } from '@/types';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { MotionPreset } from '../ui/motion-preset';
-import EnrollCourseBtn from './CourseAction';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Suspense } from 'react';
 import DOMPurify from 'isomorphic-dompurify';
+import CourseCardBtn from './CourseCardBtn';
 
 type CourseCardProps = {
   course: Course;
@@ -106,7 +106,7 @@ const CourseCard = ({ course, cart, user }: CourseCardProps) => {
           >
             <Link href={`/course/${course.slug}`}>View Details</Link>
           </Button>
-          <EnrollCourseBtn course={course} cart={cart} user={user} />
+          <CourseCardBtn course={course} cart={cart} user={user} />
         </CardFooter>
       </Card>
     </MotionPreset>

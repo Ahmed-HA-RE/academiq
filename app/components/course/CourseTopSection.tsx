@@ -7,12 +7,11 @@ import { BorderBeam } from '@/app/components/ui/border-beam';
 import { MotionPreset } from '@/app/components/ui/motion-preset';
 import Image from 'next/image';
 import { Cart, Course, Section, User } from '@/types';
-import EnrollCourseBtn from '../shared/CourseAction';
-import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
+import EnrollCourseBtn from '../shared/CourseCardBtn';
 import { FaShieldAlt } from 'react-icons/fa';
 import { format } from 'date-fns';
 import InstructorInfoDialog from './InstructorInfoDialog';
+import { formatDuration } from '@/lib/utils';
 
 type CourseTopSectionProps = {
   course: Course & { sections: Section[]; _count: { users: number } };
@@ -29,17 +28,8 @@ const CourseTopSection = ({ course, user, cart }: CourseTopSectionProps) => {
     )
     .reduce((a, b) => a + b, 0);
 
-  dayjs.extend(duration);
-
-  const parseCourseDuration = dayjs.duration(courseDuration, 'minute');
-
-  const formatCourseDuration =
-    courseDuration < 60
-      ? `${parseCourseDuration.minutes()} min`
-      : `${parseCourseDuration.hours()} hr ${parseCourseDuration.minutes()} min`;
-
   const courseDetails = [
-    { icon: <Clock3 />, label: formatCourseDuration },
+    { icon: <Clock3 />, label: formatDuration(courseDuration) },
     { icon: <Globe />, label: course.language },
     { icon: <FaShieldAlt className='size-5' />, label: course.difficulty },
     {

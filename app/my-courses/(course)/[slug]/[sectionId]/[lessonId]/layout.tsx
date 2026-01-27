@@ -1,8 +1,13 @@
-import MyCourseSideBarDetails from '@/app/components/my-courses/MyCourseSideBarDetails';
+import MyCourseSideBarLessons from '@/app/components/my-courses/MyCourseSideBarLessons';
 import CourseUserProgress from '@/app/components/shared/CourseUserProgress';
 import ProfileDropdown from '@/app/components/shared/ProfileDropdown';
 import Theme from '@/app/components/Theme';
-import { Accordion } from '@/app/components/ui/accordion';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/app/components/ui/accordion';
 import { Button } from '@/app/components/ui/button';
 import {
   Sidebar,
@@ -12,6 +17,10 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/app/components/ui/sidebar';
+import {
+  getCourseLessonById,
+  getCourseLessonsProgress,
+} from '@/lib/actions/my-course/get-lesson';
 import {
   getMyCourseBySlug,
   getUserCourseProgress,
@@ -27,22 +36,33 @@ import { redirect } from 'next/navigation';
 import { CSSProperties } from 'react';
 
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; lessonId: string }>;
 };
 
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
-  const { slug } = await params;
+  const { slug, lessonId } = await params;
 
-  const course = await getMyCourseBySlug(slug);
+  const [course, { lesson }] = await Promise.all([
+    getMyCourseBySlug(slug),
+    getCourseLessonById(lessonId),
+  ]);
+
+  if (!course) {
+    return redirect('/my-courses');
+  }
+
+  if (!lesson) {
+    return redirect('/my-courses');
+  }
 
   return {
-    title: course.title,
-    description: `Continue your learning journey with ${course.title} on ${APP_NAME}.`,
+    title: lesson.title,
+    description: `Master ${lesson.title} with step-by-step guidance in the ${course.title} course on ${APP_NAME}.`,
     openGraph: {
       title: course.title,
-      description: `Continue your learning journey with ${course.title} on ${APP_NAME}.`,
+      description: `Master ${lesson.title} with step-by-step guidance in the ${course.title} course on ${APP_NAME}.`,
       images: [
         {
           url: course.image,
@@ -58,7 +78,7 @@ export const generateMetadata = async ({
 
 type CourseLayoutProps = {
   children: React.ReactNode;
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; lessonId: string }>;
 };
 
 const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
@@ -78,7 +98,10 @@ const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
     return redirect('/my-courses');
   }
 
-  const userProgress = await getUserCourseProgress(course.id);
+  const [userProgress, allLessonsProgress] = await Promise.all([
+    getUserCourseProgress(course.id),
+    getCourseLessonsProgress(course.id),
+  ]);
 
   return (
     <div className='min-h-screen flex flex-col w-full relative overflow-hidden'>
@@ -134,12 +157,40 @@ const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
             <SidebarContent className='py-3 px-2'>
               <Accordion type='multiple' className='w-full space-y-2'>
                 {course.sections.map((section, index) => (
-                  <MyCourseSideBarDetails
-                    key={section.id}
-                    section={section}
-                    index={index}
-                    courseSlug={course.slug}
-                  />
+                  <AccordionItem
+                    key={index}
+                    value={section.id}
+                    className='rounded-md border-b-0 data-[state=open]:bg-gray-100 data-[state=open]:dark:bg-black/18 hover:bg-gray-100 hover:dark:bg-black/18 data-[state=open]:hover:bg-0 transition'
+                  >
+                    <AccordionTrigger className='px-3 pb-4 [&>svg]:rotate-180 [&[data-state=open]>svg]:rotate-0 hover:no-underline cursor-pointer'>
+                      <div className='flex items-center gap-5'>
+                        {/* Section number + Section Title + Lessons count */}
+                        <span className='text-muted-foreground'>
+                          {index + 1 < 10 ? `0${index + 1}` : index + 1}
+                        </span>
+                        <div className='flex flex-col gap-1'>
+                          <span>{section.title}</span>
+                          <span className='text-muted-foreground text-xs'>
+                            {section.lessons.length}{' '}
+                            {section.lessons.length === 1
+                              ? 'Lesson'
+                              : 'Lessons'}
+                          </span>
+                        </div>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className='flex flex-col gap-1'>
+                      {section.lessons.map((lesson) => (
+                        <MyCourseSideBarLessons
+                          key={lesson.id}
+                          lesson={lesson}
+                          sectionId={section.id}
+                          slug={slug}
+                          lessonsProgress={allLessonsProgress}
+                        />
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
                 ))}
               </Accordion>
             </SidebarContent>
@@ -157,13 +208,13 @@ const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
             </SidebarFooter>
           </Sidebar>
           <div className='flex flex-1 flex-col'>
-            <header className='bg-card sticky top-0 z-50 h-14 border-b'>
+            <header className='bg-card sticky top-0 z-50 h-16 border-b'>
               <div className='flex h-full  items-center justify-between gap-6 px-4 sm:px-6  w-full'>
                 <SidebarTrigger className='[&_svg]:!size-5' />
                 <ProfileDropdown session={session} />
               </div>
             </header>
-            <main className='mx-auto size-full flex-1'>{children}</main>
+            <main className='mx-auto size-full flex-1 z-20'>{children}</main>
           </div>
         </SidebarProvider>
       </div>

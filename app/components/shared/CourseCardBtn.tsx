@@ -11,7 +11,7 @@ import { SERVER_URL } from '@/lib/constants';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
-const CourseAction = ({
+const CourseCardBtn = ({
   course,
   cart,
   user,
@@ -83,10 +83,10 @@ const CourseAction = ({
       size={!isCourseDetailsPage ? 'default' : 'lg'}
       variant={'default'}
       onClick={() => {
-        router.push(`/my-courses/${course.slug}`);
+        router.push(`/my-courses`);
       }}
     >
-      View Course
+      Go to Library
     </Button>
   ) : isCourseOwnedToInstructor ? (
     <Button
@@ -115,4 +115,4 @@ const CourseAction = ({
   );
 };
 
-export default CourseAction;
+export default CourseCardBtn;

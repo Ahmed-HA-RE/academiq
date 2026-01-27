@@ -12,32 +12,25 @@ const CourseUserProgress = ({
   const pathname = usePathname();
 
   return (
-    <div className=' w-full flex flex-row items-center gap-4'>
+    <div className=' w-full flex flex-col items-start gap-1.5'>
       <Progress
         value={Number(userProgress?.progress)}
         max={100}
-        className={cn(
-          Number(userProgress?.progress) === 100
-            ? '[&>*]:bg-green-700'
-            : Number(userProgress?.progress) > 0
-              ? '[&>*]:bg-sky-500'
-              : '[&>*]:bg-muted-foreground/20',
-        )}
+        variant={Number(userProgress?.progress) > 0 ? 'success' : 'default'}
       />
       {pathname.startsWith('/my-courses') && (
         <p
           className={cn(
-            Number(userProgress?.progress) === 100
-              ? 'text-green-700'
-              : Number(userProgress?.progress) > 0
-                ? 'text-sky-500'
-                : 'text-muted-foreground',
             'text-sm font-medium',
+            Number(userProgress?.progress) > 0
+              ? 'text-emerald-700 dark:text-emerald-600'
+              : 'text-black/90 dark:text-white/90',
           )}
         >
           {Number(userProgress?.progress) === 0
             ? `0%`
-            : `${userProgress?.progress}%`}
+            : `${userProgress?.progress}%`}{' '}
+          Completed
         </p>
       )}
     </div>

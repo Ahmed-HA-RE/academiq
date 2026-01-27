@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { getNames } from 'country-list';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -189,3 +191,13 @@ export type NestedOmit<Schema, Path extends string> = Schema extends (infer U)[]
         }
       : Schema
     : Omit<Schema, Path>;
+
+export const formatDuration = (durationInMinutes: number) => {
+  dayjs.extend(duration);
+  const parseDuration = dayjs.duration(durationInMinutes, 'minute');
+  const formatDuration =
+    Number(durationInMinutes) < 60
+      ? `${parseDuration.minutes()} min`
+      : `${parseDuration.hours()} hr ${parseDuration.minutes()} min`;
+  return formatDuration;
+};
