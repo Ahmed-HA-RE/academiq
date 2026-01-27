@@ -19,7 +19,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-type LessonCardProps = {
+type AddCourseLessonCardProps = {
   lesson: Omit<Lesson, 'status' | 'sectionId' | 'createdAt' | 'muxData'>;
   sectionIndex: number;
   lessonIndex: number;
@@ -28,14 +28,14 @@ type LessonCardProps = {
   remove: (index: number) => void;
 };
 
-const LessonCard = ({
+const AddCourseLessonCard = ({
   lesson,
   lessons,
   sectionIndex,
   lessonIndex,
   form,
   remove,
-}: LessonCardProps) => {
+}: AddCourseLessonCardProps) => {
   const pathname = usePathname();
 
   const [isUpdatingVideo, setIsUpdatingVideo] = useState<number | null>(null);
@@ -49,19 +49,23 @@ const LessonCard = ({
   };
 
   return (
-    <Card ref={setNodeRef} style={style} className='border-0 shadow-sm gap-3'>
-      <CardHeader className='px-2 !flex items-center gap-1'>
+    <Card
+      ref={setNodeRef}
+      style={style}
+      className='shadow-sm gap-3 hover:shadow-md transition-shadow'
+    >
+      <CardHeader className='px-4 !flex items-center border-b gap-0'>
         <Button
           variant='ghost'
           size='icon-sm'
-          className='cursor-move p-0 hover:bg-0'
+          className='cursor-move hover:bg-muted/50 rounded-md transition-colors'
           {...attributes}
           {...listeners}
         >
-          <Grip className='size-5' />
+          <Grip className='size-5 text-muted-foreground' />
         </Button>
-        <CardTitle className='text-slate-500 dark:text-slate-400'>
-          Order: {lesson.position}
+        <CardTitle className='text-base font-medium text-muted-foreground'>
+          Lesson #{lesson.position}
         </CardTitle>
       </CardHeader>
       <CardContent className='px-4'>
@@ -71,13 +75,18 @@ const LessonCard = ({
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <div className='flex flex-row items-center justify-between'>
-                  <FieldLabel htmlFor={field.name}>Title:</FieldLabel>
+                <div className='flex flex-row items-center justify-between mb-2'>
+                  <FieldLabel
+                    htmlFor={field.name}
+                    className='text-sm font-semibold'
+                  >
+                    Lesson Title
+                  </FieldLabel>
                   <Button
                     type='button'
                     variant={'ghost'}
                     size={'icon-sm'}
-                    className='cursor-pointer hover:bg-0 p-0'
+                    className='cursor-pointer hover:bg-destructive/10 hover:text-destructive transition-colors rounded-lg'
                     onClick={async () => {
                       remove(lessonIndex);
                       if (lessons?.[lessonIndex]?.id) {
@@ -85,13 +94,13 @@ const LessonCard = ({
                       }
                     }}
                   >
-                    <CircleX className='size-5' />
+                    <CircleX className='size-4' />
                   </Button>
                 </div>
                 <Input
                   id={field.name}
-                  placeholder='e.g Lesson 1: Introduction...'
-                  className='input border-black dark:border-white/50 placeholder:text-black dark:placeholder:text-white/50 text-sm'
+                  placeholder='e.g., Lesson 1: Introduction'
+                  className='input border-border focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-blue-400/20 transition-all'
                   aria-invalid={fieldState.invalid}
                   {...field}
                 />
@@ -104,9 +113,14 @@ const LessonCard = ({
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <div className='flex flex-row items-center justify-between'>
-                  <FieldLabel htmlFor={field.name}>Duration:</FieldLabel>
-                  <span className='text-muted-foreground text-sm'>
+                <div className='flex flex-row items-center justify-between mb-2'>
+                  <FieldLabel
+                    htmlFor={field.name}
+                    className='text-sm font-semibold'
+                  >
+                    Duration
+                  </FieldLabel>
+                  <span className='text-muted-foreground text-xs'>
                     (minutes)
                   </span>
                 </div>
@@ -116,7 +130,7 @@ const LessonCard = ({
                   min={0}
                   step={0.5}
                   placeholder='Duration in minutes'
-                  className='input border-black dark:border-white/50 placeholder:text-black dark:placeholder:text-white/50 text-sm'
+                  className='input border-border focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-blue-400/20 transition-all'
                   aria-invalid={fieldState.invalid}
                   {...field}
                 />
@@ -246,4 +260,4 @@ const LessonCard = ({
   );
 };
 
-export default LessonCard;
+export default AddCourseLessonCard;

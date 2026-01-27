@@ -13,7 +13,7 @@ import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { FieldLegend, FieldSet } from '../../ui/field';
 import { Button } from '../../ui/button';
-import CourseSections from '../../shared/CourseSections';
+import AddCourseSection from '../../shared/AddCourseSection';
 import {
   Tabs,
   TabsContent,
@@ -29,6 +29,8 @@ import {
 import { useRouter } from 'next/navigation';
 import ScreenSpinner from '../../ScreenSpinner';
 import CourseDetailsForm from '../../shared/CourseDetailsForm';
+
+import { TriangleAlertIcon } from 'lucide-react';
 
 const CreateCourseForm = ({
   course,
@@ -108,6 +110,14 @@ const CreateCourseForm = ({
           text={type === 'create' ? 'Creating...' : 'Updating...'}
         />
       )}
+      {!isPublished && (
+        <div className='bg-amber-200 dark:bg-amber-300 px-4 py-3 text-black mb-4 text-center flex flex-row items-center justify-center gap-2'>
+          <TriangleAlertIcon aria-hidden='true' size={16} />
+          <p className='text-sm'>
+            This course is unpublished. It will not be visible to students.
+          </p>
+        </div>
+      )}
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-2'>
           <FieldSet>
@@ -117,6 +127,7 @@ const CreateCourseForm = ({
           </FieldSet>
           <Button
             type='button'
+            variant={'outline'}
             className='cursor-pointer'
             onClick={() => {
               form.setValue('published', !form.getValues('published'));
@@ -137,7 +148,7 @@ const CreateCourseForm = ({
               <CourseDetailsForm form={form} />
             </TabsContent>
             <TabsContent value='course-sections'>
-              <CourseSections form={form} sections={course?.sections} />
+              <AddCourseSection form={form} sections={course?.sections} />
               <Button
                 size={'lg'}
                 type='submit'

@@ -37,11 +37,16 @@ const CourseDetailsForm = ({ form }: CourseDetailsFormProps) => {
 
   return (
     <div className='space-y-6'>
-      <div className='flex flex-row items-center gap-3'>
-        <span className='bg-blue-300/20 p-2.5 rounded-full'>
-          <Grid2x2Icon className='size-6 text-blue-400' />
-        </span>
-        <h4 className='font-medium text-2xl'>Customize your course</h4>
+      <div className='flex flex-row items-center gap-4'>
+        <div className='bg-blue-500/10 p-3 rounded-xl'>
+          <Grid2x2Icon className='size-6 text-blue-600 dark:text-blue-400' />
+        </div>
+        <div>
+          <h4 className='font-semibold text-2xl'>Course Details</h4>
+          <p className='text-sm text-muted-foreground mt-0.5'>
+            Provide the basic information about your course
+          </p>
+        </div>
       </div>
       <FieldGroup className='px-2'>
         {/* Name */}

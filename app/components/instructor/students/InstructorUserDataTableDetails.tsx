@@ -24,6 +24,7 @@ import DataPagination from '../../shared/Pagination';
 import { format } from 'date-fns';
 import { Progress } from '../../ui/progress';
 import { SearchIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const columns: ColumnDef<EnrolledStudents>[] = [
   {
@@ -83,8 +84,19 @@ const columns: ColumnDef<EnrolledStudents>[] = [
     accessorKey: 'progress',
     cell: ({ row }) => (
       <div className='flex items-center gap-3'>
-        <Progress value={Number(row.original.progress)} className='w-43' />
-        <span className='text-muted-foreground'>{row.original.progress}%</span>
+        <Progress
+          variant={Number(row.original.progress) > 0 ? 'success' : 'default'}
+          value={Number(row.original.progress)}
+          className='w-43'
+        />
+        <span
+          className={cn(
+            'text-black/90',
+            Number(row.original.progress) > 0 && 'text-emerald-600',
+          )}
+        >
+          {row.original.progress}%
+        </span>
       </div>
     ),
   },
@@ -108,7 +120,7 @@ const UserDatatable = ({
         .withOptions({ limitUrlUpdates: throttle(500) }),
       page: parseAsInteger.withDefault(1),
     },
-    { shallow: false }
+    { shallow: false },
   );
 
   const table = useReactTable({
@@ -156,7 +168,7 @@ const UserDatatable = ({
                   >
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                   </TableHead>
                 );

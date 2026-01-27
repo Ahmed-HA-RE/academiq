@@ -15,10 +15,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '../ui/collapsible';
-import LessonCard from './LessonCard';
+import LessonCard from './AddCourseLessonCard';
 import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
 
-const AddLesson = ({
+const AddCourseLesson = ({
   form,
   sectionIndex,
   lessons,
@@ -57,26 +57,30 @@ const AddLesson = ({
   };
 
   return (
-    <Collapsible className='flex flex-col justify-between gap-2'>
+    <Collapsible className='flex flex-col justify-between gap-4 mt-6'>
       <div className='flex flex-row items-center justify-between'>
-        <div className='text-base font-semibold'>Lessons</div>
-        <CollapsibleTrigger asChild className='group cursor-pointer hover:bg-0'>
-          <Button variant='ghost' size='icon-sm'>
-            <ChevronDownIcon className='text-muted-foreground transition-transform group-data-[state=open]:rotate-180' />
+        <div className='text-base font-semibold text-foreground'>Lessons</div>
+        <CollapsibleTrigger asChild className='group cursor-pointer'>
+          <Button
+            variant='ghost'
+            size='icon-sm'
+            className='hover:bg-muted rounded-lg'
+          >
+            <ChevronDownIcon className='text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180' />
             <span className='sr-only'>Toggle</span>
           </Button>
         </CollapsibleTrigger>
       </div>
       <CollapsibleContent>
         {isLessonsNotAvailable && (
-          <Alert className='border-destructive bg-destructive/10 text-destructive rounded-none border-0 border-l-6'>
-            <X />
-            <AlertTitle>
+          <Alert className='border-l-4 border-destructive bg-destructive/5 text-destructive rounded-lg mb-4'>
+            <X className='size-5' />
+            <AlertTitle className='font-medium'>
               No lessons added yet. Please add at least one lesson.
             </AlertTitle>
           </Alert>
         )}
-        <div className='space-y-6'>
+        <div className='grid grid-cols-1 gap-6'>
           <DndContext
             onDragEnd={handleOnDragEnd}
             collisionDetection={closestCenter}
@@ -98,30 +102,26 @@ const AddLesson = ({
               ))}
             </SortableContext>
           </DndContext>
-
-          <div className='mt-8 flex flex-col items-center gap-6'>
-            <Button
-              onClick={() =>
-                append({
-                  duration: 0,
-                  title: '',
-                  position:
-                    form.getValues(`sections.${sectionIndex}.lessons`).length +
-                    1,
-                })
-              }
-              className='cursor-pointer w-auto btn-hover-affect !from-[#00d2ff] !via-[#3a7bd5] !to-[#00d2ff] text-base text-white'
-              type='button'
-              size={'lg'}
-            >
-              Add Lesson
-              <Plus className='ml-2 size-5' />
-            </Button>
-          </div>
         </div>
+        <Button
+          onClick={() =>
+            append({
+              duration: 0,
+              title: '',
+              position:
+                form.getValues(`sections.${sectionIndex}.lessons`).length + 1,
+            })
+          }
+          className='cursor-pointer w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white transition-colors mt-6'
+          type='button'
+          size={'lg'}
+        >
+          <Plus className='size-5' />
+          Add Lesson
+        </Button>
       </CollapsibleContent>
     </Collapsible>
   );
 };
 
-export default AddLesson;
+export default AddCourseLesson;

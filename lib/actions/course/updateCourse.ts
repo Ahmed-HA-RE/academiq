@@ -75,6 +75,7 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
           },
           data: {
             title: section.title,
+            position: section.position,
           },
         });
       } else if (!section.id) {
@@ -83,6 +84,7 @@ export const updateCourse = async (courseId: string, data: CreateCourse) => {
           data: {
             title: section.title,
             courseId: updatedCourse.id,
+            position: section.position,
           },
         });
       }
@@ -246,6 +248,7 @@ export const updateCourseAsAdmin = async (
           data: {
             title: section.title,
             courseId: updatedCourse.id,
+            position: section.position,
           },
           select: { id: true },
         });

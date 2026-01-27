@@ -9928,14 +9928,25 @@ export namespace Prisma {
 
   export type AggregateSection = {
     _count: SectionCountAggregateOutputType | null
+    _avg: SectionAvgAggregateOutputType | null
+    _sum: SectionSumAggregateOutputType | null
     _min: SectionMinAggregateOutputType | null
     _max: SectionMaxAggregateOutputType | null
+  }
+
+  export type SectionAvgAggregateOutputType = {
+    position: number | null
+  }
+
+  export type SectionSumAggregateOutputType = {
+    position: number | null
   }
 
   export type SectionMinAggregateOutputType = {
     id: string | null
     title: string | null
     courseId: string | null
+    position: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9944,6 +9955,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     courseId: string | null
+    position: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9952,16 +9964,26 @@ export namespace Prisma {
     id: number
     title: number
     courseId: number
+    position: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
+  export type SectionAvgAggregateInputType = {
+    position?: true
+  }
+
+  export type SectionSumAggregateInputType = {
+    position?: true
+  }
+
   export type SectionMinAggregateInputType = {
     id?: true
     title?: true
     courseId?: true
+    position?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9970,6 +9992,7 @@ export namespace Prisma {
     id?: true
     title?: true
     courseId?: true
+    position?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9978,6 +10001,7 @@ export namespace Prisma {
     id?: true
     title?: true
     courseId?: true
+    position?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -10021,6 +10045,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: SectionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SectionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: SectionMinAggregateInputType
@@ -10051,6 +10087,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: SectionCountAggregateInputType | true
+    _avg?: SectionAvgAggregateInputType
+    _sum?: SectionSumAggregateInputType
     _min?: SectionMinAggregateInputType
     _max?: SectionMaxAggregateInputType
   }
@@ -10059,9 +10097,12 @@ export namespace Prisma {
     id: string
     title: string
     courseId: string
+    position: number
     createdAt: Date
     updatedAt: Date
     _count: SectionCountAggregateOutputType | null
+    _avg: SectionAvgAggregateOutputType | null
+    _sum: SectionSumAggregateOutputType | null
     _min: SectionMinAggregateOutputType | null
     _max: SectionMaxAggregateOutputType | null
   }
@@ -10084,6 +10125,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     courseId?: boolean
+    position?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
@@ -10095,6 +10137,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     courseId?: boolean
+    position?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
@@ -10104,6 +10147,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     courseId?: boolean
+    position?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
@@ -10113,11 +10157,12 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     courseId?: boolean
+    position?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "courseId" | "createdAt" | "updatedAt", ExtArgs["result"]["section"]>
+  export type SectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "courseId" | "position" | "createdAt" | "updatedAt", ExtArgs["result"]["section"]>
   export type SectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
     lessons?: boolean | Section$lessonsArgs<ExtArgs>
@@ -10140,6 +10185,7 @@ export namespace Prisma {
       id: string
       title: string
       courseId: string
+      position: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["section"]>
@@ -10570,6 +10616,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Section", 'String'>
     readonly title: FieldRef<"Section", 'String'>
     readonly courseId: FieldRef<"Section", 'String'>
+    readonly position: FieldRef<"Section", 'Int'>
     readonly createdAt: FieldRef<"Section", 'DateTime'>
     readonly updatedAt: FieldRef<"Section", 'DateTime'>
   }
@@ -22620,6 +22667,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     courseId: 'courseId',
+    position: 'position',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -23516,6 +23564,7 @@ export namespace Prisma {
     id?: StringFilter<"Section"> | string
     title?: StringFilter<"Section"> | string
     courseId?: StringFilter<"Section"> | string
+    position?: IntFilter<"Section"> | number
     createdAt?: DateTimeFilter<"Section"> | Date | string
     updatedAt?: DateTimeFilter<"Section"> | Date | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
@@ -23526,6 +23575,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     courseId?: SortOrder
+    position?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     course?: CourseOrderByWithRelationInput
@@ -23539,6 +23589,7 @@ export namespace Prisma {
     NOT?: SectionWhereInput | SectionWhereInput[]
     title?: StringFilter<"Section"> | string
     courseId?: StringFilter<"Section"> | string
+    position?: IntFilter<"Section"> | number
     createdAt?: DateTimeFilter<"Section"> | Date | string
     updatedAt?: DateTimeFilter<"Section"> | Date | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
@@ -23549,11 +23600,14 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     courseId?: SortOrder
+    position?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SectionCountOrderByAggregateInput
+    _avg?: SectionAvgOrderByAggregateInput
     _max?: SectionMaxOrderByAggregateInput
     _min?: SectionMinOrderByAggregateInput
+    _sum?: SectionSumOrderByAggregateInput
   }
 
   export type SectionScalarWhereWithAggregatesInput = {
@@ -23563,6 +23617,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Section"> | string
     title?: StringWithAggregatesFilter<"Section"> | string
     courseId?: StringWithAggregatesFilter<"Section"> | string
+    position?: IntWithAggregatesFilter<"Section"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Section"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Section"> | Date | string
   }
@@ -24996,6 +25051,7 @@ export namespace Prisma {
   export type SectionCreateInput = {
     id?: string
     title: string
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutSectionsInput
@@ -25006,6 +25062,7 @@ export namespace Prisma {
     id?: string
     title: string
     courseId: string
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSectionInput
@@ -25014,6 +25071,7 @@ export namespace Prisma {
   export type SectionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutSectionsNestedInput
@@ -25024,6 +25082,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSectionNestedInput
@@ -25033,6 +25092,7 @@ export namespace Prisma {
     id?: string
     title: string
     courseId: string
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25040,6 +25100,7 @@ export namespace Prisma {
   export type SectionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25048,6 +25109,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26524,6 +26586,17 @@ export namespace Prisma {
     taxPrice?: SortOrder
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type CourseScalarRelationFilter = {
     is?: CourseWhereInput
     isNot?: CourseWhereInput
@@ -26543,14 +26616,20 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     courseId?: SortOrder
+    position?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type SectionAvgOrderByAggregateInput = {
+    position?: SortOrder
   }
 
   export type SectionMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     courseId?: SortOrder
+    position?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -26559,11 +26638,16 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     courseId?: SortOrder
+    position?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
+  export type SectionSumOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -26571,7 +26655,12 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumstatusFilter<$PrismaModel = never> = {
@@ -26632,22 +26721,6 @@ export namespace Prisma {
   export type LessonSumOrderByAggregateInput = {
     duration?: SortOrder
     position?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumstatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -27848,6 +27921,14 @@ export namespace Prisma {
     connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type CourseUpdateOneRequiredWithoutSectionsNestedInput = {
     create?: XOR<CourseCreateWithoutSectionsInput, CourseUncheckedCreateWithoutSectionsInput>
     connectOrCreate?: CourseCreateOrConnectWithoutSectionsInput
@@ -27914,14 +27995,6 @@ export namespace Prisma {
     connectOrCreate?: LessonProgressCreateOrConnectWithoutLessonInput | LessonProgressCreateOrConnectWithoutLessonInput[]
     createMany?: LessonProgressCreateManyLessonInputEnvelope
     connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type EnumstatusFieldUpdateOperationsInput = {
@@ -28555,13 +28628,6 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedEnumstatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.status | EnumstatusFieldRefInput<$PrismaModel>
-    in?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumstatusFilter<$PrismaModel> | $Enums.status
-  }
-
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -28587,6 +28653,13 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumstatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.status | EnumstatusFieldRefInput<$PrismaModel>
+    in?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.status[] | ListEnumstatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumstatusFilter<$PrismaModel> | $Enums.status
   }
 
   export type NestedEnumstatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -28730,6 +28803,7 @@ export namespace Prisma {
   export type SectionCreateWithoutCourseInput = {
     id?: string
     title: string
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
     lessons?: LessonCreateNestedManyWithoutSectionInput
@@ -28738,6 +28812,7 @@ export namespace Prisma {
   export type SectionUncheckedCreateWithoutCourseInput = {
     id?: string
     title: string
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSectionInput
@@ -28935,6 +29010,7 @@ export namespace Prisma {
     id?: StringFilter<"Section"> | string
     title?: StringFilter<"Section"> | string
     courseId?: StringFilter<"Section"> | string
+    position?: IntFilter<"Section"> | number
     createdAt?: DateTimeFilter<"Section"> | Date | string
     updatedAt?: DateTimeFilter<"Section"> | Date | string
   }
@@ -30264,6 +30340,7 @@ export namespace Prisma {
   export type SectionCreateWithoutLessonsInput = {
     id?: string
     title: string
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutSectionsInput
@@ -30273,6 +30350,7 @@ export namespace Prisma {
     id?: string
     title: string
     courseId: string
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -30343,6 +30421,7 @@ export namespace Prisma {
   export type SectionUpdateWithoutLessonsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutSectionsNestedInput
@@ -30352,6 +30431,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31902,6 +31982,7 @@ export namespace Prisma {
   export type SectionCreateManyCourseInput = {
     id?: string
     title: string
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31999,6 +32080,7 @@ export namespace Prisma {
   export type SectionUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUpdateManyWithoutSectionNestedInput
@@ -32007,6 +32089,7 @@ export namespace Prisma {
   export type SectionUncheckedUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSectionNestedInput
@@ -32015,6 +32098,7 @@ export namespace Prisma {
   export type SectionUncheckedUpdateManyWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

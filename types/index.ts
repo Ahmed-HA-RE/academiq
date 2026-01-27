@@ -38,6 +38,7 @@ export type Lesson = {
 export type Section = {
   id: string;
   title: string;
+  position: number;
   createdAt: Date;
   updatedAt: Date;
   lessons: Lesson[];

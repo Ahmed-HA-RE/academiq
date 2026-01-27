@@ -106,6 +106,9 @@ export const createCourseSchema = baseCourseSchema.extend({
         title: z
           .string({ error: 'Invalid section title' })
           .min(1, 'Section title is required'),
+        position: z.coerce
+          .number<number>({ error: 'Invalid lesson position' })
+          .min(1, 'Lesson Position must be at least 1'),
         lessons: z
           .array(
             z.object({

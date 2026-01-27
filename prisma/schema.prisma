@@ -134,6 +134,7 @@ model Section {
   title     String
   courseId  String
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  position  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   lessons   Lesson[]
