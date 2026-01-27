@@ -2,6 +2,7 @@
 
 import { markLessonAsComplete } from '@/lib/actions/my-course/mutate-lesson';
 import { MuxData } from '@/lib/generated/prisma';
+import useConfettiStore from '@/store/confetti-store';
 import { Lesson } from '@/types';
 
 import MuxPlayer from '@mux/mux-player-react';
@@ -24,6 +25,7 @@ const LessonVideoPlayer = ({
   isCompleted,
 }: LessonVideoPlayerProps) => {
   const router = useRouter();
+  const setShowConfetti = useConfettiStore((state) => state.setShowConfetti);
 
   const onEnd = async () => {
     if (isCompleted) return;
@@ -35,11 +37,13 @@ const LessonVideoPlayer = ({
     }
 
     toast.success(res.message);
+    setShowConfetti(true);
     if (nextLesson) {
       router.push(
         `/my-courses/${slug}/${nextLesson.sectionId}/${nextLesson.id}`,
       );
     } else {
+      setShowConfetti(true);
       router.refresh();
     }
   };

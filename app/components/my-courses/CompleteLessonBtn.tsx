@@ -11,6 +11,8 @@ import {
 import { toast } from 'sonner';
 import { useTransition } from 'react';
 import { cn, NestedOmit } from '@/lib/utils';
+import useConfettiStore from '@/store/confetti-store';
+import { Spinner } from '../ui/spinner';
 
 const CompleteLessonBtn = ({
   lessonId,
@@ -27,6 +29,7 @@ const CompleteLessonBtn = ({
 }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const setShowConfetti = useConfettiStore((state) => state.setShowConfetti);
 
   const handleMarkLessonStatus = async () => {
     startTransition(async () => {
@@ -39,6 +42,7 @@ const CompleteLessonBtn = ({
         }
 
         toast.success(res.message);
+
         if (nextLesson) {
           router.push(
             `/my-courses/${slug}/${nextLesson.sectionId}/${nextLesson.id}`,
@@ -48,6 +52,7 @@ const CompleteLessonBtn = ({
             `/my-courses/${slug}/${nextSection.id}/${nextSection.lessons[0].id}`,
           );
         } else {
+          setShowConfetti(true);
           router.refresh();
         }
       } else {
@@ -70,16 +75,23 @@ const CompleteLessonBtn = ({
         isCompleted
           ? 'bg-slate-600 text-white hover:bg-slate-700'
           : 'bg-emerald-600 hover:bg-emerald-800',
-        ' text-white cursor-pointer text-xs',
+        ' text-white cursor-pointer text-xs min-w-32',
       )}
       disabled={isPending}
     >
-      {isCompleted ? 'Mark as incomplete' : 'Mark as complete'}
-      {isCompleted ? (
-        <CircleXIcon className='size-3.5' />
+      {isPending ? (
+        <Spinner className='size-6 text-white' />
+      ) : isCompleted ? (
+        'Mark as incomplete'
       ) : (
-        <CircleCheckBig className='size-3.5' />
+        'Mark as complete'
       )}
+      {!isPending &&
+        (!isCompleted ? (
+          <CircleXIcon className='size-3.5' />
+        ) : (
+          <CircleCheckBig className='size-3.5' />
+        ))}
     </Button>
   );
 };

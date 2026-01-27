@@ -1,3 +1,4 @@
+import ConfettiWrapper from '@/app/components/confetti-wrapper';
 import CompleteLessonBtn from '@/app/components/my-courses/CompleteLessonBtn';
 import LessonVideoPlayer from '@/app/components/my-courses/LessonVideoPlayer';
 import { Card, CardContent } from '@/app/components/ui/card';
@@ -46,6 +47,7 @@ const CourseLessonPage = async ({
 
   return (
     <section className='min-h-screen'>
+      <ConfettiWrapper />
       {/* Banner */}
       {isCompleted && (
         <div className='bg-emerald-700 px-4 py-3 text-white'>
