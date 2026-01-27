@@ -88,3 +88,33 @@ export const getCourseLessonsProgress = async (courseId: string) => {
 
   return lessonsProgress;
 };
+
+// Get total lessons count in a course
+export const getTotalLessonsCount = async (courseId: string) => {
+  const lessonsCount = await prisma.lesson.count({
+    where: { section: { courseId: courseId }, status: 'ready' },
+  });
+
+  return lessonsCount;
+};
+
+// Get course section by id
+export const getCourseNextSection = async (sectionId: string) => {
+  const section = await prisma.section.findUnique({
+    where: { id: sectionId },
+  });
+
+  const nextSection = await prisma.section.findFirst({
+    where: { courseId: section?.courseId, position: { gt: section?.position } },
+    include: {
+      lessons: {
+        where: {
+          status: 'ready',
+        },
+        orderBy: { position: 'asc' },
+      },
+    },
+  });
+
+  return nextSection;
+};

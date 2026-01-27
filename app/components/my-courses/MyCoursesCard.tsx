@@ -5,7 +5,7 @@ import { BookOpenText, Clock4 } from 'lucide-react';
 import CourseUserProgress from '../shared/CourseUserProgress';
 import { Button } from '../ui/button';
 import { getUserCourseProgress } from '@/lib/actions/my-course/getMyCourse';
-import { getTotalLessonsCount } from '@/lib/actions/my-course/courseContent';
+import { getTotalLessonsCount } from '@/lib/actions/my-course/course-content';
 import { MyCoursesCardType } from '@/types';
 import { Suspense } from 'react';
 import { Avatar, AvatarFallback } from '../ui/avatar';

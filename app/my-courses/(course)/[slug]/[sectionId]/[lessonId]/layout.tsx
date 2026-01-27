@@ -20,13 +20,14 @@ import {
 import {
   getCourseLessonById,
   getCourseLessonsProgress,
-} from '@/lib/actions/my-course/get-lesson';
+} from '@/lib/actions/my-course/course-content';
 import {
   getMyCourseBySlug,
   getUserCourseProgress,
 } from '@/lib/actions/my-course/getMyCourse';
 import { auth } from '@/lib/auth';
 import { APP_NAME } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 import { ArrowLeftIcon, Library } from 'lucide-react';
 import { Metadata } from 'next';
 import { headers } from 'next/headers';
@@ -78,7 +79,7 @@ export const generateMetadata = async ({
 
 type CourseLayoutProps = {
   children: React.ReactNode;
-  params: Promise<{ slug: string; lessonId: string }>;
+  params: Promise<{ slug: string; sectionId: string; lessonId: string }>;
 };
 
 const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
@@ -86,7 +87,7 @@ const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
     headers: await headers(),
   });
 
-  const { slug } = await params;
+  const { slug, sectionId } = await params;
 
   if (!slug) {
     return redirect('/my-courses');
@@ -155,12 +156,20 @@ const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
               </div>
             </SidebarHeader>
             <SidebarContent className='py-3 px-2'>
-              <Accordion type='multiple' className='w-full space-y-2'>
+              <Accordion
+                defaultValue={sectionId}
+                type='single'
+                className='w-full space-y-2'
+              >
                 {course.sections.map((section, index) => (
                   <AccordionItem
                     key={index}
                     value={section.id}
-                    className='rounded-md border-b-0 data-[state=open]:bg-gray-100 data-[state=open]:dark:bg-black/18 hover:bg-gray-100 hover:dark:bg-black/18 data-[state=open]:hover:bg-0 transition'
+                    className={cn(
+                      'rounded-md border-b-0 data-[state=open]:bg-gray-100 data-[state=open]:dark:bg-black/18 hover:bg-gray-100 hover:dark:bg-black/18 data-[state=open]:hover:bg-0 transition',
+                      section.id === sectionId &&
+                        'bg-blue-50 dark:bg-blue-950/30',
+                    )}
                   >
                     <AccordionTrigger className='px-3 pb-4 [&>svg]:rotate-180 [&[data-state=open]>svg]:rotate-0 hover:no-underline cursor-pointer'>
                       <div className='flex items-center gap-5'>

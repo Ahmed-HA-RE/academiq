@@ -1,6 +1,6 @@
 'use client';
 
-import { Lesson } from '@/types';
+import { Lesson, Section } from '@/types';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { CircleCheckBig, CircleXIcon } from 'lucide-react';
@@ -10,18 +10,20 @@ import {
 } from '@/lib/actions/my-course/mutate-lesson';
 import { toast } from 'sonner';
 import { useTransition } from 'react';
-import { cn } from '@/lib/utils';
+import { cn, NestedOmit } from '@/lib/utils';
 
 const CompleteLessonBtn = ({
   lessonId,
   nextLesson,
   slug,
   isCompleted,
+  nextSection,
 }: {
   lessonId: string;
   nextLesson: Omit<Lesson, 'muxData'> | null;
   slug: string;
   isCompleted: boolean;
+  nextSection: NestedOmit<Section, 'lessons.muxData'> | null;
 }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -40,6 +42,10 @@ const CompleteLessonBtn = ({
         if (nextLesson) {
           router.push(
             `/my-courses/${slug}/${nextLesson.sectionId}/${nextLesson.id}`,
+          );
+        } else if (nextSection) {
+          router.push(
+            `/my-courses/${slug}/${nextSection.id}/${nextSection.lessons[0].id}`,
           );
         } else {
           router.refresh();

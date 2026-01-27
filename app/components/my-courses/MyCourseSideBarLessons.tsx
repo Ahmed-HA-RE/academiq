@@ -37,7 +37,7 @@ const MyCourseSideBarLessons = ({
         'flex items-center gap-8 hover:bg-gray-200 hover:dark:bg-muted px-3 py-2 transition',
         isActive && 'bg-gray-200 dark:bg-muted',
         isCompleted
-          ? 'border-l-2 border-emerald-700 dark:border-emerald-500'
+          ? 'border-l-2 border-emerald-600 dark:border-emerald-500'
           : isActive &&
               !isCompleted &&
               'border-l-2 border-gray-300 dark:border-gray-400',
@@ -45,7 +45,7 @@ const MyCourseSideBarLessons = ({
     >
       <div className={cn('flex items-center gap-4')}>
         {isCompleted ? (
-          <CircleCheckBig className='size-4 text-emerald-700 dark:text-emerald-500' />
+          <CircleCheckBig className='size-4 text-emerald-600 dark:text-emerald-500' />
         ) : (
           <CirclePlayIcon className='size-4' />
         )}

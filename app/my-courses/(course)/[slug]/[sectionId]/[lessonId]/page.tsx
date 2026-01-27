@@ -3,8 +3,9 @@ import LessonVideoPlayer from '@/app/components/my-courses/LessonVideoPlayer';
 import { Card, CardContent } from '@/app/components/ui/card';
 import {
   getCourseLessonById,
+  getCourseNextSection,
   getLessonProgress,
-} from '@/lib/actions/my-course/get-lesson';
+} from '@/lib/actions/my-course/course-content';
 import { formatDuration } from '@/lib/utils';
 import { CircleCheckBig, Clock4 } from 'lucide-react';
 import { Metadata } from 'next';
@@ -29,13 +30,14 @@ export const generateMetadata = async ({
 const CourseLessonPage = async ({
   params,
 }: {
-  params: Promise<{ slug: string; lessonId: string }>;
+  params: Promise<{ slug: string; sectionId: string; lessonId: string }>;
 }) => {
-  const { slug, lessonId } = await params;
+  const { slug, sectionId, lessonId } = await params;
 
-  const [{ lesson, nextLesson }, isCompleted] = await Promise.all([
+  const [{ lesson, nextLesson }, isCompleted, nextSection] = await Promise.all([
     getCourseLessonById(lessonId),
     getLessonProgress(lessonId),
+    getCourseNextSection(sectionId),
   ]);
 
   if (!lesson || !lesson.muxData) {
@@ -86,6 +88,7 @@ const CourseLessonPage = async ({
               lessonId={lessonId}
               slug={slug}
               isCompleted={isCompleted}
+              nextSection={nextSection}
             />
           </CardContent>
         </Card>
