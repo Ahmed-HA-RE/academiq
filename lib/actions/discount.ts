@@ -69,9 +69,6 @@ export const applyDiscount = async (code: string) => {
         },
       });
     }
-
-    revalidatePath('/cart', 'page');
-    revalidatePath('/checkout', 'page');
     return { success: true, message: 'Discount applied successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };

@@ -1,15 +1,9 @@
 'use client';
 import { Discount } from '@/types';
-import { Snowflake } from 'lucide-react';
 import { useState } from 'react';
 
 const CouponBanner = ({ discount }: { discount: Discount | undefined }) => {
-  const [isVisible, setIsVisible] = useState(true);
   const [copied, setCopied] = useState(false);
-
-  const dismissBanner = () => {
-    setIsVisible(false);
-  };
 
   // Handle copy promo code
   const copyPromoCode = () => {
@@ -17,83 +11,15 @@ const CouponBanner = ({ discount }: { discount: Discount | undefined }) => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-
-  if (!isVisible) return null;
-
   return (
-    <div className='w-full p-4 overflow-hidden bg-gradient-to-r from-purple-600 to-indigo-500 shadow-lg fixed bottom-0 right-0 left-0 z-30'>
-      <div className='max-w-[1440px] mx-auto'>
-        {/* Animated background elements */}
-        <div className='absolute inset-0 overflow-hidden'>
-          <div className='absolute -top-20 -left-20 h-48 w-48 animate-pulse rounded-full bg-white opacity-10'></div>
-          <div className='absolute top-5 right-10 h-20 w-20 animate-bounce rounded-full bg-white opacity-10 delay-300'></div>
-          <div className='absolute bottom-4 left-1/3 h-24 w-24 animate-ping rounded-full bg-white opacity-10 [animation-duration:3s]'></div>
-          <div className='absolute -right-10 -bottom-10 h-40 w-40 animate-pulse rounded-full bg-white opacity-10 delay-700'></div>
-        </div>
-        <div className='relative z-10 flex flex-col items-center justify-between gap-5 md:flex-row'>
-          <div className='flex items-center justify-center gap-4 text-center md:justify-start md:text-left'>
-            <div className='hidden animate-spin duration-9000 md:block'>
-              <Snowflake className='h-16 w-16 text-white' />
-            </div>
-            <div className='space-y-1'>
-              <span className='inline-flex animate-pulse rounded-md bg-white px-3 py-1 text-sm font-bold text-indigo-600 shadow-sm'>
-                {discount?.type === 'percentage'
-                  ? `${discount.amount}% OFF`
-                  : `AED ${discount?.amount} OFF`}
-              </span>
-              <h3 className='text-2xl font-bold text-white md:text-3xl'>
-                Winter Sale
-              </h3>
-              <p className='text-base font-medium text-white/90'>
-                Use code{' '}
-                <span className='rounded bg-white/20 px-2 py-0.5 font-bold tracking-wider text-white'>
-                  {discount?.code}
-                </span>{' '}
-                at checkout
-              </p>
-            </div>
-          </div>
-
-          <div className='flex items-center space-x-4'>
-            <button
-              onClick={copyPromoCode}
-              className='relative rounded-md border-2 border-indigo-500 bg-white px-5 py-2.5 text-base font-medium text-indigo-500 backdrop-blur-sm transition-all hover:bg-white/80 focus:ring-2 focus:ring-white/50 focus:outline-none'
-            >
-              <span
-                className={`transition-opacity ${copied ? 'opacity-0' : 'opacity-100'}`}
-              >
-                Copy Code
-              </span>
-              <span
-                className={`absolute inset-0 flex items-center justify-center transition-opacity ${copied ? 'opacity-100' : 'opacity-0'}`}
-              >
-                Copied!
-              </span>
-            </button>
-
-            <button
-              className='flex-shrink-0 text-white opacity-70 transition-opacity hover:opacity-100 focus:outline-none cursor-pointer'
-              onClick={dismissBanner}
-              aria-label='Dismiss'
-            >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M6 18L18 6M6 6l12 12'
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
+    <div className='text-xs px-4 flex flex-row items-center justify-center gap-1 bg-gradient-to-r from-[#f11557] to-[#ffbd01] w-full py-2'>
+      <p className='text-white'>
+        Invest in Your Skills: Save up to {discount?.amount}
+        {discount?.type === 'percentage' ? '%' : 'AED'} -
+      </p>
+      <span onClick={copyPromoCode} className='text-white cursor-pointer'>
+        {copied ? 'Copied!' : 'Copy Code'}
+      </span>
     </div>
   );
 };

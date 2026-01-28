@@ -102,6 +102,7 @@ const CartDetails = ({
     }
 
     toast.success(res.message);
+    router.refresh();
   };
 
   const handleCreateOrder = () => {
@@ -123,7 +124,7 @@ const CartDetails = ({
   return (
     <>
       {couponForm.formState.isSubmitting && (
-        <ScreenSpinner mutate={true} text='Applying' />
+        <ScreenSpinner mutate={true} text='Applying..' />
       )}
       <section className='section-spacing'>
         <div className='container'>
@@ -255,7 +256,7 @@ const CartDetails = ({
                             <BillingDetails
                               form={billingDetailsForm}
                               onSubmit={billingDetailsForm.handleSubmit(
-                                handleSubmitBillingDetails
+                                handleSubmitBillingDetails,
                               )}
                             />
                           </AccordionContent>

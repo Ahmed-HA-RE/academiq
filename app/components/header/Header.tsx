@@ -10,11 +10,15 @@ import { APP_NAME } from '@/lib/constants';
 import { ShoppingCartIcon } from 'lucide-react';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import CouponBanner from '../CouponBanner';
+import { getValidDiscount } from '@/lib/actions/discount';
 
 const Header = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+
+  const discount = await getValidDiscount();
 
   const baseNavigationMenu = [
     { href: '/courses', title: 'Courses' },
@@ -27,44 +31,52 @@ const Header = async () => {
   ];
 
   return (
-    <header className='bg-transparent z-20 border-b'>
-      <div className='mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-4 lg:px-6 h-17.5'>
-        <div className='flex items-center lg:gap-10'>
-          <MenuSheet navigationData={baseNavigationMenu} />
-          <Link className='flex flex-row items-center gap-1' href='/'>
-            <Image src={'/images/logo.png'} alt='Logo' width={40} height={40} />
-            <span className='font-medium text-lg'>{APP_NAME}</span>
-          </Link>
-          <DesktopNavMenu navigationData={baseNavigationMenu} />
-        </div>
+    <>
+      <CouponBanner discount={discount} />
+      <header className='bg-white dark:bg-black/85 z-50 border-b'>
+        <div className='mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-4 lg:px-6 h-17.5'>
+          <div className='flex items-center lg:gap-10'>
+            <MenuSheet navigationData={baseNavigationMenu} />
+            <Link className='flex flex-row items-center gap-1' href='/'>
+              <Image
+                src={'/images/logo.png'}
+                alt='Logo'
+                width={40}
+                height={40}
+              />
+              <span className='font-medium text-lg'>{APP_NAME}</span>
+            </Link>
+            <DesktopNavMenu navigationData={baseNavigationMenu} />
+          </div>
 
-        <div className='flex items-center'>
-          {/* Cart */}
-          {session?.user && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className='relative w-fit cursor-pointer'>
-                  <Link href='/cart'>
-                    <Avatar className='size-9 rounded-sm'>
-                      <AvatarFallback className='rounded-sm bg-0 hover:bg-accent dark:hover:bg-accent/80 transition'>
-                        <ShoppingCartIcon className='size-5' />
-                      </AvatarFallback>
-                    </Avatar>
-                  </Link>
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Cart</p>
-              </TooltipContent>
-            </Tooltip>
-          )}
-          {/* Theme */}
-          <Theme />
-          {/* User menu */}
-          <ProfileDropdown session={session} />
+          <div className='flex items-center'>
+            {/* Cart */}
+            {session?.user && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className='relative w-fit cursor-pointer'>
+                    <Link href='/cart'>
+                      <Avatar className='size-9 rounded-sm'>
+                        <AvatarFallback className='rounded-sm bg-0 hover:bg-accent dark:hover:bg-accent/80 transition'>
+                          <ShoppingCartIcon className='size-5' />
+                        </AvatarFallback>
+                      </Avatar>
+                    </Link>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Cart</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+            {/* Theme */}
+            <Theme />
+            {/* User menu */}
+            <ProfileDropdown session={session} />
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 };
 

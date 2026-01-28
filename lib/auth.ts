@@ -24,6 +24,7 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
     minPasswordLength: 6,
     sendResetPassword: async ({ user, url }) => {
       await resend.emails.send({
@@ -69,6 +70,7 @@ export const auth = betterAuth({
       },
       expiresIn: 7200, // 120 minutes
       sendVerificationOnSignUp: true,
+      overrideDefaultEmailVerification: true,
       allowedAttempts: 3,
     }),
     admin(),

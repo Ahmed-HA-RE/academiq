@@ -1,19 +1,5 @@
-import CouponBanner from '@/app/components/CouponBanner';
-import { getValidDiscount } from '@/lib/actions/discount';
-
-const DiscountBannerLayout = async ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const discount = await getValidDiscount();
-
-  return (
-    <>
-      {discount && <CouponBanner discount={discount} />}
-      {children}
-    </>
-  );
+const DiscountBannerLayout = ({ children }: { children: React.ReactNode }) => {
+  return <>{children}</>;
 };
 
 export default DiscountBannerLayout;

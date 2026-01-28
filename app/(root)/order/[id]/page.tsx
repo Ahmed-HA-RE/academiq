@@ -11,17 +11,16 @@ import {
 } from '@/app/components/ui/card';
 import { redirect } from 'next/navigation';
 import { getOrderById } from '@/lib/actions/order';
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
 import Image from 'next/image';
 import { APP_NAME } from '@/lib/constants';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { cn } from '@/lib/utils';
+import { getCurrentLoggedUser } from '@/lib/actions/getUser';
+import { getUserRefundEligibility } from '@/lib/actions/user/get-user-refund-eligibility';
 
 export const metadata: Metadata = {
   title: 'Order Summary',
-  description: 'View the summary of your order',
 };
 
 const OrderSummaryPage = async ({
@@ -30,53 +29,72 @@ const OrderSummaryPage = async ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
 
-  const order = await getOrderById(id);
+  const [user, order] = await Promise.all([
+    getCurrentLoggedUser(),
+    getOrderById(id),
+  ]);
 
-  if (
-    !session ||
-    !order ||
-    (order.userId !== session.user.id && session.user.role !== 'admin')
-  ) {
+  if (!user || !order || (order.userId !== user.id && user.role !== 'admin')) {
     redirect('/');
   }
 
-  if (!order.isPaid && session.user.role !== 'admin') redirect('/');
+  if (!order.isPaid && user.role !== 'admin') redirect('/');
+
+  const userProgress = await getUserRefundEligibility(order.userId);
 
   return (
     <section className='mb-14'>
       <div className='container'>
         <Card className='w-full'>
-          <CardHeader className='flex flex-row justify-between items-center'>
+          <CardHeader className='flex flex-col sm:flex-row justify-between sm:items-center'>
             <CardTitle className='text-2xl'>Order Summary</CardTitle>
-            <Badge
-              className={cn(
-                order.status === 'unpaid'
-                  ? 'bg-destructive/10 text-destructive'
-                  : order.status === 'paid'
-                    ? 'bg-green-600/10 text-green-600'
-                    : order.status === 'refunded'
-                      ? 'bg-fuchsia-500/10 text-fuchsia-500'
-                      : 'bg-amber-600/10 text-amber-600'
-              )}
-            >
-              <span
+            <div className='space-x-3'>
+              <Badge
                 className={cn(
-                  'size-1.5 rounded-full',
                   order.status === 'unpaid'
-                    ? 'bg-destructive'
+                    ? 'bg-destructive/10 text-destructive'
                     : order.status === 'paid'
-                      ? 'bg-green-600'
+                      ? 'bg-green-600/10 text-green-600'
                       : order.status === 'refunded'
-                        ? 'bg-fuchsia-500'
-                        : 'bg-amber-600'
+                        ? 'bg-fuchsia-500/10 text-fuchsia-500'
+                        : 'bg-amber-600/10 text-amber-600',
                 )}
-              ></span>
-              {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-            </Badge>
+              >
+                <span
+                  className={cn(
+                    'size-1.5 rounded-full',
+                    order.status === 'unpaid'
+                      ? 'bg-destructive'
+                      : order.status === 'paid'
+                        ? 'bg-green-600'
+                        : order.status === 'refunded'
+                          ? 'bg-fuchsia-500'
+                          : 'bg-amber-600',
+                  )}
+                ></span>
+                {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+              </Badge>
+              <Badge
+                className={
+                  Number(userProgress?.progress) > 10
+                    ? 'bg-destructive/10 text-destructive'
+                    : 'bg-green-600/10 text-green-600'
+                }
+              >
+                <span
+                  className={cn(
+                    'size-1.5 rounded-full',
+                    Number(userProgress?.progress) > 10
+                      ? 'bg-destructive'
+                      : 'bg-green-600',
+                  )}
+                ></span>
+                {Number(userProgress?.progress) > 10
+                  ? 'Not Eligible For Refund'
+                  : 'Eligible For Refund'}
+              </Badge>
+            </div>
           </CardHeader>
           <CardContent className='grid gap-10 py-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
             <div className='space-y-8'>
@@ -190,7 +208,7 @@ const OrderSummaryPage = async ({
               </div>
             </div>
           </CardContent>
-          {order.status === 'paid' && session.user.id === order.userId && (
+          {order.status === 'paid' && user.id === order.userId && (
             <CardFooter className='justify-between gap-6 border-t max-sm:flex-col max-sm:items-start'>
               <div className='space-y-2.5 text-lg'>
                 <p className='font-medium'>Thank you for shopping with us!</p>

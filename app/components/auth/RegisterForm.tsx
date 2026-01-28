@@ -41,7 +41,7 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
       return;
     }
     toast.success(res.message);
-    setTimeout(() => router.push(`${SERVER_URL}/login`), 1500);
+    setTimeout(() => router.push(`${SERVER_URL}/verify-email`), 1500);
   };
 
   const handleSocialSignIn = async (provider: 'google') => {
