@@ -25,9 +25,11 @@ import { cn } from '@/lib/utils';
 const EditInstructorForm = ({
   instructor,
   type,
+  providerId,
 }: {
   instructor: Instructor;
   type: 'admin' | 'instructor';
+  providerId: string;
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -68,9 +70,9 @@ const EditInstructorForm = ({
     setTimeout(
       () =>
         router.push(
-          `/${type}-dashboard/${type === 'admin' ? 'instructors' : '/'}`
+          `/${type}-dashboard/${type === 'admin' ? 'instructors' : '/'}`,
         ),
-      500
+      500,
     );
   };
 
@@ -83,7 +85,7 @@ const EditInstructorForm = ({
         className={cn(
           pathname === '/instructor-dashboard/settings'
             ? 'shadow-none border-none col-span-4'
-            : ''
+            : '',
         )}
       >
         <CardContent>
@@ -91,7 +93,7 @@ const EditInstructorForm = ({
             <FieldGroup
               className={cn(
                 pathname === '/instructor-dashboard/settings' &&
-                  'grid grid-cols-1 md:grid-cols-2 gap-6'
+                  'grid grid-cols-1 md:grid-cols-2 gap-6',
               )}
             >
               {/* Name */}
@@ -132,6 +134,7 @@ const EditInstructorForm = ({
                       placeholder='Instructor email'
                       aria-invalid={fieldState.invalid}
                       className='input'
+                      disabled={providerId !== 'credentials'}
                       {...field}
                     />
                     {fieldState.invalid && (
@@ -176,7 +179,7 @@ const EditInstructorForm = ({
                         label: 'Select categories',
                       }}
                       value={TEACHING_CATEGORIESMULTISELECT.filter((option) =>
-                        field.value.includes(option.value)
+                        field.value.includes(option.value),
                       )}
                       onChange={(options) =>
                         field.onChange(options.map((opt) => opt.value))
@@ -256,7 +259,7 @@ const EditInstructorForm = ({
                   <Field
                     className={cn(
                       pathname === '/instructor-dashboard/settings' &&
-                        'md:col-span-2'
+                        'md:col-span-2',
                     )}
                     data-invalid={fieldState.invalid}
                   >

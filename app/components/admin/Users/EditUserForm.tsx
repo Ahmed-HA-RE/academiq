@@ -25,7 +25,13 @@ import AvatarUpload from '../../AvatarUpload';
 import { updateUserAsAdmin } from '@/lib/actions/admin/user-mutation';
 import { useRouter } from 'next/navigation';
 
-const EditUserForm = ({ user }: { user: User }) => {
+const EditUserForm = ({
+  user,
+  providerId,
+}: {
+  user: User;
+  providerId: string;
+}) => {
   const router = useRouter();
 
   const form = useForm<UpdateUserAsAdmin>({
@@ -87,6 +93,7 @@ const EditUserForm = ({ user }: { user: User }) => {
                   className='input'
                   aria-invalid={fieldState.invalid}
                   {...field}
+                  disabled={providerId !== 'credentials'}
                 />
                 {fieldState.error && (
                   <FieldError>{fieldState.error.message}</FieldError>
@@ -128,7 +135,7 @@ const EditUserForm = ({ user }: { user: User }) => {
                           >
                             {role.label}
                           </SelectItem>
-                        )
+                        ),
                       )}
                     </SelectGroup>
                   </SelectContent>

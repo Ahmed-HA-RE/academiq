@@ -8,6 +8,7 @@ import resend from './resend';
 import VerificationOTP from '@/emails/VerificationOTP';
 import ResetPasswordEmail from '@/emails/ResetPassword';
 import { domain } from './resend';
+import { getCurrentLoggedUser } from './actions/getUser';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -89,3 +90,19 @@ export const auth = betterAuth({
     },
   },
 });
+
+// Get account providerId for a user
+export const getUserProviderId = async () => {
+  const user = await getCurrentLoggedUser();
+
+  if (!user) throw new Error('User not found');
+
+  const account = await prisma.account.findFirst({
+    where: {
+      userId: user.id,
+    },
+  });
+
+  if (!account) throw new Error('Account not found');
+  return account?.providerId;
+};

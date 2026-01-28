@@ -1,5 +1,6 @@
 import EditInstructorForm from '@/app/components/admin/Instructor/EditInstructorForm';
 import { getCurrentLoggedInInstructor } from '@/lib/actions/instructor/getInstructor';
+import { getUserProviderId } from '@/lib/auth';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -8,7 +9,10 @@ export const metadata: Metadata = {
 };
 
 const SettingsPage = async () => {
-  const instructor = await getCurrentLoggedInInstructor();
+  const [instructor, providerId] = await Promise.all([
+    getCurrentLoggedInInstructor(),
+    getUserProviderId(),
+  ]);
 
   return (
     <div className='col-span-4 space-y-8'>
@@ -16,7 +20,11 @@ const SettingsPage = async () => {
         My Profile
       </h1>
 
-      <EditInstructorForm instructor={instructor} type='instructor' />
+      <EditInstructorForm
+        instructor={instructor}
+        type='instructor'
+        providerId={providerId}
+      />
     </div>
   );
 };

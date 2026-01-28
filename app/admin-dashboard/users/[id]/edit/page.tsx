@@ -2,6 +2,7 @@ import { getUserById } from '@/lib/actions/getUser';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import EditUserForm from '@/app/components/admin/Users/EditUserForm';
+import { getUserProviderId } from '@/lib/auth';
 
 export const metadata: Metadata = {
   title: 'Edit User',
@@ -14,7 +15,10 @@ const EditUserPage = async ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
-  const user = await getUserById(id);
+  const [user, providerId] = await Promise.all([
+    getUserById(id),
+    getUserProviderId(),
+  ]);
 
   if (!user) redirect('/admin-dashboard/users');
 
@@ -23,7 +27,7 @@ const EditUserPage = async ({
       <h1 className='text-2xl md:text-3xl lg:text-3xl font-medium'>
         Edit {user.name}
       </h1>
-      <EditUserForm user={user} />
+      <EditUserForm user={user} providerId={providerId} />
     </div>
   );
 };
