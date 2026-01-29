@@ -1,6 +1,5 @@
-import parsePhoneNumberFromString, { CountryCode } from 'libphonenumber-js';
+import parsePhoneNumberFromString from 'libphonenumber-js';
 import z from 'zod';
-import { validCountryPhones } from '@/lib/constants';
 import { isAfter } from 'date-fns';
 import { LIST_COUNTRIES } from '@/lib/utils';
 
@@ -56,10 +55,8 @@ const optionalPhoneSchema = z
   .refine(
     (val) => {
       if (!val) return true; // Optional field
-      for (const country of validCountryPhones) {
-        const phone = parsePhoneNumberFromString(val, country as CountryCode);
-        if (phone?.isValid()) return true;
-      }
+      const phone = parsePhoneNumberFromString(val);
+      if (phone?.isValid()) return true;
     },
     {
       error: 'Invalid phone number',
@@ -137,6 +134,7 @@ export const registerSchema = z
   .object({
     name: z
       .string({ error: 'Invalid name' })
+      .regex(/^[a-zA-Z ]+$/, 'Name can only contain letters and spaces')
       .min(3, 'Name is required')
       .max(50, 'Name is too long'),
     email: z.email({ error: 'Invalid email address' }),
@@ -268,7 +266,8 @@ export const instructorUpdateSchema = instructorSchema
 export const billingInfoSchema = z.object({
   fullName: z
     .string({ error: 'Invalid full name' })
-    .min(3, 'Full name is required'),
+    .min(3, 'Full name is required')
+    .regex(/^[a-zA-Z ]+$/, 'Name can only contain letters and spaces'),
   email: z.email({ error: 'Invalid email address' }),
   phone: phoneSchema,
   address: z
@@ -317,11 +316,8 @@ export const createApplicationSchema = instructorSchema
   });
 
 export const updateUserAsAdminSchema = z.object({
-  name: z
-    .string({ error: 'Invalid name' })
-    .min(3, 'Name is required')
-    .max(50, 'Name is too long'),
-  email: z.email({ error: 'Invalid email address' }),
+  name: registerSchema.shape.name,
+  email: registerSchema.shape.email,
   role: z.string({ error: 'Invalid role' }).min(1, 'Role is required'),
   status: z.string({ error: 'Invalid status' }).min(1, 'Status is required'),
   phone: optionalPhoneSchema,
@@ -372,4 +368,17 @@ export const courseReviewSchema = z.object({
   courseId: z
     .string({ error: 'Invalid course id' })
     .min(1, 'Course id is required'),
+});
+
+export const contactUsSchema = z.object({
+  name: registerSchema.shape.name,
+  email: registerSchema.shape.email,
+  title: z
+    .string({ error: 'Invalid title' })
+    .min(1, 'Title is required')
+    .max(100, 'Title is too long'),
+  message: z
+    .string({ error: 'Invalid message' })
+    .min(10, 'Message is required')
+    .max(5000, 'Message is too long'),
 });

@@ -13,8 +13,9 @@ const HeroSection = async () => {
     getCoursesWithStudents(),
     getInstructorsCount(),
   ]);
+
   return (
-    <section className='overflow-hidden py-8 md:pt-10 lg:pt-12 bg-gradient-to-br from-blue-500/10 via-transparent to-amber-500/10 dark:from-blue-500/20 dark:to-amber-500/20'>
+    <section className='overflow-hidden py-8 sm:py-16 lg:py-24 bg-gradient-to-r from-[#F9F5F0] to-[#FFF8E7] dark:from-[#000000] dark:to-[#111827]'>
       <div className='container'>
         <div className='relative grid gap-12 lg:grid-cols-5'>
           <div className='flex flex-col gap-6 lg:col-span-3'>
@@ -96,7 +97,7 @@ const HeroSection = async () => {
                 blur
                 transition={{ duration: 0.5 }}
                 delay={0.9}
-                className='bg-muted group relative h-39 overflow-hidden rounded-md p-3'
+                className='bg-[#FFF8E7] dark:bg-muted group relative h-39 overflow-hidden rounded-md p-3'
               >
                 <span className='text-muted-foreground text-xl font-medium'>
                   Learn at Your Pace
@@ -127,7 +128,7 @@ const HeroSection = async () => {
                 blur
                 transition={{ duration: 0.5 }}
                 delay={1.0}
-                className='bg-muted group relative h-39 overflow-hidden rounded-md p-3'
+                className='bg-[#FFF8E7] dark:bg-muted group relative h-39 overflow-hidden rounded-md p-3'
               >
                 <span className='text-muted-foreground text-xl font-medium'>
                   Certified Instructors
@@ -159,7 +160,7 @@ const HeroSection = async () => {
                 blur
                 transition={{ duration: 0.5 }}
                 delay={1.1}
-                className='bg-muted group relative h-39 overflow-hidden rounded-md p-3'
+                className='bg-[#FFF8E7] dark:bg-muted group relative h-39 overflow-hidden rounded-md p-3'
               >
                 <span className='text-muted-foreground text-xl font-medium'>
                   Interactive Learning

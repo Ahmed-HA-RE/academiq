@@ -32,8 +32,8 @@ const Header = async () => {
 
   return (
     <>
-      <CouponBanner discount={discount} />
-      <header className='bg-white dark:bg-black/85 z-20 border-b'>
+      {discount && <CouponBanner discount={discount} />}
+      <header className='border-b'>
         <div className='mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-4 lg:px-6 h-17.5'>
           <div className='flex items-center lg:gap-10'>
             <MenuSheet navigationData={baseNavigationMenu} />
@@ -41,13 +41,13 @@ const Header = async () => {
               <Image
                 src={'/images/logo.png'}
                 alt='Logo'
-                width={40}
-                height={40}
+                width={35}
+                height={35}
               />
-              <span className='font-medium text-lg'>{APP_NAME}</span>
+              <span className='font-medium text-xl'>{APP_NAME}</span>
             </Link>
-            <DesktopNavMenu navigationData={baseNavigationMenu} />
           </div>
+          <DesktopNavMenu navigationData={baseNavigationMenu} />
 
           <div className='flex items-center'>
             {/* Cart */}

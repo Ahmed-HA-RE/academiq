@@ -16,9 +16,8 @@ const footerResourcesLinks = [
 ];
 
 const footerSupportLinks = [
-  { name: 'About Us', href: '/about' },
-  { name: 'Contact Us', href: '/contact-us' },
-  { name: 'FAQs', href: '/faqs' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
   { name: 'Terms & Conditions', href: '/' },
 ];
 

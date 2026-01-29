@@ -1,5 +1,6 @@
 import EditInstructorForm from '@/app/components/admin/Instructor/EditInstructorForm';
 import { getInstructorByIdAsAdmin } from '@/lib/actions/instructor/getInstructor';
+import { getUserProviderId } from '@/lib/auth';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -14,7 +15,10 @@ const EditInstructorPage = async ({
 }) => {
   const { id } = await params;
 
-  const instructor = await getInstructorByIdAsAdmin(id);
+  const [instructor, providerId] = await Promise.all([
+    getInstructorByIdAsAdmin(id),
+    getUserProviderId(),
+  ]);
 
   return (
     <div className='col-span-4 space-y-14'>
@@ -40,7 +44,11 @@ const EditInstructorPage = async ({
         </div>
         {/* Right side */}
         <div className='flex-1'>
-          <EditInstructorForm instructor={instructor} type='admin' />
+          <EditInstructorForm
+            instructor={instructor}
+            providerId={providerId}
+            type='admin'
+          />
         </div>
       </div>
     </div>

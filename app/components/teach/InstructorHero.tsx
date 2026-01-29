@@ -35,7 +35,7 @@ const InstructorHero = () => {
   return (
     <section
       className='flex-1 overflow-hidden
-     min-h-[50vh] flex-col pt-4'
+     min-h-[50vh] flex-col section-spacing'
     >
       <div className=' container flex-col items-center gap-8 px-4 sm:gap-16 space-y-10'>
         {/* Hero Content */}

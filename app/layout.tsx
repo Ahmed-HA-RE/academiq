@@ -6,6 +6,7 @@ import { ThemeProvider } from './components/ui/theme-provider';
 import { Toaster } from 'sonner';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { CircleCheckBig, CircleX } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -36,7 +37,7 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={outfit.className}>
+      <body className={cn(outfit.className, 'bg-[#FDF8F5] dark:bg-[#121212]')}>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'

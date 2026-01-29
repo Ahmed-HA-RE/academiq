@@ -203,8 +203,6 @@ export const TEACHING_CATEGORIESMULTISELECT: Option[] = [
   },
 ];
 
-export const validCountryPhones = ['AE', 'SA', 'KW', 'QA', 'OM', 'BH'];
-
 export const USERS_ROLES = [
   {
     value: 'all',
@@ -235,4 +233,22 @@ export const COURSE_TABS_TRIGGER = [
   { label: 'About Course', value: 'about-course' },
   { label: 'Course Content', value: 'course-content' },
   { label: 'Reviews', value: 'reviews' },
+];
+
+export const CONTACT_US_FEATURES = [
+  {
+    title: 'Personalized Support',
+    description:
+      'Our team is here to provide you with tailored assistance that meets your unique needs.',
+  },
+  {
+    title: 'Fast &Friendly Support',
+    description:
+      'We pride ourselves on delivering quick and friendly support to ensure your satisfaction.',
+  },
+  {
+    title: 'Expert Guidance',
+    description:
+      'Our knowledgeable team is ready to offer expert guidance to help you navigate any challenges.',
+  },
 ];

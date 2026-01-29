@@ -3,6 +3,7 @@ import {
   billingInfoSchema,
   cartItemsSchema,
   cartSchema,
+  contactUsSchema,
   courseReviewSchema,
   createCourseSchema,
   discountSchema,
@@ -215,3 +216,5 @@ export type Review = z.infer<typeof courseReviewSchema> & {
 };
 
 export type CreateReview = z.infer<typeof courseReviewSchema>;
+
+export type ContactFormData = z.infer<typeof contactUsSchema>;

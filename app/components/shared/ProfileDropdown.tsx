@@ -83,7 +83,7 @@ const ProfileDropdown = ({
   };
 
   return !session ? (
-    <Button className='btn-hover-affect' asChild>
+    <Button size={'lg'} className='rounded-full text-lg' asChild>
       <Link href='/login'>Login</Link>
     </Button>
   ) : (
@@ -149,7 +149,7 @@ const ProfileDropdown = ({
               key={link.title}
               className={cn(
                 'px-4 py-2.5 text-base cursor-pointer',
-                pathname === link.href && 'bg-accent'
+                pathname === link.href && 'bg-accent',
               )}
               asChild
             >

@@ -1,7 +1,8 @@
-import { getCurrentLoggedUser, getUserById } from '@/lib/actions/getUser';
+import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import EditUserForm from '@/app/components/admin/Users/EditUserForm';
+import { getUserProviderId } from '@/lib/auth';
 
 export const metadata: Metadata = {
   title: 'Account Settings',
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
 };
 
 const SettingsPage = async () => {
-  const user = await getCurrentLoggedUser();
+  const [user, providerId] = await Promise.all([
+    getCurrentLoggedUser(),
+    getUserProviderId(),
+  ]);
 
   if (!user) redirect('/admin-dashboard/users');
 
@@ -18,7 +22,7 @@ const SettingsPage = async () => {
       <h1 className='text-2xl md:text-3xl lg:text-3xl font-medium'>
         Account Settings
       </h1>
-      <EditUserForm user={user} />
+      <EditUserForm user={user} providerId={providerId} />
     </div>
   );
 };

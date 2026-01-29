@@ -120,7 +120,6 @@ const TeachFeatures = () => {
               <div className='absolute inset-0'>
                 <div className='border-primary absolute inset-12 animate-ping rounded-3xl border-2'></div>
                 <div className='border-primary/60 absolute inset-8 animate-ping rounded-3xl border-2'></div>
-                <div className='border-primary/40 absolute inset-6 animate-ping rounded-3xl border-2'></div>
               </div>
             </div>
           </MotionPreset>
