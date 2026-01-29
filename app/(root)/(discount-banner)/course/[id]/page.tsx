@@ -1,4 +1,4 @@
-import { getCourseBySlug } from '@/lib/actions/course/getCourses';
+import { getCourseById } from '@/lib/actions/course/getCourses';
 import { notFound } from 'next/navigation';
 import { getMyCart } from '@/lib/actions/cart';
 import { Metadata } from 'next';
@@ -11,12 +11,11 @@ import { SearchParams } from 'nuqs/server';
 export const generateMetadata = async ({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> => {
-  const { slug } = await params;
+  const { id } = await params;
 
-  const course = await getCourseBySlug(slug);
-
+  const course = await getCourseById(id);
   if (!course) return { title: `${APP_NAME}` };
 
   return {
@@ -29,13 +28,13 @@ const CourseDetailsPage = async ({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ id: string }>;
   searchParams: Promise<SearchParams>;
 }) => {
-  const { slug } = await params;
+  const { id } = await params;
 
   const [course, cart, user] = await Promise.all([
-    getCourseBySlug(slug),
+    getCourseById(id),
     getMyCart(),
     getCurrentLoggedUser(),
   ]);
@@ -45,12 +44,7 @@ const CourseDetailsPage = async ({
   return (
     <>
       <CourseTopSection course={course} user={user} cart={cart} />
-      <CourseDetails
-        course={course}
-        user={user}
-        searchParams={searchParams}
-        slug={slug}
-      />
+      <CourseDetails course={course} user={user} searchParams={searchParams} />
     </>
   );
 };

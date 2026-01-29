@@ -15,7 +15,6 @@ datasource db {
 
 model Course {
   id           String         @id @default(uuid())
-  slug         String         @unique
   title        String
   shortDesc    String
   description  String

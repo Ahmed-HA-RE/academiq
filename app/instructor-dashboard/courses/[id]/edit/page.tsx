@@ -1,5 +1,5 @@
 import CreateUpdateCourseForm from '@/app/components/instructor/courses/CreateUpdateCourseForm';
-import { getCourseBySlug } from '@/lib/actions/course/getCourses';
+import { getCourseById } from '@/lib/actions/course/getCourses';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 const EditCoursePage = async ({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ id: string }>;
 }) => {
-  const { slug } = await params;
+  const { id } = await params;
 
-  const course = await getCourseBySlug(slug);
+  const course = await getCourseById(id);
 
   if (!course) redirect('/instructor-dashboard/courses');
 

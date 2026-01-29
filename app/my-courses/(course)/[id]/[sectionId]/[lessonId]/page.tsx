@@ -31,9 +31,9 @@ export const generateMetadata = async ({
 const CourseLessonPage = async ({
   params,
 }: {
-  params: Promise<{ slug: string; sectionId: string; lessonId: string }>;
+  params: Promise<{ id: string; sectionId: string; lessonId: string }>;
 }) => {
-  const { slug, sectionId, lessonId } = await params;
+  const { id, sectionId, lessonId } = await params;
 
   const [{ lesson, nextLesson }, isCompleted, nextSection] = await Promise.all([
     getCourseLessonById(lessonId),
@@ -69,7 +69,7 @@ const CourseLessonPage = async ({
         <LessonVideoPlayer
           lessonId={lessonId}
           muxData={lesson.muxData}
-          slug={slug}
+          courseId={id}
           nextLesson={nextLesson}
           isCompleted={isCompleted}
         />
@@ -88,7 +88,7 @@ const CourseLessonPage = async ({
             <CompleteLessonBtn
               nextLesson={nextLesson}
               lessonId={lessonId}
-              slug={slug}
+              courseId={id}
               isCompleted={isCompleted}
               nextSection={nextSection}
             />

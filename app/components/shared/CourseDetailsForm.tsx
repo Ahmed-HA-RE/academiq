@@ -6,7 +6,6 @@ import { Controller, UseFormReturn } from 'react-hook-form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
-import slugify from 'slugify';
 import { Textarea } from '../ui/textarea';
 import Tiptap from '../RichTextEditor';
 import Image from 'next/image';
@@ -33,7 +32,6 @@ type CourseDetailsFormProps = {
 const CourseDetailsForm = ({ form }: CourseDetailsFormProps) => {
   const pathname = usePathname();
   const [isUpdatingImage, setIsUpdatingImage] = useState(false);
-  const isSlugged = form.watch('slug');
 
   return (
     <div className='space-y-6'>
@@ -64,48 +62,6 @@ const CourseDetailsForm = ({ form }: CourseDetailsFormProps) => {
                 className='input'
               />
               {fieldState.error && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-
-        {/* Slug */}
-        <Controller
-          name='slug'
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={!isSlugged && fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Course Slug</FieldLabel>
-              <div className='flex rounded-md shadow-xs'>
-                <Input
-                  id={field.name}
-                  type='text'
-                  placeholder='Course Slug'
-                  disabled
-                  className='-me-px rounded-r-none shadow-none focus-visible:z-1 input'
-                  aria-invalid={!isSlugged && fieldState.invalid}
-                  value={field.value}
-                />
-                <Button
-                  type='button'
-                  className='rounded-l-none cursor-pointer'
-                  onClick={() => {
-                    const title = form.getValues('title');
-                    const slug = slugify(title, {
-                      lower: true,
-                      strict: true,
-                    });
-                    form.setValue('slug', slug);
-                    if (title) {
-                      toast.success('Slug generated successfully');
-                    }
-                  }}
-                >
-                  Generate
-                </Button>
-              </div>
-              {!isSlugged && fieldState.error && (
-                <FieldError errors={[fieldState.error]} />
-              )}
             </Field>
           )}
         />

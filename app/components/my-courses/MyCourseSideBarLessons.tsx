@@ -8,10 +8,10 @@ import { usePathname } from 'next/navigation';
 const MyCourseSideBarLessons = ({
   lesson,
   sectionId,
-  slug,
+  id,
   lessonsProgress,
 }: {
-  slug: string;
+  id: string;
   sectionId: string;
   lesson: Omit<Lesson, 'muxData'>;
   lessonsProgress: {
@@ -32,7 +32,7 @@ const MyCourseSideBarLessons = ({
   return (
     <>
       <Link
-        href={`/my-courses/${slug}/${sectionId}/${lesson.id}`}
+        href={`/my-courses/${id}/${sectionId}/${lesson.id}`}
         key={lesson.id}
         className={cn(
           'flex items-center gap-8 hover:bg-gray-200 hover:dark:bg-muted px-3 py-2 transition',

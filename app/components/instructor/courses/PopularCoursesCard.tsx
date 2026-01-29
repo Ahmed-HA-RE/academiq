@@ -44,7 +44,7 @@ const PopularCoursesCard = async () => {
               <div className='flex items-center gap-2'>
                 <div className='max-w-[80px]'>
                   <Link
-                    href={`/instructor-dashboard/courses/${course.slug}/view`}
+                    href={`/instructor-dashboard/courses/${course.id}/view`}
                   >
                     <Image
                       src={course.image}

@@ -124,7 +124,7 @@ const columns: ColumnDef<Course & { studentsCount: number }>[] = [
       return (
         <span
           className={cn(
-            row.original.published ? 'text-green-600' : 'text-red-600'
+            row.original.published ? 'text-green-600' : 'text-red-600',
           )}
         >
           {row.original.published ? (
@@ -172,7 +172,7 @@ const CoursesDataTableDetails = ({
         .withOptions({ limitUrlUpdates: throttle(500) }),
       page: parseAsInteger.withDefault(1),
     },
-    { shallow: false }
+    { shallow: false },
   );
 
   const table = useReactTable({
@@ -260,7 +260,7 @@ const CoursesDataTableDetails = ({
                   >
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                   </TableHead>
                 );
@@ -350,16 +350,12 @@ export const RowActions = ({ course }: { course: Course }) => {
           <DropdownMenuContent align='start'>
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className='cursor-pointer'>
-                <Link
-                  href={`/instructor-dashboard/courses/${course.slug}/view`}
-                >
+                <Link href={`/instructor-dashboard/courses/${course.id}/view`}>
                   <span>View</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className='cursor-pointer' asChild>
-                <Link
-                  href={`/instructor-dashboard/courses/${course.slug}/edit`}
-                >
+                <Link href={`/instructor-dashboard/courses/${course.id}/edit`}>
                   Edit
                 </Link>
               </DropdownMenuItem>

@@ -108,7 +108,7 @@ const MyCoursesCard = async ({ course }: { course: MyCoursesCardType }) => {
             asChild
           >
             <Link
-              href={`/my-courses/${course.slug}/${course.sections[0].id}/${course.sections[0].lessons[0].id}`}
+              href={`/my-courses/${course.id}/${course.sections[0].id}/${course.sections[0].lessons[0].id}`}
             >
               {Number(userProgress.progress) === 0
                 ? 'Start Learning'

@@ -65,7 +65,7 @@ const InstructorViewCoursePageDetails = ({
           className='absolute top-4 right-4 cursor-pointer text-xs'
           asChild
         >
-          <Link href={`/instructor-dashboard/courses/${course.slug}/edit`}>
+          <Link href={`/instructor-dashboard/courses/${course.id}/edit`}>
             <PencilLine className='size-3' />
             Edit Course
           </Link>

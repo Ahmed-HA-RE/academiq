@@ -159,7 +159,7 @@ const CartDetails = ({
                     className='flex flex-col sm:flex-row justify-between border-t pt-7 pb-4 sm:items-center  gap-4 '
                   >
                     <Link
-                      href={`/course/${item.slug}`}
+                      href={`/course/${item.courseId}`}
                       className='flex flex-row items-center gap-4'
                     >
                       <div className='max-w-[100px]'>

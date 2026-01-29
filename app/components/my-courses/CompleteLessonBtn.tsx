@@ -17,13 +17,13 @@ import { Spinner } from '../ui/spinner';
 const CompleteLessonBtn = ({
   lessonId,
   nextLesson,
-  slug,
+  courseId,
   isCompleted,
   nextSection,
 }: {
   lessonId: string;
   nextLesson: Omit<Lesson, 'muxData'> | null;
-  slug: string;
+  courseId: string;
   isCompleted: boolean;
   nextSection: NestedOmit<Section, 'lessons.muxData'> | null;
 }) => {
@@ -45,11 +45,11 @@ const CompleteLessonBtn = ({
 
         if (nextLesson) {
           router.push(
-            `/my-courses/${slug}/${nextLesson.sectionId}/${nextLesson.id}`,
+            `/my-courses/${courseId}/${nextLesson.sectionId}/${nextLesson.id}`,
           );
         } else if (nextSection) {
           router.push(
-            `/my-courses/${slug}/${nextSection.id}/${nextSection.lessons[0].id}`,
+            `/my-courses/${courseId}/${nextSection.id}/${nextSection.lessons[0].id}`,
           );
         } else {
           setShowConfetti(true);

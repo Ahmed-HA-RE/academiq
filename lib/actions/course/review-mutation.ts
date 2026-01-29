@@ -43,7 +43,7 @@ export const createReview = async (courseId: string, data: CreateReview) => {
       data: validatedData.data,
     });
 
-    revalidatePath(`/course/${course.slug}`);
+    revalidatePath(`/course/${course.id}`);
     return { success: true, message: 'Review submitted successfully.' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
@@ -88,7 +88,7 @@ export const updateUserReview = async (
       data: validatedData.data,
     });
 
-    revalidatePath(`/course/${course.slug}`);
+    revalidatePath(`/course/${course.id}`);
     return { success: true, message: 'Review updated successfully.' };
   } catch (error) {
     return { success: false, message: (error as Error).message };

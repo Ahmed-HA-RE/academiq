@@ -72,14 +72,14 @@ export const getUserCourseProgress = async (courseId: string) => {
   return convertToPlainObject(progress);
 };
 
-export const getMyCourseBySlug = async (slug: string) => {
+export const getMyCourseById = async (id: string) => {
   const user = await getCurrentLoggedUser();
 
   if (!user) throw new Error('User not found');
 
-  const course = await prisma.course.findFirst({
+  const course = await prisma.course.findUnique({
     where: {
-      slug,
+      id,
     },
     include: {
       sections: {

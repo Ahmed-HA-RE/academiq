@@ -45,7 +45,6 @@ export const createCourse = async (data: CreateCourse) => {
           language: validatedData.data.language,
           prequisites: validatedData.data.prequisites,
           instructorId: validatedData.data.instructorId,
-          slug: validatedData.data.slug,
           published: validatedData.data.published,
           imageKey: validatedData.data.imageKey,
         },

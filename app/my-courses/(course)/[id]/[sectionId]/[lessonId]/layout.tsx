@@ -22,7 +22,7 @@ import {
   getCourseLessonsProgress,
 } from '@/lib/actions/my-course/course-content';
 import {
-  getMyCourseBySlug,
+  getMyCourseById,
   getUserCourseProgress,
 } from '@/lib/actions/my-course/getMyCourse';
 import { auth } from '@/lib/auth';
@@ -37,16 +37,16 @@ import { redirect } from 'next/navigation';
 import { CSSProperties } from 'react';
 
 type Props = {
-  params: Promise<{ slug: string; lessonId: string }>;
+  params: Promise<{ id: string; lessonId: string }>;
 };
 
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
-  const { slug, lessonId } = await params;
+  const { id, lessonId } = await params;
 
   const [course, { lesson }] = await Promise.all([
-    getMyCourseBySlug(slug),
+    getMyCourseById(id),
     getCourseLessonById(lessonId),
   ]);
 
@@ -79,7 +79,7 @@ export const generateMetadata = async ({
 
 type CourseLayoutProps = {
   children: React.ReactNode;
-  params: Promise<{ slug: string; sectionId: string; lessonId: string }>;
+  params: Promise<{ id: string; sectionId: string; lessonId: string }>;
 };
 
 const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
@@ -87,13 +87,13 @@ const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
     headers: await headers(),
   });
 
-  const { slug, sectionId } = await params;
+  const { id, sectionId } = await params;
 
-  if (!slug) {
+  if (!id) {
     return redirect('/my-courses');
   }
 
-  const course = await getMyCourseBySlug(slug);
+  const course = await getMyCourseById(id);
 
   if (!course) {
     return redirect('/my-courses');
@@ -194,7 +194,7 @@ const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
                           key={lesson.id}
                           lesson={lesson}
                           sectionId={section.id}
-                          slug={slug}
+                          id={id}
                           lessonsProgress={allLessonsProgress}
                         />
                       ))}

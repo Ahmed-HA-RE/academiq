@@ -31,7 +31,7 @@ const CourseCard = ({ course, cart, user }: CourseCardProps) => {
     >
       <Card className='hover:shadow-lg transition-shadow duration-300 ease-in-out pt-0 pb-4 overflow-hidden gap-2'>
         <CardHeader className='p-0'>
-          <Link href={`/course/${course.slug}`}>
+          <Link href={`/course/${course.id}`}>
             <Image
               src={course.image}
               alt={course.title}
@@ -48,7 +48,7 @@ const CourseCard = ({ course, cart, user }: CourseCardProps) => {
         <CardContent className='px-4'>
           <div className='flex flex-col gap-4'>
             {/* Course title */}
-            <Link href={`/course/${course.slug}`}>
+            <Link href={`/course/${course.id}`}>
               <h3 className='text-lg hover:text-blue-500 hover:dark:text-blue-400 transition duration-300'>
                 {course.title}
               </h3>
@@ -104,7 +104,7 @@ const CourseCard = ({ course, cart, user }: CourseCardProps) => {
             size={'default'}
             variant={'outline'}
           >
-            <Link href={`/course/${course.slug}`}>View Details</Link>
+            <Link href={`/course/${course.id}`}>View Details</Link>
           </Button>
           <CourseCardBtn course={course} cart={cart} user={user} />
         </CardFooter>

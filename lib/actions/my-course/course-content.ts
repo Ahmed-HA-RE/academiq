@@ -18,7 +18,7 @@ export const getCourseLessonById = async (lessonId: string) => {
           id: true,
           course: {
             select: {
-              slug: true,
+              id: true,
             },
           },
         },

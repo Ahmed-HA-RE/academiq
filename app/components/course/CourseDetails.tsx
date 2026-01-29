@@ -23,17 +23,15 @@ const CourseDetails = async ({
   course,
   user,
   searchParams,
-  slug,
 }: {
   course: Course & { sections: Section[] };
   user?: User;
   searchParams: Promise<SearchParams>;
-  slug: string;
 }) => {
   const { page } = await loadSearchParams(searchParams);
 
   const review = await getUserReview(course.id);
-  const { reviews, totalPages } = await getCourseReviews(slug, page);
+  const { reviews, totalPages } = await getCourseReviews(course.id, page);
   const avgReviewRating = await getAverageCourseRating(course.id);
 
   return (

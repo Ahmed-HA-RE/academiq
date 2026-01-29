@@ -143,7 +143,7 @@ const columns: ColumnDef<Course>[] = [
       return (
         <span
           className={cn(
-            row.original.published ? 'text-green-600' : 'text-red-600'
+            row.original.published ? 'text-green-600' : 'text-red-600',
           )}
         >
           {row.original.published ? (
@@ -191,7 +191,7 @@ const AdminCoursesDataTableDetails = ({
         .withOptions({ limitUrlUpdates: throttle(500) }),
       page: parseAsInteger.withDefault(1),
     },
-    { shallow: false }
+    { shallow: false },
   );
 
   const table = useReactTable({
@@ -279,7 +279,7 @@ const AdminCoursesDataTableDetails = ({
                   >
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                   </TableHead>
                 );
@@ -369,7 +369,7 @@ export const RowActions = ({ course }: { course: Course }) => {
           <DropdownMenuContent align='start'>
             <DropdownMenuGroup>
               <DropdownMenuItem className='cursor-pointer' asChild>
-                <Link href={`/admin-dashboard/courses/${course.slug}/edit`}>
+                <Link href={`/admin-dashboard/courses/${course.id}/edit`}>
                   Edit
                 </Link>
               </DropdownMenuItem>

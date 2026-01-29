@@ -136,10 +136,10 @@ export const getAllCourses = async ({
   return convertToPlainObject({ courses, totalPages });
 };
 
-// Get course by slug
-export const getCourseBySlug = async (slug: string) => {
+// Get course by id
+export const getCourseById = async (id: string) => {
   const course = await prisma.course.findUnique({
-    where: { slug, published: true },
+    where: { id, published: true },
     include: {
       _count: {
         select: {

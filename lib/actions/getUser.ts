@@ -21,7 +21,6 @@ export const getCurrentLoggedUser = async () => {
         select: {
           id: true,
           title: true,
-          slug: true,
           image: true,
         },
       },

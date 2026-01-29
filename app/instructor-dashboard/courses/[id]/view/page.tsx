@@ -1,5 +1,5 @@
 import InstructorViewCoursePageDetails from '@/app/components/instructor/InstructorViewCoursePageDetails';
-import { getCourseBySlug } from '@/lib/actions/course/getCourses';
+import { getCourseById } from '@/lib/actions/course/getCourses';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import {
@@ -18,9 +18,9 @@ export const metadata: Metadata = {
 const InstructorViewCoursePage = async ({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ id: string }>;
 }) => {
-  const { slug } = await params;
+  const { id } = await params;
 
   const [
     course,
@@ -29,11 +29,11 @@ const InstructorViewCoursePage = async ({
     notCompletedCourseCount,
     courseReviews,
   ] = await Promise.all([
-    getCourseBySlug(slug),
-    getTotalStudentsCompletedCourseForInstructor(slug),
-    getTotalStudentsNotStartedCourseForInstructor(slug),
-    getTotalStudentsUncompletedCourseForInstructor(slug),
-    getCourseReviews(slug, 1, 5),
+    getCourseById(id),
+    getTotalStudentsCompletedCourseForInstructor(id),
+    getTotalStudentsNotStartedCourseForInstructor(id),
+    getTotalStudentsUncompletedCourseForInstructor(id),
+    getCourseReviews(id, 1, 5),
   ]);
 
   if (!course) redirect('/instructor-dashboard/courses');

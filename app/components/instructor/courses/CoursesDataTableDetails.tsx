@@ -356,16 +356,12 @@ export const RowActions = ({
           <DropdownMenuContent align='start'>
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className='cursor-pointer'>
-                <Link
-                  href={`/instructor-dashboard/courses/${course.slug}/view`}
-                >
+                <Link href={`/instructor-dashboard/courses/${course.id}/view`}>
                   <span>View</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className='cursor-pointer' asChild>
-                <Link
-                  href={`/instructor-dashboard/courses/${course.slug}/edit`}
-                >
+                <Link href={`/instructor-dashboard/courses/${course.id}/edit`}>
                   Edit
                 </Link>
               </DropdownMenuItem>

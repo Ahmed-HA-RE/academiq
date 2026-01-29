@@ -65,7 +65,6 @@ const optionalPhoneSchema = z
 
 // Courses schema
 export const baseCourseSchema = z.object({
-  slug: z.string({ error: 'Invalid slug' }).min(1, 'Slug is required'),
   title: z.string({ error: 'Invalid title' }).min(1, 'Title is required'),
   shortDesc: z
     .string({ error: 'Invalid short description' })
@@ -206,9 +205,6 @@ export const cartItemsSchema = z.object({
   courseId: z
     .uuid({ error: 'Invalid course id' })
     .min(1, 'Course id is required'),
-  slug: z
-    .string({ error: 'Invalid course slug' })
-    .min(1, 'Course slug is required'),
   name: z
     .string({ error: 'Invalid course name' })
     .min(1, 'Course name is required'),

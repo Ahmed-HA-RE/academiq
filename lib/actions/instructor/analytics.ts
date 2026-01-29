@@ -399,7 +399,7 @@ export const getEnrolledStudentsForInstructor = async ({
 
 // Get total count of students who finished course for instructor
 export const getTotalStudentsCompletedCourseForInstructor = async (
-  courseSlug: string,
+  courseId: string,
 ) => {
   const instructor = await getCurrentLoggedInInstructor();
 
@@ -408,7 +408,7 @@ export const getTotalStudentsCompletedCourseForInstructor = async (
       progress: 100,
       course: {
         instructorId: instructor.id,
-        slug: courseSlug,
+        id: courseId,
       },
     },
   });
@@ -418,7 +418,7 @@ export const getTotalStudentsCompletedCourseForInstructor = async (
 
 // Get total count of students who haven't finished course for instructor
 export const getTotalStudentsUncompletedCourseForInstructor = async (
-  courseSlug: string,
+  courseId: string,
 ) => {
   const instructor = await getCurrentLoggedInInstructor();
 
@@ -427,7 +427,7 @@ export const getTotalStudentsUncompletedCourseForInstructor = async (
       progress: { lt: 100, gt: 0 },
       course: {
         instructorId: instructor.id,
-        slug: courseSlug,
+        id: courseId,
       },
     },
   });
@@ -436,7 +436,7 @@ export const getTotalStudentsUncompletedCourseForInstructor = async (
 };
 // Get total count of students who haven't started course for instructor
 export const getTotalStudentsNotStartedCourseForInstructor = async (
-  courseSlug: string,
+  courseId: string,
 ) => {
   const instructor = await getCurrentLoggedInInstructor();
 
@@ -445,7 +445,7 @@ export const getTotalStudentsNotStartedCourseForInstructor = async (
       progress: { equals: 0 },
       course: {
         instructorId: instructor.id,
-        slug: courseSlug,
+        id: courseId,
       },
     },
   });

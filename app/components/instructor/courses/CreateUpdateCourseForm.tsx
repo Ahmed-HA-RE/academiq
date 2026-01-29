@@ -55,7 +55,6 @@ const CreateCourseForm = ({
           description: '',
           price: '',
           image: '',
-          slug: '',
           language: '',
           difficulty: '',
           prequisites: '',

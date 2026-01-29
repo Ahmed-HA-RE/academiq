@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 type LessonVideoPlayerProps = {
   lessonId: string;
   muxData: MuxData;
-  slug: string;
+  courseId: string;
   nextLesson: Omit<Lesson, 'muxData'> | null;
   isCompleted: boolean;
 };
@@ -20,7 +20,7 @@ type LessonVideoPlayerProps = {
 const LessonVideoPlayer = ({
   lessonId,
   muxData,
-  slug,
+  courseId,
   nextLesson,
   isCompleted,
 }: LessonVideoPlayerProps) => {
@@ -40,7 +40,7 @@ const LessonVideoPlayer = ({
     setShowConfetti(true);
     if (nextLesson) {
       router.push(
-        `/my-courses/${slug}/${nextLesson.sectionId}/${nextLesson.id}`,
+        `/my-courses/${courseId}/${nextLesson.sectionId}/${nextLesson.id}`,
       );
     } else {
       setShowConfetti(true);

@@ -33,7 +33,7 @@ const CourseCardBtn = ({
   const isCourseOwnedToInstructor =
     user && user.role === 'instructor' && course.instructor?.userId === user.id;
 
-  const isCourseDetailsPage = pathname.includes(`/course/${course.slug}`);
+  const isCourseDetailsPage = pathname.includes(`/course/${course.id}`);
 
   const handleAddToCart = async () => {
     if (!user) {
@@ -45,7 +45,6 @@ const CourseCardBtn = ({
           image: course.image,
           name: course.title,
           price: course.price,
-          slug: course.slug,
         });
 
         if (!res.success) {
@@ -98,7 +97,7 @@ const CourseCardBtn = ({
       variant={'default'}
       asChild
     >
-      <Link href={`/instructor-dashboard/courses/${course.slug}/edit`}>
+      <Link href={`/instructor-dashboard/courses/${course.id}/edit`}>
         Edit Course
       </Link>
     </Button>

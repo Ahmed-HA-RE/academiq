@@ -55,7 +55,6 @@ export type Course = z.infer<typeof baseCourseSchema> & {
 
 export type CourseCardType = Omit<Course, 'sections'> & {
   id: string;
-  slug: string;
   createdAt: Date;
   updatedAt: Date;
   instructor: Omit<Instructor, 'socialLinks'>;
@@ -136,7 +135,7 @@ export type User = {
   banned: boolean;
   createdAt: Date;
   updatedAt: Date;
-  courses?: Pick<Course, 'id' | 'title' | 'slug' | 'image'>[];
+  courses?: Pick<Course, 'id' | 'title' | 'image'>[];
 };
 
 export type InstructorApplication = {

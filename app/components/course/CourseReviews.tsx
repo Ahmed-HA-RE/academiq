@@ -291,7 +291,7 @@ const CourseReviews = ({
                     asChild
                   >
                     <Link
-                      href={`/login?callbackUrl=${SERVER_URL}/course/${course.slug}`}
+                      href={`/login?callbackUrl=${SERVER_URL}/course/${course.id}`}
                     >
                       Write a Review
                     </Link>
