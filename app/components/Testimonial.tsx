@@ -95,13 +95,7 @@ const Testimonial = () => {
           transition={{ duration: 0.6 }}
         >
           <div className='space-y-10'>
-            <Carousel
-              opts={{
-                align: 'start',
-                loop: true,
-              }}
-              setApi={setApi}
-            >
+            <Carousel setApi={setApi}>
               <CarouselContent className='sm:-ml-6'>
                 {testimonials.map((testimonial, index) => (
                   <CarouselItem key={index} className='sm:pl-6 lg:basis-1/2'>
@@ -163,7 +157,7 @@ const Testimonial = () => {
                   key={index}
                   className={cn(
                     'size-2.5 cursor-pointer rounded-full transition-colors',
-                    index === current ? 'bg-primary' : 'bg-primary/20'
+                    index === current ? 'bg-primary' : 'bg-primary/20',
                   )}
                   onClick={() => api?.scrollTo(index)}
                   aria-label={`Go to slide ${index + 1}`}

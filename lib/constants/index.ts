@@ -108,6 +108,17 @@ export const testimonials = [
     image:
       'https://res.cloudinary.com/ahmed--dev/image/upload/v1765127342/review-1_dm5bue.jpg',
   },
+  {
+    name: 'Michael Roberts',
+    title: 'Support that actually helps',
+    description:
+      "The support experience is excellent. Questions are handled quickly, guidance feels thoughtful rather than generic, and the group chat support is also top notch. It makes a real difference when you're learning and building at the same time.",
+    rating: 4.8,
+    role: 'Product Manager',
+    company: 'Slack',
+    image:
+      'https://res.cloudinary.com/ahmed--dev/image/upload/v1764700356/avatars/jc5t8yphb1crsomdpyo2.jpg',
+  },
 ];
 
 export const checklist = [

@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { loginUser, signInWithProviders } from '@/lib/actions/auth';
 import ScreenSpinner from '../ScreenSpinner';
 import { FcGoogle } from 'react-icons/fc';
+import { FaGithub } from 'react-icons/fa';
 
 const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -44,7 +45,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
     router.push(callbackUrl);
   };
 
-  const handleSocialSignIn = async (provider: 'google') => {
+  const handleSocialSignIn = async (provider: 'google' | 'github') => {
     startTransition(async () => {
       const res = await signInWithProviders(provider, callbackUrl);
       if (res && res.success) {
@@ -57,7 +58,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
     <>
       {isPending && <ScreenSpinner mutate={true} text='Processing...' />}
       <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
-        <div className='mb-4 flex items-center'>
+        <div className='mb-4 flex flex-col items-center gap-3'>
           <Button
             className='bg-transparent border text-black dark:text-white text-base hover:dark:border-white/70 hover:border-black/50 hover:bg-0 cursor-pointer w-full'
             type='button'
@@ -67,6 +68,16 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
               <FcGoogle aria-hidden='true' />
             </span>
             Login with Google
+          </Button>
+          <Button
+            className='bg-transparent border text-black dark:text-white text-base hover:dark:border-white/70 hover:border-black/50 hover:bg-0 cursor-pointer w-full'
+            type='button'
+            onClick={() => handleSocialSignIn('github')}
+          >
+            <span className=''>
+              <FaGithub aria-hidden='true' />
+            </span>
+            Login with Github
           </Button>
         </div>
         <FieldGroup className='gap-5'>

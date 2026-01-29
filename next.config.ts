@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   images: {
     remotePatterns: [
+      // Cloudinary
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
@@ -16,14 +17,22 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.shadcnstudio.com',
         port: '',
       },
+      // Google Avatar
       {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
         port: '',
       },
+      // Uploadthing
       {
         protocol: 'https',
         hostname: '**.ufs.sh',
+        port: '',
+      },
+      // GitHub Avatar
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
         port: '',
       },
     ],

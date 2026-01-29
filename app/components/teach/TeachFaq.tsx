@@ -74,7 +74,7 @@ const TeachFaq = () => {
           <p className='text-muted-foreground'>
             Didn&apos;t find the answer you are looking for?{' '}
             <Link
-              href='/contact-us'
+              href='/contact'
               className='text-foreground font-semibold hover:underline'
             >
               Contact our support

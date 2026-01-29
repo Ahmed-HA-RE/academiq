@@ -4,6 +4,7 @@ import Features from '../../components/Features';
 import HeroSection from '../../components/HeroSection';
 import Testimonial from '../../components/Testimonial';
 import LogoCloud from '@/app/components/LogoCloud';
+import AboutIntro from '@/app/components/about-intro';
 
 const HomePage = async () => {
   return (
@@ -12,6 +13,7 @@ const HomePage = async () => {
       <Features />
       <LearningOutcomes />
       <LogoCloud />
+      <AboutIntro />
       <Testimonial />
       <CTA />
     </>

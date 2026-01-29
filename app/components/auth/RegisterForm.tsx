@@ -17,6 +17,7 @@ import { Separator } from '../ui/separator';
 import { FcGoogle } from 'react-icons/fc';
 import { useTransition } from 'react';
 import ScreenSpinner from '../ScreenSpinner';
+import { FaGithub } from 'react-icons/fa';
 
 const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
   const router = useRouter();
@@ -44,7 +45,7 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
     setTimeout(() => router.push(`${SERVER_URL}/verify-email`), 1500);
   };
 
-  const handleSocialSignIn = async (provider: 'google') => {
+  const handleSocialSignIn = async (provider: 'google' | 'github') => {
     startTransition(async () => {
       const res = await signInWithProviders(provider, callbackUrl);
       if (res && res.success) {
@@ -57,7 +58,7 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
     <>
       {isPending && <ScreenSpinner mutate={true} text='Processing...' />}
       <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
-        <div className='mb-4 flex items-center'>
+        <div className='mb-2 flex flex-col items-center gap-3'>
           <Button
             className='bg-transparent border text-black dark:text-white text-base hover:dark:border-white/70 hover:border-black/50 hover:bg-0 cursor-pointer w-full'
             type='button'
@@ -67,6 +68,16 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
               <FcGoogle aria-hidden='true' />
             </span>
             Login with Google
+          </Button>
+          <Button
+            className='bg-transparent border text-black dark:text-white text-base hover:dark:border-white/70 hover:border-black/50 hover:bg-0 cursor-pointer w-full'
+            type='button'
+            onClick={() => handleSocialSignIn('github')}
+          >
+            <span className=''>
+              <FaGithub aria-hidden='true' />
+            </span>
+            Login with Github
           </Button>
         </div>
 

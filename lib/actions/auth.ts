@@ -166,8 +166,8 @@ export const sendPasswordResetLink = async (email: string) => {
 };
 
 export const signInWithProviders = async (
-  provider: 'google',
-  callbackURL: string
+  provider: 'google' | 'github',
+  callbackURL: string,
 ) => {
   const result = await auth.api.signInSocial({
     body: {

@@ -8,6 +8,7 @@ import { headers } from 'next/headers';
 import { convertToPlainObject } from '../utils';
 import { revalidatePath } from 'next/cache';
 import { getCurrentLoggedUser } from './getUser';
+import ratelimit from '../redis';
 
 const calculatePrices = (cartItems: CartItems[]) => {
   const itemsPrice = cartItems.reduce((acc, c) => acc + Number(c.price), 0);
@@ -25,7 +26,14 @@ export const addToCart = async (data: CartItems) => {
   try {
     const user = await getCurrentLoggedUser();
 
+    if (!user)
+      throw new Error('You must be logged in to add items to the cart');
+
     const validateData = cartItemsSchema.safeParse(data);
+
+    // Prevent spamming multiple requests at the same time
+    const { success } = await ratelimit.limit(user.id);
+    if (!success) throw new Error('Please wait a moment before trying again.');
 
     const cart = await getMyCart();
 
@@ -150,6 +158,15 @@ export const getMyCart = async () => {
 
 export const removeFromCart = async (courseId: string) => {
   try {
+    const user = await getCurrentLoggedUser();
+
+    if (!user)
+      throw new Error('You must be logged in to remove items from the cart');
+
+    // Prevent spamming multiple requests at the same time
+    const { success } = await ratelimit.limit(user.id);
+    if (!success) throw new Error('Please wait a moment before trying again.');
+
     const course = await prisma.course.findFirst({
       where: { id: courseId },
     });
