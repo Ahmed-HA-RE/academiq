@@ -161,7 +161,7 @@ const AboutIntro = () => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                src='/images/about-intro-section.jpg'
+                src='/images/about/about-intro-section.jpg'
                 alt='About us illustration'
                 className='w-full'
               />

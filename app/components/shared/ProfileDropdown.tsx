@@ -26,7 +26,7 @@ import { auth } from '@/lib/auth';
 import { Suspense } from 'react';
 import Image from 'next/image';
 import { logoutUser } from '@/lib/actions/auth';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { usePathname, useRouter } from 'next/navigation';
 
 const ProfileDropdown = ({

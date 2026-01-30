@@ -5,7 +5,7 @@ import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { Textarea } from '../ui/textarea';
 import Tiptap from '../RichTextEditor';
 import Image from 'next/image';

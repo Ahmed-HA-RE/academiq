@@ -2,7 +2,7 @@
 import { useForm, Controller } from 'react-hook-form';
 import { FieldGroup, Field, FieldError, FieldLabel } from '../ui/field';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { Spinner } from '../ui/spinner';
 import { useRouter } from 'next/navigation';
 import { resetPasswordSchema } from '@/schema';
@@ -31,7 +31,7 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
     toast.success('Password reset successfully');
     setTimeout(() => router.push('/login'), 1500);
 
-    if (error) {
+    if (error && error.message) {
       toast.error(error.message);
       return;
     }

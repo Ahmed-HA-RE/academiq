@@ -13,7 +13,7 @@ import Image from 'next/image';
 import DeleteDialog from '@/app/components/shared/DeleteDialog';
 import { removeFromCart } from '@/lib/actions/cart';
 import { applyDiscount } from '@/lib/actions/discount';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { Alert, AlertDescription } from '@/app/components/ui/alert';
 import { TriangleAlertIcon } from 'lucide-react';
 import Link from 'next/link';

@@ -43,7 +43,7 @@ import { cn, formatDate } from '@/lib/utils';
 import { Input } from '../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../shared/DeleteDialog';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import ScreenSpinner from '../ScreenSpinner';
 import DataPagination from '../shared/Pagination';
@@ -150,7 +150,7 @@ const columns: ColumnDef<User>[] = [
             'rounded-full text-xs  border-none capitalize focus-visible:outline-none',
             status === 'verified'
               ? 'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400'
-              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive'
+              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive',
           )}
         >
           {row.getValue('emailVerified') ? 'verified' : 'unverified'}
@@ -182,7 +182,7 @@ const AdminDataTable = ({ adminUsers, totalPages }: AdminDataTableProps) => {
         .withOptions({ limitUrlUpdates: throttle(500) }),
       page: parseAsInteger.withDefault(1),
     },
-    { shallow: false }
+    { shallow: false },
   );
 
   const [selectUsers, setSelectUsers] = useState({});
@@ -248,7 +248,7 @@ const AdminDataTable = ({ adminUsers, totalPages }: AdminDataTableProps) => {
                   >
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                   </TableHead>
                 );

@@ -23,7 +23,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/components/ui/dropdown-menu';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { logoutUser } from '@/lib/actions/auth';
 import { Suspense, useState } from 'react';
 import { useRouter } from 'next/navigation';

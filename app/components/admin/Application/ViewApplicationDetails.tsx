@@ -24,7 +24,7 @@ import Image from 'next/image';
 import { Suspense, useTransition } from 'react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { InstructorApplication } from '@/types';
 import ScreenSpinner from '../../ScreenSpinner';
 import Stripe from 'stripe';

@@ -39,7 +39,7 @@ import {
   createReview,
   updateUserReview,
 } from '@/lib/actions/course/review-mutation';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { Spinner } from '../ui/spinner';
 import { useState } from 'react';
 import { Alert, AlertTitle } from '../ui/alert';

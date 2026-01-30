@@ -34,7 +34,7 @@ import { cn, formatId } from '@/lib/utils';
 import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../../shared/DeleteDialog';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import DataPagination from '../../shared/Pagination';
 import { format } from 'date-fns';
@@ -126,7 +126,7 @@ const columns: ColumnDef<InstructorApplication>[] = [
               ? 'bg-destructive/10 text-destructive'
               : status === 'approved'
                 ? 'bg-green-600/10 text-green-600'
-                : 'bg-amber-600/10 text-amber-600'
+                : 'bg-amber-600/10 text-amber-600',
           )}
         >
           <span
@@ -136,7 +136,7 @@ const columns: ColumnDef<InstructorApplication>[] = [
                 ? 'bg-destructive'
                 : status === 'approved'
                   ? 'bg-green-600'
-                  : 'bg-amber-600'
+                  : 'bg-amber-600',
             )}
             aria-hidden='true'
           />
@@ -175,7 +175,7 @@ const ApplicationDataTable = ({
         .withOptions({ limitUrlUpdates: throttle(500) }),
       page: parseAsInteger.withDefault(1),
     },
-    { shallow: false }
+    { shallow: false },
   );
 
   const [selectApplications, setSelectApplications] = useState({});
@@ -288,7 +288,7 @@ const ApplicationDataTable = ({
                     >
                       {flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                     </TableHead>
                   );
@@ -311,7 +311,7 @@ const ApplicationDataTable = ({
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

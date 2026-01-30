@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { VerifyOTPFormData } from '@/types';
 import { Field, FieldError } from '../ui/field';
 import { sendEmailVerificationOTP, verifyEmail } from '@/lib/actions/auth';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import ScreenSpinner from '../ScreenSpinner';
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';

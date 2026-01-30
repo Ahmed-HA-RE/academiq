@@ -52,7 +52,7 @@ import {
   deleteDiscountById,
   deleteMultipleDiscounts,
 } from '@/lib/actions/discount';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import DataPagination from '../../shared/Pagination';
 import DeleteDialog from '../../shared/DeleteDialog';
@@ -140,7 +140,7 @@ const columns: ColumnDef<Discount>[] = [
             'rounded-sm border-none capitalize focus-visible:outline-none',
             row.original.validUntil > new Date()
               ? 'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400 dark:focus-visible:ring-green-400/40 [a&]:hover:bg-green-600/5 dark:[a&]:hover:bg-green-400/5'
-              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive'
+              : 'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive',
           )}
         >
           {row.original.validUntil > new Date() ? 'active' : 'expired'}
@@ -196,12 +196,12 @@ const DiscountsDataTable = ({
         limitUrlUpdates: throttle(500),
       }),
       type: parseAsStringLiteral(['percentage', 'fixed', 'all']).withDefault(
-        'all'
+        'all',
       ),
       expiry: parseAsString.withDefault(''),
       limit: parseAsInteger.withDefault(10),
     },
-    { shallow: false }
+    { shallow: false },
   );
 
   const exportToCSV = () => {
@@ -223,7 +223,7 @@ const DiscountsDataTable = ({
     link.setAttribute('href', url);
     link.setAttribute(
       'download',
-      `payments-export-${new Date().toISOString().split('T')[0]}.csv`
+      `payments-export-${new Date().toISOString().split('T')[0]}.csv`,
     );
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
@@ -256,7 +256,7 @@ const DiscountsDataTable = ({
 
     XLSX.writeFile(
       workbook,
-      `discounts-export-${new Date().toISOString().split('T')[0]}.xlsx`
+      `discounts-export-${new Date().toISOString().split('T')[0]}.xlsx`,
     );
   };
 
@@ -276,7 +276,7 @@ const DiscountsDataTable = ({
     link.setAttribute('href', url);
     link.setAttribute(
       'download',
-      `discounts-export-${new Date().toISOString().split('T')[0]}.json`
+      `discounts-export-${new Date().toISOString().split('T')[0]}.json`,
     );
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
@@ -444,7 +444,7 @@ const DiscountsDataTable = ({
                     >
                       {flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                     </TableHead>
                   );
@@ -467,7 +467,7 @@ const DiscountsDataTable = ({
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

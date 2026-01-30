@@ -8,7 +8,7 @@ import {
   markLessonAsComplete,
   markLessonAsIncomplete,
 } from '@/lib/actions/my-course/mutate-lesson';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { useTransition } from 'react';
 import { cn, NestedOmit } from '@/lib/utils';
 import useConfettiStore from '@/store/confetti-store';

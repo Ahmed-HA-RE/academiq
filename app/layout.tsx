@@ -3,9 +3,8 @@ import { Outfit } from 'next/font/google';
 import './globals.css';
 import { APP_NAME, SERVER_URL } from '@/lib/constants';
 import { ThemeProvider } from './components/ui/theme-provider';
-import { Toaster } from 'sonner';
+import { Toaster } from 'react-hot-toast';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
-import { CircleCheckBig, CircleX } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const outfit = Outfit({
@@ -45,13 +44,14 @@ const RootLayout = ({
           disableTransitionOnChange
         >
           <NuqsAdapter>{children}</NuqsAdapter>
-          <Toaster
+          {/* <Toaster
             position='top-right'
             icons={{
               success: <CircleCheckBig className='text-emerald-500 size-4.5' />,
               error: <CircleX className='text-red-500 size-4.5' />,
             }}
-          />
+          /> */}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

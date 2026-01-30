@@ -3,7 +3,7 @@
 import { UpdateUserAsAdmin, User } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { Spinner } from '../../ui/spinner';
 import { updateUserAsAdminSchema } from '@/schema';
 import { FieldGroup, FieldError, Field, FieldLabel } from '../../ui/field';

@@ -28,7 +28,7 @@ import { Order } from '@/types';
 import { cn, formatDate, formatId } from '@/lib/utils';
 import Link from 'next/link';
 import { createRefund, deleteOrderByIdAsAdmin } from '@/lib/actions/order';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import DeleteDialog from '../../shared/DeleteDialog';
 import DataPagination from '../../shared/Pagination';
 import { Input } from '../../ui/input';

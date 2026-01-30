@@ -1,7 +1,7 @@
 'use client';
 
 import { createApplicationSchema } from '@/schema';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { Spinner } from '../ui/spinner';
 import { PhoneInput } from '../ui/phone-input';
 import { useForm, Controller } from 'react-hook-form';
@@ -83,7 +83,7 @@ const ApplicationForm = ({
                     label: 'Select categories',
                   }}
                   value={TEACHING_CATEGORIESMULTISELECT.filter((option) =>
-                    field.value.includes(option.value)
+                    field.value.includes(option.value),
                   )}
                   onChange={(options) =>
                     field.onChange(options.map((opt) => opt.value))

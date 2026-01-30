@@ -53,7 +53,7 @@ import { cn, formatDate } from '@/lib/utils';
 import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../../shared/DeleteDialog';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import ScreenSpinner from '../../ScreenSpinner';
 import DataPagination from '../../shared/Pagination';

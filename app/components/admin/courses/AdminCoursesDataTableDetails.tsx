@@ -49,7 +49,7 @@ import {
 } from '@/app/components/ui/tooltip';
 import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import ScreenSpinner from '../../ScreenSpinner';
 import DataPagination from '../../shared/Pagination';

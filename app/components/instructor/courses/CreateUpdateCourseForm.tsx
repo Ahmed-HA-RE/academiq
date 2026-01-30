@@ -9,7 +9,7 @@ import {
   Section,
   User,
 } from '../../../../types';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { FieldLegend, FieldSet } from '../../ui/field';
 import { Button } from '../../ui/button';

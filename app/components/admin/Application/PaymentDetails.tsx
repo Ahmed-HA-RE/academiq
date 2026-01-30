@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Button } from '../../ui/button';
 import { notifyApplicant } from '@/lib/actions/stripe.action';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { cn } from '@/lib/utils';
 import Stripe from 'stripe';
 import { InstructorApplication } from '@/types';

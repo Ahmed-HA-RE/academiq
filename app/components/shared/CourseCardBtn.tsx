@@ -5,7 +5,7 @@ import { useTransition } from 'react';
 import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
 import { addToCart, removeFromCart } from '@/lib/actions/cart';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { usePathname, useRouter } from 'next/navigation';
 import { SERVER_URL } from '@/lib/constants';
 import Link from 'next/link';

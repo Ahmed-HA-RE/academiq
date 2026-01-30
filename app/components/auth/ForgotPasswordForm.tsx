@@ -2,7 +2,7 @@
 import { useForm, Controller } from 'react-hook-form';
 import { FieldGroup, Field, FieldError, FieldLabel } from '../ui/field';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { Spinner } from '../ui/spinner';
 import { useRouter } from 'next/navigation';
 import { forgotPasswordSchema } from '@/schema';

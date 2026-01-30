@@ -6,7 +6,7 @@ import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Spinner } from '../ui/spinner';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { RegisterFormData } from '@/types';
 import { registerSchema } from '@/schema';

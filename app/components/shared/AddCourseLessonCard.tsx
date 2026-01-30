@@ -13,7 +13,7 @@ import MuxPlayer from '@mux/mux-player-react';
 import { UploadDropzone } from '@/lib/uploadthing';
 import { Alert, AlertTitle } from '../ui/alert';
 import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from '@dnd-kit/sortable';
 import { useState } from 'react';

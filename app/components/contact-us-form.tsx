@@ -9,7 +9,7 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
 import { contactUs } from '@/lib/actions/contact/contact-us';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { Spinner } from './ui/spinner';
 
 const ContactUsForm = ({ user }: { user: User | undefined }) => {

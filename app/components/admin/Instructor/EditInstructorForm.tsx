@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Instructor, InstructorFormData } from '@/types';
 import { instructorUpdateSchema } from '@/schema';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { Card, CardContent } from '../../ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '../../ui/field';
 import { Input } from '../../ui/input';

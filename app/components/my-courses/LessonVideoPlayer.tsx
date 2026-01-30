@@ -7,7 +7,7 @@ import { Lesson } from '@/types';
 
 import MuxPlayer from '@mux/mux-player-react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 
 type LessonVideoPlayerProps = {
   lessonId: string;

@@ -2,7 +2,7 @@
 import { Controller, useForm } from 'react-hook-form';
 import { CreateDiscount } from '@/types';
 import { discountSchema } from '@/schema';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Field,
