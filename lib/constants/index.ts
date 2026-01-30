@@ -253,7 +253,7 @@ export const CONTACT_US_FEATURES = [
       'Our team is here to provide you with tailored assistance that meets your unique needs.',
   },
   {
-    title: 'Fast &Friendly Support',
+    title: 'Fast & Friendly Support',
     description:
       'We pride ourselves on delivering quick and friendly support to ensure your satisfaction.',
   },
@@ -261,5 +261,32 @@ export const CONTACT_US_FEATURES = [
     title: 'Expert Guidance',
     description:
       'Our knowledgeable team is ready to offer expert guidance to help you navigate any challenges.',
+  },
+];
+
+export const OUR_TEAM = [
+  {
+    image: '/images/team/ceo.jpg',
+    alt: 'Alex Johnson',
+    name: 'Alex Johnson',
+    role: 'CEO & Founder',
+    description:
+      'Founded Academiq to simplify learning and connect instructors worldwide through an accessible, affordable LMS.',
+  },
+  {
+    image: '/images/team/head-of-learning-experience.jpg',
+    alt: 'Rami Al-Haddad',
+    name: 'Yazan Al-Haddad',
+    role: 'Payments & Security Engineering',
+    description:
+      'Builds and maintains secure payment systems, billing flows, and data protection across the platform.',
+  },
+  {
+    image: '/images/team/head-of-instructor-success.jpg',
+    alt: 'Khaled Al-Najjar',
+    name: 'Khaled Al-Najjar',
+    role: 'Instructor Publishing Tools',
+    description:
+      'Develops the tools and workflows instructors use to upload, manage, and publish their own courses on Academiq.',
   },
 ];

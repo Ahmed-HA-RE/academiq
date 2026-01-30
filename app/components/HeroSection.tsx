@@ -8,10 +8,10 @@ import { getCoursesWithStudents } from '@/lib/actions/course/getCourses';
 import { getInstructorsCount } from '@/lib/actions/instructor/getInstructor';
 
 const HeroSection = async () => {
-  const [coursesCount, studentsCount, instructorsCount] = await Promise.all([
+  const [coursesCount] = await Promise.all([
     getTotalCoursesCount(),
-    getCoursesWithStudents(),
-    getInstructorsCount(),
+    // getCoursesWithStudents(), // for testing purposes will only use static numbers
+    // getInstructorsCount(), // for testing purposes will only use static numbers
   ]);
 
   return (
@@ -79,13 +79,11 @@ const HeroSection = async () => {
                 <span className='text-muted-foreground'>Courses</span>
               </div>
               <div className='flex flex-col'>
-                <span className='text-2xl font-medium'>{studentsCount}+</span>
+                <span className='text-2xl font-medium'>5k+</span>
                 <span className='text-muted-foreground'>Students</span>
               </div>
               <div className='flex flex-col'>
-                <span className='text-2xl font-medium'>
-                  {instructorsCount}+
-                </span>
+                <span className='text-2xl font-medium'>50+</span>
                 <span className='text-muted-foreground'>Instructors</span>
               </div>
             </MotionPreset>

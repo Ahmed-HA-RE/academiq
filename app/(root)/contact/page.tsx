@@ -1,7 +1,13 @@
 import ContactUsForm from '@/app/components/contact-us-form';
 import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import { CONTACT_US_FEATURES } from '@/lib/constants';
+import { Metadata } from 'next';
 import { FaCircleCheck } from 'react-icons/fa6';
+
+export const metadata: Metadata = {
+  title: 'Contact Us',
+  description: 'Get in touch with our team for any inquiries or support.',
+};
 
 const ContactPage = async () => {
   const user = await getCurrentLoggedUser();

@@ -22,11 +22,11 @@ const Header = async () => {
 
   const baseNavigationMenu = [
     { href: '/courses', title: 'Courses' },
-    { href: '/prices', title: 'Prices' },
-    { href: '/about', title: 'About' },
     ...(session?.user && session.user.role === 'instructor'
       ? []
       : [{ href: '/teach', title: 'Become an Instructor' }]),
+    { href: '/prices', title: 'Prices' },
+    { href: '/about', title: 'About' },
     { href: '/contact', title: 'Contact' },
   ];
 
@@ -34,7 +34,7 @@ const Header = async () => {
     <>
       {discount && <CouponBanner discount={discount} />}
       <header className='border-b'>
-        <div className='mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-4 lg:px-6 h-17.5'>
+        <div className='mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 lg:px-6 h-17.5'>
           <div className='flex items-center lg:gap-10'>
             <MenuSheet navigationData={baseNavigationMenu} />
             <Link className='flex flex-row items-center gap-1' href='/'>

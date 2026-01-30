@@ -4,7 +4,9 @@ import Features from '../../components/Features';
 import HeroSection from '../../components/HeroSection';
 import Testimonial from '../../components/Testimonial';
 import LogoCloud from '@/app/components/LogoCloud';
-import AboutIntro from '@/app/components/about-intro';
+import AboutIntro from '@/app/components/about/about-intro';
+
+export const dynamic = 'force-static';
 
 const HomePage = async () => {
   return (
