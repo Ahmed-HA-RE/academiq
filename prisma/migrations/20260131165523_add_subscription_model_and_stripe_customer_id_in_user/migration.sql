@@ -1,0 +1,23 @@
+-- AlterTable
+ALTER TABLE "user" ADD COLUMN     "stripeCustomerId" TEXT;
+
+-- CreateTable
+CREATE TABLE "Subscription" (
+    "id" TEXT NOT NULL,
+    "plan" TEXT NOT NULL,
+    "referenceId" TEXT NOT NULL,
+    "stripeCustomerId" TEXT,
+    "stripeSubscriptionId" TEXT,
+    "status" TEXT NOT NULL,
+    "periodStart" TIMESTAMP(3),
+    "periodEnd" TIMESTAMP(3),
+    "cancelAtPeriodEnd" BOOLEAN,
+    "cancelAt" TIMESTAMP(3),
+    "canceledAt" TIMESTAMP(3),
+    "endedAt" TIMESTAMP(3),
+    "seats" INTEGER,
+    "trialStart" TIMESTAMP(3),
+    "trialEnd" TIMESTAMP(3),
+
+    CONSTRAINT "Subscription_pkey" PRIMARY KEY ("id")
+);
