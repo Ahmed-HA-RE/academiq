@@ -29,7 +29,7 @@ const EditInstructorForm = ({
 }: {
   instructor: Instructor;
   type: 'admin' | 'instructor';
-  providerId: string;
+  providerId: string | null;
 }) => {
   const router = useRouter();
   const pathname = usePathname();

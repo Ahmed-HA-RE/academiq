@@ -1,6 +1,7 @@
 import EditInstructorForm from '@/app/components/admin/Instructor/EditInstructorForm';
+import { getUserProviderId } from '@/lib/actions/auth';
 import { getInstructorByIdAsAdmin } from '@/lib/actions/instructor/getInstructor';
-import { getUserProviderId } from '@/lib/auth';
+
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

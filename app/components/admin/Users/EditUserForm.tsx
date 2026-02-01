@@ -30,7 +30,7 @@ const EditUserForm = ({
   providerId,
 }: {
   user: User;
-  providerId: string;
+  providerId: string | null;
 }) => {
   const router = useRouter();
 

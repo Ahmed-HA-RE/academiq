@@ -12,6 +12,8 @@ import { headers } from 'next/headers';
 import { APIError } from 'better-auth';
 import { SERVER_URL } from '../constants';
 import { cookies } from 'next/headers';
+import { getCurrentLoggedUser } from './getUser';
+import { prisma } from '../prisma';
 
 export const registerUser = async (data: RegisterFormData) => {
   try {
@@ -179,4 +181,19 @@ export const signInWithProviders = async (
   if (result.url) {
     return { success: true, url: result.url };
   }
+};
+
+export const getUserProviderId = async () => {
+  const user = await getCurrentLoggedUser();
+
+  if (!user) return null;
+
+  const provider = await prisma.account.findFirst({
+    where: { userId: user.id },
+    select: { providerId: true },
+  });
+
+  if (!provider) return null;
+
+  return provider.providerId;
 };

@@ -8,7 +8,8 @@ import resend from './resend';
 import VerificationOTP from '@/emails/VerificationOTP';
 import ResetPasswordEmail from '@/emails/ResetPassword';
 import { domain } from './resend';
-import { getCurrentLoggedUser } from './actions/getUser';
+import { stripe } from '@better-auth/stripe';
+import { stripe as stripeClient } from './stripe';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -82,6 +83,33 @@ export const auth = betterAuth({
       allowedAttempts: 3,
     }),
     admin(),
+
+    stripe({
+      stripeClient,
+      stripeWebhookSecret:
+        process.env.NODE_ENV === 'development'
+          ? process.env.STRIPE_WEBHOOK_DEV_SECRET!
+          : process.env.STRIPE_WEBHOOK_SECRET!,
+      createCustomerOnSignUp: true,
+      onCustomerCreate: async ({ stripeCustomer, user }) => {
+        console.log(
+          `Customer ${stripeCustomer.id} created for user ${user.id}`,
+        );
+      },
+      subscription: {
+        enabled: true,
+        plans: [
+          {
+            name: 'Basic',
+            priceId: process.env.STRIPE_BASIC_PRICE_ID,
+          },
+          {
+            name: 'Pro',
+            priceId: process.env.STRIPE_PRO_PRICE_ID,
+          },
+        ],
+      },
+    }),
   ],
   session: {
     expiresIn: 60 * 60 * 24 * 30, // 30 days
@@ -97,19 +125,3 @@ export const auth = betterAuth({
     },
   },
 });
-
-// Get account providerId for a user
-export const getUserProviderId = async () => {
-  const user = await getCurrentLoggedUser();
-
-  if (!user) throw new Error('User not found');
-
-  const account = await prisma.account.findFirst({
-    where: {
-      userId: user.id,
-    },
-  });
-
-  if (!account) throw new Error('Account not found');
-  return account?.providerId;
-};

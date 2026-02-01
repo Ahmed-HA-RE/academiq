@@ -2,7 +2,7 @@ import { getUserById } from '@/lib/actions/getUser';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import EditUserForm from '@/app/components/admin/Users/EditUserForm';
-import { getUserProviderId } from '@/lib/auth';
+import { getUserProviderId } from '@/lib/actions/auth';
 
 export const metadata: Metadata = {
   title: 'Edit User',
