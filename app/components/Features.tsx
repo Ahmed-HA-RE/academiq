@@ -102,9 +102,9 @@ const Features = () => {
                   key={items.title}
                   className='flex items-center gap-4 max-lg:justify-end'
                   fade
-                  slide={{ direction: 'down', offset: 50 }}
+                  slide={{ direction: 'down' }}
                   blur
-                  delay={0.4 * index + 2}
+                  delay={0.4 * index}
                   transition={{ duration: 0.5 }}
                 >
                   <div className='border-primary/60 dark:border-primary bg-primary/2 flex size-16 shrink-0 items-center justify-center rounded-md border lg:hidden'>

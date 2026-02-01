@@ -64,7 +64,7 @@ const aboutIntroData = {
             <p className='text-muted-foreground'>
               Our core values guide everything we do:
             </p>
-            <ul className='text-muted-foreground list-inside list-disc space-y-2'>
+            <ul className='text-muted-foreground list-decimal space-y-2'>
               <li>
                 <span className='text-foreground font-semibold'>
                   Quality First:

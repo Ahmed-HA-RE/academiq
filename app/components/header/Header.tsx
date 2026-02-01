@@ -25,7 +25,7 @@ const Header = async () => {
     ...(session?.user && session.user.role === 'instructor'
       ? []
       : [{ href: '/teach', title: 'Become an Instructor' }]),
-    { href: '/prices', title: 'Prices' },
+    { href: '/pricing', title: 'Pricing' },
     { href: '/about', title: 'About' },
     { href: '/contact', title: 'Contact' },
   ];

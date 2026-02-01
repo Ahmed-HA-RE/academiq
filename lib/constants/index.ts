@@ -112,7 +112,7 @@ export const testimonials = [
     name: 'Michael Roberts',
     title: 'Support that actually helps',
     description:
-      "The support experience is excellent. Questions are handled quickly, guidance feels thoughtful rather than generic, and the group chat support is also top notch. It makes a real difference when you're learning and building at the same time.",
+      'The support experience is excellent. Questions are handled quickly, guidance feels thoughtful rather than generic, and the group chat support is also top notch.',
     rating: 4.8,
     role: 'Product Manager',
     company: 'Slack',
@@ -174,6 +174,39 @@ export const faqItems = [
     question: 'How do I get started as an instructor?',
     answer:
       'Simply press the button below to be directed to the application form. Be sure to enter valid data, and our team will review your application within 24 hours. You will receive a response with the next steps.',
+  },
+];
+
+export const pricingFaqItems = [
+  {
+    question: 'What plans do you offer?',
+    answer:
+      'We offer two subscription plans: a Monthly plan for flexible access and a Yearly plan that gives you the best value with full access to all courses for a lower overall cost.',
+  },
+  {
+    question: 'What is the difference between the Monthly and Yearly plans?',
+    answer:
+      'Both plans give you access to the same courses and learning content. The Yearly plan is billed once per year and saves you money compared to paying monthly.',
+  },
+  {
+    question: 'Can I cancel my subscription at any time?',
+    answer:
+      'Yes. You can cancel your subscription at any time from your account settings. Your access will remain active until the end of the current billing period.',
+  },
+  {
+    question: 'What happens after I cancel?',
+    answer:
+      'After cancellation, you will keep access to the platform until your current subscription period ends. You will not be charged again unless you resubscribe.',
+  },
+  {
+    question: 'Do you offer refunds?',
+    answer:
+      'Refunds depend on your billing cycle and usage. Please contact our support if you believe you were charged incorrectly.',
+  },
+  {
+    question: 'How do I get help if I have billing or plan questions?',
+    answer:
+      'You can contact our support team through the community or email. Pro subscribers receive priority support and faster response times.',
   },
 ];
 

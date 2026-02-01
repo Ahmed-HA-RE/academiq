@@ -11,7 +11,7 @@ import { APP_NAME } from '@/lib/constants';
 
 const footerResourcesLinks = [
   { name: 'Courses', href: '/courses' },
-  { name: 'Prices', href: '/prices' },
+  { name: 'Pricing', href: '/pricing' },
   { name: 'Become An Instructor', href: '/teach' },
 ];
 

@@ -25,7 +25,7 @@ const AboutOurStory = () => {
         <div className='grid grid-cols-1 gap-9 lg:grid-cols-2'>
           <div className='flex flex-col gap-9'>
             <div className='flex items-center gap-6 overflow-hidden'>
-              <div className='to-lime-500 h-58 w-4 bg-gradient-to-t from-transparent' />
+              <div className='to-lime-500 h-40 sm:h-44 md:h-48 lg:h-52 w-4 bg-gradient-to-t from-transparent' />
               <MotionPreset
                 slide={{ direction: 'left' }}
                 fade
