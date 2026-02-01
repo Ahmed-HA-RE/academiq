@@ -13,7 +13,7 @@ import { auth } from '@/lib/auth';
 import { createApplicationSchema } from '@/schema';
 import { prisma } from '@/lib/prisma';
 import { SocialLinks } from '@/types';
-import { Prisma } from '@/lib/generated/prisma';
+import { Prisma } from '@/lib/generated/prisma/client';
 import { convertToPlainObject } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
 import cloudinary from '@/lib/cloudinary';

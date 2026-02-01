@@ -1,48 +1,76 @@
+'use client';
+
 import { ArrowRightIcon } from 'lucide-react';
 
 import { Button } from '@/app/components/ui/button';
 import { Card, CardContent } from '@/app/components/ui/card';
 
-import { cn } from '@/lib/utils';
+import { capitalizeFirstLetter, cn } from '@/lib/utils';
 import { NumberTicker } from '../ui/number-ticker';
+import { PLANS, SERVER_URL } from '@/lib/constants';
+import { subscribeToPlan } from '@/lib/actions/subscription/mutation-subscription';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
+import { User } from '@/types';
+import Link from 'next/link';
+import { authClient } from '@/lib/authClient';
 
-const plans = [
-  {
-    name: 'Basic',
-    price: 100,
-    description:
-      'Ideal for learners who want flexible monthly access to high-quality courses and community support.',
-    features: [
-      'Access to all available courses',
-      'HD video streaming',
-      'Learn at your own pace',
-      'Community support & discussions',
-      'Instructor answers via community',
-      'Downloadable learning resources',
-    ],
-    billCycle: 'month',
-  },
-  {
-    name: 'Pro',
-    price: 900,
-    description:
-      'Best value for committed learners. Get unlimited access for a full year and save 300 AED compared to monthly billing.',
-    features: [
-      'Unlimited access to all courses',
-      'Save 300 AED compared to monthly plan (25%)',
-      'Priority support from instructors',
-      'Faster responses in community discussions',
-      'HD video streaming',
-      'Access to all future courses during your plan',
-      'Downloadable learning resources',
-    ],
-    billCycle: 'year',
-    isHighlighted: true,
-    popular: true,
-  },
-];
+type PricingProps = {
+  userSubscription: {
+    referenceId: string;
+    plan: string;
+    stripeSubscriptionId?: string;
+  } | null;
+  user?: User;
+};
 
-const Pricing = () => {
+const Pricing = ({ userSubscription, user }: PricingProps) => {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const userPlan = (plan: string) => {
+    if (userSubscription) {
+      if (userSubscription.plan === plan) {
+        return 'Current Plan';
+      } else {
+        return `Switch to ${capitalizeFirstLetter(plan)}`;
+      }
+    } else {
+      return `Choose ${capitalizeFirstLetter(plan)}`;
+    }
+  };
+
+  const handleSubscribe = (planName: string) => {
+    startTransition(async () => {
+      if (userSubscription) {
+        const res = await authClient.subscription.upgrade({
+          plan: planName,
+          successUrl: '/account/billing',
+          cancelUrl: '/pricing',
+          returnUrl: '/pricing',
+          disableRedirect: false,
+          subscriptionId: userSubscription.stripeSubscriptionId,
+        });
+
+        if (!res || !res.data?.url) {
+          toast.error('Failed to switch plan. Please try again.');
+          return;
+        }
+
+        router.push(res.data.url);
+      } else {
+        const res = await subscribeToPlan(planName);
+        if (!res.success || !res.url) {
+          toast.error(res.message);
+          return;
+        }
+
+        router.push(res.url);
+      }
+    });
+  };
+
   return (
     <section className='section-spacing'>
       <div className='container space-y-12 sm:space-y-16 lg:gap-24 lg:space-y-24 '>
@@ -56,7 +84,7 @@ const Pricing = () => {
           </p>
         </div>
         <div className='flex flex-col items-center justify-center gap-0 space-y-8 lg:flex-row'>
-          {plans.map((plan, index) => (
+          {PLANS.map((plan, index) => (
             <div className='max-w-lg flex-1' key={index}>
               <Card
                 key={index}
@@ -75,11 +103,18 @@ const Pricing = () => {
                           'text-primary-foreground': plan.isHighlighted,
                         })}
                       >
-                        {plan.name}
+                        {capitalizeFirstLetter(plan.name)}
                       </h3>
-                      {plan.popular && (
+
+                      {userSubscription?.plan === plan.name && (
+                        <span className='bg-primary text-white dark:text-black px-3 py-1.5 rounded-full text-sm font-medium'>
+                          Current Plan
+                        </span>
+                      )}
+
+                      {plan.popular && !userSubscription && (
                         <span className='bg-white/20 text-white dark:text-black px-3 py-1.5 rounded-full text-sm font-medium'>
-                          Most Popular
+                          {plan.popular ? 'Most Popular' : 'Current Plan'}
                         </span>
                       )}
                     </div>
@@ -158,22 +193,53 @@ const Pricing = () => {
                     ))}
                   </div>
 
-                  <Button
-                    size='lg'
-                    className={cn(
-                      'rounded-md cursor-pointer text-base group',
-                      plan.isHighlighted
-                        ? 'bg-muted'
-                        : 'bg-lime-500 dark:bg-lime-600 text-white hover:bg-lime-600 dark:hover:bg-lime-700',
-                    )}
-                    variant={'secondary'}
-                  >
-                    Get started
-                    <ArrowRightIcon
-                      aria-hidden='true'
-                      className='-ms-1 group-hover:translate-x-0.5 transition-transform size-4.5'
-                    />
-                  </Button>
+                  {user ? (
+                    <Button
+                      size='lg'
+                      className={cn(
+                        'rounded-md cursor-pointer text-base group',
+                        plan.isHighlighted
+                          ? 'bg-muted'
+                          : 'bg-lime-500 dark:bg-lime-600 text-white hover:bg-lime-600 dark:hover:bg-lime-700',
+                      )}
+                      variant={'secondary'}
+                      disabled={
+                        isPending ||
+                        userSubscription?.plan === plan.name ||
+                        userSubscription?.plan === 'pro' // Prevent downgrading from pro to basic
+                      }
+                      onClick={() => handleSubscribe(plan.name)}
+                    >
+                      {userPlan(plan.name)}
+                      {!userSubscription && (
+                        <ArrowRightIcon
+                          aria-hidden='true'
+                          className='-ms-1 group-hover:translate-x-0.5 transition-transform size-4.5'
+                        />
+                      )}
+                    </Button>
+                  ) : (
+                    <Button
+                      size='lg'
+                      className={cn(
+                        'rounded-md cursor-pointer text-base group',
+                        plan.isHighlighted
+                          ? 'bg-muted'
+                          : 'bg-lime-500 dark:bg-lime-600 text-white hover:bg-lime-600 dark:hover:bg-lime-700',
+                      )}
+                      variant={'secondary'}
+                      disabled={isPending}
+                      asChild
+                    >
+                      <Link href={`/login?callbackUrl=${SERVER_URL}/pricing`}>
+                        Login to Subscribe
+                        <ArrowRightIcon
+                          aria-hidden='true'
+                          className='-ms-1 group-hover:translate-x-0.5 transition-transform size-4.5'
+                        />
+                      </Link>
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             </div>

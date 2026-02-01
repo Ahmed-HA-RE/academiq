@@ -3,7 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { convertToPlainObject } from '@/lib/utils';
 import { getCurrentLoggedInInstructor } from '../instructor/getInstructor';
-import { Prisma } from '@/lib/generated/prisma';
+import { Prisma } from '@/lib/generated/prisma/client';
 
 // Get all courses
 export const getAllCourses = async ({
