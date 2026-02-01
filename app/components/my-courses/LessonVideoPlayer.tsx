@@ -1,7 +1,8 @@
 'use client';
 
 import { markLessonAsComplete } from '@/lib/actions/my-course/mutate-lesson';
-import { MuxData } from '@/lib/generated/prisma';
+import { MuxData } from '@/lib/generated/prisma/client';
+
 import useConfettiStore from '@/store/confetti-store';
 import { Lesson } from '@/types';
 

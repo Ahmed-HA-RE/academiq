@@ -3,7 +3,7 @@
 import { convertToPlainObject } from '@/lib/utils';
 import { getCurrentLoggedUser } from '../getUser';
 import { prisma } from '@/lib/prisma';
-import { Prisma } from '@/lib/generated/prisma';
+import { Prisma } from '@/lib/generated/prisma/client';
 
 // Get all user's enrolled courses
 export const getUserEnrolledCourses = async (search?: string) => {

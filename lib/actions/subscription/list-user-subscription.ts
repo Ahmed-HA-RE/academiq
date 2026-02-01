@@ -32,8 +32,14 @@ export const listUserSubscription = async () => {
     (sub) => sub.status === 'active' || sub.status === 'trialing',
   );
 
+  if (!activeSubscription) return null;
+
   // Check subscription limits
   const projectLimit = subscriptions[0].limits?.projects || 0;
 
-  return activeSubscription;
+  return {
+    referenceId: activeSubscription.referenceId,
+    plan: activeSubscription.plan,
+    stripeSubscriptionId: activeSubscription.stripeSubscriptionId,
+  };
 };

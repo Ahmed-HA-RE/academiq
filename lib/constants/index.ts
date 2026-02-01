@@ -323,3 +323,39 @@ export const OUR_TEAM = [
       'Develops the tools and workflows instructors use to upload, manage, and publish their own courses on Academiq.',
   },
 ];
+
+export const PLANS = [
+  {
+    name: 'basic',
+    price: 100,
+    description:
+      'Ideal for learners who want flexible monthly access to high-quality courses and community support.',
+    features: [
+      'Access to all available courses',
+      'HD video streaming',
+      'Learn at your own pace',
+      'Community support & discussions',
+      'Instructor answers via community',
+      'Downloadable learning resources',
+    ],
+    billCycle: 'month',
+  },
+  {
+    name: 'pro',
+    price: 900,
+    description:
+      'Best value for committed learners. Get unlimited access for a full year and save 300 AED compared to monthly billing.',
+    features: [
+      'Unlimited access to all courses',
+      'Save 300 AED compared to monthly plan (25%)',
+      'Priority support from instructors',
+      'Faster responses in community discussions',
+      'HD video streaming',
+      'Access to all future courses during your plan',
+      'Downloadable learning resources',
+    ],
+    billCycle: 'year',
+    isHighlighted: true,
+    popular: true,
+  },
+];

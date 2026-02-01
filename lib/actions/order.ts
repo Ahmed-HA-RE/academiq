@@ -9,7 +9,7 @@ import z from 'zod';
 import { stripe } from '../stripe';
 import { revalidatePath } from 'next/cache';
 import { convertToPlainObject } from '../utils';
-import { Prisma } from '../generated/prisma';
+import { Prisma } from '../generated/prisma/client';
 import { endOfDay, startOfDay } from 'date-fns';
 import { createPaymentIntent } from './stripe.action';
 

@@ -12,6 +12,10 @@ export const convertToPlainObject = <T>(data: T): T => {
   return JSON.parse(JSON.stringify(data));
 };
 
+export const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 // Format date to a more readable format
 export const formatDate = (date: Date, type: 'date' | 'dateTime') => {
   if (type === 'dateTime') {

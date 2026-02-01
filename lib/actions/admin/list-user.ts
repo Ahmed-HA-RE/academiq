@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
-import { Prisma } from '@/lib/generated/prisma';
+import { Prisma } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { convertToPlainObject } from '@/lib/utils';
 import { BillingInfo } from '@/types';
