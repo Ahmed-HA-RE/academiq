@@ -1,0 +1,34 @@
+model Order {
+  id                    String       @id @default(uuid())
+  userId                String
+  user                  User         @relation(fields: [userId], references: [id])
+  orderItems            orderItems[]
+  itemsPrice            Decimal      @db.Decimal(10, 2)
+  totalPrice            Decimal      @db.Decimal(10, 2)
+  taxPrice              Decimal      @db.Decimal(10, 2)
+  billingDetails        Json         @db.Json
+  paymentResult         Json?        @db.Json
+  stripePaymentIntentId String?
+  status                String       @default("pending")
+  isPaid                Boolean      @default(false)
+  paidAt                DateTime?
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+  discount              Discount?    @relation(fields: [discountId], references: [id], onDelete: Cascade)
+  discountId            String?
+}
+
+model orderItems {
+  id               String  @default(uuid())
+  name             String
+  price            Decimal @db.Decimal(10, 2)
+  image            String
+  course           Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId         String  @default(uuid())
+  order            Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId          String
+  stripeTransferId String?
+  payoutsEnabled   Boolean @default(true)
+
+  @@id([id, courseId])
+}

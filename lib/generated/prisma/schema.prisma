@@ -1,16 +1,15 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-generator client {
-  provider = "prisma-client-js"
-  output   = "../lib/generated/prisma"
-}
-
-datasource db {
-  provider = "postgresql"
+model Cart {
+  id         String    @id @default(uuid())
+  userId     String?
+  user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  discount   Discount? @relation(fields: [discountId], references: [id], onDelete: Cascade)
+  discountId String?
+  cartItems  Json[]    @db.Json
+  itemsPrice Decimal   @db.Decimal(10, 2)
+  totalPrice Decimal   @db.Decimal(10, 2)
+  taxPrice   Decimal   @db.Decimal(10, 2)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Course {
@@ -37,6 +36,167 @@ model Course {
   reviews      Review[]
 }
 
+model Section {
+  id        String   @id @default(uuid())
+  title     String
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  position  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lessons   Lesson[]
+}
+
+enum status {
+  processing
+  ready
+  failed
+}
+
+model Lesson {
+  id               String           @id @default(uuid())
+  title            String
+  duration         Int
+  status           status           @default(ready) //for testing purposes
+  sectionId        String
+  section          Section          @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  muxData          MuxData?
+  position         Int
+  lessonProgresses LessonProgress[]
+}
+
+model MuxData {
+  id                String   @id @default(uuid())
+  lessonId          String   @unique
+  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  muxAssetId        String
+  muxPlaybackId     String
+  uploadthingFileId String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    Decimal  @db.Decimal(2, 1)
+  comment   String   @db.Text
+  approved  Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Type {
+  percentage
+  fixed
+}
+
+model Discount {
+  id             String   @id @default(uuid())
+  code           String   @unique
+  stripeCouponId String?
+  type           Type
+  amount         Int
+  validUntil     DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  orders         Order[]
+  carts          Cart[]
+}
+
+model Instructor {
+  id              String   @id @default(uuid())
+  bio             String   @db.Text
+  expertise       String[]
+  address         String
+  phone           String
+  socialLinks     Json?    @db.Json
+  birthDate       DateTime @db.Date
+  stripeAccountId String
+  createdAt       DateTime @default(now())
+  city            String
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String   @unique
+  courses         Course[]
+}
+
+model IntructorApplication {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio             String   @db.Text
+  expertise       String[]
+  address         String
+  stripeAccountId String
+  socialLinks     Json?    @db.Json
+  phone           String
+  birthDate       DateTime @db.Date
+  city            String
+  file            String
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Order {
+  id                    String       @id @default(uuid())
+  userId                String
+  user                  User         @relation(fields: [userId], references: [id])
+  orderItems            orderItems[]
+  itemsPrice            Decimal      @db.Decimal(10, 2)
+  totalPrice            Decimal      @db.Decimal(10, 2)
+  taxPrice              Decimal      @db.Decimal(10, 2)
+  billingDetails        Json         @db.Json
+  paymentResult         Json?        @db.Json
+  stripePaymentIntentId String?
+  status                String       @default("pending")
+  isPaid                Boolean      @default(false)
+  paidAt                DateTime?
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+  discount              Discount?    @relation(fields: [discountId], references: [id], onDelete: Cascade)
+  discountId            String?
+}
+
+model orderItems {
+  id               String  @default(uuid())
+  name             String
+  price            Decimal @db.Decimal(10, 2)
+  image            String
+  course           Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId         String  @default(uuid())
+  order            Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId          String
+  stripeTransferId String?
+  payoutsEnabled   Boolean @default(true)
+
+  @@id([id, courseId])
+}
+
+model Subscription {
+  id                   String    @id @default(uuid())
+  plan                 String
+  referenceId          String
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  status               String
+  periodStart          DateTime?
+  periodEnd            DateTime?
+  cancelAtPeriodEnd    Boolean?
+  cancelAt             DateTime?
+  canceledAt           DateTime?
+  endedAt              DateTime?
+  seats                Int?
+  trialStart           DateTime?
+  trialEnd             DateTime?
+}
+
 model User {
   id                   String                @id
   name                 String
@@ -53,6 +213,7 @@ model User {
   carts                Cart[]
   orders               Order[]
   intructorApplication IntructorApplication?
+  stripeCustomerId     String?
   instructor           Instructor?
   userProgress         UserProgress[]
   banned               Boolean               @default(false)
@@ -114,150 +275,6 @@ model Verification {
   @@map("verification")
 }
 
-model Cart {
-  id         String    @id @default(uuid())
-  userId     String?
-  user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  discount   Discount? @relation(fields: [discountId], references: [id], onDelete: Cascade)
-  discountId String?
-  cartItems  Json[]    @db.Json
-  itemsPrice Decimal   @db.Decimal(10, 2)
-  totalPrice Decimal   @db.Decimal(10, 2)
-  taxPrice   Decimal   @db.Decimal(10, 2)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-}
-
-model Section {
-  id        String   @id @default(uuid())
-  title     String
-  courseId  String
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  position  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  lessons   Lesson[]
-}
-
-enum status {
-  processing
-  ready
-  failed
-}
-
-model Lesson {
-  id               String           @id @default(uuid())
-  title            String
-  duration         Int
-  status           status           @default(ready) //for testing purposes
-  sectionId        String
-  section          Section          @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  muxData          MuxData?
-  position         Int
-  lessonProgresses LessonProgress[]
-}
-
-model MuxData {
-  id                String   @id @default(uuid())
-  lessonId          String   @unique
-  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  muxAssetId        String
-  muxPlaybackId     String
-  uploadthingFileId String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-}
-
-model Order {
-  id                    String       @id @default(uuid())
-  userId                String
-  user                  User         @relation(fields: [userId], references: [id])
-  orderItems            orderItems[]
-  itemsPrice            Decimal      @db.Decimal(10, 2)
-  totalPrice            Decimal      @db.Decimal(10, 2)
-  taxPrice              Decimal      @db.Decimal(10, 2)
-  billingDetails        Json         @db.Json
-  paymentResult         Json?        @db.Json
-  stripePaymentIntentId String?
-  status                String       @default("pending")
-  isPaid                Boolean      @default(false)
-  paidAt                DateTime?
-  createdAt             DateTime     @default(now())
-  updatedAt             DateTime     @updatedAt
-  discount              Discount?    @relation(fields: [discountId], references: [id], onDelete: Cascade)
-  discountId            String?
-}
-
-model orderItems {
-  id               String  @default(uuid())
-  name             String
-  price            Decimal @db.Decimal(10, 2)
-  image            String
-  course           Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId         String  @default(uuid())
-  order            Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId          String
-  stripeTransferId String?
-  payoutsEnabled   Boolean @default(true)
-
-  @@id([id, courseId])
-}
-
-enum Type {
-  percentage
-  fixed
-}
-
-model Discount {
-  id             String   @id @default(uuid())
-  code           String   @unique
-  stripeCouponId String?
-  type           Type
-  amount         Int
-  validUntil     DateTime
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  orders         Order[]
-  carts          Cart[]
-}
-
-model Instructor {
-  id              String   @id @default(uuid())
-  bio             String   @db.Text
-  expertise       String[]
-  address         String
-  phone           String
-  socialLinks     Json?    @db.Json
-  birthDate       DateTime @db.Date
-  stripeAccountId String
-  createdAt       DateTime @default(now())
-  city            String
-  updatedAt       DateTime @updatedAt
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          String   @unique
-  courses         Course[]
-}
-
-model IntructorApplication {
-  id              String   @id @default(uuid())
-  userId          String   @unique
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bio             String   @db.Text
-  expertise       String[]
-  address         String
-  stripeAccountId String
-  socialLinks     Json?    @db.Json
-  phone           String
-  birthDate       DateTime @db.Date
-  city            String
-  file            String
-  status          String   @default("pending")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-}
-
 model UserProgress {
   id        String   @id @default(uuid())
   userId    String
@@ -282,15 +299,17 @@ model LessonProgress {
   @@unique([userId, lessonId])
 }
 
-model Review {
-  id        String   @id @default(uuid())
-  rating    Decimal  @db.Decimal(2, 1)
-  comment   String   @db.Text
-  approved  Boolean  @default(false)
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  courseId  String
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
 }

@@ -29,7 +29,7 @@ const CTA = () => {
                 size={'lg'}
                 className='p-6 rounded-full w-full md:w-[150px] max-w-xs text-base bg-black text-white hover:bg-0'
               >
-                <Link href={'/prices'}>View Prices</Link>
+                <Link href={'/pricing'}>View Pricing</Link>
               </Button>
               <Button
                 asChild

@@ -1,0 +1,77 @@
+model Course {
+  id           String         @id @default(uuid())
+  title        String
+  shortDesc    String
+  description  String
+  price        Decimal        @db.Decimal(10, 2)
+  image        String
+  imageKey     String
+  language     String
+  difficulty   String
+  published    Boolean        @default(false)
+  category     String
+  prequisites  String         @db.Text
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  users        User[]
+  instructor   Instructor     @relation(fields: [instructorId], references: [id])
+  instructorId String
+  sections     Section[]
+  orderItems   orderItems[]
+  userProgress UserProgress[]
+  reviews      Review[]
+}
+
+model Section {
+  id        String   @id @default(uuid())
+  title     String
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  position  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lessons   Lesson[]
+}
+
+enum status {
+  processing
+  ready
+  failed
+}
+
+model Lesson {
+  id               String           @id @default(uuid())
+  title            String
+  duration         Int
+  status           status           @default(ready) //for testing purposes
+  sectionId        String
+  section          Section          @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  muxData          MuxData?
+  position         Int
+  lessonProgresses LessonProgress[]
+}
+
+model MuxData {
+  id                String   @id @default(uuid())
+  lessonId          String   @unique
+  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  muxAssetId        String
+  muxPlaybackId     String
+  uploadthingFileId String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+model Review {
+  id        String   @id @default(uuid())
+  rating    Decimal  @db.Decimal(2, 1)
+  comment   String   @db.Text
+  approved  Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
