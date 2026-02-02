@@ -16,7 +16,7 @@ import {
   orderItemSchema,
   registerSchema,
   resetPasswordSchema,
-  updateMyAccountDetailsSchema,
+  updateAccountDetailsSchema,
   updateUserAsAdminSchema,
   verifyOTPSchema,
 } from '@/schema';
@@ -131,6 +131,7 @@ export type User = {
   email: string;
   emailVerified: boolean;
   image: string;
+  imageKey?: string | null;
   role: string;
   billingInfo: BillingInfo | null;
   banned: boolean;
@@ -219,4 +220,4 @@ export type CreateReview = z.infer<typeof courseReviewSchema>;
 
 export type ContactFormData = z.infer<typeof contactUsSchema>;
 
-export type UpdateMyAccount = z.infer<typeof updateMyAccountDetailsSchema>;
+export type UpdateAccountDetails = z.infer<typeof updateAccountDetailsSchema>;

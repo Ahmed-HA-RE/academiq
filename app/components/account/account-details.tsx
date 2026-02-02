@@ -1,7 +1,15 @@
 import { User } from '@/types';
-import UserDetailsForm from './user-details-form';
+import AccountDetailsForm from './account-details-form';
+import { getUserProviderId } from '@/lib/actions/auth';
+import { redirect } from 'next/navigation';
 
-const AccountDetails = ({ user }: { user: User }) => {
+const AccountDetails = async ({ user }: { user: User }) => {
+  const providerId = await getUserProviderId();
+
+  if (!providerId) {
+    return redirect('/login');
+  }
+
   return (
     <>
       <div className='grid grid-cols-1 gap-8'>
@@ -16,7 +24,7 @@ const AccountDetails = ({ user }: { user: User }) => {
               profile picture, and billing information.
             </p>
           </div>
-          <UserDetailsForm user={user} />
+          <AccountDetailsForm user={user} providerId={providerId} />
         </div>
 
         {/* User Password Management Form */}

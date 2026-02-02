@@ -1,10 +1,9 @@
 'use client';
-import { User } from '@/types';
+import { UpdateAccountDetails, User } from '@/types';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import { updateMyAccountDetailsSchema } from '@/schema';
-import { UpdateMyAccount } from '@/types';
+import { updateAccountDetailsSchema } from '@/schema';
 import { Card, CardContent } from '../ui/card';
 import {
   Field,
@@ -25,29 +24,49 @@ import {
 import { LIST_COUNTRIES } from '@/lib/utils';
 import { PhoneInput } from '../ui/phone-input';
 import Image from 'next/image';
-import UploadThingBtn from '../shared/UploadThingBtn';
 import { Button } from '../ui/button';
+import { updateAccountDetails } from '@/lib/actions/user/update-account-details';
+import { Avatar } from '../ui/avatar';
+import { Suspense } from 'react';
+import { useRouter } from 'next/navigation';
+import ImageUploaderBtn from '../shared/ImageUploaderBtn';
 
-const UserDetailsForm = ({ user }: { user: User }) => {
-  const form = useForm<UpdateMyAccount>({
-    resolver: zodResolver(updateMyAccountDetailsSchema),
+const AccountDetailsForm = ({
+  user,
+  providerId,
+}: {
+  user: User;
+  providerId: string;
+}) => {
+  const router = useRouter();
+
+  const form = useForm<UpdateAccountDetails>({
+    resolver: zodResolver(updateAccountDetailsSchema),
     defaultValues: {
       name: user.name || '',
       email: user.email || '',
-      image: user.image || '',
-      billingInfo: user.billingInfo || {
-        address: '',
-        country: '',
-        email: '',
-        name: '',
-        phone: '',
+      image: user.image,
+      billingInfo: {
+        name: user.billingInfo?.fullName || '',
+        address: user.billingInfo?.address || '',
+        country: user.billingInfo?.country || '',
+        email: user.billingInfo?.email || '',
+        phone: user.billingInfo?.phone || '',
       },
     },
   });
 
-  const onSubmit = async (data: UpdateMyAccount) => {
-    console.log(data);
+  const onSubmit = async (data: UpdateAccountDetails) => {
+    const res = await updateAccountDetails(data);
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
+    toast.success(res.message);
+    router.refresh();
   };
+
+  const uploadedImage = form.watch('image');
 
   return (
     <div className='w-full flex-1/2'>
@@ -93,6 +112,7 @@ const UserDetailsForm = ({ user }: { user: User }) => {
                       placeholder='Enter your email address'
                       aria-invalid={fieldState.invalid}
                       className='input'
+                      disabled={providerId !== 'credentials'}
                       {...field}
                     />
                     {fieldState.invalid && (
@@ -240,17 +260,18 @@ const UserDetailsForm = ({ user }: { user: User }) => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Profile Image</FieldLabel>
                     <div className='flex flex-row gap-6 items-center'>
-                      <Image
-                        src={user.image}
-                        alt='Profile Image'
-                        width={100}
-                        height={100}
-                        className='rounded-full'
-                      />
-                      <UploadThingBtn
-                        endpoint='imageUploader'
-                        onChange={field.onChange}
-                      />
+                      <Avatar className='size-25'>
+                        <Suspense>
+                          <Image
+                            src={uploadedImage || user.image}
+                            alt='Profile Image'
+                            width={100}
+                            height={100}
+                            className='object-cover'
+                          />
+                        </Suspense>
+                      </Avatar>
+                      <ImageUploaderBtn form={form} />
                     </div>
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -273,4 +294,4 @@ const UserDetailsForm = ({ user }: { user: User }) => {
   );
 };
 
-export default UserDetailsForm;
+export default AccountDetailsForm;

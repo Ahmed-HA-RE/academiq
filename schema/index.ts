@@ -380,10 +380,11 @@ export const contactUsSchema = z.object({
     .max(5000, 'Message is too long'),
 });
 
-export const updateMyAccountDetailsSchema = z.object({
+export const updateAccountDetailsSchema = z.object({
   name: registerSchema.shape.name,
   email: registerSchema.shape.email,
   image: baseCourseSchema.shape.image,
+  imageKey: z.string({ error: 'Invalid image key' }).optional(),
   billingInfo: z.object({
     name: z.string({ error: 'Invalid name' }).optional(),
     address: z.string({ error: 'Invalid address' }).optional(),

@@ -1994,6 +1994,7 @@ export const UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
+  imageKey: 'imageKey',
   role: 'role',
   billingInfo: 'billingInfo',
   createdAt: 'createdAt',

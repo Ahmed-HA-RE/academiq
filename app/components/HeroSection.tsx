@@ -45,7 +45,7 @@ const HeroSection = async () => {
               transition={{ duration: 0.5 }}
               delay={0.3}
             >
-              <h1 className='max-w-2xl text-4xl leading-[1.29167] font-bold sm:text-5xl lg:text-6xl '>
+              <h1 className='max-w-3xl lg:max-w-2xl text-4xl leading-[1.29167] font-bold sm:text-5xl lg:text-6xl '>
                 Where Learning Turns Into Real Progress
               </h1>
             </MotionPreset>
@@ -56,7 +56,7 @@ const HeroSection = async () => {
               transition={{ duration: 0.5 }}
               delay={0.5}
             >
-              <p className='text-muted-foreground text-lg max-w-xl'>
+              <p className='text-muted-foreground text-lg max-w-2xl lg:max-w-xl'>
                 In today&apos;s fast changing tech world, growing means learning
                 with purpose. We&apos;re here to help you master practical
                 skills, gain real confidence, and move forward at your own pace.

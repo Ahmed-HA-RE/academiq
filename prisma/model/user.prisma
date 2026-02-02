@@ -4,6 +4,7 @@ model User {
   email                String
   emailVerified        Boolean               @default(false)
   image                String                @default("https://res.cloudinary.com/ahmed--dev/image/upload/v1755243182/default_avatar_7541d4c434.webp")
+  imageKey             String?
   role                 String                @default("user")
   billingInfo          Json?                 @db.Json
   createdAt            DateTime              @default(now())
