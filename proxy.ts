@@ -85,6 +85,9 @@ export const proxy = async (req: NextRequest) => {
   if (pathname === '/teach' && user && user.role === 'instructor') {
     return NextResponse.redirect(new URL('/instructor-dashboard', req.url));
   }
+  if (pathname === '/account' && (!user || user.role !== 'user')) {
+    return NextResponse.redirect(new URL('/instructor-dashboard', req.url));
+  }
 };
 
 export const config = {
@@ -102,5 +105,6 @@ export const config = {
     '/my-courses',
     '/admin-dashboard/:path*',
     '/instructor-dashboard/:path*',
+    '/account',
   ],
 };

@@ -16,6 +16,7 @@ import {
   orderItemSchema,
   registerSchema,
   resetPasswordSchema,
+  updateMyAccountDetailsSchema,
   updateUserAsAdminSchema,
   verifyOTPSchema,
 } from '@/schema';
@@ -217,3 +218,5 @@ export type Review = z.infer<typeof courseReviewSchema> & {
 export type CreateReview = z.infer<typeof courseReviewSchema>;
 
 export type ContactFormData = z.infer<typeof contactUsSchema>;
+
+export type UpdateMyAccount = z.infer<typeof updateMyAccountDetailsSchema>;

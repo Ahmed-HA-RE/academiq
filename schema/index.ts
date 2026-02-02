@@ -133,7 +133,6 @@ export const registerSchema = z
   .object({
     name: z
       .string({ error: 'Invalid name' })
-      .regex(/^[a-zA-Z ]+$/, 'Name can only contain letters and spaces')
       .min(3, 'Name is required')
       .max(50, 'Name is too long'),
     email: z.email({ error: 'Invalid email address' }),
@@ -379,4 +378,17 @@ export const contactUsSchema = z.object({
     .string({ error: 'Invalid message' })
     .min(10, 'Message is required')
     .max(5000, 'Message is too long'),
+});
+
+export const updateMyAccountDetailsSchema = z.object({
+  name: registerSchema.shape.name,
+  email: registerSchema.shape.email,
+  image: baseCourseSchema.shape.image,
+  billingInfo: z.object({
+    name: z.string({ error: 'Invalid name' }).optional(),
+    address: z.string({ error: 'Invalid address' }).optional(),
+    country: z.string({ error: 'Invalid country' }).optional(),
+    email: z.string({ error: 'Invalid email' }).optional(),
+    phone: optionalPhoneSchema,
+  }),
 });

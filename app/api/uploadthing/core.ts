@@ -37,8 +37,7 @@ export const ourFileRouter = {
         headers: await headers(),
       });
 
-      if (!session || session.user.role !== 'instructor')
-        throw new UploadThingError('Unauthorized');
+      if (!session) throw new UploadThingError('Unauthorized');
       return { userId: session.user.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
