@@ -33,7 +33,7 @@ const Header = async () => {
   return (
     <>
       {discount && <CouponBanner discount={discount} />}
-      <header className='border-b'>
+      <header className='dark:bg-[#121212]'>
         <div className='mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 lg:px-6 h-17.5'>
           <div className='flex items-center lg:gap-10'>
             <MenuSheet navigationData={baseNavigationMenu} />

@@ -4,11 +4,9 @@ import ScrollToTopBtn from '../components/ScrollToTopBtn';
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='min-h-screen flex flex-col w-full'>
+    <div className='min-h-screen flex flex-col overflow-hidden'>
       <Header />
-      <main className='w-full flex-grow bg-[#FDF8F5] dark:bg-[#121212]'>
-        {children}
-      </main>
+      <main className='w-full flex-grow dark:bg-[#121212]'>{children}</main>
       <Footer />
       <ScrollToTopBtn />
     </div>

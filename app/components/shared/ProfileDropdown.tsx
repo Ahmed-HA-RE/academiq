@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  UserIcon,
-  SettingsIcon,
-  ShieldUser,
-  LibraryBig,
-  LogOutIcon,
-} from 'lucide-react';
+import { UserIcon, ShieldUser, LibraryBig, LogOutIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -48,7 +42,7 @@ const ProfileDropdown = ({
   const userLinks =
     session && session.user.role === 'user'
       ? [
-          { icon: SettingsIcon, title: 'Settings', href: '/settings' },
+          { icon: UserIcon, title: 'Account', href: '/account' },
           { icon: LibraryBig, title: 'My Courses', href: '/my-courses' },
         ]
       : [];
