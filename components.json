@@ -40,6 +40,7 @@
         "email": "${SHADCN_EMAIL}",
         "license_key": "${SHADCN_LICENSE_KEY}"
       }
-    }
+    },
+    "@aceternity": "https://ui.aceternity.com/registry/{name}.json"
   }
 }

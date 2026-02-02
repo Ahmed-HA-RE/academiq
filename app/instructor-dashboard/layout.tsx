@@ -62,7 +62,7 @@ const InstructorDashboardLayout = async ({
               </div>
             </div>
           </header>
-          <main className='flex-grow'>
+          <main className='flex-grow bg-[#FDF8F5] dark:bg-[#121212]'>
             <div className='container size-full flex-1'>
               <Card className='h-auto shadow-none'>
                 <CardContent className='h-full grid grid-cols-1 md:grid-cols-4 gap-6'>

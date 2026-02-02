@@ -27,7 +27,10 @@ const HeroSection = async () => {
               delay={0.3}
             >
               <h1 className='max-w-3xl text-3xl leading-[1.29167] font-bold sm:text-4xl lg:text-5xl '>
-                Empowering Learners for Real Growth
+                Empowering Learners for Real{' '}
+                <span className='bg-gradient-to-r from-[#667eea] to-[#764ba2] text-clip bg-clip-text text-transparent '>
+                  Growth
+                </span>
               </h1>
             </MotionPreset>
             <MotionPreset

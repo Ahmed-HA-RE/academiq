@@ -17,9 +17,14 @@ type CourseCardProps = {
   course: Course;
   cart: Cart | undefined;
   user: User | undefined;
+  subscription?: {
+    referenceId: string;
+    plan: string;
+    stripeSubscriptionId?: string;
+  } | null;
 };
 
-const CourseCard = ({ course, cart, user }: CourseCardProps) => {
+const CourseCard = ({ course, cart, user, subscription }: CourseCardProps) => {
   return (
     <MotionPreset
       component='div'
@@ -77,14 +82,12 @@ const CourseCard = ({ course, cart, user }: CourseCardProps) => {
                   <BadgeCheckIcon className='text-background size-5 fill-sky-500' />
                 </span>
               </div>
-              <span className='text-sm text-green-400/75 dark:text-emerald-400'>
-                by {course.instructor.user.name}
-              </span>
+              <span className='text-sm'>by {course.instructor.user.name}</span>
             </div>
             {/* Description */}
             <span
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(course.description, {
+                __html: DOMPurify.sanitize(course.shortDesc, {
                   ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'p', 'br'],
                 }),
               }}
@@ -106,7 +109,12 @@ const CourseCard = ({ course, cart, user }: CourseCardProps) => {
           >
             <Link href={`/course/${course.id}`}>View Details</Link>
           </Button>
-          <CourseCardBtn course={course} cart={cart} user={user} />
+          <CourseCardBtn
+            course={course}
+            cart={cart}
+            user={user}
+            subscription={subscription}
+          />
         </CardFooter>
       </Card>
     </MotionPreset>

@@ -6,7 +6,9 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='min-h-screen flex flex-col w-full'>
       <Header />
-      <main className='w-full flex-grow'>{children}</main>
+      <main className='w-full flex-grow bg-[#FDF8F5] dark:bg-[#121212]'>
+        {children}
+      </main>
       <Footer />
       <ScrollToTopBtn />
     </div>
