@@ -19,27 +19,25 @@ const SetupPayment = async () => {
     redirect('/application/status');
 
   return (
-    <div className='min-h-screen bg-gradient-to-b from-background to-muted/20'>
-      <div className='container'>
-        {/* Stepper Section */}
-        <div className='mb-8 md:mb-12'>
-          <ApplicationStepper currentStep={2} />
-        </div>
+    <div className='container'>
+      {/* Stepper Section */}
+      <div className='mb-8 md:mb-12'>
+        <ApplicationStepper currentStep={2} />
+      </div>
 
-        {/* Main Content Card */}
-        <div className='mx-auto max-w-3xl'>
-          <div className='rounded-2xl bg-card shadow-lg border p-6 md:p-8 lg:p-12'>
-            <SetUpStripeConnectCard account={account} />
-          </div>
+      {/* Main Content Card */}
+      <div className='mx-auto max-w-3xl'>
+        <div className='rounded-2xl bg-card shadow-lg border p-6 md:p-8 lg:p-12'>
+          <SetUpStripeConnectCard account={account} />
         </div>
+      </div>
 
-        {/* Optional: Add progress indicator */}
-        <div className='mt-8 text-center'>
-          <p className='text-muted-foreground text-sm'>
-            Almost there! Complete your payment setup to finish your instructor
-            application
-          </p>
-        </div>
+      {/* Optional: Add progress indicator */}
+      <div className='mt-8 text-center'>
+        <p className='text-muted-foreground text-sm'>
+          Almost there! Complete your payment setup to finish your instructor
+          application
+        </p>
       </div>
     </div>
   );

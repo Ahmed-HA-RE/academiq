@@ -36,7 +36,7 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={cn(outfit.className, 'bg-[#FDF8F5] dark:bg-[#121212]')}>
+      <body className={cn(outfit.className)}>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'

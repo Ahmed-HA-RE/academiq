@@ -10,15 +10,22 @@ import { usePathname, useRouter } from 'next/navigation';
 import { SERVER_URL } from '@/lib/constants';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { addCourseToLibrary } from '@/lib/actions/course/add-course-to-library';
 
 const CourseCardBtn = ({
   course,
   cart,
   user,
+  subscription,
 }: {
   course: Course;
   cart: Cart | undefined;
   user: User | undefined;
+  subscription?: {
+    referenceId: string;
+    plan: string;
+    stripeSubscriptionId?: string;
+  } | null;
 }) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -66,6 +73,22 @@ const CourseCardBtn = ({
     });
   };
 
+  const handleAddToLibrary = async () => {
+    if (!user) {
+      router.push(`/login?callbackUrl=${callbackUrl}`);
+    } else
+      startTransition(async () => {
+        const res = await addCourseToLibrary(course.id);
+
+        if (!res.success) {
+          toast.error(res.message);
+          return;
+        }
+        toast.success(res.message);
+        router.refresh();
+      });
+  };
+
   return isCourseInCart ? (
     <Button
       onClick={handleRemoveFromCart}
@@ -100,6 +123,16 @@ const CourseCardBtn = ({
       <Link href={`/instructor-dashboard/courses/${course.id}/edit`}>
         Edit Course
       </Link>
+    </Button>
+  ) : subscription ? (
+    <Button
+      className={`w-full cursor-pointer ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'}`}
+      size={!isCourseDetailsPage ? 'default' : 'lg'}
+      variant={'default'}
+      onClick={handleAddToLibrary}
+      disabled={isPending}
+    >
+      {isPending ? <Spinner className='size-6' /> : 'Add to Library'}
     </Button>
   ) : (
     <Button

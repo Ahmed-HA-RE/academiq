@@ -10,6 +10,7 @@ import ResetPasswordEmail from '@/emails/ResetPassword';
 import { domain } from './resend';
 import { stripe } from '@better-auth/stripe';
 import { stripe as stripeClient } from './stripe';
+import SuccessfulSubscription from '@/emails/SuccessfulSubscription';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -108,6 +109,29 @@ export const auth = betterAuth({
             priceId: process.env.STRIPE_PRO_PRICE_ID,
           },
         ],
+        onSubscriptionComplete: async ({
+          event,
+          subscription,
+          stripeSubscription,
+          plan,
+        }) => {
+          const user = await prisma.user.findFirst({
+            where: { stripeCustomerId: subscription.stripeCustomerId },
+          });
+
+          if (user) {
+            // Send Successful Subscription Email
+            await resend.emails.send({
+              from: `${APP_NAME} <support@${domain}>`,
+              to: user.email as string,
+              replyTo: process.env.REPLY_EMAIL,
+              subject: 'Verify your email address',
+              react: SuccessfulSubscription({
+                userName: user.name as string,
+              }),
+            });
+          }
+        },
       },
     }),
   ],
