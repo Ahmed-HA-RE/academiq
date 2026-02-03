@@ -10,6 +10,8 @@ import PurchaseHistory from '../components/account/purchase-history';
 import { getAllUserOrders } from '@/lib/actions/user/get-all-user-orders';
 import { Alert, AlertTitle } from '../components/ui/alert';
 import { CircleAlertIcon } from 'lucide-react';
+import Subscription from '../components/account/subscription';
+import { listUserSubscription } from '@/lib/actions/subscription/list-user-subscription';
 
 export const metadata: Metadata = {
   title: 'Account',
@@ -17,8 +19,14 @@ export const metadata: Metadata = {
     'Manage your Academiq account settings, Orders and subscription.',
 };
 
-const AccountPage = async () => {
+const AccountPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) => {
   const orders = await getAllUserOrders();
+  const subscription = await listUserSubscription();
+  const callbackUrl = (await searchParams).callbackUrl || 'account-details';
 
   return (
     <section className='py-6 sm:py-8 lg:py-10'>
@@ -26,7 +34,7 @@ const AccountPage = async () => {
         <h1 className='font-bold text-3xl sm:text-3xl lg:text-3xl mb-6'>
           Account Information
         </h1>
-        <Tabs className='items-start' defaultValue='account-details'>
+        <Tabs className='items-start' defaultValue={callbackUrl}>
           <TabsList className='h-auto rounded-none bg-transparent p-0 '>
             <TabsTrigger
               className='relative rounded-none py-2 px-0 after:absolute after:inset-x-0 after:bottom-0  after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary dark:data-[state=active]:bg-0 text-base'
@@ -74,9 +82,7 @@ const AccountPage = async () => {
             </div>
           </TabsContent>
           <TabsContent className='mt-12 w-full' value='subscription'>
-            <p className='p-4 text-center text-muted-foreground text-xs'>
-              Content for Tab 3
-            </p>
+            <Subscription subscription={subscription} />
           </TabsContent>
         </Tabs>
       </div>

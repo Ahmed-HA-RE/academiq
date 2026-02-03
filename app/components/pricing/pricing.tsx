@@ -46,7 +46,7 @@ const Pricing = ({ userSubscription, user }: PricingProps) => {
       if (userSubscription) {
         const res = await authClient.subscription.upgrade({
           plan: planName,
-          successUrl: '/account/billing',
+          successUrl: '/account/?callbackUrl=subscription',
           cancelUrl: '/pricing',
           returnUrl: '/pricing',
           disableRedirect: false,

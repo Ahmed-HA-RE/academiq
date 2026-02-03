@@ -8,7 +8,7 @@ export const subscribeToPlan = async (planName: string) => {
     const data = await auth.api.upgradeSubscription({
       body: {
         plan: planName,
-        successUrl: '/account/billing',
+        successUrl: '/account?callbackUrl=subscription',
         cancelUrl: '/pricing',
         returnUrl: '/pricing',
         disableRedirect: false,
