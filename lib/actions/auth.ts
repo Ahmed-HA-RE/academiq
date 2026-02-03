@@ -144,12 +144,6 @@ export const verifyEmail = async (otp: string) => {
 
 export const sendPasswordResetLink = async (email: string) => {
   try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (session) throw new Error('You are already logged in');
-
     const validatedData = forgotPasswordSchema.safeParse({ email });
 
     if (!validatedData.success) throw new Error('Invalid email address');

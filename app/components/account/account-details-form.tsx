@@ -25,7 +25,7 @@ import { LIST_COUNTRIES } from '@/lib/utils';
 import { PhoneInput } from '../ui/phone-input';
 import Image from 'next/image';
 import { Button } from '../ui/button';
-import { updateAccountDetails } from '@/lib/actions/user/update-account-details';
+import { updateAccountDetails } from '@/lib/actions/user/update-user-account';
 import { Avatar } from '../ui/avatar';
 import { Suspense } from 'react';
 import { useRouter } from 'next/navigation';
@@ -54,6 +54,7 @@ const AccountDetailsForm = ({
         phone: user.billingInfo?.phone || '',
       },
     },
+    mode: 'onSubmit',
   });
 
   const onSubmit = async (data: UpdateAccountDetails) => {
@@ -112,7 +113,7 @@ const AccountDetailsForm = ({
                       placeholder='Enter your email address'
                       aria-invalid={fieldState.invalid}
                       className='input'
-                      disabled={providerId !== 'credentials'}
+                      disabled={providerId !== 'credential'}
                       {...field}
                     />
                     {fieldState.invalid && (

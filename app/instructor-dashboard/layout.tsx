@@ -14,6 +14,9 @@ import { Metadata } from 'next';
 import SideBar from '../components/instructor/SideBar';
 import Notification from '../components/instructor/Notification';
 import VideoProcessBanner from '../components/instructor/VideoProcessBanner';
+import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
+import { ourFileRouter } from '../api/uploadthing/core';
+import { extractRouterConfig } from 'uploadthing/server';
 
 export const metadata: Metadata = {
   title: {
@@ -35,6 +38,9 @@ const InstructorDashboardLayout = async ({
 
   return (
     <div className='flex min-h-dvh w-full'>
+      {/* UploadThing SSR Hydration Plugin */}
+      <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+
       <SidebarProvider
         defaultOpen={false}
         style={{ '--sidebar-width-icon': '4.7625rem' } as CSSProperties}

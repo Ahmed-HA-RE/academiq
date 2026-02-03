@@ -22,11 +22,11 @@ export const proxy = async (req: NextRequest) => {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  if (pathname === '/forgot-password' && user) {
+  if (pathname === '/forgot-password') {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  if (pathname === '/reset-password' && (user || Invalid_Token)) {
+  if (pathname === '/reset-password' && Invalid_Token) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
@@ -40,7 +40,12 @@ export const proxy = async (req: NextRequest) => {
   }
 
   if (pathname === '/checkout' && !user) {
-    return NextResponse.redirect(new URL('/', req.url));
+    return NextResponse.redirect(
+      new URL(
+        `/login?callbackUrl=${SERVER_URL}${req.nextUrl.pathname}`,
+        req.url,
+      ),
+    );
   }
 
   if (pathname === '/success' && !user) {

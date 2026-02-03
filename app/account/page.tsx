@@ -5,9 +5,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '../components/ui/tabs';
-import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import AccountDetails from '../components/account/account-details';
-import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Account',
@@ -16,12 +14,6 @@ export const metadata: Metadata = {
 };
 
 const AccountPage = async () => {
-  const user = await getCurrentLoggedUser();
-
-  if (!user) {
-    return redirect('/login');
-  }
-
   return (
     <section className='py-6 sm:py-8 lg:py-10'>
       <div className='container'>
@@ -50,14 +42,14 @@ const AccountPage = async () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent className='mt-12 w-full' value='account-details'>
-            <AccountDetails user={user} />
+            <AccountDetails />
           </TabsContent>
-          <TabsContent className='mt-12' value='purchase-history'>
+          <TabsContent className='mt-12 w-full' value='purchase-history'>
             <p className='p-4 text-center text-muted-foreground text-xs'>
               Content for Tab 2
             </p>
           </TabsContent>
-          <TabsContent className='mt-12' value='subscription'>
+          <TabsContent className='mt-12 w-full' value='subscription'>
             <p className='p-4 text-center text-muted-foreground text-xs'>
               Content for Tab 3
             </p>

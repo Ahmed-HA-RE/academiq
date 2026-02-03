@@ -393,3 +393,14 @@ export const updateAccountDetailsSchema = z.object({
     phone: optionalPhoneSchema,
   }),
 });
+
+export const updateAccountPasswordSchema = z
+  .object({
+    currentPassword: registerSchema.shape.password,
+    newPassword: registerSchema.shape.password,
+    confirmNewPassword: registerSchema.shape.confirmPassword,
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "Password dosen't must match",
+    path: ['confirmNewPassword'],
+  });
