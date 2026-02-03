@@ -6,6 +6,10 @@ import {
   TabsTrigger,
 } from '../components/ui/tabs';
 import AccountDetails from '../components/account/account-details';
+import PurchaseHistory from '../components/account/purchase-history';
+import { getAllUserOrders } from '@/lib/actions/user/get-all-user-orders';
+import { Alert, AlertTitle } from '../components/ui/alert';
+import { CircleAlertIcon } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Account',
@@ -14,6 +18,8 @@ export const metadata: Metadata = {
 };
 
 const AccountPage = async () => {
+  const orders = await getAllUserOrders();
+
   return (
     <section className='py-6 sm:py-8 lg:py-10'>
       <div className='container'>
@@ -45,9 +51,27 @@ const AccountPage = async () => {
             <AccountDetails />
           </TabsContent>
           <TabsContent className='mt-12 w-full' value='purchase-history'>
-            <p className='p-4 text-center text-muted-foreground text-xs'>
-              Content for Tab 2
-            </p>
+            <div className='flex flex-col lg:flex-row items-start gap-5'>
+              <div className='space-y-3 lg:flex-1/4'>
+                <h3 className='text-xl font-semibold'>Your Purchase History</h3>
+                <p className='text-muted-foreground text-sm lg:max-w-md'>
+                  Review your past orders and download invoices for your
+                  records.
+                </p>
+              </div>
+              <div className='lg:flex-1/2 w-full'>
+                {orders.length === 0 ? (
+                  <Alert className='bg-primary/10 border-none max-w-sm'>
+                    <CircleAlertIcon />
+                    <AlertTitle>You have no purchase history.</AlertTitle>
+                  </Alert>
+                ) : (
+                  orders.map((order) => (
+                    <PurchaseHistory key={order.id} order={order} />
+                  ))
+                )}
+              </div>
+            </div>
           </TabsContent>
           <TabsContent className='mt-12 w-full' value='subscription'>
             <p className='p-4 text-center text-muted-foreground text-xs'>

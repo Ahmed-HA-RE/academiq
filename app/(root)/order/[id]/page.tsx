@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from '@/app/components/ui/card';
 import { redirect } from 'next/navigation';
-import { getOrderById } from '@/lib/actions/order';
+import { getOrderById } from '@/lib/actions/order/get-orders';
 import Image from 'next/image';
 import { APP_NAME } from '@/lib/constants';
 import Link from 'next/link';

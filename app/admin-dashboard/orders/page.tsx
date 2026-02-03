@@ -2,7 +2,7 @@ import OrderDataTable from '@/app/components/admin/Orders/OrderDataTable';
 import { loadSearchParams } from '@/lib/searchParams';
 import { Metadata } from 'next';
 import { SearchParams } from 'nuqs/server';
-import { getAllOrdersAsAdmin } from '@/lib/actions/order';
+import { getAllOrdersAsAdmin } from '@/lib/actions/order/get-orders';
 
 export const metadata: Metadata = {
   title: 'Orders',

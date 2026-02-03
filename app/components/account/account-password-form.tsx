@@ -12,7 +12,6 @@ import { updateAccountPassword } from '@/lib/actions/user/update-user-account';
 import toast from 'react-hot-toast';
 import { useTransition } from 'react';
 import { sendPasswordResetLink } from '@/lib/actions/auth';
-import { useRouter } from 'next/navigation';
 import ScreenSpinner from '../ScreenSpinner';
 
 const AccountPasswordForm = ({ userEmail }: { userEmail: string }) => {

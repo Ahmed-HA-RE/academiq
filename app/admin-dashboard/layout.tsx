@@ -9,7 +9,7 @@ import { getAllAdmins } from '@/lib/actions/admin/list-user';
 import { notFound } from 'next/navigation';
 import { CSSProperties } from 'react';
 import SideBar from '../components/admin/SideBar';
-import { markAsExpiredAndDeleteOrdersAsAdmin } from '@/lib/actions/order';
+import { markAsExpiredAndDeleteOrdersAsAdmin } from '@/lib/actions/order/get-orders';
 import { Metadata } from 'next';
 import { SidebarProvider, SidebarTrigger } from '../components/ui/sidebar';
 

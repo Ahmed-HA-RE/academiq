@@ -47,7 +47,7 @@ const AccountDetailsForm = ({
       email: user.email || '',
       image: user.image,
       billingInfo: {
-        name: user.billingInfo?.fullName || '',
+        name: user.billingInfo?.name || '',
         address: user.billingInfo?.address || '',
         country: user.billingInfo?.country || '',
         email: user.billingInfo?.email || '',

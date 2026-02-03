@@ -3,7 +3,7 @@ import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import { getClientSecret } from '@/lib/actions/stripe.action';
-import { getOrderById } from '@/lib/actions/order';
+import { getOrderById } from '@/lib/actions/order/get-orders';
 
 export const metadata: Metadata = {
   title: 'Checkout',

@@ -26,7 +26,7 @@ import { applyDiscountSchema, billingInfoSchema } from '@/schema';
 import z from 'zod';
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { createOrder } from '@/lib/actions/order';
+import { createOrder } from '@/lib/actions/order/create-order';
 
 import {
   Accordion,
@@ -50,7 +50,7 @@ const CartDetails = ({
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const [billingDetailsData, setBillingDetailsData] = useState<BillingInfo>({
-    fullName: '',
+    name: '',
     email: '',
     phone: '',
     address: '',
@@ -73,7 +73,7 @@ const CartDetails = ({
       address: user?.billingInfo?.address || '',
       country: user?.billingInfo?.country || '',
       email: user?.billingInfo?.email || '',
-      fullName: user?.billingInfo?.fullName || '',
+      name: user?.billingInfo?.name || '',
       phone: user?.billingInfo?.phone || '',
     },
     mode: 'onSubmit',

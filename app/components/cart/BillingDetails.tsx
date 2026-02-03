@@ -33,7 +33,7 @@ const BillingDetails = ({
           <FieldGroup className='gap-6'>
             {/* Full Name */}
             <Controller
-              name='fullName'
+              name='name'
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>

@@ -261,7 +261,7 @@ export const instructorUpdateSchema = instructorSchema
   });
 
 export const billingInfoSchema = z.object({
-  fullName: z
+  name: z
     .string({ error: 'Invalid full name' })
     .min(3, 'Full name is required')
     .regex(/^[a-zA-Z ]+$/, 'Name can only contain letters and spaces'),

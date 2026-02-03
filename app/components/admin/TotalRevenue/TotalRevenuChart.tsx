@@ -2,7 +2,7 @@ import {
   getMonthlyRevenue,
   getTotalRevenueAfter,
   getTotalRevenueBefore,
-} from '@/lib/actions/order';
+} from '@/lib/actions/order/get-orders';
 import TotalRevenuChartDetails from '../../shared/TotalRevenueChartDetails';
 
 const TotalRevenueChart = async () => {
