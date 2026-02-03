@@ -1,4 +1,4 @@
-import { getOrdersMonthlyRevenue } from '@/lib/actions/order/get-orders';
+import { getOrdersMonthlyRevenue } from '@/lib/actions/order/get-orders-statistics';
 import OrderChartDetails from './OrderChartDetails';
 
 const OrderChart = async () => {

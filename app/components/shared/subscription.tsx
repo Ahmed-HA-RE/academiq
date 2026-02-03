@@ -2,7 +2,7 @@
 import { useTransition } from 'react';
 import { Button } from '../ui/button';
 import { createBillingPortalSession } from '@/lib/actions/subscription/create-billing-portal';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeftIcon, CreditCard, Crown, Sparkles } from 'lucide-react';
 import {
@@ -26,10 +26,15 @@ const Subscription = ({
 }) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const pathname = usePathname();
+
+  const isInstructorDashboard = pathname.startsWith('/instructor-dashboard')
+    ? '/instructor-dashboard/settings/subscription'
+    : '/account?callbackUrl=subscription';
 
   const handleBillingPortal = async () => {
     startTransition(async () => {
-      const res = await createBillingPortalSession();
+      const res = await createBillingPortalSession(isInstructorDashboard);
       router.push(res);
     });
   };

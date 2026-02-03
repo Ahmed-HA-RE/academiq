@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import StatisticsCard from '../components/instructor/StatisticsCard';
-import TotalRevenueChart from '../components/instructor/TotalRevenueChart';
 import PopularCoursesCard from '../components/instructor/courses/PopularCoursesCard';
 import InstructorUserDataTable from '../components/instructor/students/InstructorUserDataTable';
 import { SearchParams } from 'nuqs/server';
@@ -20,7 +19,6 @@ const InstructorHomePage = async ({
   return (
     <>
       <StatisticsCard />
-      <TotalRevenueChart />
       <PopularCoursesCard />
       <CoursesWithProgressChart />
       <InstructorUserDataTable searchParams={searchParams} />

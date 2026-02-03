@@ -32,6 +32,8 @@ const CourseCardBtn = ({
   const pathname = usePathname();
   const callbackUrl = `${SERVER_URL}${pathname}`;
 
+  const isAdmin = user && user.role === 'admin';
+
   const isCourseInCart =
     cart && cart.cartItems.find((item) => item.courseId === course.id);
 
@@ -89,7 +91,18 @@ const CourseCardBtn = ({
       });
   };
 
-  return isCourseInCart ? (
+  return isAdmin ? (
+    <Button
+      className={`cursor-pointer w-full ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'}`}
+      size={!isCourseDetailsPage ? 'default' : 'lg'}
+      variant={'default'}
+      asChild
+    >
+      <Link href={`/admin-dashboard/courses/${course.id}/edit`}>
+        Edit Course
+      </Link>
+    </Button>
+  ) : isCourseInCart ? (
     <Button
       onClick={handleRemoveFromCart}
       className={`cursor-pointer bg-red-600 text-white hover:bg-red-700 w-full ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'}`}

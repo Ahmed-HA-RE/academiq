@@ -3,12 +3,12 @@
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 
-export const subscribeToPlan = async (planName: string) => {
+export const subscribeToPlan = async (planName: string, successUrl: string) => {
   try {
     const data = await auth.api.upgradeSubscription({
       body: {
         plan: planName,
-        successUrl: '/account?callbackUrl=subscription',
+        successUrl,
         cancelUrl: '/pricing',
         returnUrl: '/pricing',
         disableRedirect: false,

@@ -10,7 +10,7 @@ import PurchaseHistory from '../components/account/purchase-history';
 import { getAllUserOrders } from '@/lib/actions/user/get-all-user-orders';
 import { Alert, AlertTitle } from '../components/ui/alert';
 import { CircleAlertIcon } from 'lucide-react';
-import Subscription from '../components/account/subscription';
+import Subscription from '../components/shared/subscription';
 import { listUserSubscription } from '@/lib/actions/subscription/list-user-subscription';
 
 export const metadata: Metadata = {
@@ -24,8 +24,11 @@ const AccountPage = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const orders = await getAllUserOrders();
-  const subscription = await listUserSubscription();
+  const [orders, subscription] = await Promise.all([
+    getAllUserOrders(),
+    listUserSubscription(),
+  ]);
+
   const callbackUrl = (await searchParams).callbackUrl || 'account-details';
 
   return (

@@ -9,13 +9,11 @@ import {
 import { Card, CardContent, CardHeader } from '../ui/card';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { getUsersCount } from '@/lib/actions/admin/list-user';
-import {
-  getOrdersCount,
-  getTotalSalesAmount,
-} from '@/lib/actions/order/get-orders';
+import { getTotalSalesAmount } from '@/lib/actions/order/get-orders-statistics';
 import { getTotalInstructorsCount } from '@/lib/actions/instructor/getInstructor';
 import { getInstructorApplicationsCount } from '@/lib/actions/instructor/application';
 import { getTotalCoursesCount } from '@/lib/actions/course/getCourses';
+import { getOrdersCount } from '@/lib/actions/order/get-orders';
 
 const StatisticsCard = async () => {
   const [

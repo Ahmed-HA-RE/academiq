@@ -10,7 +10,7 @@ const PopularCoursesCard = async () => {
   const popularCourses = await getPopularCoursesByInstructor();
 
   return (
-    <Card className='gap-5 col-span-4 lg:col-span-2'>
+    <Card className='gap-5 col-span-4'>
       <CardHeader className='flex justify-between'>
         <span className='text-lg font-semibold'>Popular Courses</span>
         <span className='text-muted-foreground text-sm'>Your Top courses</span>

@@ -43,12 +43,12 @@ const UsersChartDetails = ({
 }: UsersChartDetailsProps) => {
   // Calculate max value for Y-axis domain
   const maxValue = Math.max(
-    ...monthlyUserActivity.map((d) => Math.max(d.pv, d.uv))
+    ...monthlyUserActivity.map((d) => Math.max(d.pv, d.uv)),
   );
   const yAxisMax = Math.ceil(maxValue / 10) * 10 || 100;
 
   return (
-    <Card className='col-span-4 xl:col-span-2 w-full gap-2'>
+    <Card className='col-span-4  w-full gap-2'>
       <CardHeader>
         <CardTitle className='text-xl sm:text-2xl font-semibold'>
           User Activity

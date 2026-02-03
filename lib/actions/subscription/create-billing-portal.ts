@@ -3,10 +3,10 @@
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 
-export const createBillingPortalSession = async () => {
+export const createBillingPortalSession = async (returnUrl: string) => {
   const data = await auth.api.createBillingPortal({
     body: {
-      returnUrl: '/account?callbackUrl=subscription',
+      returnUrl,
       customerType: 'user',
       locale: 'en',
     },

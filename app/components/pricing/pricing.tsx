@@ -26,6 +26,11 @@ type PricingProps = {
 };
 
 const Pricing = ({ userSubscription, user }: PricingProps) => {
+  const isInstructor =
+    user?.role === 'instructor'
+      ? '/instructor-dashboard/settings/subscription'
+      : '/account?callbackUrl=subscription';
+
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -60,7 +65,7 @@ const Pricing = ({ userSubscription, user }: PricingProps) => {
 
         router.push(res.data.url);
       } else {
-        const res = await subscribeToPlan(planName);
+        const res = await subscribeToPlan(planName, isInstructor);
         if (!res.success || !res.url) {
           toast.error(res.message);
           return;

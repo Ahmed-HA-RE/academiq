@@ -3,7 +3,6 @@ import { loadSearchParams } from '@/lib/searchParams';
 import { getAllUsers } from '@/lib/actions/admin/list-user';
 import { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';
-import TotalRevenueChart from '../components/admin/TotalRevenue/TotalRevenuChart';
 import UserDatatable from '../components/admin/Users/UserDataTable';
 import UsersChart from '../components/admin/Users/UsersChart';
 import OrderChart from '../components/admin/Orders/OrderChart';
@@ -33,7 +32,6 @@ const AdminDashboardHomePage = async ({
   return (
     <>
       <StatisticsCard />
-      <TotalRevenueChart />
       <UsersChart />
       <OrderChart />
       <UserDatatable users={users} totalPages={totalPages} />
