@@ -6,6 +6,9 @@ import { ThemeProvider } from './components/ui/theme-provider';
 import { Toaster } from 'react-hot-toast';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { cn } from '@/lib/utils';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import knock from '@/lib/knock';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -29,11 +32,23 @@ export const metadata: Metadata = {
   },
 };
 
-const RootLayout = ({
+const RootLayout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session) {
+    // Identify and create user for knock notification
+    await knock.users.update(session.user.id, {
+      name: session.user.name,
+      email: session.user.email,
+    });
+  }
+
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={cn(outfit.className)}>
