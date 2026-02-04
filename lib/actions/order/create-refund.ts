@@ -1,11 +1,11 @@
 'use server';
 
 import { headers } from 'next/headers';
-import { auth } from '../auth';
-import { getOrderById } from '../actions/order';
-import { prisma } from '../prisma';
+import { auth } from '../../auth';
+import { getOrderById } from '../../actions/order/get-orders';
+import { prisma } from '../../prisma';
+import stripe from '../../stripe';
 import { revalidatePath } from 'next/cache';
-import stripe from '../stripe';
 
 // Create a refund process for an order
 export const createRefund = async (orderId: string) => {
@@ -26,9 +26,12 @@ export const createRefund = async (orderId: string) => {
 
     if (
       order.paidAt &&
-      order.paidAt <= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) // 30 days
+      order.paidAt <= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 30 days
     )
       throw new Error('Refund period has expired');
+
+    if (order.status === 'refunded')
+      throw new Error('Order has already been refunded');
 
     const userCourseProgress = await prisma.userProgress.findFirst({
       where: {
@@ -52,7 +55,7 @@ export const createRefund = async (orderId: string) => {
       amount: Math.round(Number(order.paymentResult.amount) * 100),
     });
 
-    revalidatePath('/', 'layout');
+    revalidatePath('/account', 'page');
 
     return { success: true, message: 'Order refunded successfully' };
   } catch (error) {

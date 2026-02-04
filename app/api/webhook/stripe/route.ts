@@ -173,7 +173,7 @@ export const POST = async (req: Request) => {
         ),
       });
 
-      if (!instructor.user.banned) {
+      if (instructor.user.banned) {
         continue;
       }
 

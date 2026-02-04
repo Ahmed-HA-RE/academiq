@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma';
 import { getCurrentLoggedUser } from '../getUser';
+import { convertToPlainObject } from '@/lib/utils';
 
 export const getAllUserOrders = async () => {
   const user = await getCurrentLoggedUser();
@@ -14,7 +15,6 @@ export const getAllUserOrders = async () => {
   const orders = await prisma.order.findMany({
     where: {
       userId: user.id,
-      status: 'paid',
     },
     include: {
       orderItems: true, // Include related order items
@@ -28,5 +28,5 @@ export const getAllUserOrders = async () => {
     },
   });
 
-  return orders;
+  return convertToPlainObject(orders);
 };

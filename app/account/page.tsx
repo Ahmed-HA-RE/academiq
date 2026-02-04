@@ -6,7 +6,7 @@ import {
   TabsTrigger,
 } from '../components/ui/tabs';
 import AccountDetails from '../components/account/account-details';
-import PurchaseHistory from '../components/account/purchase-history';
+import PurchaseHistoryCard from '../components/account/purchase-history-card';
 import { getAllUserOrders } from '@/lib/actions/user/get-all-user-orders';
 import { Alert, AlertTitle } from '../components/ui/alert';
 import { CircleAlertIcon } from 'lucide-react';
@@ -78,7 +78,7 @@ const AccountPage = async ({
                   </Alert>
                 ) : (
                   orders.map((order) => (
-                    <PurchaseHistory key={order.id} order={order} />
+                    <PurchaseHistoryCard key={order.id} order={order} />
                   ))
                 )}
               </div>

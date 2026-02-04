@@ -141,7 +141,7 @@ const ProfileDropdown = ({
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuGroup>
+        <DropdownMenuGroup className='space-y-0.5'>
           {links.map((link) => (
             <DropdownMenuItem
               key={link.title}

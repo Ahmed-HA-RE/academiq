@@ -27,10 +27,8 @@ import {
 import { Order } from '@/types';
 import { cn, formatDate, formatId } from '@/lib/utils';
 import Link from 'next/link';
-import {
-  createRefund,
-  deleteOrderByIdAsAdmin,
-} from '@/lib/actions/order/get-orders';
+import { deleteOrderByIdAsAdmin } from '@/lib/actions/order/delete-order-as-admin';
+import { createRefund } from '@/lib/actions/order/create-refund';
 import { toast } from 'react-hot-toast';
 import DeleteDialog from '../../shared/DeleteDialog';
 import DataPagination from '../../shared/Pagination';
@@ -59,10 +57,10 @@ export const columns: ColumnDef<Omit<Order, 'discount'>>[] = [
     ),
   },
   {
-    accessorKey: 'billingDetails.fullName',
+    accessorKey: 'billingDetails.name',
     header: 'Buyer',
     cell: ({ row }) => {
-      return <span>{row.original.billingDetails.fullName}</span>;
+      return <span>{row.original.billingDetails.name}</span>;
     },
   },
   {
