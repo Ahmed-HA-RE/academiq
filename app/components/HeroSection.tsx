@@ -1,6 +1,6 @@
 import { MotionPreset } from '@/app/components/ui/motion-preset';
 import { BounceButton } from '@/app/components/ui/bounce-button';
-import { BookOpen, Users, GraduationCap } from 'lucide-react';
+import { BookOpen, Users, GraduationCap, GlobeIcon } from 'lucide-react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -22,7 +22,7 @@ const HeroSection = async () => {
       icon: BookOpen,
     },
     {
-      label: 'Students',
+      label: 'Enrollements',
       value: '5k+',
       icon: Users,
     },
@@ -30,6 +30,11 @@ const HeroSection = async () => {
       label: 'Instructors',
       value: '50+',
       icon: GraduationCap,
+    },
+    {
+      label: 'Learners Worldwide',
+      value: '40+',
+      icon: GlobeIcon,
     },
   ];
 
@@ -107,7 +112,7 @@ const HeroSection = async () => {
       </div>
       <div className='bg-gradient-to-r from-[#57ebde] to-[#AEFB2A] dark:bg-gradient-to-r dark:from-[#2B4584] dark:to-[#4A9E48] w-full p-4 mt-6'>
         <div className='container'>
-          <div className='flex flex-row justify-between items-center gap-6'>
+          <div className='flex flex-col md:flex-row justify-between items-center gap-6'>
             {stats.map((stat, index) => (
               <MotionPreset
                 key={index}
@@ -124,7 +129,7 @@ const HeroSection = async () => {
                   <span className='text-4xl font-bold text-white dark:text-[#D1F3C4]'>
                     {stat.value}
                   </span>
-                  <span className='text-white/85 dark:text-[#BFDFA8] text-base'>
+                  <span className='text-white dark:text-[#BFDFA8] text-base'>
                     {stat.label}
                   </span>
                 </div>

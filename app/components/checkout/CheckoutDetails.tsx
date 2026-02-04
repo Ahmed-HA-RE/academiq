@@ -33,8 +33,6 @@ const CheckoutDetails = ({
       developerTools: { assistant: { enabled: false } },
     },
   );
-
-  console.log(stripePromise);
   const { theme } = useTheme();
 
   if (order.orderItems.length === 0 || order.isPaid) redirect('/');

@@ -38,7 +38,9 @@ const SuccessPage = async ({
           You should receive an order confirmation email shortly.
         </p>
         <Button size={'lg'} className='text-base cursor-pointer h-11' asChild>
-          <Link href={`/`}>Go Home</Link>
+          <Link href={'/account?callbackUrl=purchase-history'}>
+            View Purchase History
+          </Link>
         </Button>
         <Button
           size={'lg'}

@@ -44,7 +44,7 @@ const EditUserForm = ({
       phone: user.billingInfo?.phone || '',
       address: user.billingInfo?.address || '',
       country: user.billingInfo?.country || '',
-      fullName: user.billingInfo?.fullName || '',
+      fullName: user.billingInfo?.name || '',
     },
   });
 

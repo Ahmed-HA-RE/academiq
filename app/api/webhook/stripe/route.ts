@@ -173,7 +173,7 @@ export const POST = async (req: Request) => {
         ),
       });
 
-      if (!instructor.user.banned) {
+      if (instructor.user.banned) {
         continue;
       }
 
@@ -215,7 +215,9 @@ export const POST = async (req: Request) => {
       }),
     });
 
-    revalidatePath('/admin-dashboard', 'layout');
+    revalidatePath('/account', 'page');
+    revalidatePath('/admin-dashboard/orders', 'page');
+
     return Response.json({ message: 'Charge refunded processed' });
   } else if (event.type === 'coupon.created') {
     const coupon = event.data.object;
