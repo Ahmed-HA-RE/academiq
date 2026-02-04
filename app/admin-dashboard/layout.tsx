@@ -12,6 +12,7 @@ import SideBar from '../components/admin/SideBar';
 import { markAsExpiredAndDeleteOrdersAsAdmin } from '@/lib/actions/order/mark-orders-expired-and-delete';
 import { Metadata } from 'next';
 import { SidebarProvider, SidebarTrigger } from '../components/ui/sidebar';
+import { cleanupIncompleteSubscriptions } from '@/lib/actions/admin/cleanup-incomplete-subscriptions.ts';
 
 export const metadata: Metadata = {
   title: {
@@ -29,6 +30,7 @@ const AdminDashBoardLayout = async ({
     getCurrentLoggedUser(),
     getAllAdmins(),
     markAsExpiredAndDeleteOrdersAsAdmin(),
+    cleanupIncompleteSubscriptions(),
   ]);
 
   if (!user) return notFound();
