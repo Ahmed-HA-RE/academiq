@@ -5,7 +5,6 @@ import { auth } from '../../auth';
 import { getOrderById } from '../../actions/order/get-orders';
 import { prisma } from '../../prisma';
 import stripe from '../../stripe';
-import { revalidatePath } from 'next/cache';
 
 // Create a refund process for an order
 export const createRefund = async (orderId: string) => {
@@ -54,8 +53,6 @@ export const createRefund = async (orderId: string) => {
       },
       amount: Math.round(Number(order.paymentResult.amount) * 100),
     });
-
-    revalidatePath('/account', 'page');
 
     return { success: true, message: 'Order refunded successfully' };
   } catch (error) {
