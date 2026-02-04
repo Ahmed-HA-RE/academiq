@@ -27,15 +27,13 @@ export const getNewUsersCount = async () => {
 };
 
 export const getActiveUsersCount = async () => {
-  const activeUsers = await prisma.order.findMany({
+  const activeUsers = await prisma.userProgress.findMany({
     distinct: ['userId'],
     where: {
-      isPaid: true,
-      createdAt: {
-        gte: new Date(new Date().setDate(new Date().getDate() - 30)),
-      },
+      progress: { gt: 0 },
     },
   });
+
   return activeUsers.length;
 };
 
@@ -55,18 +53,18 @@ export const getMonthlyUserActivity = async () => {
     },
   });
 
-  // Get all orders to determine active users by month
-  const orders = await prisma.order.findMany({
+  // Get all progress to determine active users by month
+  const progress = await prisma.userProgress.findMany({
     where: {
-      isPaid: true,
-      createdAt: {
+      progress: { gt: 0 },
+      updatedAt: {
         gte: new Date(`${currentYear}-01-01`),
         lte: new Date(`${currentYear}-12-31`),
       },
     },
     select: {
       userId: true,
-      createdAt: true,
+      updatedAt: true,
     },
   });
 
@@ -80,11 +78,11 @@ export const getMonthlyUserActivity = async () => {
       (user) => user.createdAt.getMonth() === i,
     ).length;
 
-    // Count unique active users (users who made purchases) for this month
+    // Count unique active users (users who made progress) for this month
     const activeUsersThisMonth = new Set(
-      orders
-        .filter((order) => order.createdAt.getMonth() === i)
-        .map((order) => order.userId),
+      progress
+        .filter((progress) => progress.updatedAt.getMonth() === i)
+        .map((progress) => progress.userId),
     ).size;
 
     return {

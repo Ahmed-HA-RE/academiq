@@ -14,4 +14,8 @@ model Subscription {
   seats                Int?
   trialStart           DateTime?
   trialEnd             DateTime?
+  userId               String?
+  user                 User?     @relation(fields: [userId], references: [id])
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 }

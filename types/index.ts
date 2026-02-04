@@ -126,6 +126,26 @@ export type Order = z.infer<typeof orderBaseSchema> & {
   orderItems: OrderItems[];
 };
 
+export type Subscription = {
+  id: string;
+  plan: string;
+  referenceId: string;
+  stripeCustomerId: string | null;
+  stripeSubscriptionId: string | null;
+  status: string;
+  periodStart: Date | null;
+  periodEnd: Date | null;
+  cancelAtPeriodEnd: boolean | null;
+  cancelAt: Date | null;
+  canceledAt: Date | null;
+  endedAt: Date | null;
+  seats: number | null;
+  trialStart: Date | null;
+  trialEnd: Date | null;
+  userId: string | null;
+  user: Pick<User, 'name' | 'email' | 'image'> | null;
+};
+
 export type User = {
   id: string;
   name: string;

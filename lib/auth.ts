@@ -124,6 +124,10 @@ export const auth = betterAuth({
                 userName: user.name as string,
               }),
             });
+            await prisma.subscription.update({
+              where: { id: subscription.id },
+              data: { userId: user.id },
+            });
           }
         },
         onSubscriptionCancel: async ({ subscription }) => {

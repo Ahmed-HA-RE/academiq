@@ -23,6 +23,7 @@ model User {
   banExpires           DateTime?
   reviews              Review[]
   lessonProgresses     LessonProgress[]
+  subscriptions        Subscription[]
 
   @@unique([email])
   @@map("user")

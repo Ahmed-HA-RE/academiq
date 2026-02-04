@@ -65,6 +65,7 @@ const pagesItems = [
     items: [
       { label: 'All Users', href: '/admin-dashboard/users' },
       { label: 'Admins', href: '/admin-dashboard/users/admins' },
+      { label: 'Subscribers', href: '/admin-dashboard/users/subscribers' },
       { label: 'Banned Users', href: '/admin-dashboard/users/banned-users' },
     ],
   },
@@ -150,7 +151,7 @@ const SideBar = ({ user, admins }: { user: User; admins: User[] }) => {
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                )
+                ),
               )}
             </SidebarMenu>
           </SidebarGroupContent>
