@@ -13,6 +13,7 @@ import { stripe as stripeClient } from './stripe';
 import SuccessfulSubscription from '@/emails/SuccessfulSubscription';
 import CancelSubscription from '@/emails/CancelSubscription';
 import knock from './knock';
+import { welcomeWorkFlow } from './actions/notifications/welcome-workflow';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -23,11 +24,12 @@ export const auth = betterAuth({
     after: createAuthMiddleware(async (ctx) => {
       // Hanld creating new users to knock
       const { context } = ctx;
-      if (context.newSession) {
+      if (context.newSession && context.newSession.user.emailVerified) {
         await knock.users.update(context.newSession.user.id, {
           name: context.newSession.user.name,
           email: context.newSession.user.email,
         });
+        await welcomeWorkFlow(context.newSession.user.id);
       }
 
       // Handle banned users

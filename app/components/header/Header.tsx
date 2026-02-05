@@ -8,10 +8,11 @@ import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { APP_NAME } from '@/lib/constants';
 import { ShoppingCartIcon } from 'lucide-react';
-import { Avatar, AvatarFallback } from '../ui/avatar';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import CouponBanner from '../CouponBanner';
 import { getValidDiscount } from '@/lib/actions/discount';
+import NotificationMenu from '../NotificationMenu';
+import { Button } from '../ui/button';
+import { signUserToken } from '@knocklabs/node/lib/tokenSigner.mjs';
 
 const Header = async () => {
   const session = await auth.api.getSession({
@@ -19,6 +20,15 @@ const Header = async () => {
   });
 
   const discount = await getValidDiscount();
+
+  let userToken;
+
+  if (session) {
+    userToken = await signUserToken(session.user.id, {
+      expiresInSeconds: 60 * 60, // 1 hour
+      signingKey: process.env.KNOCK_SIGNING_KEY,
+    });
+  }
 
   const baseNavigationMenu = [
     { href: '/courses', title: 'Courses' },
@@ -34,7 +44,7 @@ const Header = async () => {
     <>
       {discount && <CouponBanner discount={discount} />}
       <header className='dark:bg-[#121212]'>
-        <div className='mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 lg:px-6 h-17.5'>
+        <div className='mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 lg:px-6 h-17.5 relative'>
           <div className='flex items-center lg:gap-10'>
             <MenuSheet navigationData={baseNavigationMenu} />
             <Link className='flex flex-row items-center gap-1' href='/'>
@@ -51,23 +61,19 @@ const Header = async () => {
 
           <div className='flex items-center'>
             {/* Cart */}
-            {session?.user && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className='relative w-fit cursor-pointer'>
-                    <Link href='/cart'>
-                      <Avatar className='size-9 rounded-sm'>
-                        <AvatarFallback className='rounded-sm bg-0 hover:bg-accent dark:hover:bg-accent/80 transition'>
-                          <ShoppingCartIcon className='size-5' />
-                        </AvatarFallback>
-                      </Avatar>
-                    </Link>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Cart</p>
-                </TooltipContent>
-              </Tooltip>
+            {session && (
+              <Button variant='ghost' size={'icon'} className='mr-1' asChild>
+                <Link href='/cart'>
+                  <ShoppingCartIcon className='size-5.5' />
+                </Link>
+              </Button>
+            )}
+            {/* Notification Menu */}
+            {session && (
+              <NotificationMenu
+                session={session}
+                userToken={userToken as string}
+              />
             )}
             {/* Theme */}
             <Theme />
