@@ -253,7 +253,6 @@ export type UserWhereInput = {
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   courses?: Prisma.CourseListRelationFilter
-  carts?: Prisma.CartListRelationFilter
   orders?: Prisma.OrderListRelationFilter
   intructorApplication?: Prisma.XOR<Prisma.IntructorApplicationNullableScalarRelationFilter, Prisma.IntructorApplicationWhereInput> | null
   instructor?: Prisma.XOR<Prisma.InstructorNullableScalarRelationFilter, Prisma.InstructorWhereInput> | null
@@ -281,7 +280,6 @@ export type UserOrderByWithRelationInput = {
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   courses?: Prisma.CourseOrderByRelationAggregateInput
-  carts?: Prisma.CartOrderByRelationAggregateInput
   orders?: Prisma.OrderOrderByRelationAggregateInput
   intructorApplication?: Prisma.IntructorApplicationOrderByWithRelationInput
   instructor?: Prisma.InstructorOrderByWithRelationInput
@@ -312,7 +310,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   courses?: Prisma.CourseListRelationFilter
-  carts?: Prisma.CartListRelationFilter
   orders?: Prisma.OrderListRelationFilter
   intructorApplication?: Prisma.XOR<Prisma.IntructorApplicationNullableScalarRelationFilter, Prisma.IntructorApplicationWhereInput> | null
   instructor?: Prisma.XOR<Prisma.InstructorNullableScalarRelationFilter, Prisma.InstructorWhereInput> | null
@@ -380,7 +377,6 @@ export type UserCreateInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorCreateNestedOneWithoutUserInput
@@ -408,7 +404,6 @@ export type UserUncheckedCreateInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorUncheckedCreateNestedOneWithoutUserInput
@@ -436,7 +431,6 @@ export type UserUpdateInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUpdateOneWithoutUserNestedInput
@@ -464,7 +458,6 @@ export type UserUncheckedUpdateInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUncheckedUpdateOneWithoutUserNestedInput
@@ -525,11 +518,6 @@ export type UserUncheckedUpdateManyInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type UserNullableScalarRelationFilter = {
-  is?: Prisma.UserWhereInput | null
-  isNot?: Prisma.UserWhereInput | null
-}
-
 export type UserListRelationFilter = {
   every?: Prisma.UserWhereInput
   some?: Prisma.UserWhereInput
@@ -543,6 +531,11 @@ export type UserOrderByRelationAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -592,22 +585,6 @@ export type UserMinOrderByAggregateInput = {
   banned?: Prisma.SortOrder
   banReason?: Prisma.SortOrder
   banExpires?: Prisma.SortOrder
-}
-
-export type UserCreateNestedOneWithoutCartsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCartsInput, Prisma.UserUncheckedCreateWithoutCartsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCartsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneWithoutCartsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCartsInput, Prisma.UserUncheckedCreateWithoutCartsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCartsInput
-  upsert?: Prisma.UserUpsertWithoutCartsInput
-  disconnect?: Prisma.UserWhereInput | boolean
-  delete?: Prisma.UserWhereInput | boolean
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCartsInput, Prisma.UserUpdateWithoutCartsInput>, Prisma.UserUncheckedUpdateWithoutCartsInput>
 }
 
 export type UserCreateNestedManyWithoutCoursesInput = {
@@ -776,130 +753,6 @@ export type UserUpdateOneRequiredWithoutLessonProgressesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLessonProgressesInput, Prisma.UserUpdateWithoutLessonProgressesInput>, Prisma.UserUncheckedUpdateWithoutLessonProgressesInput>
 }
 
-export type UserCreateWithoutCartsInput = {
-  id: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string
-  imageKey?: string | null
-  role?: string
-  billingInfo?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  stripeCustomerId?: string | null
-  banned?: boolean
-  banReason?: string | null
-  banExpires?: Date | string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  courses?: Prisma.CourseCreateNestedManyWithoutUsersInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
-  intructorApplication?: Prisma.IntructorApplicationCreateNestedOneWithoutUserInput
-  instructor?: Prisma.InstructorCreateNestedOneWithoutUserInput
-  userProgress?: Prisma.UserProgressCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
-  lessonProgresses?: Prisma.LessonProgressCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutCartsInput = {
-  id: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string
-  imageKey?: string | null
-  role?: string
-  billingInfo?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  stripeCustomerId?: string | null
-  banned?: boolean
-  banReason?: string | null
-  banExpires?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUsersInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-  intructorApplication?: Prisma.IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
-  instructor?: Prisma.InstructorUncheckedCreateNestedOneWithoutUserInput
-  userProgress?: Prisma.UserProgressUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
-  lessonProgresses?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutCartsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutCartsInput, Prisma.UserUncheckedCreateWithoutCartsInput>
-}
-
-export type UserUpsertWithoutCartsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutCartsInput, Prisma.UserUncheckedUpdateWithoutCartsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutCartsInput, Prisma.UserUncheckedCreateWithoutCartsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutCartsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutCartsInput, Prisma.UserUncheckedUpdateWithoutCartsInput>
-}
-
-export type UserUpdateWithoutCartsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.StringFieldUpdateOperationsInput | string
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.StringFieldUpdateOperationsInput | string
-  billingInfo?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutUsersNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
-  intructorApplication?: Prisma.IntructorApplicationUpdateOneWithoutUserNestedInput
-  instructor?: Prisma.InstructorUpdateOneWithoutUserNestedInput
-  userProgress?: Prisma.UserProgressUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
-  lessonProgresses?: Prisma.LessonProgressUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutCartsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.StringFieldUpdateOperationsInput | string
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.StringFieldUpdateOperationsInput | string
-  billingInfo?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutUsersNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-  intructorApplication?: Prisma.IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
-  instructor?: Prisma.InstructorUncheckedUpdateOneWithoutUserNestedInput
-  userProgress?: Prisma.UserProgressUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
-  lessonProgresses?: Prisma.LessonProgressUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
-}
-
 export type UserCreateWithoutCoursesInput = {
   id: string
   name: string
@@ -917,7 +770,6 @@ export type UserCreateWithoutCoursesInput = {
   banExpires?: Date | string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorCreateNestedOneWithoutUserInput
@@ -944,7 +796,6 @@ export type UserUncheckedCreateWithoutCoursesInput = {
   banExpires?: Date | string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorUncheckedCreateNestedOneWithoutUserInput
@@ -1013,7 +864,6 @@ export type UserCreateWithoutReviewsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorCreateNestedOneWithoutUserInput
@@ -1040,7 +890,6 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorUncheckedCreateNestedOneWithoutUserInput
@@ -1083,7 +932,6 @@ export type UserUpdateWithoutReviewsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUpdateOneWithoutUserNestedInput
@@ -1110,7 +958,6 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUncheckedUpdateOneWithoutUserNestedInput
@@ -1137,7 +984,6 @@ export type UserCreateWithoutInstructorInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationCreateNestedOneWithoutUserInput
   userProgress?: Prisma.UserProgressCreateNestedManyWithoutUserInput
@@ -1164,7 +1010,6 @@ export type UserUncheckedCreateWithoutInstructorInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   userProgress?: Prisma.UserProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1207,7 +1052,6 @@ export type UserUpdateWithoutInstructorInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUpdateOneWithoutUserNestedInput
   userProgress?: Prisma.UserProgressUpdateManyWithoutUserNestedInput
@@ -1234,7 +1078,6 @@ export type UserUncheckedUpdateWithoutInstructorInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   userProgress?: Prisma.UserProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1261,7 +1104,6 @@ export type UserCreateWithoutIntructorApplicationInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   instructor?: Prisma.InstructorCreateNestedOneWithoutUserInput
   userProgress?: Prisma.UserProgressCreateNestedManyWithoutUserInput
@@ -1288,7 +1130,6 @@ export type UserUncheckedCreateWithoutIntructorApplicationInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   instructor?: Prisma.InstructorUncheckedCreateNestedOneWithoutUserInput
   userProgress?: Prisma.UserProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1331,7 +1172,6 @@ export type UserUpdateWithoutIntructorApplicationInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   instructor?: Prisma.InstructorUpdateOneWithoutUserNestedInput
   userProgress?: Prisma.UserProgressUpdateManyWithoutUserNestedInput
@@ -1358,7 +1198,6 @@ export type UserUncheckedUpdateWithoutIntructorApplicationInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   instructor?: Prisma.InstructorUncheckedUpdateOneWithoutUserNestedInput
   userProgress?: Prisma.UserProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1385,7 +1224,6 @@ export type UserCreateWithoutOrdersInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorCreateNestedOneWithoutUserInput
   userProgress?: Prisma.UserProgressCreateNestedManyWithoutUserInput
@@ -1412,7 +1250,6 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorUncheckedCreateNestedOneWithoutUserInput
   userProgress?: Prisma.UserProgressUncheckedCreateNestedManyWithoutUserInput
@@ -1455,7 +1292,6 @@ export type UserUpdateWithoutOrdersInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUpdateOneWithoutUserNestedInput
   userProgress?: Prisma.UserProgressUpdateManyWithoutUserNestedInput
@@ -1482,7 +1318,6 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUncheckedUpdateOneWithoutUserNestedInput
   userProgress?: Prisma.UserProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1509,7 +1344,6 @@ export type UserCreateWithoutSubscriptionsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorCreateNestedOneWithoutUserInput
@@ -1536,7 +1370,6 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorUncheckedCreateNestedOneWithoutUserInput
@@ -1579,7 +1412,6 @@ export type UserUpdateWithoutSubscriptionsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUpdateOneWithoutUserNestedInput
@@ -1606,7 +1438,6 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUncheckedUpdateOneWithoutUserNestedInput
@@ -1632,7 +1463,6 @@ export type UserCreateWithoutSessionsInput = {
   banExpires?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorCreateNestedOneWithoutUserInput
@@ -1659,7 +1489,6 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   banExpires?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorUncheckedCreateNestedOneWithoutUserInput
@@ -1702,7 +1531,6 @@ export type UserUpdateWithoutSessionsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUpdateOneWithoutUserNestedInput
@@ -1729,7 +1557,6 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUncheckedUpdateOneWithoutUserNestedInput
@@ -1756,7 +1583,6 @@ export type UserCreateWithoutAccountsInput = {
   banExpires?: Date | string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorCreateNestedOneWithoutUserInput
@@ -1783,7 +1609,6 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   banExpires?: Date | string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorUncheckedCreateNestedOneWithoutUserInput
@@ -1826,7 +1651,6 @@ export type UserUpdateWithoutAccountsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUpdateOneWithoutUserNestedInput
@@ -1853,7 +1677,6 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUncheckedUpdateOneWithoutUserNestedInput
@@ -1881,7 +1704,6 @@ export type UserCreateWithoutUserProgressInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorCreateNestedOneWithoutUserInput
@@ -1908,7 +1730,6 @@ export type UserUncheckedCreateWithoutUserProgressInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorUncheckedCreateNestedOneWithoutUserInput
@@ -1951,7 +1772,6 @@ export type UserUpdateWithoutUserProgressInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUpdateOneWithoutUserNestedInput
@@ -1978,7 +1798,6 @@ export type UserUncheckedUpdateWithoutUserProgressInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUncheckedUpdateOneWithoutUserNestedInput
@@ -2005,7 +1824,6 @@ export type UserCreateWithoutLessonProgressesInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorCreateNestedOneWithoutUserInput
@@ -2032,7 +1850,6 @@ export type UserUncheckedCreateWithoutLessonProgressesInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedCreateNestedOneWithoutUserInput
   instructor?: Prisma.InstructorUncheckedCreateNestedOneWithoutUserInput
@@ -2075,7 +1892,6 @@ export type UserUpdateWithoutLessonProgressesInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUpdateOneWithoutUserNestedInput
@@ -2102,7 +1918,6 @@ export type UserUncheckedUpdateWithoutLessonProgressesInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUncheckedUpdateOneWithoutUserNestedInput
@@ -2128,7 +1943,6 @@ export type UserUpdateWithoutCoursesInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUpdateOneWithoutUserNestedInput
@@ -2155,7 +1969,6 @@ export type UserUncheckedUpdateWithoutCoursesInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   intructorApplication?: Prisma.IntructorApplicationUncheckedUpdateOneWithoutUserNestedInput
   instructor?: Prisma.InstructorUncheckedUpdateOneWithoutUserNestedInput
@@ -2191,7 +2004,6 @@ export type UserCountOutputType = {
   sessions: number
   accounts: number
   courses: number
-  carts: number
   orders: number
   userProgress: number
   reviews: number
@@ -2203,7 +2015,6 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   courses?: boolean | UserCountOutputTypeCountCoursesArgs
-  carts?: boolean | UserCountOutputTypeCountCartsArgs
   orders?: boolean | UserCountOutputTypeCountOrdersArgs
   userProgress?: boolean | UserCountOutputTypeCountUserProgressArgs
   reviews?: boolean | UserCountOutputTypeCountReviewsArgs
@@ -2240,13 +2051,6 @@ export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.E
  */
 export type UserCountOutputTypeCountCoursesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CourseWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCartsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CartWhereInput
 }
 
 /**
@@ -2303,7 +2107,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
-  carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
   intructorApplication?: boolean | Prisma.User$intructorApplicationArgs<ExtArgs>
   instructor?: boolean | Prisma.User$instructorArgs<ExtArgs>
@@ -2370,7 +2173,6 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
-  carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
   intructorApplication?: boolean | Prisma.User$intructorApplicationArgs<ExtArgs>
   instructor?: boolean | Prisma.User$instructorArgs<ExtArgs>
@@ -2389,7 +2191,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     courses: Prisma.$CoursePayload<ExtArgs>[]
-    carts: Prisma.$CartPayload<ExtArgs>[]
     orders: Prisma.$OrderPayload<ExtArgs>[]
     intructorApplication: Prisma.$IntructorApplicationPayload<ExtArgs> | null
     instructor: Prisma.$InstructorPayload<ExtArgs> | null
@@ -2810,7 +2611,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   courses<T extends Prisma.User$coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  carts<T extends Prisma.User$cartsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orders<T extends Prisma.User$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   intructorApplication<T extends Prisma.User$intructorApplicationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$intructorApplicationArgs<ExtArgs>>): Prisma.Prisma__IntructorApplicationClient<runtime.Types.Result.GetResult<Prisma.$IntructorApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   instructor<T extends Prisma.User$instructorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$instructorArgs<ExtArgs>>): Prisma.Prisma__InstructorClient<runtime.Types.Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -3318,30 +3118,6 @@ export type User$coursesArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.CourseScalarFieldEnum | Prisma.CourseScalarFieldEnum[]
-}
-
-/**
- * User.carts
- */
-export type User$cartsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Cart
-   */
-  select?: Prisma.CartSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Cart
-   */
-  omit?: Prisma.CartOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CartInclude<ExtArgs> | null
-  where?: Prisma.CartWhereInput
-  orderBy?: Prisma.CartOrderByWithRelationInput | Prisma.CartOrderByWithRelationInput[]
-  cursor?: Prisma.CartWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CartScalarFieldEnum | Prisma.CartScalarFieldEnum[]
 }
 
 /**

@@ -33,10 +33,7 @@ const InstructorHero = () => {
   const spanRef8 = useRef<HTMLSpanElement>(null);
 
   return (
-    <section
-      className='flex-1 overflow-hidden
-     min-h-[50vh] flex-col section-spacing'
-    >
+    <section className='flex-1 overflow-hidden flex-col section-spacing'>
       <div className=' container flex-col items-center gap-8 px-4 sm:gap-16 space-y-10'>
         {/* Hero Content */}
         <div className='flex flex-col items-center gap-4 text-center'>

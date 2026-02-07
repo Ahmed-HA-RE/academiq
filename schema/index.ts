@@ -1,7 +1,6 @@
 import parsePhoneNumberFromString from 'libphonenumber-js';
 import z from 'zod';
 import { isAfter } from 'date-fns';
-import { LIST_COUNTRIES } from '@/lib/utils';
 
 // Decimal validation for courses
 const positiveMoney = z
@@ -13,7 +12,7 @@ const positiveMoney = z
     error: 'Money amount must be greater than 0',
   });
 
-// Decimal validation for orders and cart (can be zero)
+// Decimal validation for orders (can be zero)
 const moneyAmount = z
   .string()
   .regex(/^(0|[1-9]\d*)\.\d{2}$/, {
@@ -201,29 +200,6 @@ export const applyDiscountSchema = z.object({
   code: discountSchema.shape.code,
 });
 
-// Cart schema
-export const cartItemsSchema = z.object({
-  courseId: z
-    .uuid({ error: 'Invalid course id' })
-    .min(1, 'Course id is required'),
-  name: z
-    .string({ error: 'Invalid course name' })
-    .min(1, 'Course name is required'),
-  image: z
-    .string({ error: 'Invalid course image' })
-    .min(1, 'Course image is required'),
-  price: positiveMoney,
-});
-
-export const cartSchema = z.object({
-  userId: z.string({ error: 'Invalid user id' }).optional().nullable(),
-  discountId: z.string({ error: 'Invalid discount id' }).optional().nullable(),
-  cartItems: z.array(cartItemsSchema).min(1, 'Cart items cannot be empty'),
-  itemsPrice: positiveMoney,
-  taxPrice: positiveMoney,
-  totalPrice: moneyAmount,
-});
-
 export const instructorSchema = z.object({
   bio: z.string({ error: 'Invalid bio' }).min(1, 'Bio is required'),
   socialLinks: z
@@ -260,26 +236,11 @@ export const instructorUpdateSchema = instructorSchema
     image: avatarSchema,
   });
 
-export const billingInfoSchema = z.object({
-  name: z
-    .string({ error: 'Invalid full name' })
-    .min(3, 'Full name is required')
-    .regex(/^[a-zA-Z ]+$/, 'Name can only contain letters and spaces'),
-  email: z.email({ error: 'Invalid email address' }),
-  phone: phoneSchema,
-  address: z
-    .string({ error: 'Invalid address' })
-    .min(10, 'Address field should be at least 10 characters long'),
-  country: z.enum(LIST_COUNTRIES, { error: 'Invalid country' }),
-});
-
 export const orderBaseSchema = z.object({
   userId: z.string({ error: 'Invalid user id' }).min(1, 'User id is required'),
-  itemsPrice: positiveMoney,
+  coursePrice: positiveMoney,
   taxPrice: positiveMoney,
   totalPrice: moneyAmount,
-  billingDetails: billingInfoSchema,
-  discountId: z.string().optional().nullable(),
 });
 
 export const orderItemSchema = z.object({

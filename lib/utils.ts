@@ -1,6 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { getNames } from 'country-list';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
@@ -57,10 +56,6 @@ export const SORTING_OPTIONS = [
   { label: 'Price: Low to High', value: 'price-asc' },
   { label: 'Price: High to Low', value: 'price-desc' },
 ];
-
-export const LIST_COUNTRIES = getNames().filter(
-  (country) => country !== 'Israel' && country !== 'Christmas Island',
-);
 
 export const formatId = (id: string) => {
   return id.slice(id.length - 7);

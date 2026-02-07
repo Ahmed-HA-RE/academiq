@@ -1,8 +1,5 @@
 import {
   baseCourseSchema,
-  billingInfoSchema,
-  cartItemsSchema,
-  cartSchema,
   contactUsSchema,
   courseReviewSchema,
   createCourseSchema,
@@ -72,13 +69,6 @@ export type LoginFormData = z.infer<typeof loginSchema>;
 export type VerifyOTPFormData = z.infer<typeof verifyOTPSchema>;
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
-export type CartItems = z.infer<typeof cartItemsSchema>;
-export type Cart = z.infer<typeof cartSchema> & {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  cartItems: CartItems[];
-};
 export type Instructor = z.infer<typeof instructorSchema> & {
   id: string;
   createdAt: Date;
@@ -91,9 +81,9 @@ export type Instructor = z.infer<typeof instructorSchema> & {
 
 export type InstructorFormData = z.infer<typeof instructorUpdateSchema>;
 
-export type BillingInfo = z.infer<typeof billingInfoSchema>;
 export type PaymentResult = {
   id: string;
+  invoiceId: string;
   currency: string;
   amount: string;
 };
@@ -106,12 +96,12 @@ export type Discount = z.infer<typeof discountSchema> & {
 };
 export type CreateDiscount = z.infer<typeof discountSchema>;
 
-export type OrderItems = z.infer<typeof orderItemSchema> & {
+export type OrderItem = z.infer<typeof orderItemSchema> & {
   id: string;
   stripeTransferId?: string | null;
   payoutsEnabled: boolean;
 };
-export type createOrderItems = z.infer<typeof orderItemSchema>;
+export type CreateOrderItem = z.infer<typeof orderItemSchema>;
 
 export type Order = z.infer<typeof orderBaseSchema> & {
   id: string;
@@ -122,8 +112,7 @@ export type Order = z.infer<typeof orderBaseSchema> & {
   updatedAt: Date;
   status: string;
   stripePaymentIntentId: string | null;
-  discount: Discount | null;
-  orderItems: OrderItems[];
+  orderItem: OrderItem[];
 };
 
 export type Subscription = {
@@ -154,7 +143,6 @@ export type User = {
   image: string;
   imageKey?: string | null;
   role: string;
-  billingInfo: BillingInfo | null;
   banned: boolean;
   createdAt: Date;
   updatedAt: Date;

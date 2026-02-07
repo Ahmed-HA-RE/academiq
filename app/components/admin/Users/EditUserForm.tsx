@@ -18,8 +18,7 @@ import {
   SelectValue,
 } from '../../ui/select';
 import { USERS_ROLES } from '@/lib/constants';
-import { PhoneInput } from '../../ui/phone-input';
-import { LIST_COUNTRIES } from '@/lib/utils';
+
 import { Button } from '../../ui/button';
 import AvatarUpload from '../../AvatarUpload';
 import { updateUserAsAdmin } from '@/lib/actions/admin/user-mutation';
@@ -41,10 +40,6 @@ const EditUserForm = ({
       email: user.email,
       role: user.role,
       status: user.emailVerified ? 'verified' : 'unverified',
-      phone: user.billingInfo?.phone || '',
-      address: user.billingInfo?.address || '',
-      country: user.billingInfo?.country || '',
-      fullName: user.billingInfo?.name || '',
     },
   });
 
@@ -149,150 +144,41 @@ const EditUserForm = ({
 
           {/* Status */}
           {user.role === 'user' && (
-            <>
-              <Controller
-                control={form.control}
-                name='status'
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Status</FieldLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger
-                        id={field.name}
-                        className='w-full cursor-pointer input'
-                        aria-invalid={fieldState.invalid}
-                      >
-                        <SelectValue placeholder='Select status' />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Status</SelectLabel>
-                          <SelectItem
-                            value='verified'
-                            className='cursor-pointer'
-                          >
-                            Verified
-                          </SelectItem>
-                          <SelectItem
-                            value='unverified'
-                            className='cursor-pointer'
-                          >
-                            Unverified
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    {fieldState.error && (
-                      <FieldError>{fieldState.error.message}</FieldError>
-                    )}
-                  </Field>
-                )}
-              />
-
-              <Controller
-                name='phone'
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Phone Number</FieldLabel>
-                    <PhoneInput
+            <Controller
+              control={form.control}
+              name='status'
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Status</FieldLabel>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger
                       id={field.name}
+                      className='w-full cursor-pointer input'
                       aria-invalid={fieldState.invalid}
-                      defaultCountry='AE'
-                      international
-                      countryCallingCodeEditable={false}
-                      {...field}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-              {/* Country */}
-              <Controller
-                name='country'
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Country</FieldLabel>
-                    <Select
-                      aria-invalid={fieldState.invalid}
-                      onValueChange={field.onChange}
-                      value={field.value || ''}
                     >
-                      <SelectTrigger
-                        id={field.name}
-                        className='w-full cursor-pointer input'
-                      >
-                        <SelectValue placeholder='Select a country' />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          {LIST_COUNTRIES.map((country) => (
-                            <SelectItem
-                              key={country}
-                              value={country}
-                              className='cursor-pointer'
-                            >
-                              {country}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-              {/* Full Name ( billingInfo ) */}
-              <Controller
-                name='fullName'
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <div className='flex flex-row justify-between items-center'>
-                      <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
-                      <span className='text-muted-foreground text-sm'>
-                        For billing info
-                      </span>
-                    </div>
-                    <Input
-                      id={field.name}
-                      aria-invalid={fieldState.invalid}
-                      placeholder='Update user full name for billing info'
-                      className='input'
-                      {...field}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-              {/* Address */}
-              <Controller
-                name='address'
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Address</FieldLabel>
-                    <Input
-                      id={field.name}
-                      aria-invalid={fieldState.invalid}
-                      placeholder='Enter your address'
-                      className='input'
-                      {...field}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-            </>
+                      <SelectValue placeholder='Select status' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Status</SelectLabel>
+                        <SelectItem value='verified' className='cursor-pointer'>
+                          Verified
+                        </SelectItem>
+                        <SelectItem
+                          value='unverified'
+                          className='cursor-pointer'
+                        >
+                          Unverified
+                        </SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  {fieldState.error && (
+                    <FieldError>{fieldState.error.message}</FieldError>
+                  )}
+                </Field>
+              )}
+            />
           )}
 
           {/* Avatar */}

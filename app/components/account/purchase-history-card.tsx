@@ -90,7 +90,7 @@ const PurchaseHistoryCard = async ({
         </div>
       </CardHeader>
       <CardContent className='space-y-3 px-0 pt-4'>
-        {order.orderItems.map((item) => (
+        {order.orderItem.map((item) => (
           <div
             key={item.id}
             className='flex items-start gap-4 pb-3 px-4 last:border-b-0'

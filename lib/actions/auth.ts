@@ -14,7 +14,6 @@ import { SERVER_URL } from '../constants';
 import { cookies } from 'next/headers';
 import { getCurrentLoggedUser } from './getUser';
 import { prisma } from '../prisma';
-import knock from '../knock';
 
 export const registerUser = async (data: RegisterFormData) => {
   try {
@@ -24,20 +23,13 @@ export const registerUser = async (data: RegisterFormData) => {
 
     const { name, email, password } = validatedData.data;
 
-    const session = await auth.api.signUpEmail({
+    await auth.api.signUpEmail({
       body: {
         name,
         email,
         password,
       },
       headers: await headers(),
-    });
-
-    // Identify and create user for knock notification
-
-    await knock.users.update(session.user.id, {
-      name: session.user.name,
-      email: session.user.email,
     });
 
     return {

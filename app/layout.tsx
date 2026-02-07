@@ -8,7 +8,7 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { cn } from '@/lib/utils';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
-import knock from '@/lib/knock';
+import { knock } from '@/lib/knock';
 
 const outfit = Outfit({
   subsets: ['latin'],

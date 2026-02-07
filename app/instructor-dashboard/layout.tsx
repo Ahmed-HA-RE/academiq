@@ -12,11 +12,12 @@ import { FaInstagram } from 'react-icons/fa6';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { Metadata } from 'next';
 import SideBar from '../components/instructor/SideBar';
-import Notification from '../components/instructor/Notification';
 import VideoProcessBanner from '../components/instructor/VideoProcessBanner';
 import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import { ourFileRouter } from '../api/uploadthing/core';
 import { extractRouterConfig } from 'uploadthing/server';
+import NotificationMenu from '../components/NotificationMenu';
+import { signUserSecureToken } from '@/lib/knock';
 
 export const metadata: Metadata = {
   title: {
@@ -35,6 +36,11 @@ const InstructorDashboardLayout = async ({
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+
+  let userToken;
+  if (session) {
+    userToken = await signUserSecureToken(session.user.id);
+  }
 
   return (
     <div className='flex min-h-dvh w-full'>
@@ -58,10 +64,13 @@ const InstructorDashboardLayout = async ({
                 />
               </div>
               <div className='flex items-center'>
+                {/* Notifications */}
+                <NotificationMenu
+                  session={session}
+                  userToken={userToken as string}
+                />
                 {/* Theme */}
                 <Theme />
-                {/* Notifications */}
-                <Notification />
 
                 {/* Instructor Profile */}
                 <ProfileDropdown session={session} />

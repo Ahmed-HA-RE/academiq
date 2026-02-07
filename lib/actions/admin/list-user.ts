@@ -8,7 +8,11 @@ import { BillingInfo } from '@/types';
 import { headers } from 'next/headers';
 
 export const getUsersCount = async () => {
-  const count = await prisma.user.count();
+  const count = await prisma.user.count({
+    where: {
+      role: { not: 'admin' },
+    },
+  });
   return count;
 };
 
@@ -21,6 +25,7 @@ export const getNewUsersCount = async () => {
       createdAt: {
         gte: thirtyDaysAgo,
       },
+      role: { not: 'admin' },
     },
   });
   return count;
@@ -31,6 +36,9 @@ export const getActiveUsersCount = async () => {
     distinct: ['userId'],
     where: {
       progress: { gt: 0 },
+      user: {
+        role: { not: 'admin' },
+      },
     },
   });
 
@@ -47,6 +55,7 @@ export const getMonthlyUserActivity = async () => {
         gte: new Date(`${currentYear}-01-01`),
         lte: new Date(`${currentYear}-12-31`),
       },
+      role: { not: 'admin' },
     },
     select: {
       createdAt: true,
@@ -60,6 +69,9 @@ export const getMonthlyUserActivity = async () => {
       updatedAt: {
         gte: new Date(`${currentYear}-01-01`),
         lte: new Date(`${currentYear}-12-31`),
+      },
+      user: {
+        role: { not: 'admin' },
       },
     },
     select: {

@@ -1,41 +1,40 @@
 'use client';
 
-import { Cart, Course, User } from '@/types';
-import { useTransition } from 'react';
+import { Course, User } from '@/types';
 import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
-import { addToCart, removeFromCart } from '@/lib/actions/cart';
 import { toast } from 'react-hot-toast';
 import { usePathname, useRouter } from 'next/navigation';
 import { SERVER_URL } from '@/lib/constants';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { addCourseToLibrary } from '@/lib/actions/course/add-course-to-library';
+import { createStripeCheckoutSession } from '@/lib/actions/stripe.action';
 
-const CourseCardBtn = ({
-  course,
-  cart,
-  user,
-  subscription,
-}: {
+type CourseCardBtnProps = {
   course: Course;
-  cart: Cart | undefined;
   user: User | undefined;
   subscription?: {
     referenceId: string;
     plan: string;
     stripeSubscriptionId?: string;
   } | null;
-}) => {
-  const [isPending, startTransition] = useTransition();
+  isPending: boolean;
+  setIsPending: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const CourseCardBtn = ({
+  course,
+  user,
+  subscription,
+  isPending,
+  setIsPending,
+}: CourseCardBtnProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const callbackUrl = `${SERVER_URL}${pathname}`;
 
   const isAdmin = user && user.role === 'admin';
-
-  const isCourseInCart =
-    cart && cart.cartItems.find((item) => item.courseId === course.id);
 
   const isUserEnrolled = user && user.courses?.some((c) => c.id === course.id);
 
@@ -44,51 +43,37 @@ const CourseCardBtn = ({
 
   const isCourseDetailsPage = pathname.includes(`/course/${course.id}`);
 
-  const handleAddToCart = async () => {
-    if (!user) {
-      router.push(`/login?callbackUrl=${callbackUrl}`);
-    } else
-      startTransition(async () => {
-        const res = await addToCart({
-          courseId: course.id,
-          image: course.image,
-          name: course.title,
-          price: course.price,
-        });
-
-        if (!res.success) {
-          toast.error(res.message);
-          return;
-        }
-        toast.success(res.message);
-      });
-  };
-
-  const handleRemoveFromCart = async () => {
-    startTransition(async () => {
-      const res = await removeFromCart(course.id);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
   const handleAddToLibrary = async () => {
     if (!user) {
       router.push(`/login?callbackUrl=${callbackUrl}`);
-    } else
-      startTransition(async () => {
-        const res = await addCourseToLibrary(course.id);
+    } else {
+      setIsPending(true);
+      const res = await addCourseToLibrary(course.id);
 
-        if (!res.success) {
-          toast.error(res.message);
-          return;
-        }
-        toast.success(res.message);
-        router.refresh();
-      });
+      if (!res.success) {
+        toast.error(res.message);
+        setIsPending(false);
+        return;
+      }
+      toast.success(res.message);
+      router.refresh();
+    }
+  };
+
+  const createCheckoutSession = async () => {
+    setIsPending(true);
+    const res = await createStripeCheckoutSession({
+      courseId: course.id,
+      pathname,
+    });
+
+    if (!res.success || !res.redirect) {
+      setIsPending(false);
+      toast.error('Failed to create checkout session. Please try again.');
+      return;
+    }
+
+    router.push(res.redirect);
   };
 
   return isAdmin ? (
@@ -101,16 +86,6 @@ const CourseCardBtn = ({
       <Link href={`/admin-dashboard/courses/${course.id}/edit`}>
         Edit Course
       </Link>
-    </Button>
-  ) : isCourseInCart ? (
-    <Button
-      onClick={handleRemoveFromCart}
-      className={`cursor-pointer bg-red-600 text-white hover:bg-red-700 w-full ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'}`}
-      size={!isCourseDetailsPage ? 'default' : 'lg'}
-      variant={'default'}
-      disabled={isPending}
-    >
-      {isPending ? <Spinner className='size-6' /> : 'Remove'}
     </Button>
   ) : isUserEnrolled ? (
     <Button
@@ -149,13 +124,15 @@ const CourseCardBtn = ({
     </Button>
   ) : (
     <Button
-      onClick={handleAddToCart}
-      className={`w-full cursor-pointer ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'} bg-blue-500 hover:bg-blue-600 dark:bg-amber-500 hover:dark:bg-amber-500/80 text-white `}
+      className={`w-full cursor-pointer ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'} bg-slate-600 hover:bg-slate-700 text-white ${
+        !isCourseDetailsPage && 'text-sm'
+      }`}
       size={!isCourseDetailsPage ? 'default' : 'lg'}
       variant={'default'}
+      onClick={createCheckoutSession}
       disabled={isPending}
     >
-      {isPending ? <Spinner className='size-6' /> : 'Enroll Now'}
+      Buy Now
     </Button>
   );
 };

@@ -9,6 +9,7 @@ import {
 } from '@knocklabs/react';
 import '@knocklabs/react/dist/index.css';
 import { auth } from '@/lib/auth';
+import { useTheme } from 'next-themes';
 
 const NotificationMenu = ({
   session,
@@ -19,6 +20,7 @@ const NotificationMenu = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const notifButtonRef = useRef(null);
+  const { theme } = useTheme();
 
   return (
     <KnockProvider
@@ -26,7 +28,10 @@ const NotificationMenu = ({
       user={{ id: session?.user?.id }}
       userToken={userToken}
     >
-      <KnockFeedProvider feedId={process.env.NEXT_PUBLIC_KNOCK_FEED_CHANNEL_ID}>
+      <KnockFeedProvider
+        feedId={process.env.NEXT_PUBLIC_KNOCK_FEED_CHANNEL_ID}
+        colorMode={theme === 'dark' ? 'dark' : 'light'}
+      >
         <>
           <NotificationIconButton
             ref={notifButtonRef}

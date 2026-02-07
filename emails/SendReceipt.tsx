@@ -15,16 +15,16 @@ import {
   pixelBasedPreset,
   Link,
 } from '@react-email/components';
-import { Discount, Order } from '@/types';
+import { Order } from '@/types';
 import { formatDate } from '@/lib/utils';
 type SendReceiptProp = {
   order: Order;
-  discount: Discount | null;
+  customerEmail: string;
 };
 
 config();
 
-const SendReceipt = ({ order, discount }: SendReceiptProp) => {
+const SendReceipt = ({ order, customerEmail }: SendReceiptProp) => {
   const baseImageUrl =
     process.env.NODE_ENV === 'production'
       ? `${process.env.NEXT_PUBLIC_PROD_URL}/images`
@@ -77,9 +77,7 @@ const SendReceipt = ({ order, discount }: SendReceiptProp) => {
                 <Column>
                   <Text className='text-[14px] text-gray-700 m-0'>
                     <span className='font-semibold'>Customer Email:</span>{' '}
-                    <span className='font-bold'>
-                      {order.billingDetails.email}
-                    </span>
+                    <span className='font-bold'>{customerEmail}</span>
                   </Text>
                 </Column>
               </Row>
@@ -107,7 +105,7 @@ const SendReceipt = ({ order, discount }: SendReceiptProp) => {
               </Row>
 
               {/* Item Rows */}
-              {order.orderItems.map((item, index) => (
+              {order.orderItem.map((item, index) => (
                 <Row
                   key={index}
                   className='border-b border-gray-100 py-[12px] items-center'
@@ -143,26 +141,10 @@ const SendReceipt = ({ order, discount }: SendReceiptProp) => {
                 </Column>
                 <Column className='text-right'>
                   <Text className='text-[15px] text-gray-900 m-0'>
-                    AED {order.itemsPrice}
+                    AED {order.coursePrice}
                   </Text>
                 </Column>
               </Row>
-              {discount && (
-                <Row className='mb-[8px]'>
-                  <Column>
-                    <Text className='text-[15px] text-gray-700 m-0'>
-                      Discount
-                    </Text>
-                  </Column>
-                  <Column className='text-right'>
-                    <Text className='text-[15px] text-gray-900 m-0'>
-                      {discount.type === 'percentage'
-                        ? `- %${discount.amount}`
-                        : `- AED ${discount.amount}`}
-                    </Text>
-                  </Column>
-                </Row>
-              )}
               <Row className='mb-[8px]'>
                 <Column>
                   <Text className='text-[15px] text-gray-700 m-0'>Tax</Text>

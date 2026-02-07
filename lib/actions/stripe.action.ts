@@ -3,12 +3,91 @@
 import { convertToFils, convertToPlainObject } from '../utils';
 import { getCurrentLoggedInInstructor } from '../actions/instructor/getInstructor';
 import { redirect } from 'next/navigation';
-import { APP_NAME, SERVER_URL } from '../constants';
+import { APP_NAME, APPLICATION_FEE_PERCENTAGE, SERVER_URL } from '../constants';
 import resend, { domain } from '../resend';
 import NotifyApplicant from '@/emails/NotifyApplicant';
 import { getApplicationByUserId } from './instructor/application';
 import { stripe } from '../stripe';
-import { getMyCart } from './cart';
+import { getCurrentLoggedUser } from './getUser';
+import { prisma } from '../prisma';
+import Stripe from 'stripe';
+
+// Create stripe checkout session for course enrollment
+export const createStripeCheckoutSession = async (data: {
+  courseId: string;
+  pathname: string;
+}) => {
+  try {
+    const user = await getCurrentLoggedUser();
+
+    if (!user) throw new Error('You must be logged in to purchase a course');
+
+    // Find the course details to get the price and instructor info
+    const course = await prisma.course.findUnique({
+      where: { id: data.courseId },
+      include: { instructor: { select: { stripeAccountId: true } } },
+    });
+
+    if (!course) throw new Error('Course not found');
+
+    const application_fee = Math.round(
+      Number(course.price) * (APPLICATION_FEE_PERCENTAGE / 100) * 100,
+    ); // Convert AED to fils
+
+    const isCoursesPage = data.pathname.includes('/courses')
+      ? '/courses'
+      : `/course/${data.courseId}`;
+
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
+      {
+        quantity: 1,
+        price_data: {
+          currency: 'aed',
+          unit_amount: convertToFils(course.price),
+          tax_behavior: 'exclusive',
+          product_data: {
+            name: course.title,
+            description: course.shortDesc,
+            images: [course.image],
+            tax_code: 'txcd_10504003',
+          },
+        },
+      },
+    ];
+    const session = await stripe.checkout.sessions.create({
+      success_url: `${SERVER_URL}/success?checkout_session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${SERVER_URL}${isCoursesPage}`,
+      line_items: lineItems,
+      mode: 'payment',
+      metadata: {
+        courseId: course.id,
+        userId: user.id,
+      },
+      payment_intent_data: {
+        application_fee_amount: application_fee,
+        transfer_data: {
+          destination: course.instructor.stripeAccountId,
+        },
+      },
+      allow_promotion_codes: true,
+      billing_address_collection: 'auto',
+
+      currency: 'aed',
+      customer_email: user.email,
+      saved_payment_method_options: {
+        payment_method_save: 'enabled',
+      },
+      invoice_creation: {
+        enabled: true,
+      },
+      automatic_tax: { enabled: true },
+    });
+
+    return { success: true, redirect: session.url };
+  } catch (error) {
+    return { success: false, redirect: null };
+  }
+};
 
 // Get stripe account by application user ID
 export const getStripeAccountByApplication = async () => {
@@ -74,30 +153,6 @@ export const createStripePayoutsLoginLink = async () => {
   );
 
   return loginLink.url;
-};
-
-// Create stripe payment intent for the cart
-export const createPaymentIntent = async (orderId: string) => {
-  const cart = await getMyCart();
-
-  if (!cart) {
-    throw new Error('No cart found');
-  }
-
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: convertToFils(cart.totalPrice),
-    currency: 'aed',
-    metadata: {
-      orderId,
-      cartId: cart.id,
-    },
-  });
-
-  if (!paymentIntent.client_secret) {
-    throw new Error('Failed to create payment intent');
-  }
-
-  return paymentIntent.id;
 };
 
 // Get stripe client secret for payment

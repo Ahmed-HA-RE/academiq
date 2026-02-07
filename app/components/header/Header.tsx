@@ -7,27 +7,18 @@ import Theme from '../Theme';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { APP_NAME } from '@/lib/constants';
-import { ShoppingCartIcon } from 'lucide-react';
-import CouponBanner from '../CouponBanner';
-import { getValidDiscount } from '@/lib/actions/discount';
 import NotificationMenu from '../NotificationMenu';
-import { Button } from '../ui/button';
-import { signUserToken } from '@knocklabs/node/lib/tokenSigner.mjs';
+import { signUserSecureToken } from '@/lib/knock';
 
 const Header = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  const discount = await getValidDiscount();
-
   let userToken;
 
   if (session) {
-    userToken = await signUserToken(session.user.id, {
-      expiresInSeconds: 60 * 60, // 1 hour
-      signingKey: process.env.KNOCK_SIGNING_KEY,
-    });
+    userToken = await signUserSecureToken(session.user.id);
   }
 
   const baseNavigationMenu = [
@@ -42,7 +33,7 @@ const Header = async () => {
 
   return (
     <>
-      {discount && <CouponBanner discount={discount} />}
+      {/* {discount && <CouponBanner discount={discount} />} */}
       <header className='dark:bg-[#121212]'>
         <div className='mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 lg:px-6 h-17.5 relative'>
           <div className='flex items-center lg:gap-10'>
@@ -60,16 +51,8 @@ const Header = async () => {
           <DesktopNavMenu navigationData={baseNavigationMenu} />
 
           <div className='flex items-center'>
-            {/* Cart */}
-            {session && (
-              <Button variant='ghost' size={'icon'} className='mr-1' asChild>
-                <Link href='/cart'>
-                  <ShoppingCartIcon className='size-5.5' />
-                </Link>
-              </Button>
-            )}
             {/* Notification Menu */}
-            {session && (
+            {session && session.user.role !== 'admin' && (
               <NotificationMenu
                 session={session}
                 userToken={userToken as string}

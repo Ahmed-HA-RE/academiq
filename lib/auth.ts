@@ -12,7 +12,7 @@ import { stripe } from '@better-auth/stripe';
 import { stripe as stripeClient } from './stripe';
 import SuccessfulSubscription from '@/emails/SuccessfulSubscription';
 import CancelSubscription from '@/emails/CancelSubscription';
-import knock from './knock';
+import { knock } from './knock';
 import { welcomeWorkFlow } from './actions/notifications/welcome-workflow';
 
 export const auth = betterAuth({
@@ -22,21 +22,37 @@ export const auth = betterAuth({
 
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
-      // Hanld creating new users to knock
-      const { context } = ctx;
-      if (context.newSession && context.newSession.user.emailVerified) {
-        await knock.users.update(context.newSession.user.id, {
-          name: context.newSession.user.name,
-          email: context.newSession.user.email,
-        });
-        await welcomeWorkFlow(context.newSession.user.id);
-      }
-
       // Handle banned users
       const query = ctx.query;
       if (query && query.error === 'banned')
         return ctx.redirect(`/banned?error=${query.error_description}`);
     }),
+  },
+
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          // Check if user is new and send welcome notification
+          const isNewUser = await prisma.user.findFirst({
+            where: {
+              email: user.email,
+              createdAt: {
+                gte: new Date(Date.now() - 5 * 60 * 1000), // Created within last 5 minutes
+              },
+            },
+          });
+
+          if (isNewUser) {
+            await knock.users.update(user.id, {
+              name: user.name,
+              email: user.email,
+            });
+            await welcomeWorkFlow(user.id);
+          }
+        },
+      },
+    },
   },
 
   emailAndPassword: {

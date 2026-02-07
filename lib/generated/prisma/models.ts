@@ -8,17 +8,15 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/Cart'
 export type * from './models/Course'
 export type * from './models/Section'
 export type * from './models/Lesson'
 export type * from './models/MuxData'
 export type * from './models/Review'
-export type * from './models/Discount'
 export type * from './models/Instructor'
 export type * from './models/IntructorApplication'
 export type * from './models/Order'
-export type * from './models/orderItems'
+export type * from './models/OrderItem'
 export type * from './models/Subscription'
 export type * from './models/User'
 export type * from './models/Session'
