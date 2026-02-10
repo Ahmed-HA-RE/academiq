@@ -38,7 +38,7 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
   };
 
   return (
-    <form className='mt-4' onSubmit={form.handleSubmit(onSubmit)}>
+    <form className='mt-4 w-full' onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup className='gap-6'>
         {/* Password */}
         <Controller

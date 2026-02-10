@@ -50,7 +50,7 @@ const OTPVerificationForm = ({ callbackUrl }: { callbackUrl: string }) => {
   return (
     <>
       {isPending && <ScreenSpinner mutate={true} text='Sending...' />}
-      <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
+      <form className='space-y-4 w-full' onSubmit={form.handleSubmit(onSubmit)}>
         <p className='text-muted-foreground text-center'>
           Type your 6 digit security code
         </p>

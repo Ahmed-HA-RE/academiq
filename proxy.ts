@@ -22,10 +22,6 @@ export const proxy = async (req: NextRequest) => {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  if (pathname === '/forgot-password') {
-    return NextResponse.redirect(new URL('/', req.url));
-  }
-
   if (pathname === '/reset-password' && Invalid_Token) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
@@ -82,7 +78,6 @@ export const config = {
     '/login',
     '/register',
     '/verify-email',
-    '/forgot-password',
     '/reset-password',
     '/success',
     '/teach/:path*',

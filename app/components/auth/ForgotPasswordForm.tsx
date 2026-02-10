@@ -34,7 +34,7 @@ const ForgotPasswordForm = () => {
   };
 
   return (
-    <form className='mt-4' onSubmit={form.handleSubmit(onSubmit)}>
+    <form className='mt-4 w-full' onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup className='gap-6'>
         <Controller
           name='email'

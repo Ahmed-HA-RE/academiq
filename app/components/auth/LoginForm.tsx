@@ -18,6 +18,7 @@ import { loginUser, signInWithProviders } from '@/lib/actions/auth';
 import ScreenSpinner from '../ScreenSpinner';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
+import { Separator } from '../ui/separator';
 
 const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -57,14 +58,14 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
   return (
     <>
       {isPending && <ScreenSpinner mutate={true} text='Processing...' />}
-      <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
+      <form className='space-y-4 w-full' onSubmit={form.handleSubmit(onSubmit)}>
         <div className='mb-4 flex flex-col items-center gap-3'>
           <Button
             className='bg-transparent border text-black dark:text-white text-base hover:dark:border-white/70 hover:border-black/50 hover:bg-0 cursor-pointer w-full'
             type='button'
             onClick={() => handleSocialSignIn('google')}
           >
-            <span className=''>
+            <span>
               <FcGoogle aria-hidden='true' />
             </span>
             Login with Google
@@ -74,11 +75,16 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
             type='button'
             onClick={() => handleSocialSignIn('github')}
           >
-            <span className=''>
+            <span>
               <FaGithub aria-hidden='true' />
             </span>
             Login with Github
           </Button>
+        </div>
+        <div className='mb-2 flex items-center gap-4'>
+          <Separator className='flex-1' />
+          <p>or</p>
+          <Separator className='flex-1' />
         </div>
         <FieldGroup className='gap-5'>
           {/* Email */}

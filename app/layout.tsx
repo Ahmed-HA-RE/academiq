@@ -51,7 +51,7 @@ const RootLayout = async ({
 
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={cn(outfit.className)}>
+      <body className={(cn(outfit.className), 'dark:bg-[#121212]')}>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'

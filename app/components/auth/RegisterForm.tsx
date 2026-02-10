@@ -57,14 +57,14 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
   return (
     <>
       {isPending && <ScreenSpinner mutate={true} text='Processing...' />}
-      <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
-        <div className='mb-2 flex flex-col items-center gap-3'>
+      <form className='space-y-4 w-full' onSubmit={form.handleSubmit(onSubmit)}>
+        <div className='flex flex-col items-center gap-3'>
           <Button
             className='bg-transparent border text-black dark:text-white text-base hover:dark:border-white/70 hover:border-black/50 hover:bg-0 cursor-pointer w-full'
             type='button'
             onClick={() => handleSocialSignIn('google')}
           >
-            <span className=''>
+            <span>
               <FcGoogle aria-hidden='true' />
             </span>
             Login with Google
@@ -74,7 +74,7 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
             type='button'
             onClick={() => handleSocialSignIn('github')}
           >
-            <span className=''>
+            <span>
               <FaGithub aria-hidden='true' />
             </span>
             Login with Github
