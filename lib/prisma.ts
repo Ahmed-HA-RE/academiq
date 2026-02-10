@@ -1,5 +1,5 @@
 import { PrismaClient } from '@/lib/generated/prisma/client';
-import { SocialLinks } from '@/types';
+import { PaymentResult, SocialLinks } from '@/types';
 import { PrismaNeon } from '@prisma/adapter-neon';
 import dotenv from 'dotenv';
 
@@ -33,6 +33,11 @@ export const prisma = new PrismaClient({ adapter }).$extends({
       taxPrice: {
         compute(data) {
           return data.taxPrice.toFixed(2);
+        },
+      },
+      paymentResult: {
+        compute(data) {
+          return data.paymentResult as PaymentResult | null;
         },
       },
     },

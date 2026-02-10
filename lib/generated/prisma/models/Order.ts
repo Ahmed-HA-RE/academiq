@@ -44,8 +44,8 @@ export type OrderMinAggregateOutputType = {
   coursePrice: runtime.Decimal | null
   totalPrice: runtime.Decimal | null
   taxPrice: runtime.Decimal | null
-  stripePaymentIntentId: string | null
   status: string | null
+  stripePaymentIntentId: string | null
   isPaid: boolean | null
   paidAt: Date | null
   createdAt: Date | null
@@ -58,8 +58,8 @@ export type OrderMaxAggregateOutputType = {
   coursePrice: runtime.Decimal | null
   totalPrice: runtime.Decimal | null
   taxPrice: runtime.Decimal | null
-  stripePaymentIntentId: string | null
   status: string | null
+  stripePaymentIntentId: string | null
   isPaid: boolean | null
   paidAt: Date | null
   createdAt: Date | null
@@ -72,9 +72,9 @@ export type OrderCountAggregateOutputType = {
   coursePrice: number
   totalPrice: number
   taxPrice: number
+  status: number
   paymentResult: number
   stripePaymentIntentId: number
-  status: number
   isPaid: number
   paidAt: number
   createdAt: number
@@ -101,8 +101,8 @@ export type OrderMinAggregateInputType = {
   coursePrice?: true
   totalPrice?: true
   taxPrice?: true
-  stripePaymentIntentId?: true
   status?: true
+  stripePaymentIntentId?: true
   isPaid?: true
   paidAt?: true
   createdAt?: true
@@ -115,8 +115,8 @@ export type OrderMaxAggregateInputType = {
   coursePrice?: true
   totalPrice?: true
   taxPrice?: true
-  stripePaymentIntentId?: true
   status?: true
+  stripePaymentIntentId?: true
   isPaid?: true
   paidAt?: true
   createdAt?: true
@@ -129,9 +129,9 @@ export type OrderCountAggregateInputType = {
   coursePrice?: true
   totalPrice?: true
   taxPrice?: true
+  status?: true
   paymentResult?: true
   stripePaymentIntentId?: true
-  status?: true
   isPaid?: true
   paidAt?: true
   createdAt?: true
@@ -231,9 +231,9 @@ export type OrderGroupByOutputType = {
   coursePrice: runtime.Decimal
   totalPrice: runtime.Decimal
   taxPrice: runtime.Decimal
+  status: string
   paymentResult: runtime.JsonValue | null
   stripePaymentIntentId: string | null
-  status: string
   isPaid: boolean
   paidAt: Date | null
   createdAt: Date
@@ -269,9 +269,9 @@ export type OrderWhereInput = {
   coursePrice?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFilter<"Order"> | string
   paymentResult?: Prisma.JsonNullableFilter<"Order">
   stripePaymentIntentId?: Prisma.StringNullableFilter<"Order"> | string | null
-  status?: Prisma.StringFilter<"Order"> | string
   isPaid?: Prisma.BoolFilter<"Order"> | boolean
   paidAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
@@ -286,9 +286,9 @@ export type OrderOrderByWithRelationInput = {
   coursePrice?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   taxPrice?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   paymentResult?: Prisma.SortOrderInput | Prisma.SortOrder
   stripePaymentIntentId?: Prisma.SortOrderInput | Prisma.SortOrder
-  status?: Prisma.SortOrder
   isPaid?: Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -306,9 +306,9 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   coursePrice?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFilter<"Order"> | string
   paymentResult?: Prisma.JsonNullableFilter<"Order">
   stripePaymentIntentId?: Prisma.StringNullableFilter<"Order"> | string | null
-  status?: Prisma.StringFilter<"Order"> | string
   isPaid?: Prisma.BoolFilter<"Order"> | boolean
   paidAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
@@ -323,9 +323,9 @@ export type OrderOrderByWithAggregationInput = {
   coursePrice?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   taxPrice?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   paymentResult?: Prisma.SortOrderInput | Prisma.SortOrder
   stripePaymentIntentId?: Prisma.SortOrderInput | Prisma.SortOrder
-  status?: Prisma.SortOrder
   isPaid?: Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -346,9 +346,9 @@ export type OrderScalarWhereWithAggregatesInput = {
   coursePrice?: Prisma.DecimalWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringWithAggregatesFilter<"Order"> | string
   paymentResult?: Prisma.JsonNullableWithAggregatesFilter<"Order">
   stripePaymentIntentId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
-  status?: Prisma.StringWithAggregatesFilter<"Order"> | string
   isPaid?: Prisma.BoolWithAggregatesFilter<"Order"> | boolean
   paidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
@@ -360,9 +360,9 @@ export type OrderCreateInput = {
   coursePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status: string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: string | null
-  status?: string
   isPaid?: boolean
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -377,9 +377,9 @@ export type OrderUncheckedCreateInput = {
   coursePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status: string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: string | null
-  status?: string
   isPaid?: boolean
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -392,9 +392,9 @@ export type OrderUpdateInput = {
   coursePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -409,9 +409,9 @@ export type OrderUncheckedUpdateInput = {
   coursePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -425,9 +425,9 @@ export type OrderCreateManyInput = {
   coursePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status: string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: string | null
-  status?: string
   isPaid?: boolean
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -439,9 +439,9 @@ export type OrderUpdateManyMutationInput = {
   coursePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -454,9 +454,9 @@ export type OrderUncheckedUpdateManyInput = {
   coursePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -469,9 +469,9 @@ export type OrderCountOrderByAggregateInput = {
   coursePrice?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   taxPrice?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   paymentResult?: Prisma.SortOrder
   stripePaymentIntentId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   isPaid?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -490,8 +490,8 @@ export type OrderMaxOrderByAggregateInput = {
   coursePrice?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   taxPrice?: Prisma.SortOrder
-  stripePaymentIntentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  stripePaymentIntentId?: Prisma.SortOrder
   isPaid?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -504,8 +504,8 @@ export type OrderMinOrderByAggregateInput = {
   coursePrice?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   taxPrice?: Prisma.SortOrder
-  stripePaymentIntentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  stripePaymentIntentId?: Prisma.SortOrder
   isPaid?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -602,9 +602,9 @@ export type OrderCreateWithoutOrderItemInput = {
   coursePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status: string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: string | null
-  status?: string
   isPaid?: boolean
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -618,9 +618,9 @@ export type OrderUncheckedCreateWithoutOrderItemInput = {
   coursePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status: string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: string | null
-  status?: string
   isPaid?: boolean
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -648,9 +648,9 @@ export type OrderUpdateWithoutOrderItemInput = {
   coursePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -664,9 +664,9 @@ export type OrderUncheckedUpdateWithoutOrderItemInput = {
   coursePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -678,9 +678,9 @@ export type OrderCreateWithoutUserInput = {
   coursePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status: string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: string | null
-  status?: string
   isPaid?: boolean
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -693,9 +693,9 @@ export type OrderUncheckedCreateWithoutUserInput = {
   coursePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status: string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: string | null
-  status?: string
   isPaid?: boolean
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -738,9 +738,9 @@ export type OrderScalarWhereInput = {
   coursePrice?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFilter<"Order"> | string
   paymentResult?: Prisma.JsonNullableFilter<"Order">
   stripePaymentIntentId?: Prisma.StringNullableFilter<"Order"> | string | null
-  status?: Prisma.StringFilter<"Order"> | string
   isPaid?: Prisma.BoolFilter<"Order"> | boolean
   paidAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
@@ -752,9 +752,9 @@ export type OrderCreateManyUserInput = {
   coursePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status: string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: string | null
-  status?: string
   isPaid?: boolean
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -766,9 +766,9 @@ export type OrderUpdateWithoutUserInput = {
   coursePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -781,9 +781,9 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   coursePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -796,9 +796,9 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
   coursePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   paymentResult?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -842,9 +842,9 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   coursePrice?: boolean
   totalPrice?: boolean
   taxPrice?: boolean
+  status?: boolean
   paymentResult?: boolean
   stripePaymentIntentId?: boolean
-  status?: boolean
   isPaid?: boolean
   paidAt?: boolean
   createdAt?: boolean
@@ -860,9 +860,9 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   coursePrice?: boolean
   totalPrice?: boolean
   taxPrice?: boolean
+  status?: boolean
   paymentResult?: boolean
   stripePaymentIntentId?: boolean
-  status?: boolean
   isPaid?: boolean
   paidAt?: boolean
   createdAt?: boolean
@@ -876,9 +876,9 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   coursePrice?: boolean
   totalPrice?: boolean
   taxPrice?: boolean
+  status?: boolean
   paymentResult?: boolean
   stripePaymentIntentId?: boolean
-  status?: boolean
   isPaid?: boolean
   paidAt?: boolean
   createdAt?: boolean
@@ -892,16 +892,16 @@ export type OrderSelectScalar = {
   coursePrice?: boolean
   totalPrice?: boolean
   taxPrice?: boolean
+  status?: boolean
   paymentResult?: boolean
   stripePaymentIntentId?: boolean
-  status?: boolean
   isPaid?: boolean
   paidAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "coursePrice" | "totalPrice" | "taxPrice" | "paymentResult" | "stripePaymentIntentId" | "status" | "isPaid" | "paidAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "coursePrice" | "totalPrice" | "taxPrice" | "status" | "paymentResult" | "stripePaymentIntentId" | "isPaid" | "paidAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   orderItem?: boolean | Prisma.Order$orderItemArgs<ExtArgs>
@@ -926,9 +926,9 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     coursePrice: runtime.Decimal
     totalPrice: runtime.Decimal
     taxPrice: runtime.Decimal
+    status: string
     paymentResult: runtime.JsonValue | null
     stripePaymentIntentId: string | null
-    status: string
     isPaid: boolean
     paidAt: Date | null
     createdAt: Date
@@ -1363,9 +1363,9 @@ export interface OrderFieldRefs {
   readonly coursePrice: Prisma.FieldRef<"Order", 'Decimal'>
   readonly totalPrice: Prisma.FieldRef<"Order", 'Decimal'>
   readonly taxPrice: Prisma.FieldRef<"Order", 'Decimal'>
+  readonly status: Prisma.FieldRef<"Order", 'String'>
   readonly paymentResult: Prisma.FieldRef<"Order", 'Json'>
   readonly stripePaymentIntentId: Prisma.FieldRef<"Order", 'String'>
-  readonly status: Prisma.FieldRef<"Order", 'String'>
   readonly isPaid: Prisma.FieldRef<"Order", 'Boolean'>
   readonly paidAt: Prisma.FieldRef<"Order", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Order", 'DateTime'>

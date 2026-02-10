@@ -5,13 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { updateAccountDetailsSchema } from '@/schema';
 import { Card, CardContent } from '../ui/card';
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldSeparator,
-} from '../ui/field';
+import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
 import Image from 'next/image';
 import { Button } from '../ui/button';
@@ -105,7 +99,6 @@ const AccountDetailsForm = ({
                   </Field>
                 )}
               />
-              <FieldSeparator />
               {/* Profile Image */}
               <Controller
                 name={'image'}

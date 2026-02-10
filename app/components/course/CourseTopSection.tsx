@@ -6,20 +6,22 @@ import { Badge } from '@/app/components/ui/badge';
 import { BorderBeam } from '@/app/components/ui/border-beam';
 import { MotionPreset } from '@/app/components/ui/motion-preset';
 import Image from 'next/image';
-import { Cart, Course, Section, User } from '@/types';
+import { Course, Section, User } from '@/types';
 import EnrollCourseBtn from '../shared/CourseCardBtn';
 import { FaShieldAlt } from 'react-icons/fa';
 import { format } from 'date-fns';
 import InstructorInfoDialog from './InstructorInfoDialog';
 import { formatDuration } from '@/lib/utils';
+import { useState } from 'react';
 
 type CourseTopSectionProps = {
   course: Course & { sections: Section[]; _count: { users: number } };
   user?: User;
-  cart?: Cart;
 };
 
-const CourseTopSection = ({ course, user, cart }: CourseTopSectionProps) => {
+const CourseTopSection = ({ course, user }: CourseTopSectionProps) => {
+  const [isPending, setIsPending] = useState(false);
+
   const courseDuration = course.sections
     .map((section) =>
       section.lessons
@@ -118,7 +120,12 @@ const CourseTopSection = ({ course, user, cart }: CourseTopSectionProps) => {
                 delay={0.6}
                 className='w-full max-w-[250px]'
               >
-                <EnrollCourseBtn course={course} user={user} cart={cart} />
+                <EnrollCourseBtn
+                  course={course}
+                  user={user}
+                  isPending={isPending}
+                  setIsPending={setIsPending}
+                />
               </MotionPreset>
               <MotionPreset
                 component='div'

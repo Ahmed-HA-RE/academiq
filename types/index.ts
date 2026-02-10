@@ -3,7 +3,6 @@ import {
   contactUsSchema,
   courseReviewSchema,
   createCourseSchema,
-  discountSchema,
   forgotPasswordSchema,
   instructorCertificateSchema,
   instructorSchema,
@@ -88,18 +87,8 @@ export type PaymentResult = {
   amount: string;
 };
 
-export type Discount = z.infer<typeof discountSchema> & {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  stripeCouponId: string | null;
-};
-export type CreateDiscount = z.infer<typeof discountSchema>;
-
 export type OrderItem = z.infer<typeof orderItemSchema> & {
   id: string;
-  stripeTransferId?: string | null;
-  payoutsEnabled: boolean;
 };
 export type CreateOrderItem = z.infer<typeof orderItemSchema>;
 

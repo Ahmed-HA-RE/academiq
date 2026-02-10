@@ -203,9 +203,9 @@ export const OrderScalarFieldEnum = {
   coursePrice: 'coursePrice',
   totalPrice: 'totalPrice',
   taxPrice: 'taxPrice',
+  status: 'status',
   paymentResult: 'paymentResult',
   stripePaymentIntentId: 'stripePaymentIntentId',
-  status: 'status',
   isPaid: 'isPaid',
   paidAt: 'paidAt',
   createdAt: 'createdAt',
@@ -221,9 +221,7 @@ export const OrderItemScalarFieldEnum = {
   price: 'price',
   image: 'image',
   courseId: 'courseId',
-  orderId: 'orderId',
-  stripeTransferId: 'stripeTransferId',
-  payoutsEnabled: 'payoutsEnabled'
+  orderId: 'orderId'
 } as const
 
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]

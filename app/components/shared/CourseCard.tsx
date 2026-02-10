@@ -32,6 +32,10 @@ const CourseCard = ({
   isPending,
   setIsPending,
 }: CourseCardProps) => {
+  const isEnrolled =
+    (subscription && subscription.plan === 'active') ||
+    user?.courses?.find((c) => c.id === course.id);
+
   return (
     <MotionPreset
       component='div'
@@ -101,10 +105,12 @@ const CourseCard = ({
               className='text-sm text-muted-foreground line-clamp-2'
             ></span>
 
-            <div className='flex flex-row items-center gap-1 font-semibold'>
-              <span className='dirham-symbol !text-lg'>&#xea;</span>
-              <span className='text-xl'>{course.price}</span>
-            </div>
+            {!isEnrolled && (
+              <div className='flex flex-row items-center gap-1 font-semibold'>
+                <span className='dirham-symbol !text-lg'>&#xea;</span>
+                <span className='text-xl'>{course.price}</span>
+              </div>
+            )}
           </div>
         </CardContent>
         <CardFooter className='grid grid-cols-2 gap-2 mt-2 px-3'>

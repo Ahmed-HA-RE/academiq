@@ -173,33 +173,6 @@ export const resetPasswordSchema = z
     error: "Passwords don't match",
   });
 
-export const discountSchema = z
-  .object({
-    code: z
-      .string({ error: 'Invalid discount code' })
-      .min(1, 'Discount code is required'),
-    type: z.enum(['percentage', 'fixed'], { error: 'Invalid discount type' }),
-    amount: z.coerce
-      .number<number>()
-      .min(1, 'Discount amount must be at least 1'),
-    validUntil: z.date().refine((val) => isAfter(val, new Date()), {
-      error: 'Must be a future date',
-    }),
-  })
-  .refine(
-    (data) =>
-      (data.type === 'percentage' && data.amount <= 100) ||
-      data.type === 'fixed',
-    {
-      error: 'Percentage discount cannot exceed 100',
-      path: ['amount'],
-    },
-  );
-
-export const applyDiscountSchema = z.object({
-  code: discountSchema.shape.code,
-});
-
 export const instructorSchema = z.object({
   bio: z.string({ error: 'Invalid bio' }).min(1, 'Bio is required'),
   socialLinks: z

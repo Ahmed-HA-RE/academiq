@@ -28,7 +28,7 @@ export const deleteOrderByIdAsAdmin = async (orderId: string) => {
       },
       data: {
         courses: {
-          disconnect: order.orderItems.map((item) => ({ id: item.courseId })),
+          disconnect: order.orderItem.map((item) => ({ id: item.courseId })),
         },
       },
     });

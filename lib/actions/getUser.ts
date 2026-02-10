@@ -5,7 +5,6 @@ import { auth } from '../auth';
 import { headers } from 'next/headers';
 import { prisma } from '../prisma';
 import { convertToPlainObject } from '../utils';
-import { BillingInfo } from '@/types';
 
 export const getCurrentLoggedUser = async () => {
   const session = await auth.api.getSession({
@@ -31,7 +30,6 @@ export const getCurrentLoggedUser = async () => {
 
   return convertToPlainObject({
     ...user,
-    billingInfo: user.billingInfo as BillingInfo,
   });
 };
 
@@ -44,6 +42,5 @@ export const getUserById = async (userId: string) => {
 
   return convertToPlainObject({
     ...user,
-    billingInfo: user.billingInfo as BillingInfo,
   });
 };

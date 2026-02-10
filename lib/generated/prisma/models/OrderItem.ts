@@ -41,8 +41,6 @@ export type OrderItemMinAggregateOutputType = {
   image: string | null
   courseId: string | null
   orderId: string | null
-  stripeTransferId: string | null
-  payoutsEnabled: boolean | null
 }
 
 export type OrderItemMaxAggregateOutputType = {
@@ -52,8 +50,6 @@ export type OrderItemMaxAggregateOutputType = {
   image: string | null
   courseId: string | null
   orderId: string | null
-  stripeTransferId: string | null
-  payoutsEnabled: boolean | null
 }
 
 export type OrderItemCountAggregateOutputType = {
@@ -63,8 +59,6 @@ export type OrderItemCountAggregateOutputType = {
   image: number
   courseId: number
   orderId: number
-  stripeTransferId: number
-  payoutsEnabled: number
   _all: number
 }
 
@@ -84,8 +78,6 @@ export type OrderItemMinAggregateInputType = {
   image?: true
   courseId?: true
   orderId?: true
-  stripeTransferId?: true
-  payoutsEnabled?: true
 }
 
 export type OrderItemMaxAggregateInputType = {
@@ -95,8 +87,6 @@ export type OrderItemMaxAggregateInputType = {
   image?: true
   courseId?: true
   orderId?: true
-  stripeTransferId?: true
-  payoutsEnabled?: true
 }
 
 export type OrderItemCountAggregateInputType = {
@@ -106,8 +96,6 @@ export type OrderItemCountAggregateInputType = {
   image?: true
   courseId?: true
   orderId?: true
-  stripeTransferId?: true
-  payoutsEnabled?: true
   _all?: true
 }
 
@@ -204,8 +192,6 @@ export type OrderItemGroupByOutputType = {
   image: string
   courseId: string
   orderId: string
-  stripeTransferId: string | null
-  payoutsEnabled: boolean
   _count: OrderItemCountAggregateOutputType | null
   _avg: OrderItemAvgAggregateOutputType | null
   _sum: OrderItemSumAggregateOutputType | null
@@ -238,8 +224,6 @@ export type OrderItemWhereInput = {
   image?: Prisma.StringFilter<"OrderItem"> | string
   courseId?: Prisma.StringFilter<"OrderItem"> | string
   orderId?: Prisma.StringFilter<"OrderItem"> | string
-  stripeTransferId?: Prisma.StringNullableFilter<"OrderItem"> | string | null
-  payoutsEnabled?: Prisma.BoolFilter<"OrderItem"> | boolean
   course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
   order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>
 }
@@ -251,8 +235,6 @@ export type OrderItemOrderByWithRelationInput = {
   image?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
-  stripeTransferId?: Prisma.SortOrderInput | Prisma.SortOrder
-  payoutsEnabled?: Prisma.SortOrder
   course?: Prisma.CourseOrderByWithRelationInput
   order?: Prisma.OrderOrderByWithRelationInput
 }
@@ -267,8 +249,6 @@ export type OrderItemWhereUniqueInput = Prisma.AtLeast<{
   image?: Prisma.StringFilter<"OrderItem"> | string
   courseId?: Prisma.StringFilter<"OrderItem"> | string
   orderId?: Prisma.StringFilter<"OrderItem"> | string
-  stripeTransferId?: Prisma.StringNullableFilter<"OrderItem"> | string | null
-  payoutsEnabled?: Prisma.BoolFilter<"OrderItem"> | boolean
   course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
   order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>
 }, "id">
@@ -280,8 +260,6 @@ export type OrderItemOrderByWithAggregationInput = {
   image?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
-  stripeTransferId?: Prisma.SortOrderInput | Prisma.SortOrder
-  payoutsEnabled?: Prisma.SortOrder
   _count?: Prisma.OrderItemCountOrderByAggregateInput
   _avg?: Prisma.OrderItemAvgOrderByAggregateInput
   _max?: Prisma.OrderItemMaxOrderByAggregateInput
@@ -299,8 +277,6 @@ export type OrderItemScalarWhereWithAggregatesInput = {
   image?: Prisma.StringWithAggregatesFilter<"OrderItem"> | string
   courseId?: Prisma.StringWithAggregatesFilter<"OrderItem"> | string
   orderId?: Prisma.StringWithAggregatesFilter<"OrderItem"> | string
-  stripeTransferId?: Prisma.StringNullableWithAggregatesFilter<"OrderItem"> | string | null
-  payoutsEnabled?: Prisma.BoolWithAggregatesFilter<"OrderItem"> | boolean
 }
 
 export type OrderItemCreateInput = {
@@ -308,8 +284,6 @@ export type OrderItemCreateInput = {
   name: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   image: string
-  stripeTransferId?: string | null
-  payoutsEnabled?: boolean
   course?: Prisma.CourseCreateNestedOneWithoutOrderItemInput
   order: Prisma.OrderCreateNestedOneWithoutOrderItemInput
 }
@@ -321,8 +295,6 @@ export type OrderItemUncheckedCreateInput = {
   image: string
   courseId?: string
   orderId: string
-  stripeTransferId?: string | null
-  payoutsEnabled?: boolean
 }
 
 export type OrderItemUpdateInput = {
@@ -330,8 +302,6 @@ export type OrderItemUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   course?: Prisma.CourseUpdateOneRequiredWithoutOrderItemNestedInput
   order?: Prisma.OrderUpdateOneRequiredWithoutOrderItemNestedInput
 }
@@ -343,8 +313,6 @@ export type OrderItemUncheckedUpdateInput = {
   image?: Prisma.StringFieldUpdateOperationsInput | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type OrderItemCreateManyInput = {
@@ -354,8 +322,6 @@ export type OrderItemCreateManyInput = {
   image: string
   courseId?: string
   orderId: string
-  stripeTransferId?: string | null
-  payoutsEnabled?: boolean
 }
 
 export type OrderItemUpdateManyMutationInput = {
@@ -363,8 +329,6 @@ export type OrderItemUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type OrderItemUncheckedUpdateManyInput = {
@@ -374,8 +338,6 @@ export type OrderItemUncheckedUpdateManyInput = {
   image?: Prisma.StringFieldUpdateOperationsInput | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type OrderItemListRelationFilter = {
@@ -395,8 +357,6 @@ export type OrderItemCountOrderByAggregateInput = {
   image?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
-  stripeTransferId?: Prisma.SortOrder
-  payoutsEnabled?: Prisma.SortOrder
 }
 
 export type OrderItemAvgOrderByAggregateInput = {
@@ -410,8 +370,6 @@ export type OrderItemMaxOrderByAggregateInput = {
   image?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
-  stripeTransferId?: Prisma.SortOrder
-  payoutsEnabled?: Prisma.SortOrder
 }
 
 export type OrderItemMinOrderByAggregateInput = {
@@ -421,8 +379,6 @@ export type OrderItemMinOrderByAggregateInput = {
   image?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
-  stripeTransferId?: Prisma.SortOrder
-  payoutsEnabled?: Prisma.SortOrder
 }
 
 export type OrderItemSumOrderByAggregateInput = {
@@ -518,8 +474,6 @@ export type OrderItemCreateWithoutCourseInput = {
   name: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   image: string
-  stripeTransferId?: string | null
-  payoutsEnabled?: boolean
   order: Prisma.OrderCreateNestedOneWithoutOrderItemInput
 }
 
@@ -529,8 +483,6 @@ export type OrderItemUncheckedCreateWithoutCourseInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   image: string
   orderId: string
-  stripeTransferId?: string | null
-  payoutsEnabled?: boolean
 }
 
 export type OrderItemCreateOrConnectWithoutCourseInput = {
@@ -569,8 +521,6 @@ export type OrderItemScalarWhereInput = {
   image?: Prisma.StringFilter<"OrderItem"> | string
   courseId?: Prisma.StringFilter<"OrderItem"> | string
   orderId?: Prisma.StringFilter<"OrderItem"> | string
-  stripeTransferId?: Prisma.StringNullableFilter<"OrderItem"> | string | null
-  payoutsEnabled?: Prisma.BoolFilter<"OrderItem"> | boolean
 }
 
 export type OrderItemCreateWithoutOrderInput = {
@@ -578,8 +528,6 @@ export type OrderItemCreateWithoutOrderInput = {
   name: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   image: string
-  stripeTransferId?: string | null
-  payoutsEnabled?: boolean
   course?: Prisma.CourseCreateNestedOneWithoutOrderItemInput
 }
 
@@ -589,8 +537,6 @@ export type OrderItemUncheckedCreateWithoutOrderInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   image: string
   courseId?: string
-  stripeTransferId?: string | null
-  payoutsEnabled?: boolean
 }
 
 export type OrderItemCreateOrConnectWithoutOrderInput = {
@@ -625,8 +571,6 @@ export type OrderItemCreateManyCourseInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   image: string
   orderId: string
-  stripeTransferId?: string | null
-  payoutsEnabled?: boolean
 }
 
 export type OrderItemUpdateWithoutCourseInput = {
@@ -634,8 +578,6 @@ export type OrderItemUpdateWithoutCourseInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.OrderUpdateOneRequiredWithoutOrderItemNestedInput
 }
 
@@ -645,8 +587,6 @@ export type OrderItemUncheckedUpdateWithoutCourseInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type OrderItemUncheckedUpdateManyWithoutCourseInput = {
@@ -655,8 +595,6 @@ export type OrderItemUncheckedUpdateManyWithoutCourseInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type OrderItemCreateManyOrderInput = {
@@ -665,8 +603,6 @@ export type OrderItemCreateManyOrderInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   image: string
   courseId?: string
-  stripeTransferId?: string | null
-  payoutsEnabled?: boolean
 }
 
 export type OrderItemUpdateWithoutOrderInput = {
@@ -674,8 +610,6 @@ export type OrderItemUpdateWithoutOrderInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   course?: Prisma.CourseUpdateOneRequiredWithoutOrderItemNestedInput
 }
 
@@ -685,8 +619,6 @@ export type OrderItemUncheckedUpdateWithoutOrderInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type OrderItemUncheckedUpdateManyWithoutOrderInput = {
@@ -695,8 +627,6 @@ export type OrderItemUncheckedUpdateManyWithoutOrderInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -708,8 +638,6 @@ export type OrderItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   image?: boolean
   courseId?: boolean
   orderId?: boolean
-  stripeTransferId?: boolean
-  payoutsEnabled?: boolean
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["orderItem"]>
@@ -721,8 +649,6 @@ export type OrderItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   image?: boolean
   courseId?: boolean
   orderId?: boolean
-  stripeTransferId?: boolean
-  payoutsEnabled?: boolean
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["orderItem"]>
@@ -734,8 +660,6 @@ export type OrderItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   image?: boolean
   courseId?: boolean
   orderId?: boolean
-  stripeTransferId?: boolean
-  payoutsEnabled?: boolean
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["orderItem"]>
@@ -747,11 +671,9 @@ export type OrderItemSelectScalar = {
   image?: boolean
   courseId?: boolean
   orderId?: boolean
-  stripeTransferId?: boolean
-  payoutsEnabled?: boolean
 }
 
-export type OrderItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "price" | "image" | "courseId" | "orderId" | "stripeTransferId" | "payoutsEnabled", ExtArgs["result"]["orderItem"]>
+export type OrderItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "price" | "image" | "courseId" | "orderId", ExtArgs["result"]["orderItem"]>
 export type OrderItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
@@ -778,8 +700,6 @@ export type $OrderItemPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     image: string
     courseId: string
     orderId: string
-    stripeTransferId: string | null
-    payoutsEnabled: boolean
   }, ExtArgs["result"]["orderItem"]>
   composites: {}
 }
@@ -1211,8 +1131,6 @@ export interface OrderItemFieldRefs {
   readonly image: Prisma.FieldRef<"OrderItem", 'String'>
   readonly courseId: Prisma.FieldRef<"OrderItem", 'String'>
   readonly orderId: Prisma.FieldRef<"OrderItem", 'String'>
-  readonly stripeTransferId: Prisma.FieldRef<"OrderItem", 'String'>
-  readonly payoutsEnabled: Prisma.FieldRef<"OrderItem", 'Boolean'>
 }
     
 

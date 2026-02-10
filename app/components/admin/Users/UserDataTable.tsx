@@ -1,5 +1,5 @@
 'use client';
-import { Suspense, useState, useTransition } from 'react';
+import { Suspense, useState } from 'react';
 import Image from 'next/image';
 import {
   EllipsisVerticalIcon,
@@ -55,14 +55,12 @@ import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import DeleteDialog from '../../shared/DeleteDialog';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
-import ScreenSpinner from '../../ScreenSpinner';
 import DataPagination from '../../shared/Pagination';
 import {
-  banAsAdmin,
   deleteSelectedUsers,
   deleteUserById,
-  unbanAsAdmin,
 } from '@/lib/actions/admin/user-mutation';
+import BanUserDialog from '../../BanUserDialog';
 
 const columns: ColumnDef<User & { ordersCount: number }>[] = [
   {
@@ -359,8 +357,6 @@ export const RowActions = ({
 }: {
   user: User & { ordersCount: number };
 }) => {
-  const [isPending, startTransition] = useTransition();
-
   const handleDeleteUser = async () => {
     const res = await deleteUserById(user.id);
     if (!res.success) {
@@ -370,31 +366,8 @@ export const RowActions = ({
     toast.success(res.message);
   };
 
-  const handleBanUser = () => {
-    startTransition(async () => {
-      const res = await banAsAdmin(user.id, user.role);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
-  const handleUnbanUser = () => {
-    startTransition(async () => {
-      const res = await unbanAsAdmin(user.id, user.role);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
   return (
     <>
-      {isPending && <ScreenSpinner mutate={true} text='Applying changes…' />}
       <div className='flex items-center justify-center'>
         {user.ordersCount === 0 && (
           <Tooltip>
@@ -410,6 +383,12 @@ export const RowActions = ({
             </TooltipContent>
           </Tooltip>
         )}
+        <BanUserDialog
+          userId={user.id}
+          name={user.name}
+          role={user.role}
+          banned={user.banned}
+        />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className='flex'>
@@ -429,13 +408,6 @@ export const RowActions = ({
                 <Link href={`/admin-dashboard/users/${user.id}/edit`}>
                   <span>Edit</span>
                 </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={user.banned ? handleUnbanUser : handleBanUser}
-                className='cursor-pointer'
-                variant='destructive'
-              >
-                <span>{user.banned ? 'Unban User' : 'Ban User'}</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

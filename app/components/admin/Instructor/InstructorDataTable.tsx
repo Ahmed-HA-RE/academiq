@@ -1,5 +1,5 @@
 'use client';
-import { Suspense, useTransition } from 'react';
+import { Suspense } from 'react';
 import Image from 'next/image';
 import { CircleIcon, EllipsisVerticalIcon, SearchIcon } from 'lucide-react';
 import { Instructor } from '@/types';
@@ -33,7 +33,6 @@ import {
 import { cn, formatId } from '@/lib/utils';
 import { Input } from '../../ui/input';
 import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
-import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import DataPagination from '../../shared/Pagination';
 import { formatDate } from 'date-fns';
@@ -41,12 +40,10 @@ import { formatDate } from 'date-fns';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../../ui/dropdown-menu';
-import { banAsAdmin, unbanAsAdmin } from '@/lib/actions/admin/user-mutation';
-import ScreenSpinner from '../../ScreenSpinner';
+import BanUserDialog from '../../BanUserDialog';
 
 const columns: ColumnDef<Instructor>[] = [
   {
@@ -299,74 +296,35 @@ const InstructorDataTable = ({
 export default InstructorDataTable;
 
 export const RowActions = ({ instructor }: { instructor: Instructor }) => {
-  const [isPending, startTransition] = useTransition();
-
-  const handleBanUser = () => {
-    startTransition(async () => {
-      const res = await banAsAdmin(instructor.user.id, instructor.user.role);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
-  const handleUnbanUser = () => {
-    startTransition(async () => {
-      const res = await unbanAsAdmin(instructor.user.id, instructor.user.role);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
   return (
-    <>
-      {isPending && <ScreenSpinner mutate={true} text='Applying changes…' />}
-
-      <div className='flex items-center justify-center '>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className='flex'>
-              <Button
-                size='icon'
-                variant='ghost'
-                className='rounded-full p-2 cursor-pointer'
-                aria-label='Edit User'
-              >
-                <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
-              </Button>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='start'>
-            <DropdownMenuGroup>
-              <DropdownMenuItem asChild className='cursor-pointer'>
-                <Link
-                  href={`/admin-dashboard/instructors/${instructor.id}/edit`}
-                >
-                  <span>Edit</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={
-                  instructor.user.banned ? handleUnbanUser : handleBanUser
-                }
-                className='cursor-pointer'
-                variant='destructive'
-              >
-                <span>
-                  {instructor.user.banned
-                    ? 'Unban Instructor'
-                    : 'Ban Instructor'}
-                </span>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </>
+    <div className='flex items-center justify-center '>
+      <BanUserDialog
+        userId={instructor.user.id}
+        name={instructor.user.name}
+        role={instructor.user.role}
+        banned={instructor.user.banned}
+      />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <div className='flex'>
+            <Button
+              size='icon'
+              variant='ghost'
+              className='rounded-full p-2 cursor-pointer'
+              aria-label='Edit User'
+            >
+              <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
+            </Button>
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align='start'>
+          <DropdownMenuItem asChild className='cursor-pointer'>
+            <Link href={`/admin-dashboard/instructors/${instructor.id}/edit`}>
+              <span>Edit</span>
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 };

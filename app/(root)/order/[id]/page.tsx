@@ -17,7 +17,6 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { cn } from '@/lib/utils';
 import { getCurrentLoggedUser } from '@/lib/actions/getUser';
-import { getUserRefundEligibility } from '@/lib/actions/user/get-user-refund-eligibility';
 
 export const metadata: Metadata = {
   title: 'Order Summary',
@@ -40,8 +39,6 @@ const OrderSummaryPage = async ({
   }
 
   if (!order.isPaid && user.role !== 'admin') redirect('/');
-
-  const userProgress = await getUserRefundEligibility(order.userId);
 
   return (
     <section className='mb-14'>
@@ -75,27 +72,6 @@ const OrderSummaryPage = async ({
                 ></span>
                 {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
               </Badge>
-              {order.status !== 'refunded' && (
-                <Badge
-                  className={
-                    Number(userProgress?.progress) > 10
-                      ? 'bg-destructive/10 text-destructive'
-                      : 'bg-green-600/10 text-green-600'
-                  }
-                >
-                  <span
-                    className={cn(
-                      'size-1.5 rounded-full',
-                      Number(userProgress?.progress) > 10
-                        ? 'bg-destructive'
-                        : 'bg-green-600',
-                    )}
-                  ></span>
-                  {Number(userProgress?.progress) > 10
-                    ? 'Not Eligible For Refund'
-                    : 'Eligible For Refund'}
-                </Badge>
-              )}
             </div>
           </CardHeader>
           <CardContent className='grid gap-10 py-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>

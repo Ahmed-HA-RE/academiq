@@ -236,10 +236,6 @@ SendReceipt.PreviewProps = {
     taxPrice: 25,
     totalPrice: 275,
   },
-  discount: {
-    amount: 25,
-    type: 'percentage',
-  },
 };
 
 export default SendReceipt;

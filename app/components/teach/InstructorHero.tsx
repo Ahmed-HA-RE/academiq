@@ -140,7 +140,7 @@ const InstructorHero = () => {
             containerRef={containerRef}
             fromRef={iconRef1}
             toRef={spanRef1}
-            gradientStartColor='var(--primary)'
+            gradientStartColor='var(--secondary)'
             duration={4.5}
             className='-z-1 max-md:hidden'
           />

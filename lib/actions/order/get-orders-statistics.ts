@@ -1,19 +1,8 @@
 'use server';
-
-import stripe from '@/lib/stripe';
 import { prisma } from '../../prisma';
 
-// Get total sales amount and total subscriptions
+// Get total sales amount
 export const getTotalSalesAmount = async () => {
-  const subscriptions = await stripe.invoices.list({
-    status: 'paid',
-  });
-
-  const totalSubscriptionsAmount = subscriptions.data.reduce(
-    (acc, c) => acc + c.amount_paid / 100,
-    0,
-  );
-
   const totalSales = await prisma.order.aggregate({
     _sum: {
       totalPrice: true,
@@ -24,9 +13,7 @@ export const getTotalSalesAmount = async () => {
     },
   });
 
-  const totalSalesAmount = Math.round(
-    Number(totalSales._sum.totalPrice) + totalSubscriptionsAmount,
-  );
+  const totalSalesAmount = Math.round(Number(totalSales._sum.totalPrice));
 
   return totalSalesAmount.toFixed(2);
 };

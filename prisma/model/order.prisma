@@ -6,9 +6,9 @@ model Order {
   coursePrice           Decimal     @db.Decimal(10, 2)
   totalPrice            Decimal     @db.Decimal(10, 2)
   taxPrice              Decimal     @db.Decimal(10, 2)
+  status                String
   paymentResult         Json?       @db.Json
   stripePaymentIntentId String?
-  status                String      @default("pending")
   isPaid                Boolean     @default(false)
   paidAt                DateTime?
   createdAt             DateTime    @default(now())
@@ -16,14 +16,12 @@ model Order {
 }
 
 model OrderItem {
-  id               String  @id @default(uuid())
-  name             String
-  price            Decimal @db.Decimal(10, 2)
-  image            String
-  course           Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId         String  @default(uuid())
-  order            Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId          String
-  stripeTransferId String?
-  payoutsEnabled   Boolean @default(true)
+  id       String  @id @default(uuid())
+  name     String
+  price    Decimal @db.Decimal(10, 2)
+  image    String
+  course   Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String  @default(uuid())
+  order    Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId  String
 }

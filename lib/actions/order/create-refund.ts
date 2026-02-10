@@ -36,12 +36,12 @@ export const createRefund = async (orderId: string) => {
       where: {
         userId: order.userId,
         courseId: {
-          in: order.orderItems.map((item) => item.courseId),
+          in: order.orderItem.map((item) => item.courseId),
         },
       },
     });
 
-    if (userCourseProgress && +userCourseProgress.progress >= 10)
+    if (userCourseProgress && Number(userCourseProgress.progress) >= 10)
       throw new Error(
         'An order cannot be refunded if the course progress is more than 10%',
       );
@@ -51,10 +51,17 @@ export const createRefund = async (orderId: string) => {
       metadata: {
         orderId: order.id,
       },
+      reverse_transfer: true,
+      refund_application_fee: true,
       amount: Math.round(Number(order.paymentResult.amount) * 100),
     });
 
-    return { success: true, message: 'Order refunded successfully' };
+    await prisma.order.update({
+      where: { id: order.id },
+      data: { status: 'pending_refund' },
+    });
+
+    return { success: true, message: 'Refund requested successfully' };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

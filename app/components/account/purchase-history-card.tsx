@@ -1,6 +1,6 @@
 import { ChevronDownIcon, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
-import { format, isBefore, subWeeks } from 'date-fns';
+import { format } from 'date-fns';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import {
@@ -9,7 +9,7 @@ import {
   CollapsibleTrigger,
 } from '../ui/collapsible';
 import { Badge } from '../ui/badge';
-import { capitalizeFirstLetter } from '@/lib/utils';
+import { capitalizeFirstLetter, cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
 import {
   Table,
@@ -22,7 +22,6 @@ import {
 import { getOrderReceipt } from '@/lib/actions/order/get-order-receipt';
 import { Order } from '@/types';
 import Link from 'next/link';
-import { getUserRefundEligibility } from '@/lib/actions/user/get-user-refund-eligibility';
 import RefundDialog from './refund-dialog';
 
 const PurchaseHistoryCard = async ({
@@ -30,44 +29,12 @@ const PurchaseHistoryCard = async ({
 }: {
   order: Omit<Order, 'billingDetails' | 'paymentResult'>;
 }) => {
-  const [receiptUrl, refundEligibility] = await Promise.all([
+  const [receiptUrl] = await Promise.all([
     getOrderReceipt(order.stripePaymentIntentId as string),
-    getUserRefundEligibility(order.userId),
   ]);
 
-  const createdAt = order.createdAt;
-  const oneWeekAgo = subWeeks(new Date(), 1);
-  const hasPassedOneWeek = isBefore(createdAt, oneWeekAgo);
-
-  const isEligibleForRefund =
-    refundEligibility &&
-    Number(refundEligibility.progress) < 10 &&
-    !hasPassedOneWeek && // 7 days and less than 10% progress
-    order.status !== 'refunded';
-
   return (
-    <Card className='pt-0 gap-0 overflow-hidden mb-4 relative' key={order.id}>
-      {/* Refunded Badge */}
-      {order.status === 'refunded' ? (
-        <Badge
-          variant='default'
-          className={`bg-fuchsia-500 dark:bg-fuchsia-600 text-white gap-1.5 absolute top-0 right-0 z-10 shadow-lg rounded-md px-3 py-1.5 font-medium`}
-        >
-          Refunded
-        </Badge>
-      ) : (
-        <Badge
-          variant={isEligibleForRefund ? 'default' : 'destructive'}
-          className={`${
-            isEligibleForRefund
-              ? 'bg-green-600 dark:bg-green-700'
-              : 'bg-red-600 dark:bg-red-700'
-          } text-white gap-1.5 absolute top-0 right-0 z-10 shadow-lg rounded-md px-3 py-1.5 font-medium`}
-        >
-          {isEligibleForRefund ? 'Refund Eligible' : 'Not Eligible'}
-        </Badge>
-      )}
-
+    <Card className='pt-0 gap-0 overflow-hidden mb-4' key={order.id}>
       <CardHeader className='p-6 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex flex-row items-center justify-between gap-8'>
         <div className='flex flex-row items-center gap-8'>
           <div className='flex flex-col gap-2'>
@@ -139,7 +106,7 @@ const PurchaseHistoryCard = async ({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className=''>Transaction date</TableHead>
+                    <TableHead>Transaction date</TableHead>
                     <TableHead>Tax</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Receipt actions</TableHead>
@@ -158,8 +125,20 @@ const PurchaseHistoryCard = async ({
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge className='bg-green-600 dark:bg-green-700 text-white'>
-                        {capitalizeFirstLetter(order.status)}
+                      <Badge
+                        className={cn(
+                          order.status === 'paid'
+                            ? 'bg-green-600 dark:bg-green-700 text-white'
+                            : order.status === 'pending_refund'
+                              ? 'bg-yellow-600 dark:bg-yellow-700 text-white'
+                              : order.status === 'refunded'
+                                ? 'bg-fuchsia-600 dark:bg-fuchsia-700 text-white'
+                                : 'bg-yellow-600 dark:bg-yellow-700 text-white',
+                        )}
+                      >
+                        {order.status.includes('pending_refund')
+                          ? 'Pending Refund'
+                          : capitalizeFirstLetter(order.status)}
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -192,7 +171,7 @@ const PurchaseHistoryCard = async ({
               <ArrowRight className='w-4 h-4 transition-transform group-hover:translate-x-1' />
             </Link>
           </Button>
-          {isEligibleForRefund && <RefundDialog order={order} />}
+          {order.status === 'paid' && <RefundDialog order={order} />}
         </div>
       </CardFooter>
     </Card>

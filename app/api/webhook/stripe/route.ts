@@ -2,17 +2,26 @@ import stripe from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
 import resend, { domain } from '@/lib/resend';
 import SendReceipt from '@/emails/SendReceipt';
-import { APP_NAME, APPLICATION_FEE_PERCENTAGE } from '@/lib/constants';
+import { APP_NAME } from '@/lib/constants';
 import { OrderItem, PaymentResult } from '@/types';
-import { convertToFils, formatDate } from '@/lib/utils';
+import { formatDate } from '@/lib/utils';
 import RefundOrder from '@/emails/RefundOrder';
 import { revalidatePath } from 'next/cache';
 import InstructorOrderRefund from '@/emails/InstructorOrderRefund';
 import { knock } from '@/lib/knock';
+import {
+  sendInstructorCoursePurchaseNotification,
+  sendInstructorRefundNotification,
+  sendUserCoursePurchaseNotification,
+  sendUserRefundNotification,
+} from '@/lib/actions/notifications';
 
 export const POST = async (req: Request) => {
   let event;
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
+  const endpointSecret =
+    process.env.NODE_ENV === 'production'
+      ? (process.env.STRIPE_WEBHOOK_SECRET_PROD as string)
+      : (process.env.STRIPE_WEBHOOK_SECRET_DEV as string);
   const signature = req.headers.get('stripe-signature') as string;
   const payload = await req.text();
 
@@ -32,16 +41,17 @@ export const POST = async (req: Request) => {
     const courseId = session.metadata?.courseId;
     const userId = session.metadata?.userId;
 
-    if (!courseId || !userId) {
-      console.error('Missing courseId or userId in session metadata');
-      return new Response('Missing metadata', { status: 400 });
-    }
-
     const course = await prisma.course.findUnique({
       where: { id: courseId },
       include: { instructor: { include: { user: true } } },
     });
 
+    if (!courseId || !userId) {
+      console.error('Missing courseId or userId in session metadata');
+      return new Response('Missing courseId or userId in session metadata', {
+        status: 400,
+      });
+    }
     if (!course) {
       console.error('Course not found for ID:', courseId);
       return new Response('Course not found', { status: 404 });
@@ -85,11 +95,7 @@ export const POST = async (req: Request) => {
       },
     });
 
-    await knock.workflows.trigger('course-sold', {
-      actor: 'academiq-support',
-      recipients: [course.instructor.user.id as string],
-      data: { courseName: course.title },
-    });
+    await sendInstructorCoursePurchaseNotification(userId, course.title);
 
     await prisma.userProgress.create({
       data: {
@@ -112,69 +118,59 @@ export const POST = async (req: Request) => {
       }),
     });
 
-    // Send notification to user about the new purchase
-    await knock.workflows.trigger('purchase-course', {
-      actor: 'academiq-support',
-      recipients: [newOrder.userId],
-      data: {
-        courseName: newOrder.orderItem.map((item) => item.name),
-      },
-    });
+    await sendUserCoursePurchaseNotification(userId, course.title);
 
     return Response.json({ message: 'Charge succeeded processed' });
     // Create a refund process for an order
-  } else if (event.type === 'charge.refunded') {
+  } else if (event.type === 'refund.updated') {
     const refund = event.data.object;
 
     const refundedOrder = await prisma.order.update({
       where: { id: refund.metadata?.orderId },
-      data: { status: 'refunded' },
+      data: {
+        status:
+          refund.status === 'succeeded'
+            ? 'refunded'
+            : refund.status === 'failed'
+              ? 'paid'
+              : 'pending_refund',
+      },
       include: { user: true, orderItem: { include: { course: true } } },
     });
 
     // Remove user access to the refunded courses
-    const itemsCourseIds = refundedOrder.orderItem.map((item) => item.courseId);
+    const itemsCourseId = refundedOrder.orderItem.map((item) => item.courseId);
     await prisma.user.update({
       where: {
         id: refundedOrder.userId,
       },
       data: {
         courses: {
-          disconnect: itemsCourseIds.map((courseId) => ({ id: courseId })),
+          disconnect: itemsCourseId.map((courseId) => ({ id: courseId })),
         },
       },
     });
 
-    const progressionData = [];
-
-    for (const item of refundedOrder.orderItem) {
-      const instructor = await prisma.instructor.findFirst({
-        where: { id: item.course.instructorId },
-        include: {
-          user: { select: { email: true, name: true, banned: true } },
+    // Delete user progress for the refunded courses
+    await prisma.userProgress.deleteMany({
+      where: {
+        userId: refundedOrder.userId,
+        courseId: {
+          in: refundedOrder.orderItem.map((item) => item.courseId),
         },
-      });
+      },
+    });
 
-      if (!instructor || !item.payoutsEnabled) {
-        continue;
-      }
+    const instructor = await prisma.instructor.findFirst({
+      where: { id: refundedOrder.orderItem[0].course.instructorId },
+      include: {
+        user: { select: { email: true, name: true, banned: true } },
+      },
+    });
 
-      if (!item.stripeTransferId) {
-        continue;
-      }
-
-      // Find the related instructor email and send notification and refund his share
-      await stripe.transfers.createReversal(item.stripeTransferId, {
-        amount: Math.round(
-          (convertToFils(item.price) * (100 - APPLICATION_FEE_PERCENTAGE)) /
-            100,
-        ),
-      });
-
-      if (instructor.user.banned) {
-        continue;
-      }
-
+    const item = refundedOrder.orderItem[0];
+    if (instructor && !instructor.user.banned) {
+      // Notify instructor about the refund
       await resend.emails.send({
         from: `${APP_NAME} <support@${domain}>`,
         to: instructor.user.email,
@@ -185,20 +181,12 @@ export const POST = async (req: Request) => {
           refundAmount: Number(item.price),
         }),
       });
-      progressionData.push({
-        userId: refundedOrder.userId,
-        courseId: item.courseId,
-      });
+      // Notify instructor about the refund
+      await sendInstructorRefundNotification(
+        refund.amount / 100,
+        instructor.userId as string,
+      );
     }
-
-    await prisma.userProgress.deleteMany({
-      where: {
-        OR: progressionData.map((data) => ({
-          userId: data.userId,
-          courseId: data.courseId,
-        })),
-      },
-    });
 
     await resend.emails.send({
       from: `${APP_NAME} <support@${domain}>`,
@@ -212,6 +200,11 @@ export const POST = async (req: Request) => {
         refundDate: formatDate(new Date(refund.created * 1000), 'date'),
       }),
     });
+
+    await sendUserRefundNotification(
+      refundedOrder.userId as string,
+      item.course.title,
+    );
 
     revalidatePath('/account', 'page');
     revalidatePath('/admin-dashboard/orders', 'page');

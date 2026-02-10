@@ -87,7 +87,7 @@ export const getAllOrdersAsAdmin = async ({
       ...statusFilter,
       ...paidAtFilter,
     },
-    include: { orderItem: true },
+    include: { orderItem: true, user: { select: { email: true, name: true } } },
     orderBy: { createdAt: 'desc' },
     take: limit,
     skip: (page - 1) * limit,

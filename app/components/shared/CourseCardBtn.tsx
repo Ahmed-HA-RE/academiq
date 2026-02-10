@@ -61,19 +61,23 @@ const CourseCardBtn = ({
   };
 
   const createCheckoutSession = async () => {
-    setIsPending(true);
-    const res = await createStripeCheckoutSession({
-      courseId: course.id,
-      pathname,
-    });
+    if (!user) {
+      router.push(`/login?callbackUrl=${callbackUrl}`);
+    } else {
+      setIsPending(true);
+      const res = await createStripeCheckoutSession({
+        courseId: course.id,
+        pathname,
+      });
 
-    if (!res.success || !res.redirect) {
-      setIsPending(false);
-      toast.error('Failed to create checkout session. Please try again.');
-      return;
+      if (!res.success || !res.redirect) {
+        setIsPending(false);
+        toast.error('Failed to create checkout session. Please try again.');
+        return;
+      }
+
+      router.push(res.redirect);
     }
-
-    router.push(res.redirect);
   };
 
   return isAdmin ? (
@@ -124,7 +128,7 @@ const CourseCardBtn = ({
     </Button>
   ) : (
     <Button
-      className={`w-full cursor-pointer ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'} bg-slate-600 hover:bg-slate-700 text-white ${
+      className={`w-full cursor-pointer ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'} bg-lime-500 hover:bg-lime-600 text-white ${
         !isCourseDetailsPage && 'text-sm'
       }`}
       size={!isCourseDetailsPage ? 'default' : 'lg'}
@@ -132,7 +136,7 @@ const CourseCardBtn = ({
       onClick={createCheckoutSession}
       disabled={isPending}
     >
-      Buy Now
+      Enroll Now
     </Button>
   );
 };

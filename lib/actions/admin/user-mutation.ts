@@ -5,6 +5,7 @@ import { uploadToCloudinary } from '@/lib/cloudinary';
 import { prisma } from '@/lib/prisma';
 import { updateUserAsAdminSchema } from '@/schema';
 import { UpdateUserAsAdmin } from '@/types';
+import stripe from '@/lib/stripe';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 
@@ -24,6 +25,8 @@ export const banAsAdmin = async (id: string, role: string) => {
 
     if (!user) throw new Error('User not found');
 
+    if (user.banned) throw new Error('User is already banned');
+
     await auth.api.banUser({
       body: {
         userId: user.id,
@@ -32,76 +35,59 @@ export const banAsAdmin = async (id: string, role: string) => {
       headers: await headers(),
     });
 
-    // If the user is an instructor, set their courses to unpublished and set related courses orders to payoutsEnabled to false
+    // If the user is an instructor, set their courses to unpublished
     if (user.role === 'instructor' && user.instructor) {
       await prisma.course.updateMany({
         where: { instructorId: user.instructor.id },
         data: { published: false },
       });
-      await prisma.orderItems.updateMany({
-        where: {
-          stripeTransferId: { equals: null },
-          course: {
-            instructorId: user.instructor.id,
+
+      // Disable instructor stripe's account payments and transfers
+      await stripe.accounts.update(user.instructor.stripeAccountId, {
+        settings: {
+          payouts: {
+            schedule: {
+              interval: 'manual', // Disable automatic payouts
+            },
           },
         },
-        data: {
-          payoutsEnabled: false,
+      });
+
+      // Refund all users that purchased courses from the banned instructor
+
+      const orders = await prisma.order.findMany({
+        where: {
+          orderItem: {
+            some: {
+              course: {
+                instructorId: user.instructor.id,
+              },
+            },
+          },
         },
       });
+
+      for await (const order of orders) {
+        await stripe.refunds.create({
+          payment_intent: order.stripePaymentIntentId as string,
+          metadata: {
+            orderId: order.id,
+          },
+          reverse_transfer: true,
+          refund_application_fee: true,
+          amount: Math.round(Number(order.paymentResult?.amount) * 100),
+        });
+
+        await prisma.order.update({
+          where: { id: order.id },
+          data: { status: 'pending_refund' },
+        });
+      }
     }
 
-    revalidatePath('/', 'layout');
+    revalidatePath('/admin-dashboard/instructors', 'page');
+    revalidatePath('/admin-dashboard/users', 'page');
     return { success: true, message: `${role} banned successfully` };
-  } catch (error) {
-    return { success: false, message: (error as Error).message };
-  }
-};
-
-export const unbanAsAdmin = async (id: string, role: string) => {
-  try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session || session.user.role !== 'admin')
-      throw new Error('Unauthorized to ban users');
-
-    const user = await prisma.user.findUnique({
-      where: { id },
-      include: { instructor: true },
-    });
-
-    if (!user) throw new Error('User not found');
-
-    await auth.api.unbanUser({
-      body: {
-        userId: user.id,
-      },
-      headers: await headers(),
-    });
-
-    // If the user is an instructor, set their courses to unpublished and set related courses orders to payoutsEnabled to true
-    if (user.role === 'instructor' && user.instructor) {
-      await prisma.course.updateMany({
-        where: { instructorId: user.instructor.id },
-        data: { published: false },
-      });
-      await prisma.orderItems.updateMany({
-        where: {
-          stripeTransferId: { equals: null },
-          course: {
-            instructorId: user.instructor.id,
-          },
-        },
-        data: {
-          payoutsEnabled: true,
-        },
-      });
-    }
-
-    revalidatePath('/', 'layout');
-    return { success: true, message: `${role} unbanned successfully` };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }
@@ -212,16 +198,6 @@ export const updateUserAsAdmin = async (
       );
     }
 
-    const updatedBillingInfo = {
-      phone: validatedData.data.phone === '' ? null : validatedData.data.phone,
-      address:
-        validatedData.data.address === '' ? null : validatedData.data.address,
-      country:
-        validatedData.data.country === '' ? null : validatedData.data.country,
-      fullName:
-        validatedData.data.fullName === '' ? null : validatedData.data.fullName,
-    };
-
     await prisma.user.update({
       where: { id: userId },
       data: {
@@ -230,7 +206,6 @@ export const updateUserAsAdmin = async (
         role: validatedData.data.role,
         emailVerified: validatedData.data.status === 'verified' ? true : false,
         image: avatarUrl?.secure_url || user.image,
-        billingInfo: updatedBillingInfo,
       },
     });
 

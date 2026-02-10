@@ -71,9 +71,11 @@ export const createStripeCheckoutSession = async (data: {
       },
       allow_promotion_codes: true,
       billing_address_collection: 'auto',
-
+      customer_update: {
+        address: 'auto',
+      },
       currency: 'aed',
-      customer_email: user.email,
+      customer: user.stripeCustomerId as string,
       saved_payment_method_options: {
         payment_method_save: 'enabled',
       },
@@ -85,6 +87,7 @@ export const createStripeCheckoutSession = async (data: {
 
     return { success: true, redirect: session.url };
   } catch (error) {
+    console.log(error);
     return { success: false, redirect: null };
   }
 };

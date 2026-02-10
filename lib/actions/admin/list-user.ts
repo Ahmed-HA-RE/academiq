@@ -4,7 +4,6 @@ import { auth } from '@/lib/auth';
 import { Prisma } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { convertToPlainObject } from '@/lib/utils';
-import { BillingInfo } from '@/types';
 import { headers } from 'next/headers';
 
 export const getUsersCount = async () => {
@@ -171,7 +170,6 @@ export const getBannedUsers = async ({
     users: convertToPlainObject(
       bannedUsers.map((user) => ({
         ...user,
-        billingInfo: user.billingInfo as BillingInfo,
         ordersCount: user._count.orders,
       })),
     ),
@@ -223,7 +221,6 @@ export const getAllAdmins = async (
     adminUsers: convertToPlainObject(
       admins.map((user) => ({
         ...user,
-        billingInfo: user.billingInfo as BillingInfo,
       })),
     ),
     totalPages,
@@ -325,7 +322,6 @@ export const getAllUsers = async ({
       users.map((user) => {
         return {
           ...user,
-          billingInfo: user.billingInfo as BillingInfo,
           ordersCount: user._count.orders,
         };
       }),
