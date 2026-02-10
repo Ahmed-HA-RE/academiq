@@ -4,11 +4,14 @@ import { auth } from '@/lib/auth';
 import { Prisma } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { convertToPlainObject } from '@/lib/utils';
-import { BillingInfo } from '@/types';
 import { headers } from 'next/headers';
 
 export const getUsersCount = async () => {
-  const count = await prisma.user.count();
+  const count = await prisma.user.count({
+    where: {
+      role: { not: 'admin' },
+    },
+  });
   return count;
 };
 
@@ -21,6 +24,7 @@ export const getNewUsersCount = async () => {
       createdAt: {
         gte: thirtyDaysAgo,
       },
+      role: { not: 'admin' },
     },
   });
   return count;
@@ -31,6 +35,9 @@ export const getActiveUsersCount = async () => {
     distinct: ['userId'],
     where: {
       progress: { gt: 0 },
+      user: {
+        role: { not: 'admin' },
+      },
     },
   });
 
@@ -47,6 +54,7 @@ export const getMonthlyUserActivity = async () => {
         gte: new Date(`${currentYear}-01-01`),
         lte: new Date(`${currentYear}-12-31`),
       },
+      role: { not: 'admin' },
     },
     select: {
       createdAt: true,
@@ -60,6 +68,9 @@ export const getMonthlyUserActivity = async () => {
       updatedAt: {
         gte: new Date(`${currentYear}-01-01`),
         lte: new Date(`${currentYear}-12-31`),
+      },
+      user: {
+        role: { not: 'admin' },
       },
     },
     select: {
@@ -159,7 +170,6 @@ export const getBannedUsers = async ({
     users: convertToPlainObject(
       bannedUsers.map((user) => ({
         ...user,
-        billingInfo: user.billingInfo as BillingInfo,
         ordersCount: user._count.orders,
       })),
     ),
@@ -211,7 +221,6 @@ export const getAllAdmins = async (
     adminUsers: convertToPlainObject(
       admins.map((user) => ({
         ...user,
-        billingInfo: user.billingInfo as BillingInfo,
       })),
     ),
     totalPages,
@@ -313,7 +322,6 @@ export const getAllUsers = async ({
       users.map((user) => {
         return {
           ...user,
-          billingInfo: user.billingInfo as BillingInfo,
           ordersCount: user._count.orders,
         };
       }),

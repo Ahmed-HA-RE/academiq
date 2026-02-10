@@ -1,6 +1,5 @@
 import CategoriesFilter from '@/app/components/courses/CategoriesFilter';
 import CoursesPagination from '@/app/components/shared/Pagination';
-import { getMyCart } from '@/lib/actions/cart';
 import { getAllCourses } from '@/lib/actions/course/getCourses';
 import { loadSearchParams } from '@/lib/searchParams';
 import type { SearchParams } from 'nuqs/server';
@@ -8,8 +7,8 @@ import { Metadata } from 'next';
 import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import { Alert, AlertTitle } from '@/app/components/ui/alert';
 import { TriangleAlertIcon } from 'lucide-react';
-import CourseCard from '@/app/components/shared/CourseCard';
 import { listUserSubscription } from '@/lib/actions/subscription/list-user-subscription';
+import CoursesList from '@/app/components/courses-list';
 
 export const generateMetadata = async ({
   searchParams,
@@ -48,21 +47,18 @@ const CoursesPage = async ({
   const { q, price, difficulty, category, sortBy, page } =
     await loadSearchParams(searchParams);
 
-  const [{ courses, totalPages }, cart, user, subscription] = await Promise.all(
-    [
-      getAllCourses({
-        q,
-        price,
-        difficulty,
-        category,
-        sortBy,
-        page,
-      }),
-      getMyCart(),
-      getCurrentLoggedUser(),
-      listUserSubscription(),
-    ],
-  );
+  const [{ courses, totalPages }, user, subscription] = await Promise.all([
+    getAllCourses({
+      q,
+      price,
+      difficulty,
+      category,
+      sortBy,
+      page,
+    }),
+    getCurrentLoggedUser(),
+    listUserSubscription(),
+  ]);
 
   return (
     <section className='my-10'>
@@ -81,20 +77,11 @@ const CoursesPage = async ({
               <AlertTitle>No courses found.</AlertTitle>
             </Alert>
           ) : (
-            <div className='col-span-7 md:col-span-4 lg:col-span-5 grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-3xl '>
-              {courses.map(
-                (course) =>
-                  course.published && (
-                    <CourseCard
-                      key={course.id}
-                      course={course}
-                      cart={cart}
-                      user={user}
-                      subscription={subscription}
-                    />
-                  ),
-              )}
-            </div>
+            <CoursesList
+              courses={courses}
+              user={user}
+              subscription={subscription}
+            />
           )}
         </div>
         {totalPages && totalPages > 1 ? (

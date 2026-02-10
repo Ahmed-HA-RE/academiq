@@ -12,6 +12,11 @@ import { stripe } from '@better-auth/stripe';
 import { stripe as stripeClient } from './stripe';
 import SuccessfulSubscription from '@/emails/SuccessfulSubscription';
 import CancelSubscription from '@/emails/CancelSubscription';
+import { knock } from './knock';
+import {
+  sendSubscriptionCompleteNotification,
+  welcomeWorkFlow,
+} from './actions/notifications';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -20,10 +25,37 @@ export const auth = betterAuth({
 
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
+      // Handle banned users
       const query = ctx.query;
       if (query && query.error === 'banned')
         return ctx.redirect(`/banned?error=${query.error_description}`);
     }),
+  },
+
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          // Check if user is new and send welcome notification
+          const isNewUser = await prisma.user.findFirst({
+            where: {
+              email: user.email,
+              createdAt: {
+                gte: new Date(Date.now() - 5 * 60 * 1000), // Created within last 5 minutes
+              },
+            },
+          });
+
+          if (isNewUser) {
+            await knock.users.update(user.id, {
+              name: user.name,
+              email: user.email,
+            });
+            await welcomeWorkFlow(user.id);
+          }
+        },
+      },
+    },
   },
 
   emailAndPassword: {
@@ -88,8 +120,8 @@ export const auth = betterAuth({
       stripeClient,
       stripeWebhookSecret:
         process.env.NODE_ENV === 'development'
-          ? process.env.STRIPE_WEBHOOK_DEV_SECRET!
-          : process.env.STRIPE_WEBHOOK_SECRET!,
+          ? process.env.STRIPE_PLUGIN_WEBHOOK_SECRET_DEV!
+          : process.env.STRIPE_PLUGIN_WEBHOOK_SECRET_PROD!,
       createCustomerOnSignUp: true,
       onCustomerCreate: async ({ stripeCustomer, user }) => {
         console.log(
@@ -97,6 +129,14 @@ export const auth = betterAuth({
         );
       },
       subscription: {
+        getCheckoutSessionParams() {
+          // Add promotion code support to subscription checkout session
+          return {
+            params: {
+              allow_promotion_codes: true,
+            },
+          };
+        },
         enabled: true,
         plans: [
           {
@@ -112,23 +152,25 @@ export const auth = betterAuth({
           const user = await prisma.user.findFirst({
             where: { stripeCustomerId: subscription.stripeCustomerId },
           });
+          // Send Successful Subscription Email
+          await resend.emails.send({
+            from: `${APP_NAME} <support@${domain}>`,
+            to: user?.email as string,
+            replyTo: process.env.REPLY_EMAIL,
+            subject: 'Subscription Successful. Thank you for subscribing!',
+            react: SuccessfulSubscription({
+              userName: user?.name as string,
+            }),
+          });
+          await prisma.subscription.update({
+            where: { id: subscription.id },
+            data: { userId: user?.id },
+          });
 
-          if (user) {
-            // Send Successful Subscription Email
-            await resend.emails.send({
-              from: `${APP_NAME} <support@${domain}>`,
-              to: user.email as string,
-              replyTo: process.env.REPLY_EMAIL,
-              subject: 'Subscription Successful. Thank you for subscribing!',
-              react: SuccessfulSubscription({
-                userName: user.name as string,
-              }),
-            });
-            await prisma.subscription.update({
-              where: { id: subscription.id },
-              data: { userId: user.id },
-            });
-          }
+          await sendSubscriptionCompleteNotification(
+            user?.id as string,
+            subscription.plan,
+          );
         },
         onSubscriptionCancel: async ({ subscription }) => {
           const user = await prisma.user.findFirst({

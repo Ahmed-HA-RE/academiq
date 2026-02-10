@@ -9,7 +9,7 @@ const Theme = () => {
   return (
     <Toggle
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-      className='group size-9 data-[state=on]:bg-transparent data-[state=on]:hover:bg-muted mr-2'
+      className='group size-9 data-[state=on]:bg-transparent data-[state=on]:hover:bg-muted mr-2 ml-1'
       onPressedChange={() =>
         setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
       }
@@ -18,13 +18,11 @@ const Theme = () => {
     >
       <MoonIcon
         aria-hidden='true'
-        className='shrink-0 scale-0 opacity-0 transition-all group-data-[state=on]:scale-100 group-data-[state=on]:opacity-100'
-        size={16}
+        className='shrink-0 scale-0 opacity-0 transition-all group-data-[state=on]:scale-100 group-data-[state=on]:opacity-100 size-5'
       />
       <SunIcon
         aria-hidden='true'
-        className='absolute shrink-0 scale-100 opacity-100 transition-all group-data-[state=on]:scale-0 group-data-[state=on]:opacity-0'
-        size={16}
+        className='absolute shrink-0 scale-100 opacity-100 transition-all group-data-[state=on]:scale-0 group-data-[state=on]:opacity-0 size-5'
       />
     </Toggle>
   );

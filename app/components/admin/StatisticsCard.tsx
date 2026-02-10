@@ -4,6 +4,7 @@ import {
   DollarSignIcon,
   FileUser,
   GraduationCap,
+  RefreshCcw,
   Users,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '../ui/card';
@@ -14,12 +15,14 @@ import { getTotalInstructorsCount } from '@/lib/actions/instructor/getInstructor
 import { getInstructorApplicationsCount } from '@/lib/actions/instructor/application';
 import { getTotalCoursesCount } from '@/lib/actions/course/getCourses';
 import { getOrdersCount } from '@/lib/actions/order/get-orders';
+import { getAllSubscriptions } from '@/lib/actions/subscription/get-all-subscriptions';
 
 const StatisticsCard = async () => {
   const [
     usersCount,
     ordersCount,
     totalSalesAmount,
+    totalSubscriptionsAmount,
     totalInstructors,
     totalInstructorsApplicants,
     totalCourses,
@@ -27,6 +30,7 @@ const StatisticsCard = async () => {
     getUsersCount(),
     getOrdersCount(),
     getTotalSalesAmount(),
+    getAllSubscriptions(),
     getTotalInstructorsCount(),
     getInstructorApplicationsCount(),
     getTotalCoursesCount(),
@@ -49,8 +53,15 @@ const StatisticsCard = async () => {
       color: 'text-pink-500',
     },
     {
+      icon: <RefreshCcw />,
+      title: 'Subscriptions',
+      value: `AED ${totalSubscriptionsAmount}`,
+      bg: 'bg-cyan-500/10',
+      color: 'text-cyan-500',
+    },
+    {
       icon: <DollarSignIcon />,
-      title: 'Total Revenue',
+      title: 'One-time Purchases',
       value: `AED ${totalSalesAmount}`,
       bg: 'bg-green-500/10',
       color: 'text-green-500',

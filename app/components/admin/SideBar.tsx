@@ -17,7 +17,6 @@ import {
 } from '../ui/sidebar';
 import Image from 'next/image';
 import {
-  Banknote,
   Box,
   ChevronRightIcon,
   Contact,
@@ -73,11 +72,6 @@ const pagesItems = [
     icon: Box,
     label: 'Orders',
     href: '/admin-dashboard/orders',
-  },
-  {
-    icon: Banknote,
-    label: 'Discounts',
-    href: '/admin-dashboard/discounts',
   },
 ];
 

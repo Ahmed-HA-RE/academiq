@@ -1,6 +1,5 @@
 import { getCourseById } from '@/lib/actions/course/getCourses';
 import { notFound } from 'next/navigation';
-import { getMyCart } from '@/lib/actions/cart';
 import { Metadata } from 'next';
 import { APP_NAME } from '@/lib/constants';
 import { getCurrentLoggedUser } from '@/lib/actions/getUser';
@@ -33,9 +32,8 @@ const CourseDetailsPage = async ({
 }) => {
   const { id } = await params;
 
-  const [course, cart, user] = await Promise.all([
+  const [course, user] = await Promise.all([
     getCourseById(id),
-    getMyCart(),
     getCurrentLoggedUser(),
   ]);
 
@@ -43,7 +41,7 @@ const CourseDetailsPage = async ({
 
   return (
     <>
-      <CourseTopSection course={course} user={user} cart={cart} />
+      <CourseTopSection course={course} user={user} />
       <CourseDetails course={course} user={user} searchParams={searchParams} />
     </>
   );

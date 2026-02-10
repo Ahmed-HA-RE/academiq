@@ -299,7 +299,7 @@ export type CourseWhereInput = {
   users?: Prisma.UserListRelationFilter
   instructor?: Prisma.XOR<Prisma.InstructorScalarRelationFilter, Prisma.InstructorWhereInput>
   sections?: Prisma.SectionListRelationFilter
-  orderItems?: Prisma.OrderItemsListRelationFilter
+  orderItem?: Prisma.OrderItemListRelationFilter
   userProgress?: Prisma.UserProgressListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
 }
@@ -323,7 +323,7 @@ export type CourseOrderByWithRelationInput = {
   users?: Prisma.UserOrderByRelationAggregateInput
   instructor?: Prisma.InstructorOrderByWithRelationInput
   sections?: Prisma.SectionOrderByRelationAggregateInput
-  orderItems?: Prisma.orderItemsOrderByRelationAggregateInput
+  orderItem?: Prisma.OrderItemOrderByRelationAggregateInput
   userProgress?: Prisma.UserProgressOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
 }
@@ -350,7 +350,7 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   users?: Prisma.UserListRelationFilter
   instructor?: Prisma.XOR<Prisma.InstructorScalarRelationFilter, Prisma.InstructorWhereInput>
   sections?: Prisma.SectionListRelationFilter
-  orderItems?: Prisma.OrderItemsListRelationFilter
+  orderItem?: Prisma.OrderItemListRelationFilter
   userProgress?: Prisma.UserProgressListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
 }, "id">
@@ -417,7 +417,7 @@ export type CourseCreateInput = {
   users?: Prisma.UserCreateNestedManyWithoutCoursesInput
   instructor: Prisma.InstructorCreateNestedOneWithoutCoursesInput
   sections?: Prisma.SectionCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.orderItemsCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   userProgress?: Prisma.UserProgressCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
 }
@@ -440,7 +440,7 @@ export type CourseUncheckedCreateInput = {
   instructorId: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutCoursesInput
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.orderItemsUncheckedCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   userProgress?: Prisma.UserProgressUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
 }
@@ -463,7 +463,7 @@ export type CourseUpdateInput = {
   users?: Prisma.UserUpdateManyWithoutCoursesNestedInput
   instructor?: Prisma.InstructorUpdateOneRequiredWithoutCoursesNestedInput
   sections?: Prisma.SectionUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.orderItemsUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   userProgress?: Prisma.UserProgressUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
 }
@@ -486,7 +486,7 @@ export type CourseUncheckedUpdateInput = {
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutCoursesNestedInput
   sections?: Prisma.SectionUncheckedUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.orderItemsUncheckedUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   userProgress?: Prisma.UserProgressUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
 }
@@ -621,8 +621,24 @@ export type CourseOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StringFieldUpdateOperationsInput = {
+  set?: string
+}
+
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type CourseCreateNestedOneWithoutSectionsInput = {
@@ -695,18 +711,18 @@ export type CourseUncheckedUpdateManyWithoutInstructorNestedInput = {
   deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
 }
 
-export type CourseCreateNestedOneWithoutOrderItemsInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutOrderItemsInput, Prisma.CourseUncheckedCreateWithoutOrderItemsInput>
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutOrderItemsInput
+export type CourseCreateNestedOneWithoutOrderItemInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutOrderItemInput, Prisma.CourseUncheckedCreateWithoutOrderItemInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutOrderItemInput
   connect?: Prisma.CourseWhereUniqueInput
 }
 
-export type CourseUpdateOneRequiredWithoutOrderItemsNestedInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutOrderItemsInput, Prisma.CourseUncheckedCreateWithoutOrderItemsInput>
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutOrderItemsInput
-  upsert?: Prisma.CourseUpsertWithoutOrderItemsInput
+export type CourseUpdateOneRequiredWithoutOrderItemNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutOrderItemInput, Prisma.CourseUncheckedCreateWithoutOrderItemInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutOrderItemInput
+  upsert?: Prisma.CourseUpsertWithoutOrderItemInput
   connect?: Prisma.CourseWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutOrderItemsInput, Prisma.CourseUpdateWithoutOrderItemsInput>, Prisma.CourseUncheckedUpdateWithoutOrderItemsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutOrderItemInput, Prisma.CourseUpdateWithoutOrderItemInput>, Prisma.CourseUncheckedUpdateWithoutOrderItemInput>
 }
 
 export type CourseCreateNestedManyWithoutUsersInput = {
@@ -778,7 +794,7 @@ export type CourseCreateWithoutSectionsInput = {
   updatedAt?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutCoursesInput
   instructor: Prisma.InstructorCreateNestedOneWithoutCoursesInput
-  orderItems?: Prisma.orderItemsCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   userProgress?: Prisma.UserProgressCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
 }
@@ -800,7 +816,7 @@ export type CourseUncheckedCreateWithoutSectionsInput = {
   updatedAt?: Date | string
   instructorId: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutCoursesInput
-  orderItems?: Prisma.orderItemsUncheckedCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   userProgress?: Prisma.UserProgressUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
 }
@@ -838,7 +854,7 @@ export type CourseUpdateWithoutSectionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutCoursesNestedInput
   instructor?: Prisma.InstructorUpdateOneRequiredWithoutCoursesNestedInput
-  orderItems?: Prisma.orderItemsUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   userProgress?: Prisma.UserProgressUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
 }
@@ -860,7 +876,7 @@ export type CourseUncheckedUpdateWithoutSectionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutCoursesNestedInput
-  orderItems?: Prisma.orderItemsUncheckedUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   userProgress?: Prisma.UserProgressUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
 }
@@ -883,7 +899,7 @@ export type CourseCreateWithoutReviewsInput = {
   users?: Prisma.UserCreateNestedManyWithoutCoursesInput
   instructor: Prisma.InstructorCreateNestedOneWithoutCoursesInput
   sections?: Prisma.SectionCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.orderItemsCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   userProgress?: Prisma.UserProgressCreateNestedManyWithoutCourseInput
 }
 
@@ -905,7 +921,7 @@ export type CourseUncheckedCreateWithoutReviewsInput = {
   instructorId: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutCoursesInput
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.orderItemsUncheckedCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   userProgress?: Prisma.UserProgressUncheckedCreateNestedManyWithoutCourseInput
 }
 
@@ -943,7 +959,7 @@ export type CourseUpdateWithoutReviewsInput = {
   users?: Prisma.UserUpdateManyWithoutCoursesNestedInput
   instructor?: Prisma.InstructorUpdateOneRequiredWithoutCoursesNestedInput
   sections?: Prisma.SectionUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.orderItemsUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   userProgress?: Prisma.UserProgressUpdateManyWithoutCourseNestedInput
 }
 
@@ -965,7 +981,7 @@ export type CourseUncheckedUpdateWithoutReviewsInput = {
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutCoursesNestedInput
   sections?: Prisma.SectionUncheckedUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.orderItemsUncheckedUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   userProgress?: Prisma.UserProgressUncheckedUpdateManyWithoutCourseNestedInput
 }
 
@@ -986,7 +1002,7 @@ export type CourseCreateWithoutInstructorInput = {
   updatedAt?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutCoursesInput
   sections?: Prisma.SectionCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.orderItemsCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   userProgress?: Prisma.UserProgressCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
 }
@@ -1008,7 +1024,7 @@ export type CourseUncheckedCreateWithoutInstructorInput = {
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutCoursesInput
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.orderItemsUncheckedCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   userProgress?: Prisma.UserProgressUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
 }
@@ -1060,7 +1076,7 @@ export type CourseScalarWhereInput = {
   instructorId?: Prisma.StringFilter<"Course"> | string
 }
 
-export type CourseCreateWithoutOrderItemsInput = {
+export type CourseCreateWithoutOrderItemInput = {
   id?: string
   title: string
   shortDesc: string
@@ -1082,7 +1098,7 @@ export type CourseCreateWithoutOrderItemsInput = {
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
 }
 
-export type CourseUncheckedCreateWithoutOrderItemsInput = {
+export type CourseUncheckedCreateWithoutOrderItemInput = {
   id?: string
   title: string
   shortDesc: string
@@ -1104,23 +1120,23 @@ export type CourseUncheckedCreateWithoutOrderItemsInput = {
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
 }
 
-export type CourseCreateOrConnectWithoutOrderItemsInput = {
+export type CourseCreateOrConnectWithoutOrderItemInput = {
   where: Prisma.CourseWhereUniqueInput
-  create: Prisma.XOR<Prisma.CourseCreateWithoutOrderItemsInput, Prisma.CourseUncheckedCreateWithoutOrderItemsInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutOrderItemInput, Prisma.CourseUncheckedCreateWithoutOrderItemInput>
 }
 
-export type CourseUpsertWithoutOrderItemsInput = {
-  update: Prisma.XOR<Prisma.CourseUpdateWithoutOrderItemsInput, Prisma.CourseUncheckedUpdateWithoutOrderItemsInput>
-  create: Prisma.XOR<Prisma.CourseCreateWithoutOrderItemsInput, Prisma.CourseUncheckedCreateWithoutOrderItemsInput>
+export type CourseUpsertWithoutOrderItemInput = {
+  update: Prisma.XOR<Prisma.CourseUpdateWithoutOrderItemInput, Prisma.CourseUncheckedUpdateWithoutOrderItemInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutOrderItemInput, Prisma.CourseUncheckedCreateWithoutOrderItemInput>
   where?: Prisma.CourseWhereInput
 }
 
-export type CourseUpdateToOneWithWhereWithoutOrderItemsInput = {
+export type CourseUpdateToOneWithWhereWithoutOrderItemInput = {
   where?: Prisma.CourseWhereInput
-  data: Prisma.XOR<Prisma.CourseUpdateWithoutOrderItemsInput, Prisma.CourseUncheckedUpdateWithoutOrderItemsInput>
+  data: Prisma.XOR<Prisma.CourseUpdateWithoutOrderItemInput, Prisma.CourseUncheckedUpdateWithoutOrderItemInput>
 }
 
-export type CourseUpdateWithoutOrderItemsInput = {
+export type CourseUpdateWithoutOrderItemInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   shortDesc?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1142,7 +1158,7 @@ export type CourseUpdateWithoutOrderItemsInput = {
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
 }
 
-export type CourseUncheckedUpdateWithoutOrderItemsInput = {
+export type CourseUncheckedUpdateWithoutOrderItemInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   shortDesc?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1181,7 +1197,7 @@ export type CourseCreateWithoutUsersInput = {
   updatedAt?: Date | string
   instructor: Prisma.InstructorCreateNestedOneWithoutCoursesInput
   sections?: Prisma.SectionCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.orderItemsCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   userProgress?: Prisma.UserProgressCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
 }
@@ -1203,7 +1219,7 @@ export type CourseUncheckedCreateWithoutUsersInput = {
   updatedAt?: Date | string
   instructorId: string
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.orderItemsUncheckedCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   userProgress?: Prisma.UserProgressUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
 }
@@ -1247,7 +1263,7 @@ export type CourseCreateWithoutUserProgressInput = {
   users?: Prisma.UserCreateNestedManyWithoutCoursesInput
   instructor: Prisma.InstructorCreateNestedOneWithoutCoursesInput
   sections?: Prisma.SectionCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.orderItemsCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
 }
 
@@ -1269,7 +1285,7 @@ export type CourseUncheckedCreateWithoutUserProgressInput = {
   instructorId: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutCoursesInput
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.orderItemsUncheckedCreateNestedManyWithoutCourseInput
+  orderItem?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
 }
 
@@ -1307,7 +1323,7 @@ export type CourseUpdateWithoutUserProgressInput = {
   users?: Prisma.UserUpdateManyWithoutCoursesNestedInput
   instructor?: Prisma.InstructorUpdateOneRequiredWithoutCoursesNestedInput
   sections?: Prisma.SectionUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.orderItemsUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
 }
 
@@ -1329,7 +1345,7 @@ export type CourseUncheckedUpdateWithoutUserProgressInput = {
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutCoursesNestedInput
   sections?: Prisma.SectionUncheckedUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.orderItemsUncheckedUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
 }
 
@@ -1367,7 +1383,7 @@ export type CourseUpdateWithoutInstructorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutCoursesNestedInput
   sections?: Prisma.SectionUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.orderItemsUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   userProgress?: Prisma.UserProgressUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
 }
@@ -1389,7 +1405,7 @@ export type CourseUncheckedUpdateWithoutInstructorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutCoursesNestedInput
   sections?: Prisma.SectionUncheckedUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.orderItemsUncheckedUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   userProgress?: Prisma.UserProgressUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
 }
@@ -1428,7 +1444,7 @@ export type CourseUpdateWithoutUsersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.InstructorUpdateOneRequiredWithoutCoursesNestedInput
   sections?: Prisma.SectionUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.orderItemsUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   userProgress?: Prisma.UserProgressUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
 }
@@ -1450,7 +1466,7 @@ export type CourseUncheckedUpdateWithoutUsersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   sections?: Prisma.SectionUncheckedUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.orderItemsUncheckedUpdateManyWithoutCourseNestedInput
+  orderItem?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   userProgress?: Prisma.UserProgressUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
 }
@@ -1481,7 +1497,7 @@ export type CourseUncheckedUpdateManyWithoutUsersInput = {
 export type CourseCountOutputType = {
   users: number
   sections: number
-  orderItems: number
+  orderItem: number
   userProgress: number
   reviews: number
 }
@@ -1489,7 +1505,7 @@ export type CourseCountOutputType = {
 export type CourseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | CourseCountOutputTypeCountUsersArgs
   sections?: boolean | CourseCountOutputTypeCountSectionsArgs
-  orderItems?: boolean | CourseCountOutputTypeCountOrderItemsArgs
+  orderItem?: boolean | CourseCountOutputTypeCountOrderItemArgs
   userProgress?: boolean | CourseCountOutputTypeCountUserProgressArgs
   reviews?: boolean | CourseCountOutputTypeCountReviewsArgs
 }
@@ -1521,8 +1537,8 @@ export type CourseCountOutputTypeCountSectionsArgs<ExtArgs extends runtime.Types
 /**
  * CourseCountOutputType without action
  */
-export type CourseCountOutputTypeCountOrderItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.orderItemsWhereInput
+export type CourseCountOutputTypeCountOrderItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderItemWhereInput
 }
 
 /**
@@ -1559,7 +1575,7 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   users?: boolean | Prisma.Course$usersArgs<ExtArgs>
   instructor?: boolean | Prisma.InstructorDefaultArgs<ExtArgs>
   sections?: boolean | Prisma.Course$sectionsArgs<ExtArgs>
-  orderItems?: boolean | Prisma.Course$orderItemsArgs<ExtArgs>
+  orderItem?: boolean | Prisma.Course$orderItemArgs<ExtArgs>
   userProgress?: boolean | Prisma.Course$userProgressArgs<ExtArgs>
   reviews?: boolean | Prisma.Course$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
@@ -1626,7 +1642,7 @@ export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   users?: boolean | Prisma.Course$usersArgs<ExtArgs>
   instructor?: boolean | Prisma.InstructorDefaultArgs<ExtArgs>
   sections?: boolean | Prisma.Course$sectionsArgs<ExtArgs>
-  orderItems?: boolean | Prisma.Course$orderItemsArgs<ExtArgs>
+  orderItem?: boolean | Prisma.Course$orderItemArgs<ExtArgs>
   userProgress?: boolean | Prisma.Course$userProgressArgs<ExtArgs>
   reviews?: boolean | Prisma.Course$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
@@ -1644,7 +1660,7 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     users: Prisma.$UserPayload<ExtArgs>[]
     instructor: Prisma.$InstructorPayload<ExtArgs>
     sections: Prisma.$SectionPayload<ExtArgs>[]
-    orderItems: Prisma.$orderItemsPayload<ExtArgs>[]
+    orderItem: Prisma.$OrderItemPayload<ExtArgs>[]
     userProgress: Prisma.$UserProgressPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
   }
@@ -2061,7 +2077,7 @@ export interface Prisma__CourseClient<T, Null = never, ExtArgs extends runtime.T
   users<T extends Prisma.Course$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   instructor<T extends Prisma.InstructorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InstructorDefaultArgs<ExtArgs>>): Prisma.Prisma__InstructorClient<runtime.Types.Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sections<T extends Prisma.Course$sectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  orderItems<T extends Prisma.Course$orderItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$orderItemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  orderItem<T extends Prisma.Course$orderItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$orderItemArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userProgress<T extends Prisma.Course$userProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$userProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Course$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -2552,27 +2568,27 @@ export type Course$sectionsArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Course.orderItems
+ * Course.orderItem
  */
-export type Course$orderItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Course$orderItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the orderItems
+   * Select specific fields to fetch from the OrderItem
    */
-  select?: Prisma.orderItemsSelect<ExtArgs> | null
+  select?: Prisma.OrderItemSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the orderItems
+   * Omit specific fields from the OrderItem
    */
-  omit?: Prisma.orderItemsOmit<ExtArgs> | null
+  omit?: Prisma.OrderItemOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.orderItemsInclude<ExtArgs> | null
-  where?: Prisma.orderItemsWhereInput
-  orderBy?: Prisma.orderItemsOrderByWithRelationInput | Prisma.orderItemsOrderByWithRelationInput[]
-  cursor?: Prisma.orderItemsWhereUniqueInput
+  include?: Prisma.OrderItemInclude<ExtArgs> | null
+  where?: Prisma.OrderItemWhereInput
+  orderBy?: Prisma.OrderItemOrderByWithRelationInput | Prisma.OrderItemOrderByWithRelationInput[]
+  cursor?: Prisma.OrderItemWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.OrderItemsScalarFieldEnum | Prisma.OrderItemsScalarFieldEnum[]
+  distinct?: Prisma.OrderItemScalarFieldEnum | Prisma.OrderItemScalarFieldEnum[]
 }
 
 /**

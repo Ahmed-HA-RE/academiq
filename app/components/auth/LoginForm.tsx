@@ -18,6 +18,7 @@ import { loginUser, signInWithProviders } from '@/lib/actions/auth';
 import ScreenSpinner from '../ScreenSpinner';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
+import { Separator } from '../ui/separator';
 
 const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -57,28 +58,33 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
   return (
     <>
       {isPending && <ScreenSpinner mutate={true} text='Processing...' />}
-      <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
+      <form className='space-y-4 w-full' onSubmit={form.handleSubmit(onSubmit)}>
         <div className='mb-4 flex flex-col items-center gap-3'>
           <Button
-            className='bg-transparent border text-black dark:text-white text-base hover:dark:border-white/70 hover:border-black/50 hover:bg-0 cursor-pointer w-full'
+            className='bg-transparent border border-black text-black text-base hover:bg-0 cursor-pointer w-full'
             type='button'
             onClick={() => handleSocialSignIn('google')}
           >
-            <span className=''>
+            <span>
               <FcGoogle aria-hidden='true' />
             </span>
             Login with Google
           </Button>
           <Button
-            className='bg-transparent border text-black dark:text-white text-base hover:dark:border-white/70 hover:border-black/50 hover:bg-0 cursor-pointer w-full'
+            className='bg-transparent border border-black text-black text-base hover:bg-0 cursor-pointer w-full'
             type='button'
             onClick={() => handleSocialSignIn('github')}
           >
-            <span className=''>
+            <span>
               <FaGithub aria-hidden='true' />
             </span>
             Login with Github
           </Button>
+        </div>
+        <div className='mb-2 flex items-center gap-4'>
+          <Separator className='flex-1' />
+          <p>or</p>
+          <Separator className='flex-1' />
         </div>
         <FieldGroup className='gap-5'>
           {/* Email */}
@@ -87,7 +93,10 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel className='leading-5' htmlFor={field.name}>
+                <FieldLabel
+                  className='leading-5 text-black'
+                  htmlFor={field.name}
+                >
                   Email address
                 </FieldLabel>
                 <Input
@@ -95,7 +104,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
                   id={field.name}
                   placeholder='Enter your email address'
                   aria-invalid={fieldState.invalid}
-                  className='input'
+                  className='input text-black border-black'
                   {...field}
                 />
                 {fieldState.invalid && (
@@ -109,7 +118,10 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel className='leading-5' htmlFor={field.name}>
+                <FieldLabel
+                  className='leading-5 text-black'
+                  htmlFor={field.name}
+                >
                   Password
                 </FieldLabel>
                 <div className='relative'>
@@ -118,7 +130,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
                     id={field.name}
                     placeholder='Enter your password'
                     aria-invalid={fieldState.invalid}
-                    className='input pr-9'
+                    className='input text-black border-black pr-9'
                     {...field}
                   />
                   <Button
@@ -126,7 +138,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
                     size='icon'
                     type='button'
                     onClick={() => setIsVisible((prevState) => !prevState)}
-                    className=' absolute inset-y-0 right-0 rounded-l-none hover:bg-0 dark:hover:bg-0 cursor-pointer'
+                    className='absolute inset-y-0 right-0 rounded-l-none hover:bg-0 dark:hover:bg-0 cursor-pointer text-black'
                   >
                     {isVisible ? <EyeOffIcon /> : <EyeIcon />}
                     <span className='sr-only'>
@@ -156,12 +168,15 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
                     <Checkbox
                       id={field.name}
                       aria-invalid={fieldState.invalid}
-                      className='input size-5'
+                      className='border-black size-5 data-[state=checked]:border-0 data-[state=checked]:bg-lime-500 dark:data-[state=checked]:bg-lime-500 data-[state=checked]:text-white'
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
-                    <FieldLabel className='leading-5' htmlFor={field.name}>
-                      Rememeber Me
+                    <FieldLabel
+                      className='leading-5 text-black'
+                      htmlFor={field.name}
+                    >
+                      Remember Me
                     </FieldLabel>
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -173,7 +188,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
 
             <Link
               href='/forgot-password'
-              className='hover:underline text-sm text-right'
+              className='hover:underline text-sm text-right text-black'
             >
               Forgot Password?
             </Link>
@@ -181,7 +196,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
 
           <Button
             disabled={form.formState.isSubmitting}
-            className='w-full cursor-pointer'
+            className='w-full cursor-pointer bg-lime-500 hover:bg-lime-600 text-white'
             type='submit'
           >
             {form.formState.isSubmitting ? (
@@ -190,7 +205,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
               'Sign in'
             )}
           </Button>
-          <p className='text-muted-foreground text-center'>
+          <p className='text-black text-center'>
             Don&apos;t have an account?{' '}
             <Link
               href={
@@ -198,7 +213,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
                   ? `/register?callbackUrl=${callbackUrl}`
                   : '/register'
               }
-              className='text-card-foreground hover:underline'
+              className='text-lime-500 hover:underline'
             >
               Register
             </Link>

@@ -18,11 +18,6 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
- * Model Cart
- * 
- */
-export type Cart = Prisma.CartModel
-/**
  * Model Course
  * 
  */
@@ -48,11 +43,6 @@ export type MuxData = Prisma.MuxDataModel
  */
 export type Review = Prisma.ReviewModel
 /**
- * Model Discount
- * 
- */
-export type Discount = Prisma.DiscountModel
-/**
  * Model Instructor
  * 
  */
@@ -68,10 +58,10 @@ export type IntructorApplication = Prisma.IntructorApplicationModel
  */
 export type Order = Prisma.OrderModel
 /**
- * Model orderItems
+ * Model OrderItem
  * 
  */
-export type orderItems = Prisma.orderItemsModel
+export type OrderItem = Prisma.OrderItemModel
 /**
  * Model Subscription
  * 

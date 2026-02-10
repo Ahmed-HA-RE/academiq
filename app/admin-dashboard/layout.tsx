@@ -9,10 +9,9 @@ import { getAllAdmins } from '@/lib/actions/admin/list-user';
 import { notFound } from 'next/navigation';
 import { CSSProperties } from 'react';
 import SideBar from '../components/admin/SideBar';
-import { markAsExpiredAndDeleteOrdersAsAdmin } from '@/lib/actions/order/mark-orders-expired-and-delete';
 import { Metadata } from 'next';
 import { SidebarProvider, SidebarTrigger } from '../components/ui/sidebar';
-import { cleanupIncompleteSubscriptions } from '@/lib/actions/admin/cleanup-incomplete-subscriptions.ts';
+import { cleanupIncompleteSubscriptions } from '@/lib/actions/cron/cleanup-incomplete-subscriptions.ts';
 
 export const metadata: Metadata = {
   title: {
@@ -29,7 +28,6 @@ const AdminDashBoardLayout = async ({
   const [user, { adminUsers }] = await Promise.all([
     getCurrentLoggedUser(),
     getAllAdmins(),
-    markAsExpiredAndDeleteOrdersAsAdmin(),
     cleanupIncompleteSubscriptions(),
   ]);
 

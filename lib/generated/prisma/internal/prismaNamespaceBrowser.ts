@@ -51,17 +51,15 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Cart: 'Cart',
   Course: 'Course',
   Section: 'Section',
   Lesson: 'Lesson',
   MuxData: 'MuxData',
   Review: 'Review',
-  Discount: 'Discount',
   Instructor: 'Instructor',
   IntructorApplication: 'IntructorApplication',
   Order: 'Order',
-  orderItems: 'orderItems',
+  OrderItem: 'OrderItem',
   Subscription: 'Subscription',
   User: 'User',
   Session: 'Session',
@@ -85,21 +83,6 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
-
-export const CartScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  discountId: 'discountId',
-  cartItems: 'cartItems',
-  itemsPrice: 'itemsPrice',
-  totalPrice: 'totalPrice',
-  taxPrice: 'taxPrice',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type CartScalarFieldEnum = (typeof CartScalarFieldEnum)[keyof typeof CartScalarFieldEnum]
 
 
 export const CourseScalarFieldEnum = {
@@ -176,20 +159,6 @@ export const ReviewScalarFieldEnum = {
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
 
 
-export const DiscountScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  stripeCouponId: 'stripeCouponId',
-  type: 'type',
-  amount: 'amount',
-  validUntil: 'validUntil',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type DiscountScalarFieldEnum = (typeof DiscountScalarFieldEnum)[keyof typeof DiscountScalarFieldEnum]
-
-
 export const InstructorScalarFieldEnum = {
   id: 'id',
   bio: 'bio',
@@ -231,35 +200,31 @@ export type IntructorApplicationScalarFieldEnum = (typeof IntructorApplicationSc
 export const OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  itemsPrice: 'itemsPrice',
+  coursePrice: 'coursePrice',
   totalPrice: 'totalPrice',
   taxPrice: 'taxPrice',
-  billingDetails: 'billingDetails',
+  status: 'status',
   paymentResult: 'paymentResult',
   stripePaymentIntentId: 'stripePaymentIntentId',
-  status: 'status',
   isPaid: 'isPaid',
   paidAt: 'paidAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  discountId: 'discountId'
+  updatedAt: 'updatedAt'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
 
 
-export const OrderItemsScalarFieldEnum = {
+export const OrderItemScalarFieldEnum = {
   id: 'id',
   name: 'name',
   price: 'price',
   image: 'image',
   courseId: 'courseId',
-  orderId: 'orderId',
-  stripeTransferId: 'stripeTransferId',
-  payoutsEnabled: 'payoutsEnabled'
+  orderId: 'orderId'
 } as const
 
-export type OrderItemsScalarFieldEnum = (typeof OrderItemsScalarFieldEnum)[keyof typeof OrderItemsScalarFieldEnum]
+export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
 
 
 export const SubscriptionScalarFieldEnum = {
@@ -390,27 +355,12 @@ export const NullableJsonNullValueInput = {
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const JsonNullValueFilter = {
@@ -420,4 +370,12 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

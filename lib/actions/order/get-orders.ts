@@ -2,7 +2,7 @@
 import { auth } from '../../auth';
 import { headers } from 'next/headers';
 import { prisma } from '../../prisma';
-import { BillingInfo, PaymentResult } from '@/types';
+import { PaymentResult } from '@/types';
 import { convertToPlainObject } from '../../utils';
 import { Prisma } from '../../generated/prisma/client';
 import { endOfDay, startOfDay } from 'date-fns';
@@ -11,8 +11,7 @@ export const getOrderById = async (orderId: string) => {
   const order = await prisma.order.findUnique({
     where: { id: orderId },
     include: {
-      orderItems: true,
-      discount: true,
+      orderItem: true,
       user: { select: { id: true, name: true, email: true } },
     },
   });
@@ -20,7 +19,6 @@ export const getOrderById = async (orderId: string) => {
   if (!order) return undefined;
   return convertToPlainObject({
     ...order,
-    billingDetails: order?.billingDetails as BillingInfo,
     paymentResult: order?.paymentResult as PaymentResult,
   });
 };
@@ -89,7 +87,7 @@ export const getAllOrdersAsAdmin = async ({
       ...statusFilter,
       ...paidAtFilter,
     },
-    include: { orderItems: true },
+    include: { orderItem: true, user: { select: { email: true, name: true } } },
     orderBy: { createdAt: 'desc' },
     take: limit,
     skip: (page - 1) * limit,
@@ -108,7 +106,6 @@ export const getAllOrdersAsAdmin = async ({
     orders: orders.map((order) =>
       convertToPlainObject({
         ...order,
-        billingDetails: order.billingDetails as BillingInfo,
         paymentResult: order.paymentResult as PaymentResult,
       }),
     ),

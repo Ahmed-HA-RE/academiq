@@ -1,4 +1,4 @@
-import { CreditCardIcon, MailIcon, MapPinIcon, UserIcon } from 'lucide-react';
+import { CreditCardIcon, MailIcon, UserIcon } from 'lucide-react';
 import { Badge } from '@/app/components/ui/badge';
 
 import { Button } from '@/app/components/ui/button';
@@ -17,7 +17,6 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { cn } from '@/lib/utils';
 import { getCurrentLoggedUser } from '@/lib/actions/getUser';
-import { getUserRefundEligibility } from '@/lib/actions/user/get-user-refund-eligibility';
 
 export const metadata: Metadata = {
   title: 'Order Summary',
@@ -40,8 +39,6 @@ const OrderSummaryPage = async ({
   }
 
   if (!order.isPaid && user.role !== 'admin') redirect('/');
-
-  const userProgress = await getUserRefundEligibility(order.userId);
 
   return (
     <section className='mb-14'>
@@ -75,27 +72,6 @@ const OrderSummaryPage = async ({
                 ></span>
                 {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
               </Badge>
-              {order.status !== 'refunded' && (
-                <Badge
-                  className={
-                    Number(userProgress?.progress) > 10
-                      ? 'bg-destructive/10 text-destructive'
-                      : 'bg-green-600/10 text-green-600'
-                  }
-                >
-                  <span
-                    className={cn(
-                      'size-1.5 rounded-full',
-                      Number(userProgress?.progress) > 10
-                        ? 'bg-destructive'
-                        : 'bg-green-600',
-                    )}
-                  ></span>
-                  {Number(userProgress?.progress) > 10
-                    ? 'Not Eligible For Refund'
-                    : 'Eligible For Refund'}
-                </Badge>
-              )}
             </div>
           </CardHeader>
           <CardContent className='grid gap-10 py-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
@@ -107,16 +83,7 @@ const OrderSummaryPage = async ({
                   <span className='font-medium'>Email Address</span>
                 </div>
                 <span className='text-muted-foreground'>
-                  {order.billingDetails.email}
-                </span>
-              </div>
-              <div className='space-y-2.5'>
-                <div className='flex items-center gap-2.5'>
-                  <MapPinIcon className='size-5' />
-                  <span className='font-medium'>Shipping Address</span>
-                </div>
-                <span className='text-muted-foreground'>
-                  {order.billingDetails.address}
+                  {order.user.email}
                 </span>
               </div>
               <div className='space-y-2.5'>
@@ -124,9 +91,7 @@ const OrderSummaryPage = async ({
                   <UserIcon className='size-5' />
                   <span className='font-medium'>Name</span>
                 </div>
-                <span className='text-muted-foreground'>
-                  {order.billingDetails.name}
-                </span>
+                <span className='text-muted-foreground'>{order.user.name}</span>
               </div>
             </div>
 
@@ -145,7 +110,7 @@ const OrderSummaryPage = async ({
               <h5 className='text-lg font-semibold'>
                 {order.status === 'refunded' ? 'Refunded' : 'Purchased'} Courses
               </h5>
-              {order.orderItems.map((item) => (
+              {order.orderItem.map((item) => (
                 <div
                   key={item.id}
                   className='flex items-center justify-between gap-3.5'
@@ -177,28 +142,6 @@ const OrderSummaryPage = async ({
                     <span>{order.taxPrice}</span>
                   </div>
                 </div>
-
-                {/* Discount */}
-                {order.discount && (
-                  <div className='flex flex-row justify-between items-center'>
-                    <p>
-                      Discount{' '}
-                      <span className='text-muted-foreground text-base'>
-                        ({order.discount.code})
-                      </span>
-                    </p>
-                    <div className='flex flex-row items-center gap-1 font-semibold'>
-                      {order.discount.type !== 'percentage' && (
-                        <span className='dirham-symbol'>&#xea;</span>
-                      )}
-                      <span>
-                        {order.discount.type === 'percentage'
-                          ? `% ${order.discount.amount}`
-                          : `-${order.discount.amount}`}
-                      </span>
-                    </div>
-                  </div>
-                )}
 
                 <div className='flex flex-row justify-between items-center'>
                   <span>Total Price</span>

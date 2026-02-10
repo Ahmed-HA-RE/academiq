@@ -17,11 +17,10 @@ export const getAllUserOrders = async () => {
       userId: user.id,
     },
     include: {
-      orderItems: true, // Include related order items
+      orderItem: true, // Include related order items
       user: {
         select: { stripeCustomerId: true },
       },
-      discount: true,
     },
     orderBy: {
       createdAt: 'desc', // Order by creation date, newest first

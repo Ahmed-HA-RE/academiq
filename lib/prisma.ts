@@ -1,5 +1,5 @@
 import { PrismaClient } from '@/lib/generated/prisma/client';
-import { SocialLinks } from '@/types';
+import { PaymentResult, SocialLinks } from '@/types';
 import { PrismaNeon } from '@prisma/adapter-neon';
 import dotenv from 'dotenv';
 
@@ -17,27 +17,17 @@ export const prisma = new PrismaClient({ adapter }).$extends({
         },
       },
     },
-    cart: {
-      itemsPrice: {
-        compute(data) {
-          return data.itemsPrice.toFixed(2);
-        },
-      },
-      taxPrice: {
-        compute(data) {
-          return data.taxPrice.toFixed(2);
-        },
-      },
-      totalPrice: {
-        compute(data) {
-          return data.totalPrice.toFixed(2);
-        },
-      },
-    },
+
     order: {
-      itemsPrice: {
+      coursePrice: {
         compute(data) {
-          return data.itemsPrice.toFixed(2);
+          return data.coursePrice.toFixed(2);
+        },
+      },
+
+      totalPrice: {
+        compute(data) {
+          return data.totalPrice.toFixed(2);
         },
       },
       taxPrice: {
@@ -45,13 +35,14 @@ export const prisma = new PrismaClient({ adapter }).$extends({
           return data.taxPrice.toFixed(2);
         },
       },
-      totalPrice: {
+      paymentResult: {
         compute(data) {
-          return data.totalPrice.toFixed(2);
+          return data.paymentResult as PaymentResult | null;
         },
       },
     },
-    orderItems: {
+
+    orderItem: {
       price: {
         compute(data) {
           return data.price.toFixed(2);

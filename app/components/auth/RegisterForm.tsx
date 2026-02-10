@@ -57,24 +57,24 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
   return (
     <>
       {isPending && <ScreenSpinner mutate={true} text='Processing...' />}
-      <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
-        <div className='mb-2 flex flex-col items-center gap-3'>
+      <form className='space-y-4 w-full' onSubmit={form.handleSubmit(onSubmit)}>
+        <div className='flex flex-col items-center gap-3'>
           <Button
-            className='bg-transparent border text-black dark:text-white text-base hover:dark:border-white/70 hover:border-black/50 hover:bg-0 cursor-pointer w-full'
+            className='bg-transparent border border-black text-black text-base hover:bg-0 cursor-pointer w-full'
             type='button'
             onClick={() => handleSocialSignIn('google')}
           >
-            <span className=''>
+            <span>
               <FcGoogle aria-hidden='true' />
             </span>
             Login with Google
           </Button>
           <Button
-            className='bg-transparent border text-black dark:text-white text-base hover:dark:border-white/70 hover:border-black/50 hover:bg-0 cursor-pointer w-full'
+            className='bg-transparent border border-black text-black text-base hover:bg-0 cursor-pointer w-full'
             type='button'
             onClick={() => handleSocialSignIn('github')}
           >
-            <span className=''>
+            <span>
               <FaGithub aria-hidden='true' />
             </span>
             Login with Github
@@ -93,7 +93,10 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel className='leading-5' htmlFor={field.name}>
+                <FieldLabel
+                  className='leading-5 text-black'
+                  htmlFor={field.name}
+                >
                   Full Name
                 </FieldLabel>
                 <Input
@@ -101,7 +104,7 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
                   id={field.name}
                   placeholder='Enter your full name'
                   aria-invalid={fieldState.invalid}
-                  className='input'
+                  className='input text-black border-black'
                   {...field}
                 />
                 {fieldState.invalid && (
@@ -116,7 +119,10 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel className='leading-5' htmlFor={field.name}>
+                <FieldLabel
+                  className='leading-5 text-black'
+                  htmlFor={field.name}
+                >
                   Email address
                 </FieldLabel>
                 <Input
@@ -124,7 +130,7 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
                   id={field.name}
                   placeholder='Enter your email address'
                   aria-invalid={fieldState.invalid}
-                  className='input'
+                  className='input border-black text-black'
                   {...field}
                 />
                 {fieldState.invalid && (
@@ -139,7 +145,10 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel className='leading-5' htmlFor={field.name}>
+                <FieldLabel
+                  className='leading-5 text-black'
+                  htmlFor={field.name}
+                >
                   Password
                 </FieldLabel>
                 <Input
@@ -147,7 +156,7 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
                   id={field.name}
                   placeholder='Enter your password'
                   aria-invalid={fieldState.invalid}
-                  className='input pr-9'
+                  className='input border-black text-black pr-9'
                   {...field}
                 />
 
@@ -163,7 +172,10 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel className='leading-5' htmlFor={field.name}>
+                <FieldLabel
+                  className='leading-5 text-black'
+                  htmlFor={field.name}
+                >
                   Confirm Password
                 </FieldLabel>
                 <Input
@@ -171,7 +183,7 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
                   id={field.name}
                   placeholder='Enter your password'
                   aria-invalid={fieldState.invalid}
-                  className='input pr-9'
+                  className='input border-black text-black pr-9'
                   {...field}
                 />
 
@@ -184,7 +196,7 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
 
           <Button
             disabled={form.formState.isSubmitting}
-            className='w-full cursor-pointer'
+            className='w-full cursor-pointer bg-lime-500 hover:bg-lime-600 text-white'
             type='submit'
           >
             {form.formState.isSubmitting ? (
@@ -193,13 +205,13 @@ const RegisterForm = ({ callbackUrl }: { callbackUrl: string }) => {
               'Register'
             )}
           </Button>
-          <p className='text-muted-foreground text-center'>
+          <p className='text-black text-center'>
             Already have an account?{' '}
             <Link
               href={
                 callbackUrl ? `/login?callbackUrl=${callbackUrl}` : '/login'
               }
-              className='text-card-foreground hover:underline'
+              className='text-lime-500 hover:underline'
             >
               Login
             </Link>

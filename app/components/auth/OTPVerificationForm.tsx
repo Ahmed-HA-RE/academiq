@@ -50,8 +50,8 @@ const OTPVerificationForm = ({ callbackUrl }: { callbackUrl: string }) => {
   return (
     <>
       {isPending && <ScreenSpinner mutate={true} text='Sending...' />}
-      <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
-        <p className='text-muted-foreground text-center'>
+      <form className='space-y-4 w-full' onSubmit={form.handleSubmit(onSubmit)}>
+        <p className='text-black text-center'>
           Type your 6 digit security code
         </p>
 
@@ -81,7 +81,7 @@ const OTPVerificationForm = ({ callbackUrl }: { callbackUrl: string }) => {
         />
 
         <Button
-          className='w-full cursor-pointer'
+          className='w-full bg-lime-500 hover:bg-lime-600 text-white cursor-pointer'
           type='submit'
           disabled={form.formState.isSubmitting}
         >
@@ -91,11 +91,11 @@ const OTPVerificationForm = ({ callbackUrl }: { callbackUrl: string }) => {
             'Submit'
           )}
         </Button>
-        <p className='text-muted-foreground text-center text-sm'>
+        <p className='text-black text-center text-sm'>
           Didn&apos;t receive the code?{' '}
           <Button
             onClick={handleResend}
-            className='p-0 text-sm cursor-pointer'
+            className='p-0 text-sm text-black cursor-pointer'
             variant='link'
             type='button'
           >

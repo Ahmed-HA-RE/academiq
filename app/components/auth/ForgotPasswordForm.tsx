@@ -34,18 +34,21 @@ const ForgotPasswordForm = () => {
   };
 
   return (
-    <form className='mt-4' onSubmit={form.handleSubmit(onSubmit)}>
+    <form className='mt-4 w-full' onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup className='gap-6'>
         <Controller
           name='email'
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Email Address</FieldLabel>
+              <FieldLabel className='text-black' htmlFor={field.name}>
+                Email Address
+              </FieldLabel>
               <Input
+                id={field.name}
                 aria-invalid={fieldState.invalid}
                 placeholder='Enter your email'
-                className='input'
+                className='input border-black text-black'
                 {...field}
               />
               {fieldState.error && (
@@ -55,7 +58,7 @@ const ForgotPasswordForm = () => {
           )}
         />
         <Button
-          className='cursor-pointer'
+          className='cursor-pointer bg-lime-500 hover:bg-lime-600 text-white'
           disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting ? (

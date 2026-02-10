@@ -4,7 +4,7 @@ import { BadgeCheckIcon } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import Link from 'next/link';
 import { Badge } from '../ui/badge';
-import { Cart, Course, User } from '@/types';
+import { Course, User } from '@/types';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { MotionPreset } from '../ui/motion-preset';
@@ -15,16 +15,27 @@ import CourseCardBtn from './CourseCardBtn';
 
 type CourseCardProps = {
   course: Course;
-  cart: Cart | undefined;
   user: User | undefined;
   subscription?: {
     referenceId: string;
     plan: string;
     stripeSubscriptionId?: string;
   } | null;
+  isPending: boolean;
+  setIsPending: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const CourseCard = ({ course, cart, user, subscription }: CourseCardProps) => {
+const CourseCard = ({
+  course,
+  user,
+  subscription,
+  isPending,
+  setIsPending,
+}: CourseCardProps) => {
+  const isEnrolled =
+    (subscription && subscription.plan === 'active') ||
+    user?.courses?.find((c) => c.id === course.id);
+
   return (
     <MotionPreset
       component='div'
@@ -45,7 +56,7 @@ const CourseCard = ({ course, cart, user, subscription }: CourseCardProps) => {
               height={0}
               className='object-cover object-center w-full h-54 rounded-t-md hover:scale-105 transition-transform duration-300 ease-in-out relative'
             />
-            <Badge className='absolute top-4 left-3 rounded-sm bg-emerald-500 text-white focus-visible:ring-emerald-600/20 focus-visible:outline-none dark:bg-emerald-500/60 dark:focus-visible:ring-emerald-500/40'>
+            <Badge className='absolute top-4 left-3 rounded-sm bg-emerald-500 text-white  dark:bg-emerald-500'>
               {course.difficulty}
             </Badge>
           </Link>
@@ -94,10 +105,12 @@ const CourseCard = ({ course, cart, user, subscription }: CourseCardProps) => {
               className='text-sm text-muted-foreground line-clamp-2'
             ></span>
 
-            <div className='flex flex-row items-center gap-1 font-semibold'>
-              <span className='dirham-symbol !text-lg'>&#xea;</span>
-              <span className='text-xl'>{course.price}</span>
-            </div>
+            {!isEnrolled && (
+              <div className='flex flex-row items-center gap-1 font-semibold'>
+                <span className='dirham-symbol !text-lg'>&#xea;</span>
+                <span className='text-xl'>{course.price}</span>
+              </div>
+            )}
           </div>
         </CardContent>
         <CardFooter className='grid grid-cols-2 gap-2 mt-2 px-3'>
@@ -111,9 +124,10 @@ const CourseCard = ({ course, cart, user, subscription }: CourseCardProps) => {
           </Button>
           <CourseCardBtn
             course={course}
-            cart={cart}
             user={user}
             subscription={subscription}
+            isPending={isPending}
+            setIsPending={setIsPending}
           />
         </CardFooter>
       </Card>

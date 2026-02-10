@@ -1,5 +1,5 @@
-const DiscountBannerLayout = ({ children }: { children: React.ReactNode }) => {
+const CouponBannerLayout = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-export default DiscountBannerLayout;
+export default CouponBannerLayout;

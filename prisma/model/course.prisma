@@ -17,7 +17,7 @@ model Course {
   instructor   Instructor     @relation(fields: [instructorId], references: [id])
   instructorId String
   sections     Section[]
-  orderItems   orderItems[]
+  orderItem    OrderItem[]
   userProgress UserProgress[]
   reviews      Review[]
 }
@@ -63,6 +63,7 @@ model MuxData {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
+
 model Review {
   id        String   @id @default(uuid())
   rating    Decimal  @db.Decimal(2, 1)

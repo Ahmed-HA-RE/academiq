@@ -46,7 +46,9 @@ import { parseAsInteger, parseAsString, throttle, useQueryStates } from 'nuqs';
 import { useTransition } from 'react';
 import ScreenSpinner from '../../ScreenSpinner';
 
-export const columns: ColumnDef<Omit<Order, 'discount'>>[] = [
+export const columns: ColumnDef<
+  Order & { user: { email: string; name: string } }
+>[] = [
   {
     accessorKey: 'id',
     header: 'Order ID',
@@ -57,16 +59,16 @@ export const columns: ColumnDef<Omit<Order, 'discount'>>[] = [
     ),
   },
   {
-    accessorKey: 'billingDetails.name',
+    accessorKey: 'user.name',
     header: 'Buyer',
     cell: ({ row }) => {
-      return <span>{row.original.billingDetails.name}</span>;
+      return <span>{row.original.user.name}</span>;
     },
   },
   {
-    accessorKey: 'billingDetails.email',
+    accessorKey: 'user.email',
     header: 'Buyer Email',
-    cell: ({ row }) => <span>{row.original.billingDetails.email}</span>,
+    cell: ({ row }) => <span>{row.original.user.email}</span>,
   },
   {
     accessorKey: 'paymentResult.amount',
@@ -136,7 +138,7 @@ const OrderDataTable = ({
   orders,
   totalPages,
 }: {
-  orders: Omit<Order, 'discount'>[];
+  orders: (Order & { user: { email: string; name: string } })[];
   totalPages: number;
 }) => {
   const table = useReactTable({

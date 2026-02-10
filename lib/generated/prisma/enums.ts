@@ -16,11 +16,3 @@ export const status = {
 } as const
 
 export type status = (typeof status)[keyof typeof status]
-
-
-export const Type = {
-  percentage: 'percentage',
-  fixed: 'fixed'
-} as const
-
-export type Type = (typeof Type)[keyof typeof Type]

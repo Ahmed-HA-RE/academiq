@@ -1,6 +1,6 @@
 import ResetPasswordForm from '@/app/components/auth/ResetPasswordForm';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Reset Password',
@@ -14,7 +14,9 @@ const ResetPasswordPage = async ({
 }) => {
   const { token } = await searchParams;
 
-  if (!token) notFound();
+  if (!token) {
+    return redirect('/forgot-password');
+  }
 
   return <ResetPasswordForm token={token} />;
 };

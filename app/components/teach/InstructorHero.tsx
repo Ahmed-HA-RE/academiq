@@ -33,10 +33,7 @@ const InstructorHero = () => {
   const spanRef8 = useRef<HTMLSpanElement>(null);
 
   return (
-    <section
-      className='flex-1 overflow-hidden
-     min-h-[50vh] flex-col section-spacing'
-    >
+    <section className='flex-1 overflow-hidden flex-col section-spacing'>
       <div className=' container flex-col items-center gap-8 px-4 sm:gap-16 space-y-10'>
         {/* Hero Content */}
         <div className='flex flex-col items-center gap-4 text-center'>
@@ -143,7 +140,7 @@ const InstructorHero = () => {
             containerRef={containerRef}
             fromRef={iconRef1}
             toRef={spanRef1}
-            gradientStartColor='var(--primary)'
+            gradientStartColor='var(--secondary)'
             duration={4.5}
             className='-z-1 max-md:hidden'
           />

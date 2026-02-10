@@ -9,15 +9,16 @@ const SuccessPage = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const { orderId, payment_intent } = await searchParams;
+  const { checkout_session_id } = await searchParams;
 
-  if (!orderId || !payment_intent) {
+  if (!checkout_session_id) {
     return notFound();
   }
 
-  const isPayemntIntent = await stripe.paymentIntents.retrieve(payment_intent);
+  const isCheckoutSession =
+    await stripe.checkout.sessions.retrieve(checkout_session_id);
 
-  if (isPayemntIntent.status !== 'succeeded') {
+  if (isCheckoutSession.payment_status !== 'paid') {
     return notFound();
   }
 

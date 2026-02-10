@@ -41,23 +41,7 @@ export const getTotalCoursesByInstructor = async () => {
 export const getTotalRevenueByInstructor = async () => {
   const instructor = await getCurrentLoggedInInstructor();
 
-  const discount = await prisma.discount.findFirst({
-    where: {
-      orders: {
-        some: {
-          orderItems: {
-            some: {
-              course: {
-                instructorId: instructor.id,
-              },
-            },
-          },
-        },
-      },
-    },
-  });
-
-  const revenueData = await prisma.orderItems.aggregate({
+  const revenueData = await prisma.orderItem.aggregate({
     _sum: {
       price: true,
     },
@@ -71,10 +55,7 @@ export const getTotalRevenueByInstructor = async () => {
     },
   });
 
-  const totalAmount = Number(revenueData._sum.price) || 0;
-  const discountAmount = discount ? discount.amount : 0;
-
-  return totalAmount - discountAmount;
+  return Number(revenueData._sum.price) || 0;
 };
 
 // Get monthly revenue for instructor
@@ -92,7 +73,7 @@ export const getMonthlyRevenueForInstructor = async () => {
         gte: lastDayOfYear(new Date(previousYear, 11, 31)),
         lte: lastDayOfYear(new Date(currentYear, 11, 31)),
       },
-      orderItems: {
+      orderItem: {
         some: {
           course: {
             instructorId: {
@@ -158,7 +139,7 @@ export const getTotalRevenueAfterForInstructor = async () => {
       createdAt: {
         gte: new Date(`${currentYear}`),
       },
-      orderItems: {
+      orderItem: {
         some: {
           course: {
             instructorId: {
@@ -192,7 +173,7 @@ export const getTotalRevenueBeforeForInstructor = async () => {
       createdAt: {
         lte: new Date(`${previousYear}-12-31`),
       },
-      orderItems: {
+      orderItem: {
         some: {
           course: {
             instructorId: {
@@ -218,7 +199,7 @@ export const getPopularCoursesByInstructor = async () => {
           id: { not: undefined },
         },
       },
-      orderItems: {
+      orderItem: {
         some: {
           order: {
             isPaid: true,
@@ -251,6 +232,7 @@ export const getCoursesWithProgressByInstructor = async () => {
     },
     include: {
       userProgress: {
+        distinct: ['userId'],
         select: {
           progress: true,
         },
@@ -282,11 +264,11 @@ export const getCoursesWithProgressByInstructor = async () => {
 
   // Format data for bar chart (X-axis: range, Y-axis: count)
   const chartData = [
-    { range: '0-10%', students: progressRanges['0-10%'] },
-    { range: '11-40%', students: progressRanges['11-40%'] },
-    { range: '41-60%', students: progressRanges['41-60%'] },
-    { range: '61-99%', students: progressRanges['61-99%'] },
-    { range: '100%', students: progressRanges['100%'] },
+    { range: '0-10%', entries: progressRanges['0-10%'] },
+    { range: '11-40%', entries: progressRanges['11-40%'] },
+    { range: '41-60%', entries: progressRanges['41-60%'] },
+    { range: '61-99%', entries: progressRanges['61-99%'] },
+    { range: '100%', entries: progressRanges['100%'] },
   ];
 
   return chartData;
@@ -304,7 +286,7 @@ export const getEnrolledStudentsForInstructor = async ({
 }) => {
   const instructor = await getCurrentLoggedInInstructor();
 
-  const students = await prisma.orderItems.findMany({
+  const students = await prisma.orderItem.findMany({
     where: {
       AND: [
         {
@@ -358,7 +340,7 @@ export const getEnrolledStudentsForInstructor = async ({
     skip: limit ? (page - 1) * limit : undefined,
   });
 
-  const totalStudentsCount = await prisma.orderItems.count({
+  const totalStudentsCount = await prisma.orderItem.count({
     where: {
       AND: [
         {

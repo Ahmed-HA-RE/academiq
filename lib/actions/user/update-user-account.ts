@@ -23,7 +23,6 @@ export const updateAccountDetails = async (data: UpdateAccountDetails) => {
     const validatedData = updateAccountDetailsSchema.safeParse(data);
 
     if (!validatedData.success) {
-      console.log('Errors', validatedData.error);
       throw new Error('Invalid data');
     }
 
@@ -66,7 +65,6 @@ export const updateAccountPassword = async (data: UpdateAccountPassword) => {
     const validatedData = updateAccountPasswordSchema.safeParse(data);
 
     if (!validatedData.success) {
-      console.log('Errors', validatedData.error);
       throw new Error('Invalid data');
     }
 

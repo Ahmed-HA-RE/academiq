@@ -2,16 +2,26 @@ import stripe from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
 import resend, { domain } from '@/lib/resend';
 import SendReceipt from '@/emails/SendReceipt';
-import { APP_NAME, APPLICATION_FEE_PERCENTAGE } from '@/lib/constants';
-import { BillingInfo, OrderItems, PaymentResult } from '@/types';
-import { convertToFils, formatDate } from '@/lib/utils';
+import { APP_NAME } from '@/lib/constants';
+import { OrderItem, PaymentResult } from '@/types';
+import { formatDate } from '@/lib/utils';
 import RefundOrder from '@/emails/RefundOrder';
 import { revalidatePath } from 'next/cache';
 import InstructorOrderRefund from '@/emails/InstructorOrderRefund';
+import { knock } from '@/lib/knock';
+import {
+  sendInstructorCoursePurchaseNotification,
+  sendInstructorRefundNotification,
+  sendUserCoursePurchaseNotification,
+  sendUserRefundNotification,
+} from '@/lib/actions/notifications';
 
 export const POST = async (req: Request) => {
   let event;
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
+  const endpointSecret =
+    process.env.NODE_ENV === 'production'
+      ? (process.env.STRIPE_WEBHOOK_SECRET_PROD as string)
+      : (process.env.STRIPE_WEBHOOK_SECRET_DEV as string);
   const signature = req.headers.get('stripe-signature') as string;
   const payload = await req.text();
 
@@ -25,158 +35,142 @@ export const POST = async (req: Request) => {
     return new Response('Invalid signature', { status: 400 });
   }
 
-  if (event.type === 'charge.succeeded') {
+  if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
 
-    const updatedOrder = await prisma.$transaction(async (tx) => {
-      const order = await tx.order.update({
-        where: { id: session.metadata.orderId },
-        data: {
-          isPaid: true,
-          paidAt: new Date(),
-          status: session.status === 'succeeded' ? 'paid' : 'unpaid',
-          paymentResult: {
-            id: session.id,
-            currency: session.currency,
-            amount: session.amount / 100,
-          },
-        },
-        include: {
-          user: true,
-          orderItems: true,
-          discount: true,
-        },
-      });
+    const courseId = session.metadata?.courseId;
+    const userId = session.metadata?.userId;
 
-      await tx.user.update({
-        where: { id: order.user.id },
-        data: {
-          courses: {
-            connect: order.orderItems.map((item) => ({
-              id: item.courseId,
-            })),
-          },
-        },
-      });
-
-      await tx.cart.deleteMany({ where: { id: session.metadata?.cartId } });
-
-      return order;
+    const course = await prisma.course.findUnique({
+      where: { id: courseId },
+      include: { instructor: { include: { user: true } } },
     });
 
-    const progressionData = [];
-
-    // Transfer instructors their share and save transfer ids
-    for (const item of updatedOrder.orderItems) {
-      const course = await prisma.course.findUnique({
-        where: { id: item.courseId },
-        select: {
-          instructor: { include: { user: { select: { banned: true } } } },
-        },
-      });
-
-      if (course?.instructor.user.banned || !item.payoutsEnabled) {
-        continue;
-      }
-
-      if (course?.instructor.stripeAccountId) {
-        const transfer = await stripe.transfers.create({
-          currency: 'aed',
-          amount: Math.round(
-            (convertToFils(item.price) * (100 - APPLICATION_FEE_PERCENTAGE)) /
-              100,
-          ), // 5% application fee
-          destination: course?.instructor.stripeAccountId as string,
-          source_transaction: session.id,
-        });
-        // Save transfer id in db
-        await prisma.orderItems.update({
-          where: { id_courseId: { id: item.id, courseId: item.courseId } },
-          data: {
-            stripeTransferId: transfer.id,
-          },
-        });
-      }
-      progressionData.push({
-        userId: updatedOrder.userId,
-        courseId: item.courseId,
+    if (!courseId || !userId) {
+      console.error('Missing courseId or userId in session metadata');
+      return new Response('Missing courseId or userId in session metadata', {
+        status: 400,
       });
     }
-    await prisma.userProgress.createMany({
-      data: progressionData,
+    if (!course) {
+      console.error('Course not found for ID:', courseId);
+      return new Response('Course not found', { status: 404 });
+    }
+
+    const newOrder = await prisma.order.create({
+      data: {
+        userId: userId,
+        coursePrice: (session.amount_total as number) / 100,
+        totalPrice: (session.amount_total as number) / 100,
+        taxPrice: (session.total_details?.amount_tax as number) / 100,
+        paidAt: new Date(),
+        status: 'paid',
+        isPaid: true,
+        stripePaymentIntentId: session.payment_intent as string,
+        paymentResult: {
+          id: session.id,
+          currency: session.currency,
+          amount: (session.amount_total as number) / 100,
+          invoiceId: session.invoice as string,
+        },
+        orderItem: {
+          create: {
+            courseId,
+            name: course.title,
+            price: (session.amount_total as number) / 100,
+            image: course.image,
+          },
+        },
+      },
+      include: { user: true, orderItem: { include: { course: true } } },
+    });
+
+    // Connect course to user to give him access and create user progress
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        courses: {
+          connect: { id: courseId },
+        },
+      },
+    });
+
+    await sendInstructorCoursePurchaseNotification(userId, course.title);
+
+    await prisma.userProgress.create({
+      data: {
+        userId,
+        courseId,
+      },
     });
 
     await resend.emails.send({
       from: `${APP_NAME} <no-reply@${domain}>`,
-      to: updatedOrder.user.email,
+      to: newOrder.user.email,
       subject: `Your receipt from ${APP_NAME}`,
       react: SendReceipt({
         order: {
-          ...updatedOrder,
-          orderItems: updatedOrder.orderItems as OrderItems[],
-          billingDetails: updatedOrder.billingDetails as BillingInfo,
-          paymentResult: updatedOrder.paymentResult as PaymentResult,
+          ...newOrder,
+          orderItem: newOrder.orderItem as OrderItem[],
+          paymentResult: newOrder.paymentResult as PaymentResult,
         },
-        discount: updatedOrder.discount,
+        customerEmail: newOrder.user.email,
       }),
     });
 
+    await sendUserCoursePurchaseNotification(userId, course.title);
+
     return Response.json({ message: 'Charge succeeded processed' });
     // Create a refund process for an order
-  } else if (event.type === 'charge.refunded') {
+  } else if (event.type === 'refund.updated') {
     const refund = event.data.object;
 
     const refundedOrder = await prisma.order.update({
       where: { id: refund.metadata?.orderId },
-      data: { status: 'refunded' },
-      include: { user: true, orderItems: { include: { course: true } } },
+      data: {
+        status:
+          refund.status === 'succeeded'
+            ? 'refunded'
+            : refund.status === 'failed'
+              ? 'paid'
+              : 'pending_refund',
+      },
+      include: { user: true, orderItem: { include: { course: true } } },
     });
 
     // Remove user access to the refunded courses
-    const itemsCourseIds = refundedOrder.orderItems.map(
-      (item) => item.courseId,
-    );
+    const itemsCourseId = refundedOrder.orderItem.map((item) => item.courseId);
     await prisma.user.update({
       where: {
         id: refundedOrder.userId,
       },
       data: {
         courses: {
-          disconnect: itemsCourseIds.map((courseId) => ({ id: courseId })),
+          disconnect: itemsCourseId.map((courseId) => ({ id: courseId })),
         },
       },
     });
 
-    const progressionData = [];
-
-    for (const item of refundedOrder.orderItems) {
-      const instructor = await prisma.instructor.findFirst({
-        where: { id: item.course.instructorId },
-        include: {
-          user: { select: { email: true, name: true, banned: true } },
+    // Delete user progress for the refunded courses
+    await prisma.userProgress.deleteMany({
+      where: {
+        userId: refundedOrder.userId,
+        courseId: {
+          in: refundedOrder.orderItem.map((item) => item.courseId),
         },
-      });
+      },
+    });
 
-      if (!instructor || !item.payoutsEnabled) {
-        continue;
-      }
+    const instructor = await prisma.instructor.findFirst({
+      where: { id: refundedOrder.orderItem[0].course.instructorId },
+      include: {
+        user: { select: { email: true, name: true, banned: true } },
+      },
+    });
 
-      if (!item.stripeTransferId) {
-        continue;
-      }
-
-      // Find the related instructor email and send notification and refund his share
-      await stripe.transfers.createReversal(item.stripeTransferId, {
-        amount: Math.round(
-          (convertToFils(item.price) * (100 - APPLICATION_FEE_PERCENTAGE)) /
-            100,
-        ),
-      });
-
-      if (instructor.user.banned) {
-        continue;
-      }
-
+    const item = refundedOrder.orderItem[0];
+    if (instructor && !instructor.user.banned) {
+      // Notify instructor about the refund
       await resend.emails.send({
         from: `${APP_NAME} <support@${domain}>`,
         to: instructor.user.email,
@@ -187,20 +181,12 @@ export const POST = async (req: Request) => {
           refundAmount: Number(item.price),
         }),
       });
-      progressionData.push({
-        userId: refundedOrder.userId,
-        courseId: item.courseId,
-      });
+      // Notify instructor about the refund
+      await sendInstructorRefundNotification(
+        refund.amount / 100,
+        instructor.userId as string,
+      );
     }
-
-    await prisma.userProgress.deleteMany({
-      where: {
-        OR: progressionData.map((data) => ({
-          userId: data.userId,
-          courseId: data.courseId,
-        })),
-      },
-    });
 
     await resend.emails.send({
       from: `${APP_NAME} <support@${domain}>`,
@@ -215,28 +201,15 @@ export const POST = async (req: Request) => {
       }),
     });
 
+    await sendUserRefundNotification(
+      refundedOrder.userId as string,
+      item.course.title,
+    );
+
     revalidatePath('/account', 'page');
     revalidatePath('/admin-dashboard/orders', 'page');
 
     return Response.json({ message: 'Charge refunded processed' });
-  } else if (event.type === 'coupon.created') {
-    const coupon = event.data.object;
-
-    const discount = await prisma.discount.findFirst({
-      where: { id: coupon.metadata?.discountId as string },
-    });
-
-    if (!discount) {
-      console.log('Discount not found for coupon creation');
-    }
-
-    await prisma.discount.update({
-      where: { id: discount?.id },
-      data: {
-        stripeCouponId: coupon.id,
-      },
-    });
-    return Response.json({ message: 'Coupon created processed' });
   }
   return Response.json({ received: true });
 };

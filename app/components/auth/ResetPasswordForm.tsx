@@ -38,7 +38,7 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
   };
 
   return (
-    <form className='mt-4' onSubmit={form.handleSubmit(onSubmit)}>
+    <form className='mt-4 w-full' onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup className='gap-6'>
         {/* Password */}
         <Controller
@@ -46,7 +46,7 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel className='leading-5' htmlFor={field.name}>
+              <FieldLabel className='leading-5 text-black' htmlFor={field.name}>
                 New Password
               </FieldLabel>
               <Input
@@ -54,7 +54,7 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
                 id={field.name}
                 placeholder='Enter your new password'
                 aria-invalid={fieldState.invalid}
-                className='input pr-9'
+                className='input border-black text-black pr-9'
                 {...field}
               />
 
@@ -68,7 +68,7 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel className='leading-5' htmlFor={field.name}>
+              <FieldLabel className='leading-5 text-black' htmlFor={field.name}>
                 Confirm Password
               </FieldLabel>
               <Input
@@ -76,7 +76,7 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
                 id={field.name}
                 placeholder='Confirm your password'
                 aria-invalid={fieldState.invalid}
-                className='input pr-9'
+                className='input border-black text-black pr-9'
                 {...field}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -85,7 +85,7 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
         />
 
         <Button
-          className='cursor-pointer'
+          className='cursor-pointer bg-lime-500 hover:bg-lime-600 text-white'
           disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting ? (

@@ -51,7 +51,6 @@ import {
   banAsAdmin,
   deleteSelectedUsers,
   deleteUserById,
-  unbanAsAdmin,
 } from '@/lib/actions/admin/user-mutation';
 
 const columns: ColumnDef<User>[] = [
@@ -327,17 +326,6 @@ export const RowActions = ({ user }: { user: User }) => {
     });
   };
 
-  const handleUnbanUser = () => {
-    startTransition(async () => {
-      const res = await unbanAsAdmin(user.id, user.role);
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-      toast.success(res.message);
-    });
-  };
-
   return (
     <>
       {isPending && <ScreenSpinner mutate={true} text='Applying changes…' />}
@@ -375,11 +363,12 @@ export const RowActions = ({ user }: { user: User }) => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={user.banned ? handleUnbanUser : handleBanUser}
+                onClick={handleBanUser}
                 className='cursor-pointer'
                 variant='destructive'
+                disabled={user.banned}
               >
-                <span>{user.banned ? 'Unban Admin' : 'Ban Admin'}</span>
+                <span>{user.banned ? 'Banned' : 'Ban Admin'}</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

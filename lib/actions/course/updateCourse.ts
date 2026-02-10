@@ -254,7 +254,6 @@ export const updateCourseAsAdmin = async (
       }
 
       for (const lesson of section.lessons) {
-        console.log(lesson.position);
         if (lesson.id) {
           // Update existing lesson
           const existingLesson = await prisma.lesson.update({

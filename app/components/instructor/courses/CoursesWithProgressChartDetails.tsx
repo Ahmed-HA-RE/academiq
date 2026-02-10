@@ -10,8 +10,8 @@ import {
 } from '../../ui/chart';
 
 const progressChartConfig = {
-  students: {
-    label: 'Students',
+  entries: {
+    label: 'Entries',
   },
 } satisfies ChartConfig;
 
@@ -20,10 +20,10 @@ const CoursesWithProgressChartDetails = ({
 }: {
   results: {
     range: string;
-    students: number;
+    entries: number;
   }[];
 }) => {
-  const maxStudents = Math.max(...results.map((r) => r.students));
+  const maxStudents = Math.max(...results.map((r) => r.entries));
 
   return (
     <Card className='col-span-4 gap-6 py-0'>
@@ -93,7 +93,7 @@ const CoursesWithProgressChartDetails = ({
                 content={<ChartTooltipContent hideLabel />}
               />
               <Area
-                dataKey='students'
+                dataKey='entries'
                 type='linear'
                 fill='url(#fillProgress)'
                 stroke='var(--chart-2)'

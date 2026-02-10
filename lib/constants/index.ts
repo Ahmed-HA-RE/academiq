@@ -168,7 +168,7 @@ export const faqItems = [
   {
     question: 'Can I set my own course prices?',
     answer:
-      'Yes! You have complete control over your course pricing. You can set, adjust, and offer discounts on your courses at any time. We recommend competitive pricing based on course value and market research.',
+      'Yes! You have complete control over your course pricing. We recommend competitive pricing based on course value and market research.',
   },
   {
     question: 'How do I get started as an instructor?',
@@ -263,7 +263,6 @@ export const USERS_ROLES = [
 ];
 
 export const TEACHING_CATEGORIES = ['Web Development', 'Business'];
-
 export const COURSE_LANGUAGES = langes.names();
 
 export const DEMO_COURSE_VIDEOS = {
@@ -271,7 +270,7 @@ export const DEMO_COURSE_VIDEOS = {
   muxAssetId: process.env.DEMO_MUX_ASSEST_VIDEO as string,
 };
 
-export const APPLICATION_FEE_PERCENTAGE = 5; // 5% application fee
+export const APPLICATION_FEE_PERCENTAGE = 20; // 20% application fee
 
 export const COURSE_TABS_TRIGGER = [
   { label: 'About Course', value: 'about-course' },
