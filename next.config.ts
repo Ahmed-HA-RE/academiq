@@ -1,6 +1,8 @@
 import type { NextConfig } from 'next';
+import createMDX from '@next/mdx';
 
 const nextConfig: NextConfig = {
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   reactCompiler: true,
   devIndicators: false,
   images: {
@@ -9,12 +11,6 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
-        port: '',
-      },
-      // For testing purposes
-      {
-        protocol: 'https',
-        hostname: 'cdn.shadcnstudio.com',
         port: '',
       },
       // Google Avatar
@@ -43,4 +39,9 @@ const nextConfig: NextConfig = {
     },
   },
 };
-export default nextConfig;
+
+const withMDX = createMDX({
+  extension: /\.(md|mdx)$/,
+});
+
+export default withMDX(nextConfig);

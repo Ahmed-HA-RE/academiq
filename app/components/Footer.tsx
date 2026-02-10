@@ -18,7 +18,7 @@ const footerResourcesLinks = [
 const footerSupportLinks = [
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
-  { name: 'Terms & Conditions', href: '/' },
+  { name: 'Terms & Conditions', href: '/terms' },
 ];
 
 const Footer = () => {
