@@ -77,11 +77,7 @@ const ProfileDropdown = ({
   };
 
   return !session ? (
-    <Button
-      size={'lg'}
-      className='rounded-full text-lg bg-lime-500 dark:bg-lime-600 hover:bg-lime-600 dark:hover:bg-lime-700 text-white'
-      asChild
-    >
+    <Button className='bg-primary hover:bg-primary-hover text-white' asChild>
       <Link href='/login'>Login</Link>
     </Button>
   ) : (

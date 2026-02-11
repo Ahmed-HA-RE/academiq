@@ -262,7 +262,14 @@ export const USERS_ROLES = [
   },
 ];
 
-export const TEACHING_CATEGORIES = ['Web Development', 'Business'];
+export const TEACHING_CATEGORIES = [
+  'All',
+  'Web Development',
+  'Business',
+  'UX/UI Design',
+  'Data Science',
+  'Marketing',
+];
 export const COURSE_LANGUAGES = langes.names();
 
 export const DEMO_COURSE_VIDEOS = {

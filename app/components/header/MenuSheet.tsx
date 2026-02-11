@@ -45,7 +45,7 @@ const MenuSheet = ({ navigationData }: MenuSheetProps) => {
         <Button
           variant='ghost'
           size='icon'
-          className='inline-flex lg:hidden text-black dark:text-white cursor-pointer mr-1'
+          className='inline-flex lg:hidden text-black dark:text-white cursor-pointer'
         >
           <MenuIcon />
           <span className='sr-only'>Menu</span>
@@ -78,7 +78,7 @@ const MenuSheet = ({ navigationData }: MenuSheetProps) => {
                 'px-4',
                 'py-2',
                 'text-sm',
-                pathname === navItem.href && 'bg-accent font-medium'
+                pathname === navItem.href && 'bg-accent font-medium',
               )}
               onClick={handleLinkClick}
             >

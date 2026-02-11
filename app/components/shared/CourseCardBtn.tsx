@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { addCourseToLibrary } from '@/lib/actions/course/add-course-to-library';
 import { createStripeCheckoutSession } from '@/lib/actions/stripe.action';
+import { useTransition } from 'react';
 
 type CourseCardBtnProps = {
   course: Course;
@@ -19,17 +20,10 @@ type CourseCardBtnProps = {
     plan: string;
     stripeSubscriptionId?: string;
   } | null;
-  isPending: boolean;
-  setIsPending: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const CourseCardBtn = ({
-  course,
-  user,
-  subscription,
-  isPending,
-  setIsPending,
-}: CourseCardBtnProps) => {
+const CourseCardBtn = ({ course, user, subscription }: CourseCardBtnProps) => {
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const pathname = usePathname();
   const callbackUrl = `${SERVER_URL}${pathname}`;
@@ -47,16 +41,16 @@ const CourseCardBtn = ({
     if (!user) {
       router.push(`/login?callbackUrl=${callbackUrl}`);
     } else {
-      setIsPending(true);
-      const res = await addCourseToLibrary(course.id);
+      startTransition(async () => {
+        const res = await addCourseToLibrary(course.id);
 
-      if (!res.success) {
-        toast.error(res.message);
-        setIsPending(false);
-        return;
-      }
-      toast.success(res.message);
-      router.refresh();
+        if (!res.success) {
+          toast.error(res.message);
+          return;
+        }
+        toast.success(res.message);
+        router.refresh();
+      });
     }
   };
 
@@ -64,19 +58,19 @@ const CourseCardBtn = ({
     if (!user) {
       router.push(`/login?callbackUrl=${callbackUrl}`);
     } else {
-      setIsPending(true);
-      const res = await createStripeCheckoutSession({
-        courseId: course.id,
-        pathname,
+      startTransition(async () => {
+        const res = await createStripeCheckoutSession({
+          courseId: course.id,
+          pathname,
+        });
+
+        if (!res.success || !res.redirect) {
+          toast.error('Failed to create checkout session. Please try again.');
+          return;
+        }
+
+        router.push(res.redirect);
       });
-
-      if (!res.success || !res.redirect) {
-        setIsPending(false);
-        toast.error('Failed to create checkout session. Please try again.');
-        return;
-      }
-
-      router.push(res.redirect);
     }
   };
 
@@ -125,6 +119,7 @@ const CourseCardBtn = ({
       disabled={isPending}
     >
       {isPending ? <Spinner className='size-6' /> : 'Add to Library'}
+      Add to Library
     </Button>
   ) : (
     <Button
@@ -136,7 +131,7 @@ const CourseCardBtn = ({
       onClick={createCheckoutSession}
       disabled={isPending}
     >
-      Enroll Now
+      {isPending ? <Spinner className='size-6' /> : 'Enroll Now'}
     </Button>
   );
 };

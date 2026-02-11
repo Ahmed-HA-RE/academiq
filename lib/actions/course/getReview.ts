@@ -28,7 +28,7 @@ export const getCourseReviews = async (id: string, page = 1, limit = 5) => {
     take: limit,
   });
 
-  const totalCReviews = await prisma.review.count({
+  const totalReviews = await prisma.review.count({
     where: {
       course: {
         id,
@@ -36,7 +36,7 @@ export const getCourseReviews = async (id: string, page = 1, limit = 5) => {
     },
   });
 
-  const totalPages = Math.ceil(totalCReviews / limit);
+  const totalPages = Math.ceil(totalReviews / limit);
 
   return {
     reviews: convertToPlainObject(reviews),

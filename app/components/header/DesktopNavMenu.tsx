@@ -27,13 +27,12 @@ const DesktopNavMenu = ({ navigationData }: DesktopNavMenuProps) => {
               href={menu.href}
               className={cn(
                 `${navigationMenuTriggerStyle()}`,
-                'text-muted-foreground',
+                'text-primary',
                 'focus:ring-0',
                 'text-base',
                 'mx-2',
-                pathname === menu.href
-                  ? 'text-black dark:text-white font-bold'
-                  : 'font-normal hover:text-black dark:hover:text-white',
+                'font-normal hover:text-foreground',
+                pathname === menu.href && 'text-primary font-bold',
               )}
               asChild
             >

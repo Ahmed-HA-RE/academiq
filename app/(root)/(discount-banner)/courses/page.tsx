@@ -1,28 +1,22 @@
-import CategoriesFilter from '@/app/components/courses/CategoriesFilter';
-import CoursesPagination from '@/app/components/shared/Pagination';
-import { getAllCourses } from '@/lib/actions/course/getCourses';
-import { loadSearchParams } from '@/lib/searchParams';
 import type { SearchParams } from 'nuqs/server';
 import { Metadata } from 'next';
-import { getCurrentLoggedUser } from '@/lib/actions/getUser';
-import { Alert, AlertTitle } from '@/app/components/ui/alert';
-import { TriangleAlertIcon } from 'lucide-react';
-import { listUserSubscription } from '@/lib/actions/subscription/list-user-subscription';
-import CoursesList from '@/app/components/courses-list';
+import CoursesList from '@/app/components/courses/courses-list';
+import CoursesHero from '@/app/components/courses/courses-hero';
+import { Suspense } from 'react';
+import CoursesListSkeleton from '@/app/components/courses/courses-list-skeleton';
+import CategoriesFilter from '@/app/components/courses/categories-filter';
 
 export const generateMetadata = async ({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string }>;
 }): Promise<Metadata> => {
-  const { q, rating, price, difficulty } = await searchParams;
+  const { q, category } = await searchParams;
 
   const filters: string[] = [];
 
   if (q) filters.push(`Search: ${q}`);
-  if (rating) filters.push(`Rating: ${rating}+`);
-  if (price) filters.push(`Price: ${price}`);
-  if (difficulty) filters.push(`Difficulty: ${difficulty}`);
+  if (category && category !== 'All') filters.push(`Category: ${category}`);
 
   if (filters.length > 0) {
     return {
@@ -44,51 +38,21 @@ const CoursesPage = async ({
 }: {
   searchParams: Promise<SearchParams>;
 }) => {
-  const { q, price, difficulty, category, sortBy, page } =
-    await loadSearchParams(searchParams);
-
-  const [{ courses, totalPages }, user, subscription] = await Promise.all([
-    getAllCourses({
-      q,
-      price,
-      difficulty,
-      category,
-      sortBy,
-      page,
-    }),
-    getCurrentLoggedUser(),
-    listUserSubscription(),
-  ]);
-
   return (
-    <section className='my-10'>
-      <div className='container space-y-8'>
-        <div className='space-y-4'>
-          <h1 className='text-3xl font-bold'>Courses</h1>
-        </div>
-        <div className='grid grid-cols-7 items-start gap-2.5'>
+    <>
+      <CoursesHero />
+      <section className='section-spacing'>
+        <div className='container'>
+          <h1 className='text-3xl md:text-4xl font-bold text-foreground mb-8'>
+            Explore Courses
+          </h1>
           <CategoriesFilter />
-          {courses.length === 0 ? (
-            <Alert
-              variant='destructive'
-              className='border-destructive col-span-7 md:col-span-4 lg:col-span-5 mx-auto md:max-w-sm my-10 md:my-0 '
-            >
-              <TriangleAlertIcon />
-              <AlertTitle>No courses found.</AlertTitle>
-            </Alert>
-          ) : (
-            <CoursesList
-              courses={courses}
-              user={user}
-              subscription={subscription}
-            />
-          )}
+          <Suspense fallback={<CoursesListSkeleton />}>
+            <CoursesList searchParams={searchParams} />
+          </Suspense>
         </div>
-        {totalPages && totalPages > 1 ? (
-          <CoursesPagination totalPages={totalPages} />
-        ) : null}
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

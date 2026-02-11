@@ -3,7 +3,6 @@ import MenuSheet from './MenuSheet';
 import Link from 'next/link';
 import Image from 'next/image';
 import DesktopNavMenu from './DesktopNavMenu';
-import Theme from '../Theme';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { APP_NAME } from '@/lib/constants';
@@ -40,28 +39,28 @@ const Header = async () => {
 
   return (
     <>
-      {activeCoupon && (
+      {/* {activeCoupon && (
         <CouponBanner
           activeCoupon={convertToPlainObject(activeCoupon.data[0])}
         />
-      )}
-      <header className='dark:bg-[#121212]'>
-        <div className='mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 lg:px-6 h-17.5 relative'>
+      )} */}
+      <header className='absolute top-0 left-0 w-full z-20 '>
+        <div className='container flex items-center justify-between gap-4 h-17.5'>
           <div className='flex items-center lg:gap-10'>
             <MenuSheet navigationData={baseNavigationMenu} />
             <Link className='flex flex-row items-center gap-1' href='/'>
               <Image
                 src={'/images/logo.png'}
                 alt='Logo'
-                width={35}
-                height={35}
+                width={30}
+                height={30}
               />
-              <span className='font-medium text-xl'>{APP_NAME}</span>
+              <span className='font-bold text-lg text-primary'>{APP_NAME}</span>
             </Link>
           </div>
           <DesktopNavMenu navigationData={baseNavigationMenu} />
 
-          <div className='flex items-center'>
+          <div className='flex items-center gap-2'>
             {/* Notification Menu */}
             {session && session.user.role !== 'admin' && (
               <NotificationMenu
@@ -69,8 +68,6 @@ const Header = async () => {
                 userToken={userToken as string}
               />
             )}
-            {/* Theme */}
-            <Theme />
             {/* User menu */}
             <ProfileDropdown session={session} />
           </div>
