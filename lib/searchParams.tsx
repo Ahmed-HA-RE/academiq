@@ -10,7 +10,7 @@ export const coursesfilteredParams = {
   q: parseAsString.withDefault(''),
   price: parseAsString.withDefault(''),
   difficulty: parseAsArrayOf(parseAsString).withDefault([]),
-  category: parseAsArrayOf(parseAsString).withDefault([]),
+  category: parseAsString.withDefault('All'),
   sortBy: parseAsString.withDefault(''),
   page: parseAsInteger.withDefault(1),
   search: parseAsString.withDefault(''),

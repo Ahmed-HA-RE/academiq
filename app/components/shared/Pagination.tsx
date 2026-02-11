@@ -5,9 +5,6 @@ import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from '../ui/pagination';
 import { Button } from '../ui/button';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
@@ -15,7 +12,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 const DataPagination = ({ totalPages }: { totalPages: number }) => {
   const [currentPage, setCurrentPage] = useQueryState(
     'page',
-    parseAsInteger.withOptions({ shallow: false }).withDefault(1)
+    parseAsInteger.withOptions({ shallow: false }).withDefault(1),
   );
 
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -57,7 +54,7 @@ const DataPagination = ({ totalPages }: { totalPages: number }) => {
             variant={'ghost'}
             onClick={() =>
               setCurrentPage(
-                currentPage >= totalPages ? totalPages : currentPage + 1
+                currentPage >= totalPages ? totalPages : currentPage + 1,
               )
             }
             className={`rounded-md ${currentPage >= totalPages ? 'pointer-events-none opacity-50' : undefined} cursor-pointer hover:bg-accent`}

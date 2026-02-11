@@ -165,8 +165,3 @@ export const getCurrentLoggedInInstructor = async () => {
     socialLinks: instructor.socialLinks as SocialLinks,
   });
 };
-
-export const getInstructorsCount = async () => {
-  const count = await prisma.instructor.count();
-  return count;
-};
