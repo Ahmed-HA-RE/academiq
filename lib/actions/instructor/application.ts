@@ -89,6 +89,24 @@ export const applyToTeach = async (
       email: session.user.email,
     });
 
+    const socialLinks = {
+      ...(validateData.data.socialLinks.linkedin
+        ? {
+            linkedin: `https://www.linkedin.com/in/${validateData.data.socialLinks?.linkedin}`,
+          }
+        : {}),
+      ...(validateData.data.socialLinks.whatsapp
+        ? {
+            whatsapp: `https://wa.me/${validateData.data.socialLinks?.whatsapp?.slice(1)}`,
+          }
+        : {}),
+      ...(validateData.data.socialLinks.instagram
+        ? {
+            instagram: `https://www.instagram.com/${validateData.data.socialLinks?.instagram}`,
+          }
+        : {}),
+    };
+
     const userApplication = await prisma.$transaction(async (tx) => {
       // Save application to the database
       const userApplication = await tx.intructorApplication.create({
@@ -98,11 +116,7 @@ export const applyToTeach = async (
           birthDate: addDays(validateData.data.birthDate, 1),
           userId: session.user.id,
           file: result.secure_url,
-          socialLinks: {
-            linkedin: `https://www.linkedin.com/in/${validateData.data.socialLinks?.linkedin}`,
-            whatsapp: `https://wa.me/${validateData.data.socialLinks?.whatsapp?.slice(1)}`,
-            instagram: `https://www.instagram.com/${validateData.data.socialLinks?.instagram}`,
-          },
+          socialLinks: socialLinks,
           city: validateData.data.city,
         },
         include: { user: { select: { name: true, email: true } } },

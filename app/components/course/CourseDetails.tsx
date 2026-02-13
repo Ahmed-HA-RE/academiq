@@ -1,6 +1,5 @@
 import { Course, Section, User } from '@/types';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ui/tabs';
-import DOMPurify from 'isomorphic-dompurify';
 import {
   Accordion,
   AccordionContent,
@@ -18,6 +17,7 @@ import {
 import { SearchParams } from 'nuqs/server';
 import { loadSearchParams } from '@/lib/searchParams';
 import { formatDuration } from '@/lib/utils';
+import AboutCourse from './about-course';
 
 const CourseDetails = async ({
   course,
@@ -50,15 +50,7 @@ const CourseDetails = async ({
             ))}
           </TabsList>
           <TabsContent className='w-full' value='about-course'>
-            <div className='py-10 md:py-12 space-y-4'>
-              <h2 className='font-bold text-2xl'>Description</h2>
-              <p
-                className='text-muted-foreground'
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(course.description),
-                }}
-              />
-            </div>
+            <AboutCourse description={course.description} />
           </TabsContent>
           <TabsContent className='w-full' value='course-content'>
             <div className='py-10 md:py-12'>

@@ -8,7 +8,7 @@ import { formatDate } from '@/lib/utils';
 import RefundOrder from '@/emails/RefundOrder';
 import { revalidatePath } from 'next/cache';
 import InstructorOrderRefund from '@/emails/InstructorOrderRefund';
-import { knock } from '@/lib/knock';
+
 import {
   sendInstructorCoursePurchaseNotification,
   sendInstructorRefundNotification,
@@ -95,7 +95,10 @@ export const POST = async (req: Request) => {
       },
     });
 
-    await sendInstructorCoursePurchaseNotification(userId, course.title);
+    await sendInstructorCoursePurchaseNotification(
+      course.instructor.userId,
+      course.title,
+    );
 
     await prisma.userProgress.create({
       data: {

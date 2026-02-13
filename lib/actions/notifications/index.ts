@@ -23,7 +23,7 @@ export const sendSubscriptionCompleteNotification = async (
   });
 };
 
-// Send notification to user about purchasing course
+// Send notification to instructor about purchasing course
 export const sendInstructorCoursePurchaseNotification = async (
   userId: string,
   courseTitle: string,

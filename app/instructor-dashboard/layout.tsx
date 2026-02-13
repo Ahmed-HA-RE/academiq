@@ -62,7 +62,7 @@ const InstructorDashboardLayout = async ({
                   className='hidden !h-4 sm:max-md:block'
                 />
               </div>
-              <div className='flex items-center'>
+              <div className='flex items-center gap-2'>
                 {/* Notifications */}
                 <NotificationMenu
                   session={session}
@@ -74,7 +74,7 @@ const InstructorDashboardLayout = async ({
             </div>
           </header>
           <main className='flex-grow'>
-            <div className='container size-full flex-1'>
+            <div className='container size-full flex-1 py-10'>
               <Card className='h-auto shadow-none'>
                 <CardContent className='h-full grid grid-cols-1 md:grid-cols-4 gap-6'>
                   {children}
@@ -86,18 +86,16 @@ const InstructorDashboardLayout = async ({
           {/* Footer */}
           <footer className='bg-card border-t px-4 py-4 sm:px-6 md:gap-6 md:py-3'>
             <div className='flex items-center justify-between gap-3 max-md:flex-col max-w-[1220px] mx-auto'>
-              <p className='text-muted-foreground text-center text-sm text-balance'>
+              <p className='text-secondary-foreground text-center text-sm text-balance'>
                 {`©${new Date().getFullYear()}`}{' '}
-                <Link href='/' className='text-primary'>
-                  {APP_NAME}
-                </Link>
+                <Link href='/'>{APP_NAME}</Link>
               </p>
               <div className='flex items-center gap-5 text-sm whitespace-nowrap'>
                 <Link href='#'>Privacy Policy</Link>
                 <Link href='/about'>About</Link>
                 <Link href='/contact-us'>Contact Us</Link>
               </div>
-              <div className='text-muted-foreground flex items-center gap-3'>
+              <div className='text-secondary-foreground flex items-center gap-3'>
                 <a
                   target='_blank'
                   href='https://www.instagram.com'

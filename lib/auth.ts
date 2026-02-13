@@ -94,7 +94,7 @@ export const auth = betterAuth({
     nextCookies(),
     emailOTP({
       async sendVerificationOTP({ type, email, otp }) {
-        if (type === 'email-verification') {
+        if (type === 'sign-in') {
           await resend.emails.send({
             from: `${APP_NAME} <support@${domain}>`,
             to: email,

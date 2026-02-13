@@ -210,43 +210,26 @@ export const pricingFaqItems = [
   },
 ];
 
-export const TEACHING_CATEGORIESMULTISELECT: Option[] = [
-  {
-    value: 'Web Development',
-    label: 'Web Development',
-    disable: true,
-  },
-  {
-    value: 'Frontend Development',
-    label: 'Frontend Development',
-  },
-  {
-    value: 'Backend Development',
-    label: 'Backend Development',
-  },
-  {
-    value: 'Mobile Development',
-    label: 'Mobile Development',
-  },
-  {
-    value: 'Business',
-    label: 'Business',
-    disable: true,
-  },
-  {
-    value: 'Enterpreneurship',
-    label: 'Enterpreneurship',
-  },
-  {
-    value: 'Marketing',
-    label: 'Marketing',
-  },
-  {
-    value: 'Project Management',
-    label: 'Project Management',
-  },
-];
+export const TEACHING_CATEGORY_OPTIONS: Option[] = [
+  { value: 'Web Development', label: 'Web Development', disable: true },
+  { value: 'Frontend Development', label: 'Frontend Development' },
+  { value: 'Backend Development', label: 'Backend Development' },
+  { value: 'Fullstack Development', label: 'Fullstack Development' },
 
+  { value: 'UX/UI Design', label: 'UX/UI Design', disable: true },
+  { value: 'UX Research', label: 'UX Research' },
+  { value: 'UI Design', label: 'UI Design' },
+  { value: 'Design Systems', label: 'Design Systems' },
+
+  { value: 'Data Science', label: 'Data Science', disable: true },
+  { value: 'Machine Learning', label: 'Machine Learning' },
+  { value: 'Data Analysis', label: 'Data Analysis' },
+
+  { value: 'Business', label: 'Business', disable: true },
+  { value: 'Entrepreneurship', label: 'Entrepreneurship' },
+  { value: 'Project Management', label: 'Project Management' },
+  { value: 'Marketing', label: 'Marketing' },
+];
 export const USERS_ROLES = [
   {
     value: 'all',

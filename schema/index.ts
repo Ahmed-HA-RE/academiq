@@ -1,6 +1,5 @@
 import parsePhoneNumberFromString from 'libphonenumber-js';
 import z from 'zod';
-import { isAfter } from 'date-fns';
 
 // Decimal validation for courses
 const positiveMoney = z
@@ -319,13 +318,6 @@ export const updateAccountDetailsSchema = z.object({
   email: registerSchema.shape.email,
   image: baseCourseSchema.shape.image,
   imageKey: z.string({ error: 'Invalid image key' }).optional(),
-  billingInfo: z.object({
-    name: z.string({ error: 'Invalid name' }).optional(),
-    address: z.string({ error: 'Invalid address' }).optional(),
-    country: z.string({ error: 'Invalid country' }).optional(),
-    email: z.string({ error: 'Invalid email' }).optional(),
-    phone: optionalPhoneSchema,
-  }),
 });
 
 export const updateAccountPasswordSchema = z

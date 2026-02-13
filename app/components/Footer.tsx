@@ -1,3 +1,5 @@
+'use client';
+
 import { FaWhatsapp } from 'react-icons/fa';
 import { LuInstagram } from 'react-icons/lu';
 import { Separator } from '@/app/components/ui/separator';

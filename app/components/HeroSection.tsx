@@ -78,15 +78,13 @@ const HeroSection = async () => {
             blur
             transition={{ duration: 0.5 }}
             delay={0.5}
-            className='overflow-hidden flex justify-center items-center'
+            className='w-full flex justify-center items-center relative h-[250px] sm:h-[350px] lg:h-[350px]'
           >
             <Image
               src='/images/home-hero.jpg'
-              alt='Teenager holding books and backpack'
-              className='object-cover w-full h-full rounded-xl'
-              width={0}
-              height={0}
-              sizes='100vw'
+              alt='Hero Image'
+              fill
+              className='object-cover rounded-xl'
               priority
             />
           </MotionPreset>

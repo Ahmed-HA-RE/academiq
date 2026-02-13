@@ -10,7 +10,7 @@ import { Input } from '../../ui/input';
 import { PhoneInput } from '../../ui/phone-input';
 import { Textarea } from '../../ui/textarea';
 import MultipleSelector from '../../ui/multi-select';
-import { TEACHING_CATEGORIESMULTISELECT } from '@/lib/constants';
+import { TEACHING_CATEGORY_OPTIONS } from '@/lib/constants';
 import {
   updateInstructorAccount,
   updateInstructorAsAdmin,
@@ -178,13 +178,13 @@ const EditInstructorForm = ({
                       commandProps={{
                         label: 'Select categories',
                       }}
-                      value={TEACHING_CATEGORIESMULTISELECT.filter((option) =>
+                      value={TEACHING_CATEGORY_OPTIONS.filter((option) =>
                         field.value.includes(option.value),
                       )}
                       onChange={(options) =>
                         field.onChange(options.map((opt) => opt.value))
                       }
-                      defaultOptions={TEACHING_CATEGORIESMULTISELECT}
+                      defaultOptions={TEACHING_CATEGORY_OPTIONS}
                       placeholder='Select categories'
                       emptyIndicator={
                         <p className='text-center text-sm'>No results found</p>
@@ -213,8 +213,7 @@ const EditInstructorForm = ({
                     <PhoneInput
                       id={field.name}
                       aria-invalid={fieldState.invalid}
-                      placeholder='Enter your WhatsApp 
-                    number'
+                      placeholder='Enter your WhatsApp number'
                       defaultCountry='AE'
                       international
                       countryCallingCodeEditable={false}

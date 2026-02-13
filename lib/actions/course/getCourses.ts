@@ -11,7 +11,7 @@ export const getAllCourses = async ({
   category,
   status,
   page = 1,
-  limit = 10,
+  limit = 6,
 }: {
   q?: string;
   category?: string;

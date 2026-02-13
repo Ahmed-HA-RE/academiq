@@ -25,7 +25,7 @@ export const registerUser = async (data: RegisterFormData) => {
 
     await auth.api.signUpEmail({
       body: {
-        name,
+        name: name.trim(),
         email,
         password,
       },
@@ -86,20 +86,14 @@ export const logoutUser = async () => {
   }
 };
 
-export const sendEmailVerificationOTP = async () => {
+export const sendEmailVerificationOTP = async (email: string) => {
   try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session) throw new Error('No active user found');
-    if (session.user.emailVerified)
-      throw new Error('Email is already verified');
+    if (!email) throw new Error('Email is required');
 
     await auth.api.sendVerificationOTP({
       body: {
-        type: 'email-verification',
-        email: session.user.email,
+        type: 'sign-in',
+        email,
       },
     });
 
@@ -109,24 +103,17 @@ export const sendEmailVerificationOTP = async () => {
   }
 };
 
-export const verifyEmail = async (otp: string) => {
+export const verifyEmail = async (otp: string, email: string) => {
   try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session) throw new Error('No active user found');
-
-    if (session.user.emailVerified)
-      throw new Error('Email is already verified');
+    if (!email) throw new Error('Email is required');
 
     const validatedData = verifyOTPSchema.safeParse({ code: otp });
 
     if (!validatedData.success) throw new Error('Invalid OTP code');
 
-    await auth.api.verifyEmailOTP({
+    await auth.api.signInEmailOTP({
       body: {
-        email: session.user.email,
+        email,
         otp,
       },
     });

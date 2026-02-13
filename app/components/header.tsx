@@ -5,7 +5,7 @@ import {
   DesktopNavigation,
   MobileNavigation,
 } from '@/app/components/navigation';
-import { cn, convertToPlainObject } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { APP_NAME } from '@/lib/constants';
 import Image from 'next/image';
 import { auth } from '@/lib/auth';
@@ -62,8 +62,10 @@ const Header = ({ session, activeCoupon, userToken }: HeaderProps) => {
   ];
 
   const [offset, setOffset] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const onScroll = () => setOffset(window.scrollY);
     onScroll();
 
@@ -72,6 +74,10 @@ const Header = ({ session, activeCoupon, userToken }: HeaderProps) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <header
       className={cn(
@@ -79,10 +85,8 @@ const Header = ({ session, activeCoupon, userToken }: HeaderProps) => {
         offset > 10 ? 'shadow-md bg-white/80 backdrop-blur-md' : '',
       )}
     >
-      {activeCoupon && offset < 10 && (
-        <CouponBanner
-          activeCoupon={convertToPlainObject(activeCoupon.data[0])}
-        />
+      {activeCoupon && activeCoupon.data.length > 0 && (
+        <CouponBanner activeCoupon={activeCoupon.data[0]} />
       )}
       <div className='container flex items-center justify-between gap-6 px-4 sm:px-6 lg:px-8 h-17.5'>
         {/* Logo */}

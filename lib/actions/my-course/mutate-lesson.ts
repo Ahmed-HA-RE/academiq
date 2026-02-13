@@ -17,7 +17,7 @@ export const markLessonAsComplete = async (lessonId: string) => {
 
     if (!lesson) throw new Error('Lesson not found');
 
-    await prisma.$transaction(async (tx) => {
+    const updatedProgress = await prisma.$transaction(async (tx) => {
       const newProgress = await tx.lessonProgress.create({
         data: {
           userId: user.id,
@@ -62,7 +62,7 @@ export const markLessonAsComplete = async (lessonId: string) => {
         (completedLessons / totalLessons) * 100,
       );
 
-      await tx.userProgress.update({
+      const updatedProgress = await tx.userProgress.update({
         where: {
           userId_courseId: {
             userId: user.id,
@@ -73,9 +73,14 @@ export const markLessonAsComplete = async (lessonId: string) => {
           progress: progressPercentage,
         },
       });
+      return updatedProgress.progress;
     });
 
-    return { success: true, message: 'Progress updated' };
+    return {
+      success: true,
+      message: 'Progress updated',
+      progress: updatedProgress,
+    };
   } catch (error) {
     return { success: false, message: (error as Error).message };
   }

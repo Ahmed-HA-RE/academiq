@@ -70,7 +70,7 @@ const AccountPasswordForm = ({ userEmail }: { userEmail: string }) => {
                       </FieldLabel>
                       <span
                         onClick={handleSendResetPassword}
-                        className='text-lime-500 dark:text-lime-600 cursor-pointer  underline underline-offset-2 text-sm'
+                        className='text-primary cursor-pointer  underline underline-offset-2 text-sm'
                       >
                         Forgot?
                       </span>

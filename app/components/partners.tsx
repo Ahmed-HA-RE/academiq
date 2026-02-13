@@ -48,7 +48,7 @@ const Partners = () => {
               key={index}
               src={logo.image}
               alt={logo.name}
-              className={cn(logo.size)}
+              className={cn(logo.size, 'object-contain')}
               width={0}
               height={0}
               sizes='100vw'

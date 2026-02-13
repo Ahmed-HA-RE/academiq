@@ -14,10 +14,7 @@ const Header = async () => {
   return (
     <header className='bg-transparent z-20'>
       <div className='mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-7 lg:px-6'>
-        <Link
-          className='flex flex-row items-center gap-1 flex-1/3 md:flex-1/2'
-          href='/'
-        >
+        <Link className='flex flex-row items-center gap-1 md:flex-1/2' href='/'>
           <Image src={'/images/logo.png'} alt='Logo' width={40} height={40} />
           <span className='font-bold text-lg'>{APP_NAME}</span>
         </Link>
@@ -25,7 +22,7 @@ const Header = async () => {
         {/* Search Bar */}
         <Search />
 
-        <div className='flex-1/5 md:flex-1/2 flex justify-end'>
+        <div className='md:flex-1/2 flex justify-end'>
           {/* User menu */}
           <ProfileDropdown session={session} />
         </div>

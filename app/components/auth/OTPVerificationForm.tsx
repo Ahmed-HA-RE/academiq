@@ -10,10 +10,11 @@ import { sendEmailVerificationOTP, verifyEmail } from '@/lib/actions/auth';
 import { toast } from 'react-hot-toast';
 import ScreenSpinner from '../ScreenSpinner';
 import { useTransition } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { verifyOTPSchema } from '@/schema';
 import { Spinner } from '../ui/spinner';
 const OTPVerificationForm = ({ callbackUrl }: { callbackUrl: string }) => {
+  const email = useSearchParams().get('email') || '';
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -24,8 +25,10 @@ const OTPVerificationForm = ({ callbackUrl }: { callbackUrl: string }) => {
     },
   });
 
+  console.log(email);
+
   const onSubmit = async (data: VerifyOTPFormData) => {
-    const res = await verifyEmail(data.code);
+    const res = await verifyEmail(data.code, email);
 
     if (!res.success) {
       toast.error(res.message);
@@ -37,7 +40,7 @@ const OTPVerificationForm = ({ callbackUrl }: { callbackUrl: string }) => {
 
   const handleResend = async () => {
     startTransition(async () => {
-      const res = await sendEmailVerificationOTP();
+      const res = await sendEmailVerificationOTP(email);
 
       if (!res.success) {
         toast.error(res.message);
@@ -61,7 +64,7 @@ const OTPVerificationForm = ({ callbackUrl }: { callbackUrl: string }) => {
           render={({ field, fieldState }) => (
             <Field className='gap-4' data-invalid={fieldState.invalid}>
               <InputOTP id='recoveryCode' maxLength={6} {...field}>
-                <InputOTPGroup className='w-full justify-center gap-4 *:data-[slot=input-otp-slot]:rounded-md *:data-[slot=input-otp-slot]:border'>
+                <InputOTPGroup className='w-full justify-center gap-4 *:data-[slot=input-otp-slot]:rounded-md *:data-[slot=input-otp-slot]:border '>
                   <InputOTPSlot aria-invalid={fieldState.invalid} index={0} />
                   <InputOTPSlot aria-invalid={fieldState.invalid} index={1} />
                   <InputOTPSlot aria-invalid={fieldState.invalid} index={2} />

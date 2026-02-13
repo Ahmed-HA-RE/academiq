@@ -36,14 +36,18 @@ const CompleteLessonBtn = ({
       if (!isCompleted) {
         const res = await markLessonAsComplete(lessonId);
 
-        if (!res.success) {
+        if (!res.success || !res.progress) {
           toast.error(res.message);
           return;
         }
 
         toast.success(res.message);
 
-        if (nextLesson) {
+        if (Number(res.progress) === 100) {
+          setShowConfetti(true);
+          router.refresh();
+          return;
+        } else if (nextLesson) {
           router.push(
             `/my-courses/${courseId}/${nextLesson.sectionId}/${nextLesson.id}`,
           );
@@ -52,7 +56,6 @@ const CompleteLessonBtn = ({
             `/my-courses/${courseId}/${nextSection.id}/${nextSection.lessons[0].id}`,
           );
         } else {
-          setShowConfetti(true);
           router.refresh();
         }
       } else {
