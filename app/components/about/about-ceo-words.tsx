@@ -7,13 +7,13 @@ import { APP_NAME } from '@/lib/constants';
 
 const AboutCEOWords = () => {
   return (
-    <div className='absolute -bottom-70 md:-bottom-62 lg:-bottom-47 left-1/2 -translate-x-1/2 w-full max-w-sm z-10 max-sm:px-4'>
-      <Card className='shadow-xl relative rounded-xs gap-8'>
-        <div className='absolute -top-10 left-2 '>
-          <ImQuotesLeft className='size-20 text-lime-400 dark:text-lime-500' />
+    <div className='absolute -bottom-60 md:-bottom-55 lg:-bottom-50 left-1/2 -translate-x-1/2 w-full max-w-sm z-10 max-sm:px-4'>
+      <Card className='shadow-xl relative rounded-sm border-0 gap-8'>
+        <div className='absolute -top-10 left-2'>
+          <ImQuotesLeft className='size-20 text-primary dark:text-lime-500' />
         </div>
         <CardContent className='mt-8 px-4'>
-          <h4 className='text-slate-700 dark:text-white font-light text-xl'>
+          <h4 className='text-secondary-foreground dark:text-white font-light text-xl'>
             I founded Academiq to make learning accessible and meaningful,
             connecting instructors and learners worldwide to share knowledge and
             grow skills.
@@ -34,10 +34,10 @@ const AboutCEOWords = () => {
             </Avatar>
           </div>
           <div className='flex flex-1 flex-col items-start'>
-            <span className='text-slate-700 dark:text-white text-sm font-semibold'>
+            <span className='text-secondary-foreground dark:text-white text-sm font-semibold'>
               Alex Johnson
             </span>
-            <span className='text-muted-foreground text-xs'>
+            <span className='text-secondary-foreground text-xs'>
               Founder of {APP_NAME}
             </span>
           </div>

@@ -35,7 +35,7 @@ const SuccessPage = async ({
         <h1 className='text-3xl sm:text-4xl md:text-5xl font-bold text-center'>
           Thank you for your purchase!
         </h1>
-        <p className='text-center text-lg sm:text-xl md:text-2xl text-muted-foreground  md:mb-7'>
+        <p className='text-center text-lg sm:text-xl md:text-2xl text-secondary-foreground  md:mb-7'>
           You should receive an order confirmation email shortly.
         </p>
         <Button size={'lg'} className='text-base cursor-pointer h-11' asChild>

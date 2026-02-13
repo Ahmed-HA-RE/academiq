@@ -129,7 +129,7 @@ const AccountDetailsForm = ({
               <Button
                 disabled={form.formState.isSubmitting}
                 type='submit'
-                className='rounded-full text-base self-end cursor-pointer'
+                className='rounded-full text-base self-end cursor-pointer bg-foreground hover:bg-0'
               >
                 {form.formState.isSubmitting ? 'Saving...' : 'Save'}
               </Button>

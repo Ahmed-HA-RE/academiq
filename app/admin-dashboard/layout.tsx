@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { FaInstagram } from 'react-icons/fa6';
 import { APP_NAME } from '@/lib/constants';
-import Theme from '../components/Theme';
 import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import { getAllAdmins } from '@/lib/actions/admin/list-user';
 import { notFound } from 'next/navigation';
@@ -51,7 +50,6 @@ after:bg-gradient-to-l after:from-[#434343] after:opacity-30 after:backdrop-blur
         <div className='z-1 mx-auto flex size-full max-w-[1440px] flex-1 flex-col px-4 py-6 sm:px-6'>
           <header className='bg-card mb-6 flex items-center justify-between rounded-xl px-6 py-3.5'>
             <SidebarTrigger className='[&_svg]:!size-5 cursor-pointer' />
-            <Theme />
           </header>
           <main className='mb-6 size-full flex-1 '>
             <Card className='h-auto shadow-none'>
@@ -63,18 +61,15 @@ after:bg-gradient-to-l after:from-[#434343] after:opacity-30 after:backdrop-blur
 
           {/* Footer */}
           <footer className='bg-card  flex items-center justify-between gap-3 border-t px-4 py-4 max-md:flex-col sm:px-6 md:gap-6 md:py-3'>
-            <p className='text-muted-foreground text-center text-sm text-balance'>
-              {`©${new Date().getFullYear()}`}{' '}
-              <Link href='/' className='text-primary'>
-                {APP_NAME}
-              </Link>
+            <p className='text-secondary-foreground text-center text-sm text-balance'>
+              {`©${new Date().getFullYear()}`} <Link href='/'>{APP_NAME}</Link>
             </p>
-            <div className='flex items-center gap-5 text-sm whitespace-nowrap'>
+            <div className='flex items-center gap-5 text-sm whitespace-nowrap text-secondary-foreground'>
               <Link href='#'>Privacy Policy</Link>
               <Link href='/about'>About</Link>
               <Link href='/contact-us'>Contact Us</Link>
             </div>
-            <div className='text-muted-foreground flex items-center gap-3'>
+            <div className='text-secondary-foreground flex items-center gap-3'>
               <a
                 target='_blank'
                 href='https://www.instagram.com'

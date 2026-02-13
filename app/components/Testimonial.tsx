@@ -46,7 +46,7 @@ const Testimonial = () => {
     };
   }, [api]);
   return (
-    <section className='bg-gray-50 dark:bg-accent py-4 section-spacing border-y'>
+    <section className='bg-white py-4 section-spacing border-b'>
       <div className='container space-y-10 md:space-y-16 lg:space-y-24 lg:px-8'>
         {/* Left Content */}
         <div className='space-y-4 text-center'>
@@ -63,7 +63,7 @@ const Testimonial = () => {
 
           <MotionPreset
             component='h2'
-            className='text-2xl font-semibold sm:text-3xl lg:text-4xl'
+            className='text-3xl font-semibold lg:text-4xl'
             fade
             blur
             delay={0.2}
@@ -75,7 +75,7 @@ const Testimonial = () => {
 
           <MotionPreset
             component='p'
-            className='text-muted-foreground text-xl'
+            className='text-secondary-foreground text-lg'
             fade
             blur
             delay={0.4}
@@ -114,7 +114,7 @@ const Testimonial = () => {
                             <h4 className='font-semibold'>
                               {testimonial.name}
                             </h4>
-                            <p className='text-muted-foreground text-sm'>
+                            <p className='text-secondary-foreground text-sm'>
                               {testimonial.role} at{' '}
                               <span className='text-card-foreground font-semibold'>
                                 {testimonial.company}

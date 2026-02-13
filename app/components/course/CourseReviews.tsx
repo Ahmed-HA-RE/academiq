@@ -98,7 +98,7 @@ const ReviewDialog = ({
       <DialogTrigger asChild>
         <Button
           type='button'
-          className='w-full rounded-lg cursor-pointer bg-blue-500 hover:bg-blue-600 dark:bg-amber-500 dark:hover:bg-amber-600 text-white'
+          className='w-full rounded-lg cursor-pointer bg-primary hover:bg-primary/80 text-primary-foreground'
           disabled={!user.emailVerified}
         >
           {review ? 'Edit Your Review' : 'Write a Review'}
@@ -173,7 +173,7 @@ const ReviewDialog = ({
                       id={field.name}
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      className='dark:data-[state=checked]:bg-amber-500 data-[state=checked]:bg-blue-500 data-[state=checked]:text-white size-4'
+                      className='data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground size-4'
                       aria-invalid={fieldState.invalid}
                     />
                     <FieldLabel className='text-sm' htmlFor={field.name}>
@@ -255,7 +255,7 @@ const CourseReviews = ({
             <h2 className='text-3xl font-semibold'>Average Rating</h2>
             <Card className='w-full shadow-none'>
               <CardHeader>
-                <CardTitle className='flex reviews-center gap-3 text-3xl font-semibold'>
+                <CardTitle className='flex items-center gap-3 text-3xl font-semibold'>
                   {avgReviewRating.toString()}
                   <span>
                     <Rating
@@ -287,7 +287,7 @@ const CourseReviews = ({
                 ) : (
                   <Button
                     type='button'
-                    className='w-full rounded-lg cursor-pointer bg-blue-500 hover:bg-blue-600 dark:bg-amber-500 dark:hover:bg-amber-500/80 text-white'
+                    className='w-full rounded-lg cursor-pointer bg-primary hover:bg-primary/80 text-primary-foreground'
                     asChild
                   >
                     <Link

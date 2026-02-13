@@ -119,11 +119,10 @@ const CourseCardBtn = ({ course, user, subscription }: CourseCardBtnProps) => {
       disabled={isPending}
     >
       {isPending ? <Spinner className='size-6' /> : 'Add to Library'}
-      Add to Library
     </Button>
   ) : (
     <Button
-      className={`w-full cursor-pointer ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'} bg-lime-500 hover:bg-lime-600 text-white ${
+      className={`w-full cursor-pointer ${!isCourseDetailsPage ? 'text-sm' : 'text-xs'} bg-primary hover:bg-primary-hover text-white ${
         !isCourseDetailsPage && 'text-sm'
       }`}
       size={!isCourseDetailsPage ? 'default' : 'lg'}

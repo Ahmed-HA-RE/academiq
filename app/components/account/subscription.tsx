@@ -62,7 +62,7 @@ const Subscription = ({
               </p>
             </div>
             <Button
-              className='group bg-lime-500 hover:bg-lime-600 dark:bg-lime-600 dark:hover:bg-lime-700 text-white mt-4'
+              className='group bg-primary hover:bg-primary-hover dark:bg-lime-600 dark:hover:bg-lime-700 text-white mt-4'
               asChild
             >
               <Link href='/pricing'>
@@ -98,7 +98,7 @@ const Subscription = ({
                 You have full access to all premium features
               </CardDescription>
             </div>
-            <Badge className='bg-lime-500 hover:bg-lime-600 dark:bg-lime-600 dark:hover:bg-lime-700 text-white'>
+            <Badge className='bg-primary hover:bg-primary-hover dark:bg-lime-600 dark:hover:bg-lime-700 text-white'>
               Active
             </Badge>
           </div>
@@ -128,7 +128,7 @@ const Subscription = ({
           </div>
 
           <Button
-            className='w-full bg-lime-500 hover:bg-lime-600 dark:bg-lime-600 dark:hover:bg-lime-700 text-white cursor-pointer'
+            className='w-full bg-primary hover:bg-primary-hover dark:bg-lime-600 dark:hover:bg-lime-700 text-white cursor-pointer'
             disabled={isPending}
             onClick={handleBillingPortal}
           >

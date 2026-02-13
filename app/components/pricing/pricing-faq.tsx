@@ -32,7 +32,7 @@ const PricingFaq = () => {
             delay={0.4}
             transition={{ duration: 0.7 }}
           >
-            <p className='text-muted-foreground text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto'>
+            <p className='text-secondary-foreground text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto'>
               Have questions about our pricing plans? Find answers to common
               queries below.
             </p>
@@ -62,18 +62,18 @@ const PricingFaq = () => {
                 >
                   <AccordionItem
                     value={`item-${index}`}
-                    className='bg-muted/50 group hover:bg-muted border border-transparent hover:border-lime-500/20 rounded-lg transition-all duration-300'
+                    className='bg-muted rounded-lg transition-all duration-300'
                   >
                     <AccordionPrimitive.Header className='flex'>
                       <AccordionPrimitive.Trigger
                         data-slot='accordion-trigger'
-                        className='focus-visible:border-ring focus-visible:ring-ring/50 [&[data-state=open]>svg]:text-white [&[data-state=open]>svg]:bg-lime-500 dark:[&[data-state=open]>svg]:bg-lime-600 flex flex-1 items-center justify-between gap-4 rounded-lg px-6 py-5 text-left text-base md:text-lg font-semibold transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180 cursor-pointer'
+                        className='focus-visible:border-ring focus-visible:ring-ring/50 [&[data-state=open]>svg]:text-white [&[data-state=open]>svg]:bg-primary flex flex-1 items-center justify-between gap-4 rounded-lg px-6 py-5 text-left text-base md:text-lg font-semibold transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180 cursor-pointer text-secondary-foreground'
                       >
                         {item.question}
-                        <ArrowDownIcon className='text-foreground/60 bg-muted group-hover:bg-lime-500/10 group-hover:text-lime-600 dark:group-hover:text-lime-500 pointer-events-none size-8 shrink-0 rounded-lg p-1.5 transition-all duration-300' />
+                        <ArrowDownIcon className='text-foreground bg-muted group-hover:bg-lime-500/10  pointer-events-none size-8 shrink-0 rounded-lg p-1.5 transition-all duration-300' />
                       </AccordionPrimitive.Trigger>
                     </AccordionPrimitive.Header>
-                    <AccordionContent className='text-muted-foreground px-6 pb-5 text-base md:text-base leading-relaxed'>
+                    <AccordionContent className='text-secondary-foreground px-6 pb-5 text-base md:text-base leading-relaxed'>
                       {item.answer}
                     </AccordionContent>
                   </AccordionItem>
@@ -88,13 +88,13 @@ const PricingFaq = () => {
             delay={0.5}
             transition={{ duration: 0.7 }}
           >
-            <Card className='border-lime-500/20 bg-gradient-to-br from-lime-500/5 to-lime-600/10 dark:from-lime-600/10 dark:to-lime-500/5'>
+            <Card className='border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10'>
               <CardContent className='space-y-6'>
                 <div className='space-y-4'>
                   <h3 className='text-2xl font-bold md:text-3xl'>
                     Still have questions?
                   </h3>
-                  <p className='text-muted-foreground leading-relaxed text-base md:text-lg'>
+                  <p className='text-secondary-foreground leading-relaxed text-base md:text-lg'>
                     We&apos;re here to help you out whenever you need! Get in
                     touch with our dedicated support team for personalized
                     assistance anytime.
@@ -103,7 +103,7 @@ const PricingFaq = () => {
                   <Button
                     size='lg'
                     asChild
-                    className='group has-[>svg]:px-6 bg-lime-500 hover:bg-lime-600 dark:bg-lime-600 dark:hover:bg-lime-700 mt-2'
+                    className='group has-[>svg]:px-6 bg-primary hover:bg-primary/80 mt-2'
                   >
                     <Link href='/contact'>
                       Contact us

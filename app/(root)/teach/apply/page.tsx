@@ -22,7 +22,7 @@ const ApplyPage = async () => {
   }
 
   return (
-    <section className='section-spacing'>
+    <section className='pb-10 sm:pb-16 lg:pb-20 pt-32 sm:pt-36 lg:pt-40'>
       <div className='container'>
         {/* Header Section */}
         <div className='text-center mb-8 md:mb-12'>

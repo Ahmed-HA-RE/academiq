@@ -85,7 +85,7 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
         />
 
         <Button
-          className='cursor-pointer bg-lime-500 hover:bg-lime-600 text-white'
+          className='cursor-pointer bg-primary hover:bg-primary-hover text-white'
           disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting ? (

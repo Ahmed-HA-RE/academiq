@@ -10,7 +10,7 @@ import PurchaseHistoryCard from '../components/account/purchase-history-card';
 import { getAllUserOrders } from '@/lib/actions/user/get-all-user-orders';
 import { Alert, AlertTitle } from '../components/ui/alert';
 import { CircleAlertIcon } from 'lucide-react';
-import Subscription from '../components/shared/subscription';
+import Subscription from '../components/account/subscription';
 import { listUserSubscription } from '@/lib/actions/subscription/list-user-subscription';
 
 export const metadata: Metadata = {
@@ -38,21 +38,21 @@ const AccountPage = async ({
           Account Information
         </h1>
         <Tabs className='items-start' defaultValue={callbackUrl}>
-          <TabsList className='h-auto rounded-none bg-transparent p-0 '>
+          <TabsList className='h-auto rounded-none bg-transparent p-0'>
             <TabsTrigger
-              className='relative rounded-none py-2 px-0 after:absolute after:inset-x-0 after:bottom-0  after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary dark:data-[state=active]:bg-0 text-base'
+              className='relative rounded-none py-2 px-0 after:absolute after:inset-x-0 after:bottom-0  after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary dark:data-[state=active]:bg-0 text-base text-primary'
               value='account-details'
             >
               Account Details
             </TabsTrigger>
             <TabsTrigger
-              className='relative rounded-none py-2 px-0 mx-3 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary dark:data-[state=active]:bg-0 text-base'
+              className='relative rounded-none py-2 px-0 mx-3 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary dark:data-[state=active]:bg-0 text-base text-primary'
               value='purchase-history'
             >
               Purchase History
             </TabsTrigger>
             <TabsTrigger
-              className='relative rounded-none py-2 mr-3 px-0 after:absolute after:inset-x-0 after:bottom-0  after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary dark:data-[state=active]:bg-0 text-base'
+              className='relative rounded-none py-2 mr-3 px-0 after:absolute after:inset-x-0 after:bottom-0  after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary dark:data-[state=active]:bg-0 text-base text-primary'
               value='subscription'
             >
               Subscription
@@ -65,7 +65,7 @@ const AccountPage = async ({
             <div className='flex flex-col lg:flex-row items-start gap-5'>
               <div className='space-y-3 lg:flex-1/4'>
                 <h3 className='text-xl font-semibold'>Your Purchase History</h3>
-                <p className='text-muted-foreground text-sm lg:max-w-md'>
+                <p className='text-secondary-foreground text-sm lg:max-w-md'>
                   Review your past orders and download invoices for your
                   records.
                 </p>

@@ -16,14 +16,14 @@ import Link from 'next/link';
 
 const TeachFaq = () => {
   return (
-    <section className='bg-muted section-spacing'>
+    <section className='section-spacing'>
       <div className='container'>
         {/* Header */}
         <div className='mb-12 text-center sm:mb-16 lg:mb-24'>
           <h1 className='mb-4 text-2xl font-semibold md:text-3xl lg:text-4xl'>
             Commonly Asked Questions
           </h1>
-          <p className='text-muted-foreground text-xl'>
+          <p className='text-secondary-foreground text-xl'>
             Answers to common questions about becoming an instructor and
             completing the application process.
           </p>
@@ -56,10 +56,10 @@ const TeachFaq = () => {
                     value={`item-${index + 1}`}
                     className='bg-card rounded-md border-b-0 shadow-md data-[state=open]:shadow-lg'
                   >
-                    <AccordionTrigger className='px-5 text-base [&>svg]:rotate-90 [&[data-state=open]>svg]:rotate-0'>
+                    <AccordionTrigger className='px-5 text-base [&>svg]:rotate-90 [&[data-state=open]>svg]:rotate-0 cursor-pointer'>
                       {item.question}
                     </AccordionTrigger>
-                    <AccordionContent className='text-muted-foreground px-5 text-base'>
+                    <AccordionContent className='text-secondary-foreground px-5 text-base'>
                       {item.answer}
                     </AccordionContent>
                   </AccordionItem>
@@ -71,7 +71,7 @@ const TeachFaq = () => {
 
         {/* Support Link */}
         <div className='mt-12 text-center sm:mt-16 lg:mt-24'>
-          <p className='text-muted-foreground'>
+          <p className='text-secondary-foreground'>
             Didn&apos;t find the answer you are looking for?{' '}
             <Link
               href='/contact'

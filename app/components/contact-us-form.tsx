@@ -139,7 +139,7 @@ const ContactUsForm = ({ user }: { user: User | undefined }) => {
               )}
             />
             <Button
-              className='bg-lime-500 hover:bg-lime-600 dark:bg-lime-600 hover:dark:bg-lime-700 text-white rounded-full text-lg cursor-pointer h-12'
+              className='bg-primary hover:bg-primary-hover text-white rounded-full text-lg cursor-pointer h-12'
               size={'lg'}
               type='submit'
               disabled={form.formState.isSubmitting}

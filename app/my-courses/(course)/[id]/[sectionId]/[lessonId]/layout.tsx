@@ -1,7 +1,6 @@
 import MyCourseSideBarLessons from '@/app/components/my-courses/MyCourseSideBarLessons';
 import CourseUserProgress from '@/app/components/shared/CourseUserProgress';
 import ProfileDropdown from '@/app/components/shared/ProfileDropdown';
-import Theme from '@/app/components/Theme';
 import {
   Accordion,
   AccordionContent,
@@ -131,7 +130,7 @@ const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
         >
           <Sidebar className='flex-1/2'>
             <SidebarHeader className='gap-4 border-b py-4 px-1 sm:p-4'>
-              {/* Back to libray + Theme */}
+              {/* Back to libray  */}
               <div className='flex items-center justify-between w-full'>
                 <Button
                   className='cursor-pointer text-sm'
@@ -144,7 +143,6 @@ const CourseLayout = async ({ children, params }: CourseLayoutProps) => {
                     Courses Library
                   </Link>
                 </Button>
-                <Theme />
               </div>
               {/* Course title */}
               <h3 className='text-xl font-bold px-3 text-left'>

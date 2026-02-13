@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { MotionPreset } from '../ui/motion-preset';
 import { NumberTicker } from '../ui/number-ticker';
-import AboutOurStoryModal from './our-story-modal';
 
 const stats = [
   {
@@ -25,7 +24,7 @@ const AboutOurStory = () => {
         <div className='grid grid-cols-1 gap-9 lg:grid-cols-2'>
           <div className='flex flex-col gap-9'>
             <div className='flex items-center gap-6 overflow-hidden'>
-              <div className='to-lime-500 h-40 sm:h-44 md:h-48 lg:h-52 w-4 bg-gradient-to-t from-transparent' />
+              <div className='to-primary h-40 sm:h-44 md:h-48 lg:h-52 w-4 bg-gradient-to-t from-transparent' />
               <MotionPreset
                 slide={{ direction: 'left' }}
                 fade
@@ -36,12 +35,12 @@ const AboutOurStory = () => {
                   <h2 className='text-3xl font-semibold md:text-4xl lg:text-5xl'>
                     Our story
                   </h2>
-                  <p className='text-muted-foreground text-xl font-semibold md:text-2xl lg:text-3xl mt-4'>
+                  <p className='text-secondary-foreground text-xl font-semibold md:text-2xl lg:text-3xl mt-4'>
                     At Academiq, we empower educators and learners worldwide to
                     connect, create, and grow. Share your knowledge, design
                     interactive courses, and inspire a global community of
                     learners.
-                    <span className='text-lime-500 inline-block mt-2'>
+                    <span className='text-primary inline-block mt-2'>
                       Teach. Learn. Thrive.
                     </span>
                   </p>
@@ -116,7 +115,7 @@ const AboutOurStory = () => {
                 delay={0.8}
                 transition={{ duration: 0.5 }}
               >
-                <p className='text-muted-foreground text-lg md:text-xl lg:text-2xl mt-4'>
+                <p className='text-secondary-foreground text-lg md:text-xl lg:text-2xl mt-4'>
                   Our story is a testament to the power of learning and
                   collaboration. Together with passionate educators and
                   motivated learners, we have built a platform that inspires
@@ -148,26 +147,12 @@ const AboutOurStory = () => {
                         />
                         +
                       </h3>
-                      <p className='text-muted-foreground text-center'>
+                      <p className='text-secondary-foreground text-center'>
                         {stat.value}
                       </p>
                     </div>
                   ))}
                 </div>
-              </MotionPreset>
-
-              <MotionPreset
-                fade
-                blur
-                slide={{ direction: 'up' }}
-                delay={1}
-                transition={{ duration: 0.6 }}
-                className='flex items-center gap-3'
-              >
-                <AboutOurStoryModal />
-                <span className='text-lg font-medium uppercase'>
-                  Watch Intro
-                </span>
               </MotionPreset>
             </div>
           </div>

@@ -42,7 +42,7 @@ const CourseDetails = async ({
             {COURSE_TABS_TRIGGER.map((tab) => (
               <TabsTrigger
                 key={tab.value}
-                className='after:-mb-1 relative after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 hover:bg-accent hover:text-foreground data-[state=active]:!bg-transparent data-[state=active]:shadow-none data-[state=active]:hover:bg-accent data-[state=active]:text-blue-500 data-[state=active]:after:bg-blue-500 data-[state=active]:dark:text-amber-500 data-[state=active]:dark:after:bg-amber-500 cursor-pointer text-muted-foreground text-lg font-normal border-0'
+                className='after:-mb-1 relative after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 hover:bg-accent hover:text-foreground data-[state=active]:!bg-transparent data-[state=active]:shadow-none data-[state=active]:hover:bg-accent data-[state=active]:text-primary data-[state=active]:after:bg-primary cursor-pointer text-muted-foreground text-lg font-normal border-0'
                 value={tab.value}
               >
                 {tab.label}
@@ -66,17 +66,15 @@ const CourseDetails = async ({
                 {course.sections.map((section, index) => (
                   <AccordionItem
                     value={section.id}
-                    className='bg-white dark:bg-muted rounded-xl border border-gray-200 last:border-b dark:border-muted overflow-hidden'
+                    className='bg-card rounded-xl border last:border-b overflow-hidden'
                     key={section.id}
                   >
-                    <AccordionTrigger className='cursor-pointer px-6 py-4 text-base font-semibold hover:no-underline hover:bg-transparent transition-colors [&>svg]:size-5 [&>svg]:text-blue-500 dark:[&>svg]:text-amber-500'>
+                    <AccordionTrigger className='cursor-pointer px-6 py-4 text-base font-semibold hover:no-underline hover:bg-transparent transition-colors [&>svg]:size-5 [&>svg]:text-primary'>
                       <div className='flex items-center gap-3'>
-                        <div className='flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 dark:bg-amber-500 text-blue-600 dark:text-white text-sm font-bold'>
+                        <div className='flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary text-sm font-bold'>
                           {index + 1}
                         </div>
-                        <span className='text-gray-900 dark:text-white'>
-                          {section.title}
-                        </span>
+                        <span className='text-foreground'>{section.title}</span>
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className='px-6'>
@@ -84,14 +82,14 @@ const CourseDetails = async ({
                         {section.lessons.map((lesson, lessonIndex) => (
                           <div
                             key={lesson.id}
-                            className='flex items-center justify-between py-3 px-4 rounded-lg bg-gray-100 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-800 transition-all duration-200 group'
+                            className='flex items-center justify-between py-3 px-4 rounded-lg bg-muted border transition-all duration-200 group'
                           >
                             <div className='flex items-center gap-3 flex-1 min-w-0'>
-                              <span className='font-medium text-base text-gray-700 dark:text-gray-300 truncate'>
+                              <span className='font-medium text-base text-foreground truncate'>
                                 {lessonIndex + 1}. {lesson.title}
                               </span>
                             </div>
-                            <div className='flex items-center gap-1.5 text-gray-500 dark:text-gray-400  ml-4 flex-shrink-0'>
+                            <div className='flex items-center gap-1.5 text-muted-foreground ml-4 flex-shrink-0'>
                               <Clock className='size-5' />
                               <span className='font-medium text-base'>
                                 {formatDuration(lesson.duration)}

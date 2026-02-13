@@ -1,4 +1,4 @@
-import Subscription from '@/app/components/shared/subscription';
+import Subscription from '@/app/components/account/subscription';
 import { listUserSubscription } from '@/lib/actions/subscription/list-user-subscription';
 import { Metadata } from 'next';
 

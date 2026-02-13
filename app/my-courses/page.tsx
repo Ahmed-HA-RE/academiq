@@ -31,7 +31,7 @@ const MyCoursesPage = async ({
             <div className='flex items-center justify-between'>
               <div>
                 <h1 className='text-2xl font-semibold mb-2.5'>My Courses</h1>
-                <p className='text-sm text-muted-foreground'>
+                <p className='text-sm text-secondary-foreground'>
                   All the courses you are currently enrolled in.
                 </p>
               </div>

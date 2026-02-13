@@ -81,7 +81,7 @@ const OTPVerificationForm = ({ callbackUrl }: { callbackUrl: string }) => {
         />
 
         <Button
-          className='w-full bg-lime-500 hover:bg-lime-600 text-white cursor-pointer'
+          className='w-full bg-primary hover:bg-primary-hover text-primary-foreground cursor-pointer'
           type='submit'
           disabled={form.formState.isSubmitting}
         >
@@ -95,7 +95,7 @@ const OTPVerificationForm = ({ callbackUrl }: { callbackUrl: string }) => {
           Didn&apos;t receive the code?{' '}
           <Button
             onClick={handleResend}
-            className='p-0 text-sm text-black cursor-pointer'
+            className='p-0 text-sm text-primary cursor-pointer'
             variant='link'
             type='button'
           >

@@ -1,7 +1,6 @@
 import ProfileDropdown from '@/app/components/shared/ProfileDropdown';
 import Link from 'next/link';
 import Image from 'next/image';
-import Theme from '../Theme';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { APP_NAME } from '@/lib/constants';
@@ -26,9 +25,7 @@ const Header = async () => {
         {/* Search Bar */}
         <Search />
 
-        <div className='flex items-center flex-1/5 md:flex-1/2 justify-end '>
-          {/* Theme */}
-          <Theme />
+        <div className='flex-1/5 md:flex-1/2 flex justify-end'>
           {/* User menu */}
           <ProfileDropdown session={session} />
         </div>

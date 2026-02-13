@@ -7,12 +7,11 @@ import { BorderBeam } from '@/app/components/ui/border-beam';
 import { MotionPreset } from '@/app/components/ui/motion-preset';
 import Image from 'next/image';
 import { Course, Section, User } from '@/types';
-import EnrollCourseBtn from '../shared/CourseCardBtn';
+import EnrollCourseBtn from '../shared/course-card-btn';
 import { FaShieldAlt } from 'react-icons/fa';
 import { format } from 'date-fns';
 import InstructorInfoDialog from './InstructorInfoDialog';
 import { formatDuration } from '@/lib/utils';
-import { useState } from 'react';
 
 type CourseTopSectionProps = {
   course: Course & { sections: Section[]; _count: { users: number } };
@@ -20,8 +19,6 @@ type CourseTopSectionProps = {
 };
 
 const CourseTopSection = ({ course, user }: CourseTopSectionProps) => {
-  const [isPending, setIsPending] = useState(false);
-
   const courseDuration = course.sections
     .map((section) =>
       section.lessons
@@ -41,10 +38,10 @@ const CourseTopSection = ({ course, user }: CourseTopSectionProps) => {
   ];
 
   return (
-    <section className='flex-1 bg-blue-50 dark:bg-muted py-16 sm:py-18 lg:py-20'>
-      <div className='mx-auto max-w-[1440px] flex h-full flex-col gap-12 px-4 sm:gap-16 sm:px-6 lg:px-8'>
-        <div className='relative grid gap-8 xl:gap-24 lg:gap-16 xl:grid-cols-4'>
-          <div className='flex flex-col gap-5 xl:col-span-2'>
+    <section className='pb-10 sm:pb-16 lg:pb-20 pt-32 sm:pt-36 lg:pt-40 bg-secondary'>
+      <div className='container'>
+        <div className='relative grid gap-8 xl:gap-24 lg:gap-16 lg:grid-cols-4'>
+          <div className='flex flex-col gap-5 lg:col-span-2'>
             <MotionPreset
               fade
               zoom={{ initialScale: 0.8 }}
@@ -53,7 +50,7 @@ const CourseTopSection = ({ course, user }: CourseTopSectionProps) => {
             >
               <Badge
                 variant='outline'
-                className='bg-blue-100 dark:bg-black/50 text-blue-500 dark:text-amber-500 relative px-3 py-1.5 font-normal border-0'
+                className='bg-primary/10 dark:bg-primary/20 text-primary relative px-3 py-1.5 font-normal border-0'
               >
                 {course.category}
                 <BorderBeam
@@ -71,7 +68,7 @@ const CourseTopSection = ({ course, user }: CourseTopSectionProps) => {
               transition={{ type: 'spring', stiffness: 100, damping: 20 }}
               delay={0.2}
             >
-              <h1 className='max-w-3xl text-3xl font-bold sm:text-3xl lg:text-4xl text-blue-500 dark:text-amber-500'>
+              <h1 className='max-w-3xl text-3xl font-bold sm:text-3xl lg:text-4xl text-primary'>
                 {course.title}
               </h1>
             </MotionPreset>
@@ -82,7 +79,7 @@ const CourseTopSection = ({ course, user }: CourseTopSectionProps) => {
               transition={{ type: 'spring', stiffness: 120, damping: 20 }}
               delay={0.4}
             >
-              <p className='text-muted-foreground dark:text-white text-base'>
+              <p className='text-secondary-foreground text-base'>
                 {course.shortDesc}
               </p>
             </MotionPreset>
@@ -97,7 +94,7 @@ const CourseTopSection = ({ course, user }: CourseTopSectionProps) => {
               {courseDetails.map((detail, index) => (
                 <div
                   key={index}
-                  className='flex items-center gap-2 text-muted-foreground dark:text-white/90 '
+                  className='flex items-center gap-2 text-secondary-foreground'
                 >
                   {detail.icon}
                   <h3 className='text-sm'>{detail.label}</h3>
@@ -120,12 +117,7 @@ const CourseTopSection = ({ course, user }: CourseTopSectionProps) => {
                 delay={0.6}
                 className='w-full max-w-[250px]'
               >
-                <EnrollCourseBtn
-                  course={course}
-                  user={user}
-                  isPending={isPending}
-                  setIsPending={setIsPending}
-                />
+                <EnrollCourseBtn course={course} user={user} />
               </MotionPreset>
               <MotionPreset
                 component='div'
@@ -146,7 +138,7 @@ const CourseTopSection = ({ course, user }: CourseTopSectionProps) => {
             blur
             transition={{ duration: 0.4 }}
             delay={0.3}
-            className='xl:col-span-2 w-full mx-auto'
+            className='lg:col-span-2 w-full h-full'
           >
             <Image
               src={course.image}
@@ -155,7 +147,7 @@ const CourseTopSection = ({ course, user }: CourseTopSectionProps) => {
               height={0}
               sizes='100vw'
               loading='eager'
-              className='w-full mx-auto sm:max-w-md transition-all duration-300 hover:scale-105 rounded-md'
+              className='w-full h-full max-lg:max-w-lg max-lg:mx-auto transition-all duration-300 hover:scale-105 rounded-md'
             />
           </MotionPreset>
         </div>

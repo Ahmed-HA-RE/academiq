@@ -38,18 +38,18 @@ const PurchaseHistoryCard = async ({
       <CardHeader className='p-6 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex flex-row items-center justify-between gap-8'>
         <div className='flex flex-row items-center gap-8'>
           <div className='flex flex-col gap-2'>
-            <span className='text-slate-700 dark:text-slate-300 text-base'>
+            <span className='text-secondary-foreground text-base'>
               Purchased on
             </span>
-            <span className='text-lg text-black dark:text-white'>
+            <span className='text-lg text-primary dark:text-white'>
               {format(new Date(order.createdAt), 'MMMM d, yyyy')}
             </span>
           </div>
           <div className='flex flex-col gap-2'>
-            <span className='text-slate-700 dark:text-slate-300 text-base'>
+            <span className='text-secondary-foreground text-base'>
               Order Total
             </span>
-            <div className='flex flex-row items-center gap-1'>
+            <div className='flex flex-row items-center gap-1 text-primary'>
               <span className='dirham-symbol !text-lg'>&#xea;</span>
               <span className='text-lg'>{order.totalPrice}</span>
             </div>

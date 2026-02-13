@@ -81,13 +81,13 @@ const AdminUserDropdown = ({ user }: { user: User }) => {
                   />
                 </Suspense>
               </Avatar>
-              <div className='grid flex-1 text-left text-sm leading-tight'>
+              <div className='grid flex-1 text-left text-sm leading-tight text-secondary-foreground'>
                 <span className='truncate font-medium'>{user.name}</span>
                 <span className='truncate text-xs'>
                   {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
                 </span>
               </div>
-              <ChevronRightIcon className='ml-auto size-4 transition-transform duration-200 max-lg:rotate-270 [[data-state=open]>&]:rotate-90 lg:[[data-state=open]>&]:-rotate-180' />
+              <ChevronRightIcon className='ml-auto size-4 transition-transform duration-200 max-lg:rotate-270 [[data-state=open]>&]:rotate-90 lg:[[data-state=open]>&]:-rotate-180 text-secondary-foreground' />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -114,7 +114,7 @@ const AdminUserDropdown = ({ user }: { user: User }) => {
                     />
                   </Suspense>
                 </Avatar>
-                <div className='grid flex-1 text-left text-sm leading-tight'>
+                <div className='grid flex-1 text-left text-sm leading-tight text-secondary-foreground'>
                   <span className='truncate font-medium'>{user.name}</span>
                   <span className='truncate text-xs'>
                     {user.role.charAt(0).toUpperCase() + user.role.slice(1)}

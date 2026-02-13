@@ -68,7 +68,7 @@ const PDFFileUpload = ({ onChange }: PDFFileUploadProps) => {
             aria-hidden='true'
             className='mb-2 flex size-11 shrink-0 items-center justify-center rounded-full border bg-background'
           >
-            <UploadIcon className='size-4 opacity-60' />
+            <UploadIcon className='size-4 opacity-100' />
           </div>
           <p className='mb-1.5 font-medium text-sm'>Upload file</p>
           <p className='text-muted-foreground text-xs'>

@@ -50,7 +50,7 @@ const ApplicationStatusPage = async () => {
                 ? 'border-amber-400 text-amber-400'
                 : application.status === 'approved'
                   ? 'border-green-600 text-green-600'
-                  : 'border-red-600 text-red-600'
+                  : 'border-red-600 text-red-600',
             )}
           >
             {application.status === 'pending' ||
@@ -73,7 +73,7 @@ const ApplicationStatusPage = async () => {
                 ? 'Congratulations! Your application has been approved.'
                 : 'We regret to inform you that your application has been rejected.'}
           </CardTitle>
-          <CardDescription className='text-center text-muted-foreground text-sm md:text-base'>
+          <CardDescription className='text-center text-secondary-foreground text-sm md:text-base'>
             {application.status === 'pending'
               ? "Your application has been successfully submitted and is currently being reviewed by our team. This process may take a few days. We'll notify you once there's an update."
               : application.status === 'approved'

@@ -55,7 +55,7 @@ const rightSection = [
 
 const Features = () => {
   return (
-    <section className='section-spacing'>
+    <section className='section-spacing bg-secondary'>
       <div className='flex flex-col gap-16 container'>
         {/* Top content */}
         <div className='space-y-4 text-center'>
@@ -79,7 +79,7 @@ const Features = () => {
           </MotionPreset>
           <MotionPreset
             component='p'
-            className='text-muted-foreground text-xl'
+            className='text-secondary-foreground text-xl'
             fade
             slide={{ direction: 'up', offset: 50 }}
             blur
@@ -93,7 +93,7 @@ const Features = () => {
         {/* Content */}
         <div className='grid grid-cols-1 items-center gap-16 max-md:gap-9 md:grid-cols-2 lg:grid-cols-3'>
           <div className='max-md:rotatat w-full space-y-9 max-lg:order-2 max-lg:mx-auto max-lg:max-w-100'>
-            {leftSection.map((items, index) => {
+            {leftSection.map((items) => {
               const IconComponent = items.icon;
 
               return (
@@ -104,7 +104,6 @@ const Features = () => {
                   fade
                   slide={{ direction: 'down' }}
                   blur
-                  delay={0.4 * index}
                   transition={{ duration: 0.5 }}
                 >
                   <div className='border-primary/60 dark:border-primary bg-primary/2 flex size-16 shrink-0 items-center justify-center rounded-md border lg:hidden'>
@@ -114,7 +113,7 @@ const Features = () => {
                     <h4 className='text-lg font-semibold text-nowrap'>
                       {items.title}
                     </h4>
-                    <p className='text-muted-foreground text-sm'>
+                    <p className='text-secondary-foreground text-sm'>
                       {items.description}
                     </p>
                   </div>
@@ -144,11 +143,8 @@ const Features = () => {
             />
           </MotionPreset>
           <div className='w-full space-y-9 max-lg:order-3 max-lg:mx-auto max-lg:max-w-100'>
-            {rightSection.map((items, index) => {
+            {rightSection.map((items) => {
               const IconComponent = items.icon;
-              const leftSectionDelay =
-                0.4 * (leftSection.length - 1) + 1.5 + 0.5;
-
               return (
                 <MotionPreset
                   component='div'
@@ -157,7 +153,6 @@ const Features = () => {
                   fade
                   slide={{ direction: 'down', offset: 50 }}
                   blur
-                  delay={leftSectionDelay + 0.4 * index}
                   transition={{ duration: 0.5 }}
                 >
                   <div className='border-primary/60 dark:border-primary bg-primary/2 flex size-16 shrink-0 items-center justify-center rounded-md border'>
@@ -165,7 +160,7 @@ const Features = () => {
                   </div>
                   <div className='space-y-2'>
                     <h4 className='text-lg font-semibold'>{items.title}</h4>
-                    <p className='text-muted-foreground text-sm'>
+                    <p className='text-secondary-foreground text-sm'>
                       {items.description}
                     </p>
                   </div>

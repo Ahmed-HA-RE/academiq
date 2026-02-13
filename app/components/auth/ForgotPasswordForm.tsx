@@ -56,11 +56,12 @@ const ForgotPasswordForm = () => {
               )}
             </Field>
           )}
-        />
+        />{' '}
         <Button
-          className='cursor-pointer bg-lime-500 hover:bg-lime-600 text-white'
+          className='cursor-pointer bg-primary text-primary-foreground hover:bg-primary-hover'
           disabled={form.formState.isSubmitting}
         >
+          {' '}
           {form.formState.isSubmitting ? (
             <Spinner className='size-6' />
           ) : (

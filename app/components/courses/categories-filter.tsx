@@ -12,7 +12,7 @@ const CategoriesFilter = () => {
 
   return (
     <Tabs className='w-full mb-8' defaultValue='all'>
-      <TabsList className='w-full h-auto border-b-2 border-[#BACAC7] rounded-none bg-transparent p-0 flex gap-4'>
+      <TabsList className='w-full h-auto sm:border-b-2 border-[#BACAC7] rounded-none bg-transparent p-0 flex gap-4'>
         {TEACHING_CATEGORIES.map((category) => (
           <TabsTrigger
             key={category}

@@ -10,15 +10,14 @@ const AboutOurTeam = () => {
         <div className='mb-8 text-center sm:mb-12 lg:mb-18'>
           <MotionPreset
             component='h2'
-            className='text-2xl font-normal md:text-3xl lg:text-4xl'
+            className='text-2xl font-normal md:text-3xl lg:text-4xl text-black'
             fade
             slide={{ direction: 'up', offset: 20 }}
             blur
             transition={{ duration: 0.5 }}
             delay={0.3}
           >
-            Meet Our{' '}
-            <span className='text-lime-500 dark:text-lime-600'>Leadership</span>
+            Meet Our <span className='text-primary'>Leadership</span>
           </MotionPreset>
         </div>
 
@@ -34,7 +33,7 @@ const AboutOurTeam = () => {
               delay={0.6 + 0.15 * index}
               className='h-full'
             >
-              <Card className='group hover:border-lime-500 h-full overflow-hidden rounded-sm border-2 py-0 shadow-none transition-colors duration-300'>
+              <Card className='group hover:border-primary h-full overflow-hidden rounded-sm border-2 py-0 shadow-none transition-colors duration-300'>
                 <CardContent className='overflow-hidden px-0'>
                   <div className='overflow-hidden'>
                     <Image

@@ -38,7 +38,7 @@ const CTASection = async () => {
             <Button
               asChild
               size='lg'
-              className='p-6 rounded-full w-full max-w-xs text-base bg-black text-white hover:bg-0'
+              className='p-6 rounded-full w-full max-w-xs text-base bg-primary text-primary-foreground hover:bg-primary-hover'
             >
               <Link
                 href={

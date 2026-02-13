@@ -10,7 +10,7 @@ import { Button } from '../ui/button';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Suspense } from 'react';
 import DOMPurify from 'isomorphic-dompurify';
-import CourseCardBtn from './CourseCardBtn';
+import CourseCardBtn from '../shared/course-card-btn';
 
 type CourseCardProps = {
   course: Course;

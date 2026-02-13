@@ -9,11 +9,13 @@ import { Prisma } from '@/lib/generated/prisma/client';
 export const getAllCourses = async ({
   q,
   category,
+  status,
   page = 1,
   limit = 10,
 }: {
   q?: string;
   category?: string;
+  status?: string;
   page?: number;
   limit?: number;
 }) => {
@@ -39,10 +41,19 @@ export const getAllCourses = async ({
         }
       : {};
 
+  // Admin Status Filter
+  const statusFilter: Prisma.CourseWhereInput =
+    status === 'published'
+      ? { published: true }
+      : status === 'unpublished'
+        ? { published: false }
+        : {};
+
   const courses = await prisma.course.findMany({
     where: {
       ...filterQuery,
       ...categoryFilter,
+      ...statusFilter,
     },
     orderBy: { createdAt: 'desc' },
     take: limit,
@@ -69,6 +80,7 @@ export const getAllCourses = async ({
     where: {
       ...filterQuery,
       ...categoryFilter,
+      ...statusFilter,
     },
   });
 
@@ -194,4 +206,9 @@ export const getAllInstructorCourses = async ({
     ),
     totalPages,
   };
+};
+
+export const getTotalCoursesCount = async () => {
+  const count = await prisma.course.count();
+  return count;
 };

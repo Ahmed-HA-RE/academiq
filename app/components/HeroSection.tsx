@@ -7,7 +7,7 @@ const HeroSection = async () => {
   return (
     <section className='hero-section-spacing bg-secondary'>
       <div className='container'>
-        <div className='bg-foreground rounded-xl px-8 py-8 md:py-10 lg:py-14 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center'>
+        <div className='bg-card-foreground rounded-xl px-8 py-8 md:py-10 lg:py-14 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center'>
           {/* Left side */}
           <div className='flex flex-col items-start gap-4 text-white'>
             <MotionPreset
@@ -39,7 +39,7 @@ const HeroSection = async () => {
               transition={{ duration: 0.5 }}
               delay={0.5}
             >
-              <p className='text-base text-white/90 max-w-lg'>
+              <p className='text-base text-secondary max-w-lg'>
                 Grow your knowledge, master the skills that matter, and take
                 control of your learning journey.
               </p>
@@ -54,14 +54,17 @@ const HeroSection = async () => {
               className='space-x-4 mt-2'
             >
               <Link href='/courses'>
-                <BounceButton size={'default'} className=' cursor-pointer'>
+                <BounceButton
+                  size={'default'}
+                  className='bg-primary hover:bg-btn-primary-hover text-btn-primary-text cursor-pointer'
+                >
                   View Courses
                 </BounceButton>
               </Link>
               <Link href='/about'>
                 <BounceButton
                   size={'default'}
-                  className=' bg-[#1fa08a] hover:bg-0 text-white cursor-pointer'
+                  className='bg-secondary hover:bg-0 text-primary cursor-pointer'
                 >
                   Learn More
                 </BounceButton>

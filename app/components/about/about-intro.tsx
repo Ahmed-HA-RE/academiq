@@ -16,13 +16,13 @@ const aboutIntroData = {
       value: 'how-it-works',
       content: (
         <div className='space-y-4'>
-          <p className='text-muted-foreground'>
+          <p className='text-secondary-foreground'>
             Academiq is designed to make online learning structured,
             interactive, and easy to follow. Instructors create thoughtfully
             organized courses, combining lessons, resources, and practical
             exercises into a seamless learning experience.
           </p>
-          <p className='text-muted-foreground'>
+          <p className='text-secondary-foreground'>
             Learners can enroll, track their progress, and engage with content
             at their own pace, all within a single platform. From discovering
             courses to completing them with confidence, Academiq supports every
@@ -37,7 +37,7 @@ const aboutIntroData = {
       content: (
         <>
           <div className='space-y-4'>
-            <p className='text-muted-foreground'>
+            <p className='text-secondary-foreground'>
               We envision a world where anyone, anywhere can access the
               knowledge they need to achieve their goals. Quality education
               shouldn&apos;t be limited by geography, schedule, or financial
@@ -45,7 +45,7 @@ const aboutIntroData = {
               flexible, affordable learning opportunities taught by industry
               experts and passionate educators.
             </p>
-            <p className='text-muted-foreground'>
+            <p className='text-secondary-foreground'>
               Through innovative technology and a commitment to excellence, we
               aim to become the leading online learning destination, where
               millions of students transform their lives through education and
@@ -61,10 +61,10 @@ const aboutIntroData = {
       content: (
         <>
           <div className='space-y-4'>
-            <p className='text-muted-foreground'>
+            <p className='text-secondary-foreground'>
               Our core values guide everything we do:
             </p>
-            <ul className='text-muted-foreground list-decimal space-y-2 pl-6'>
+            <ul className='text-secondary-foreground list-decimal space-y-2 pl-6'>
               <li>
                 <span className='text-foreground font-semibold'>
                   Quality First:
@@ -103,14 +103,14 @@ const aboutIntroData = {
 
 const AboutIntro = () => {
   return (
-    <section className='section-spacing'>
+    <section className='section-spacing bg-secondary'>
       <div className='container'>
         {/* Header */}
         <div className='mb-12 space-y-4 text-center md:mb-16 lg:mb-24'>
           <h2 className='text-2xl font-semibold md:text-3xl lg:text-4xl'>
             Built for Clear, Structured Learning
           </h2>
-          <p className='text-muted-foreground text-xl'>
+          <p className='text-secondary-foreground text-xl'>
             At {APP_NAME}, we focus on thoughtful course design, practical
             learning paths, and continuous support—so learners can progress with
             confidence and purpose.
@@ -132,23 +132,31 @@ const AboutIntro = () => {
             <h3 className='text-xl font-semibold'>
               {aboutIntroData.contentTitle}
             </h3>
-            <p className='text-muted-foreground'>
+            <p className='text-secondary-foreground'>
               {aboutIntroData.contentDescription}
             </p>
 
             <Separator />
 
             <Tabs defaultValue='vision' className='gap-6'>
-              <TabsList>
+              <TabsList className='bg-primary'>
                 {aboutIntroData.tabs.map((tab) => (
-                  <TabsTrigger key={tab.value} value={tab.value}>
+                  <TabsTrigger
+                    key={tab.value}
+                    value={tab.value}
+                    className='text-white data-[state=active]:text-foreground data-[state=active]:bg-white'
+                  >
                     {tab.name}
                   </TabsTrigger>
                 ))}
               </TabsList>
 
               {aboutIntroData.tabs.map((tab) => (
-                <TabsContent key={tab.value} value={tab.value}>
+                <TabsContent
+                  className='text-secondary-foreground'
+                  key={tab.value}
+                  value={tab.value}
+                >
                   {tab.content}
                 </TabsContent>
               ))}
@@ -156,7 +164,7 @@ const AboutIntro = () => {
           </div>
 
           <div className='flex justify-center pb-8 lg:justify-end'>
-            <div className='bg-primary/10 flex max-w-112 items-end rounded-tl-[60px] rounded-tr-xl'>
+            <div className='bg-white flex max-w-112 items-end rounded-tl-[60px] rounded-tr-xl'>
               <Image
                 width={0}
                 height={0}

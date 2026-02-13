@@ -84,7 +84,7 @@ const TeachFeatures = () => {
             </MotionPreset>
             <MotionPreset
               component='p'
-              className='text-muted-foreground text-lg'
+              className='text-secondary-foreground text-lg'
               fade
               blur
               slide={{ direction: 'left', offset: 50 }}
@@ -175,7 +175,7 @@ const TeachFeatures = () => {
                         {tab.content.title}
                       </h3>
 
-                      <p className='text-muted-foreground '>
+                      <p className='text-secondary-foreground'>
                         {tab.content.description}
                       </p>
                     </div>

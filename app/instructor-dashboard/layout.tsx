@@ -5,7 +5,6 @@ import { SidebarProvider, SidebarTrigger } from '@/app/components/ui/sidebar';
 import ProfileDropdown from '../components/shared/ProfileDropdown';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
-import Theme from '../components/Theme';
 import { APP_NAME } from '@/lib/constants';
 import Link from 'next/link';
 import { FaInstagram } from 'react-icons/fa6';
@@ -69,9 +68,6 @@ const InstructorDashboardLayout = async ({
                   session={session}
                   userToken={userToken as string}
                 />
-                {/* Theme */}
-                <Theme />
-
                 {/* Instructor Profile */}
                 <ProfileDropdown session={session} />
               </div>

@@ -15,11 +15,11 @@ const ImageUploaderBtn = ({ form }: ImageUploaderBtnProps) => {
       endpoint={'imageUploader'}
       appearance={{
         button:
-          'bg-lime-500 hover:bg-lime-600 dark:bg-lime-600 dark:hover:bg-lime-700 text-white font-semibold px-6 ut-ready:rounded-full transition-all duration-200 ease-in-out shadow-sm hover:shadow-md ut-uploading:cursor-not-allowed ut-uploading:rounded-full ut-uploading:opacity-70 text-sm',
+          'bg-primary hover:bg-primary-hover text-white font-semibold px-6 ut-ready:rounded-full transition-all duration-200 ease-in-out shadow-sm hover:shadow-md ut-uploading:cursor-not-allowed ut-uploading:rounded-full ut-uploading:opacity-70 text-sm',
         container:
           'flex flex-col gap-2 items-start justify-start w-full max-w-md',
         allowedContent:
-          'text-sm text-muted-foreground mt-1 font-normal leading-relaxed',
+          'text-sm text-secondary-foreground mt-1 font-normal leading-relaxed',
       }}
       onUploadError={(error) => {
         toast.error(`Upload error: ${error.message}`);

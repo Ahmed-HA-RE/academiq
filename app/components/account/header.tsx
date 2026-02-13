@@ -1,5 +1,4 @@
 import ProfileDropdown from '@/app/components/shared/ProfileDropdown';
-import Theme from '../Theme';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { Button } from '../ui/button';
@@ -26,10 +25,8 @@ const AccountHeader = async () => {
           </Link>
         </Button>
 
-        <div className='flex items-center flex-1/5 md:flex-1/2 justify-end '>
-          {/* Theme */}
-          <Theme />
-          {/* User menu */}
+        {/* User menu */}
+        <div className='flex-1/5 md:flex-1/2 flex justify-end'>
           <ProfileDropdown session={session} />
         </div>
       </div>

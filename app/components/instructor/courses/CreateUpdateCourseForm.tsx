@@ -137,7 +137,7 @@ const CreateCourseForm = ({
         </div>
 
         <Tabs defaultValue='course-details' className='gap-4'>
-          <TabsList className='mx-auto mb-4'>
+          <TabsList className='mx-auto mb-4 bg-primary text-secondary'>
             <TabsTrigger value='course-details'>Course Details</TabsTrigger>
             <TabsTrigger value='course-sections'>Course Sections</TabsTrigger>
           </TabsList>

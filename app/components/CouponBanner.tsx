@@ -12,7 +12,7 @@ const CouponBanner = ({ activeCoupon }: { activeCoupon: Stripe.Coupon }) => {
     setTimeout(() => setCopied(false), 2000);
   };
   return (
-    <div className='text-xs px-4 flex flex-row items-center justify-center gap-1 bg-gradient-to-r from-[#f11557] to-[#ffbd01] w-full py-2'>
+    <div className='text-xs px-4 flex flex-row items-center justify-center gap-1 bg-gradient-to-r from-[#00467F] to-[#A5CC82] w-full h-8'>
       <p className='text-white'>
         Invest in Your Skills: Save up to{' '}
         {activeCoupon.percent_off

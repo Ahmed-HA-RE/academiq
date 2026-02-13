@@ -17,7 +17,7 @@ const CoursesHero = () => {
     <section className='bg-secondary hero-section-spacing px-6'>
       <div className='hero-container flex flex-col items-center justify-center gap-6 bg-foreground rounded-xl relative'>
         <h4 className='text-base uppercase tracking-[3.5px] text-white/95'>
-          {APP_NAME}
+          Elevate Skills
         </h4>
         <h1 className='text-4xl md:text-4xl lg:text-6xl font-bold text-white'>
           Our Courses

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
 import './globals.css';
 import { APP_NAME, SERVER_URL } from '@/lib/constants';
-import { ThemeProvider } from './components/ui/theme-provider';
 import { Toaster } from 'react-hot-toast';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { cn } from '@/lib/utils';
@@ -50,24 +49,10 @@ const RootLayout = async ({
   }
 
   return (
-    <html lang='en' suppressHydrationWarning>
-      <body className={(cn(outfit.className), 'dark:bg-[#121212]')}>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NuqsAdapter>{children}</NuqsAdapter>
-          {/* <Toaster
-            position='top-right'
-            icons={{
-              success: <CircleCheckBig className='text-emerald-500 size-4.5' />,
-              error: <CircleX className='text-red-500 size-4.5' />,
-            }}
-          /> */}
-          <Toaster />
-        </ThemeProvider>
+    <html lang='en'>
+      <body className={cn(outfit.className)}>
+        <NuqsAdapter>{children}</NuqsAdapter>
+        <Toaster />
       </body>
     </html>
   );

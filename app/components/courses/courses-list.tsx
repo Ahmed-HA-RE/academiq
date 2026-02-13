@@ -1,5 +1,5 @@
 import { SearchParams } from 'nuqs/server';
-import CourseCard from '../shared/CourseCard';
+import CourseCard from './course-card';
 import { loadSearchParams } from '@/lib/searchParams';
 import { getCurrentLoggedUser } from '@/lib/actions/getUser';
 import { listUserSubscription } from '@/lib/actions/subscription/list-user-subscription';

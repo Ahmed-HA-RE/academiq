@@ -82,9 +82,9 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
           </Button>
         </div>
         <div className='mb-2 flex items-center gap-4'>
-          <Separator className='flex-1' />
-          <p>or</p>
-          <Separator className='flex-1' />
+          <Separator className='flex-1 bg-black' />
+          <p className='text-black'>or</p>
+          <Separator className='flex-1 bg-black' />
         </div>
         <FieldGroup className='gap-5'>
           {/* Email */}
@@ -196,7 +196,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
 
           <Button
             disabled={form.formState.isSubmitting}
-            className='w-full cursor-pointer bg-lime-500 hover:bg-lime-600 text-white'
+            className='w-full cursor-pointer bg-primary hover:bg-primary-hover text-primary-foreground'
             type='submit'
           >
             {form.formState.isSubmitting ? (
@@ -213,7 +213,7 @@ const LoginForm = ({ callbackUrl }: { callbackUrl: string }) => {
                   ? `/register?callbackUrl=${callbackUrl}`
                   : '/register'
               }
-              className='text-lime-500 hover:underline'
+              className='text-primary hover:underline'
             >
               Register
             </Link>

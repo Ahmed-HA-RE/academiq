@@ -27,14 +27,14 @@ const CTA = () => {
               <Button
                 asChild
                 size={'lg'}
-                className='p-6 rounded-full w-full md:w-[150px] max-w-xs text-base bg-black text-white hover:bg-0'
+                className='p-6 rounded-full w-full md:w-[150px] max-w-xs text-base bg-primary text-white hover:bg-primary-hover'
               >
                 <Link href={'/pricing'}>View Pricing</Link>
               </Button>
               <Button
                 asChild
                 size={'lg'}
-                className='px-6 py-6 hover:bg-0 rounded-full w-full max-w-xs text-base md:w-[150px] bg-rose-400 text-white hover:bg-0'
+                className='px-6 py-6 hover:bg-0 rounded-full w-full max-w-xs text-base md:w-[150px] bg-black text-white hover:bg-black/90'
               >
                 <Link href={'/courses'}>View Courses</Link>
               </Button>

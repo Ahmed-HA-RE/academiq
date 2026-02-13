@@ -36,12 +36,12 @@ const CourseDetailsForm = ({ form }: CourseDetailsFormProps) => {
   return (
     <div className='space-y-6'>
       <div className='flex flex-row items-center gap-4'>
-        <div className='bg-blue-500/10 p-3 rounded-xl'>
-          <Grid2x2Icon className='size-6 text-blue-600 dark:text-blue-400' />
+        <div className='bg-accent p-3 rounded-xl'>
+          <Grid2x2Icon className='size-6 text-foreground' />
         </div>
         <div>
           <h4 className='font-semibold text-2xl'>Course Details</h4>
-          <p className='text-sm text-muted-foreground mt-0.5'>
+          <p className='text-sm text-secondary-foreground mt-0.5'>
             Provide the basic information about your course
           </p>
         </div>
@@ -86,7 +86,7 @@ const CourseDetailsForm = ({ form }: CourseDetailsFormProps) => {
                 {!fieldState.error && (
                   <p
                     aria-live='polite'
-                    className='mt-2 text-muted-foreground text-xs'
+                    className='mt-2 text-secondary-foreground text-xs'
                     role='region'
                   >
                     Please provide a short description summarizing the key
@@ -223,15 +223,17 @@ const CourseDetailsForm = ({ form }: CourseDetailsFormProps) => {
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Course Category</SelectLabel>
-                      {TEACHING_CATEGORIES.map((cat) => (
-                        <SelectItem
-                          key={cat}
-                          value={cat}
-                          className='cursor-pointer'
-                        >
-                          {cat}
-                        </SelectItem>
-                      ))}
+                      {TEACHING_CATEGORIES.filter((cat) => cat !== 'All').map(
+                        (cat) => (
+                          <SelectItem
+                            key={cat}
+                            value={cat}
+                            className='cursor-pointer'
+                          >
+                            {cat}
+                          </SelectItem>
+                        ),
+                      )}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -284,7 +286,7 @@ const CourseDetailsForm = ({ form }: CourseDetailsFormProps) => {
               <Field data-invalid={fieldState.invalid}>
                 <div className='flex flex-row items-center justify-between'>
                   <FieldLabel htmlFor={field.name}>Course Price</FieldLabel>
-                  <span className='text-sm text-muted-foreground'>
+                  <span className='text-sm text-secondary-foreground'>
                     Prices are in (AED)
                   </span>
                 </div>

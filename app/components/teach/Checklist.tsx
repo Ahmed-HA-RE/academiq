@@ -8,7 +8,7 @@ import { checklist } from '@/lib/constants';
 
 const Checklist = () => {
   return (
-    <section className='section-spacing'>
+    <section className='section-spacing bg-secondary'>
       <div className='container'>
         <div className='mb-10 space-y-4'>
           <MotionPreset
@@ -24,7 +24,7 @@ const Checklist = () => {
 
           <MotionPreset
             component='p'
-            className='text-muted-foreground text-base sm:text-lg text-center max-w-4xl mx-auto'
+            className='text-secondary-foreground text-base sm:text-lg text-center max-w-4xl mx-auto'
             fade
             blur
             slide={{ direction: 'up', offset: 50 }}
@@ -54,15 +54,15 @@ const Checklist = () => {
                 transition={{ duration: 0.7 }}
               >
                 <Avatar className='size-13 rounded-md'>
-                  <AvatarFallback className='bg-muted rounded-md'>
-                    <CircleCheckBig className='text-emerald-500' />
+                  <AvatarFallback className='bg-primary rounded-md'>
+                    <CircleCheckBig className='text-primary-foreground' />
                   </AvatarFallback>
                 </Avatar>
                 <div className='space-y-1.5'>
                   <p className='text-xl sm:text-2xl font-medium'>
                     {list.value}
                   </p>
-                  <p className='text-muted-foreground text-lg sm:text-xl'>
+                  <p className='text-secondary-foreground text-lg sm:text-xl'>
                     {list.description}
                   </p>
                 </div>

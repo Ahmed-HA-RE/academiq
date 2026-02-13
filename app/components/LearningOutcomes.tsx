@@ -7,7 +7,7 @@ import { LEARNING_OUTCOMES } from '@/lib/constants';
 
 const LearningOutcomes = () => {
   return (
-    <section className='section-spacing bg-blue-50 dark:bg-blue-900/30'>
+    <section className='section-spacing bg-white'>
       <div className='container'>
         <div className='grid items-center gap-12 lg:grid-cols-2 lg:gap-24'>
           {/* Left content */}
@@ -25,7 +25,7 @@ const LearningOutcomes = () => {
               </MotionPreset>
               <MotionPreset
                 component='p'
-                className='text-muted-foreground text-xl'
+                className='text-secondary-foreground text-xl'
                 fade
                 slide={{ direction: 'up', offset: 50 }}
                 delay={0.2}
@@ -63,7 +63,7 @@ const LearningOutcomes = () => {
                   transition={{ duration: 0.45 }}
                 >
                   <CheckIcon className='text-primary mt-1 size-6 shrink-0' />
-                  <p className='text-muted-foreground text-lg'>
+                  <p className='text-secondary-foreground text-lg'>
                     <span className='text-foreground font-medium'>
                       {outcome.title}
                     </span>

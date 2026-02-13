@@ -56,45 +56,47 @@ const RefundDialog = ({
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader className='space-y-3'>
+        <DialogHeader className='space-y-2'>
           <div className='mx-auto w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center'>
             <CircleAlertIcon className='w-6 h-6 text-destructive' />
           </div>
-          <DialogTitle className='text-2xl text-center'>
-            Request Refund
-          </DialogTitle>
-          <DialogDescription className='text-center text-base'>
-            Please review our refund policy before proceeding
-          </DialogDescription>
+          <div>
+            <DialogTitle className='text-2xl text-black text-center'>
+              Request Refund
+            </DialogTitle>
+            <DialogDescription className='text-center text-muted-foreground text-base'>
+              Please review our refund policy before proceeding
+            </DialogDescription>
+          </div>
         </DialogHeader>
 
         <Separator />
 
         <div className='space-y-4'>
           <div>
-            <h4 className='font-semibold text-sm mb-3 text-foreground'>
+            <h4 className='font-semibold text-sm mb-3 text-black'>
               Refund Eligibility Requirements:
             </h4>
             <div className='space-y-3'>
-              <div className='flex items-start gap-3 p-3 rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900'>
-                <CheckCircle2 className='w-5 h-5 text-green-600 dark:text-green-500 flex-shrink-0 mt-0.5' />
+              <div className='flex items-start gap-3 p-3 rounded-lg bg-green-50 border border-green-200'>
+                <CheckCircle2 className='w-5 h-5 text-green-600  flex-shrink-0 mt-0.5' />
                 <div>
-                  <p className='text-sm font-medium text-green-900 dark:text-green-100'>
+                  <p className='text-sm font-medium text-green-700'>
                     Course Progress
                   </p>
-                  <p className='text-xs text-green-700 dark:text-green-300 mt-1'>
+                  <p className='text-xs text-green-700 mt-1'>
                     Your course completion must be less than 10%
                   </p>
                 </div>
               </div>
 
-              <div className='flex items-start gap-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900'>
-                <CheckCircle2 className='w-5 h-5 text-blue-600 dark:text-blue-500 flex-shrink-0 mt-0.5' />
+              <div className='flex items-start gap-3 p-3 rounded-lg bg-blue-50 border border-blue-200'>
+                <CheckCircle2 className='w-5 h-5 text-blue-600  flex-shrink-0 mt-0.5' />
                 <div>
-                  <p className='text-sm font-medium text-blue-900 dark:text-blue-100'>
+                  <p className='text-sm font-medium text-blue-700'>
                     Purchase Date
                   </p>
-                  <p className='text-xs text-blue-700 dark:text-blue-300 mt-1'>
+                  <p className='text-xs text-blue-700 mt-1'>
                     Refund must be requested within 7 days of purchase
                   </p>
                 </div>
@@ -102,13 +104,13 @@ const RefundDialog = ({
             </div>
           </div>
 
-          <div className='flex items-start gap-3 p-4 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900'>
-            <XCircle className='w-5 h-5 text-amber-600 dark:text-amber-500 flex-shrink-0 mt-0.5' />
+          <div className='flex items-start gap-3 p-4 rounded-lg bg-amber-50 border border-amber-200'>
+            <XCircle className='w-5 h-5 text-amber-600  flex-shrink-0 mt-0.5' />
             <div className='flex-1'>
-              <p className='text-sm font-medium text-amber-900 dark:text-amber-100'>
+              <p className='text-sm font-medium text-amber-700'>
                 Important Notice
               </p>
-              <p className='text-xs text-amber-700 dark:text-amber-300 mt-1'>
+              <p className='text-xs text-amber-700 mt-1'>
                 Once processed, this refund cannot be reversed. You will lose
                 access to all course materials immediately.
               </p>
