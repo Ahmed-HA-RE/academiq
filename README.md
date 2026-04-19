@@ -109,9 +109,7 @@ Academiq is designed as a professional LMS platform that includes:
 
 ### Screenshots 📸
 
-![Screen 1](/public/images/screen/screen-1.png)
-![Screen 2](/public/images/screen/screen-2.png)
-![Screen 3](/public/images/screen/screen-3.png)
+![screen](/public/images/screen.png)
 
 ### ⚠️ Development Note
 
@@ -187,4 +185,4 @@ KNOCK_SIGNING_KEY=
 
 ### License 📄
 
-Ahmed Haitham Rehan. All rights reserved.
+Ahmed Haitham. All rights reserved.
